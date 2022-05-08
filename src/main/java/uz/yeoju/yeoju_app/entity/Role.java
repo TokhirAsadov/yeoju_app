@@ -1,0 +1,25 @@
+package uz.yeoju.yeoju_app.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class Role extends AbsEntity implements GrantedAuthority {
+
+    @Column(unique = true)
+    private String roleName;
+
+    @Override
+    public String getAuthority() {
+        return roleName;
+    }
+}
