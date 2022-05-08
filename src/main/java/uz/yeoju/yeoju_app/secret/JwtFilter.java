@@ -1,6 +1,8 @@
 package uz.yeoju.yeoju_app.secret;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.repository.UserRepository;
@@ -26,7 +28,27 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (token!=null){
             User user = getUserFromToken(token);
+            if (
+                            user!=null
+                    &&
+                            user.isAccountNonExpired()
+                    &&
+                            user.isAccountNonLocked()
+                    &&
+                            user.isCredentialsNonExpired()
+                    &&
+                            user.isEnabled()
+            ) {
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                        user,
+                        null,
+                        user.getAuthorities()
+                );
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            }
         }
+
+        filterChain.doFilter(request,response);
 
     }
 
