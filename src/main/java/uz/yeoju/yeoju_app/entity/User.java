@@ -7,10 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
 
@@ -36,7 +33,7 @@ public class User extends AbsEntity implements UserDetails {
     @OneToOne
     private Gander gander;
 
-    @OneToMany
+    @ManyToMany
     private Set<Role> roles;
 
     private boolean accountNonExpired=true;
