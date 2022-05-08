@@ -2,6 +2,7 @@ package uz.yeoju.yeoju_app.secret;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 
 import javax.servlet.FilterChain;
@@ -20,8 +21,22 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
         String token = getTokenFromRequest(request);
 
+        if (token!=null){
+            User user = getUserFromToken(token);
+        }
+
+    }
+
+    private User getUserFromToken(String token) {
+        boolean validateToken = provider.validateToken(token);
+        if (validateToken){
+            String userIdFromToken = provider.getUserIdFromToken(token);
+            return userRepository.findById(Long.parseLong(userIdFromToken)).get();
+        }
+        return null;
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {
