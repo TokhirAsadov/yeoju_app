@@ -1,7 +1,6 @@
 package uz.yeoju.yeoju_app.secret;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import uz.yeoju.yeoju_app.entity.User;
@@ -30,5 +29,24 @@ public class JwtProvider {
                 .compact();
     }
 
-
+    public boolean validateToken(String token){
+        try {
+            Jwts
+                    .parser()
+                    .setSigningKey(secretKey)
+                    .parseClaimsJws(token);
+            return true;
+        }catch (ExpiredJwtException e){
+            System.err.println("Muddati o`tgan");
+        }catch (MalformedJwtException m){
+            System.err.println("Buzilgan token");
+        }catch (SignatureException s){
+            System.err.println("Kalit so`z xato");
+        }catch (UnsupportedJwtException u){
+            System.err.println("Qo`llanilmagan token");
+        }catch (IllegalArgumentException i){
+            System.err.println("Bo`sh token");
+        }
+        return false;
+    }
 }
