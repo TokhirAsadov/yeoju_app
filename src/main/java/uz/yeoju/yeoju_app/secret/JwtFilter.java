@@ -20,6 +20,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String token = getTokenFromRequest(request);
 
+    }
+
+    private String getTokenFromRequest(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        return header!=null?header.substring(7):null;
     }
 }
