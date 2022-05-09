@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.service.useServices.FacultyService;
 
 @RestController
@@ -21,6 +22,11 @@ public class FacultyController {
     @GetMapping("/getFacultyById/{id}")
     public HttpEntity<?> getFacultyById(@PathVariable Long id){
         return ResponseEntity.ok(facultyService.findById(id));
+    }
+
+    @PostMapping("/createFaculty")
+    public HttpEntity<?> createNewFaculty(@RequestBody FacultyDto dto){
+        return ResponseEntity.status(201).body(facultyService.saveOrUpdate(dto));
     }
 
 }
