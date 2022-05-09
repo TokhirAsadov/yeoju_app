@@ -30,4 +30,8 @@ public class UserController {
     public HttpEntity<?> getUserById(@PathVariable Long id){
         return ResponseEntity.ok(userService.findById(id));
     }
+    @PostMapping("/updateUser")
+    public HttpEntity<?> updateFaculty(@RequestBody UserDto dto){
+        return ResponseEntity.status(202).body(userService.saveOrUpdate(dto));
+    }
 }
