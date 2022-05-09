@@ -12,4 +12,10 @@ import uz.yeoju.yeoju_app.service.useServices.FacultyService;
 public class FacultyController {
 
     public final FacultyService facultyService;
+
+    @GetMapping("/allFaculties")
+    public HttpEntity<?> allFaculties(){
+        return ResponseEntity.ok(facultyService.findAll());
+    }
+
 }
