@@ -5,4 +5,7 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.MainService;
 public interface UserImplService<T> extends MainService<T> {
     void saveAndFlush(T t);
     T getUserByLogin(String login);
+    T getUserByRFID(String rfid);
+    T getUserByEmail(String email);
+    boolean existsUserByLoginOrEmailOrRFID(String login, String email, String RFID);
 }
