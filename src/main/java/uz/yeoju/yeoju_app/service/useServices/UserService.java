@@ -15,6 +15,8 @@ public class UserService implements UserImplService<User> {
 
     public final UserRepository userRepository;
 
+
+
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
@@ -22,21 +24,31 @@ public class UserService implements UserImplService<User> {
 
     @Override
     public Optional<User> findById(Long id) {
-        return Optional.empty();
+        return userRepository.findById(id);
     }
 
     @Override
     public User getById(Long id) {
-        return null;
+        return userRepository.getById(id);
     }
 
     @Override
     public User saveOrUpdate(User user) {
-        return null;
+        return userRepository.save(user);
     }
 
     @Override
-    public String deleteById(Long id) {
-        return null;
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public void saveAndFlush(User user) {
+        userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public User getUserByLogin(String login) {
+        return userRepository.getByLogin(login);
     }
 }
