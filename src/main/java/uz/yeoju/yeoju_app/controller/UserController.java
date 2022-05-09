@@ -24,4 +24,9 @@ public class UserController {
     public HttpEntity<?> saveUser(@RequestBody UserDto dto) {
         return ResponseEntity.status(201).body(userService.saveOrUpdate(dto));
     }
+
+    @GetMapping("/getUserById/{id}")
+    public HttpEntity<?> getFacultyById(@PathVariable Long id){
+        return ResponseEntity.ok(userService.findById(id));
+    }
 }
