@@ -1,5 +1,7 @@
 package uz.yeoju.yeoju_app.service.serviceInterfaces;
 
+import uz.yeoju.yeoju_app.payload.ApiResponse;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -9,13 +11,13 @@ public interface MainService<T> {
 //
 //    Page<T> findAll(Pageable pageable);
 
-    List<T> findAll();
+    ApiResponse findAll();
 
-    Optional<T> findById(Long id);
+    ApiResponse findById(Long id);
 
-    T getById(Long id);
+    ApiResponse getById(Long id);
 
-    T saveOrUpdate(T t);
+    ApiResponse saveOrUpdate(T t);
 
-    void deleteById(Long id);
+    ApiResponse deleteById(Long id);
 }
