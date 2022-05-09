@@ -19,4 +19,8 @@ public class Gander {
 
     @Enumerated(value = EnumType.STRING)
     private GanderName ganderName;
+
+    public Gander(GanderName ganderName) {
+        this.ganderName = ganderName;
+    }
 }
