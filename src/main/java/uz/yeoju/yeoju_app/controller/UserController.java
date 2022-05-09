@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/getUserById/{id}")
-    public HttpEntity<?> getFacultyById(@PathVariable Long id){
+    public HttpEntity<?> getUserById(@PathVariable Long id){
         return ResponseEntity.ok(userService.findById(id));
     }
 }
