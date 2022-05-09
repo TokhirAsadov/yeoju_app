@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
 @RestController
@@ -19,4 +20,8 @@ public class UserController {
     }
 
 
+    @PostMapping("/createUser")
+    public HttpEntity<?> saveUser(@RequestBody UserDto dto) {
+        return ResponseEntity.status(201).body(userService.saveOrUpdate(dto));
+    }
 }
