@@ -14,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import uz.yeoju.yeoju_app.secret.JwtFilter;
-import uz.yeoju.yeoju_app.service.authService.AuthService;
+import uz.yeoju.yeoju_app.service.useServices.authService.AuthService;
 
 @Configuration
 @EnableWebSecurity

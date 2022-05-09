@@ -1,10 +1,10 @@
-package uz.yeoju.yeoju_app.service.useService;
+package uz.yeoju.yeoju_app.service.useServices;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.repository.UserRepository;
-import uz.yeoju.yeoju_app.service.implService.UserImplService;
+import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.UserImplService;
 
 import java.util.List;
 import java.util.Optional;

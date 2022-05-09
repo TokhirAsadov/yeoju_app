@@ -1,4 +1,4 @@
-package uz.yeoju.yeoju_app.service;
+package uz.yeoju.yeoju_app.service.serviceInterfaces;
 
 import java.util.List;
 import java.util.Optional;

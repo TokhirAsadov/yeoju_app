@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.service.useService.UserService;
+import uz.yeoju.yeoju_app.service.useServices.UserService;
 
 @RestController
 @RequestMapping("/api/v1/user")

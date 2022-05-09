@@ -1,4 +1,4 @@
-package uz.yeoju.yeoju_app.service.authService;
+package uz.yeoju.yeoju_app.service.useServices.authService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
