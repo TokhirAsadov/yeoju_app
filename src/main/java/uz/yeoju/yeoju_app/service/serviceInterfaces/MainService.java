@@ -17,5 +17,5 @@ public interface MainService<T> {
 
     T saveOrUpdate(T t);
 
-    String deleteById(Long id);
+    void deleteById(Long id);
 }
