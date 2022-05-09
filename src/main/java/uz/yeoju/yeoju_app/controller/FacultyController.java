@@ -29,4 +29,9 @@ public class FacultyController {
         return ResponseEntity.status(201).body(facultyService.saveOrUpdate(dto));
     }
 
+    @PostMapping("/updateFaculty")
+    public HttpEntity<?> updateFaculty(@RequestBody FacultyDto dto){
+        return ResponseEntity.status(202).body(facultyService.saveOrUpdate(dto));
+    }
+
 }
