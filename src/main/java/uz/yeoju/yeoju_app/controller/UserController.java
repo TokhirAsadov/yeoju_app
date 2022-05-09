@@ -34,4 +34,9 @@ public class UserController {
     public HttpEntity<?> updateFaculty(@RequestBody UserDto dto){
         return ResponseEntity.status(202).body(userService.saveOrUpdate(dto));
     }
+
+    @DeleteMapping("/deleteUser/{id}")
+    public HttpEntity<?> deleteUser(@PathVariable Long id){
+        return ResponseEntity.status(204).body(userService.deleteById(id));
+    }
 }
