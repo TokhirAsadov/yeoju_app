@@ -1,34 +1,108 @@
 package uz.yeoju.yeoju_app.service.useServices;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Gander;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.GanderDto;
+import uz.yeoju.yeoju_app.repository.GanderRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.GanderImplService;
 
+import java.util.Objects;
+import java.util.Optional;
+
 @Service
-public class GanderService implements GanderImplService<Gander> {
+@RequiredArgsConstructor
+public class GanderService implements GanderImplService<GanderDto> {
+    public final GanderRepository ganderRepository;
     @Override
     public ApiResponse findAll() {
-        return null;
+        return new ApiResponse(true,"List of all gander", ganderRepository.findAll());
     }
 
     @Override
     public ApiResponse findById(Long id) {
-        return null;
+        return ganderRepository
+                .findById(id)
+                .map(gander -> new ApiResponse(true, "Fount gander by id", gander))
+                .orElseGet(() -> new ApiResponse(false, "Not fount gander by id"));
     }
 
     @Override
     public ApiResponse getById(Long id) {
-        return null;
+        Gander gander = ganderRepository.getById(id);
+        return new ApiResponse(true, "Fount gander by id", gander);
     }
 
     @Override
-    public ApiResponse saveOrUpdate(Gander gander) {
-        return null;
+    public ApiResponse saveOrUpdate(GanderDto dto) {
+        if (dto.getId()==null){
+            return save(dto);
+        }
+        else {
+            return update(dto);
+        }
     }
+
+    public ApiResponse update(GanderDto dto){
+        Optional<Gander> optional = ganderRepository.findById(dto.getId());
+        if (optional.isPresent()){
+            Gander gander = optional.get();
+            Gander ganderByGanderName = ganderRepository.getGanderByGanderName(dto.getGanderName());
+            if (
+                    Objects.equals(ganderByGanderName.getId(), gander.getId())
+                    ||
+                    !ganderRepository.existsGanderByGanderName(dto.getGanderName())
+            ){
+                gander.setGanderName(dto.getGanderName());
+                ganderRepository.save(gander);
+                return new ApiResponse(true,"gander updated successfully");
+            }
+            else {
+                return new ApiResponse(
+                        false,
+                        "error! nor saved gander! Please, enter other gander name!.."
+                );
+            }
+        }
+        else{
+            return new ApiResponse(
+                    false,
+                    "error... not fount gander"
+            );
+        }
+    }
+
+    public ApiResponse save(GanderDto dto){
+        if (!ganderRepository.existsGanderByGanderName(dto.getGanderName())){
+            Gander gander = generateGander(dto);
+            ganderRepository.saveAndFlush(gander);
+            return new ApiResponse(true,"new gander saved successfully");
+        }
+        else {
+            return new ApiResponse(
+                    false,
+                    "error! not saved gander! Please, enter other gander name"
+            );
+        }
+    }
+
+    public Gander generateGander(GanderDto dto) {
+        return new Gander(dto.getGanderName());
+    }
+    public GanderDto generateGanderDto(Gander gander) {
+        return new GanderDto(gander.getId(),gander.getGanderName());
+    }
+
 
     @Override
     public ApiResponse deleteById(Long id) {
-        return null;
+        if (ganderRepository.findById(id).isPresent()) {
+            ganderRepository.deleteById(id);
+            return new ApiResponse(true,"gander deleted successfully!..");
+        }
+        else {
+            return new ApiResponse(false,"error... not fount gander");
+        }
     }
 }
