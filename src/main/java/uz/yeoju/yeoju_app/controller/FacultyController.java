@@ -34,4 +34,8 @@ public class FacultyController {
         return ResponseEntity.status(202).body(facultyService.saveOrUpdate(dto));
     }
 
+    @DeleteMapping("/deleteFaculty/{id}")
+    public HttpEntity<?> deleteFaculty(@PathVariable Long id){
+        return ResponseEntity.status(204).body(facultyService.deleteById(id));
+    }
 }
