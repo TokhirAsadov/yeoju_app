@@ -18,4 +18,9 @@ public class FacultyController {
         return ResponseEntity.ok(facultyService.findAll());
     }
 
+    @GetMapping("/getFacultyById/{id}")
+    public HttpEntity<?> getFacultyById(@PathVariable Long id){
+        return ResponseEntity.ok(facultyService.findById(id));
+    }
+
 }
