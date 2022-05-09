@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity(name = "users")
 public class User extends AbsEntity implements UserDetails {
 
-    private String name;
+    private String fio;
 
     @Column(unique = true)
     private String login;
@@ -40,6 +40,13 @@ public class User extends AbsEntity implements UserDetails {
     private boolean accountNonLocked=true;
     private boolean credentialsNonExpired=true;
     private boolean enabled=true;
+
+    public User(Long id, String fio, String login, String password) {
+        super(id);
+        this.fio = fio;
+        this.login = login;
+        this.password = password;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
