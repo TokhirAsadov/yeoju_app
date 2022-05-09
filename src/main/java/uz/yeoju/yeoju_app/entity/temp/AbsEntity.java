@@ -1,6 +1,7 @@
 package uz.yeoju.yeoju_app.entity.temp;
 
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
@@ -13,12 +14,15 @@ import java.util.Date;
 @Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class AbsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @CreationTimestamp
+    @Column(updatable = false)
     private Date createdAt;
 
     @UpdateTimestamp
@@ -29,4 +33,9 @@ public abstract class AbsEntity {
 
     @LastModifiedBy
     private Date updatedBy;
+
+    public AbsEntity(Long id) {
+        this.id = id;
+    }
+
 }
