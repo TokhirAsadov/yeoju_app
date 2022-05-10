@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -15,4 +16,9 @@ import javax.persistence.Entity;
 public class Section extends AbsEntity {
     @Column(unique = true)
     private String name;
+
+    public Section(UUID id, String name) {
+        super(id);
+        this.name = name;
+    }
 }
