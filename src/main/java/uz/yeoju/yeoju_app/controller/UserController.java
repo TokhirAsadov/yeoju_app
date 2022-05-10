@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/v1/user")
 @RequiredArgsConstructor
 public class UserController {
 
