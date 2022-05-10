@@ -4,6 +4,7 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface MainService<T> {
 
@@ -13,11 +14,11 @@ public interface MainService<T> {
 
     ApiResponse findAll();
 
-    ApiResponse findById(Long id);
+    ApiResponse findById(UUID id);
 
-    ApiResponse getById(Long id);
+    ApiResponse getById(UUID id);
 
     ApiResponse saveOrUpdate(T t);
 
-    ApiResponse deleteById(Long id);
+    ApiResponse deleteById(UUID id);
 }

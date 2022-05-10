@@ -3,19 +3,19 @@ package uz.yeoju.yeoju_app.service.useServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Faculty;
-import uz.yeoju.yeoju_app.entity.Gander;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.FacultyDto;
-import uz.yeoju.yeoju_app.payload.GanderDto;
 import uz.yeoju.yeoju_app.repository.FacultyRepository;
+import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.FacultyImplService;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.GanderImplService;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class FacultyService implements GanderImplService<FacultyDto> {
+public class FacultyService implements FacultyImplService<FacultyDto> {
     public final FacultyRepository facultyRepository;
     @Override
     public ApiResponse findAll() {
@@ -23,7 +23,7 @@ public class FacultyService implements GanderImplService<FacultyDto> {
     }
 
     @Override
-    public ApiResponse findById(Long id) {
+    public ApiResponse findById(UUID id) {
         return facultyRepository
                 .findById(id)
                 .map(faculty -> new ApiResponse(true, "Fount faculty by id", faculty))
@@ -31,7 +31,7 @@ public class FacultyService implements GanderImplService<FacultyDto> {
     }
 
     @Override
-    public ApiResponse getById(Long id) {
+    public ApiResponse getById(UUID id) {
         Faculty faculty = facultyRepository.getById(id);
         return new ApiResponse(true, "Fount faculty by id", faculty);
     }
@@ -54,7 +54,7 @@ public class FacultyService implements GanderImplService<FacultyDto> {
             if (
                     Objects.equals(facultyByName.getId(), faculty.getId())
                     ||
-                    !facultyRepository.existsFacultyByName(dto.getName())
+                            facultyRepository.existsFacultyByName(dto.getName())
             ){
                 faculty.setName(dto.getName());
                 facultyRepository.save(faculty);
@@ -76,7 +76,7 @@ public class FacultyService implements GanderImplService<FacultyDto> {
     }
 
     public ApiResponse save(FacultyDto dto){
-        if (!facultyRepository.existsFacultyByName(dto.getName())){
+        if (facultyRepository.existsFacultyByName(dto.getName())){
             Faculty faculty = generateFaculty(dto);
             facultyRepository.saveAndFlush(faculty);
             return new ApiResponse(true,"new faculty saved successfully!...");
@@ -98,7 +98,7 @@ public class FacultyService implements GanderImplService<FacultyDto> {
 
 
     @Override
-    public ApiResponse deleteById(Long id) {
+    public ApiResponse deleteById(UUID id) {
         if (facultyRepository.findById(id).isPresent()) {
             facultyRepository.deleteById(id);
             return new ApiResponse(true,"faculty deleted successfully!..");
