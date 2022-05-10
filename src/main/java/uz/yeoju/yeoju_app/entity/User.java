@@ -10,6 +10,7 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -41,7 +42,7 @@ public class User extends AbsEntity implements UserDetails {
     private boolean credentialsNonExpired=true;
     private boolean enabled=true;
 
-    public User(Long id, String fio, String login, String password) {
+    public User(UUID id, String fio, String login, String password) {
         super(id);
         this.fio = fio;
         this.login = login;

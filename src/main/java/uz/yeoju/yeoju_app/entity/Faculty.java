@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class Faculty extends AbsEntity {
     @Column(unique = true)
     private String name;
 
-    public Faculty(Long id, String name) {
+    public Faculty(UUID id, String name) {
         super(id);
         this.name = name;
     }

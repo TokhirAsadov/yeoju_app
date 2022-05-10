@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.service.useServices.FacultyService;
 
 @RestController
-@RequestMapping("/api/v1/faculty")
+@RequestMapping("/v1/faculty")
 @RequiredArgsConstructor
 public class FacultyController {
 

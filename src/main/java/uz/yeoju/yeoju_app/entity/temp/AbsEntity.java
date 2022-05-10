@@ -9,7 +9,9 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @MappedSuperclass
@@ -18,23 +20,23 @@ import java.util.Date;
 @NoArgsConstructor
 public abstract class AbsEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    private UUID id;
 
     @CreationTimestamp
     @Column(updatable = false)
-    private Date createdAt;
+    private Timestamp createdAt;
 
     @UpdateTimestamp
-    private Date updatedAt;
+    private Timestamp updatedAt;
 
     @CreatedBy
-    private Date createdBy;
+    private UUID createdBy;
 
     @LastModifiedBy
-    private Date updatedBy;
+    private UUID updatedBy;
 
-    public AbsEntity(Long id) {
+    public AbsEntity(UUID id) {
         this.id = id;
     }
 
