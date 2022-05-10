@@ -5,12 +5,18 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import uz.yeoju.yeoju_app.entity.Role;
 import uz.yeoju.yeoju_app.entity.Section;
+import uz.yeoju.yeoju_app.repository.RoleRepository;
+import uz.yeoju.yeoju_app.repository.SectionRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner {
 
-
+    public final SectionRepository sectionRepository;
+    public final RoleRepository roleRepository;
     @Override
     public void run(String... args) throws Exception {
 
@@ -45,6 +51,40 @@ public class DataLoader implements CommandLineRunner {
         Section section28 = new Section("Tibbiy bo`lim");
         Section section29 = new Section("Jamoat xavfsizligini ta'minlash bo`limi");
         Section section30 = new Section("Texnik foydalanish va xo`jalik bo`limi");
+
+        sectionRepository.saveAndFlush(section1);
+        sectionRepository.saveAndFlush(section2);
+        sectionRepository.saveAndFlush(section3);
+        sectionRepository.saveAndFlush(section4);
+        sectionRepository.saveAndFlush(section5);
+        sectionRepository.saveAndFlush(section6);
+        sectionRepository.saveAndFlush(section7);
+        sectionRepository.saveAndFlush(section8);
+        sectionRepository.saveAndFlush(section9);
+        sectionRepository.saveAndFlush(section10);
+        sectionRepository.saveAndFlush(section11);
+        sectionRepository.saveAndFlush(section12);
+        sectionRepository.saveAndFlush(section13);
+        sectionRepository.saveAndFlush(section14);
+        sectionRepository.saveAndFlush(section15);
+        sectionRepository.saveAndFlush(section16);
+        sectionRepository.saveAndFlush(section17);
+        sectionRepository.saveAndFlush(section18);
+        sectionRepository.saveAndFlush(section19);
+        sectionRepository.saveAndFlush(section20);
+        sectionRepository.saveAndFlush(section21);
+        sectionRepository.saveAndFlush(section22);
+        sectionRepository.saveAndFlush(section23);
+        sectionRepository.saveAndFlush(section24);
+        sectionRepository.saveAndFlush(section25);
+        sectionRepository.saveAndFlush(section26);
+        sectionRepository.saveAndFlush(section27);
+        sectionRepository.saveAndFlush(section28);
+        sectionRepository.saveAndFlush(section29);
+        sectionRepository.saveAndFlush(section30);
+
+        System.out.println("saved sections");
+        System.out.println(section1.getId()+"\n"+section10.getId());
 
         /**========================  LAVOZIMLAR -- ROLES  ===========================**/
 
@@ -209,5 +249,115 @@ public class DataLoader implements CommandLineRunner {
         Role role100 = new Role("Bog`bon",section30);
         Role role101 = new Role("Qozonxona operatori",section30);
         Role role102 = new Role("Duradgor",section30);
+
+
+        roleRepository.saveAndFlush(role1);
+        roleRepository.saveAndFlush(role2);
+        roleRepository.saveAndFlush(role3);
+        roleRepository.saveAndFlush(role4);
+        roleRepository.saveAndFlush(role5);
+        roleRepository.saveAndFlush(role6);
+        roleRepository.saveAndFlush(role7);
+        roleRepository.saveAndFlush(role8);
+        roleRepository.saveAndFlush(role9);
+        roleRepository.saveAndFlush(role10);
+        roleRepository.saveAndFlush(role11);
+        roleRepository.saveAndFlush(role12);
+        roleRepository.saveAndFlush(role13);
+        roleRepository.saveAndFlush(role14);
+        roleRepository.saveAndFlush(role15);
+        roleRepository.saveAndFlush(role16);
+        roleRepository.saveAndFlush(role17);
+        roleRepository.saveAndFlush(role18);
+        roleRepository.saveAndFlush(role19);
+        roleRepository.saveAndFlush(role20);
+        roleRepository.saveAndFlush(role21);
+        roleRepository.saveAndFlush(role22);
+        roleRepository.saveAndFlush(role23);
+        roleRepository.saveAndFlush(role24);
+        roleRepository.saveAndFlush(role25);
+        roleRepository.saveAndFlush(role26);
+        roleRepository.saveAndFlush(role27);
+        roleRepository.saveAndFlush(role28);
+        roleRepository.saveAndFlush(role29);
+        roleRepository.saveAndFlush(role30);
+        roleRepository.saveAndFlush(role31);
+        roleRepository.saveAndFlush(role32);
+        roleRepository.saveAndFlush(role33);
+        roleRepository.saveAndFlush(role34);
+        roleRepository.saveAndFlush(role35);
+        roleRepository.saveAndFlush(role36);
+        roleRepository.saveAndFlush(role37);
+        roleRepository.saveAndFlush(role38);
+        roleRepository.saveAndFlush(role39);
+        roleRepository.saveAndFlush(role40);
+        roleRepository.saveAndFlush(role41);
+        roleRepository.saveAndFlush(role42);
+        roleRepository.saveAndFlush(role43);
+        roleRepository.saveAndFlush(role44);
+        roleRepository.saveAndFlush(role45);
+        roleRepository.saveAndFlush(role46);
+        roleRepository.saveAndFlush(role47);
+        roleRepository.saveAndFlush(role48);
+        roleRepository.saveAndFlush(role49);
+        roleRepository.saveAndFlush(role50);
+        roleRepository.saveAndFlush(role51);
+        roleRepository.saveAndFlush(role52);
+        roleRepository.saveAndFlush(role53);
+        roleRepository.saveAndFlush(role54);
+        roleRepository.saveAndFlush(role55);
+        roleRepository.saveAndFlush(role56);
+        roleRepository.saveAndFlush(role57);
+        roleRepository.saveAndFlush(role58);
+        roleRepository.saveAndFlush(role59);
+        roleRepository.saveAndFlush(role60);
+        roleRepository.saveAndFlush(role61);
+        roleRepository.saveAndFlush(role62);
+        roleRepository.saveAndFlush(role63);
+        roleRepository.saveAndFlush(role64);
+        roleRepository.saveAndFlush(role65);
+        roleRepository.saveAndFlush(role66);
+        roleRepository.saveAndFlush(role67);
+        roleRepository.saveAndFlush(role68);
+        roleRepository.saveAndFlush(role69);
+        roleRepository.saveAndFlush(role70);
+        roleRepository.saveAndFlush(role71);
+        roleRepository.saveAndFlush(role72);
+        roleRepository.saveAndFlush(role73);
+        roleRepository.saveAndFlush(role74);
+        roleRepository.saveAndFlush(role75);
+        roleRepository.saveAndFlush(role76);
+        roleRepository.saveAndFlush(role77);
+        roleRepository.saveAndFlush(role78);
+        roleRepository.saveAndFlush(role79);
+        roleRepository.saveAndFlush(role80);
+        roleRepository.saveAndFlush(role81);
+        roleRepository.saveAndFlush(role82);
+        roleRepository.saveAndFlush(role83);
+        roleRepository.saveAndFlush(role84);
+        roleRepository.saveAndFlush(role85);
+        roleRepository.saveAndFlush(role86);
+        roleRepository.saveAndFlush(role87);
+        roleRepository.saveAndFlush(role88);
+        roleRepository.saveAndFlush(role89);
+        roleRepository.saveAndFlush(role90);
+        roleRepository.saveAndFlush(role91);
+        roleRepository.saveAndFlush(role92);
+        roleRepository.saveAndFlush(role93);
+        roleRepository.saveAndFlush(role94);
+        roleRepository.saveAndFlush(role95);
+        roleRepository.saveAndFlush(role96);
+        roleRepository.saveAndFlush(role97);
+        roleRepository.saveAndFlush(role98);
+        roleRepository.saveAndFlush(role99);
+        roleRepository.saveAndFlush(role100);
+        roleRepository.saveAndFlush(role101);
+        roleRepository.saveAndFlush(role102);
+
+        System.err.println("saved roles");
+        System.out.println(role1.getId()+" -> "+role1.getSection() +"\n"+role100.getId()+" -> "+role100.getSection());
+
+
+
     }
 }
