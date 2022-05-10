@@ -44,7 +44,7 @@ public class Student extends AbsEntity {
     private Set<PhoneNumber> phoneNumbers;
 
     @OneToOne
-    private Attachment attachment;
+    private Attachment photo;
 
     private String passportSerial;
     private Date bornYear;
