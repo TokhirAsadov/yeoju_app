@@ -361,6 +361,8 @@ public class DataLoader implements CommandLineRunner {
             roleRepository.saveAndFlush(role101);
             roleRepository.saveAndFlush(role102);
 
+            roleRepository.save(new Role("Student"));
+
             System.err.println("saved roles");
             System.out.println(role1.getId() + " -> " + role1.getSection() + "\n" + role100.getId() + " -> " + role100.getSection());
         }
