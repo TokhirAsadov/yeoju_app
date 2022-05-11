@@ -46,9 +46,6 @@ public class ProfissorPedagog extends AbsEntity {
     @OneToOne
     private Attachment obyektivka;
 
-    @OneToMany
-    private Set<Attachment> diplomas;
-
     private Date bornYear;
     private String citizenship;
 
