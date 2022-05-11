@@ -8,7 +8,6 @@ import uz.yeoju.yeoju_app.entity.ProfissorPedagog;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import java.sql.Timestamp;
