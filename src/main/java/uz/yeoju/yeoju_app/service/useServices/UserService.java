@@ -8,7 +8,6 @@ import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.UserImplService;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -69,7 +68,7 @@ public class UserService implements UserImplService<UserDto> {
                             &&
                             Objects.equals(userByRFID.getId(), user.getId())
             ){
-                user.setFio(dto.getFio());
+                user.setFullName(dto.getFio());
                 user.setLogin(dto.getLogin());
                 user.setPassword(dto.getPassword());
                 user.setEmail(dto.getEmail());
@@ -132,7 +131,7 @@ public class UserService implements UserImplService<UserDto> {
 //
 //    private User generateUser(UserDto dto) {
 //        return new User(
-//                dto.getFio(),
+//                dto.getFullName(),
 //                dto.getLogin(),
 //                dto.getPassword(),
 //                dto.getRFID(),
@@ -162,7 +161,7 @@ public class UserService implements UserImplService<UserDto> {
 //    private UserDto generateUserDto(User user) {
 //        return new UserDto(
 //          user.getId(),
-//          user.getFio(),
+//          user.getFullName(),
 //          user.getLogin(),
 //          user.getPassword(),
 //          user.getRFID(),

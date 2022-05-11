@@ -18,7 +18,7 @@ import java.util.UUID;
 @Entity(name = "users")
 public class User extends AbsEntity implements UserDetails {
 
-    private String fio;
+    private String fullName;
 
     @Column(unique = true)
     private String login;
@@ -42,9 +42,9 @@ public class User extends AbsEntity implements UserDetails {
     private boolean credentialsNonExpired=true;
     private boolean enabled=true;
 
-    public User(UUID id, String fio, String login, String password) {
+    public User(UUID id, String fullName, String login, String password) {
         super(id);
-        this.fio = fio;
+        this.fullName = fullName;
         this.login = login;
         this.password = password;
     }
@@ -79,8 +79,8 @@ public class User extends AbsEntity implements UserDetails {
         return this.enabled;
     }
 
-    public User(String fio, String login, String password, String RFID, String email, Gander gander, Set<Role> roles) {
-        this.fio = fio;
+    public User(String fullName, String login, String password, String RFID, String email, Gander gander, Set<Role> roles) {
+        this.fullName = fullName;
         this.login = login;
         this.password = password;
         this.RFID = RFID;
