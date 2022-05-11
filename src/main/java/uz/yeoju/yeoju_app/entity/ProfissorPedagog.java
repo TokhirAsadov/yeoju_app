@@ -3,7 +3,6 @@ package uz.yeoju.yeoju_app.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.yeoju.yeoju_app.entity.attachment.Attachment;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
@@ -35,12 +34,6 @@ public class ProfissorPedagog extends AbsEntity {
 
     @OneToMany
     private Set<PhoneNumber> phoneNumbers;
-
-    @OneToOne
-    private Attachment passportCopy;
-
-    @OneToOne
-    private Attachment obyektivka;
 
     private Date bornYear;
     private String citizenship;
