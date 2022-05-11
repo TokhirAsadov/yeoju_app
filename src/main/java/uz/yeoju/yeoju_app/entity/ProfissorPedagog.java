@@ -7,7 +7,6 @@ import uz.yeoju.yeoju_app.entity.attachment.Attachment;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.sql.Date;
@@ -36,9 +35,6 @@ public class ProfissorPedagog extends AbsEntity {
 
     @OneToMany
     private Set<PhoneNumber> phoneNumbers;
-
-    @OneToOne
-    private Attachment photo;
 
     @OneToOne
     private Attachment passportCopy;
