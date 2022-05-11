@@ -68,7 +68,7 @@ public class UserService implements UserImplService<UserDto> {
                             &&
                             Objects.equals(userByRFID.getId(), user.getId())
             ){
-                user.setFullName(dto.getFio());
+                user.setFullName(dto.getFullName());
                 user.setLogin(dto.getLogin());
                 user.setPassword(dto.getPassword());
                 user.setEmail(dto.getEmail());

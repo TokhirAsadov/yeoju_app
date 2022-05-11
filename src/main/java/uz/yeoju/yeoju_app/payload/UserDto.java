@@ -12,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class UserDto {
     private UUID id;
-    private String fio;
+    private String fullName;
     private String login;
     private String password;
     private String RFID;
@@ -22,8 +22,8 @@ public class UserDto {
 
 
 
-    public UserDto(String fio, String login, String password, String RFID, String email, GanderDto ganderDto, Set<RoleDto> roleDtos) {
-        this.fio = fio;
+    public UserDto(String fullName, String login, String password, String RFID, String email, GanderDto ganderDto, Set<RoleDto> roleDtos) {
+        this.fullName = fullName;
         this.login = login;
         this.password = password;
         this.RFID = RFID;
