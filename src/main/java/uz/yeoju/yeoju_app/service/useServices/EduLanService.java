@@ -75,7 +75,7 @@ public class EduLanService implements EduLanImplService<EducationLanguageDto> {
     }
 
     public ApiResponse save(EducationLanguageDto dto){
-        if (educationLanRepository.existsEducationLanguageByName(dto.getName())){
+        if (!educationLanRepository.existsEducationLanguageByName(dto.getName())){
             EducationLanguage language = generateEduLan(dto);
             educationLanRepository.saveAndFlush(language);
             return new ApiResponse(true,"new language saved successfully!...");
