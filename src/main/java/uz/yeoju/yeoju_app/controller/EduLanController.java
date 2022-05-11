@@ -22,4 +22,10 @@ public class EduLanController {
         return ResponseEntity.ok(eduLanService.findAll());
     }
 
+    @GetMapping("/getLanguageById/{id}")
+    public HttpEntity<?> getLanguageById(@PathVariable UUID id){
+        return ResponseEntity.ok(eduLanService.findById(id));
+    }
+
+
 }
