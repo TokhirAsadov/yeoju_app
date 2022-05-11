@@ -37,6 +37,9 @@ public class EduLanController {
         return ResponseEntity.status(202).body(eduLanService.saveOrUpdate(dto));
     }
 
-
+    @DeleteMapping("/deleteLanguage/{id}")
+    public HttpEntity<?> deleteFaculty(@PathVariable UUID id){
+        return ResponseEntity.status(204).body(eduLanService.deleteById(id));
+    }
 
 }
