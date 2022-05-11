@@ -18,6 +18,7 @@ public class Group extends AbsEntity {
 
     @Column(unique = true)
     private String name;
+    private Integer level;
 
     @ManyToOne
     private Faculty faculty;

@@ -12,6 +12,7 @@ import java.util.UUID;
 public class GroupDto {
     private UUID id;
     private String name;
+    private Integer level;
     private FacultyDto facultyDto;
     public GroupDto(String name) {
         this.name = name;
