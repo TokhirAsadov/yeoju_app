@@ -32,6 +32,11 @@ public class EduLanController {
         return ResponseEntity.status(201).body(eduLanService.saveOrUpdate(dto));
     }
 
+    @PostMapping("/updateLanguage")
+    public HttpEntity<?> updateLanguage(@RequestBody EducationLanguageDto dto){
+        return ResponseEntity.status(202).body(eduLanService.saveOrUpdate(dto));
+    }
+
 
 
 }
