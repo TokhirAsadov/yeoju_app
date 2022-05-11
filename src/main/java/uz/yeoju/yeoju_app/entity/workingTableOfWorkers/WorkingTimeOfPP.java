@@ -1,4 +1,4 @@
-package uz.yeoju.yeoju_app.entity.workingTables;
+package uz.yeoju.yeoju_app.entity.workingTableOfWorkers;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
