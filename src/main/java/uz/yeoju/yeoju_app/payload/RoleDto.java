@@ -12,4 +12,5 @@ import java.util.UUID;
 public class RoleDto {
     private UUID id;
     private String roleName;
+    private SectionDto sectionDto;
 }
