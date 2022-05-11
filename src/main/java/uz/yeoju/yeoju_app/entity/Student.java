@@ -43,9 +43,6 @@ public class Student extends AbsEntity {
     @OneToMany
     private Set<PhoneNumber> phoneNumbers;
 
-    @OneToOne
-    private Attachment photo;
-
     private String passportSerial;
     private Date bornYear;
     private String description;
