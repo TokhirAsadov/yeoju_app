@@ -76,7 +76,7 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
     }
 
     public ApiResponse save(FacultyDto dto){
-        if (facultyRepository.existsFacultyByName(dto.getName())){
+        if (!facultyRepository.existsFacultyByName(dto.getName())){
             Faculty faculty = generateFaculty(dto);
             facultyRepository.saveAndFlush(faculty);
             return new ApiResponse(true,"new faculty saved successfully!...");
