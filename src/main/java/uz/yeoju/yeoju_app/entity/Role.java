@@ -22,6 +22,10 @@ public class Role extends AbsEntity implements GrantedAuthority {
     @ManyToOne
     private Section section;
 
+    public Role(String roleName) {
+        this.roleName = roleName;
+    }
+
     @Override
     public String getAuthority() {
         return roleName;
