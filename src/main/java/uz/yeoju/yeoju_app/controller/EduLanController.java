@@ -5,7 +5,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.payload.EducationLanguageDto;
-import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.service.useServices.EduLanService;
 
 import java.util.UUID;
