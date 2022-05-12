@@ -40,6 +40,13 @@ public class RoleService implements RoleImplService<RoleDto> {
                 sectionService.generateSectionDto(role.getSection())
         );
     }
+    private Role generateRole(RoleDto dto) {
+        return new Role(
+                dto.getId(),
+                dto.getRoleName(),
+                sectionService.generateSection(dto.getSectionDto())
+        );
+    }
 
     @Override
     public ApiResponse findById(UUID id) {
