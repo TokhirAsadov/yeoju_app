@@ -10,6 +10,7 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.GanderImplServic
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +18,11 @@ public class GanderService implements GanderImplService<GanderDto> {
     public final GanderRepository ganderRepository;
     @Override
     public ApiResponse findAll() {
-        return new ApiResponse(true,"List of all gander", ganderRepository.findAll());
+        return new ApiResponse(
+                true,
+                "List of all gander",
+                ganderRepository.findAll().stream().map(this::generateGanderDto).collect(Collectors.toSet())
+        );
     }
 
     @Override
