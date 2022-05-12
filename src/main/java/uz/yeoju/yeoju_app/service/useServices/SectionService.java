@@ -48,12 +48,12 @@ public class SectionService implements FacultyImplService<SectionDto> {
         if (!sectionRepository.existsSectionByName(dto.getName())){
             Section section = generateSection(dto);
             sectionRepository.saveAndFlush(section);
-            return new ApiResponse(true,"new faculty saved successfully!...");
+            return new ApiResponse(true,"new section saved successfully!...");
         }
         else {
             return new ApiResponse(
                     false,
-                    "error! not saved faculty! Please, enter other faculty name!"
+                    "error! not saved section! Please, enter other section name!"
             );
         }
     }
@@ -91,6 +91,16 @@ public class SectionService implements FacultyImplService<SectionDto> {
                     false,
                     "error... not fount section"
             );
+        }
+    }
+    @Override
+    public ApiResponse deleteById(UUID id) {
+        if (sectionRepository.findById(id).isPresent()) {
+            sectionRepository.deleteById(id);
+            return new ApiResponse(true,"Section deleted successfully!..");
+        }
+        else {
+            return new ApiResponse(false,"error... not fount section!");
         }
     }
 }
