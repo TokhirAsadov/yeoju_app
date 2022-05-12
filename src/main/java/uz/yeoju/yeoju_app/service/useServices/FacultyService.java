@@ -54,7 +54,7 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
             if (
                     Objects.equals(facultyByName.getId(), faculty.getId())
                     ||
-                            facultyRepository.existsFacultyByName(dto.getName())
+                            !facultyRepository.existsFacultyByName(dto.getName())
             ){
                 faculty.setName(dto.getName());
                 facultyRepository.save(faculty);
