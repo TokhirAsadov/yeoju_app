@@ -3,10 +3,8 @@ package uz.yeoju.yeoju_app.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.payload.SectionDto;
 import uz.yeoju.yeoju_app.service.useServices.SectionService;
 
 import java.util.UUID;
@@ -26,4 +24,10 @@ public class SectionController {
     public HttpEntity<?> getSectionById(@PathVariable UUID id){
         return ResponseEntity.ok(sectionService.findById(id));
     }
+
+    @PostMapping("/createSection")
+    public HttpEntity<?> createNewFaculty(@RequestBody SectionDto dto){
+        return ResponseEntity.status(201).body(sectionService.saveOrUpdate(dto));
+    }
+
 }
