@@ -35,4 +35,8 @@ public class SectionController {
         return ResponseEntity.status(202).body(sectionService.saveOrUpdate(dto));
     }
 
+    @DeleteMapping("/deleteSection/{id}")
+    public HttpEntity<?> deleteSection(@PathVariable UUID id){
+        return ResponseEntity.status(204).body(sectionService.deleteById(id));
+    }
 }
