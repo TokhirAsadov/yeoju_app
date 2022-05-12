@@ -138,16 +138,20 @@ public class RoleService implements RoleImplService<RoleDto> {
 
     @Override
     public ApiResponse findRolesByRoleName(String roleName) {
-        List<Role> list = roleRepository.findAllByRoleName(roleName);
         return new ApiResponse(
                 true,
                 "List of roles by role_name",
-                list.stream().map(this::generateRoleDto).collect(Collectors.toList())
+                roleRepository
+                        .findAllByRoleName(roleName)
+                        .stream()
+                        .map(this::generateRoleDto)
+                        .collect(Collectors.toList())
                 );
     }
 
     @Override
     public ApiResponse findRolesBySection(SectionDto sectionDto) {
+
         return null;
     }
 }
