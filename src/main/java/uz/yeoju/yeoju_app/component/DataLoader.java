@@ -372,6 +372,18 @@ public class DataLoader implements CommandLineRunner {
 
             System.err.println("saved roles");
             System.out.println(role1.getId() + " -> " + role1.getSection() + "\n" + role100.getId() + " -> " + role100.getSection());
+
+
+            userRepository.save(new User(
+                    "user",
+                    "user",
+                    passwordEncoder.encode("1234"),
+                    "12345678",
+                    "user@gmail.com",
+                    ganderRepository.getGanderByGanderName(GanderName.MALE),
+                    new HashSet<>(Collections.singletonList(role1))
+            ));
+            System.out.println("saqlandi!!!!");
         }
 
 
