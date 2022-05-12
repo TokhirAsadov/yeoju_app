@@ -17,29 +17,9 @@ import java.util.UUID;
 public class SectionService implements FacultyImplService<SectionDto> {
     public final SectionRepository sectionRepository;
 
-
     @Override
     public ApiResponse findAll() {
-        return null;
+        return new ApiResponse(true,"List of all section", sectionRepository.findAll());
     }
 
-    @Override
-    public ApiResponse findById(UUID id) {
-        return null;
-    }
-
-    @Override
-    public ApiResponse getById(UUID id) {
-        return null;
-    }
-
-    @Override
-    public ApiResponse saveOrUpdate(SectionDto sectionDto) {
-        return null;
-    }
-
-    @Override
-    public ApiResponse deleteById(UUID id) {
-        return null;
-    }
 }
