@@ -9,6 +9,7 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -29,5 +30,16 @@ public class Role extends AbsEntity implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return roleName;
+    }
+
+    public Role(UUID id, String roleName) {
+        super(id);
+        this.roleName = roleName;
+    }
+
+    public Role(UUID id, String roleName, Section section) {
+        super(id);
+        this.roleName = roleName;
+        this.section = section;
     }
 }
