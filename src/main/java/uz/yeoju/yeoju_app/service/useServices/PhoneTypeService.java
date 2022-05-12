@@ -10,6 +10,7 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.PhoneTypeImplSer
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +18,11 @@ public class PhoneTypeService implements PhoneTypeImplService<PhoneTypeDto> {
     public final PhoneTypeRepository phoneTypeRepository;
     @Override
     public ApiResponse findAll() {
-        return new ApiResponse(true,"List of all phone type", phoneTypeRepository.findAll());
+        return new ApiResponse(
+                true,
+                "List of all phone type",
+                phoneTypeRepository.findAll().stream().map(this::generatePhoneTypeDto).collect(Collectors.toSet())
+        );
     }
 
     @Override
