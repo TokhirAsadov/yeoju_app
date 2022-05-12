@@ -30,4 +30,9 @@ public class SectionService implements FacultyImplService<SectionDto> {
                 .orElseGet(() -> new ApiResponse(false, "Not fount section by id"));
     }
 
+    @Override
+    public ApiResponse getById(UUID id) {
+        Section section = sectionRepository.getById(id);
+        return new ApiResponse(true, "Fount section by id", section);
+    }
 }
