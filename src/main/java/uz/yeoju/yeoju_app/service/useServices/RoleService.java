@@ -12,6 +12,7 @@ import uz.yeoju.yeoju_app.repository.SectionRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.RoleImplService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -42,12 +43,19 @@ public class RoleService implements RoleImplService<RoleDto> {
 
     @Override
     public ApiResponse findById(UUID id) {
-        return null;
+        Optional<Role> optional = roleRepository.findById(id);
+        return optional
+                .map(role -> new ApiResponse(true, "Fount role by id", generateRoleDto(role)))
+                .orElseGet(() -> new ApiResponse(false, "Not fount role by id."));
     }
 
     @Override
     public ApiResponse getById(UUID id) {
-        return null;
+        return new ApiResponse(
+                true,
+                "Fount role by id",
+                generateRoleDto(roleRepository.getById(id))
+        );
     }
 
     @Override
