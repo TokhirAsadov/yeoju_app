@@ -30,6 +30,9 @@ public class SectionController {
         return ResponseEntity.status(201).body(sectionService.saveOrUpdate(dto));
     }
 
-
+    @PostMapping("/updateSection")
+    public HttpEntity<?> updateSection(@RequestBody SectionDto dto){
+        return ResponseEntity.status(202).body(sectionService.saveOrUpdate(dto));
+    }
 
 }
