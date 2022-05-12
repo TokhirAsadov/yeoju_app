@@ -26,8 +26,10 @@ public class SectionController {
     }
 
     @PostMapping("/createSection")
-    public HttpEntity<?> createNewFaculty(@RequestBody SectionDto dto){
+    public HttpEntity<?> createNewSection(@RequestBody SectionDto dto){
         return ResponseEntity.status(201).body(sectionService.saveOrUpdate(dto));
     }
+
+
 
 }
