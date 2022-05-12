@@ -61,8 +61,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(
+                        "/",
                         "/**",
-                        "/api/auth/**",
+                        "/v1/auth/**",
+                        "/api/v1/auth/**",
                         "/api/v1/user/**",
                         "/swagger-ui/**",
                         "/api/mail/",
