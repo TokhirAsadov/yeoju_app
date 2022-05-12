@@ -35,4 +35,62 @@ public class SectionService implements FacultyImplService<SectionDto> {
         Section section = sectionRepository.getById(id);
         return new ApiResponse(true, "Fount section by id", section);
     }
+    @Override
+    public ApiResponse saveOrUpdate(SectionDto dto) {
+        if (dto.getId()==null){
+            return save(dto);
+        }
+        else {
+            return update(dto);
+        }
+    }
+    public ApiResponse save(SectionDto dto){
+        if (!sectionRepository.existsSectionByName(dto.getName())){
+            Section section = generateSection(dto);
+            sectionRepository.saveAndFlush(section);
+            return new ApiResponse(true,"new faculty saved successfully!...");
+        }
+        else {
+            return new ApiResponse(
+                    false,
+                    "error! not saved faculty! Please, enter other faculty name!"
+            );
+        }
+    }
+
+    public Section generateSection(SectionDto dto) {
+        return new Section(dto.getName());
+    }
+    public SectionDto generateSectionDto(Section section) {
+        return new SectionDto(section.getId(), section.getName());
+    }
+
+    public ApiResponse update(SectionDto dto){
+        Optional<Section> optional = sectionRepository.findById(dto.getId());
+        if (optional.isPresent()){
+            Section section = optional.get();
+            Section sectionByName = sectionRepository.getSectionByName(dto.getName());
+            if (
+                    Objects.equals(sectionByName.getId(), section.getId())
+                            ||
+                            !sectionRepository.existsSectionByName(dto.getName())
+            ){
+                section.setName(dto.getName());
+                sectionRepository.save(section);
+                return new ApiResponse(true,"section updated successfully!..");
+            }
+            else {
+                return new ApiResponse(
+                        false,
+                        "error! nor saved section! Please, enter other section name!.."
+                );
+            }
+        }
+        else{
+            return new ApiResponse(
+                    false,
+                    "error... not fount section"
+            );
+        }
+    }
 }
