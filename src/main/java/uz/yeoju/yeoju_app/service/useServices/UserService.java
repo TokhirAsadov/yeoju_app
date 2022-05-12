@@ -1,11 +1,17 @@
 package uz.yeoju.yeoju_app.service.useServices;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.ResToken;
+import uz.yeoju.yeoju_app.payload.SignInDto;
 import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.repository.UserRepository;
+import uz.yeoju.yeoju_app.secret.JwtProvider;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.UserImplService;
 
 import java.util.Objects;
@@ -18,6 +24,18 @@ public class UserService implements UserImplService<UserDto> {
 
     public final UserRepository userRepository;
     public final GanderService ganderService;
+    public final AuthenticationManager manager;
+    public final JwtProvider provider;
+
+    public ResToken login(SignInDto signInDto){
+        Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(
+                signInDto.getLogin(),
+                signInDto.getPassword()
+        ));
+        User user = (User) auth.getPrincipal();
+        String token = provider.generateToken(user);
+        return new ResToken(token);
+    }
 
 
     @Override
