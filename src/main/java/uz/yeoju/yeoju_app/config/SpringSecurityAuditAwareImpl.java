@@ -16,7 +16,7 @@ public class SpringSecurityAuditAwareImpl implements AuditorAware<UUID> {
                 &&
             auth.isAuthenticated()
             &&
-            "anonymousUser".equals(""+auth.getPrincipal())
+            !"anonymousUser".equals(""+auth.getPrincipal())
         ){
             return Optional.of(((User)auth.getPrincipal()).getId());
         }
