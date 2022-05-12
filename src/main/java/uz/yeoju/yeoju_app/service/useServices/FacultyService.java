@@ -12,6 +12,7 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.GanderImplServic
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +20,11 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
     public final FacultyRepository facultyRepository;
     @Override
     public ApiResponse findAll() {
-        return new ApiResponse(true,"List of all faculty", facultyRepository.findAll());
+        return new ApiResponse(
+                true,
+                "List of all faculty",
+                facultyRepository.findAll().stream().map(this::generateFacultyDto).collect(Collectors.toSet())
+        );
     }
 
     @Override
