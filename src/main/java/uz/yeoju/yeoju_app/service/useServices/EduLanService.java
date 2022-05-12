@@ -11,6 +11,7 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.EduLanImplServic
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +19,11 @@ public class EduLanService implements EduLanImplService<EducationLanguageDto> {
     public final EducationLanRepository educationLanRepository;
     @Override
     public ApiResponse findAll() {
-        return new ApiResponse(true,"List of all education languages", educationLanRepository.findAll());
+        return new ApiResponse(
+                true,
+                "List of all education languages",
+                educationLanRepository.findAll().stream().map(this::generateEduLanDto).collect(Collectors.toSet())
+        );
     }
 
     @Override
