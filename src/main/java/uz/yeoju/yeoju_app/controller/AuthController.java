@@ -18,6 +18,10 @@ public class AuthController {
 
     public final UserService userService;
 
-
+    @PostMapping("/login")
+    public HttpEntity<?> login(@RequestBody SignInDto signInDto){
+        ResToken resToken = userService.login(signInDto);
+        return ResponseEntity.ok(resToken);
+    }
 
 }
