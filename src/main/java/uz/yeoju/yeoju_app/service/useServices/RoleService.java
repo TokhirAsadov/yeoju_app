@@ -130,7 +130,12 @@ public class RoleService implements RoleImplService<RoleDto> {
 
     @Override
     public ApiResponse deleteById(UUID id) {
-        return null;
+        Optional<Role> optional = roleRepository.findById(id);
+        if (optional.isPresent()) {
+            roleRepository.deleteById(id);
+            return new ApiResponse(true,optional.get().getRoleName()+" role delete successfully");
+        }
+        return new ApiResponse(false,"Error! Not fount role.");
     }
 
     @Override
