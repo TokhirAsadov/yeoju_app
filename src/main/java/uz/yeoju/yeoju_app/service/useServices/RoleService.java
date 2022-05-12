@@ -1,10 +1,8 @@
 package uz.yeoju.yeoju_app.service.useServices;
 
-import jdk.nashorn.internal.runtime.options.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Role;
-import uz.yeoju.yeoju_app.entity.Section;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.RoleDto;
 import uz.yeoju.yeoju_app.payload.SectionDto;
@@ -139,12 +137,17 @@ public class RoleService implements RoleImplService<RoleDto> {
     }
 
     @Override
-    public Option<RoleDto> findRoleByRoleName(String roleName) {
-        return null;
+    public ApiResponse findRolesByRoleName(String roleName) {
+        List<Role> list = roleRepository.findAllByRoleName(roleName);
+        return new ApiResponse(
+                true,
+                "List of roles by role_name",
+                list.stream().map(this::generateRoleDto).collect(Collectors.toList())
+                );
     }
 
     @Override
-    public List<RoleDto> findRolesBySection(SectionDto sectionDto) {
+    public ApiResponse findRolesBySection(SectionDto sectionDto) {
         return null;
     }
 }
