@@ -22,4 +22,12 @@ public class SectionService implements FacultyImplService<SectionDto> {
         return new ApiResponse(true,"List of all section", sectionRepository.findAll());
     }
 
+    @Override
+    public ApiResponse findById(UUID id) {
+        return sectionRepository
+                .findById(id)
+                .map(section -> new ApiResponse(true, "Fount section by id", section))
+                .orElseGet(() -> new ApiResponse(false, "Not fount section by id"));
+    }
+
 }
