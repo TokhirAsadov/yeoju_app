@@ -3,14 +3,18 @@ package uz.yeoju.yeoju_app.component;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import uz.yeoju.yeoju_app.entity.Role;
 import uz.yeoju.yeoju_app.entity.Section;
+import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.enums.GanderName;
+import uz.yeoju.yeoju_app.repository.GanderRepository;
 import uz.yeoju.yeoju_app.repository.RoleRepository;
 import uz.yeoju.yeoju_app.repository.SectionRepository;
+import uz.yeoju.yeoju_app.repository.UserRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -18,6 +22,9 @@ public class DataLoader implements CommandLineRunner {
 
     public final SectionRepository sectionRepository;
     public final RoleRepository roleRepository;
+    public final UserRepository userRepository;
+    public final GanderRepository ganderRepository;
+    public final PasswordEncoder passwordEncoder;
 
     @Value("${spring.sql.init.mode}")
     private String type;
@@ -361,7 +368,7 @@ public class DataLoader implements CommandLineRunner {
             roleRepository.saveAndFlush(role101);
             roleRepository.saveAndFlush(role102);
 
-            roleRepository.save(new Role("Student"));
+            Role student = roleRepository.save(new Role("Student"));
 
             System.err.println("saved roles");
             System.out.println(role1.getId() + " -> " + role1.getSection() + "\n" + role100.getId() + " -> " + role100.getSection());
