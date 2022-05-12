@@ -4,6 +4,7 @@ import jdk.nashorn.internal.runtime.options.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Role;
+import uz.yeoju.yeoju_app.entity.Section;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.RoleDto;
 import uz.yeoju.yeoju_app.payload.SectionDto;
@@ -12,6 +13,7 @@ import uz.yeoju.yeoju_app.repository.SectionRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.RoleImplService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -67,7 +69,63 @@ public class RoleService implements RoleImplService<RoleDto> {
 
     @Override
     public ApiResponse saveOrUpdate(RoleDto roleDto) {
-        return null;
+        if (roleDto.getId()==null){
+            return save(roleDto);
+        }
+        else {
+            return update(roleDto);
+        }
+    }
+
+    public ApiResponse save(RoleDto dto){
+        if (!roleRepository.existsRoleByRoleNameAndSection(dto.getRoleName(),sectionService.generateSection(dto.getSectionDto()))){
+            Role role = generateRole(dto);
+            roleRepository.saveAndFlush(role);
+            return new ApiResponse(true,"new role saved successfully!...");
+        }
+        else {
+            return new ApiResponse(
+                    false,
+                    "error! not saved role! Please, enter other role name or choose other section!"
+            );
+        }
+    }
+
+    public ApiResponse update(RoleDto dto){
+        Optional<Role> optional = roleRepository.findById(dto.getId());
+        if (optional.isPresent()){
+            Role role = optional.get();
+            Optional<Role> optionalRole = roleRepository
+                    .findRoleByRoleNameAndSection(
+                            dto.getRoleName(),
+                            sectionService.generateSection(dto.getSectionDto())
+                    );
+            if (
+                    Objects.equals(optionalRole.get().getId(), role.getId())
+                            ||
+                    !roleRepository
+                            .existsRoleByRoleNameAndSection(
+                                    dto.getRoleName(),sectionService.generateSection(dto.getSectionDto())
+                            )
+            ){
+                role.setRoleName(dto.getRoleName());
+                role.setSection(sectionService.generateSection(dto.getSectionDto()));
+                roleRepository.save(role);
+                return new ApiResponse(true,"role updated successfully!..");
+            }
+            else {
+                return new ApiResponse(
+                        false,
+                        "error! nor saved role! Please, enter other role name or choose other section."
+                );
+            }
+        }
+        else{
+            return new ApiResponse(
+                    false,
+                    "error... not fount role"
+            );
+        }
     }
 
     @Override
