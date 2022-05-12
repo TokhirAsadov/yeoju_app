@@ -6,4 +6,6 @@ import uz.yeoju.yeoju_app.entity.Section;
 import java.util.UUID;
 
 public interface SectionRepository extends JpaRepository<Section, UUID> {
+    Section getSectionByName(String name);
+    boolean existsSectionByName(String name);
 }
