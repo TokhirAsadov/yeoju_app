@@ -6,9 +6,8 @@ import uz.yeoju.yeoju_app.entity.Section;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-public interface RoleRepository extends JpaRepository<Role, UUID> {
+public interface RoleRepository extends JpaRepository<Role, String> {
     Optional<Role> findRoleByRoleName(String roleName);
     List<Role> findAllByRoleName(String roleName);
     List<Role> findAllBySection(Section section);
