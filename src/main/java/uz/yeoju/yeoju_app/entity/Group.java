@@ -8,7 +8,6 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -23,7 +22,7 @@ public class Group extends AbsEntity {
     @ManyToOne
     private Faculty faculty;
 
-    public Group(UUID id, String name) {
+    public Group(String id, String name) {
         super(id);
         this.name = name;
     }
