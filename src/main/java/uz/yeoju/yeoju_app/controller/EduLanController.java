@@ -22,7 +22,7 @@ public class EduLanController {
     }
 
     @GetMapping("/getLanguageById/{id}")
-    public HttpEntity<?> getLanguageById(@PathVariable UUID id){
+    public HttpEntity<?> getLanguageById(@PathVariable String id){
         return ResponseEntity.ok(eduLanService.findById(id));
     }
 
@@ -37,7 +37,7 @@ public class EduLanController {
     }
 
     @DeleteMapping("/deleteLanguage/{id}")
-    public HttpEntity<?> deleteFaculty(@PathVariable UUID id){
+    public HttpEntity<?> deleteFaculty(@PathVariable String id){
         return ResponseEntity.status(204).body(eduLanService.deleteById(id));
     }
 
