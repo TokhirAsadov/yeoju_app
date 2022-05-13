@@ -12,7 +12,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.UUID;
 
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -88,7 +87,7 @@ public class JwtFilter extends OncePerRequestFilter {
         boolean validateToken = provider.validateToken(token);
         if (validateToken){
             String userIdFromToken = provider.getUserIdFromToken(token);
-            return userRepository.findById(UUID.fromString(userIdFromToken)).get();
+            return userRepository.findById(userIdFromToken/*UUID.fromString(userIdFromToken)*/).get();
         }
         return null;
     }
