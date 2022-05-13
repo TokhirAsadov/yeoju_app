@@ -10,7 +10,6 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.EduLanImplServic
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +26,7 @@ public class EduLanService implements EduLanImplService<EducationLanguageDto> {
     }
 
     @Override
-    public ApiResponse findById(UUID id) {
+    public ApiResponse findById(String id) {
         return educationLanRepository
                 .findById(id)
                 .map(educationLanguage -> new ApiResponse(true, "Fount education language by id", educationLanguage))
@@ -35,7 +34,7 @@ public class EduLanService implements EduLanImplService<EducationLanguageDto> {
     }
 
     @Override
-    public ApiResponse getById(UUID id) {
+    public ApiResponse getById(String id) {
         EducationLanguage educationLanguage = educationLanRepository.getById(id);
         return new ApiResponse(true, "Fount educationLanguage by id", educationLanguage);
     }
@@ -102,7 +101,7 @@ public class EduLanService implements EduLanImplService<EducationLanguageDto> {
 
 
     @Override
-    public ApiResponse deleteById(UUID id) {
+    public ApiResponse deleteById(String id) {
         if (educationLanRepository.findById(id).isPresent()) {
             educationLanRepository.deleteById(id);
             return new ApiResponse(true,"language deleted successfully!..");
