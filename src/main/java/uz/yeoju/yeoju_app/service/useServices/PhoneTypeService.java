@@ -54,20 +54,33 @@ public class PhoneTypeService implements PhoneTypeImplService<PhoneTypeDto> {
         if (optional.isPresent()){
             PhoneType phoneType = optional.get();
             PhoneType typeByName = phoneTypeRepository.getPhoneTypeByName(dto.getName());
-            if (
-                    Objects.equals(typeByName.getId(), phoneType.getId())
-                    ||
-                            !phoneTypeRepository.existsPhoneTypeByName(dto.getName())
-            ){
-                typeByName.setName(dto.getName());
-                phoneTypeRepository.save(typeByName);
-                return new ApiResponse(true,"phone type updated successfully!..");
-            }
-            else {
-                return new ApiResponse(
-                        false,
-                        "error! nor saved phone type! Please, enter other phone type name!.."
-                );
+            if (typeByName!=null) {
+
+                if (
+                        Objects.equals(typeByName.getId(), phoneType.getId())
+                                ||
+                                !phoneTypeRepository.existsPhoneTypeByName(dto.getName())
+                ) {
+                    typeByName.setName(dto.getName());
+                    phoneTypeRepository.save(typeByName);
+                    return new ApiResponse(true, "phone type updated successfully!..");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved phone type! Please, enter other phone type name!.."
+                    );
+                }
+            }else {
+                if (!phoneTypeRepository.existsPhoneTypeByName(dto.getName())) {
+                    phoneType.setName(dto.getName());
+                    phoneTypeRepository.save(phoneType);
+                    return new ApiResponse(true, "phone type updated successfully!..");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved phone type! Please, enter other phone type name!.."
+                    );
+                }
             }
         }
         else{
