@@ -7,7 +7,6 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -22,7 +21,7 @@ public class PhoneNumber extends AbsEntity {
     private boolean hasInstagram;
     private boolean hasFacebook;
 
-    public PhoneNumber(UUID id, String phoneNumber, PhoneType phoneType) {
+    public PhoneNumber(String id, String phoneNumber, PhoneType phoneType) {
         super(id);
         this.phoneNumber = phoneNumber;
         this.phoneType = phoneType;
