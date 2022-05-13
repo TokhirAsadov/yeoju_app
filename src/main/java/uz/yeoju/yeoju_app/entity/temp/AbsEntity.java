@@ -1,8 +1,8 @@
 package uz.yeoju.yeoju_app.entity.temp;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -10,8 +10,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.UUID;
 
 @Data
 @MappedSuperclass
@@ -20,8 +18,12 @@ import java.util.UUID;
 @NoArgsConstructor
 public abstract class AbsEntity {
     @Id
-    @GeneratedValue
-    private UUID id;
+//    @GeneratedValue(generator="system-uuid")
+//    @GenericGenerator(name="system-uuid", strategy = "uuid")
+//    @GeneratedValue
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private String id;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -31,12 +33,12 @@ public abstract class AbsEntity {
     private Timestamp updatedAt;
 
     @CreatedBy
-    private UUID createdBy;
+    private String createdBy;
 
     @LastModifiedBy
-    private UUID updatedBy;
+    private String updatedBy;
 
-    public AbsEntity(UUID id) {
+    public AbsEntity(String id) {
         this.id = id;
     }
 
