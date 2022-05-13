@@ -2,10 +2,6 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces;
 
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 public interface MainService<T> {
 
 //    Page<T> findAll(Pageable pageable,String searchText);
@@ -14,11 +10,11 @@ public interface MainService<T> {
 
     ApiResponse findAll();
 
-    ApiResponse findById(UUID id);
+    ApiResponse findById(String id);
 
-    ApiResponse getById(UUID id);
+    ApiResponse getById(String id);
 
     ApiResponse saveOrUpdate(T t);
 
-    ApiResponse deleteById(UUID id);
+    ApiResponse deleteById(String id);
 }
