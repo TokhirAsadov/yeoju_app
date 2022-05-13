@@ -7,11 +7,9 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.repository.FacultyRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.FacultyImplService;
-import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.GanderImplService;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +26,7 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
     }
 
     @Override
-    public ApiResponse findById(UUID id) {
+    public ApiResponse findById(String id) {
         return facultyRepository
                 .findById(id)
                 .map(faculty -> new ApiResponse(true, "Fount faculty by id", faculty))
@@ -36,7 +34,7 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
     }
 
     @Override
-    public ApiResponse getById(UUID id) {
+    public ApiResponse getById(String id) {
         Faculty faculty = facultyRepository.getById(id);
         return new ApiResponse(true, "Fount faculty by id", faculty);
     }
@@ -103,7 +101,7 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
 
 
     @Override
-    public ApiResponse deleteById(UUID id) {
+    public ApiResponse deleteById(String id) {
         if (facultyRepository.findById(id).isPresent()) {
             facultyRepository.deleteById(id);
             return new ApiResponse(true,"faculty deleted successfully!..");
