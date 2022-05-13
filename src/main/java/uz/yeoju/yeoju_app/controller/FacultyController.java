@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.service.useServices.FacultyService;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/v1/faculty")
 @RequiredArgsConstructor
@@ -22,7 +20,7 @@ public class FacultyController {
     }
 
     @GetMapping("/getFacultyById/{id}")
-    public HttpEntity<?> getFacultyById(@PathVariable UUID id){
+    public HttpEntity<?> getFacultyById(@PathVariable String id){
         return ResponseEntity.ok(facultyService.findById(id));
     }
 
@@ -37,7 +35,7 @@ public class FacultyController {
     }
 
     @DeleteMapping("/deleteFaculty/{id}")
-    public HttpEntity<?> deleteFaculty(@PathVariable UUID id){
+    public HttpEntity<?> deleteFaculty(@PathVariable String id){
         return ResponseEntity.status(204).body(facultyService.deleteById(id));
     }
 }
