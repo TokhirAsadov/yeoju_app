@@ -16,7 +16,7 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.UserImplService;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +26,7 @@ public class UserService implements UserImplService<UserDto> {
     public final GanderService ganderService;
     public final AuthenticationManager manager;
     public final JwtProvider provider;
+    public final RoleService roleService;
 
     public ResToken login(SignInDto signInDto){
         Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -40,11 +41,15 @@ public class UserService implements UserImplService<UserDto> {
 
     @Override
     public ApiResponse findAll() {
-        return new ApiResponse(true,"List of all users", userRepository.findAll());
+        return new ApiResponse(
+                true,
+                "List of all users",
+                userRepository.findAll().stream().map(this::generateUserDto).collect(Collectors.toSet())
+        );
     }
 
     @Override
-    public ApiResponse findById(UUID id) {
+    public ApiResponse findById(String id) {
         return userRepository
                 .findById(id)
                 .map(user -> new ApiResponse(true, "Fount user by id", user))
@@ -52,7 +57,7 @@ public class UserService implements UserImplService<UserDto> {
     }
 
     @Override
-    public ApiResponse getById(UUID id) {
+    public ApiResponse getById(String id) {
         User user = userRepository.getById(id);
         return new ApiResponse(true, "Fount user by id", user);
     }
@@ -67,11 +72,6 @@ public class UserService implements UserImplService<UserDto> {
         }
     }
 
-    @Override
-    public ApiResponse deleteById(UUID id) {
-        return null;
-    }
-
     public ApiResponse update(UserDto dto){
         Optional<User> optional = userRepository.findById(dto.getId());
         if (optional.isPresent()){
@@ -79,43 +79,189 @@ public class UserService implements UserImplService<UserDto> {
             User userByEmail = userRepository.getUserByEmail(dto.getEmail());
             User userByRFID = userRepository.getUserByRFID(dto.getRFID());
             User userByLogin = userRepository.getUserByLogin(dto.getLogin());
-            if (
+
+            if (userByLogin!=null && userByEmail!=null && userByRFID!=null) {
+                if (
+                    Objects.equals(userByLogin.getId(), user.getId())
+                    &&
+                    Objects.equals(userByEmail.getId(), user.getId())
+                    &&
+                    Objects.equals(userByRFID.getId(), user.getId())
+                ) {
+                    user.setFullName(dto.getFullName());
+                    user.setLogin(dto.getLogin());
+                    user.setPassword(dto.getPassword());
+                    user.setEmail(dto.getEmail());
+                    user.setRFID(dto.getRFID());
+                    user.setGander(ganderService.generateGander(dto.getGanderDto()));
+                    user.setRoles(dto.getRoleDtos().stream().map(roleService::generateRole).collect(Collectors.toSet()));
+                    userRepository.save(user);
+                    return new ApiResponse(true, "user updated successfully");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor updated user! Please, enter other login,email or RFID"
+                    );
+                }
+            }
+            else if (userByLogin != null && userByEmail != null && userByRFID == null) {
+
+                if (
                     Objects.equals(userByLogin.getId(), user.getId())
                             &&
-                            Objects.equals(userByEmail.getId(), user.getId())
+                    Objects.equals(userByEmail.getId(), user.getId())
+                ){
+                    user.setFullName(dto.getFullName());
+                    user.setLogin(dto.getLogin());
+                    user.setPassword(dto.getPassword());
+                    user.setEmail(dto.getEmail());
+                    user.setRFID(dto.getRFID());
+                    user.setGander(ganderService.generateGander(dto.getGanderDto()));
+                    user.setRoles(dto.getRoleDtos().stream().map(roleService::generateRole).collect(Collectors.toSet()));
+                    userRepository.save(user);
+                    return new ApiResponse(true, "user updated successfully");
+                }
+                else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor updated user! Please, enter other login,email or RFID"
+                    );
+                }
+
+            }
+            else if (userByLogin != null && userByEmail == null && userByRFID!=null) {
+
+                if (
+                    Objects.equals(userByLogin.getId(), user.getId())
                             &&
-                            Objects.equals(userByRFID.getId(), user.getId())
-            ){
+                    Objects.equals(userByRFID.getId(), user.getId())
+                ){
+                    user.setFullName(dto.getFullName());
+                    user.setLogin(dto.getLogin());
+                    user.setPassword(dto.getPassword());
+                    user.setEmail(dto.getEmail());
+                    user.setRFID(dto.getRFID());
+                    user.setGander(ganderService.generateGander(dto.getGanderDto()));
+                    user.setRoles(dto.getRoleDtos().stream().map(roleService::generateRole).collect(Collectors.toSet()));
+                    userRepository.save(user);
+                    return new ApiResponse(true, "user updated successfully");
+                }
+                else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor updated user! Please, enter other login,email or RFID"
+                    );
+                }
+
+            }
+            else if (userByLogin == null && userByEmail != null && userByRFID != null) {
+
+                if (
+                        Objects.equals(userByEmail.getId(), user.getId())
+                                &&
+                        Objects.equals(userByRFID.getId(), user.getId())
+                ){
+                    user.setFullName(dto.getFullName());
+                    user.setLogin(dto.getLogin());
+                    user.setPassword(dto.getPassword());
+                    user.setEmail(dto.getEmail());
+                    user.setRFID(dto.getRFID());
+                    user.setGander(ganderService.generateGander(dto.getGanderDto()));
+                    user.setRoles(dto.getRoleDtos().stream().map(roleService::generateRole).collect(Collectors.toSet()));
+                    userRepository.save(user);
+                    return new ApiResponse(true, "user updated successfully");
+                }
+                else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor updated user! Please, enter other login,email or RFID"
+                    );
+                }
+
+            }
+            else if (userByLogin != null && userByEmail == null && userByRFID == null) {
+
+                if (Objects.equals(userByLogin.getId(), user.getId())){
+                    user.setFullName(dto.getFullName());
+                    user.setLogin(dto.getLogin());
+                    user.setPassword(dto.getPassword());
+                    user.setEmail(dto.getEmail());
+                    user.setRFID(dto.getRFID());
+                    user.setGander(ganderService.generateGander(dto.getGanderDto()));
+                    user.setRoles(dto.getRoleDtos().stream().map(roleService::generateRole).collect(Collectors.toSet()));
+                    userRepository.save(user);
+                    return new ApiResponse(true, "user updated successfully");
+                }
+                else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor updated user! Please, enter other login,email or RFID"
+                    );
+                }
+
+            }
+            else if (userByLogin == null && userByEmail != null && userByRFID == null) {
+                if (Objects.equals(userByEmail.getId(), user.getId())){
+                    user.setFullName(dto.getFullName());
+                    user.setLogin(dto.getLogin());
+                    user.setPassword(dto.getPassword());
+                    user.setEmail(dto.getEmail());
+                    user.setRFID(dto.getRFID());
+                    user.setGander(ganderService.generateGander(dto.getGanderDto()));
+                    user.setRoles(dto.getRoleDtos().stream().map(roleService::generateRole).collect(Collectors.toSet()));
+                    userRepository.save(user);
+                    return new ApiResponse(true, "user updated successfully");
+                }
+                else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor updated user! Please, enter other login,email or RFID"
+                    );
+                }
+            }
+            else if (userByLogin == null && userByEmail == null && userByRFID != null){
+                if (Objects.equals(user.getId(), userByRFID.getId())){
+                    user.setFullName(dto.getFullName());
+                    user.setLogin(dto.getLogin());
+                    user.setPassword(dto.getPassword());
+                    user.setEmail(dto.getEmail());
+                    user.setRFID(dto.getRFID());
+                    user.setGander(ganderService.generateGander(dto.getGanderDto()));
+                    user.setRoles(dto.getRoleDtos().stream().map(roleService::generateRole).collect(Collectors.toSet()));
+                    userRepository.save(user);
+                    return new ApiResponse(true, "user updated successfully");
+                }
+                else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor updated user! Please, enter other login,email or RFID"
+                    );
+                }
+            }
+            else {
                 user.setFullName(dto.getFullName());
                 user.setLogin(dto.getLogin());
                 user.setPassword(dto.getPassword());
                 user.setEmail(dto.getEmail());
                 user.setRFID(dto.getRFID());
                 user.setGander(ganderService.generateGander(dto.getGanderDto()));
-                /**
-                 * ROLE BASED ni tugirlash kerak!
-                 * **/
-              //  user.setRoles(dto.getRoleDtos());
+                user.setRoles(dto.getRoleDtos().stream().map(roleService::generateRole).collect(Collectors.toSet()));
                 userRepository.save(user);
-                return new ApiResponse(true,"user updated successfully");
-            }else {
-                return new ApiResponse(
-                        false,
-                        "error! nor saved user! Please, enter other login,email or RFID"
-                );
+                return new ApiResponse(true, "user updated successfully");
             }
-        }
-        else{
+
+            }
+        else {
             return new ApiResponse(
                     false,
-                    "error... not fount user"
+                    "error! not fount user!"
             );
         }
     }
 
     public ApiResponse save(UserDto dto){
         if (!existsUserByLoginOrEmailOrRFID(dto.getLogin(), dto.getEmail(), dto.getRFID())){
-            User user = null;//generateUser(dto);
+            User user = generateUser(dto);
             userRepository.saveAndFlush(user);
             return new ApiResponse(true,"new user saved successfully");
         }
@@ -127,82 +273,61 @@ public class UserService implements UserImplService<UserDto> {
         }
     }
 
+    public User generateUser(UserDto dto) {
+        return new User(
+                dto.getFullName(),
+                dto.getLogin(),
+                dto.getPassword(),
+                dto.getRFID(),
+                dto.getEmail(),
+                ganderService.generateGander(dto.getGanderDto()),
+                dto.getRoleDtos().stream().map(roleService::generateRole).collect(Collectors.toSet())
+        );
+    }
+    public UserDto generateUserDto(User user) {
+        return new UserDto(
+                user.getId(),
+                user.getFullName(),
+                user.getLogin(),
+                user.getPassword(),
+                user.getRFID(),
+                user.getEmail(),
+                ganderService.generateGanderDto(user.getGander()),
+                user.getRoles().stream().map(roleService::generateRoleDto).collect(Collectors.toSet())
+        );
+    }
+
+    @Override
+    public ApiResponse deleteById(String id) {
+        if (userRepository.findById(id).isPresent()) {
+            userRepository.deleteById(id);
+            return new ApiResponse(true,"user deleted successfully!..");
+        }
+        else {
+            return new ApiResponse(false,"error... not fount user");
+        }
+    }
+
+
     @Override
     public UserDto getUserByLogin(String login) {
-        return null;
+        return generateUserDto(userRepository.getUserByLogin(login));
     }
 
     @Override
     public UserDto getUserByRFID(String rfid) {
-        return null;
+        return generateUserDto(userRepository.getUserByRFID(rfid));
     }
 
     @Override
     public UserDto getUserByEmail(String email) {
-        return null;
+        return generateUserDto(userRepository.getUserByEmail(email));
     }
 
     @Override
     public boolean existsUserByLoginOrEmailOrRFID(String login, String email, String RFID) {
-        return false;
+        return userRepository.existsUserByLoginOrEmailOrRFID(login,email,RFID);
     }
-//
-//    private User generateUser(UserDto dto) {
-//        return new User(
-//                dto.getFullName(),
-//                dto.getLogin(),
-//                dto.getPassword(),
-//                dto.getRFID(),
-//                dto.getEmail(),
-//                ganderService.generateGander(dto.getGanderDto()),
-//                dto.getRoleDtos()
-//        );
-//    }
-//
-//    @Override
-//    public ApiResponse deleteById(Long id) {
-//        if (userRepository.findById(id).isPresent()) {
-//            userRepository.deleteById(id);
-//            return new ApiResponse(true,"user deleted successfully!..");
-//        }
-//        else {
-//            return new ApiResponse(false,"error... not fount user");
-//        }
-//    }
-//
-//
-//    @Override
-//    public UserDto getUserByLogin(String login) {
-//        return generateUserDto(userRepository.getUserByLogin(login));
-//    }
-//
-//    private UserDto generateUserDto(User user) {
-//        return new UserDto(
-//          user.getId(),
-//          user.getFullName(),
-//          user.getLogin(),
-//          user.getPassword(),
-//          user.getRFID(),
-//          user.getEmail(),
-//          ganderService.generateGanderDto(user.getGander()),
-//          user.getRoles()
-//        );
-//    }
-//
-//    @Override
-//    public UserDto getUserByRFID(String rfid) {
-//        return generateUserDto(userRepository.getUserByRFID(rfid));
-//    }
-//
-//    @Override
-//    public UserDto getUserByEmail(String email) {
-//        return generateUserDto(userRepository.getUserByEmail(email));
-//    }
-//
-//    @Override
-//    public boolean existsUserByLoginOrEmailOrRFID(String login, String email, String RFID) {
-//        return userRepository.existsUserByLoginOrEmailOrRFID(login,email,RFID);
-//    }
-//
+
 
 }
