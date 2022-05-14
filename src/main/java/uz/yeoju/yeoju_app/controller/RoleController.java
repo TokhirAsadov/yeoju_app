@@ -38,4 +38,9 @@ public class RoleController {
     public HttpEntity<?> updateRole(@RequestBody RoleDto roleDto){
         return ResponseEntity.status(203).body(roleService.saveOrUpdate(roleDto));
     }
+
+    @GetMapping("/deleteRole/{id}")
+    public HttpEntity<?> deleteRole(@PathVariable String id){
+        return ResponseEntity.status(204).body(roleService.deleteById(id));
+    }
 }
