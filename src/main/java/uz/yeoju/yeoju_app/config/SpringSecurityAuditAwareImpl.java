@@ -8,9 +8,9 @@ import uz.yeoju.yeoju_app.entity.User;
 import java.util.Optional;
 import java.util.UUID;
 
-public class SpringSecurityAuditAwareImpl implements AuditorAware<UUID> {
+public class SpringSecurityAuditAwareImpl implements AuditorAware<String> {
     @Override
-    public Optional<UUID> getCurrentAuditor() {
+    public Optional<String> getCurrentAuditor() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth!=null
                 &&
