@@ -96,7 +96,7 @@ public class GanderService implements GanderImplService<GanderDto> {
         return new Gander(dto.getGanderName());
     }
     public GanderDto generateGanderDto(Gander gander) {
-        return new GanderDto(gander.getId(),gander.getGanderName());
+        return gander!=null ? new GanderDto(gander.getId(),gander.getGanderName()) : null;
     }
 
 
