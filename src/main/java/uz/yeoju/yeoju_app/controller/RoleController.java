@@ -33,4 +33,9 @@ public class RoleController {
     public HttpEntity<?> createRole(@RequestBody RoleDto roleDto){
         return ResponseEntity.status(201).body(roleService.saveOrUpdate(roleDto));
     }
+
+    @PostMapping("/updateRole")
+    public HttpEntity<?> updateRole(@RequestBody RoleDto roleDto){
+        return ResponseEntity.status(203).body(roleService.saveOrUpdate(roleDto));
+    }
 }
