@@ -10,7 +10,7 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.FacultyImplServi
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,11 +19,16 @@ public class SectionService implements FacultyImplService<SectionDto> {
 
     @Override
     public ApiResponse findAll() {
-        return new ApiResponse(true,"List of all section", sectionRepository.findAll());
+        return new ApiResponse(
+                true,
+                "List of all section",
+                sectionRepository.findAll().stream().map(this::generateSectionDto).collect(Collectors.toSet())
+        );
     }
 
     @Override
-    public ApiResponse findById(UUID id) {
+    public ApiResponse findById(String id) {
+        Optional<Section> optional = sectionRepository.findById(id);
         return sectionRepository
                 .findById(id)
                 .map(section -> new ApiResponse(true, "Fount section by id", section))
@@ -31,7 +36,7 @@ public class SectionService implements FacultyImplService<SectionDto> {
     }
 
     @Override
-    public ApiResponse getById(UUID id) {
+    public ApiResponse getById(String id) {
         Section section = sectionRepository.getById(id);
         return new ApiResponse(true, "Fount section by id", section);
     }
@@ -47,7 +52,8 @@ public class SectionService implements FacultyImplService<SectionDto> {
     public ApiResponse save(SectionDto dto){
         if (!sectionRepository.existsSectionByName(dto.getName())){
             Section section = generateSection(dto);
-            sectionRepository.saveAndFlush(section);
+            section.setId(null);
+            sectionRepository.save(section);
             return new ApiResponse(true,"new section saved successfully!...");
         }
         else {
@@ -59,7 +65,7 @@ public class SectionService implements FacultyImplService<SectionDto> {
     }
 
     public Section generateSection(SectionDto dto) {
-        return new Section(dto.getName());
+        return new Section(dto.getId(),dto.getName());
     }
     public SectionDto generateSectionDto(Section section) {
         return new SectionDto(section.getId(), section.getName());
@@ -70,20 +76,32 @@ public class SectionService implements FacultyImplService<SectionDto> {
         if (optional.isPresent()){
             Section section = optional.get();
             Section sectionByName = sectionRepository.getSectionByName(dto.getName());
-            if (
-                    Objects.equals(sectionByName.getId(), section.getId())
-                            ||
-                            !sectionRepository.existsSectionByName(dto.getName())
-            ){
-                section.setName(dto.getName());
-                sectionRepository.save(section);
-                return new ApiResponse(true,"section updated successfully!..");
-            }
-            else {
-                return new ApiResponse(
-                        false,
-                        "error! nor saved section! Please, enter other section name!.."
-                );
+            if (sectionByName!=null) {
+                if (
+                        Objects.equals(sectionByName.getId(), section.getId())
+                                ||
+                                !sectionRepository.existsSectionByName(dto.getName())
+                ) {
+                    section.setName(dto.getName());
+                    sectionRepository.save(section);
+                    return new ApiResponse(true, "section updated successfully!..");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved section! Please, enter other section name!.."
+                    );
+                }
+            }else {
+                if (!sectionRepository.existsSectionByName(dto.getName())) {
+                    section.setName(dto.getName());
+                    sectionRepository.save(section);
+                    return new ApiResponse(true, "section updated successfully!..");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved section! Please, enter other section name!.."
+                    );
+                }
             }
         }
         else{
@@ -94,7 +112,7 @@ public class SectionService implements FacultyImplService<SectionDto> {
         }
     }
     @Override
-    public ApiResponse deleteById(UUID id) {
+    public ApiResponse deleteById(String id) {
         if (sectionRepository.findById(id).isPresent()) {
             sectionRepository.deleteById(id);
             return new ApiResponse(true,"Section deleted successfully!..");
