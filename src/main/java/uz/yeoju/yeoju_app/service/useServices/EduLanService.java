@@ -54,20 +54,33 @@ public class EduLanService implements EduLanImplService<EducationLanguageDto> {
         if (optional.isPresent()){
             EducationLanguage language = optional.get();
             EducationLanguage languageByName = educationLanRepository.getEducationLanguageByName(dto.getName());
-            if (
-                    Objects.equals(languageByName.getId(), language.getId())
-                    ||
-                            !educationLanRepository.existsEducationLanguageByName(dto.getName())
-            ){
-                language.setName(dto.getName());
-                educationLanRepository.save(language);
-                return new ApiResponse(true,"language updated successfully!..");
+            if (languageByName!=null) {
+                if (
+                        Objects.equals(languageByName.getId(), language.getId())
+                                ||
+                                !educationLanRepository.existsEducationLanguageByName(dto.getName())
+                ) {
+                    language.setName(dto.getName());
+                    educationLanRepository.save(language);
+                    return new ApiResponse(true, "language updated successfully!..");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved language! Please, enter other language name!.."
+                    );
+                }
             }
             else {
-                return new ApiResponse(
-                        false,
-                        "error! nor saved language! Please, enter other language name!.."
-                );
+                if (!educationLanRepository.existsEducationLanguageByName(dto.getName())) {
+                    language.setName(dto.getName());
+                    educationLanRepository.save(language);
+                    return new ApiResponse(true, "language updated successfully!..");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved language! Please, enter other language name!.."
+                    );
+                }
             }
         }
         else{
