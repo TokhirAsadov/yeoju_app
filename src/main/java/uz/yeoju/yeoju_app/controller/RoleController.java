@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.payload.RoleDto;
 import uz.yeoju.yeoju_app.payload.SectionDto;
 import uz.yeoju.yeoju_app.service.useServices.RoleService;
 
@@ -26,5 +27,10 @@ public class RoleController {
     @GetMapping("/getRoleById/{id}")
     public HttpEntity<?> getRoleById(@PathVariable String id){
         return ResponseEntity.ok(roleService.findById(id));
+    }
+
+    @PostMapping("/createRole")
+    public HttpEntity<?> createRole(@RequestBody RoleDto roleDto){
+        return ResponseEntity.status(201).body(roleService.saveOrUpdate(roleDto));
     }
 }
