@@ -68,7 +68,9 @@ public class SectionService implements FacultyImplService<SectionDto> {
         return new Section(dto.getId(),dto.getName());
     }
     public SectionDto generateSectionDto(Section section) {
-        return new SectionDto(section.getId(), section.getName());
+        if (section!=null)
+            return new SectionDto(section.getId(), section.getName());
+        else return null;
     }
 
     public ApiResponse update(SectionDto dto){
