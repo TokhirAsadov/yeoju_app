@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.payload.EducationTypeDto;
 import uz.yeoju.yeoju_app.service.useServices.EducationTypeService;
 
 @RestController
@@ -21,6 +22,11 @@ public class EducationTypeController {
     @GetMapping("/getEduTypeById/{id}")
     public HttpEntity<?> getEduTypeById(@PathVariable String id){
         return ResponseEntity.ok(educationTypeService.findById(id));
+    }
+
+    @PostMapping("/createEduType")
+    public HttpEntity<?> createNewEduType(@RequestBody EducationTypeDto dto){
+        return ResponseEntity.status(201).body(educationTypeService.saveOrUpdate(dto));
     }
 
 
