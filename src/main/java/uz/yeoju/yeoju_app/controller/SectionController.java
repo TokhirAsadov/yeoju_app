@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.payload.SectionDto;
 import uz.yeoju.yeoju_app.service.useServices.SectionService;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/v1/section")
 @RequiredArgsConstructor
@@ -21,7 +19,7 @@ public class SectionController {
     }
 
     @GetMapping("/getSectionById/{id}")
-    public HttpEntity<?> getSectionById(@PathVariable UUID id){
+    public HttpEntity<?> getSectionById(@PathVariable String id){
         return ResponseEntity.ok(sectionService.findById(id));
     }
 
@@ -36,7 +34,7 @@ public class SectionController {
     }
 
     @DeleteMapping("/deleteSection/{id}")
-    public HttpEntity<?> deleteSection(@PathVariable UUID id){
+    public HttpEntity<?> deleteSection(@PathVariable String id){
         return ResponseEntity.status(204).body(sectionService.deleteById(id));
     }
 }
