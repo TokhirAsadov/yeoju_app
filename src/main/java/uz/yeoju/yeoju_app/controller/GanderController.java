@@ -29,6 +29,10 @@ public class GanderController {
         return ResponseEntity.status(201).body(ganderService.saveOrUpdate(dto));
     }
 
+    @PostMapping("/updateGander")
+    public HttpEntity<?> updateGander(@RequestBody GanderDto dto){
+        return ResponseEntity.status(202).body(ganderService.saveOrUpdate(dto));
+    }
 
 
 
