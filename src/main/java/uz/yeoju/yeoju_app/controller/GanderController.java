@@ -19,5 +19,10 @@ public class GanderController {
         return ResponseEntity.ok(ganderService.findAll());
     }
 
+    @GetMapping("/getGanderById/{id}")
+    public HttpEntity<?> getGanderById(@PathVariable Long id){
+        return ResponseEntity.ok(ganderService.findById(id));
+    }
+
 
 }
