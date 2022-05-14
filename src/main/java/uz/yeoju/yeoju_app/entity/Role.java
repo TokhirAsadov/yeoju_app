@@ -8,7 +8,6 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 @Data
@@ -20,7 +19,7 @@ public class Role extends AbsEntity implements GrantedAuthority {
     @Column
     private String roleName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Section section;
 
     public Role(String roleName) {
