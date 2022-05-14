@@ -42,7 +42,7 @@ public class User extends AbsEntity implements UserDetails {
     private boolean credentialsNonExpired=true;
     private boolean enabled=true;
 
-    public User(UUID id, String fullName, String login, String password) {
+    public User(String id, String fullName, String login, String password) {
         super(id);
         this.fullName = fullName;
         this.login = login;
