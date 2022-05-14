@@ -34,6 +34,9 @@ public class GanderController {
         return ResponseEntity.status(202).body(ganderService.saveOrUpdate(dto));
     }
 
-
+    @DeleteMapping("/deleteGander/{id}")
+    public HttpEntity<?> deleteGander(@PathVariable Long id){
+        return ResponseEntity.status(204).body(ganderService.deleteById(id));
+    }
 
 }
