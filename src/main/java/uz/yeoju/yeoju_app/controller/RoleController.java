@@ -22,4 +22,9 @@ public class RoleController {
     public HttpEntity<?> getRolesBySection(@RequestBody SectionDto sectionDto){
         return ResponseEntity.ok(roleService.findRolesBySection(sectionDto));
     }
+
+    @GetMapping("/getRoleById/{id}")
+    public HttpEntity<?> getRoleById(@PathVariable String id){
+        return ResponseEntity.ok(roleService.findById(id));
+    }
 }
