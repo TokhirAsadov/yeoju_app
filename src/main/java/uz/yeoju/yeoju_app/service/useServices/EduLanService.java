@@ -57,7 +57,7 @@ public class EduLanService implements EduLanImplService<EducationLanguageDto> {
             if (
                     Objects.equals(languageByName.getId(), language.getId())
                     ||
-                            educationLanRepository.existsEducationLanguageByName(dto.getName())
+                            !educationLanRepository.existsEducationLanguageByName(dto.getName())
             ){
                 language.setName(dto.getName());
                 educationLanRepository.save(language);
