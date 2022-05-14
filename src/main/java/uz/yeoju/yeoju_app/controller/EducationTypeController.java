@@ -29,5 +29,10 @@ public class EducationTypeController {
         return ResponseEntity.status(201).body(educationTypeService.saveOrUpdate(dto));
     }
 
+    @PostMapping("/updateEduType")
+    public HttpEntity<?> updateEduType(@RequestBody EducationTypeDto dto){
+        return ResponseEntity.status(202).body(educationTypeService.saveOrUpdate(dto));
+    }
+
 
 }
