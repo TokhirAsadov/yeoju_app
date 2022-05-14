@@ -34,5 +34,8 @@ public class EducationTypeController {
         return ResponseEntity.status(202).body(educationTypeService.saveOrUpdate(dto));
     }
 
-
+    @DeleteMapping("/deleteEduType/{id}")
+    public HttpEntity<?> deleteEduType(@PathVariable String id){
+        return ResponseEntity.status(204).body(educationTypeService.deleteById(id));
+    }
 }
