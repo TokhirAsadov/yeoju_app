@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
@@ -26,8 +27,23 @@ public class UserController {
     }
 
     @GetMapping("/getUserById/{id}")
-    public HttpEntity<?> getUserById(@PathVariable String  id){
-        return ResponseEntity.ok(userService.findById(id));
+    public HttpEntity<?> getUserById(
+            @PathVariable String  id,
+            @RequestParam String login,
+            @RequestParam String rfid,
+            @RequestParam String email
+    ){
+        if (!id.equals("")) {
+            return ResponseEntity.ok(userService.findById(id));
+        }
+        else if (!login.equals("")){
+            return ResponseEntity.ok(new ApiResponse(true,"user by login",userService.getUserByLogin(login)));
+        } else if (!rfid.equals("")) {
+            return ResponseEntity.ok(new ApiResponse(true,"user by rfid",userService.getUserByRFID(rfid)));
+        } else if (!email.equals("")) {
+            return ResponseEntity.ok(new ApiResponse(true,"user by email",userService.getUserByEmail(email)));
+        }
+        return ResponseEntity.ok(new ApiResponse(false,"Error params!!!"));
     }
     @PostMapping("/updateUser")
     public HttpEntity<?> updateFaculty(@RequestBody UserDto dto){
