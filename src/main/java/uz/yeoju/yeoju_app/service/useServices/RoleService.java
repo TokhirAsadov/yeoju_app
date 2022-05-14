@@ -10,10 +10,8 @@ import uz.yeoju.yeoju_app.repository.RoleRepository;
 import uz.yeoju.yeoju_app.repository.SectionRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.RoleImplService;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,14 +31,14 @@ public class RoleService implements RoleImplService<RoleDto> {
                 );
     }
 
-    private RoleDto generateRoleDto(Role role) {
+    public RoleDto generateRoleDto(Role role) {
         return new RoleDto(
                 role.getId(),
                 role.getRoleName(),
                 sectionService.generateSectionDto(role.getSection())
         );
     }
-    private Role generateRole(RoleDto dto) {
+    public Role generateRole(RoleDto dto) {
         return new Role(
                 dto.getId(),
                 dto.getRoleName(),
@@ -49,7 +47,7 @@ public class RoleService implements RoleImplService<RoleDto> {
     }
 
     @Override
-    public ApiResponse findById(UUID id) {
+    public ApiResponse findById(String id) {
         Optional<Role> optional = roleRepository.findById(id);
         return optional
                 .map(role -> new ApiResponse(true, "Fount role by id", generateRoleDto(role)))
@@ -57,7 +55,7 @@ public class RoleService implements RoleImplService<RoleDto> {
     }
 
     @Override
-    public ApiResponse getById(UUID id) {
+    public ApiResponse getById(String id) {
         return new ApiResponse(
                 true,
                 "Fount role by id",
@@ -127,7 +125,7 @@ public class RoleService implements RoleImplService<RoleDto> {
     }
 
     @Override
-    public ApiResponse deleteById(UUID id) {
+    public ApiResponse deleteById(String id) {
         Optional<Role> optional = roleRepository.findById(id);
         if (optional.isPresent()) {
             roleRepository.deleteById(id);
@@ -151,14 +149,22 @@ public class RoleService implements RoleImplService<RoleDto> {
 
     @Override
     public ApiResponse findRolesBySection(SectionDto sectionDto) {
-        return new ApiResponse(
-                true,
-                "List of roles by section",
-                roleRepository
-                        .findAllBySection(sectionService.generateSection(sectionDto))
-                        .stream()
-                        .map(this::generateRoleDto)
-                        .collect(Collectors.toList())
-        );
+        if (!Objects.equals(sectionDto.getId(), "") && !Objects.equals(sectionDto.getName(), "")) {
+            return new ApiResponse(
+                    true,
+                    "List of roles by section",
+                    roleRepository
+                            .findAllBySection(sectionService.generateSection(sectionDto))
+                            .stream()
+                            .map(this::generateRoleDto)
+                            .collect(Collectors.toList())
+            );
+        }else {
+            return new ApiResponse(
+                    true,
+                    "List of roles by section",
+                    generateRoleDto(roleRepository.findRoleByRoleName("Student").get())
+            );
+        }
     }
 }
