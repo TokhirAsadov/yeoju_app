@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.yeoju.yeoju_app.payload.FacultyDto;
+import uz.yeoju.yeoju_app.payload.GanderDto;
 import uz.yeoju.yeoju_app.service.useServices.GanderService;
 
 @RestController
@@ -23,6 +23,13 @@ public class GanderController {
     public HttpEntity<?> getGanderById(@PathVariable Long id){
         return ResponseEntity.ok(ganderService.findById(id));
     }
+
+    @PostMapping("/createGander")
+    public HttpEntity<?> createNewGander(@RequestBody GanderDto dto){
+        return ResponseEntity.status(201).body(ganderService.saveOrUpdate(dto));
+    }
+
+
 
 
 }
