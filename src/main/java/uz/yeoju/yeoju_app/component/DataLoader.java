@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import uz.yeoju.yeoju_app.entity.Gander;
 import uz.yeoju.yeoju_app.entity.Role;
 import uz.yeoju.yeoju_app.entity.Section;
 import uz.yeoju.yeoju_app.entity.User;
@@ -370,6 +371,15 @@ public class DataLoader implements CommandLineRunner {
 
             Role student = roleRepository.save(new Role("Student"));
 
+
+
+
+            /***=====================  GANDER  ============================***/
+            Gander male = ganderRepository.save(new Gander(GanderName.MALE));
+            Gander feMale = ganderRepository.save(new Gander(GanderName.FEMALE));
+
+
+            /***=====================  USER  ============================***/
             System.err.println("saved roles");
             System.out.println(role1.getId() + " -> " + role1.getSection() + "\n" + role100.getId() + " -> " + role100.getSection());
 
