@@ -17,5 +17,5 @@ public class Lesson extends AbsEntity {
     @Column(unique = true)
     private String name;
 
-    private boolean active;
+    private boolean active = true;
 }
