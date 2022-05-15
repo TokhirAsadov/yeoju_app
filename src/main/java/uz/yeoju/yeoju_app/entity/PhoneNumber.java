@@ -74,4 +74,15 @@ public class PhoneNumber extends AbsEntity {
         this.hasFacebook = hasFacebook;
         this.active = active;
     }
+
+    public PhoneNumber(String id, String phoneNumber, User user, PhoneType phoneType, boolean hasTg, boolean hasInstagram, boolean hasFacebook, boolean active) {
+        super(id);
+        this.phoneNumber = phoneNumber;
+        this.user = user;
+        this.phoneType = phoneType;
+        this.hasTg = hasTg;
+        this.hasInstagram = hasInstagram;
+        this.hasFacebook = hasFacebook;
+        this.active = active;
+    }
 }
