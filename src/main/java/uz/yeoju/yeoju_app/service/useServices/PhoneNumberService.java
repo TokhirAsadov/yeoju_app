@@ -57,7 +57,7 @@ public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto
         Optional<PhoneNumber> optional = numberRepository.findById(dto.getId());
         if (optional.isPresent()){
             PhoneNumber number = optional.get();
-            PhoneNumber numberByPhoneNumber = numberRepository.getPhoneNumberByByAndPhoneNumber(dto.getPhoneNumber());
+            PhoneNumber numberByPhoneNumber = numberRepository.getPhoneNumberByAndPhoneNumber(dto.getPhoneNumber());
             if (numberByPhoneNumber!=null) {
                 if (
                         Objects.equals(numberByPhoneNumber.getId(), number.getId())
@@ -65,6 +65,7 @@ public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto
                                 !numberRepository.existsPhoneNumberByPhoneNumber(dto.getPhoneNumber())
                 ) {
                     number.setPhoneNumber(dto.getPhoneNumber());
+                    number.setUser(userService.generateUser(dto.getUserDto()));
                     number.setPhoneType(phoneTypeService.generatePhoneType(dto.getPhoneTypeDto()));
                     number.setHasTg(dto.isHasTg());
                     number.setHasInstagram(dto.isHasInstagram());
@@ -82,6 +83,7 @@ public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto
             else {
                 if ( !numberRepository.existsPhoneNumberByPhoneNumber(dto.getPhoneNumber())){
                     number.setPhoneNumber(dto.getPhoneNumber());
+                    number.setUser(userService.generateUser(dto.getUserDto()));
                     number.setPhoneType(phoneTypeService.generatePhoneType(dto.getPhoneTypeDto()));
                     number.setHasTg(dto.isHasTg());
                     number.setHasInstagram(dto.isHasInstagram());
@@ -109,7 +111,8 @@ public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto
     public ApiResponse save(PhoneNumberDto dto){
         if (!numberRepository.existsPhoneNumberByPhoneNumber(dto.getPhoneNumber())){
             PhoneNumber number = generatePhoneNumber(dto);
-            numberRepository.saveAndFlush(number);
+            System.out.println(number);
+            numberRepository.save(number);
             return new ApiResponse(true,"new phone number saved successfully!...");
         }
         else {
@@ -122,6 +125,7 @@ public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto
 
     public PhoneNumber generatePhoneNumber(PhoneNumberDto dto) {
         return new PhoneNumber(
+                dto.getId(),
                 dto.getPhoneNumber(),
                 userService.generateUser(dto.getUserDto()),
                 phoneTypeService.generatePhoneType(dto.getPhoneTypeDto()),
