@@ -7,7 +7,7 @@ import uz.yeoju.yeoju_app.entity.User;
 import java.util.List;
 
 public interface PhoneNumberRepository extends JpaRepository<PhoneNumber, String> {
-    PhoneNumber getPhoneNumberByByAndPhoneNumber(String phoneNumber);
+    PhoneNumber getPhoneNumberByAndPhoneNumber(String phoneNumber);
     boolean existsPhoneNumberByPhoneNumber(String phoneNumber);
 
     List<PhoneNumber> findPhoneNumbersByUser(User user);
