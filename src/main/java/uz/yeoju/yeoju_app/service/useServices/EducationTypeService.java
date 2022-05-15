@@ -55,20 +55,34 @@ public class EducationTypeService implements EducationTypeImplService<EducationT
         if (optional.isPresent()){
             EducationType type = optional.get();
             EducationType typeByName = educationTypeRepository.getEducationTypeByName(dto.getName());
-            if (
-                    Objects.equals(typeByName.getId(), type.getId())
-                            ||
-                            !educationTypeRepository.existsEducationTypeByName(dto.getName())
-            ){
-                type.setName(dto.getName());
-                educationTypeRepository.save(type);
-                return new ApiResponse(true,"type updated successfully!..");
+            if (typeByName!=null) {
+                if (
+                        Objects.equals(typeByName.getId(), type.getId())
+                                ||
+                                !educationTypeRepository.existsEducationTypeByName(dto.getName())
+                ) {
+                    type.setName(dto.getName());
+                    educationTypeRepository.save(type);
+                    return new ApiResponse(true, "type updated successfully!..");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved type! Please, enter other type name!.."
+                    );
+                }
             }
             else {
-                return new ApiResponse(
-                        false,
-                        "error! nor saved type! Please, enter other type name!.."
-                );
+                if (!educationTypeRepository.existsEducationTypeByName(dto.getName())){
+                    type.setName(dto.getName());
+                    educationTypeRepository.save(type);
+                    return new ApiResponse(true,"type updated successfully!..");
+                }
+                else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved type! Please, enter other type name!.."
+                    );
+                }
             }
         }
         else{

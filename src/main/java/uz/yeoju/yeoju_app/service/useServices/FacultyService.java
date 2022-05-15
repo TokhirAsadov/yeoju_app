@@ -54,20 +54,34 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
         if (optional.isPresent()){
             Faculty faculty = optional.get();
             Faculty facultyByName = facultyRepository.getFacultyByName(dto.getName());
-            if (
-                    Objects.equals(facultyByName.getId(), faculty.getId())
-                    ||
-                            !facultyRepository.existsFacultyByName(dto.getName())
-            ){
-                faculty.setName(dto.getName());
-                facultyRepository.save(faculty);
-                return new ApiResponse(true,"faculty updated successfully!..");
+            if (facultyByName!=null) {
+                if (
+                        Objects.equals(facultyByName.getId(), faculty.getId())
+                                ||
+                                !facultyRepository.existsFacultyByName(dto.getName())
+                ) {
+                    faculty.setName(dto.getName());
+                    facultyRepository.save(faculty);
+                    return new ApiResponse(true, "faculty updated successfully!..");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved faculty! Please, enter other faculty name!.."
+                    );
+                }
             }
             else {
-                return new ApiResponse(
-                        false,
-                        "error! nor saved faculty! Please, enter other faculty name!.."
-                );
+                if (!facultyRepository.existsFacultyByName(dto.getName())){
+                    faculty.setName(dto.getName());
+                    facultyRepository.save(faculty);
+                    return new ApiResponse(true,"faculty updated successfully!..");
+                }
+                else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved faculty! Please, enter other faculty name!.."
+                    );
+                }
             }
         }
         else{

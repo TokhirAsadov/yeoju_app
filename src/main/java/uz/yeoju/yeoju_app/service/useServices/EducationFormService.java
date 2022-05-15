@@ -55,20 +55,33 @@ public class EducationFormService implements EducationTypeImplService<EducationF
         if (optional.isPresent()){
             EducationForm form = optional.get();
             EducationForm formByName = educationFormRepository.getEducationFormByName(dto.getName());
-            if (
-                    Objects.equals(formByName.getId(), form.getId())
-                            ||
-                            !educationFormRepository.existsEducationFormByName(dto.getName())
-            ){
-                form.setName(dto.getName());
-                educationFormRepository.save(form);
-                return new ApiResponse(true,"form updated successfully!..");
+            if (formByName!=null) {
+                if (
+                        Objects.equals(formByName.getId(), form.getId())
+                                ||
+                                !educationFormRepository.existsEducationFormByName(dto.getName())
+                ) {
+                    form.setName(dto.getName());
+                    educationFormRepository.save(form);
+                    return new ApiResponse(true, "form updated successfully!..");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved form! Please, enter other form name!.."
+                    );
+                }
             }
             else {
-                return new ApiResponse(
-                        false,
-                        "error! nor saved form! Please, enter other form name!.."
-                );
+                if (!educationFormRepository.existsEducationFormByName(dto.getName())) {
+                    form.setName(dto.getName());
+                    educationFormRepository.save(form);
+                    return new ApiResponse(true, "form updated successfully!..");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved form! Please, enter other form name!.."
+                    );
+                }
             }
         }
         else{

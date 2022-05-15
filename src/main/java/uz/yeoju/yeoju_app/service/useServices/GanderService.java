@@ -54,20 +54,34 @@ public class GanderService implements GanderImplService<GanderDto> {
         if (optional.isPresent()){
             Gander gander = optional.get();
             Gander ganderByGanderName = ganderRepository.getGanderByGanderName(dto.getGanderName());
-            if (
-                    Objects.equals(ganderByGanderName.getId(), gander.getId())
-                    ||
-                    !ganderRepository.existsGanderByGanderName(dto.getGanderName())
-            ){
-                gander.setGanderName(dto.getGanderName());
-                ganderRepository.save(gander);
-                return new ApiResponse(true,"gander updated successfully");
+            if (ganderByGanderName!=null) {
+                if (
+                        Objects.equals(ganderByGanderName.getId(), gander.getId())
+                                ||
+                                !ganderRepository.existsGanderByGanderName(dto.getGanderName())
+                ) {
+                    gander.setGanderName(dto.getGanderName());
+                    ganderRepository.save(gander);
+                    return new ApiResponse(true, "gander updated successfully");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved gander! Please, enter other gander name!.."
+                    );
+                }
             }
             else {
-                return new ApiResponse(
-                        false,
-                        "error! nor saved gander! Please, enter other gander name!.."
-                );
+                if ( !ganderRepository.existsGanderByGanderName(dto.getGanderName()) ){
+                    gander.setGanderName(dto.getGanderName());
+                    ganderRepository.save(gander);
+                    return new ApiResponse(true,"gander updated successfully");
+                }
+                else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved gander! Please, enter other gander name!.."
+                    );
+                }
             }
         }
         else{
