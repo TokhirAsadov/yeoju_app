@@ -3,7 +3,7 @@ package uz.yeoju.yeoju_app.entity.attachment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.yeoju.yeoju_app.entity.Student;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
@@ -14,10 +14,10 @@ import javax.persistence.OneToOne;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class StudentPhoto extends AbsEntity {
+public class UserPhoto extends AbsEntity {
 
     @ManyToOne
-    private Student student;
+    private User user;
 
     @OneToOne
     private Attachment attachment;
