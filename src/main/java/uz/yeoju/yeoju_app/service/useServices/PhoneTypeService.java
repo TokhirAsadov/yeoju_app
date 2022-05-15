@@ -106,7 +106,7 @@ public class PhoneTypeService implements PhoneTypeImplService<PhoneTypeDto> {
     }
 
     public PhoneType generatePhoneType(PhoneTypeDto dto) {
-        return new PhoneType(dto.getName());
+        return new PhoneType(dto.getId(),dto.getName());
     }
     public PhoneTypeDto generatePhoneTypeDto(PhoneType type) {
         return new PhoneTypeDto(type.getId(),type.getName());

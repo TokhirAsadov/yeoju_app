@@ -275,6 +275,7 @@ public class UserService implements UserImplService<UserDto> {
 
     public User generateUser(UserDto dto) {
         return new User(
+                dto.getId(),
                 dto.getFullName(),
                 dto.getLogin(),
                 dto.getPassword(),
