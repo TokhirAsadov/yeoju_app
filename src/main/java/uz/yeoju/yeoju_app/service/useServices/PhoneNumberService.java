@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.PhoneNumber;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.PhoneNumberDto;
-import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.repository.PhoneNumberRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.PhoneNumberImplService;
 
@@ -161,13 +160,11 @@ public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto
     }
 
     @Override
-    public ApiResponse findPhoneNumbersByUser(UserDto userDto) {
+    public ApiResponse findPhoneNumbersByUser(String userId) {
         return new ApiResponse(
                 true,
                 "fount phone numbers by user",
-                numberRepository.findPhoneNumbersByUser(
-                        userService.generateUser(userDto)
-                ).stream()
+                numberRepository.findPhoneNumbersByUserId(userId).stream()
                         .map(this::generatePhoneNumberDto)
                         .collect(Collectors.toList())
                 );
