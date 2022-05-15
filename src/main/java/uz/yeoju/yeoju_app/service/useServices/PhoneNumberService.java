@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.PhoneNumber;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.PhoneNumberDto;
+import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.repository.PhoneNumberRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.PhoneNumberImplService;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto> {
     public final PhoneNumberRepository numberRepository;
     public final PhoneTypeService phoneTypeService;
+    public final UserService userService;
 
     @Override
     public ApiResponse findAll() {
@@ -121,6 +123,7 @@ public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto
     public PhoneNumber generatePhoneNumber(PhoneNumberDto dto) {
         return new PhoneNumber(
                 dto.getPhoneNumber(),
+                userService.generateUser(dto.getUserDto()),
                 phoneTypeService.generatePhoneType(dto.getPhoneTypeDto()),
                 dto.isHasTg(),
                 dto.isHasInstagram(),
@@ -132,6 +135,7 @@ public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto
         return new PhoneNumberDto(
                 number.getId(),
                 number.getPhoneNumber(),
+                userService.generateUserDto(number.getUser()),
                 phoneTypeService.generatePhoneTypeDto(number.getPhoneType()),
                 number.isHasTg(),
                 number.isHasInstagram(),
@@ -150,5 +154,18 @@ public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto
         else {
             return new ApiResponse(false,"error... not fount phone number!");
         }
+    }
+
+    @Override
+    public ApiResponse findPhoneNumbersByUser(UserDto userDto) {
+        return new ApiResponse(
+                true,
+                "fount phone numbers by user",
+                numberRepository.findPhoneNumbersByUser(
+                        userService.generateUser(userDto)
+                ).stream()
+                        .map(this::generatePhoneNumberDto)
+                        .collect(Collectors.toList())
+                );
     }
 }
