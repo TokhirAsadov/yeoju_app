@@ -10,35 +10,27 @@ import lombok.NoArgsConstructor;
 public class PhoneNumberDto {
     private String id;
     private String phoneNumber;
+    private UserDto userDto;
     private PhoneTypeDto phoneTypeDto;
     private boolean hasTg;
     private boolean hasInstagram;
     private boolean hasFacebook;
     private boolean active;
 
-    public PhoneNumberDto(String id, String phoneNumber, PhoneTypeDto phoneTypeDto, boolean hasTg, boolean hasInstagram, boolean hasFacebook) {
+    public PhoneNumberDto(String id, String phoneNumber, UserDto userDto, PhoneTypeDto phoneTypeDto) {
         this.id = id;
         this.phoneNumber = phoneNumber;
+        this.userDto = userDto;
         this.phoneTypeDto = phoneTypeDto;
-        this.hasTg = hasTg;
-        this.hasInstagram = hasInstagram;
-        this.hasFacebook = hasFacebook;
     }
 
-    public PhoneNumberDto(String phoneNumber, PhoneTypeDto phoneTypeDto, boolean hasTg, boolean hasInstagram, boolean hasFacebook) {
+    public PhoneNumberDto(String id, String phoneNumber, UserDto userDto, PhoneTypeDto phoneTypeDto, boolean hasTg, boolean hasInstagram, boolean hasFacebook) {
+        this.id = id;
         this.phoneNumber = phoneNumber;
+        this.userDto = userDto;
         this.phoneTypeDto = phoneTypeDto;
         this.hasTg = hasTg;
         this.hasInstagram = hasInstagram;
         this.hasFacebook = hasFacebook;
-    }
-
-    public PhoneNumberDto(String phoneNumber, PhoneTypeDto phoneTypeDto, boolean hasTg, boolean hasInstagram, boolean hasFacebook, boolean active) {
-        this.phoneNumber = phoneNumber;
-        this.phoneTypeDto = phoneTypeDto;
-        this.hasTg = hasTg;
-        this.hasInstagram = hasInstagram;
-        this.hasFacebook = hasFacebook;
-        this.active = active;
     }
 }

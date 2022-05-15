@@ -16,6 +16,8 @@ public class PhoneNumber extends AbsEntity {
 
     private String phoneNumber;
     @ManyToOne
+    private User user;
+    @ManyToOne
     private PhoneType phoneType;
     private boolean hasTg;
     private boolean hasInstagram;
@@ -27,6 +29,23 @@ public class PhoneNumber extends AbsEntity {
         super(id);
         this.phoneNumber = phoneNumber;
         this.phoneType = phoneType;
+    }
+
+    public PhoneNumber(String id, String phoneNumber, User user, PhoneType phoneType) {
+        super(id);
+        this.phoneNumber = phoneNumber;
+        this.user = user;
+        this.phoneType = phoneType;
+    }
+
+    public PhoneNumber(String id, String phoneNumber, User user, PhoneType phoneType, boolean hasTg, boolean hasInstagram, boolean hasFacebook) {
+        super(id);
+        this.phoneNumber = phoneNumber;
+        this.user = user;
+        this.phoneType = phoneType;
+        this.hasTg = hasTg;
+        this.hasInstagram = hasInstagram;
+        this.hasFacebook = hasFacebook;
     }
 
     public PhoneNumber(String phoneNumber, PhoneType phoneType, boolean hasTg, boolean hasInstagram, boolean hasFacebook) {
