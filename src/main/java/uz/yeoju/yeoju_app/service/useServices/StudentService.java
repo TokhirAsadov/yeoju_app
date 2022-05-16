@@ -191,7 +191,20 @@ public class StudentService implements StudentImplService<StudentDto> {
 
     @Override
     public ApiResponse findStudentByUserId(String user_id) {
-        return null;
+        Student studentByUserId = studentRepository.findStudentByUserId(user_id);
+        if (studentByUserId!=null){
+            return new ApiResponse(
+                    true,
+                    "fount student by user id",
+                    generateStudentDto(studentByUserId)
+                    );
+        }
+        else {
+            return new ApiResponse(
+                    false,
+                    "not fount student by user id"
+            );
+        }
     }
 
     @Override
