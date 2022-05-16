@@ -282,7 +282,13 @@ public class StudentService implements StudentImplService<StudentDto> {
 
     @Override
     public ApiResponse findStudentsByEnrollmentYear(Timestamp enrollmentYear) {
-        return null;
+        return new ApiResponse(
+                true,
+                "List of all students by enrollment year",
+                studentRepository.findStudentsByEnrollmentYear(enrollmentYear)
+                        .stream().map(this::generateStudentDto)
+                        .collect(Collectors.toSet())
+        );
     }
 
     @Override
