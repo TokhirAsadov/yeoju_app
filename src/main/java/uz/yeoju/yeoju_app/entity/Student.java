@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
@@ -31,13 +31,14 @@ public class Student extends AbsEntity {
     @ManyToOne
     private EducationLanguage educationLanguage;
 
+//    @ManyToOne
+//    private TeachStatus teachStatus;    // private Status status;
 
     private String passportSerial;
-    private Date bornYear;
+    private Timestamp bornYear;
     private String description;
-    private Date enrollmentYear;
-    private String citizenship;
-    private Integer level;// kursi
+    private Timestamp enrollmentYear;// uqishga kirgan yili
+    private String citizenship;//fuqaroligi
 
-    // private Status status;
+
 }
