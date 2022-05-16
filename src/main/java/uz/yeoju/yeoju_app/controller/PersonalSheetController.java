@@ -19,7 +19,7 @@ public class PersonalSheetController {
     }
 
     @GetMapping("/getPersonalSheetById/{id}")
-    public HttpEntity<?> getPersonalSheetById(
+    public HttpEntity<?> getPersonalSheetByIdOrUserIdOrActive(
             @PathVariable String id,
             @RequestParam String user_id,
             @RequestParam boolean active)
