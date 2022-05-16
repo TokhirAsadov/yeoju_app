@@ -2,7 +2,6 @@ package uz.yeoju.yeoju_app.service.useServices;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import uz.yeoju.yeoju_app.entity.Faculty;
 import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.entity.Student;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
@@ -103,7 +102,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                     student.setEducationForm(formService.generateEduForm(dto.getEduFormDto()));
                     student.setEducationType(typeService.generateEduType(dto.getEduTypeDto()));
                     student.setEducationLanguage(lanService.generateEduLan(dto.getEduLanDto()));
-                    student.setGroup(generateGropu(dto.getGroupDto()));
+                    student.setGroup(generateGroup(dto.getGroupDto()));
                     studentRepository.save(student);
                     return new ApiResponse(true, "student updated successfully!..");
                 } else {
@@ -122,7 +121,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                     student.setEducationForm(formService.generateEduForm(dto.getEduFormDto()));
                     student.setEducationType(typeService.generateEduType(dto.getEduTypeDto()));
                     student.setEducationLanguage(lanService.generateEduLan(dto.getEduLanDto()));
-                    student.setGroup(generateGropu(dto.getGroupDto()));
+                    student.setGroup(generateGroup(dto.getGroupDto()));
                     studentRepository.save(student);
                     return new ApiResponse(true,"student updated successfully!..");
                 }
@@ -142,7 +141,7 @@ public class StudentService implements StudentImplService<StudentDto> {
         }
     }
 
-    private Group generateGropu(GroupDto groupDto) {
+    private Group generateGroup(GroupDto groupDto) {
         return new Group(
                 groupDto.getName(),
                 groupDto.getLevel(),
@@ -167,7 +166,7 @@ public class StudentService implements StudentImplService<StudentDto> {
     private Student generateStudent(StudentDto dto) {
         return new Student(
                 userService.generateUser(dto.getUserDto()),
-                generateGropu(dto.getGroupDto()),
+                generateGroup(dto.getGroupDto()),
                 formService.generateEduForm(dto.getEduFormDto()),
                 typeService.generateEduType(dto.getEduTypeDto()),
                 lanService.generateEduLan(dto.getEduLanDto()),
@@ -181,7 +180,13 @@ public class StudentService implements StudentImplService<StudentDto> {
 
     @Override
     public ApiResponse deleteById(String id) {
-        return null;
+        if (studentRepository.findById(id).isPresent()) {
+            studentRepository.deleteById(id);
+            return new ApiResponse(true,"student deleted successfully!..");
+        }
+        else {
+            return new ApiResponse(false,"error... not fount student!");
+        }
     }
 
     @Override
