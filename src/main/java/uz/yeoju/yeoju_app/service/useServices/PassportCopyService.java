@@ -65,8 +65,7 @@ public class PassportCopyService implements PassportCopyImplService<PassportCopy
                     return new ApiResponse(true, "passport copy updated successfully!..");
                 }
                 else {
-                    return new ApiResponse(true, "Error... You have an active " +
-                            "...");
+                    return new ApiResponse(true, "Error... You have passport copy an active...");
                 }
             }
             else {

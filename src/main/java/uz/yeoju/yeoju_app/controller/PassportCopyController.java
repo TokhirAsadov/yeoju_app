@@ -18,7 +18,7 @@ public class PassportCopyController {
         return ResponseEntity.ok(passportCopyService.findAll());
     }
 
-    @GetMapping("/getPPassportCopyById/{id}")
+    @GetMapping("/getPassportCopyById/{id}")
     public HttpEntity<?> getPersonalSheetByIdOrUserIdOrActive(
             @PathVariable String id,
             @RequestParam String user_id,
@@ -26,7 +26,7 @@ public class PassportCopyController {
     {
         return id != null ? ResponseEntity.ok(passportCopyService.findById(id))
                 :
-                user_id != null ? ResponseEntity.ok(passportCopyService.findPassportCopiesByUserId(id))
+                user_id != null ? ResponseEntity.ok(passportCopyService.findPassportCopiesByUserId(user_id))
                 :
                 ResponseEntity.ok(passportCopyService.findPassportCopiesByActive(active));
     }
