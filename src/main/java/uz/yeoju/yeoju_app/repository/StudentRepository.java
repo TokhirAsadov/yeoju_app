@@ -16,6 +16,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     List<Student> findStudentsByBornYear(Timestamp bornYear);
     List<Student> findStudentsByEnrollmentYear(Timestamp enrollmentYear);
     List<Student> findStudentsByCitizenship(String citizenship);
+    boolean existsStudentByUserId(String user_id);
 
 //    List<Student> findStudentsByTeachStatusId(String teachStatus_id);
 }
