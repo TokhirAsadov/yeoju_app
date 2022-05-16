@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.attachment.PassportCopy;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.payload.ObyektivkaDto;
 import uz.yeoju.yeoju_app.payload.PassportCopyDto;
 import uz.yeoju.yeoju_app.repository.PassportCopyRepo;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.PassportCopyImplService;
