@@ -293,6 +293,12 @@ public class StudentService implements StudentImplService<StudentDto> {
 
     @Override
     public ApiResponse findStudentsByCitizenship(String citizenship) {
-        return null;
+        return new ApiResponse(
+                true,
+                "List of all students by citizenship",
+                studentRepository.findStudentsByCitizenship(citizenship)
+                        .stream().map(this::generateStudentDto)
+                        .collect(Collectors.toSet())
+        );
     }
 }
