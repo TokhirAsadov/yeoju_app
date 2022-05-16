@@ -46,4 +46,9 @@ public class StudentController {
     public HttpEntity<?> deleteStudent(@PathVariable String id){
         return ResponseEntity.status(204).body(studentService.deleteById(id));
     }
+
+    @GetMapping("/findStudentsByGroupId/{group_id}")
+    public HttpEntity<?> findStudentsByGroupId(@PathVariable String group_id){
+        return ResponseEntity.ok(studentService.findStudentsByGroupId(group_id));
+    }
 }
