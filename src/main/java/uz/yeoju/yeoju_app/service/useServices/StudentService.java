@@ -222,7 +222,7 @@ public class StudentService implements StudentImplService<StudentDto> {
     public ApiResponse findStudentsByEducationFormId(String educationForm_id) {
         return new ApiResponse(
                 true,
-                "List of all students by educationForm id",
+                "List of all students by education form id",
                 studentRepository.findStudentsByEducationFormId(educationForm_id)
                         .stream().map(this::generateStudentDto)
                         .collect(Collectors.toSet())
@@ -231,7 +231,13 @@ public class StudentService implements StudentImplService<StudentDto> {
 
     @Override
     public ApiResponse findStudentsByEducationTypeId(String educationType_id) {
-        return null;
+        return new ApiResponse(
+                true,
+                "List of all students by education type id",
+                studentRepository.findStudentsByEducationTypeId(educationType_id)
+                        .stream().map(this::generateStudentDto)
+                        .collect(Collectors.toSet())
+        );
     }
 
     @Override
