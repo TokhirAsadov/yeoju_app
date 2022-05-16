@@ -209,7 +209,13 @@ public class StudentService implements StudentImplService<StudentDto> {
 
     @Override
     public ApiResponse findStudentsByGroupId(String group_id) {
-        return null;
+        return new ApiResponse(
+                true,
+                "List of all students by group id",
+                studentRepository.findStudentsByGroupId(group_id)
+                        .stream().map(this::generateStudentDto)
+                        .collect(Collectors.toSet())
+        );
     }
 
     @Override
