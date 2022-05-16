@@ -61,4 +61,9 @@ public class StudentController {
     public HttpEntity<?> findStudentsByEducationTypeId(@PathVariable String educationType_id){
         return ResponseEntity.ok(studentService.findStudentsByEducationTypeId(educationType_id));
     }
+
+    @GetMapping("/findStudentsByEducationLanguageId/{educationLanguage_id}")
+    public HttpEntity<?> findStudentsByEducationLanguageId(@PathVariable String educationLanguage_id){
+        return ResponseEntity.ok(studentService.findStudentsByEducationLanguageId(educationLanguage_id));
+    }
 }
