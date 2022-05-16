@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class UserDiplomas extends AbsEntity {
+public class UserDiploma extends AbsEntity {
     @ManyToOne
     private User user;
 
