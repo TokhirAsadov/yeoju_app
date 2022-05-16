@@ -271,7 +271,13 @@ public class StudentService implements StudentImplService<StudentDto> {
 
     @Override
     public ApiResponse findStudentsByBornYear(Timestamp bornYear) {
-        return null;
+        return new ApiResponse(
+                true,
+                "List of all students by born year",
+                studentRepository.findStudentsByBornYear(bornYear)
+                        .stream().map(this::generateStudentDto)
+                        .collect(Collectors.toSet())
+        );
     }
 
     @Override
