@@ -77,4 +77,9 @@ public class StudentController {
     public HttpEntity<?> findStudentsByEnrollmentYear(@PathVariable Timestamp enrollmentYear){
         return ResponseEntity.ok(studentService.findStudentsByEnrollmentYear(enrollmentYear));
     }
+
+    @GetMapping("/findStudentsByCitizenship/{citizenship}")
+    public HttpEntity<?> findStudentsByCitizenship(@PathVariable String citizenship){
+        return ResponseEntity.ok(studentService.findStudentsByCitizenship(citizenship));
+    }
 }
