@@ -73,4 +73,8 @@ public class StudentController {
     public HttpEntity<?> findStudentsByBornYear(@PathVariable Timestamp bornYear){
         return ResponseEntity.ok(studentService.findStudentsByBornYear(bornYear));
     }
+    @GetMapping("/findStudentsByEnrollmentYear/{enrollmentYear}")
+    public HttpEntity<?> findStudentsByEnrollmentYear(@PathVariable Timestamp enrollmentYear){
+        return ResponseEntity.ok(studentService.findStudentsByEnrollmentYear(enrollmentYear));
+    }
 }
