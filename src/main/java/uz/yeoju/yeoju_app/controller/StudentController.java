@@ -1,0 +1,41 @@
+package uz.yeoju.yeoju_app.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.payload.StudentDto;
+import uz.yeoju.yeoju_app.service.useServices.StudentService;
+
+@RestController
+@RequestMapping("/v1/student")
+@RequiredArgsConstructor
+public class StudentController {
+
+    public final StudentService studentService;
+
+    @GetMapping("/allStudent")
+    public HttpEntity<?> allStudent(){
+        return ResponseEntity.ok(studentService.findAll());
+    }
+
+    @GetMapping("/getStudentById/{id}")
+    public HttpEntity<?> getStudentById(@PathVariable String id){
+        return ResponseEntity.ok(studentService.findById(id));
+    }
+
+    @PostMapping("/createStudent")
+    public HttpEntity<?> createNewStudent(@RequestBody StudentDto dto){
+        return ResponseEntity.status(201).body(studentService.saveOrUpdate(dto));
+    }
+
+    @PostMapping("/updateStudent")
+    public HttpEntity<?> updateStudent(@RequestBody StudentDto dto){
+        return ResponseEntity.status(202).body(studentService.saveOrUpdate(dto));
+    }
+
+    @DeleteMapping("/deleteStudent/{id}")
+    public HttpEntity<?> deleteStudent(@PathVariable String id){
+        return ResponseEntity.status(204).body(studentService.deleteById(id));
+    }
+}
