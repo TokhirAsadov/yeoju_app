@@ -253,7 +253,20 @@ public class StudentService implements StudentImplService<StudentDto> {
 
     @Override
     public ApiResponse findStudentByPassportSerial(String passportSerial) {
-        return null;
+        Student studentByPassportSerial = studentRepository.findStudentByPassportSerial(passportSerial);
+        if (studentByPassportSerial !=null){
+            return new ApiResponse(
+                    true,
+                    "fount student by Passport Serial",
+                    generateStudentDto(studentByPassportSerial)
+            );
+        }
+        else {
+            return new ApiResponse(
+                    false,
+                    "not fount student by Passport Serial"
+            );
+        }
     }
 
     @Override
