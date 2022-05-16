@@ -7,10 +7,8 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.sql.Date;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -24,23 +22,15 @@ public class Student extends AbsEntity {
     @ManyToOne
     private Group group;
 
-    @OneToOne
+    @ManyToOne
     private EducationForm educationForm;
 
-    @OneToOne
+    @ManyToOne
     private EducationType educationType;
 
-    @OneToOne
+    @ManyToOne
     private EducationLanguage educationLanguage;
 
-    @OneToOne
-    private Address address;
-
-    @OneToOne
-    private Address residenceAddress;
-
-    @OneToMany
-    private Set<PhoneNumber> phoneNumbers;
 
     private String passportSerial;
     private Date bornYear;
