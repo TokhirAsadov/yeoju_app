@@ -19,9 +19,17 @@ public class StudentController {
         return ResponseEntity.ok(studentService.findAll());
     }
 
-    @GetMapping("/getStudentById/{id}")
-    public HttpEntity<?> getStudentById(@PathVariable String id){
-        return ResponseEntity.ok(studentService.findById(id));
+    @GetMapping("/getStudentByIdOrUserIdOrPassportSerial/{id}")
+    public HttpEntity<?> getStudentByIdOrUserIdOrPassportSerial(
+            @PathVariable String id,
+            @RequestParam String user_id,
+            @RequestParam String passportSerial
+    ){
+        return id!=null ? ResponseEntity.ok(studentService.findById(id))
+                :
+                user_id!=null ? ResponseEntity.ok(studentService.findStudentByUserId(user_id))
+                :
+                ResponseEntity.ok(studentService.findStudentByPassportSerial(passportSerial));
     }
 
     @PostMapping("/createStudent")
