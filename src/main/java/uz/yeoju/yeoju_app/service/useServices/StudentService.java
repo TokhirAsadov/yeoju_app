@@ -242,7 +242,13 @@ public class StudentService implements StudentImplService<StudentDto> {
 
     @Override
     public ApiResponse findStudentsByEducationLanguageId(String educationLanguage_id) {
-        return null;
+        return new ApiResponse(
+                true,
+                "List of all students by education language id",
+                studentRepository.findStudentsByEducationLanguageId(educationLanguage_id)
+                        .stream().map(this::generateStudentDto)
+                        .collect(Collectors.toSet())
+        );
     }
 
     @Override
