@@ -220,7 +220,13 @@ public class StudentService implements StudentImplService<StudentDto> {
 
     @Override
     public ApiResponse findStudentsByEducationFormId(String educationForm_id) {
-        return null;
+        return new ApiResponse(
+                true,
+                "List of all students by educationForm id",
+                studentRepository.findStudentsByEducationFormId(educationForm_id)
+                        .stream().map(this::generateStudentDto)
+                        .collect(Collectors.toSet())
+        );
     }
 
     @Override
