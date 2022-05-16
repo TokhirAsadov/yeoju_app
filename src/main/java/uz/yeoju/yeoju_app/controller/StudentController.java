@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.payload.StudentDto;
 import uz.yeoju.yeoju_app.service.useServices.StudentService;
 
+import java.sql.Timestamp;
+
 @RestController
 @RequestMapping("/v1/student")
 @RequiredArgsConstructor
@@ -65,5 +67,10 @@ public class StudentController {
     @GetMapping("/findStudentsByEducationLanguageId/{educationLanguage_id}")
     public HttpEntity<?> findStudentsByEducationLanguageId(@PathVariable String educationLanguage_id){
         return ResponseEntity.ok(studentService.findStudentsByEducationLanguageId(educationLanguage_id));
+    }
+
+    @GetMapping("/findStudentsByBornYear/{bornYear}")
+    public HttpEntity<?> findStudentsByBornYear(@PathVariable Timestamp bornYear){
+        return ResponseEntity.ok(studentService.findStudentsByBornYear(bornYear));
     }
 }
