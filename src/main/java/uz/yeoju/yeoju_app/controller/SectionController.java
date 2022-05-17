@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.SectionDto;
 import uz.yeoju.yeoju_app.service.useServices.SectionService;
 
 @RestController
-@RequestMapping("/v1/section")
+@RequestMapping(BaseUrl.BASE_URL+"/section")
 @RequiredArgsConstructor
 public class SectionController {
     public final SectionService sectionService;

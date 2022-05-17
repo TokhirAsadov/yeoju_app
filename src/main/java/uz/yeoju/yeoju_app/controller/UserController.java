@@ -9,7 +9,7 @@ import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
 @RestController
-@RequestMapping("/v1/user")
+@RequestMapping(BaseUrl.BASE_URL+"/user")
 @RequiredArgsConstructor
 public class UserController {
 

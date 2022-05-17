@@ -9,7 +9,7 @@ import uz.yeoju.yeoju_app.payload.SectionDto;
 import uz.yeoju.yeoju_app.service.useServices.RoleService;
 
 @RestController
-@RequestMapping("/v1/role")
+@RequestMapping(BaseUrl.BASE_URL+"/role")
 @RequiredArgsConstructor
 public class RoleController {
     public final RoleService roleService;

@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.PassportCopyDto;
 import uz.yeoju.yeoju_app.service.useServices.PassportCopyService;
 
 @RestController
-@RequestMapping("/v1/passportCopy")
+@RequestMapping(BaseUrl.BASE_URL+"/passportCopy")
 @RequiredArgsConstructor
 public class PassportCopyController {
     public final PassportCopyService passportCopyService;

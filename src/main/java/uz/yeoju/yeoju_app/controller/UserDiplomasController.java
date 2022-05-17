@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.UserDiplomaDto;
 import uz.yeoju.yeoju_app.service.useServices.UserDiplomaService;
 
 @RestController
-@RequestMapping("/v1/userDiploma")
+@RequestMapping(BaseUrl.BASE_URL+"/userDiploma")
 @RequiredArgsConstructor
 public class UserDiplomasController {
     public final UserDiplomaService userDiplomaService;

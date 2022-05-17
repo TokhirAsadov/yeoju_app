@@ -5,10 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import java.sql.Date;
+import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Data
@@ -20,27 +18,21 @@ public class ProfissorPedagog extends AbsEntity {
     @OneToOne
     private User user;
 
-    @OneToOne
-    private EducationForm educationForm;
+    @ManyToMany
+    private Set<EducationForm> educationForms;
 
-    @OneToOne
-    private EducationType educationType;
+    @ManyToMany
+    private Set<EducationType> educationTypes;
 
-    @OneToOne
-    private EducationLanguage educationLanguage;
+    @ManyToMany
+    private Set<EducationLanguage> educationLanguages;
 
-    @OneToOne
-    private Address address;
-
-    @OneToMany
-    private Set<PhoneNumber> phoneNumbers;
-
-    private Date bornYear;
+    private Timestamp bornYear;
+    private Timestamp enrollmentYear;// ishga kirgan yili
     private String citizenship;
 
-
-    private String academicDegree;
-    private String academicUnvon; //TODO---------------
+//    private String academicDegree;
+//    private String academicUnvon; //TODO---------------
 
     //TODO---------------
     // private Status status;

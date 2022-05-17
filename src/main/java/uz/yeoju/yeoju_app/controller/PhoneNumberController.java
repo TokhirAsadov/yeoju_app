@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.PhoneNumberDto;
 import uz.yeoju.yeoju_app.service.useServices.PhoneNumberService;
 
 @RestController
-@RequestMapping("/v1/phoneNumber")
+@RequestMapping(BaseUrl.BASE_URL+"/phoneNumber")
 @RequiredArgsConstructor
 public class PhoneNumberController {
 

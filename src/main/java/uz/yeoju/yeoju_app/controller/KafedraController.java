@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.KafedraDto;
 import uz.yeoju.yeoju_app.service.useServices.KafedraService;
 
 @RestController
-@RequestMapping("/v1/kafedra")
+@RequestMapping(BaseUrl.BASE_URL+"/kafedra")
 @RequiredArgsConstructor
 public class KafedraController {
 

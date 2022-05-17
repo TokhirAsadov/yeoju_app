@@ -7,7 +7,6 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import java.sql.Timestamp;
 
 @Data
@@ -19,7 +18,7 @@ public class YearOfAppointment extends AbsEntity {
     @ManyToOne
     private ProfissorPedagog profissorPedagog;
 
-    @OneToOne
+    @ManyToOne
     private Role role;
 
     private Timestamp startYear;

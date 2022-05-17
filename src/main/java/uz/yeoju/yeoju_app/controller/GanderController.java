@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.GanderDto;
 import uz.yeoju.yeoju_app.service.useServices.GanderService;
 
 @RestController
-@RequestMapping("/v1/gander")
+@RequestMapping(BaseUrl.BASE_URL+"/gander")
 @RequiredArgsConstructor
 public class GanderController {
 

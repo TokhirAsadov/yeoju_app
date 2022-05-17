@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.EducationFormDto;
 import uz.yeoju.yeoju_app.service.useServices.EducationFormService;
 
 @RestController
-@RequestMapping("/v1/eduForm")
+@RequestMapping(BaseUrl.BASE_URL+"/eduForm")
 @RequiredArgsConstructor
 public class EducationFormController {
 

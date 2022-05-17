@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.GroupDto;
 import uz.yeoju.yeoju_app.service.useServices.GroupService;
 
 @RestController
-@RequestMapping("/v1/group")
+@RequestMapping(BaseUrl.BASE_URL+"/group")
 @RequiredArgsConstructor
 public class GroupController {
 

@@ -12,7 +12,7 @@ import uz.yeoju.yeoju_app.payload.SignInDto;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
 @RestController
-@RequestMapping("/v1/auth")
+@RequestMapping(BaseUrl.BASE_URL+"/auth")
 @RequiredArgsConstructor
 public class AuthController {
 

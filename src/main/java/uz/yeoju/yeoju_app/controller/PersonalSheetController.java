@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.ObyektivkaDto;
 import uz.yeoju.yeoju_app.service.useServices.ObyektivkaService;
 
 @RestController
-@RequestMapping("/v1/personalSheet")
+@RequestMapping(BaseUrl.BASE_URL+"/personalSheet")
 @RequiredArgsConstructor
 public class PersonalSheetController {
     public final ObyektivkaService obyektivkaService;

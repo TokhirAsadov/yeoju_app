@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.PhoneTypeDto;
 import uz.yeoju.yeoju_app.service.useServices.PhoneTypeService;
 
 @RestController
-@RequestMapping("/v1/phoneType")
+@RequestMapping(BaseUrl.BASE_URL+"/phoneType")
 @RequiredArgsConstructor
 public class PhoneTypeController {
 

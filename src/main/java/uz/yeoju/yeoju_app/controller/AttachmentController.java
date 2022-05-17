@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/v1/attachment")
+@RequestMapping(BaseUrl.BASE_URL+"/attachment")
 public class AttachmentController {
 
 

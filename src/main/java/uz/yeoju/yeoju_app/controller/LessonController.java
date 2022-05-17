@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.LessonDto;
 import uz.yeoju.yeoju_app.service.useServices.LessonService;
 
 @RestController
-@RequestMapping("/v1/lesson")
+@RequestMapping(BaseUrl.BASE_URL+"/lesson")
 @RequiredArgsConstructor
 public class LessonController {
 

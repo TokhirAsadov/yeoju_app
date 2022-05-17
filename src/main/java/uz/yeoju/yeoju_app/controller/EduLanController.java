@@ -10,7 +10,7 @@ import uz.yeoju.yeoju_app.service.useServices.EduLanService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/v1/eduLan")
+@RequestMapping(BaseUrl.BASE_URL+"/eduLan")
 @RequiredArgsConstructor
 public class EduLanController {
 

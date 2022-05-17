@@ -10,7 +10,7 @@ import uz.yeoju.yeoju_app.service.useServices.StudentService;
 import java.sql.Timestamp;
 
 @RestController
-@RequestMapping("/v1/student")
+@RequestMapping(BaseUrl.BASE_URL+"/student")
 @RequiredArgsConstructor
 public class StudentController {
 

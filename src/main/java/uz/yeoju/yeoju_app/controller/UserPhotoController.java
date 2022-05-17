@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.UserPhotoDto;
 import uz.yeoju.yeoju_app.service.useServices.UserPhotoService;
 
 @RestController
-@RequestMapping("/v1/userPhoto")
+@RequestMapping(BaseUrl.BASE_URL+"/userPhoto")
 @RequiredArgsConstructor
 public class UserPhotoController {
     public final UserPhotoService userPhotoService;

@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.payload.EducationTypeDto;
 import uz.yeoju.yeoju_app.service.useServices.EducationTypeService;
 
 @RestController
-@RequestMapping("/v1/eduType")
+@RequestMapping(BaseUrl.BASE_URL+"/eduType")
 @RequiredArgsConstructor
 public class EducationTypeController {
 
