@@ -27,23 +27,12 @@ public class UserController {
     }
 
     @GetMapping("/getUserById/{id}")
-    public HttpEntity<?> getUserById(
-            @PathVariable String  id,
-            @RequestParam String login,
-            @RequestParam String rfid,
-            @RequestParam String email
-    ){
-        if (!id.equals("")) {
+    public HttpEntity<?> getUserById(@PathVariable String  id){
             return ResponseEntity.ok(userService.findById(id));
-        }
-        else if (!login.equals("")){
-            return ResponseEntity.ok(new ApiResponse(true,"user by login",userService.getUserByLogin(login)));
-        } else if (!rfid.equals("")) {
-            return ResponseEntity.ok(new ApiResponse(true,"user by rfid",userService.getUserByRFID(rfid)));
-        } else if (!email.equals("")) {
-            return ResponseEntity.ok(new ApiResponse(true,"user by email",userService.getUserByEmail(email)));
-        }
-        return ResponseEntity.ok(new ApiResponse(false,"Error params!!!"));
+    }
+    @GetMapping("/getUserByEmail/{email}")
+    public HttpEntity<?> getUserByEmail(@PathVariable String  email){
+            return ResponseEntity.ok(userService.getUserByEmail(email));
     }
     @PostMapping("/updateUser")
     public HttpEntity<?> updateFaculty(@RequestBody UserDto dto){
