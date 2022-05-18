@@ -35,7 +35,7 @@ public class MailService {
             model.put("user",user);
             MimeMessage mimeMessage=sender.createMimeMessage();
             MimeMessageHelper helper=new MimeMessageHelper(mimeMessage,MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
-            helper.addAttachment("logo.png", new ClassPathResource("logo.png"));
+//            helper.addAttachment("logo_nav.png", new ClassPathResource("logo_nav.png"));
             Template template=configuration.getTemplate("email-template.ftl");
             String html= FreeMarkerTemplateUtils.processTemplateIntoString(template,model);
             helper.setTo(user.getEmail());
