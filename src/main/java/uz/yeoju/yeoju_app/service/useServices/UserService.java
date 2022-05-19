@@ -76,7 +76,7 @@ public class UserService implements UserImplService<UserDto> {
         Optional<User> optional = userRepository.findById(dto.getId());
         if (optional.isPresent()){
             User user = optional.get();
-            User userByEmail = userRepository.getUserByEmail(dto.getEmail());
+            User userByEmail = userRepository.findUserByEmail(dto.getEmail());
             User userByRFID = userRepository.getUserByRFID(dto.getRFID());
             User userByLogin = userRepository.getUserByLogin(dto.getLogin());
 
@@ -321,8 +321,14 @@ public class UserService implements UserImplService<UserDto> {
     }
 
     @Override
-    public UserDto getUserByEmail(String email) {
-        return generateUserDto(userRepository.getUserByEmail(email));
+    public ApiResponse getUserByEmail(String email) {
+        User userByEmail = userRepository.findUserByEmail(email);
+        if (userByEmail!=null){
+            return new ApiResponse(true,"user by email",generateUserDto(userByEmail));
+        }
+        else {
+            return new ApiResponse(false,"not fount user by email");
+        }
     }
 
     @Override
