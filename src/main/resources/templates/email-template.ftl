@@ -11,12 +11,13 @@
             box-sizing: border-box;
             text-decoration: none;
         }
+        h3{
+            font-weight: 300;
+            font-size: 28px;
+        }
         .userFio{
             font-weight: bold;
-            color: green;
-        }
-        .confirm{
-            color:red;
+            color: #0096DB;
         }
         .btn_wrapper{
             margin-top: 10px;
@@ -30,13 +31,10 @@
             justify-content: center;
             color: #fff!important;
             cursor: pointer;
+            border: none;
         }
         .btn_confirm_true{
-            background-color: #0f0;
-        }
-        .btn_confirm_false{
-            background-color: #f00;
-            margin-left: 10px;
+            background-color: #0096DB;
         }
         button a {
             min-width: 100%;
@@ -52,7 +50,6 @@
     <h3>Hello, <span class="userFio">${user.fullName}</span></h3>
     <h3>Your login -> <span class="userFio">${user.login}</span></h3>
     <h3>Your password -> <span class="userFio">${user.password}</span></h3>
-    <div>You are registering at Clothes Shop! Are you really a registrant? Please <span class="confirm">confirm</span></div>
     <div class="btn_wrapper">
         <button class="btn_confirm_true"><a href="http://localhost:3000/login">Login</a></button>
     </div>
