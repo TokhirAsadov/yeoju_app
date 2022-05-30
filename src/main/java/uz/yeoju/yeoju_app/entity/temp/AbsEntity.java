@@ -1,5 +1,6 @@
 package uz.yeoju.yeoju_app.entity.temp;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @MappedSuperclass
@@ -27,10 +29,11 @@ public abstract class AbsEntity {
 
     @CreationTimestamp
     @Column(updatable = false)
-    private Timestamp createdAt;
+    @NotNull
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private Timestamp updatedAt;
+    private LocalDateTime updatedAt;
 
     @CreatedBy
     private String createdBy;

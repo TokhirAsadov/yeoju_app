@@ -3,6 +3,8 @@ package uz.yeoju.yeoju_app.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
@@ -20,6 +22,7 @@ public class Role extends AbsEntity implements GrantedAuthority {
     private String roleName;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Section section;
 
     public Role(String roleName) {

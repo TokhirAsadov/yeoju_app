@@ -10,7 +10,6 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -18,29 +17,34 @@ import java.util.UUID;
 @Entity(name = "users")
 public class User extends AbsEntity implements UserDetails {
 
+    private Integer userId;
     private String fullName;
 
-    @Column(unique = true)
+
     private String login;
 
     private String password;
 
-    @Column(unique = true)
+
     private String RFID;
 
-    @Column(unique = true)
+
     private String email;
 
-    @OneToOne
+    @ManyToOne
     private Gander gander;
 
     @ManyToMany
     private Set<Role> roles;
 
-    private boolean accountNonExpired=true;
-    private boolean accountNonLocked=true;
-    private boolean credentialsNonExpired=true;
-    private boolean enabled=true;
+    @Column
+    private Boolean accountNonExpired;
+    @Column
+    private Boolean accountNonLocked;
+    @Column
+    private Boolean credentialsNonExpired;
+    @Column
+    private Boolean enabled;
 
     public User(String id, String fullName, String login, String password) {
         super(id);
@@ -107,5 +111,21 @@ public class User extends AbsEntity implements UserDetails {
         this.email = email;
         this.gander = gander;
         this.roles = roles;
+    }
+
+    public User(Integer userId, String fullName, String RFID) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.RFID = RFID;
+    }
+
+    public User(Integer userId, String fullName, String RFID, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.RFID = RFID;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.enabled = enabled;
     }
 }

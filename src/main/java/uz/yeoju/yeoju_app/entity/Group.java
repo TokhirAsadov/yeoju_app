@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "groups")
 public class Group extends AbsEntity {
 
     @Column(unique = true)

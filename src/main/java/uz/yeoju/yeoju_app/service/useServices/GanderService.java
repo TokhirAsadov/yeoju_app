@@ -53,14 +53,14 @@ public class GanderService implements GanderImplService<GanderDto> {
         Optional<Gander> optional = ganderRepository.findById(dto.getId());
         if (optional.isPresent()){
             Gander gander = optional.get();
-            Gander ganderByGanderName = ganderRepository.getGanderByGanderName(dto.getGanderName());
+            Gander ganderByGanderName = ganderRepository.getGanderByGandername(dto.getGanderName());
             if (ganderByGanderName!=null) {
                 if (
                         Objects.equals(ganderByGanderName.getId(), gander.getId())
                                 ||
-                                !ganderRepository.existsGanderByGanderName(dto.getGanderName())
+                                !ganderRepository.existsGanderByGandername(dto.getGanderName())
                 ) {
-                    gander.setGanderName(dto.getGanderName());
+                    gander.setGandername(dto.getGanderName());
                     ganderRepository.save(gander);
                     return new ApiResponse(true, "gander updated successfully");
                 } else {
@@ -71,8 +71,8 @@ public class GanderService implements GanderImplService<GanderDto> {
                 }
             }
             else {
-                if ( !ganderRepository.existsGanderByGanderName(dto.getGanderName()) ){
-                    gander.setGanderName(dto.getGanderName());
+                if ( !ganderRepository.existsGanderByGandername(dto.getGanderName()) ){
+                    gander.setGandername(dto.getGanderName());
                     ganderRepository.save(gander);
                     return new ApiResponse(true,"gander updated successfully");
                 }
@@ -93,7 +93,7 @@ public class GanderService implements GanderImplService<GanderDto> {
     }
 
     public ApiResponse save(GanderDto dto){
-        if (!ganderRepository.existsGanderByGanderName(dto.getGanderName())){
+        if (!ganderRepository.existsGanderByGandername(dto.getGanderName())){
             Gander gander = generateGander(dto);
             ganderRepository.saveAndFlush(gander);
             return new ApiResponse(true,"new gander saved successfully");
@@ -110,7 +110,7 @@ public class GanderService implements GanderImplService<GanderDto> {
         return new Gander(dto.getId(),dto.getGanderName());
     }
     public GanderDto generateGanderDto(Gander gander) {
-        return gander!=null ? new GanderDto(gander.getId(),gander.getGanderName()) : null;
+        return gander!=null ? new GanderDto(gander.getId(),gander.getGandername()) : null;
     }
 
 

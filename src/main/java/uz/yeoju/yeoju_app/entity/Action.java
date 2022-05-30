@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -23,6 +23,6 @@ public class Action {
     @ManyToOne
     private User user;
 
-    private Timestamp date;
+    private LocalDateTime date;
     private Integer roomNumber;
 }

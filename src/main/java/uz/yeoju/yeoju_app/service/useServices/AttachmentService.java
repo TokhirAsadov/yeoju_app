@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class AttachmentService {

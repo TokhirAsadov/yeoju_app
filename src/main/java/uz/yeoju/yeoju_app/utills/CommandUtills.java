@@ -25,9 +25,18 @@ public class CommandUtills {
     public static Pageable descOrAscByCreatedAtPageable(int page,int size,boolean asc) throws PageSizeException {
        validatePageAndSize(page, size);
         if (asc){
+            return PageRequest.of(page,size, Sort.Direction.ASC,"USERID");
+        }
+        return PageRequest.of(page,size, Sort.Direction.DESC,"USERID");
+
+       /****
+        *
+        if (asc){
             return PageRequest.of(page,size, Sort.Direction.ASC,"createdAt");
         }
         return PageRequest.of(page,size, Sort.Direction.DESC,"createdAt");
+
+        ****/
     }
 
 }

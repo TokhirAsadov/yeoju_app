@@ -3,8 +3,6 @@ package uz.yeoju.yeoju_app.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import uz.yeoju.yeoju_app.entity.attachment.Attachment;
 
-import java.util.UUID;
-
 public interface AttachmentRepo extends JpaRepository<Attachment, String> {
 
 

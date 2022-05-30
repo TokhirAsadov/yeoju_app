@@ -1,6 +1,6 @@
 package uz.yeoju.yeoju_app.entity.enums;
 
-public enum GanderName {
+public enum Gandername {
     MALE,
     FEMALE
 }

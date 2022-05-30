@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Kafedra;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.payload.KafedraDto;
 import uz.yeoju.yeoju_app.repository.KafedraRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.KafedraImplService;

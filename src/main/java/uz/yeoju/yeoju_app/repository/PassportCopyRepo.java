@@ -6,6 +6,7 @@ import uz.yeoju.yeoju_app.entity.attachment.PassportCopy;
 import java.util.List;
 
 public interface PassportCopyRepo extends JpaRepository<PassportCopy, String> {
+//    @Query("select p from PassportCopy p where p.usersss.id = ?1")
     List<PassportCopy> findPassportCopiesByUserId(String user_id);
     List<PassportCopy> findPassportCopiesByActive(boolean active);
     PassportCopy findPassportCopyByActive(boolean active);

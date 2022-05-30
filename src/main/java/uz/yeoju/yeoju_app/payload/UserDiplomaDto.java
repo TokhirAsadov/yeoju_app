@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.yeoju.yeoju_app.entity.attachment.Attachment;
 
-import java.util.List;
 import java.util.Set;
 
 @Data

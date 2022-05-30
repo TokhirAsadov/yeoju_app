@@ -80,7 +80,7 @@ public class UserService implements UserImplService<UserDto> {
             User userByRFID = userRepository.getUserByRFID(dto.getRFID());
             User userByLogin = userRepository.getUserByLogin(dto.getLogin());
 
-            if (userByLogin!=null && userByEmail!=null && userByRFID!=null) {
+            if (userByLogin !=null && userByEmail !=null && userByRFID !=null) {
                 if (
                     Objects.equals(userByLogin.getId(), user.getId())
                     &&
@@ -129,7 +129,7 @@ public class UserService implements UserImplService<UserDto> {
                 }
 
             }
-            else if (userByLogin != null && userByEmail == null && userByRFID!=null) {
+            else if (userByLogin != null && userByEmail == null && userByRFID !=null) {
 
                 if (
                     Objects.equals(userByLogin.getId(), user.getId())
@@ -323,7 +323,7 @@ public class UserService implements UserImplService<UserDto> {
     @Override
     public ApiResponse getUserByEmail(String email) {
         User userByEmail = userRepository.findUserByEmail(email);
-        if (userByEmail!=null){
+        if (userByEmail !=null){
             return new ApiResponse(true,"user by email",generateUserDto(userByEmail));
         }
         else {

@@ -1,11 +1,12 @@
 package uz.yeoju.yeoju_app.entity.workingTableOfWorkers;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.yeoju.yeoju_app.entity.Group;
-import uz.yeoju.yeoju_app.entity.Lesson;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
+import uz.yeoju.yeoju_app.entity.Lesson;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -20,6 +21,7 @@ import java.util.Set;
 public class WorkingDayOfPP extends AbsEntity {
 
     @ManyToOne
+    @NotNull
     private WorkingTimeOfPP workingTimeOfPP;
 
     @ManyToOne

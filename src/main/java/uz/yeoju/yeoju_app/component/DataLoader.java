@@ -9,12 +9,10 @@ import uz.yeoju.yeoju_app.entity.Gander;
 import uz.yeoju.yeoju_app.entity.Role;
 import uz.yeoju.yeoju_app.entity.Section;
 import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.entity.enums.GanderName;
-import uz.yeoju.yeoju_app.repository.GanderRepository;
-import uz.yeoju.yeoju_app.repository.RoleRepository;
-import uz.yeoju.yeoju_app.repository.SectionRepository;
-import uz.yeoju.yeoju_app.repository.UserRepository;
+import uz.yeoju.yeoju_app.entity.enums.Gandername;
+import uz.yeoju.yeoju_app.repository.*;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
@@ -26,12 +24,23 @@ public class DataLoader implements CommandLineRunner {
     public final UserRepository userRepository;
     public final GanderRepository ganderRepository;
     public final PasswordEncoder passwordEncoder;
+    public final AccMonitoringLogRepo accMonitoringLogRepo;
 
     @Value("${spring.sql.init.mode}")
     private String type;
 
     @Override
     public void run(String... args) throws Exception {
+        //2022-05-19 13:04:30.000
+        //2022-05-19 13:07:12.000
+        LocalDateTime time1 = LocalDateTime.of(2022,05,19,5,4);
+        LocalDateTime time2 = LocalDateTime.of(2022,05,19,13,54);
+        System.out.println(time1+"\n"+time2);
+        System.out.println(
+                accMonitoringLogRepo.findAccMonitorLogsByTimeBetween(
+            time1, time2
+        )
+        );
 
         if (type.equals("always")) {
 
@@ -375,8 +384,8 @@ public class DataLoader implements CommandLineRunner {
 
 
             /***=====================  GANDER  ============================***/
-            Gander male = ganderRepository.save(new Gander(GanderName.MALE));
-            Gander feMale = ganderRepository.save(new Gander(GanderName.FEMALE));
+            Gander male = ganderRepository.save(new Gander(Gandername.MALE));
+            Gander feMale = ganderRepository.save(new Gander(Gandername.FEMALE));
 
 
             /***=====================  USER  ============================***/
@@ -385,17 +394,39 @@ public class DataLoader implements CommandLineRunner {
 
 
             userRepository.save(new User(
+                    1,
                     "user",
                     "user",
                     passwordEncoder.encode("1234"),
                     "12345678",
                     "user@gmail.com",
-                    ganderRepository.getGanderByGanderName(GanderName.MALE),
-                    new HashSet<>(Collections.singletonList(role1))
+                    ganderRepository.getGanderByGandername(Gandername.MALE),
+                    new HashSet<>(Collections.singletonList(role1)),
+                    true,
+                    true,
+                    true,
+                    true
+
             ));
             System.out.println("saqlandi!!!!");
         }
-
-
+//        else {
+//            Role user = roleRepository.save(new Role("user"));
+//            userRepository.save(new User(
+//                    1L,
+//                    "user2",
+//                    "user2",
+//                    passwordEncoder.encode("4321"),
+//                    "12345679",
+//                    "user1@gmail.com",
+//                    ganderRepository.getGanderByGandername(Gandername.MALE),
+//                    new HashSet<>(Collections.singletonList(user)),
+//                    true,
+//                    true,
+//                    true,
+//                    true
+//
+//            ));
+//        }
     }
 }

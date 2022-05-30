@@ -6,7 +6,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import uz.yeoju.yeoju_app.entity.User;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public class SpringSecurityAuditAwareImpl implements AuditorAware<String> {
     @Override

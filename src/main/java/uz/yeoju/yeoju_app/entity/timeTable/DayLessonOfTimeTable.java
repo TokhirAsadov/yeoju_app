@@ -3,9 +3,9 @@ package uz.yeoju.yeoju_app.entity.timeTable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import uz.yeoju.yeoju_app.entity.Lesson;
 import uz.yeoju.yeoju_app.entity.ProfissorPedagog;
-import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;

@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.yeoju.yeoju_app.entity.enums.DaysOfWeek;
-import uz.yeoju.yeoju_app.entity.enums.TimeTableStatus;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
+import uz.yeoju.yeoju_app.entity.enums.TimeTableStatus;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

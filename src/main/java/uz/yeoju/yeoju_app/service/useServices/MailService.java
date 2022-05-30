@@ -4,7 +4,6 @@ package uz.yeoju.yeoju_app.service.useServices;
 import freemarker.template.Template;
 import lombok.RequiredArgsConstructor;
 import freemarker.template.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -32,7 +31,7 @@ public class MailService {
     public ApiResponse sendHTML(User user) {
         try {
             Map<String,Object> model=new HashMap<>();
-            model.put("user",user);
+            model.put("user", user);
             MimeMessage mimeMessage=sender.createMimeMessage();
             MimeMessageHelper helper=new MimeMessageHelper(mimeMessage,MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
 //            helper.addAttachment("logo_nav.png", new ClassPathResource("logo_nav.png"));

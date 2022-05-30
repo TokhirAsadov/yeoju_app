@@ -3,8 +3,7 @@ package uz.yeoju.yeoju_app.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.yeoju.yeoju_app.entity.enums.GanderName;
-import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
+import uz.yeoju.yeoju_app.entity.enums.Gandername;
 
 import javax.persistence.*;
 
@@ -18,9 +17,9 @@ public class Gander {
     private Long id;
 
     @Enumerated(value = EnumType.STRING)
-    private GanderName ganderName;
+    private Gandername gandername;
 
-    public Gander(GanderName ganderName) {
-        this.ganderName = ganderName;
+    public Gander(Gandername gandername) {
+        this.gandername = gandername;
     }
 }
