@@ -42,7 +42,7 @@ public class DataLoader implements CommandLineRunner {
         )
         );
 
-        if (type.equals("never")) {
+        if (type.equals("always")) {
 
             /**======================== BO`LIMLAR ===========================**/
             Section section1 = new Section("Rahbariyat");
