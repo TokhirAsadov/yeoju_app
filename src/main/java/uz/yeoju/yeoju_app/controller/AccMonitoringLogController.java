@@ -44,11 +44,14 @@ public class AccMonitoringLogController {
     public HttpEntity<?> buildUsersFromUserInfo(){
 
         List<USERINFO> userinfoList = userInfoRepo.findAll();
-        for (USERINFO userinfo : userinfoList) {
+        System.out.println(userinfoList.size());
+
+
+        for (int i = 0; i < 17815; i++) {
             User user = new User();
-            user.setUserId(userinfo.getUSERID());
-            user.setFullName(userinfo.getName()+" "+userinfo.getLastname());
-            user.setRFID(userinfo.getCardNo());
+            user.setUserId(userinfoList.get(i).getUSERID());
+            user.setFullName(userinfoList.get(i).getName()+" "+userinfoList.get(i).getLastname());
+            user.setRFID(userinfoList.get(i).getCardNo());
 
             userRepository.save(user);
             System.out.println("OK");
