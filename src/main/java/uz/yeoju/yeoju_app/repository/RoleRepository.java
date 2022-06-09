@@ -1,8 +1,10 @@
 package uz.yeoju.yeoju_app.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.Role;
-import uz.yeoju.yeoju_app.entity.Section;
+import uz.yeoju.yeoju_app.payload.res.role.RoleResDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,8 +12,8 @@ import java.util.Optional;
 public interface RoleRepository extends JpaRepository<Role, String> {
     Optional<Role> findRoleByRoleName(String roleName);
     List<Role> findAllByRoleName(String roleName);
-    List<Role> findAllBySection(Section section);
+    boolean existsRoleByRoleName(String roleName);
 
-    Optional<Role> findRoleByRoleNameAndSection(String roleName, Section section);
-    boolean existsRoleByRoleNameAndSection(String roleName, Section section);
+    @Query(value = "select r.id,r.roleName from ROLE r join users_Role ur on ur.roles_id=r.id join users u on ur.users_id=u.id where u.id =:userId",nativeQuery = true)
+    List<RoleResDto> findByUserIdRoleName(@Param("userId") String userId);
 }

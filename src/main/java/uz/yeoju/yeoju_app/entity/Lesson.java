@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 @Data
@@ -17,9 +18,9 @@ public class Lesson extends AbsEntity {
 
     @Column(unique = true)
     private String name;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Kafedra kafedra;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Faculty faculty;
     private boolean active = true;
 

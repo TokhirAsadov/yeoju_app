@@ -4,13 +4,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.entity.Student;
+import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.enums.TeachStatus;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.GroupDto;
 import uz.yeoju.yeoju_app.payload.StudentDto;
+import uz.yeoju.yeoju_app.payload.payres.FacultyStatisticDto;
+import uz.yeoju.yeoju_app.payload.res.student.FacultyStatistic;
+import uz.yeoju.yeoju_app.repository.GroupRepository;
 import uz.yeoju.yeoju_app.repository.StudentRepository;
+import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.StudentImplService;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,11 +29,55 @@ import java.util.stream.Collectors;
 public class StudentService implements StudentImplService<StudentDto> {
     public final StudentRepository studentRepository;
     private final UserService userService;
-    private final EducationFormService formService;
-    private final EducationTypeService typeService;
-    private final EduLanService lanService;
     private final FacultyService facultyService;
     //private final GroupService userService;
+
+    public final UserRepository userRepository;
+    public final GroupRepository groupRepository;
+
+
+
+    public ApiResponse getFacultyAndComingCountWithAllByGroupLevel(Integer level, LocalDateTime startTime, LocalDateTime endTime) {
+        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAllByGroupLevel(level,startTime,endTime);
+        List<FacultyStatisticDto> dtos = new ArrayList<>();
+        for (FacultyStatistic item : list) {
+            FacultyStatisticDto dto = new FacultyStatisticDto(item.getName(),item.getComeCount(),(item.getAllCount()- item.getComeCount()));
+            dtos.add(dto);
+        }
+
+        return new ApiResponse(true,"send",dtos);
+    }
+
+    public ApiResponse getFacultyAndComingCountWithAll(LocalDateTime startTime, LocalDateTime endTime){
+        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAll(startTime,endTime);
+        List<FacultyStatisticDto> dtos = new ArrayList<>();
+        for (FacultyStatistic item : list) {
+            FacultyStatisticDto dto = new FacultyStatisticDto(item.getName(),item.getComeCount(),(item.getAllCount()- item.getComeCount()));
+            dtos.add(dto);
+        }
+
+        return new ApiResponse(true,"send",dtos);
+    }
+
+    public ApiResponse createStudentsByRfidAndGroupNames(List<String> rfid,List<String> groupNames){
+        System.out.println(rfid.size());
+        System.out.println(groupNames.size());
+        System.out.println("-----------------------------------------------------------------------------------------");
+
+        for (int i = 0; i < rfid.size(); i++) {
+            User userByRFID = userRepository.findUserByRFID(rfid.get(i));
+            Group groupByName = groupRepository.findGroupByName(groupNames.get(i));
+
+            Student student = new Student();
+            student.setGroup(groupByName);
+            student.setUser(userByRFID);
+            student.setTeachStatus(TeachStatus.TEACHING);
+            studentRepository.save(student);
+            System.out.println(student);
+        }
+
+        return new ApiResponse(true,"success");
+    }
 
     @Override
     public ApiResponse findAll() {
@@ -40,9 +93,6 @@ public class StudentService implements StudentImplService<StudentDto> {
                 student.getId(),
                 userService.generateUserDto(student.getUser()),
                 generateGroupDto(student.getGroup()),
-                formService.generateEduFormDto(student.getEducationForm()),
-                typeService.generateEduTypeDto(student.getEducationType()),
-                lanService.generateEduLanDto(student.getEducationLanguage()),
                 student.getPassportSerial(),
                 student.getBornYear(),
                 student.getDescription(),
@@ -99,9 +149,6 @@ public class StudentService implements StudentImplService<StudentDto> {
                     student.setCitizenship(dto.getCitizenship());
                     student.setDescription(dto.getDescription());
                     student.setEnrollmentYear(dto.getEnrollmentYear());
-                    student.setEducationForm(formService.generateEduForm(dto.getEduFormDto()));
-                    student.setEducationType(typeService.generateEduType(dto.getEduTypeDto()));
-                    student.setEducationLanguage(lanService.generateEduLan(dto.getEduLanDto()));
                     student.setGroup(generateGroup(dto.getGroupDto()));
                     studentRepository.save(student);
                     return new ApiResponse(true, "student updated successfully!..");
@@ -118,9 +165,6 @@ public class StudentService implements StudentImplService<StudentDto> {
                     student.setCitizenship(dto.getCitizenship());
                     student.setDescription(dto.getDescription());
                     student.setEnrollmentYear(dto.getEnrollmentYear());
-                    student.setEducationForm(formService.generateEduForm(dto.getEduFormDto()));
-                    student.setEducationType(typeService.generateEduType(dto.getEduTypeDto()));
-                    student.setEducationLanguage(lanService.generateEduLan(dto.getEduLanDto()));
                     student.setGroup(generateGroup(dto.getGroupDto()));
                     studentRepository.save(student);
                     return new ApiResponse(true,"student updated successfully!..");
@@ -167,9 +211,6 @@ public class StudentService implements StudentImplService<StudentDto> {
         return new Student(
                 userService.generateUser(dto.getUserDto()),
                 generateGroup(dto.getGroupDto()),
-                formService.generateEduForm(dto.getEduFormDto()),
-                typeService.generateEduType(dto.getEduTypeDto()),
-                lanService.generateEduLan(dto.getEduLanDto()),
                 dto.getPassportSerial(),
                 dto.getBornYear(),
                 dto.getDescription(),
@@ -218,38 +259,38 @@ public class StudentService implements StudentImplService<StudentDto> {
         );
     }
 
-    @Override
-    public ApiResponse findStudentsByEducationFormId(String educationForm_id) {
-        return new ApiResponse(
-                true,
-                "List of all students by education form id",
-                studentRepository.findStudentsByEducationFormId(educationForm_id)
-                        .stream().map(this::generateStudentDto)
-                        .collect(Collectors.toSet())
-        );
-    }
+//    @Override
+//    public ApiResponse findStudentsByEducationFormId(String educationForm_id) {
+//        return new ApiResponse(
+//                true,
+//                "List of all students by education form id",
+//                studentRepository.findStudentsByEducationFormId(educationForm_id)
+//                        .stream().map(this::generateStudentDto)
+//                        .collect(Collectors.toSet())
+//        );
+//    }
 
-    @Override
-    public ApiResponse findStudentsByEducationTypeId(String educationType_id) {
-        return new ApiResponse(
-                true,
-                "List of all students by education type id",
-                studentRepository.findStudentsByEducationTypeId(educationType_id)
-                        .stream().map(this::generateStudentDto)
-                        .collect(Collectors.toSet())
-        );
-    }
+//    @Override
+//    public ApiResponse findStudentsByEducationTypeId(String educationType_id) {
+//        return new ApiResponse(
+//                true,
+//                "List of all students by education type id",
+//                studentRepository.findStudentsByEducationTypeId(educationType_id)
+//                        .stream().map(this::generateStudentDto)
+//                        .collect(Collectors.toSet())
+//        );
+//    }
 
-    @Override
-    public ApiResponse findStudentsByEducationLanguageId(String educationLanguage_id) {
-        return new ApiResponse(
-                true,
-                "List of all students by education language id",
-                studentRepository.findStudentsByEducationLanguageId(educationLanguage_id)
-                        .stream().map(this::generateStudentDto)
-                        .collect(Collectors.toSet())
-        );
-    }
+//    @Override
+//    public ApiResponse findStudentsByEducationLanguageId(String educationLanguage_id) {
+//        return new ApiResponse(
+//                true,
+//                "List of all students by education language id",
+//                studentRepository.findStudentsByEducationLanguageId(educationLanguage_id)
+//                        .stream().map(this::generateStudentDto)
+//                        .collect(Collectors.toSet())
+//        );
+//    }
 
     @Override
     public ApiResponse findStudentByPassportSerial(String passportSerial) {
@@ -301,4 +342,6 @@ public class StudentService implements StudentImplService<StudentDto> {
                         .collect(Collectors.toSet())
         );
     }
+
+
 }

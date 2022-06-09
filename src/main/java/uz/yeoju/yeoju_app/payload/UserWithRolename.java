@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class KafedraDto {
-    private String id;
-    private String name;
-    public KafedraDto(String name) {
-        this.name = name;
-    }
+public class UserWithRolename {
+    private String username;
+    private String roleName;
 }

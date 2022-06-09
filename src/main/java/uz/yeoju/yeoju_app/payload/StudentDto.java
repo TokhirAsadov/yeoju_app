@@ -13,9 +13,6 @@ public class StudentDto{
     private String id;
     private UserDto userDto;
     private GroupDto groupDto;
-    private EducationFormDto eduFormDto;
-    private EducationTypeDto eduTypeDto;
-    private EducationLanguageDto eduLanDto;
 
 //    @ManyToOne
 //    private TeachStatus teachStatus;    // private Status status;

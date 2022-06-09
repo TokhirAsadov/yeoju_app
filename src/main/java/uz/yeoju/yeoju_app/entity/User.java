@@ -20,21 +20,20 @@ public class User extends AbsEntity implements UserDetails {
     private Integer userId;
     private String fullName;
 
-
     private String login;
 
     private String password;
 
-
+//    @Column()
     private String RFID;
 
 
     private String email;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Gander gander;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<Role> roles;
 
     @Column

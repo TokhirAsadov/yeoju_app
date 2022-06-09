@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class RoleDto {
     private String id;
     private String roleName;
-    private SectionDto sectionDto;
 }

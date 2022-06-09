@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RoleService implements RoleImplService<RoleDto> {
     public final RoleRepository roleRepository;
-    public final SectionService sectionService;
-    public final SectionRepository sectionRepository;
 
 
     @Override
@@ -34,15 +32,13 @@ public class RoleService implements RoleImplService<RoleDto> {
     public RoleDto generateRoleDto(Role role) {
         return new RoleDto(
                 role.getId(),
-                role.getRoleName(),
-                sectionService.generateSectionDto(role.getSection())
+                role.getRoleName()
         );
     }
     public Role generateRole(RoleDto dto) {
         return new Role(
                 dto.getId(),
-                dto.getRoleName(),
-                sectionService.generateSection(dto.getSectionDto())
+                dto.getRoleName()
         );
     }
 
@@ -74,7 +70,7 @@ public class RoleService implements RoleImplService<RoleDto> {
     }
 
     public ApiResponse save(RoleDto dto){
-        if (!roleRepository.existsRoleByRoleNameAndSection(dto.getRoleName(),sectionService.generateSection(dto.getSectionDto()))){
+        if (!roleRepository.existsRoleByRoleName(dto.getRoleName())){
             Role role = generateRole(dto);
             roleRepository.saveAndFlush(role);
             return new ApiResponse(true,"new role saved successfully!...");
@@ -92,20 +88,18 @@ public class RoleService implements RoleImplService<RoleDto> {
         if (optional.isPresent()){
             Role role = optional.get();
             Optional<Role> optionalRole = roleRepository
-                    .findRoleByRoleNameAndSection(
-                            dto.getRoleName(),
-                            sectionService.generateSection(dto.getSectionDto())
+                    .findRoleByRoleName(
+                            dto.getRoleName()
                     );
             if (
                     Objects.equals(optionalRole.get().getId(), role.getId())
                             ||
                     !roleRepository
-                            .existsRoleByRoleNameAndSection(
-                                    dto.getRoleName(),sectionService.generateSection(dto.getSectionDto())
+                            .existsRoleByRoleName(
+                                    dto.getRoleName()
                             )
             ){
                 role.setRoleName(dto.getRoleName());
-                role.setSection(sectionService.generateSection(dto.getSectionDto()));
                 roleRepository.save(role);
                 return new ApiResponse(true,"role updated successfully!..");
             }
@@ -145,26 +139,5 @@ public class RoleService implements RoleImplService<RoleDto> {
                         .map(this::generateRoleDto)
                         .collect(Collectors.toList())
                 );
-    }
-
-    @Override
-    public ApiResponse findRolesBySection(SectionDto sectionDto) {
-        if (!Objects.equals(sectionDto.getId(), "") && !Objects.equals(sectionDto.getName(), "")) {
-            return new ApiResponse(
-                    true,
-                    "List of roles by section",
-                    roleRepository
-                            .findAllBySection(sectionService.generateSection(sectionDto))
-                            .stream()
-                            .map(this::generateRoleDto)
-                            .collect(Collectors.toList())
-            );
-        }else {
-            return new ApiResponse(
-                    true,
-                    "List of roles by section",
-                    generateRoleDto(roleRepository.findRoleByRoleName("Student").get())
-            );
-        }
     }
 }

@@ -7,12 +7,20 @@ import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.service.useServices.FacultyService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/faculty")
 @RequiredArgsConstructor
 public class FacultyController {
 
     public final FacultyService facultyService;
+
+
+    @GetMapping("/createFacultiesByNames")
+    public HttpEntity<?> createFacultiesByNames(@RequestParam("namesOfFaculties") List<String> namesOfFaculties){
+        return ResponseEntity.ok(facultyService.createFacultiesByNames(namesOfFaculties));
+    }
 
     @GetMapping("/allFaculties")
     public HttpEntity<?> allFaculties(){

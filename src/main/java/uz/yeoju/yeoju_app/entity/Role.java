@@ -13,35 +13,23 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Role extends AbsEntity implements GrantedAuthority {
 
     @Column
     private String roleName;
 
-    @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Section section;
-
-    public Role(String roleName) {
-        this.roleName = roleName;
-    }
-
     @Override
     public String getAuthority() {
         return roleName;
     }
+
 
     public Role(String id, String roleName) {
         super(id);
         this.roleName = roleName;
     }
 
-    public Role(String id, String roleName, Section section) {
-        super(id);
-        this.roleName = roleName;
-        this.section = section;
-    }
 }

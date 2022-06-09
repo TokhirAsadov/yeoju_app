@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 @Data
@@ -19,11 +20,26 @@ public class Group extends AbsEntity {
     private String name;
     private Integer level;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Faculty faculty;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private EducationForm educationForm;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private EducationType educationType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private EducationLanguage educationLanguage;
 
     public Group(String id, String name) {
         super(id);
         this.name = name;
+    }
+
+    public Group( String name, Integer level, Faculty faculty) {
+        this.name = name;
+        this.level = level;
+        this.faculty = faculty;
     }
 }

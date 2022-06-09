@@ -1,11 +1,14 @@
 package uz.yeoju.yeoju_app.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.payload.GroupDto;
 import uz.yeoju.yeoju_app.service.useServices.GroupService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/group")
@@ -13,6 +16,15 @@ import uz.yeoju.yeoju_app.service.useServices.GroupService;
 public class GroupController {
 
     public final GroupService groupService;
+
+    @GetMapping("/createGroupsByGroupNamesAndFacultyId")
+    public HttpEntity<?> createGroupsByGroupNamesAndFacultyId(
+            @RequestParam("courseLevel") Integer courseLevel,
+            @RequestParam("names")List<String> names,
+            @RequestParam("facultyId") String facultyId
+    ){
+        return ResponseEntity.ok(groupService.createGroupsByGroupNamesAndFacultyId(courseLevel,names,facultyId));
+    }
 
     @GetMapping("/allGroups")
     public HttpEntity<?> allGroups(){

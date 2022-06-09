@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.repository.FacultyRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.FacultyImplService;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,6 +17,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FacultyService implements FacultyImplService<FacultyDto> {
     public final FacultyRepository facultyRepository;
+
+
+    public ApiResponse createFacultiesByNames(List<String> namesOfFaculties){
+        for (String namesOfFaculty : namesOfFaculties) {
+            facultyRepository.save(new Faculty(namesOfFaculty));
+        }
+        return new ApiResponse(true,"Saved",facultyRepository.findAll());
+    }
+
     @Override
     public ApiResponse findAll() {
         return new ApiResponse(

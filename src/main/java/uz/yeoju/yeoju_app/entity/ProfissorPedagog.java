@@ -18,13 +18,13 @@ public class ProfissorPedagog extends AbsEntity {
     @OneToOne
     private User user;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<EducationForm> educationForms;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<EducationType> educationTypes;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<EducationLanguage> educationLanguages;
 
     private Timestamp bornYear;

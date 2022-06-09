@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import java.sql.Timestamp;
 
@@ -15,10 +16,10 @@ import java.sql.Timestamp;
 @Entity
 public class YearOfAppointment extends AbsEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private ProfissorPedagog profissorPedagog;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
 
     private Timestamp startYear;

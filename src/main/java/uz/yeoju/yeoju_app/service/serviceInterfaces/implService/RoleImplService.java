@@ -6,5 +6,4 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.MainService;
 
 public interface RoleImplService<T> extends MainService<T> {
     ApiResponse findRolesByRoleName(String roleName);
-    ApiResponse findRolesBySection(SectionDto sectionDto);
 }

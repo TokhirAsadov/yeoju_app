@@ -1,25 +1,22 @@
 package uz.yeoju.yeoju_app.controller;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.entity.Role;
 import uz.yeoju.yeoju_app.entity.USERINFO;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.repository.AccMonitoringLogRepo;
+import uz.yeoju.yeoju_app.repository.RoleRepository;
 import uz.yeoju.yeoju_app.repository.UserInfoRepo;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.service.useServices.AccMonitoringLogService;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/acc")
@@ -30,14 +27,30 @@ public class AccMonitoringLogController {
     public final AccMonitoringLogService service;
     public final UserInfoRepo userInfoRepo;
     public final UserRepository userRepository;
+    public final RoleRepository roleRepository;
 
 
 
 
-    @GetMapping("/get")
-    public HttpEntity<?> getAcc(){
+    @PostMapping("/getStudents")
+    public HttpEntity<?> getStudents(
+            @RequestParam(value = "time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime time,
+            @RequestParam(value = "roleId") String roleId
+    ){
+        return ResponseEntity.ok(service.countComeUsersBetweenDate(time,roleId));
+    }
 
-        return ResponseEntity.ok(new ApiResponse(true,"All acc",accMonitoringLogRepo.findAll()));
+
+    @PostMapping("/getTeachers")
+    public HttpEntity<?> getTeachers(
+            @RequestParam(value = "startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
+            @RequestParam(value = "endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime,
+            @RequestParam(value = "roleId") String roleId
+    ){
+        if (startTime==null)
+            return ResponseEntity.ok( service.countComeUsersBetweenDate(endTime,roleId) );
+        else
+            return ResponseEntity.ok( service.countComeUsersOneDay(startTime,endTime,roleId));
     }
 
     @GetMapping("/buildUsersFromUserInfo")
@@ -60,30 +73,59 @@ public class AccMonitoringLogController {
         return ResponseEntity.ok(new ApiResponse(true,"All build users"));
     }
 
-    @SneakyThrows
-    @GetMapping("/dates/{date}")
-    public HttpEntity<?> dates(@PathVariable String date){
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSX");
-//        LocalDateTime newDate = LocalDateTime.parse(date,formatter);
-//        System.out.println(newDate);
-//        Timestamp newTime = Timestamp.valueOf(newDate);
 
-        return ResponseEntity.ok(service.findBeforeDate(date));
-    }
-
-    @GetMapping("/dates2/{date}")
-    public HttpEntity<?> dates2(@PathVariable  @DateTimeFormat(pattern = "yyyy-MM-dd") Date date){
-        return ResponseEntity.ok(accMonitoringLogRepo.findBeforeDate(date));
+    @PostMapping("/dates2")
+    public HttpEntity<?> dates2(@RequestParam("time")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime time){
+        return ResponseEntity.ok(accMonitoringLogRepo.findAccMonitorLogsByTimeBefore(time));
     }
     @GetMapping("/card_no/{card}")
     public HttpEntity<?> dates2(@PathVariable String card){
         return ResponseEntity.ok(accMonitoringLogRepo.findAccMonitorLogsByCard_no(card));
     }
+
+
     @PostMapping("/time")
     public HttpEntity<?> findAccMonitorLogsByTimeBefore(
             @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
             @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime
     ){
         return ResponseEntity.ok(accMonitoringLogRepo.findAccMonitorLogsByTimeBetween(startTime,endTime));
+    }
+
+
+    @PostMapping("/monitoring")
+    public HttpEntity<?> findMonitoring(
+            @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
+            @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime
+    ){
+
+        return ResponseEntity.ok(accMonitoringLogRepo.findMonitoring(startTime,endTime));
+    }
+
+
+    @GetMapping("/groupby")
+    public HttpEntity<?> dates3(){
+        return ResponseEntity.ok(accMonitoringLogRepo.groupby());
+    }
+
+    @GetMapping("/buildStudents")
+    public HttpEntity<?> end(){
+        Optional<Role> student = roleRepository.findRoleByRoleName("Student");
+        System.out.println(student.get());
+
+        List<User> userList = userRepository.findAll();
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(student.get());
+        System.out.println(roles);
+
+        for (int i = 0; i < userList.size(); i++) {
+            User user = userList.get(i);
+            user.setRoles(roles);
+            userRepository.save(user);
+            System.out.println("done");
+        }
+
+        return ResponseEntity.ok("change role student");
     }
 }

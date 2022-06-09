@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 @Data
@@ -15,9 +16,9 @@ import javax.persistence.ManyToOne;
 public class PhoneNumber extends AbsEntity {
 
     private String phoneNumber;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private PhoneType phoneType;
     private boolean hasTg;
     private boolean hasInstagram;

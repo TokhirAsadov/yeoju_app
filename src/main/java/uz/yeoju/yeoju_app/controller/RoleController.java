@@ -19,10 +19,6 @@ public class RoleController {
         return ResponseEntity.ok(roleService.findAll());
     }
 
-    @PostMapping("/getRolesBySection")
-    public HttpEntity<?> getRolesBySection(@RequestBody SectionDto sectionDto){
-        return ResponseEntity.ok(roleService.findRolesBySection(sectionDto));
-    }
 
     @GetMapping("/getRoleById/{id}")
     public HttpEntity<?> getRoleById(@PathVariable String id){

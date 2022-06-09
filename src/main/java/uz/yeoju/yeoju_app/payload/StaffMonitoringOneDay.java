@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class KafedraDto {
-    private String id;
-    private String name;
-    public KafedraDto(String name) {
-        this.name = name;
-    }
+public class StaffMonitoringOneDay {
+    private int comeInCount;
+    private int notCome;
+    private int causeCome;
 }

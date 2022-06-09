@@ -30,16 +30,19 @@ public abstract class AbsEntity {
     @CreationTimestamp
     @Column(updatable = false)
     @NotNull
-    private LocalDateTime createdAt;
+    private Timestamp createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private Timestamp updatedAt;
 
     @CreatedBy
     private String createdBy;
 
     @LastModifiedBy
     private String updatedBy;
+
+    private Boolean active=true;
+    private Boolean deleted=false;
 
     public AbsEntity(String id) {
         this.id = id;

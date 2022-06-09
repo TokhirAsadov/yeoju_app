@@ -1,4 +1,4 @@
-package uz.yeoju.yeoju_app.payload;
+package uz.yeoju.yeoju_app.payload.payres;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class KafedraDto {
-    private String id;
+public class FacultyStatisticDto {
     private String name;
-    public KafedraDto(String name) {
-        this.name = name;
-    }
+    private Integer comeCount;
+    private Integer allCount;
 }

@@ -5,17 +5,18 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import uz.yeoju.yeoju_app.entity.Role;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ResToken;
 import uz.yeoju.yeoju_app.payload.SignInDto;
 import uz.yeoju.yeoju_app.payload.UserDto;
+import uz.yeoju.yeoju_app.repository.RoleRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.secret.JwtProvider;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.UserImplService;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +28,8 @@ public class UserService implements UserImplService<UserDto> {
     public final AuthenticationManager manager;
     public final JwtProvider provider;
     public final RoleService roleService;
+
+    public final RoleRepository roleRepository;
 
     public ResToken login(SignInDto signInDto){
         Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -77,7 +80,7 @@ public class UserService implements UserImplService<UserDto> {
         if (optional.isPresent()){
             User user = optional.get();
             User userByEmail = userRepository.findUserByEmail(dto.getEmail());
-            User userByRFID = userRepository.getUserByRFID(dto.getRFID());
+            User userByRFID = userRepository.findUserByRFID(dto.getRFID());
             User userByLogin = userRepository.getUserByLogin(dto.getLogin());
 
             if (userByLogin !=null && userByEmail !=null && userByRFID !=null) {
@@ -317,7 +320,7 @@ public class UserService implements UserImplService<UserDto> {
 
     @Override
     public UserDto getUserByRFID(String rfid) {
-        return generateUserDto(userRepository.getUserByRFID(rfid));
+        return generateUserDto(userRepository.findUserByRFID(rfid));
     }
 
     @Override
@@ -336,5 +339,19 @@ public class UserService implements UserImplService<UserDto> {
         return userRepository.existsUserByLoginOrEmailOrRFID(login,email,RFID);
     }
 
+
+
+    public ApiResponse generateTeacherByRfid(List<String> ids){
+        Optional<Role> roleName = roleRepository.findRoleByRoleName("O`qituvchi");
+        Role role = roleName.get();
+        for (int i = 0; i < ids.size(); i++) {
+            System.out.println(ids.get(i));
+            User byRFID = userRepository.findUserByRFID(ids.get(i));
+            byRFID.setRoles(new HashSet<Role>(Collections.singletonList(role)));
+            userRepository.save(byRFID);
+            System.out.println("teach");
+        }
+        return new ApiResponse(true,"TEACHERS");
+    }
 
 }
