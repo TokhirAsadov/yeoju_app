@@ -10,18 +10,17 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.GroupDto;
 import uz.yeoju.yeoju_app.payload.StudentDto;
 import uz.yeoju.yeoju_app.payload.payres.FacultyStatisticDto;
-import uz.yeoju.yeoju_app.payload.res.student.FacultyStatistic;
+import uz.yeoju.yeoju_app.payload.payres.StudentFullNameAndAscAndDescDateDto;
+import uz.yeoju.yeoju_app.payload.resDto.student.*;
 import uz.yeoju.yeoju_app.repository.GroupRepository;
 import uz.yeoju.yeoju_app.repository.StudentRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.StudentImplService;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,30 +35,175 @@ public class StudentService implements StudentImplService<StudentDto> {
     public final GroupRepository groupRepository;
 
 
+    public ApiResponse getStudentWithRFIDForToday(String groupName){
+        List<StudentWithRFID> list = studentRepository.getStudentWithRFID(groupName);
 
+        List<StudentFullNameAndAscAndDescDateDto> ascAndDescDateDtos = new ArrayList<>();
+        int id = 1;
+        for (StudentWithRFID rfid : list) {
+            StudentWithAscAndDescDate ascAndDescDate = studentRepository.getStudentWithAscAndDescDateForToday(rfid.getRFID());
+            if (ascAndDescDate != null) {
+                ascAndDescDateDtos.add(
+                        new StudentFullNameAndAscAndDescDateDto(
+                                id,
+                                rfid.getFullName(),
+                                rfid.getRFID(),
+                                ascAndDescDate.getTimeAsc(),
+                                ascAndDescDate.getTimeDesc()
+                        )
+                );
+            }
+            else {
+                ascAndDescDateDtos.add(
+                        new StudentFullNameAndAscAndDescDateDto(
+                                id,
+                                rfid.getFullName(),
+                                rfid.getRFID()
+                        )
+                );
+            }
+            id++;
+        }
+        id = 1;
+        return new ApiResponse(true,"send",ascAndDescDateDtos);
+
+    }
+
+    public ApiResponse getStudentWithRFID(String groupName,LocalDateTime dateFrom,LocalDateTime dateTo){
+        List<StudentWithRFID> list = studentRepository.getStudentWithRFID(groupName);
+
+        List<StudentFullNameAndAscAndDescDateDto> ascAndDescDateDtos = new ArrayList<>();
+        int id = 1;
+        for (StudentWithRFID rfid : list) {
+            StudentWithAscAndDescDate ascAndDescDate = studentRepository.getStudentWithAscAndDescDate(rfid.getRFID(), dateFrom, dateTo);
+            if (ascAndDescDate != null) {
+                ascAndDescDateDtos.add(
+                        new StudentFullNameAndAscAndDescDateDto(
+                                id,
+                                rfid.getFullName(),
+                                rfid.getRFID(),
+                                ascAndDescDate.getTimeAsc(),
+                                ascAndDescDate.getTimeDesc()
+                        )
+                );
+            }
+            else {
+                ascAndDescDateDtos.add(
+                        new StudentFullNameAndAscAndDescDateDto(
+                                id,
+                                rfid.getFullName(),
+                                rfid.getRFID()
+                        )
+                );
+            }
+            id++;
+        }
+        id = 1;
+        return new ApiResponse(true,"send",ascAndDescDateDtos);
+
+    }
+
+    public ApiResponse getStudentsByTimeIntervalAndLevelAndFacultyName(Integer timeInterval, Integer level, String facultyName){
+        List<FacultyStatistic> statistics = studentRepository.getStudentsByTimeIntervalAndLevelAndFacultyName(timeInterval, level, facultyName);
+        return new ApiResponse(true,"send",statistics);
+    }
+
+
+    public ApiResponse getGroupsStatisticByFacultyNameAndGroupLevel(Integer level,String facultyName, LocalDateTime dateFrom, LocalDateTime dateTo){
+        List<FacultyStatistic> statistics = studentRepository.getGroupsStatisticByFacultyNameAndGroupLevel(level, facultyName, dateFrom, dateTo);
+        return new ApiResponse(true,"send",statistics);
+    }
+
+    public ApiResponse getGroupsByLevelAndFacultyName(Integer level,String facultyName){
+        List<String> groups = studentRepository.getGroupsByLevelAndFacultyName(level, facultyName);
+        return new ApiResponse(true,"send",groups);
+    }
+
+
+    public ApiResponse getComeCountStudentAndFacultyName(Integer level, LocalDateTime dateFrom, LocalDateTime dateTo) {
+        List<FacultyStatisticComing> comingList = studentRepository.getComeCountStudentAndFacultyName(level, dateFrom, dateTo);
+        List<FacultyStatisticAll> allList = studentRepository.getAllCountStudentAndFaculty(level);
+        List<FacultyStatisticDto> dtos = new ArrayList<>();
+        for (FacultyStatisticAll all : allList) {
+            for (FacultyStatisticComing coming : comingList) {
+                if (coming.getName().equals(all.getName())) {
+                    FacultyStatisticDto dto = new FacultyStatisticDto(all.getName(), coming.getComeCount(), (all.getAllCount() - coming.getComeCount()));
+                    dtos.add(dto);
+                }
+            }
+        }
+        return new ApiResponse(true, "send ------------", dtos);
+    }
+
+    public ApiResponse getAllCourses() {
+        return new ApiResponse(true, "all getAllCourses", studentRepository.getAllCourses());
+    }
+
+    public ApiResponse getFacultyByCourseLevel(Integer level) {
+        List<String> facultyByLevels = studentRepository.getFacultyByCourseLevel(level);
+        return new ApiResponse(true, "send", facultyByLevels);
+    }
+
+    public ApiResponse getStudentCountByGroupAndFaculty(String facultyName, Integer level, LocalDateTime startTime, LocalDateTime endTime) {
+        List<FacultyStatistic> statistics = studentRepository.getStudentCountByGroupAndFaculty(facultyName, level, startTime, endTime);
+        return new ApiResponse(true, "send", statistics);
+    }
+
+    public ApiResponse getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(Integer level, Integer weekOrMonth) {
+        long start = System.currentTimeMillis();
+        System.out.println(level);
+        System.out.println("Kirdi methodga");
+        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(level, weekOrMonth);
+
+        System.out.println("DB dan keldi: " + (System.currentTimeMillis() - start));
+
+        start=System.currentTimeMillis();
+        List<FacultyStatisticDto> dtos = new ArrayList<>();
+        for (FacultyStatistic item : list) {
+            FacultyStatisticDto dto = new FacultyStatisticDto(item.getName(), item.getComeCount(), (item.getAllCount() - item.getComeCount()));
+            dtos.add(dto);
+        }
+
+        System.out.println("Method tugadi");
+        System.out.println(System.currentTimeMillis() - start);
+
+        return new ApiResponse(true, "send", dtos);
+    }
     public ApiResponse getFacultyAndComingCountWithAllByGroupLevel(Integer level, LocalDateTime startTime, LocalDateTime endTime) {
-        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAllByGroupLevel(level,startTime,endTime);
+        long start = System.currentTimeMillis();
+        System.out.println(startTime);
+        System.out.println(endTime);
+        System.out.println(level);
+        System.out.println("Kirdi methodga");
+        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAllByGroupLevel(level, startTime, endTime);
+
+        System.out.println("DB dan keldi: " + (System.currentTimeMillis() - start));
+
+        start=System.currentTimeMillis();
         List<FacultyStatisticDto> dtos = new ArrayList<>();
         for (FacultyStatistic item : list) {
-            FacultyStatisticDto dto = new FacultyStatisticDto(item.getName(),item.getComeCount(),(item.getAllCount()- item.getComeCount()));
+            FacultyStatisticDto dto = new FacultyStatisticDto(item.getName(), item.getComeCount(), (item.getAllCount() - item.getComeCount()));
             dtos.add(dto);
         }
 
-        return new ApiResponse(true,"send",dtos);
+        System.out.println("Method tugadi");
+        System.out.println(System.currentTimeMillis() - start);
+
+        return new ApiResponse(true, "send", dtos);
     }
 
-    public ApiResponse getFacultyAndComingCountWithAll(LocalDateTime startTime, LocalDateTime endTime){
-        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAll(startTime,endTime);
+    public ApiResponse getFacultyAndComingCountWithAll(LocalDateTime startTime, LocalDateTime endTime) {
+        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAll(startTime, endTime);
         List<FacultyStatisticDto> dtos = new ArrayList<>();
         for (FacultyStatistic item : list) {
-            FacultyStatisticDto dto = new FacultyStatisticDto(item.getName(),item.getComeCount(),(item.getAllCount()- item.getComeCount()));
+            FacultyStatisticDto dto = new FacultyStatisticDto(item.getName(), item.getComeCount(), (item.getAllCount() - item.getComeCount()));
             dtos.add(dto);
         }
 
-        return new ApiResponse(true,"send",dtos);
+        return new ApiResponse(true, "send", dtos);
     }
 
-    public ApiResponse createStudentsByRfidAndGroupNames(List<String> rfid,List<String> groupNames){
+    public ApiResponse createStudentsByRfidAndGroupNames(List<String> rfid, List<String> groupNames) {
         System.out.println(rfid.size());
         System.out.println(groupNames.size());
         System.out.println("-----------------------------------------------------------------------------------------");
@@ -76,7 +220,7 @@ public class StudentService implements StudentImplService<StudentDto> {
             System.out.println(student);
         }
 
-        return new ApiResponse(true,"success");
+        return new ApiResponse(true, "success");
     }
 
     @Override
@@ -103,10 +247,10 @@ public class StudentService implements StudentImplService<StudentDto> {
 
     private GroupDto generateGroupDto(Group group) {
         return new GroupDto(
-               group.getId(),
-               group.getName(),
-               group.getLevel(),
-               facultyService.generateFacultyDto(group.getFaculty())
+                group.getId(),
+                group.getName(),
+                group.getLevel(),
+                facultyService.generateFacultyDto(group.getFaculty())
         );
     }
 
@@ -126,20 +270,19 @@ public class StudentService implements StudentImplService<StudentDto> {
 
     @Override
     public ApiResponse saveOrUpdate(StudentDto studentDto) {
-        if (studentDto.getId()==null){
+        if (studentDto.getId() == null) {
             return save(studentDto);
-        }
-        else {
+        } else {
             return update(studentDto);
         }
     }
 
-    public ApiResponse update(StudentDto dto){
+    public ApiResponse update(StudentDto dto) {
         Optional<Student> optional = studentRepository.findById(dto.getId());
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             Student student = optional.get();
             Student studentByUserId = studentRepository.findStudentByUserId(dto.getUserDto().getId());
-            if (studentByUserId !=null) {
+            if (studentByUserId != null) {
                 if (
                         Objects.equals(studentByUserId.getId(), student.getId())
                                 ||
@@ -158,26 +301,23 @@ public class StudentService implements StudentImplService<StudentDto> {
                             "error! did not save student!"
                     );
                 }
-            }
-            else {
-                if (!studentRepository.existsStudentByUserId(dto.getUserDto().getId())){
+            } else {
+                if (!studentRepository.existsStudentByUserId(dto.getUserDto().getId())) {
                     student.setBornYear(dto.getBornYear());
                     student.setCitizenship(dto.getCitizenship());
                     student.setDescription(dto.getDescription());
                     student.setEnrollmentYear(dto.getEnrollmentYear());
                     student.setGroup(generateGroup(dto.getGroupDto()));
                     studentRepository.save(student);
-                    return new ApiResponse(true,"student updated successfully!..");
-                }
-                else {
+                    return new ApiResponse(true, "student updated successfully!..");
+                } else {
                     return new ApiResponse(
                             false,
                             "error! did not save student!"
                     );
                 }
             }
-        }
-        else{
+        } else {
             return new ApiResponse(
                     false,
                     "error... not fount student"
@@ -193,13 +333,12 @@ public class StudentService implements StudentImplService<StudentDto> {
         );
     }
 
-    public ApiResponse save(StudentDto dto){
-        if (!studentRepository.existsStudentByUserId(dto.getUserDto().getId())){
+    public ApiResponse save(StudentDto dto) {
+        if (!studentRepository.existsStudentByUserId(dto.getUserDto().getId())) {
             Student student = generateStudent(dto);
             studentRepository.saveAndFlush(student);
-            return new ApiResponse(true,"new student saved successfully!...");
-        }
-        else {
+            return new ApiResponse(true, "new student saved successfully!...");
+        } else {
             return new ApiResponse(
                     false,
                     "error! did not save student!"
@@ -223,24 +362,22 @@ public class StudentService implements StudentImplService<StudentDto> {
     public ApiResponse deleteById(String id) {
         if (studentRepository.findById(id).isPresent()) {
             studentRepository.deleteById(id);
-            return new ApiResponse(true,"student deleted successfully!..");
-        }
-        else {
-            return new ApiResponse(false,"error... not fount student!");
+            return new ApiResponse(true, "student deleted successfully!..");
+        } else {
+            return new ApiResponse(false, "error... not fount student!");
         }
     }
 
     @Override
     public ApiResponse findStudentByUserId(String user_id) {
         Student studentByUserId = studentRepository.findStudentByUserId(user_id);
-        if (studentByUserId!=null){
+        if (studentByUserId != null) {
             return new ApiResponse(
                     true,
                     "fount student by user id",
                     generateStudentDto(studentByUserId)
-                    );
-        }
-        else {
+            );
+        } else {
             return new ApiResponse(
                     false,
                     "not fount student by user id"
@@ -295,14 +432,13 @@ public class StudentService implements StudentImplService<StudentDto> {
     @Override
     public ApiResponse findStudentByPassportSerial(String passportSerial) {
         Student studentByPassportSerial = studentRepository.findStudentByPassportSerial(passportSerial);
-        if (studentByPassportSerial !=null){
+        if (studentByPassportSerial != null) {
             return new ApiResponse(
                     true,
                     "fount student by Passport Serial",
                     generateStudentDto(studentByPassportSerial)
             );
-        }
-        else {
+        } else {
             return new ApiResponse(
                     false,
                     "not fount student by Passport Serial"

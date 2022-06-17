@@ -1,4 +1,4 @@
-package uz.yeoju.yeoju_app.payload.res.user;
+package uz.yeoju.yeoju_app.payload.resDto.user;
 
 public interface GetUsersByRoleNameAndBetweenDate {
     String getFullName();

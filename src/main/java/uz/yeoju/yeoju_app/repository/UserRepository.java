@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.payload.res.user.UserResDto;
+import uz.yeoju.yeoju_app.payload.resDto.user.UserResDto;
 
 import java.util.List;
 

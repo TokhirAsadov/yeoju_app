@@ -1,5 +1,6 @@
 package uz.yeoju.yeoju_app.controller;
 
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
@@ -21,6 +22,68 @@ public class StudentController {
     public final StudentService studentService;
     public final StudentRepository studentRepository;
 
+    @GetMapping("/getStudentWithRFIDForToday/{groupName}")
+    public HttpEntity<?> getStudentWithRFIDForToday(
+            @PathVariable("groupName") String groupName
+    ){
+        return ResponseEntity.ok(studentService.getStudentWithRFIDForToday(groupName));
+    }
+
+    @PostMapping("/getStudentWithRFID")
+    public HttpEntity<?> getStudentWithRFID(
+            @RequestParam("groupName") String groupName,
+            @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
+            @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime
+    ){
+        return ResponseEntity.ok(studentService.getStudentWithRFID(groupName,startTime,endTime));
+    }
+
+    @GetMapping("/getStudentsByTimeIntervalAndLevelAndFacultyName")
+    public HttpEntity<?> getStudentsByTimeIntervalAndLevelAndFacultyName(
+            @RequestParam("timeInterval") Integer timeInterval,
+            @RequestParam("level") Integer level,
+            @RequestParam("facultyName") String facultyName
+    ){
+        return ResponseEntity.ok(studentService.getStudentsByTimeIntervalAndLevelAndFacultyName(timeInterval,level,facultyName));
+    }
+
+    @PostMapping("/getGroupsStatisticByFacultyNameAndGroupLevel")
+    public HttpEntity<?> getGroupsStatisticByFacultyNameAndGroupLevel(
+            @RequestParam("level") Integer level,
+            @RequestParam("facultyName") String facultyName,
+            @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
+            @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime
+    ){
+        return ResponseEntity.ok(studentService.getGroupsStatisticByFacultyNameAndGroupLevel(level,facultyName,startTime,endTime));
+    }
+
+    @GetMapping("/getGroupsByLevelAndFacultyName/{level}")
+    public HttpEntity<?> getGroupsByLevelAndFacultyName(
+            @PathVariable("level") Integer level,
+            @RequestParam("facultyName") String facultyName
+    ){
+        return ResponseEntity.ok(studentService.getGroupsByLevelAndFacultyName(level,facultyName));
+    }
+
+    @GetMapping("/getAllCourses")
+    public HttpEntity<?> getAllCourses(){
+        return ResponseEntity.ok(studentService.getAllCourses());
+    }
+
+    @GetMapping("/getFacultyByCourseLevel/{level}")
+    public HttpEntity<?>getFacultyByCourseLevel(@PathVariable Integer level){
+        return ResponseEntity.ok(studentService.getFacultyByCourseLevel(level));
+    }
+
+    @PostMapping("/getStudentCountByGroupAndFaculty")
+    public HttpEntity<?> getStudentCountByGroupAndFaculty(
+            @RequestParam("facultyName") String facultyName,
+            @RequestParam("level") Integer level,
+            @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
+            @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime
+    ){
+        return ResponseEntity.ok(studentService.getStudentCountByGroupAndFaculty(facultyName,level,startTime,endTime));
+    }
     @PostMapping("/getFacultyAndComingCount")
     public HttpEntity<?> findMonitoring(
             @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
@@ -28,13 +91,20 @@ public class StudentController {
     ){
         return ResponseEntity.ok(studentService.getFacultyAndComingCountWithAll(startTime,endTime));
     }
+    @GetMapping("/getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth")
+    public HttpEntity<?> getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(
+            @RequestParam("level") Integer level,
+            @RequestParam("weekOrMonth") Integer weekOrMonth
+    ){
+        return ResponseEntity.ok(studentService.getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(level,weekOrMonth));
+    }
     @PostMapping("/getFacultyAndComingCountWithAllByGroupLevel")
     public HttpEntity<?> getFacultyAndComingCountWithAllByGroupLevel(
-            @RequestParam("level") Integer level,
+            @RequestParam("level") String level,
             @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
             @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime
     ){
-        return ResponseEntity.ok(studentService.getFacultyAndComingCountWithAllByGroupLevel(level,startTime,endTime));
+        return ResponseEntity.ok(studentService.getFacultyAndComingCountWithAllByGroupLevel(Integer.parseInt(level),startTime,endTime));
     }
 
 
@@ -83,22 +153,6 @@ public class StudentController {
     public HttpEntity<?> findStudentsByGroupId(@PathVariable String group_id){
         return ResponseEntity.ok(studentService.findStudentsByGroupId(group_id));
     }
-
-
-//    @GetMapping("/findStudentsByEducationFormId/{educationForm_id}")
-//    public HttpEntity<?> findStudentsByEducationFormId(@PathVariable String educationForm_id){
-//        return ResponseEntity.ok(studentService.findStudentsByEducationFormId(educationForm_id));
-//    }
-//
-//    @GetMapping("/findStudentsByEducationTypeId/{educationType_id}")
-//    public HttpEntity<?> findStudentsByEducationTypeId(@PathVariable String educationType_id){
-//        return ResponseEntity.ok(studentService.findStudentsByEducationTypeId(educationType_id));
-//    }
-//
-//    @GetMapping("/findStudentsByEducationLanguageId/{educationLanguage_id}")
-//    public HttpEntity<?> findStudentsByEducationLanguageId(@PathVariable String educationLanguage_id){
-//        return ResponseEntity.ok(studentService.findStudentsByEducationLanguageId(educationLanguage_id));
-//    }
 
     @GetMapping("/findStudentsByBornYear/{bornYear}")
     public HttpEntity<?> findStudentsByBornYear(@PathVariable Timestamp bornYear){

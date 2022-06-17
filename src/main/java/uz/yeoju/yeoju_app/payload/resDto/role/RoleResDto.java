@@ -1,4 +1,4 @@
-package uz.yeoju.yeoju_app.payload.res.role;
+package uz.yeoju.yeoju_app.payload.resDto.role;
 
 public interface RoleResDto {
     String getId();

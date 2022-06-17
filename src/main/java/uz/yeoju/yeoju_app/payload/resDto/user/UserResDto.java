@@ -1,7 +1,7 @@
-package uz.yeoju.yeoju_app.payload.res.user;
+package uz.yeoju.yeoju_app.payload.resDto.user;
 
 import org.springframework.beans.factory.annotation.Value;
-import uz.yeoju.yeoju_app.payload.res.role.RoleResDto;
+import uz.yeoju.yeoju_app.payload.resDto.role.RoleResDto;
 
 import java.util.List;
 

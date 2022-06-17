@@ -1,4 +1,4 @@
-package uz.yeoju.yeoju_app.payload.res.student;
+package uz.yeoju.yeoju_app.payload.resDto.student;
 
 public interface FacultyStatistic {
     String getName();

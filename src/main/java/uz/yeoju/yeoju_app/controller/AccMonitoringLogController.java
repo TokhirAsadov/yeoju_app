@@ -41,6 +41,14 @@ public class AccMonitoringLogController {
     }
 
 
+    @GetMapping("/countUsersByRoleIdAndWeekOrMonth")
+    public HttpEntity<?> countUsersByRoleIdAndWeekOrMonth(
+            @RequestParam("roleId") String roleId,
+            @RequestParam("weekOrMonth") Integer weekOrMonth
+    ){
+        return ResponseEntity.ok(service.countUsersByRoleIdAndWeekOrMonth(roleId,weekOrMonth));
+    }
+
     @PostMapping("/getTeachers")
     public HttpEntity<?> getTeachers(
             @RequestParam(value = "startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,

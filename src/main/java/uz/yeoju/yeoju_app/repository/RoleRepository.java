@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.Role;
-import uz.yeoju.yeoju_app.payload.res.role.RoleResDto;
+import uz.yeoju.yeoju_app.payload.resDto.role.RoleResDto;
 
 import java.util.List;
 import java.util.Optional;

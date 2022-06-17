@@ -20,6 +20,16 @@ public class AccMonitoringLogService implements AccMonitoringLogImplService<AccM
     private final RoleRepository roleRepository;
 
 
+    public ApiResponse countUsersByRoleIdAndWeekOrMonth(String roleId,Integer weekOrMonth){
+        Long comeUserCount = accMonitoringLogRepo.countUsersByRoleIdAndWeekOrMonth(roleId, weekOrMonth);
+        Long allUsers = userRepository.countUsersByRoleId(roleId);
+        return new ApiResponse(
+                true,
+                "all "+roleRepository.findById(roleId).get().getRoleName()+" -->  ",
+                new ComeUserCount(comeUserCount, allUsers)
+        );
+    }
+
 
     @Override
     public ApiResponse countComeUsersBetweenDate(LocalDateTime time, String roleId){

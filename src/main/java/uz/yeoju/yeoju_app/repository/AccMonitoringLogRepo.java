@@ -4,10 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.AccMonitorLog;
-import uz.yeoju.yeoju_app.payload.res.user.GetUsersByRoleNameAndBetweenDate;
+import uz.yeoju.yeoju_app.payload.resDto.user.GetUsersByRoleNameAndBetweenDate;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -56,5 +55,17 @@ public interface AccMonitoringLogRepo extends JpaRepository<AccMonitorLog, Long>
             "            where al.time between :dateFrom and :dateTo\n" +
             "         group by al.card_no, u.fullName) as counter", nativeQuery = true)
     Long countUsersByRoleIdAndBetweenDate(@Param("roleId") String roleId, @Param("dateFrom")LocalDateTime dateFrom, @Param("dateTo")LocalDateTime dateTo);
+
+    @Query(value = "select count(*) from ( select u.fullName, count(al.id) as countOfTouch, al.card_no as cardNumber\n" +
+            "from acc_monitor_log al\n" +
+            "         join users u\n" +
+            "              on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "         join users_Role ur\n" +
+            "              on u.id = ur.users_id\n" +
+            "         join (select id from Role where id=:roleId) as role\n" +
+            "              on ur.roles_id = role.id\n" +
+            "            where al.time between dateadd(d,:weekOrMonth,convert(DATE,GETDATE())) and dateadd(d,1,convert(DATE,GETDATE()))\n" +
+            "         group by al.card_no, u.fullName) as counter", nativeQuery = true)
+    Long countUsersByRoleIdAndWeekOrMonth(@Param("roleId") String roleId, @Param("weekOrMonth") Integer weekOrMonth);
 
 }
