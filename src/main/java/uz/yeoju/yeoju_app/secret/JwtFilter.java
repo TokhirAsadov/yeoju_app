@@ -84,6 +84,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private User getUserFromToken(String token) {
+        System.out.println(token);
         boolean validateToken = provider.validateToken(token);
         if (validateToken){
             String userIdFromToken = provider.getUserIdFromToken(token);
