@@ -33,7 +33,7 @@ public class User extends AbsEntity implements UserDetails {
     @ManyToOne(fetch = FetchType.LAZY)
     private Gander gander;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     @Column
