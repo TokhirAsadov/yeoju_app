@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.UserDto;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
 import java.util.List;
@@ -15,6 +18,11 @@ import java.util.List;
 public class UserController {
 
     public final UserService userService;
+
+    @GetMapping("/me")
+    public HttpEntity<?> me(@CurrentUser User user){
+        return ResponseEntity.status(user!=null?200:409).body(new ApiResponse(user!=null?true:false,"Ok"));
+    }
 
     @GetMapping("/getAllUsers")
     public HttpEntity<?> getAllUsers() {
