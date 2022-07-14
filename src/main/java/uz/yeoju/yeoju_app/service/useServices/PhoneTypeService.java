@@ -67,7 +67,7 @@ public class PhoneTypeService implements PhoneTypeImplService<PhoneTypeDto> {
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved phone type! Please, enter other phone type name!.."
+                            "error! nor saved phone type! Please, enter other phone type userPositionName!.."
                     );
                 }
             }else {
@@ -78,7 +78,7 @@ public class PhoneTypeService implements PhoneTypeImplService<PhoneTypeDto> {
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved phone type! Please, enter other phone type name!.."
+                            "error! nor saved phone type! Please, enter other phone type userPositionName!.."
                     );
                 }
             }
@@ -100,7 +100,7 @@ public class PhoneTypeService implements PhoneTypeImplService<PhoneTypeDto> {
         else {
             return new ApiResponse(
                     false,
-                    "error! not saved phone type! Please, enter other phone type name!"
+                    "error! not saved phone type! Please, enter other phone type userPositionName!"
             );
         }
     }

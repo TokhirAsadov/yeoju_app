@@ -59,7 +59,7 @@ public class SectionService implements FacultyImplService<SectionDto> {
         else {
             return new ApiResponse(
                     false,
-                    "error! not saved section! Please, enter other section name!"
+                    "error! not saved section! Please, enter other section userPositionName!"
             );
         }
     }
@@ -90,7 +90,7 @@ public class SectionService implements FacultyImplService<SectionDto> {
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved section! Please, enter other section name!.."
+                            "error! nor saved section! Please, enter other section userPositionName!.."
                     );
                 }
             }else {
@@ -101,7 +101,7 @@ public class SectionService implements FacultyImplService<SectionDto> {
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved section! Please, enter other section name!.."
+                            "error! nor saved section! Please, enter other section userPositionName!.."
                     );
                 }
             }

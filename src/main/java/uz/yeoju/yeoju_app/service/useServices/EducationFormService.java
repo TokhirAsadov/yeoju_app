@@ -67,7 +67,7 @@ public class EducationFormService implements EducationTypeImplService<EducationF
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved form! Please, enter other form name!.."
+                            "error! nor saved form! Please, enter other form userPositionName!.."
                     );
                 }
             }
@@ -79,7 +79,7 @@ public class EducationFormService implements EducationTypeImplService<EducationF
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved form! Please, enter other form name!.."
+                            "error! nor saved form! Please, enter other form userPositionName!.."
                     );
                 }
             }
@@ -101,7 +101,7 @@ public class EducationFormService implements EducationTypeImplService<EducationF
         else {
             return new ApiResponse(
                     false,
-                    "error! not saved form! Please, enter other form name!"
+                    "error! not saved form! Please, enter other form userPositionName!"
             );
         }
     }

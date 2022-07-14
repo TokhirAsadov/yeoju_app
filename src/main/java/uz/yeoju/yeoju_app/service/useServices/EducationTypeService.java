@@ -67,7 +67,7 @@ public class EducationTypeService implements EducationTypeImplService<EducationT
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved type! Please, enter other type name!.."
+                            "error! nor saved type! Please, enter other type userPositionName!.."
                     );
                 }
             }
@@ -80,7 +80,7 @@ public class EducationTypeService implements EducationTypeImplService<EducationT
                 else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved type! Please, enter other type name!.."
+                            "error! nor saved type! Please, enter other type userPositionName!.."
                     );
                 }
             }
@@ -102,7 +102,7 @@ public class EducationTypeService implements EducationTypeImplService<EducationT
         else {
             return new ApiResponse(
                     false,
-                    "error! not saved type! Please, enter other type name!"
+                    "error! not saved type! Please, enter other type userPositionName!"
             );
         }
     }

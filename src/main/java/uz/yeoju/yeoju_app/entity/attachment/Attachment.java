@@ -23,6 +23,6 @@ public class Attachment extends AbsEntity {
 
     // Mabodo, file system ga saqlamoqchi bo'lsak kerak bo'ladi, ikkita bir xil nomlik
     // file ni bir biridan farqlash uchun:
-    // private String name;
+    // private String userPositionName;
 
 }

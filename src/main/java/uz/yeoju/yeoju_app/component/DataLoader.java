@@ -43,16 +43,15 @@ public class DataLoader implements CommandLineRunner {
         )
         );
 
-       /*
-        Optional<Role> student = roleRepository.findRoleByRoleName("Rektor");
-        Role role = student.get();
+      /*  Optional<Role> user = roleRepository.findRoleByRoleName("Rektor");
+        Role role = user.get();
         userRepository.save(new User(
                 1,
-                "user",
-                "user",
-                passwordEncoder.encode("1234"),
+                "admin",
+                "admin",
+                passwordEncoder.encode("admin"),
                 "12345678",
-                "user@gmail.com",
+                "guvalakat1603@gmail.com",
                 ganderRepository.getGanderByGandername(Gandername.MALE),
                 new HashSet<>(Collections.singletonList(role)),
                 true,
@@ -60,8 +59,7 @@ public class DataLoader implements CommandLineRunner {
                 true,
                 true
 
-        ));
-*/
+        ));*/
 
         if (type.equals("always")) {
 
@@ -343,7 +341,7 @@ public class DataLoader implements CommandLineRunner {
             roleRepository.saveAndFlush(role62);
 
 
-//            Role student = roleRepository.save(new Role("Student"));
+//            Role user = roleRepository.save(new Role("Student"));
 
 
 
@@ -358,18 +356,14 @@ public class DataLoader implements CommandLineRunner {
 
 
             userRepository.save(new User(
-                    1,
+                    Integer.toString(1),
                     "user",
                     "user",
                     passwordEncoder.encode("1234"),
                     "12345678",
                     "user@gmail.com",
                     ganderRepository.getGanderByGandername(Gandername.MALE),
-                    new HashSet<>(Collections.singletonList(role1)),
-                    true,
-                    true,
-                    true,
-                    true
+                    new HashSet<>(Collections.singletonList(role1))
 
             ));
             System.out.println("saqlandi!!!!");

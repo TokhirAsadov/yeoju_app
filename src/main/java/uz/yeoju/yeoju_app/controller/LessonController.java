@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.payload.LessonDto;
 import uz.yeoju.yeoju_app.service.useServices.LessonService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/lesson")
 @RequiredArgsConstructor
@@ -14,23 +16,20 @@ public class LessonController {
 
     public final LessonService lessonService;
 
+    @PostMapping("/multiSaved")
+    public HttpEntity<?> multiSaved(@RequestBody List<String> subjectNames){
+        return ResponseEntity.status(201).body(lessonService.multiSaved(subjectNames));
+    }
+
     @GetMapping("/allLessons")
     public HttpEntity<?> allLessons(){
         return ResponseEntity.ok(lessonService.findAll());
     }
 
     @GetMapping("/getLessonById/{id}")
-    public HttpEntity<?> getLessonById(
-            @PathVariable String id,
-            @RequestParam String kafedraId,
-            @RequestParam String facultyId)
+    public HttpEntity<?> getLessonById(@PathVariable String id)
     {
-
-        return id!=null ? ResponseEntity.ok(lessonService.findById(id))
-                :
-                kafedraId!=null ? ResponseEntity.ok(lessonService.findLessonsByKafedraId(kafedraId))
-                :
-                ResponseEntity.ok(lessonService.findLessonsByFacultyId(facultyId));
+        return ResponseEntity.ok(lessonService.findById(id));
     }
 
     @PostMapping("/createLesson")

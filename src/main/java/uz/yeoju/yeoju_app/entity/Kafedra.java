@@ -14,11 +14,18 @@ import javax.persistence.Entity;
 @Entity
 public class Kafedra extends AbsEntity {
 
-    @Column(unique = true)
-    private String name;
+    private String nameUz;
+    private String nameRu;
+    private String nameEn;
 
-    public Kafedra(String id, String name) {
+    public Kafedra(String nameUz) {
+        this.nameUz = nameUz;
+    }
+
+    public Kafedra(String id, String nameUz, String nameRu, String nameEn) {
         super(id);
-        this.name = name;
+        this.nameUz = nameUz;
+        this.nameRu = nameRu;
+        this.nameEn = nameEn;
     }
 }

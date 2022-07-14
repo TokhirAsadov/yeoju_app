@@ -78,7 +78,7 @@ public class RoleService implements RoleImplService<RoleDto> {
         else {
             return new ApiResponse(
                     false,
-                    "error! not saved role! Please, enter other role name or choose other section!"
+                    "error! not saved role! Please, enter other role userPositionName or choose other section!"
             );
         }
     }
@@ -106,7 +106,7 @@ public class RoleService implements RoleImplService<RoleDto> {
             else {
                 return new ApiResponse(
                         false,
-                        "error! nor saved role! Please, enter other role name or choose other section."
+                        "error! nor saved role! Please, enter other role userPositionName or choose other section."
                 );
             }
         }

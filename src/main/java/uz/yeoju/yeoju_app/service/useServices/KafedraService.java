@@ -53,33 +53,37 @@ public class KafedraService implements KafedraImplService<KafedraDto> {
         Optional<Kafedra> optional = kafedraRepository.findById(dto.getId());
         if (optional.isPresent()){
             Kafedra kafedra = optional.get();
-            Kafedra kafedraByName = kafedraRepository.getKafedraByName(dto.getName());
+            Kafedra kafedraByName = kafedraRepository.getKafedraByNameEn(dto.getNameEn());
             if (kafedraByName !=null) {
                 if (
                         Objects.equals(kafedraByName.getId(), kafedra.getId())
                                 ||
-                                !kafedraRepository.existsKafedraByName(dto.getName())
+                                kafedraRepository.existsKafedraByNameEn(dto.getNameEn())
                 ) {
-                    kafedra.setName(dto.getName());
+                    kafedra.setNameUz(dto.getNameUz());
+                    kafedra.setNameRu(dto.getNameRu());
+                    kafedra.setNameEn(dto.getNameEn());
                     kafedraRepository.save(kafedra);
                     return new ApiResponse(true, "kafedra updated successfully!..");
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved kafedra! Please, enter other kafedra name!.."
+                            "error! nor saved kafedra! Please, enter other kafedra userPositionName!.."
                     );
                 }
             }
             else {
-                if (!kafedraRepository.existsKafedraByName(dto.getName())){
-                    kafedra.setName(dto.getName());
+                if (kafedraRepository.existsKafedraByNameEn(dto.getNameUz())){
+                    kafedra.setNameUz(dto.getNameUz());
+                    kafedra.setNameRu(dto.getNameRu());
+                    kafedra.setNameEn(dto.getNameEn());
                     kafedraRepository.save(kafedra);
                     return new ApiResponse(true,"kafedra updated successfully!..");
                 }
                 else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved kafedra! Please, enter other kafedra name!.."
+                            "error! nor saved kafedra! Please, enter other kafedra userPositionName!.."
                     );
                 }
             }
@@ -93,7 +97,7 @@ public class KafedraService implements KafedraImplService<KafedraDto> {
     }
 
     public ApiResponse save(KafedraDto dto){
-        if (!kafedraRepository.existsKafedraByName(dto.getName())){
+        if (kafedraRepository.existsKafedraByNameEn(dto.getNameUz())){
             Kafedra kafedra = generateKafedra(dto);
             kafedraRepository.saveAndFlush(kafedra);
             return new ApiResponse(true,"new Kafedra saved successfully!...");
@@ -101,16 +105,16 @@ public class KafedraService implements KafedraImplService<KafedraDto> {
         else {
             return new ApiResponse(
                     false,
-                    "error! not saved Kafedra! Please, enter other Kafedra name!"
+                    "error! not saved Kafedra! Please, enter other Kafedra userPositionName!"
             );
         }
     }
 
     public Kafedra generateKafedra(KafedraDto dto) {
-        return new Kafedra(dto.getName());
+        return new Kafedra(dto.getNameUz(),dto.getNameRu(),dto.getNameEn());
     }
     public KafedraDto generateKafedraDto(Kafedra kafedra) {
-        return new KafedraDto(kafedra.getId(), kafedra.getName());
+        return new KafedraDto(kafedra.getId(), kafedra.getNameUz(),kafedra.getNameRu(),kafedra.getNameEn());
     }
 
 

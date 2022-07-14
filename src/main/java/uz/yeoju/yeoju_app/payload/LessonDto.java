@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 public class LessonDto {
     private String id;
     private String name;
-    private KafedraDto kafedraDto;
-    private FacultyDto facultyDto;
+//    private KafedraDto kafedraDto;
+//    private FacultyDto facultyDto;
     private boolean active=true;
 
-    public LessonDto(String name, KafedraDto kafedraDto, FacultyDto facultyDto, boolean active) {
+    public LessonDto(String name, /*KafedraDto kafedraDto, FacultyDto facultyDto,*/ boolean active) {
         this.name = name;
-        this.kafedraDto = kafedraDto;
-        this.facultyDto = facultyDto;
+//        this.kafedraDto = kafedraDto;
+//        this.facultyDto = facultyDto;
         this.active = active;
     }
 }

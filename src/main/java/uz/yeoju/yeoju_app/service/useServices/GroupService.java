@@ -103,7 +103,7 @@ public class GroupService implements GroupImplService<GroupDto> {
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved group! Please, enter other group name!.."
+                            "error! nor saved group! Please, enter other group userPositionName!.."
                     );
                 }
             }
@@ -118,7 +118,7 @@ public class GroupService implements GroupImplService<GroupDto> {
                 else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved group! Please, enter other group name!.."
+                            "error! nor saved group! Please, enter other group userPositionName!.."
                     );
                 }
             }
@@ -140,12 +140,12 @@ public class GroupService implements GroupImplService<GroupDto> {
         else {
             return new ApiResponse(
                     false,
-                    "error! did not save group! Please, enter other group name!"
+                    "error! did not save group! Please, enter other group userPositionName!"
             );
         }
     }
 
-    private Group generateGroup(GroupDto groupDto) {
+    public Group generateGroup(GroupDto groupDto) {
         return new Group(
                 groupDto.getName(),
                 groupDto.getLevel(),
@@ -153,7 +153,7 @@ public class GroupService implements GroupImplService<GroupDto> {
         );
     }
 
-    private GroupDto generateGroupDto(Group group) {
+    public GroupDto generateGroupDto(Group group) {
         return new GroupDto(
                 group.getId(),
                 group.getName(),
@@ -179,14 +179,14 @@ public class GroupService implements GroupImplService<GroupDto> {
         if (groupByName !=null){
             return new ApiResponse(
                     true,
-                    "fount group by name",
+                    "fount group by userPositionName",
                     generateGroupDto(groupByName)
             );
         }
         else {
             return new ApiResponse(
                     false,
-                    "not fount group by name"
+                    "not fount group by userPositionName"
             );
         }
     }

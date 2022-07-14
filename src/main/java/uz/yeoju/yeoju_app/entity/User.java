@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Set;
 
@@ -29,12 +30,18 @@ public class User extends AbsEntity implements UserDetails {
 
 
     private String email;
+    private String passportNum;
+    private Timestamp bornYear;
+    private String citizenship;//fuqaroligi
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Gander gander;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Position> positions;
 
     @Column
     private Boolean accountNonExpired;
@@ -81,6 +88,19 @@ public class User extends AbsEntity implements UserDetails {
     public boolean isEnabled() {
         return this.enabled;
     }
+
+    public User(String id, Integer userId, String fullName, String login, String password, String RFID, String email, Gander gander, Set<Role> roles) {
+        super(id);
+        this.userId = userId;
+        this.fullName = fullName;
+        this.login = login;
+        this.password = password;
+        this.RFID = RFID;
+        this.email = email;
+        this.gander = gander;
+        this.roles = roles;
+    }
+
 
     public User(String id, String fullName, String login, String password, String RFID, String email, Gander gander, Set<Role> roles) {
         super(id);

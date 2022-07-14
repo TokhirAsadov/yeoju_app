@@ -6,12 +6,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Role;
+import uz.yeoju.yeoju_app.entity.Student;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ResToken;
 import uz.yeoju.yeoju_app.payload.SignInDto;
 import uz.yeoju.yeoju_app.payload.UserDto;
+import uz.yeoju.yeoju_app.payload.resDto.search.SearchDto;
 import uz.yeoju.yeoju_app.repository.RoleRepository;
+import uz.yeoju.yeoju_app.repository.StudentRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.secret.JwtProvider;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.UserImplService;
@@ -30,6 +33,7 @@ public class UserService implements UserImplService<UserDto> {
     public final RoleService roleService;
 
     public final RoleRepository roleRepository;
+    public final StudentRepository studentRepository;
 
     public ResToken login(SignInDto signInDto){
         Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -39,6 +43,29 @@ public class UserService implements UserImplService<UserDto> {
         User user = (User) auth.getPrincipal();
         String token = provider.generateToken(user);
         return new ResToken(token);
+    }
+
+
+    public ApiResponse passport(){
+        List<Student> students = studentRepository.findAll();
+        Set<User> collect = students.stream().filter(item -> item.getPassportSerial() != null).map(item -> {
+                Optional<User> optional = userRepository.findById(item.getUser().getId());
+                User user = optional.get();
+                user.setPassportNum(item.getPassportSerial());
+                return userRepository.save(user);
+        }).collect(Collectors.toSet());
+        return new ApiResponse(
+                true,
+                "saved passportNum",
+                collect
+        );
+    }
+
+
+    public ApiResponse getUserForSearch(String keyword){
+        List<SearchDto> search = userRepository.getUserForSearch(keyword);
+        if (search!=null) return new ApiResponse(true,"fined",search);
+        else return new ApiResponse(true,"Not fount");
     }
 
 

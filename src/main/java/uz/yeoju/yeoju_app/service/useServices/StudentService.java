@@ -258,14 +258,14 @@ public class StudentService implements StudentImplService<StudentDto> {
     public ApiResponse findById(String id) {
         return studentRepository
                 .findById(id)
-                .map(faculty -> new ApiResponse(true, "Fount student by id", faculty))
-                .orElseGet(() -> new ApiResponse(false, "Not fount student by id"));
+                .map(faculty -> new ApiResponse(true, "Fount user by id", faculty))
+                .orElseGet(() -> new ApiResponse(false, "Not fount user by id"));
     }
 
     @Override
     public ApiResponse getById(String id) {
         Student student = studentRepository.getById(id);
-        return new ApiResponse(true, "Fount student by id", student);
+        return new ApiResponse(true, "Fount user by id", student);
     }
 
     @Override
@@ -294,11 +294,11 @@ public class StudentService implements StudentImplService<StudentDto> {
                     student.setEnrollmentYear(dto.getEnrollmentYear());
                     student.setGroup(generateGroup(dto.getGroupDto()));
                     studentRepository.save(student);
-                    return new ApiResponse(true, "student updated successfully!..");
+                    return new ApiResponse(true, "user updated successfully!..");
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! did not save student!"
+                            "error! did not save user!"
                     );
                 }
             } else {
@@ -309,18 +309,18 @@ public class StudentService implements StudentImplService<StudentDto> {
                     student.setEnrollmentYear(dto.getEnrollmentYear());
                     student.setGroup(generateGroup(dto.getGroupDto()));
                     studentRepository.save(student);
-                    return new ApiResponse(true, "student updated successfully!..");
+                    return new ApiResponse(true, "user updated successfully!..");
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! did not save student!"
+                            "error! did not save user!"
                     );
                 }
             }
         } else {
             return new ApiResponse(
                     false,
-                    "error... not fount student"
+                    "error... not fount user"
             );
         }
     }
@@ -337,11 +337,11 @@ public class StudentService implements StudentImplService<StudentDto> {
         if (!studentRepository.existsStudentByUserId(dto.getUserDto().getId())) {
             Student student = generateStudent(dto);
             studentRepository.saveAndFlush(student);
-            return new ApiResponse(true, "new student saved successfully!...");
+            return new ApiResponse(true, "new user saved successfully!...");
         } else {
             return new ApiResponse(
                     false,
-                    "error! did not save student!"
+                    "error! did not save user!"
             );
         }
     }
@@ -362,9 +362,9 @@ public class StudentService implements StudentImplService<StudentDto> {
     public ApiResponse deleteById(String id) {
         if (studentRepository.findById(id).isPresent()) {
             studentRepository.deleteById(id);
-            return new ApiResponse(true, "student deleted successfully!..");
+            return new ApiResponse(true, "user deleted successfully!..");
         } else {
-            return new ApiResponse(false, "error... not fount student!");
+            return new ApiResponse(false, "error... not fount user!");
         }
     }
 
@@ -374,13 +374,13 @@ public class StudentService implements StudentImplService<StudentDto> {
         if (studentByUserId != null) {
             return new ApiResponse(
                     true,
-                    "fount student by user id",
+                    "fount user by user id",
                     generateStudentDto(studentByUserId)
             );
         } else {
             return new ApiResponse(
                     false,
-                    "not fount student by user id"
+                    "not fount user by user id"
             );
         }
     }
@@ -435,13 +435,13 @@ public class StudentService implements StudentImplService<StudentDto> {
         if (studentByPassportSerial != null) {
             return new ApiResponse(
                     true,
-                    "fount student by Passport Serial",
+                    "fount user by Passport Serial",
                     generateStudentDto(studentByPassportSerial)
             );
         } else {
             return new ApiResponse(
                     false,
-                    "not fount student by Passport Serial"
+                    "not fount user by Passport Serial"
             );
         }
     }

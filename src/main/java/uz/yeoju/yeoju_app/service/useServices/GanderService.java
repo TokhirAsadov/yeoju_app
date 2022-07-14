@@ -66,7 +66,7 @@ public class GanderService implements GanderImplService<GanderDto> {
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved gander! Please, enter other gander name!.."
+                            "error! nor saved gander! Please, enter other gander userPositionName!.."
                     );
                 }
             }
@@ -79,7 +79,7 @@ public class GanderService implements GanderImplService<GanderDto> {
                 else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved gander! Please, enter other gander name!.."
+                            "error! nor saved gander! Please, enter other gander userPositionName!.."
                     );
                 }
             }
@@ -101,7 +101,7 @@ public class GanderService implements GanderImplService<GanderDto> {
         else {
             return new ApiResponse(
                     false,
-                    "error! not saved gander! Please, enter other gander name"
+                    "error! not saved gander! Please, enter other gander userPositionName"
             );
         }
     }

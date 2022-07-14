@@ -66,7 +66,7 @@ public class EduLanService implements EduLanImplService<EducationLanguageDto> {
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved language! Please, enter other language name!.."
+                            "error! nor saved language! Please, enter other language userPositionName!.."
                     );
                 }
             }
@@ -78,7 +78,7 @@ public class EduLanService implements EduLanImplService<EducationLanguageDto> {
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved language! Please, enter other language name!.."
+                            "error! nor saved language! Please, enter other language userPositionName!.."
                     );
                 }
             }
@@ -100,7 +100,7 @@ public class EduLanService implements EduLanImplService<EducationLanguageDto> {
         else {
             return new ApiResponse(
                     false,
-                    "error! not saved language! Please, enter other language name!"
+                    "error! not saved language! Please, enter other language userPositionName!"
             );
         }
     }

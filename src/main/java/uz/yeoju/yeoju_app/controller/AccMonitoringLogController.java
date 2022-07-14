@@ -49,8 +49,8 @@ public class AccMonitoringLogController {
         return ResponseEntity.ok(service.countUsersByRoleIdAndWeekOrMonth(roleId,weekOrMonth));
     }
 
-    @PostMapping("/getTeachers")
-    public HttpEntity<?> getTeachers(
+    @PostMapping("/getUsersByRoleIdAndTimeInterval")
+    public HttpEntity<?> getUsersByRoleIdAndTimeInterval(
             @RequestParam(value = "startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
             @RequestParam(value = "endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime,
             @RequestParam(value = "roleId") String roleId
@@ -134,6 +134,6 @@ public class AccMonitoringLogController {
             System.out.println("done");
         }
 
-        return ResponseEntity.ok("change role student");
+        return ResponseEntity.ok("change role user");
     }
 }

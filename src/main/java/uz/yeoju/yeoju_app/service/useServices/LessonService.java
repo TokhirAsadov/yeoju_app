@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.payload.LessonDto;
 import uz.yeoju.yeoju_app.repository.LessonRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.LessonImplService;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,7 +18,13 @@ import java.util.stream.Collectors;
 public class LessonService implements LessonImplService<LessonDto> {
     public final LessonRepository lessonRepository;
     public final KafedraService kafedraService;
-    private final FacultyService facultyService;
+
+
+    public ApiResponse multiSaved(List<String> subjectNames){
+        subjectNames.forEach(item -> lessonRepository.save(new Lesson(item)));
+        return new ApiResponse(true,"saved subjects",lessonRepository.findAll().stream().filter(item -> subjectNames.contains(item.getName())).collect(Collectors.toSet()));
+    }
+
     @Override
     public ApiResponse findAll() {
         return new ApiResponse(
@@ -60,26 +67,26 @@ public class LessonService implements LessonImplService<LessonDto> {
                 if (
                         Objects.equals(lessonByName.getId(), lesson.getId())
                                 ||
-                                !lessonRepository.existsLessonByName(dto.getName())
+                                lessonRepository.existsLessonByName(dto.getName())
                 ) {
                     lesson.setName(dto.getName());
-                    lesson.setKafedra(kafedraService.generateKafedra(dto.getKafedraDto()));
-                    lesson.setFaculty(facultyService.generateFaculty(dto.getFacultyDto()));
+//                    lesson.setKafedra(kafedraService.generateKafedra(dto.getKafedraDto()));
+//                    lesson.setFaculty(positionService.generatePosition(dto.getFacultyDto()));
                     lesson.setActive(dto.isActive());
                     lessonRepository.save(lesson);
                     return new ApiResponse(true, "lesson updated successfully!..");
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved lesson! Please, enter other lesson name!.."
+                            "error! nor saved lesson! Please, enter other lesson userPositionName!.."
                     );
                 }
             }
             else {
-                if (!lessonRepository.existsLessonByName(dto.getName())){
+                if (lessonRepository.existsLessonByName(dto.getName())){
                     lesson.setName(dto.getName());
-                    lesson.setKafedra(kafedraService.generateKafedra(dto.getKafedraDto()));
-                    lesson.setFaculty(facultyService.generateFaculty(dto.getFacultyDto()));
+//                    lesson.setKafedra(kafedraService.generateKafedra(dto.getKafedraDto()));
+//                    lesson.setFaculty(positionService.generatePosition(dto.getFacultyDto()));
                     lesson.setActive(dto.isActive());
                     lessonRepository.save(lesson);
                     return new ApiResponse(true,"lesson updated successfully!..");
@@ -87,7 +94,7 @@ public class LessonService implements LessonImplService<LessonDto> {
                 else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved lesson! Please, enter other lesson name!.."
+                            "error! nor saved lesson! Please, enter other lesson userPositionName!.."
                     );
                 }
             }
@@ -101,7 +108,7 @@ public class LessonService implements LessonImplService<LessonDto> {
     }
 
     public ApiResponse save(LessonDto dto){
-        if (!lessonRepository.existsLessonByName(dto.getName())){
+        if (lessonRepository.existsLessonByName(dto.getName())){
             Lesson lesson = generateLesson(dto);
             lessonRepository.saveAndFlush(lesson);
             return new ApiResponse(true,"new lesson saved successfully!...");
@@ -109,7 +116,7 @@ public class LessonService implements LessonImplService<LessonDto> {
         else {
             return new ApiResponse(
                     false,
-                    "error! not saved lesson! Please, enter other lesson name!"
+                    "error! not saved lesson! Please, enter other lesson userPositionName!"
             );
         }
     }
@@ -117,8 +124,8 @@ public class LessonService implements LessonImplService<LessonDto> {
     public Lesson generateLesson(LessonDto dto) {
         return new Lesson(
                 dto.getName(),
-                kafedraService.generateKafedra(dto.getKafedraDto()),
-                facultyService.generateFaculty(dto.getFacultyDto()),
+//                kafedraService.generateKafedra(dto.getKafedraDto()),
+//                positionService.generatePosition(dto.getFacultyDto()),
                 dto.isActive()
         );
     }
@@ -126,8 +133,8 @@ public class LessonService implements LessonImplService<LessonDto> {
         return new LessonDto(
                 lesson.getId(),
                 lesson.getName(),
-                kafedraService.generateKafedraDto(lesson.getKafedra()),
-                facultyService.generateFacultyDto(lesson.getFaculty()),
+//                kafedraService.generateKafedraDto(lesson.getKafedra()),
+//                positionService.generateFacultyDto(lesson.getFaculty()),
                 lesson.isActive()
         );
     }
@@ -142,29 +149,5 @@ public class LessonService implements LessonImplService<LessonDto> {
         else {
             return new ApiResponse(false,"error... not fount lesson!");
         }
-    }
-
-    @Override
-    public ApiResponse findLessonsByKafedraId(String kafedra_id) {
-        return new ApiResponse(
-                true,
-                "List of all lessons by Kafedra",
-                lessonRepository.findLessonsByKafedraId(kafedra_id)
-                        .stream()
-                        .map(this::generateLessonDto)
-                        .collect(Collectors.toSet())
-        );
-    }
-
-    @Override
-    public ApiResponse findLessonsByFacultyId(String faculty_id) {
-        return new ApiResponse(
-                true,
-                "List of all lessons by Faculty",
-                lessonRepository.findLessonsByFacultyId(faculty_id)
-                        .stream()
-                        .map(this::generateLessonDto)
-                        .collect(Collectors.toSet())
-        );
     }
 }

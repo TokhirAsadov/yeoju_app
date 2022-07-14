@@ -76,7 +76,7 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved faculty! Please, enter other faculty name!.."
+                            "error! nor saved faculty! Please, enter other faculty userPositionName!.."
                     );
                 }
             }
@@ -89,7 +89,7 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
                 else {
                     return new ApiResponse(
                             false,
-                            "error! nor saved faculty! Please, enter other faculty name!.."
+                            "error! nor saved faculty! Please, enter other faculty userPositionName!.."
                     );
                 }
             }
@@ -111,7 +111,7 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
         else {
             return new ApiResponse(
                     false,
-                    "error! not saved faculty! Please, enter other faculty name!"
+                    "error! not saved faculty! Please, enter other faculty userPositionName!"
             );
         }
     }

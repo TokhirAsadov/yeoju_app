@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public abstract class AbsEntity {
     @Id
 //    @GeneratedValue(generator="system-uuid")
-//    @GenericGenerator(name="system-uuid", strategy = "uuid")
+//    @GenericGenerator(userPositionName="system-uuid", strategy = "uuid")
 //    @GeneratedValue
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -47,5 +47,6 @@ public abstract class AbsEntity {
     public AbsEntity(String id) {
         this.id = id;
     }
+
 
 }
