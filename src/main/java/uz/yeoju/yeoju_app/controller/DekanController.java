@@ -4,11 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.entity.dekan.Dekan;
+import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.UserDto;
+import uz.yeoju.yeoju_app.payload.dekan.DekanDto;
 import uz.yeoju.yeoju_app.repository.DekanRepository;
+import uz.yeoju.yeoju_app.service.useServices.DekanService;
+import uz.yeoju.yeoju_app.service.useServices.FacultyService;
+import uz.yeoju.yeoju_app.service.useServices.UserService;
 
 import java.time.LocalDateTime;
 
@@ -17,6 +21,22 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class DekanController {
     private final DekanRepository dekanRepository;
+    private final DekanService dekanService;
+    private final UserService userService;
+    private final FacultyService facultyService;
+
+
+    @GetMapping("/getFacultiesFromDekanByUserId")
+    public HttpEntity<?> getFacultiesFromDekanByUserId(@RequestParam(value = "userId") String userId){
+        Dekan byUserId = dekanRepository.getDekanByUserId(userId);
+        System.out.println(byUserId);
+        System.out.println(byUserId.getFaculties());
+
+        DekanDto dekanDto = dekanService.generateDekanDto(byUserId);
+        System.out.println(dekanDto);
+
+        return ResponseEntity.ok(new ApiResponse(true,"look",dekanDto.getFacultyDtos()));
+    }
 
     @GetMapping("/get")
     public HttpEntity<?> get(@RequestParam("facultyId") String facultyId,
