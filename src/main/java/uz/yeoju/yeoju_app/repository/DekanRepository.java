@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface DekanRepository extends JpaRepository<Dekan,String> {
 
+    Dekan getDekanByUserId(String user_id);
+
 
     @Query(value = "select countCome.level,countCome.comeCount,allUser.allCount from\n" +
             "(select g.level,count(user_id) as comeCount from\n" +
@@ -38,7 +40,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "join Faculty F on F.id = g1.faculty_id\n" +
             "where g1.faculty_id=:facultyId\n" +
             "group by g1.level\n" +
-            ") as allUser on countCome.level=allUser.level",nativeQuery = true)
+            ") as allUser on countCome.level=allUser.level order by countCome.level",nativeQuery = true)
     List<CourseStatistics> getCourseStatisticsForDekan(
             @Param("facultyId") String facultyId,
             @Param("dateFrom") LocalDateTime dateFrom,
