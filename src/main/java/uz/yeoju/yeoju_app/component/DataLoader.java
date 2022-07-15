@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import uz.yeoju.yeoju_app.entity.Gander;
-import uz.yeoju.yeoju_app.entity.Role;
-import uz.yeoju.yeoju_app.entity.Section;
-import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.*;
+import uz.yeoju.yeoju_app.entity.dekan.Dekan;
 import uz.yeoju.yeoju_app.entity.enums.Gandername;
 import uz.yeoju.yeoju_app.repository.*;
 
@@ -25,6 +23,8 @@ public class DataLoader implements CommandLineRunner {
     public final GanderRepository ganderRepository;
     public final PasswordEncoder passwordEncoder;
     public final AccMonitoringLogRepo accMonitoringLogRepo;
+    public final FacultyRepository facultyRepository;
+    public final DekanRepository dekanRepository;
 
     @Value("${spring.sql.init.mode}")
     private String type;
@@ -42,6 +42,27 @@ public class DataLoader implements CommandLineRunner {
             time1, time2
         )
         );
+
+        // DEKAN
+//        Optional<Role> role_dekan = roleRepository.findRoleByRoleName("ROLE_DEKAN");
+//        User user = new User(
+//                "dekan",
+//                "dekan",
+//                passwordEncoder.encode("dekan"),
+//                "5678",
+//                "guvalakat1603@gmail.com",
+//                ganderRepository.getGanderByGandername(Gandername.MALE),
+//                new HashSet<>(Collections.singletonList(role_dekan.get()))
+//        );
+//        userRepository.saveAndFlush(user);
+//
+//        Faculty facultyByName = facultyRepository.getFacultyByName("(B.Sc.) TOURISM");
+//        dekanRepository.save(new Dekan(
+//           user,
+//           new HashSet<>(Collections.singletonList(facultyByName))
+//        ));
+
+//        roleRepository.save(new Role("ROLE_DEKAN"));
 
       /*  Optional<Role> user = roleRepository.findRoleByRoleName("Rektor");
         Role role = user.get();
