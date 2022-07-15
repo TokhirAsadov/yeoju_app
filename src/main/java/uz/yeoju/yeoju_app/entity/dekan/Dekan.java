@@ -28,4 +28,10 @@ public class Dekan extends AbsEntity {
         super(id);
         this.user = user;
     }
+
+    public Dekan(String id, User user, Set<Faculty> faculties) {
+        super(id);
+        this.user = user;
+        this.faculties = faculties;
+    }
 }
