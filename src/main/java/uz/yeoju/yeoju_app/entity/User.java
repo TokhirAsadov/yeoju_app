@@ -44,13 +44,13 @@ public class User extends AbsEntity implements UserDetails {
     private Set<Position> positions;
 
     @Column
-    private Boolean accountNonExpired;
+    private Boolean accountNonExpired = true;
     @Column
-    private Boolean accountNonLocked;
+    private Boolean accountNonLocked = true;
     @Column
-    private Boolean credentialsNonExpired;
+    private Boolean credentialsNonExpired = true;
     @Column
-    private Boolean enabled;
+    private Boolean enabled = true;
 
     public User(String id, String fullName, String login, String password) {
         super(id);
