@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.Set;
@@ -18,10 +19,10 @@ import java.util.Set;
 @Entity
 public class Dekan extends AbsEntity {
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Faculty> faculties;
 
     public Dekan(String id, User user) {
