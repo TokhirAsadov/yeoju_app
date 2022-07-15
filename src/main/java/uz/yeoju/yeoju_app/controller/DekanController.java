@@ -26,4 +26,12 @@ public class DekanController {
 
         return ResponseEntity.ok(dekanRepository.getCourseStatisticsForDekan(facultyId,startTime,endTime));
     }
+    @GetMapping("/getGroupStatistics")
+    public HttpEntity<?> getGroupStatistics(@RequestParam("facultyId") String facultyId,
+                             @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
+                             @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime
+    ) {
+
+        return ResponseEntity.ok(dekanRepository.getGroupsStatisticForDekan(facultyId,startTime,endTime));
+    }
 }
