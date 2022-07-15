@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.dekan.Dekan;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.payload.dekan.DekanDto;
 import uz.yeoju.yeoju_app.repository.DekanRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.DekanImplService;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,7 +47,8 @@ public class DekanService implements DekanImplService<DekanDto> {
     public <R> DekanDto generateDekanDto(Dekan dekan) {
         return new DekanDto(
                 dekan.getId(),
-                userService.generateUserDto(dekan.getUser())
+                userService.generateUserDto(dekan.getUser()),
+                dekan.getFaculties().stream().map(facultyService::generateFacultyDto).collect(Collectors.toSet())
         );
     }
 
@@ -64,25 +67,41 @@ public class DekanService implements DekanImplService<DekanDto> {
 
         if (dto.getId() == null){ //save
             UserDto userByLogin = userService.getUserByLogin(dto.getUserDto().getLogin());
-//            if (userByLogin!=null) {
-//                ApiResponse lessonServiceById = us.getById(dto.getLessonDto().getId());
-//                if (lessonServiceById.getObj() != null){
-//                    dekanRepository.save(generateDekan(dto));
-//                    return new ApiResponse(true,"saved");
-//                }
-//                return new ApiResponse(false,"not fount subject");
-//            }
+            if (userByLogin!=null) {
+                Set<FacultyDto> facultyDtos = dto.getFacultyDtos();
+                boolean has=true;
+                for (FacultyDto facultyDto : facultyDtos) {
+                    ApiResponse byId = facultyService.getById(facultyDto.getId());
+                    if (!byId.isSuccess()){
+                        has = false;
+                        break;
+                    }
+                }
+                if (has){
+                    dekanRepository.save(generateDekan(dto));
+                    return new ApiResponse(true,"saved");
+                }
+                return new ApiResponse(false,"not fount faculty");
+            }
             return new ApiResponse(false,"not fount user");
         }
         else { //update
             UserDto userByLogin = userService.getUserByLogin(dto.getUserDto().getLogin());
             if (userByLogin!=null) {
-//                ApiResponse lessonServiceById = lessonService.getById(dto.getLessonDto().getId());
-//                if (lessonServiceById.getObj() != null){
-//                    dekanRepository.save(generateDekan(dto));
-//                    return new ApiResponse(true,"updated");
-//                }
-                return new ApiResponse(false,"not fount subject");
+                Set<FacultyDto> facultyDtos = dto.getFacultyDtos();
+                boolean has=true;
+                for (FacultyDto facultyDto : facultyDtos) {
+                    ApiResponse byId = facultyService.getById(facultyDto.getId());
+                    if (!byId.isSuccess()){
+                        has = false;
+                        break;
+                    }
+                }
+                if (has){
+                    dekanRepository.save(generateDekan(dto));
+                    return new ApiResponse(true,"saved");
+                }
+                return new ApiResponse(false,"not fount faculty");
             }
             return new ApiResponse(false,"not fount user");
         }
@@ -91,7 +110,8 @@ public class DekanService implements DekanImplService<DekanDto> {
     private Dekan generateDekan(DekanDto dto) {
         return new Dekan(
                 dto.getId(),
-                userService.generateUser(dto.getUserDto())
+                userService.generateUser(dto.getUserDto()),
+                dto.getFacultyDtos().stream().map(facultyService::generateFaculty).collect(Collectors.toSet())
         );
     }
 
