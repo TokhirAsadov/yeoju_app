@@ -25,6 +25,10 @@ public class DekanController {
     private final UserService userService;
     private final FacultyService facultyService;
 
+    @GetMapping("/getGroupsNamesForDekanByFacultyId")
+    public HttpEntity<?> getGroupsNamesForDekanByFacultyId(@RequestParam(value = "facultyId") String facultyId){
+        return ResponseEntity.ok(dekanRepository.getGroupsNamesForDekanByFacultyId(facultyId));
+    }
 
     @GetMapping("/getFacultiesFromDekanByUserId")
     public HttpEntity<?> getFacultiesFromDekanByUserId(@RequestParam(value = "userId") String userId){
