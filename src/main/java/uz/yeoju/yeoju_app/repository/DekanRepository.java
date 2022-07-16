@@ -18,7 +18,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
     @Query(value = "select countCome.level,countCome.comeCount,allUser.allCount from\n" +
             "(select g.level,count(user_id) as comeCount from\n" +
             "   (\n" +
-            "       select u.* from acc_monitor_log al\n" +
+            "       select u.id from acc_monitor_log al\n" +
             "       join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "       join users_Role ur on u.id = ur.users_id\n" +
             "       join (select id from Role where roleName='Student') as role on role.id = ur.roles_id\n" +
@@ -27,6 +27,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "                 :dateFrom\n" +
             "                 and\n" +
             "                 :dateTo\n" +
+            "group by u.id" +
             "    ) as users1\n" +
             "join Student s on users1.id = s.user_id\n" +
             "   join groups g on g.id = s.group_id\n" +
@@ -75,4 +76,9 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             @Param("dateFrom") LocalDateTime dateFrom,
             @Param("dateTo") LocalDateTime dateTo
     );
+
+    @Query(value = "select g.name from groups g\n" +
+            "where g.faculty_id =:facultyId\n" +
+            "order by g.level desc",nativeQuery = true)
+    List<String> getGroupsNamesForDekanByFacultyId(@Param("facultyId") String facultyId);
 }
