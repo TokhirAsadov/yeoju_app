@@ -5,11 +5,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.dekan.Dekan;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.payload.dekan.DekanDto;
 import uz.yeoju.yeoju_app.repository.DekanRepository;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.DekanService;
 import uz.yeoju.yeoju_app.service.useServices.FacultyService;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
@@ -24,6 +25,12 @@ public class DekanController {
     private final DekanService dekanService;
     private final UserService userService;
     private final FacultyService facultyService;
+
+
+    @GetMapping("/getGroupsNamesForDekanByFacultyIdAndLevel/{level}")
+    public HttpEntity<?> getGroupsNamesForDekanByFacultyIdAndLevel(@CurrentUser User user,@PathVariable("level") Integer level){
+        return ResponseEntity.ok(dekanRepository.getGroupsNamesForDekanByDekanIdAndLevel(user.getId(),level));
+    }
 
     @GetMapping("/getGroupsNamesForDekanByFacultyId")
     public HttpEntity<?> getGroupsNamesForDekanByFacultyId(@RequestParam(value = "facultyId") String facultyId){

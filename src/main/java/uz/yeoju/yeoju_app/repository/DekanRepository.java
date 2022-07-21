@@ -81,4 +81,11 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "where g.faculty_id =:facultyId\n" +
             "order by g.level desc",nativeQuery = true)
     List<String> getGroupsNamesForDekanByFacultyId(@Param("facultyId") String facultyId);
+
+    @Query(value = "select g.name from groups g\n" +
+            "join Dekan_Faculty d_f on d_f.faculties_id = g.faculty_id\n" +
+            "join Dekan D on d_f.Dekan_id = D.id\n" +
+            "where D.user_id=:userId and g.level=:level\n" +
+            "order by g.name,g.level desc",nativeQuery = true)
+    List<String> getGroupsNamesForDekanByDekanIdAndLevel(@Param("userId") String userId,@Param("level") Integer level);
 }

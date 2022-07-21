@@ -1,8 +1,6 @@
 package uz.yeoju.yeoju_app.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
@@ -12,7 +10,9 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "users")
@@ -35,12 +35,14 @@ public class User extends AbsEntity implements UserDetails {
     private String citizenship;//fuqaroligi
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Gander gander;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Set<Position> positions;
 
     @Column
