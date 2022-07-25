@@ -12,8 +12,8 @@ import uz.yeoju.yeoju_app.payload.LessonDto;
 public class SubjectCreditDto {
     private Long id;
     private LessonDto lessonDto;
-    private Integer credit;
+    private String credit;
     private GroupDto groupDto;
     private String year;
-    private Integer semester;
+    private String semester;
 }

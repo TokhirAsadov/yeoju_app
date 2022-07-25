@@ -21,14 +21,14 @@ public class SubjectCredit extends AbsLongEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Lesson lesson;
-    private Integer credit;
+    private String credit;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Group group;
     private String year;
-    private Integer semester;
+    private String semester;
 
-    public SubjectCredit(Long id, Lesson lesson, Integer credit, Group group, String year, Integer semester) {
+    public SubjectCredit(Long id, Lesson lesson, String credit, Group group, String year, String semester) {
         super(id);
         this.lesson = lesson;
         this.credit = credit;

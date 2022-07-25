@@ -12,5 +12,5 @@ public class StudentResultDto {
     private Long id;
     private UserDto userDto;
     private SubjectCreditDto subjectCreditDto;
-    private Integer score;
+    private String score;
 }

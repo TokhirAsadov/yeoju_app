@@ -22,9 +22,9 @@ public class StudentResult extends AbsLongEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private SubjectCredit subjectCredit;
 
-    private Integer score;
+    private String score;
 
-    public StudentResult(Long id, User user, SubjectCredit subjectCredit, Integer score) {
+    public StudentResult(Long id, User user, SubjectCredit subjectCredit, String score) {
         super(id);
         this.user = user;
         this.subjectCredit = subjectCredit;
