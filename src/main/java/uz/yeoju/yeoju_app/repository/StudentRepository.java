@@ -13,6 +13,14 @@ import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, String> {
     Student findStudentByUserId(String user_id);
+    Student findStudentByUserLogin(String user_login);
+
+    @Query(value = "select * from groups g\n" +
+            "join Student s on g.id = s.group_id\n" +
+            "join users u on s.user_id = u.id\n" +
+            "where u.login =:login",nativeQuery = true)
+    Group getGroupByUserLogin(@Param("login") String login);
+
     List<Student> findStudentsByGroupId(String group_id);
 //    List<Student> findStudentsByEducationFormId(String educationForm_id);
 //    List<Student> findStudentsByEducationTypeId(String educationType_id);
