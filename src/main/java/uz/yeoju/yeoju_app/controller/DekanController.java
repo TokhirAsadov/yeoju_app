@@ -26,6 +26,18 @@ public class DekanController {
     private final UserService userService;
     private final FacultyService facultyService;
 
+    @GetMapping("/getUserSearchingForDekan/{searchParam}")
+    public HttpEntity<?> getUserSearchingForDekan(@CurrentUser User user,@PathVariable("searchParam") String searchParam){
+        System.out.println(dekanRepository.getUserSearchingForDekan(searchParam, user.getId()));
+        System.out.println(user.getId());
+        return ResponseEntity.ok(dekanRepository.getUserSearchingForDekan(searchParam, user.getId()));
+    }
+
+    @GetMapping("/getGroupsNamesForDekanByDekanId")
+    public HttpEntity<?> getGroupsNamesForDekanByDekanId(@CurrentUser User user){
+        return ResponseEntity.ok(dekanRepository.getGroupsNamesForDekanByDekanId(user.getId()));
+    }
+
 
     @GetMapping("/getGroupsNamesForDekanByFacultyIdAndLevel/{level}")
     public HttpEntity<?> getGroupsNamesForDekanByFacultyIdAndLevel(@CurrentUser User user,@PathVariable("level") Integer level){
