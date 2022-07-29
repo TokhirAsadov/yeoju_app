@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.dekan.Dekan;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.CourseStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.DekanGroupsStatistic;
+import uz.yeoju.yeoju_app.payload.resDto.dekan.SearchUserForDekanUseSendMessage;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -88,4 +89,19 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "where D.user_id=:userId and g.level=:level\n" +
             "order by g.name,g.level desc",nativeQuery = true)
     List<String> getGroupsNamesForDekanByDekanIdAndLevel(@Param("userId") String userId,@Param("level") Integer level);
+
+    @Query(value = "select g.name from groups g\n" +
+            "join Dekan_Faculty d_f on d_f.faculties_id = g.faculty_id\n" +
+            "join Dekan D on d_f.Dekan_id = D.id\n" +
+            "where D.user_id=:userId order by g.name,g.level desc ",nativeQuery = true)
+    List<String> getGroupsNamesForDekanByDekanId(@Param("userId") String userId);
+
+    @Query(value = "select u.id as id,u.fullName as fullName from Student s\n" +
+            "join users u on s.user_id = u.id\n" +
+            "join groups g on g.id = s.group_id\n" +
+            "join Dekan_Faculty df on df.faculties_id = g.faculty_id\n" +
+            "join Dekan D on df.Dekan_id = D.id\n" +
+            "where (u.passportNum=:searchParam or \n" +
+            "u.login=:searchParam or u.RFID=:searchParam) and D.user_id=:dekanId",nativeQuery = true)
+    SearchUserForDekanUseSendMessage getUserSearchingForDekan(@Param("searchParam") String searchParam, @Param("dekanId") String dekanId);
 }
