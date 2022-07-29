@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.payload.studentBall.ForBuildStudentResult;
 import uz.yeoju.yeoju_app.payload.studentBall.StudentResultDto;
+import uz.yeoju.yeoju_app.repository.StudentResultRepository;
 import uz.yeoju.yeoju_app.service.useServices.StudentResultService;
 
 import java.util.List;
@@ -16,6 +17,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentResultController {
     private final StudentResultService resultService;
+    private final StudentResultRepository repository;
+
+
+    @GetMapping("/getStudentResultsForDekan/{groupName}")
+    public HttpEntity<?> getStudentResultsForDekan(@PathVariable("groupName") String groupName){
+        return ResponseEntity.ok(repository.getStudentResultsForDekan(groupName));
+    }
 
 
     @GetMapping("/all")
