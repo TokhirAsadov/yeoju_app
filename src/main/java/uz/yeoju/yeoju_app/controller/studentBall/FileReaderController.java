@@ -9,22 +9,26 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.aspectj.weaver.ast.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
-import uz.yeoju.yeoju_app.entity.Group;
-import uz.yeoju.yeoju_app.entity.Lesson;
-import uz.yeoju.yeoju_app.entity.Student;
-import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.*;
+import uz.yeoju.yeoju_app.entity.enums.Gandername;
+import uz.yeoju.yeoju_app.entity.enums.PhoneType;
 import uz.yeoju.yeoju_app.entity.studentBall.StudentResult;
 import uz.yeoju.yeoju_app.entity.studentBall.SubjectCredit;
 import uz.yeoju.yeoju_app.repository.*;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/fileRead")
@@ -35,8 +39,10 @@ public class FileReaderController {
     private final LessonRepository lessonRepository;
     private final StudentResultRepository studentResultRepository;
     private final UserRepository userRepository;
-    private final GroupRepository groupRepository;
+    private final AddressUserRepository addressUserRepository;
     private final StudentRepository studentRepository;
+    private final PhoneNumberRepository phoneNumberRepository;
+    private final GanderRepository ganderRepository;
 
     @SneakyThrows
     @PostMapping("/import")
@@ -107,6 +113,92 @@ public class FileReaderController {
 //            tempStudent.setId((int) row.getCell(0).getNumericCellValue());
 //            tempStudent.setContent(row.getCell(1).getStringCellValue());
 //            tempStudentList.add(tempStudent);
+        }
+        return ResponseEntity.ok(strings.size()+" "+strings);
+    }
+
+    @Transactional
+    @SneakyThrows
+    @PostMapping("/studentData")
+    public HttpEntity<?> studentDatas(@RequestParam("file") MultipartFile reapExcelDataFile) {
+
+        XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
+        XSSFSheet worksheet = workbook.getSheetAt(0);
+
+        List<String> strings = new ArrayList<>();
+
+
+//        for(int i=1;i<10 ;i++) {
+        for(int i=10;i<worksheet.getPhysicalNumberOfRows() ;i++) {
+
+            XSSFRow row = worksheet.getRow(i);
+
+            String fullName = row.getCell(0).toString();
+            String email_phone = row.getCell(1).toString();
+            String gender = row.getCell(2).toString();
+            String birthDay = row.getCell(3).toString();
+            String country =row.getCell(4).toString();
+            String region =row.getCell(5).toString();
+            String area = row.getCell(6).toString();
+            String address = row.getCell(7).toString();
+            String citizenship = row.getCell(8).toString();
+            String nationality = row.getCell(9).toString();
+            String passport = row.getCell(10).toString();
+            String home_phone = row.getCell(11).toString();
+            String mother_phone = row.getCell(12).toString();
+            String father_phone = row.getCell(13).toString();
+            String mobile_phone = row.getCell(14).toString();
+
+            User user = userRepository.getUserByPassportNum(passport);
+            if (user != null){
+
+                // address
+                AddressUser addressUser = new AddressUser(user,country,region,area,address,true,false);
+                addressUserRepository.saveAndFlush(addressUser);
+
+
+                // phones
+                PhoneNumber mobilePhone = new PhoneNumber(mobile_phone,user, PhoneType.MOBILE_PHONE);
+                PhoneNumber motherPhone = new PhoneNumber(mother_phone,user, PhoneType.MOTHER_PHONE);
+                PhoneNumber fatherPhone = new PhoneNumber(father_phone,user, PhoneType.FATHER_PHONE);
+                PhoneNumber homePhone = new PhoneNumber(home_phone,user, PhoneType.HOME_PHONE);
+                phoneNumberRepository.save(mobilePhone);
+                phoneNumberRepository.save(motherPhone);
+                phoneNumberRepository.save(fatherPhone);
+                phoneNumberRepository.save(homePhone);
+
+
+                user.setGander(
+                    Objects.equals(gender, "MALE")
+                    ?
+                    ganderRepository.getGanderByGandername(Gandername.MALE)
+                    :
+                    ganderRepository.getGanderByGandername(Gandername.FEMALE)
+                );
+
+                String pattern = "yyyy-MM-dd";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+                Date date = simpleDateFormat.parse(birthDay);
+                user.setBornYear(date);
+                System.out.println(date);
+
+                user.setFullName(fullName);
+                user.setCitizenship(citizenship);
+                user.setNationality(nationality);
+                user.setEnabled(true);
+                user.setAccountNonExpired(true);
+                user.setAccountNonLocked(true);
+                user.setCredentialsNonExpired(true);
+
+                userRepository.save(user);
+
+
+            }
+
+            strings.add(passport);
+
+
         }
         return ResponseEntity.ok(strings.size()+" "+strings);
     }
