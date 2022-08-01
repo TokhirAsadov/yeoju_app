@@ -45,4 +45,6 @@ public interface UserRepository extends JpaRepository<User, String> {
             "or S.passportSerial like :keyword",nativeQuery = true)
     List<SearchDto> getUserForSearch(@Param("keyword") String keyword);
 
+    User getUserByPassportNum(String passportNum);
+
 }
