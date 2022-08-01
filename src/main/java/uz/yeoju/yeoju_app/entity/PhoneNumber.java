@@ -3,11 +3,10 @@ package uz.yeoju.yeoju_app.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.yeoju.yeoju_app.entity.enums.PhoneType;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
@@ -18,7 +17,7 @@ public class PhoneNumber extends AbsEntity {
     private String phoneNumber;
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Enumerated(EnumType.STRING)
     private PhoneType phoneType;
     private boolean hasTg;
     private boolean hasInstagram;
@@ -32,8 +31,7 @@ public class PhoneNumber extends AbsEntity {
         this.phoneType = phoneType;
     }
 
-    public PhoneNumber(String id, String phoneNumber, User user, PhoneType phoneType) {
-        super(id);
+    public PhoneNumber(String phoneNumber, User user, PhoneType phoneType) {
         this.phoneNumber = phoneNumber;
         this.user = user;
         this.phoneType = phoneType;

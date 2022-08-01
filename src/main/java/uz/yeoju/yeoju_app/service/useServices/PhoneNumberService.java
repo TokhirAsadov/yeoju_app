@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto> {
     public final PhoneNumberRepository numberRepository;
-    public final PhoneTypeService phoneTypeService;
     public final UserService userService;
 
     @Override
@@ -65,7 +64,7 @@ public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto
                 ) {
                     number.setPhoneNumber(dto.getPhoneNumber());
                     number.setUser(userService.generateUser(dto.getUserDto()));
-                    number.setPhoneType(phoneTypeService.generatePhoneType(dto.getPhoneTypeDto()));
+                    number.setPhoneType(dto.getPhoneType());
                     number.setHasTg(dto.isHasTg());
                     number.setHasInstagram(dto.isHasInstagram());
                     number.setHasFacebook(dto.isHasFacebook());
@@ -83,7 +82,7 @@ public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto
                 if ( !numberRepository.existsPhoneNumberByPhoneNumber(dto.getPhoneNumber())){
                     number.setPhoneNumber(dto.getPhoneNumber());
                     number.setUser(userService.generateUser(dto.getUserDto()));
-                    number.setPhoneType(phoneTypeService.generatePhoneType(dto.getPhoneTypeDto()));
+                    number.setPhoneType(dto.getPhoneType());
                     number.setHasTg(dto.isHasTg());
                     number.setHasInstagram(dto.isHasInstagram());
                     number.setHasFacebook(dto.isHasFacebook());
@@ -127,7 +126,7 @@ public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto
                 dto.getId(),
                 dto.getPhoneNumber(),
                 userService.generateUser(dto.getUserDto()),
-                phoneTypeService.generatePhoneType(dto.getPhoneTypeDto()),
+                dto.getPhoneType(),
                 dto.isHasTg(),
                 dto.isHasInstagram(),
                 dto.isHasFacebook(),
@@ -139,7 +138,7 @@ public class PhoneNumberService implements PhoneNumberImplService<PhoneNumberDto
                 number.getId(),
                 number.getPhoneNumber(),
                 userService.generateUserDto(number.getUser()),
-                phoneTypeService.generatePhoneTypeDto(number.getPhoneType()),
+                number.getPhoneType(),
                 number.isHasTg(),
                 number.isHasInstagram(),
                 number.isHasFacebook(),

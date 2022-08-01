@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -31,8 +32,9 @@ public class User extends AbsEntity implements UserDetails {
 
     private String email;
     private String passportNum;
-    private Timestamp bornYear;
+    private Date bornYear;
     private String citizenship;//fuqaroligi
+    private String nationality;//millati
 
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
@@ -149,4 +151,5 @@ public class User extends AbsEntity implements UserDetails {
         this.credentialsNonExpired = credentialsNonExpired;
         this.enabled = enabled;
     }
+
 }

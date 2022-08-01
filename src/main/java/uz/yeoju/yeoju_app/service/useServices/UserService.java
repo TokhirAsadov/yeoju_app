@@ -323,6 +323,9 @@ public class UserService implements UserImplService<UserDto> {
                 user.getPassword(),
                 user.getRFID(),
                 user.getEmail(),
+                user.getBornYear(),
+                user.getCitizenship(),
+                user.getNationality(),
                 ganderService.generateGanderDto(user.getGander()),
                 user.getRoles().stream().map(roleService::generateRoleDto).collect(Collectors.toSet())
         );
