@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentData;
 import uz.yeoju.yeoju_app.payload.resDto.search.SearchDto;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserResDto;
 
@@ -46,5 +47,8 @@ public interface UserRepository extends JpaRepository<User, String> {
     List<SearchDto> getUserForSearch(@Param("keyword") String keyword);
 
     User getUserByPassportNum(String passportNum);
+
+    @Query(value = "select id,login,fullName,bornYear,citizenship,nationality,passportNum from users where id=:userId",nativeQuery = true)
+    StudentData getStudentDataByUserId(@Param("userId") String userId);
 
 }
