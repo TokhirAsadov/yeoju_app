@@ -10,6 +10,7 @@ import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable;
+import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
@@ -24,6 +25,15 @@ import java.util.stream.Collectors;
 public class UserController {
 
     public final UserService userService;
+    public final UserRepository userRepository;
+
+
+
+
+    @GetMapping("/studentAllData/{userId}")
+    public HttpEntity<?> studentAllData(@PathVariable("userId") String userId){
+        return ResponseEntity.ok(userRepository.getStudentDataByUserId(userId));
+    }
 
     @GetMapping("/passport")
     public HttpEntity<?> passport(){
