@@ -1,0 +1,8 @@
+package uz.yeoju.yeoju_app.entity.enums;
+
+public enum SmsType {
+    ALL,
+    COURSE,
+    GROUP,
+    STUDENT
+}

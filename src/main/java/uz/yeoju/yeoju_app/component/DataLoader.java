@@ -1,13 +1,20 @@
 package uz.yeoju.yeoju_app.component;
 
 import lombok.RequiredArgsConstructor;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.entity.dekan.Dekan;
 import uz.yeoju.yeoju_app.entity.enums.Gandername;
+import uz.yeoju.yeoju_app.entity.enums.PhoneType;
+import uz.yeoju.yeoju_app.payload.sms.SmsSendBodyDTO;
+import uz.yeoju.yeoju_app.payload.sms.SmsSendContentDTO;
+import uz.yeoju.yeoju_app.payload.sms.SmsSendMessagesDTO;
+import uz.yeoju.yeoju_app.payload.sms.SmsSendRequestDTO;
 import uz.yeoju.yeoju_app.repository.*;
 
 import java.time.LocalDateTime;
@@ -25,6 +32,11 @@ public class DataLoader implements CommandLineRunner {
     public final AccMonitoringLogRepo accMonitoringLogRepo;
     public final FacultyRepository facultyRepository;
     public final DekanRepository dekanRepository;
+    public final StudentRepository studentRepository;
+    public final GroupRepository groupRepository;
+    public final PhoneNumberRepository phoneNumberRepository;
+
+    private final RestTemplate smsClient;
 
     @Value("${spring.sql.init.mode}")
     private String type;
@@ -42,6 +54,46 @@ public class DataLoader implements CommandLineRunner {
             time1, time2
         )
         );
+
+//        SmsSendContentDTO smsSendContentDTO = new SmsSendContentDTO("Hello bro, by yeoju ERP");
+//        SmsSendBodyDTO smsSendBodyDTO = new SmsSendBodyDTO(smsSendContentDTO);
+//        SmsSendMessagesDTO messagesDTO = new SmsSendMessagesDTO("998993361603","1");
+//        SmsSendMessagesDTO messagesDTO2 = new SmsSendMessagesDTO("908092962","2");
+//        List<SmsSendMessagesDTO> messagesDTOList = new ArrayList<>();
+//        messagesDTOList.add(messagesDTO);
+//        messagesDTOList.add(messagesDTO2);
+//        SmsSendRequestDTO request = new SmsSendRequestDTO(smsSendBodyDTO,messagesDTOList);
+
+//        var responseEntity = smsClient.postForEntity("/send", request, String.class);
+//        System.out.println(responseEntity+" send sms");
+
+
+
+//                Optional<Role> role_dekan = roleRepository.findRoleByRoleName("Student");
+//        User user = new User(
+//                "student",
+//                "student",
+//                passwordEncoder.encode("student"),
+//                "8765",
+//                "guvalakat16031@gmail.com",
+//                ganderRepository.getGanderByGandername(Gandername.MALE),
+//                new HashSet<>(Collections.singletonList(role_dekan.get()))
+//        );
+//        userRepository.saveAndFlush(user);
+//
+//        Student student = new Student();
+//        Optional<Group> group = groupRepository.findById("910494b7-a590-4c77-b016-f4f007ba065d");
+//        student.setUser(user.get());
+//        student.setGroup(group.get());
+//
+//        Student save = studentRepository.save(student);
+//
+//        Optional<User> user = userRepository.findById("1ddd893c-5450-4af2-9e98-35d3324b2868");
+//        PhoneNumber phoneNumber = new PhoneNumber();
+//        phoneNumber.setPhoneNumber("993361603");
+//        phoneNumber.setUser(user.get());
+//        phoneNumber.setPhoneType(PhoneType.MOBILE_PHONE);
+//        phoneNumberRepository.save(phoneNumber);
 
         // DEKAN
 //        Optional<Role> role_dekan = roleRepository.findRoleByRoleName("ROLE_DEKAN");

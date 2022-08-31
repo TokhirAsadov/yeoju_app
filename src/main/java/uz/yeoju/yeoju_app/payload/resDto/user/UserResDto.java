@@ -10,6 +10,7 @@ public interface UserResDto {
     String getId();
     String getFullName();
     String getRFID();
+    String getPassport();
 
     @Value("#{@roleRepository.findByUserIdRoleName(target.id)}")
     List<RoleResDto> getRoleName();

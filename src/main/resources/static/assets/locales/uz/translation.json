@@ -1,0 +1,28 @@
+{
+  "barchart_workers_title": "Ishchi xodimlar",
+
+  "doughnut_chart_labels_data": [
+    "kelmaganlar",
+    "kelganlar ",
+    "*sababli "
+  ],
+
+  "language": "Tillar",
+
+  "navbar_login_address_title": "Manzil",
+  "navbar_login_address_title_value": "100121, Тoшкент шаҳри, Яккасарой тумани, Усмон Носир кўчаси, 156 уй",
+  "navbar_login_email_title": "Elekron manzil",
+  "navbar_login_tel_title": "Aloqa markazi",
+
+  "rektor_sidebar_menu": "Menyu",
+  "rektor_sidebar_staff": "Xodimlar",
+  "rektor_sidebar_student": "Talabalar",
+  "rektor_sidebar_teacher": "O`qituvchilar",
+  "rektor_sidebar_user_service": "Sozlamalar",
+
+  "dekan_sidebar_dashboard": "Boshqaruv paneli",
+  "dekan_sidebar_users": "Talabalar",
+  "dekan_sidebar_message": "Xabarlar",
+  "dekan_sidebar_groups": "Guruhlar",
+  "dekan_sidebar_sms_history": "SMS lar tarixi"
+}

@@ -1,0 +1,45 @@
+server:
+  port: 8081
+spring:
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+  jjwt:
+    secretKey: yeojuSecretKeyAT
+    expiredDate: 86400000
+  sql:
+    init:
+      mode:never
+  datasource:
+    url: jdbc:sqlserver://172.16.7.130:1433;databaseName=ZKAccess
+    username: sa
+    password: Pa$$w0rd2020
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+app:
+  sms:
+    countPerDay: 3
+    username: yodju
+    password: oeTT8C
+    url: http://91.204.239.44/broker-api
+#  authentication:
+#    attempts: 3
+#    jwtSecret: aUtO2019#BiO@07tAsHkeT04teAmYouthinKbReAk2060yeAr_riGht
+#    ## Applicant jwt expiration time: 1 year
+#    jwtExpirationInMs: 31536000000
+#    ## Backend admin jwt expiration time: 1 year
+#    jwtBackendExpirationInMs: 31536000000

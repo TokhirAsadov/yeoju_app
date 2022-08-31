@@ -1,6 +1,7 @@
 package uz.yeoju.yeoju_app.service.useServices;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,7 +29,9 @@ public class UserService implements UserImplService<UserDto> {
 
     public final UserRepository userRepository;
     public final GanderService ganderService;
-    public final AuthenticationManager manager;
+
+    @Autowired
+    AuthenticationManager manager;
     public final JwtProvider provider;
     public final RoleService roleService;
 

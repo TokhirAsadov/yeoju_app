@@ -1,0 +1,30 @@
+{
+  "language": "Languages",
+
+  "navbar_login_email_title": "Email",
+  "navbar_login_tel_title": "Call Center",
+  "navbar_login_address_title": "Address",
+  "navbar_login_address_title_value": "100121, Tashkent city, Yakkasaray district, Usmon Nosir street, 156 house",
+
+  "rektor_sidebar_menu": "Menu",
+  "rektor_sidebar_student": "Students",
+  "rektor_sidebar_teacher": "Teachers",
+  "rektor_sidebar_staff": "Staff",
+  "rektor_sidebar_user_service": "User Service",
+
+
+  "dekan_sidebar_dashboard": "Dashboard",
+  "dekan_sidebar_users": "Students",
+  "dekan_sidebar_message": "Messages",
+  "dekan_sidebar_groups": "Groups",
+  "dekan_sidebar_sms_history": "SMS History",
+
+  "barchart_workers_title": "Working staff",
+
+  "doughnut_chart_labels_data": [
+    "did not come",
+    "newcomers ",
+    "*because"
+  ]
+
+}

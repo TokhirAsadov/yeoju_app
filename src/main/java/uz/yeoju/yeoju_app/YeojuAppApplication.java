@@ -22,7 +22,7 @@ public class YeojuAppApplication {
 
 
 
-		String xmlFile = "src/main/resources/yeoju.xml";
+		String xmlFile = "yeoju.xml";
 		Document document = getSAXParsedDocument(xmlFile);
 		Element rootNode = document.getRootElement();
 		rootNode.getChild("periods").getChildren("period").forEach(YeojuAppApplication::readPeriod);

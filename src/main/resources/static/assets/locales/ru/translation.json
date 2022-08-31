@@ -1,0 +1,29 @@
+{
+  "language": "Языки",
+
+  "navbar_login_email_title": "Эл. адрес",
+  "navbar_login_tel_title": "Контактный центр",
+  "navbar_login_address_title": "Адрес",
+  "navbar_login_address_title_value": "100121, город Ташкент, Яккасарайский район, улица Усмон Носир, дом 156",
+
+  "rektor_sidebar_menu": "Меню",
+  "rektor_sidebar_student": "Ученики",
+  "rektor_sidebar_teacher": "Учителя",
+  "rektor_sidebar_staff": "Персонал",
+  "rektor_sidebar_user_service": "Служба Пользователя",
+
+  "dekan_sidebar_dashboard": "Приборная Доска",
+  "dekan_sidebar_users": "Ученики",
+  "dekan_sidebar_message": "Сообщения",
+  "dekan_sidebar_groups": "Группы",
+  "dekan_sidebar_sms_history": "История СМС",
+
+
+  "barchart_workers_title": "Рабочий персонал",
+
+  "doughnut_chart_labels_data": [
+    "не пришел",
+    "новички ",
+    "*так как "
+  ]
+}

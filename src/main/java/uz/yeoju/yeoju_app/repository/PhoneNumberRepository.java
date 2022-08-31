@@ -18,4 +18,31 @@ public interface PhoneNumberRepository extends JpaRepository<PhoneNumber, String
     @Query(value = "select id,phoneNumber,phoneType from PhoneNumber p_n where p_n.user_id=:userId",nativeQuery = true)
     List<StudentPhones> getPhoneNumberUserId(@Param("userId") String userId);
 
+    @Query(value = "select pn.phoneNumber from PhoneNumber pn join users u on pn.user_id = u.id join Student S on u.id = S.user_id\n" +
+            "join groups g on g.id = S.group_id join Faculty F on F.id = g.faculty_id join Dekan_Faculty DF on F.id = DF.faculties_id\n" +
+            "join Dekan D on DF.Dekan_id = D.id join users u2 on D.user_id = u2.id where u2.id = :id",nativeQuery = true)
+    List<String> getPhoneNumberForSendSmsToAllByDekanId(@Param("id") String id);
+
+
+    @Query(value = "select pn.phoneNumber from PhoneNumber pn join users u on pn.user_id = u.id join Student S on u.id = S.user_id\n" +
+            "join groups g on g.id = S.group_id join Faculty F on F.id = g.faculty_id join Dekan_Faculty DF on F.id = DF.faculties_id\n" +
+            "join Dekan D on DF.Dekan_id = D.id join users u2 on D.user_id = u2.id where u2.id = :id and g.level= :level",nativeQuery = true)
+    List<String> getPhoneNumberForSendSmsToCourseByDekanId(@Param("id") String id,@Param("level") Integer level);
+
+    @Query(value = "select pn.phoneNumber from PhoneNumber pn join users u on pn.user_id = u.id join Student S on u.id = S.user_id\n" +
+            "join groups g on g.id = S.group_id join Faculty F on F.id = g.faculty_id join Dekan_Faculty DF on F.id = DF.faculties_id\n" +
+            "join Dekan D on DF.Dekan_id = D.id join users u2 on D.user_id = u2.id where u2.id = :id and g.name= :group",nativeQuery = true)
+    List<String> getPhoneNumberForSendSmsToGroupByDekanId(@Param("id") String id,@Param("group") String group);
+
+    @Query(value = "select pn.phoneNumber from PhoneNumber pn\n" +
+            "join users u on pn.user_id = u.id\n" +
+            "join Student S on u.id = S.user_id\n" +
+            "join groups g on g.id = S.group_id\n" +
+            "join Faculty F on F.id = g.faculty_id\n" +
+            "join Dekan_Faculty DF on F.id = DF.faculties_id\n" +
+            "join Dekan D on DF.Dekan_id = D.id\n" +
+            "join users u2 on D.user_id = u2.id\n" +
+            "where u2.id = :id and pn.user_id= :userId",nativeQuery = true)
+    List<String> getPhoneNumberForSendSmsToSingleStudentByDekanId(@Param("id") String id,@Param("userId") String userId);
+
 }

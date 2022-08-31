@@ -12,13 +12,13 @@ import javax.persistence.Entity;
 @Entity
 public class Attachment extends AbsEntity {
 
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false)
     private String originalName;
 
-    @Column(nullable = false)
-    private long size;
+//    @Column(nullable = false)
+    private Long size;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String contentType;
 
     // Mabodo, file system ga saqlamoqchi bo'lsak kerak bo'ladi, ikkita bir xil nomlik

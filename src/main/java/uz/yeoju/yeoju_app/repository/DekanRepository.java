@@ -104,4 +104,13 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "where (u.passportNum=:searchParam or \n" +
             "u.login=:searchParam or u.RFID=:searchParam) and D.user_id=:dekanId",nativeQuery = true)
     SearchUserForDekanUseSendMessage getUserSearchingForDekan(@Param("searchParam") String searchParam, @Param("dekanId") String dekanId);
+
+    @Query(value = "select u.id as id,u.fullName as fullName from Student s\n" +
+            "join users u on s.user_id = u.id\n" +
+            "join groups g on g.id = s.group_id\n" +
+            "join Dekan_Faculty df on df.faculties_id = g.faculty_id\n" +
+            "join Dekan D on df.Dekan_id = D.id\n" +
+            "where (u.passportNum like :searchParam or \n" +
+            "u.login like :searchParam or u.RFID like :searchParam) and D.user_id=:dekanId",nativeQuery = true)
+    List<SearchUserForDekanUseSendMessage> getUserSearchingForDekan2(@Param("searchParam") String searchParam, @Param("dekanId") String dekanId);
 }

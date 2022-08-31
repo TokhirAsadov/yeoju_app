@@ -29,8 +29,9 @@ public class DekanController {
     @GetMapping("/getUserSearchingForDekan/{searchParam}")
     public HttpEntity<?> getUserSearchingForDekan(@CurrentUser User user,@PathVariable("searchParam") String searchParam){
         System.out.println(dekanRepository.getUserSearchingForDekan(searchParam, user.getId()));
+        System.out.println(dekanRepository.getUserSearchingForDekan2("%"+searchParam+"%", user.getId()) + " <--- ****** ");
         System.out.println(user.getId());
-        return ResponseEntity.ok(dekanRepository.getUserSearchingForDekan(searchParam, user.getId()));
+        return ResponseEntity.ok(dekanRepository.getUserSearchingForDekan2("%"+searchParam+"%", user.getId()));
     }
 
     @GetMapping("/getGroupsNamesForDekanByDekanId")
@@ -50,10 +51,12 @@ public class DekanController {
     }
 
     @GetMapping("/getFacultiesFromDekanByUserId")
-    public HttpEntity<?> getFacultiesFromDekanByUserId(@RequestParam(value = "userId") String userId){
-        Dekan byUserId = dekanRepository.getDekanByUserId(userId);
+    public HttpEntity<?> getFacultiesFromDekanByUserId(@CurrentUser User user){
+        Dekan byUserId = dekanRepository.getDekanByUserId(user.getId());
         System.out.println(byUserId);
-        System.out.println(byUserId.getFaculties());
+//        System.out.println(byUserId.getFaculties());
+
+        System.out.println(byUserId.getFaculties().toString());
 
         DekanDto dekanDto = dekanService.generateDekanDto(byUserId);
         System.out.println(dekanDto);

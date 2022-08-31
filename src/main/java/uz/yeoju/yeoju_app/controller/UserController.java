@@ -29,6 +29,10 @@ public class UserController {
 
 
 
+    @GetMapping("/getUserFields")
+    public HttpEntity<?> getUserFields(@CurrentUser User user){
+        return ResponseEntity.ok(userRepository.getUserFields(user.getId()));
+    }
 
     @GetMapping("/studentAllData/{userId}")
     public HttpEntity<?> studentAllData(@PathVariable("userId") String userId){
