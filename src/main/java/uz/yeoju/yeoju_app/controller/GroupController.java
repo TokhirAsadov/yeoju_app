@@ -1,7 +1,6 @@
 package uz.yeoju.yeoju_app.controller;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
+import lombok.RequiredArgsConstructor; 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

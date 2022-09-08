@@ -161,21 +161,21 @@ public class SmsLogService implements SmsLogImplService<SmsLogDto> {
 
     public ApiResponse save(SmsLogDto dto){
         SmsLog sms = generateSmsLog(dto);
-        smsLogRepository.saveAndFlush(sms);
+        System.out.println(sms+" <--------------------------------");
+        smsLogRepository.save(sms);
         return new ApiResponse(true,"new sms saved successfully!...");
     }
 
     public SmsLog generateSmsLog(SmsLogDto dto) {
-        SmsLog smsLog = SmsLog.builder()
-                .messageBody(dto.getMessageBody())
-//                .recipientsPhoneNumber(dto.getRecipientsPhoneNumber())
-                .status(dto.getStatus())
-                .smsType(dto.getSmsType())
-                .userId(dto.getUserId())
-                .groupName(dto.getGroupName())
-                .course(dto.getCourse())
-                .build();
+        SmsLog smsLog = new SmsLog();
         smsLog.setId(dto.getId());
+        smsLog.setSmsType(dto.getSmsType());
+        smsLog.setCourse(dto.getCourse());
+        smsLog.setAttempt(dto.getAttempt());
+        smsLog.setGroupName(dto.getGroupName());
+        smsLog.setMessageBody(dto.getMessageBody());
+        smsLog.setUserId(dto.getUserId());
+        smsLog.setStatus(dto.getStatus());
         return smsLog;
     }
     public SmsLogDto generateSmsLogDto(SmsLog smsLog) {

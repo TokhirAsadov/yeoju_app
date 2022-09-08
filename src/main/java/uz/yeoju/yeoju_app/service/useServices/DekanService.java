@@ -37,7 +37,7 @@ public class DekanService implements DekanImplService<DekanDto> {
     public ApiResponse findAll() {
         return new ApiResponse(
                 true,
-                "All retake",
+                "All dekan",
                 dekanRepository.findAll().stream()
                         .map(this::generateDekanDto)
                         .collect(Collectors.toSet())

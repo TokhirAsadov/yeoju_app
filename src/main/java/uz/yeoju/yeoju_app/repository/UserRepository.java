@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.payload.resDto.admin.DevicePageRestDto;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentData;
 import uz.yeoju.yeoju_app.payload.resDto.search.SearchDto;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserField;
@@ -45,4 +46,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query(value = "select id,fullName,bornYear,citizenship,nationality,passportNum from users where id=:userId",nativeQuery = true)
     UserField getUserFields(@Param("userId") String userId);
+
+    @Query(value = "select id from users where id =:id",nativeQuery = true)
+    DevicePageRestDto deviceDates(@Param("id") String id);
 }

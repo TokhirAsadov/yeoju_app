@@ -24,15 +24,15 @@ public class SmsNotificationJob {
     }
 
 
-    @Scheduled(fixedDelay = 180000)
-    public void sendFailedSMSMessageJob() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start("FAILED SMS NOTIFICATION");
-
-//        service.sendFailedBatchMessage();
-
-        stopWatch.stop();
-//        log.info(stopWatch.toString());
-    }
+//    @Scheduled(fixedDelay = 180000)
+//    public void sendFailedSMSMessageJob() {
+//        StopWatch stopWatch = new StopWatch();
+//        stopWatch.start("FAILED SMS NOTIFICATION");
+//
+////        service.sendFailedBatchMessage();
+//
+//        stopWatch.stop();
+////        log.info(stopWatch.toString());
+//    }
 
 }

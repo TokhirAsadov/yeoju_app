@@ -36,9 +36,10 @@ public class SmsController {
 
     @PostMapping("/create")
     public HttpEntity<?> createSms(
-//            @CurrentUser User user,
+            @CurrentUser User user,
             @RequestBody SmsLogDto dto
     ){
+        System.out.println(dto+" ***************************** ");
         if (dto.getSmsType() == SmsType.ALL) {
             dto.setCourse(null);
             dto.setGroupName(null);

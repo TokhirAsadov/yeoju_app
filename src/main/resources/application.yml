@@ -23,9 +23,12 @@ spring:
     init:
       mode: never
   datasource:
-    url: jdbc:sqlserver://172.16.7.130:1433;databaseName=ZKAccess
-    username: sa
-    password: Pa$$w0rd2020
+#    url: jdbc:sqlserver://172.16.7.130:1433;databaseName=ZKAccess
+#    username: sa
+#    password: Pa$$w0rd2020
+    url: jdbc:sqlserver://localhost:1433;databaseName=ZKA
+    username: root
+    password: root123
   jackson:
     serialization:
       fail-on-empty-beans: false

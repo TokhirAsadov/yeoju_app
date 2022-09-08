@@ -7,8 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import uz.yeoju.yeoju_app.entity.*;
-import uz.yeoju.yeoju_app.entity.dekan.Dekan;
+import uz.yeoju.yeoju_app.entity.*; 
 import uz.yeoju.yeoju_app.entity.enums.Gandername;
 import uz.yeoju.yeoju_app.entity.enums.PhoneType;
 import uz.yeoju.yeoju_app.payload.sms.SmsSendBodyDTO;
@@ -116,23 +115,17 @@ public class DataLoader implements CommandLineRunner {
 
 //        roleRepository.save(new Role("ROLE_DEKAN"));
 
-      /*  Optional<Role> user = roleRepository.findRoleByRoleName("Rektor");
-        Role role = user.get();
-        userRepository.save(new User(
-                1,
-                "admin",
-                "admin",
-                passwordEncoder.encode("admin"),
-                "12345678",
-                "guvalakat1603@gmail.com",
-                ganderRepository.getGanderByGandername(Gandername.MALE),
-                new HashSet<>(Collections.singletonList(role)),
-                true,
-                true,
-                true,
-                true
-
-        ));*/
+//        Optional<Role> user = roleRepository.findRoleByRoleName("ROLE_ADMIN");
+//        Role role = user.get();
+//        userRepository.save(new User(
+//                "device admin",
+//                "device admin",
+//                passwordEncoder.encode("device"),
+//                "123456798",
+//                "guvalakat1604@gmail.com",
+//                ganderRepository.getGanderByGandername(Gandername.MALE),
+//                new HashSet<>(Collections.singletonList(role))
+//        ));
 
         if (type.equals("always")) {
 

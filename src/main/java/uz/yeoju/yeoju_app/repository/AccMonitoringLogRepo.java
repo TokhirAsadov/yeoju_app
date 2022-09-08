@@ -12,6 +12,8 @@ import java.util.Map;
 
 public interface AccMonitoringLogRepo extends JpaRepository<AccMonitorLog, Long> {
 
+
+
    @Query("select a from acc_monitor_log a where a.card_no = ?1")
    List<AccMonitorLog> findAccMonitorLogsByCard_no(String cardNumber);
 
@@ -67,5 +69,6 @@ public interface AccMonitoringLogRepo extends JpaRepository<AccMonitorLog, Long>
             "            where al.time between dateadd(d,:weekOrMonth,convert(DATE,GETDATE())) and dateadd(d,1,convert(DATE,GETDATE()))\n" +
             "         group by al.card_no, u.fullName) as counter", nativeQuery = true)
     Long countUsersByRoleIdAndWeekOrMonth(@Param("roleId") String roleId, @Param("weekOrMonth") Integer weekOrMonth);
+
 
 }

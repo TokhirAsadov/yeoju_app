@@ -27,6 +27,11 @@ public class UserController {
     public final UserService userService;
     public final UserRepository userRepository;
 
+    @GetMapping("/device")
+    public HttpEntity<?> device(@CurrentUser User user){
+        return ResponseEntity.ok(userRepository.deviceDates(user.getId()));
+    }
+
 
 
     @GetMapping("/getUserFields")
