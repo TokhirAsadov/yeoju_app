@@ -46,7 +46,4 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query(value = "select id,fullName,bornYear,citizenship,nationality,passportNum from users where id=:userId",nativeQuery = true)
     UserField getUserFields(@Param("userId") String userId);
-
-    @Query(value = "select id from users where id =:id",nativeQuery = true)
-    DevicePageRestDto deviceDates(@Param("id") String id);
 }
