@@ -36,7 +36,7 @@ public class BuildingService implements BuildingImplService<BuildingDto> {
 
     @Override
     public ApiResponse findById(String id) {
-        return null;
+        return new ApiResponse(true,"Building Item",generateBuildingDto(buildingRepository.getById(id)));
     }
 
     @Override
@@ -79,6 +79,7 @@ public class BuildingService implements BuildingImplService<BuildingDto> {
 
     @Override
     public ApiResponse deleteById(String id) {
-        return null;
+        buildingRepository.deleteById(id);
+        return new ApiResponse(true,"Deleted building successfully!...");
     }
 }

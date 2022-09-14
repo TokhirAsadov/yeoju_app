@@ -41,7 +41,7 @@ public class RoomService implements RoomImplService<RoomDto> {
 
     @Override
     public ApiResponse findById(String id) {
-        return null;
+        return new ApiResponse(true,"Element by id",generateRoomDto(roomRepository.findById(id).get()));
     }
 
     @Override
@@ -84,6 +84,7 @@ public class RoomService implements RoomImplService<RoomDto> {
 
     @Override
     public ApiResponse deleteById(String id) {
-        return null;
+        roomRepository.deleteById(id);
+        return new ApiResponse(true,"Room deleted successfully!..");
     }
 }
