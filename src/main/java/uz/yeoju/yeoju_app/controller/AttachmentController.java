@@ -5,7 +5,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.AttachmentService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +31,18 @@ public class AttachmentController {
     @PostMapping("/upload")
     public HttpEntity<?> uploadFileToDatabase(MultipartHttpServletRequest request) throws IOException {
         ApiResponse apiResponse = attachmentService.uploadFileOrFilesToDatabase(request);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+    @PostMapping("/uploadPhoto")
+    public HttpEntity<?> uploadPhotoForUser(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        ApiResponse apiResponse = attachmentService.saving(request,user.getId());
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+    @PostMapping("/uploadPhotoByUserId")
+    public HttpEntity<?> saving(MultipartHttpServletRequest request, @RequestParam("userId") String userId) throws IOException {
+        ApiResponse apiResponse = attachmentService.saving(request,userId);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
