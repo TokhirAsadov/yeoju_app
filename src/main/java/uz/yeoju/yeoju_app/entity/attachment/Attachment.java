@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 public class Attachment extends AbsEntity {
 
@@ -21,6 +22,13 @@ public class Attachment extends AbsEntity {
 //    @Column(nullable = false)
     private String contentType;
 
+    private String fileName;
+
+    public Attachment(String originalName, Long size, String contentType) {
+        this.originalName = originalName;
+        this.size = size;
+        this.contentType = contentType;
+    }
     // Mabodo, file system ga saqlamoqchi bo'lsak kerak bo'ladi, ikkita bir xil nomlik
     // file ni bir biridan farqlash uchun:
     // private String userPositionName;
