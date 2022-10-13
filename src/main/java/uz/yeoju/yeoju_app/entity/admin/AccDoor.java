@@ -25,7 +25,9 @@ public class AccDoor {
     private Date deleteTime;
     private Integer status;
     private Long deviceId;
+    @Column(name = "door_no")
     private Integer doorNo;
+    @Column(name = "door_name")
     private String doorName;
     private Integer lockDelay;
     private Boolean backLock;
