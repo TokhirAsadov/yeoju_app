@@ -9,5 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AccDoorDto {
     private Long id;
-
+    private Long deviceId;
+    private Integer doorNo;
+    private String doorName;
 }
