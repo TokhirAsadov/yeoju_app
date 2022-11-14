@@ -4,4 +4,8 @@ public interface StudentPhones {
     String getId();
     String getPhoneNumber();
     String getPhoneType();
+
+    Boolean getHasTg();
+    Boolean getHasInstagram();
+    Boolean getHasFacebook();
 }

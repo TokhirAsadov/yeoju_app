@@ -12,12 +12,12 @@ public interface DevicePageRestDto {
     @Value("#{@machinesRepository.findAll()}")
     List<MachinesRestDto> getDevices();
 
-    @Value("#{@devicePortRepository.getPorts()}")
-    List<DevicePortRestDto> getPorts();
-
     @Value("#{@roomRepository.findAll()}")
     List<Room> getRooms();
 
     @Value("#{@buildingRepository.getBuildings()}")
     List<BuildingRestDto> getBuildings();
+
+    @Value("#{@accDoorRepository.getDevicesList()}")
+    List<DeviceList> getDeviceList();
 }

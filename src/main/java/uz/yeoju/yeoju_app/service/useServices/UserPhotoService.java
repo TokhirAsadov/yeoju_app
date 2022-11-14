@@ -2,10 +2,13 @@ package uz.yeoju.yeoju_app.service.useServices;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.attachment.UserPhoto;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.UserPhotoDto;
+import uz.yeoju.yeoju_app.payload.UserPhotoSaveDto;
 import uz.yeoju.yeoju_app.repository.UserPhotoRepo;
+import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.UserPhotoImplService;
 
 import java.util.Objects;
@@ -17,6 +20,7 @@ import java.util.stream.Collectors;
 public class UserPhotoService implements UserPhotoImplService<UserPhotoDto> {
     public final UserPhotoRepo userPhotoRepo;
     public final UserService userService;
+    public final UserRepository userRepository;
 
     @Override
     public ApiResponse findAll() {
@@ -87,6 +91,24 @@ public class UserPhotoService implements UserPhotoImplService<UserPhotoDto> {
     public ApiResponse save(UserPhotoDto dto){
         if (!userPhotoRepo.existsUserPhotoByUserId(dto.getUserDto().getId())){
             UserPhoto userPhoto = generateUserPhoto(dto);
+            userPhotoRepo.saveAndFlush(userPhoto);
+            return new ApiResponse(true,"new user photo saved successfully!...");
+        }
+        else {
+            return new ApiResponse(
+                    false,
+                    "error! did not save user photo! You have an active user photo...!"
+            );
+        }
+    }
+
+    public ApiResponse saving(UserPhotoSaveDto dto){
+        if (!userPhotoRepo.existsUserPhotoByUserId(dto.getUserId())){
+            Optional<User> userOptional = userRepository.findById(dto.getUserId());
+            UserPhoto userPhoto = new UserPhoto();
+            userPhoto.setUser(userOptional.get());
+            userPhoto.setActive(dto.isActive());
+            userPhoto.setAttachment(dto.getAttachment());
             userPhotoRepo.saveAndFlush(userPhoto);
             return new ApiResponse(true,"new user photo saved successfully!...");
         }

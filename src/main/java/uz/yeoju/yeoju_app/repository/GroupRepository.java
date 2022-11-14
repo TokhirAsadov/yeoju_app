@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentGroupField;
+import uz.yeoju.yeoju_app.payload.resDto.group.GroupForStudent;
 
 import java.util.List;
 
@@ -20,4 +21,7 @@ public interface GroupRepository extends JpaRepository<Group,String> {
            "join EducationType et on g.educationType_id = et.id\n" +
            "where s.user_id =:userId",nativeQuery = true)
    StudentGroupField getGroupFieldByUserId(@Param("userId") String userId);
+
+   @Query(value = "select g.id,g.name from groups g join Student S on g.id = S.group_id where S.user_id=:id",nativeQuery = true)
+   GroupForStudent getGroupNameByUserId(@Param("id") String id);
 }

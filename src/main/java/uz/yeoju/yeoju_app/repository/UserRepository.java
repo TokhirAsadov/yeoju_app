@@ -4,10 +4,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.payload.resDto.admin.DevicePageRestDto;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentData;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherData;
 import uz.yeoju.yeoju_app.payload.resDto.search.SearchDto;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserField;
+import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSave;
+import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSaveItem;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserResDto;
 
 import java.util.List;
@@ -44,6 +46,46 @@ public interface UserRepository extends JpaRepository<User, String> {
     StudentData getStudentDataByUserId(@Param("userId") String userId);
 
 
-    @Query(value = "select id,fullName,bornYear,citizenship,nationality,passportNum from users where id=:userId",nativeQuery = true)
+    @Query(value = "select u.id,u.login,u.fullName,u.bornYear,u.citizenship,u.nationality,u.passportNum,u.email, t.workerStatus  from users u join Teacher t on u.id = t.user_id where u.id=:userId",nativeQuery = true)
+    TeacherData getTeacherDataByUserId(@Param("userId") String userId);
+
+
+    @Query(value = "select id,fullName,email,bornYear,citizenship,nationality,passportNum from users where id=:userId",nativeQuery = true)
     UserField getUserFields(@Param("userId") String userId);
+
+    @Query(value = "select TOP 50 id as value,fullName as label from users order by fullName asc",nativeQuery = true)
+    List<UserForTeacherSaveItem> getUserForTeacherSaving();
+
+    @Query(value = "select id from users where id=:id",nativeQuery = true)
+    UserForTeacherSave getItemsForTeacherSaving(@Param("id") String id);
+
+    @Query(value = "select id as value,fullName as label from users where fullName like :keyword order by fullName asc",nativeQuery = true)
+    List<UserForTeacherSaveItem> getUserForTeacherSavingSearch(@Param("keyword") String keyword);
+
+    @Query(value = "select f2.user_id as id,f2.fullName,f2.email,f2.RFID,f2.login,f2.passportNum as passport from (\n" +
+            " select t.kafedra_id,t.user_id from\n" +
+            "     (select  al.card_no as cardNo\n" +
+            "      from acc_monitor_log al\n" +
+            "               join users u\n" +
+            "                    on cast(u.RFID as varchar) =\n" +
+            "                       cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "               join users_Role ur\n" +
+            "                    on u.id = ur.users_id\n" +
+            "               join (select id from Role where roleName = 'ROLE_TEACHER') as role\n" +
+            "                    on ur.roles_id = role.id\n" +
+            "      where al.time between getdate() and DATEADD(d, 1, getdate()) and u.passportNum=:pass\n" +
+            "     ) as card\n" +
+            "         join users u on cast(card.cardNo as varchar) =\n" +
+            "                         cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "         join Teacher t on u.id = t.user_id\n" +
+            " where t.kafedra_id=:kafedraId\n" +
+            " group by t.kafedra_id,t.user_id\n" +
+            ") as f1\n" +
+            "right join (\n" +
+            "    select t.kafedra_id,t.user_id,u2.fullName, u2.email, u2.RFID, u2.login,u2.passportNum from Teacher t\n" +
+            "                                  join users u2 on t.user_id = u2.id\n" +
+            "    where t.kafedra_id=:kafedraId and u2.passportNum=:pass\n" +
+            "    group by t.kafedra_id,t.user_id,u2.fullName, t.user_id, t.kafedra_id, u2.email, u2.RFID, u2.login, u2.passportNum\n" +
+            ") as f2 on f2.user_id = f1.user_id where f1.user_id is null",nativeQuery = true)
+    TeacherData getTeachersForRemember(@Param("pass") String pass,@Param("kafedraId") String kafedraId);
 }

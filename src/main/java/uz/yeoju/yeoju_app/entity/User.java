@@ -36,7 +36,7 @@ public class User extends AbsEntity implements UserDetails {
     private String citizenship;//fuqaroligi
     private String nationality;//millati
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @ToString.Exclude
     private Gander gander;
 
@@ -56,11 +56,24 @@ public class User extends AbsEntity implements UserDetails {
     @Column
     private Boolean enabled = true;
 
+
+
     public User(String id, String fullName, String login, String password) {
         super(id);
         this.fullName = fullName;
         this.login = login;
         this.password = password;
+    }
+
+    public User(String id, String fullName, String login, String password, String RFID, String email,  Set<Role> roles) {
+        super(id);
+        this.fullName = fullName;
+        this.login = login;
+        this.password = password;
+        this.RFID = RFID;
+        this.email = email;
+        this.passportNum = passportNum;
+        this.roles = roles;
     }
 
     @Override

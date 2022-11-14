@@ -9,6 +9,7 @@ import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.dekan.Dekan;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.dekan.DekanDto;
+import uz.yeoju.yeoju_app.payload.resDto.dekan.FacultyForDekan;
 import uz.yeoju.yeoju_app.repository.DekanRepository;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.DekanService;
@@ -25,6 +26,18 @@ public class DekanController {
     private final DekanService dekanService;
     private final UserService userService;
     private final FacultyService facultyService;
+
+
+    @GetMapping("/getGroupFails/{group}")
+    public HttpEntity<?> getGroupFails(@PathVariable("group") String group){
+        return ResponseEntity.ok(dekanRepository.getGroupFails(group));
+    }
+
+    @GetMapping("/getBadAndStudent")
+    public HttpEntity<?> getBadAndStudent(@CurrentUser User user){
+        FacultyForDekan facultyForDekan = dekanRepository.getFacultyForDekan(user.getId());
+        return ResponseEntity.ok(dekanRepository.getBadAndStudent(facultyForDekan.getId()));
+    }
 
     @GetMapping("/getUserSearchingForDekan/{searchParam}")
     public HttpEntity<?> getUserSearchingForDekan(@CurrentUser User user,@PathVariable("searchParam") String searchParam){
@@ -52,16 +65,17 @@ public class DekanController {
 
     @GetMapping("/getFacultiesFromDekanByUserId")
     public HttpEntity<?> getFacultiesFromDekanByUserId(@CurrentUser User user){
-        Dekan byUserId = dekanRepository.getDekanByUserId(user.getId());
-        System.out.println(byUserId);
-//        System.out.println(byUserId.getFaculties());
+//        Dekan byUserId = dekanRepository.getDekanByUserId(user.getId());
+//        System.out.println(byUserId);
+////        System.out.println(byUserId.getFaculties());
+//
+//        System.out.println(byUserId.getFaculties().toString());
+//
+//        DekanDto dekanDto = dekanService.generateDekanDto(byUserId);
+//        System.out.println(dekanDto);
 
-        System.out.println(byUserId.getFaculties().toString());
 
-        DekanDto dekanDto = dekanService.generateDekanDto(byUserId);
-        System.out.println(dekanDto);
-
-        return ResponseEntity.ok(new ApiResponse(true,"look",dekanDto.getFacultyDtos()));
+        return ResponseEntity.ok(new ApiResponse(true,"look",dekanRepository.getFacultyForDekan(user.getId())));
     }
 
     @GetMapping("/get")
@@ -69,7 +83,9 @@ public class DekanController {
                              @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
                              @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime
     ) {
-
+        System.out.println(facultyId+" <=============================================================");
+        System.out.println(endTime+" <========endTime=====================================================");
+        System.out.println(startTime+" <===================startTime==========================================");
         return ResponseEntity.ok(dekanRepository.getCourseStatisticsForDekan(facultyId,startTime,endTime));
     }
     @GetMapping("/getGroupStatistics")

@@ -23,7 +23,7 @@ public class AddressUser extends AbsEntity {
     private String address;
 
     private Boolean constant;
-    private Boolean current;
+    private Boolean isCurrent;
 
     public AddressUser(User user, String country, String region, String area, String address) {
         this.user = user;
@@ -31,5 +31,16 @@ public class AddressUser extends AbsEntity {
         this.region = region;
         this.area = area;
         this.address = address;
+    }
+
+    public AddressUser(String id, User user, String country, String region, String area, String address, Boolean constant, Boolean isCurrent) {
+        super(id);
+        this.user = user;
+        this.country = country;
+        this.region = region;
+        this.area = area;
+        this.address = address;
+        this.constant = constant;
+        this.isCurrent = isCurrent;
     }
 }

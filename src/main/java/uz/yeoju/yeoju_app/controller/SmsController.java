@@ -40,7 +40,7 @@ public class SmsController {
             @RequestBody SmsLogDto dto
     ){
         System.out.println(dto+" ***************************** ");
-        if (dto.getSmsType() == SmsType.ALL) {
+        if (dto.getSmsType() == SmsType.ALL || dto.getSmsType() == SmsType.ALL_TEACHER) {
             dto.setCourse(null);
             dto.setGroupName(null);
             dto.setUserId(null);
@@ -53,7 +53,7 @@ public class SmsController {
             dto.setCourse(null);
             dto.setUserId(null);
         }
-        if (dto.getSmsType() == SmsType.STUDENT) {
+        if (dto.getSmsType() == SmsType.STUDENT || dto.getSmsType() == SmsType.TEACHER) {
             dto.setCourse(null);
             dto.setGroupName(null);
         }
@@ -63,6 +63,11 @@ public class SmsController {
 
     @GetMapping("/getMessages")
     public HttpEntity<?> getMessages(@CurrentUser User user){
+        return ResponseEntity.ok(repository.getHistoryOfSMSForDekan(user.getId()));
+    }
+
+    @GetMapping("/getMessagesForKafedra")
+    public HttpEntity<?> getMessagesForKafedra(@CurrentUser User user){
         return ResponseEntity.ok(repository.getHistoryOfSMSForDekan(user.getId()));
     }
 

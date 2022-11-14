@@ -3,10 +3,9 @@ package uz.yeoju.yeoju_app.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 import uz.yeoju.yeoju_app.entity.dekan.Dekan;
-import uz.yeoju.yeoju_app.payload.resDto.dekan.CourseStatistics;
-import uz.yeoju.yeoju_app.payload.resDto.dekan.DekanGroupsStatistic;
-import uz.yeoju.yeoju_app.payload.resDto.dekan.SearchUserForDekanUseSendMessage;
+import uz.yeoju.yeoju_app.payload.resDto.dekan.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +14,12 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
 
     Dekan getDekanByUserId(String user_id);
 
+    @Query(value = "select Top 1 f.id,f.name from Faculty f\n" +
+            "join Dekan_Faculty DF on f.id = DF.faculties_id\n" +
+            "join Dekan D on DF.Dekan_id = D.id\n" +
+            "where D.user_id=:id",nativeQuery = true)
+    FacultyForDekan getFacultyForDekan(@Param("id") String id);
+
 
     @Query(value = "select countCome.level,countCome.comeCount,allUser.allCount from\n" +
             "(select g.level,count(user_id) as comeCount from\n" +
@@ -22,7 +27,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "       select u.id from acc_monitor_log al\n" +
             "       join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "       join users_Role ur on u.id = ur.users_id\n" +
-            "       join (select id from Role where roleName='Student') as role on role.id = ur.roles_id\n" +
+            "       join (select id from Role where roleName='ROLE_STUDENT') as role on role.id = ur.roles_id\n" +
             "       where al.time\n" +
             "                 between\n" +
             "                 :dateFrom\n" +
@@ -57,7 +62,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "                  on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "                  join users_Role ur on u.id = ur.users_id\n" +
             "                  join Role R2 on ur.roles_id = R2.id\n" +
-            "              where al.time between :dateFrom and :dateTo and R2.roleName='Student'\n" +
+            "              where al.time between :dateFrom and :dateTo and R2.roleName='ROLE_STUDENT'\n" +
             "              group by al.card_no    ) as card\n" +
             "                   join users u on cast(card.cardNo as varchar) =\n" +
             "                                    cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
@@ -113,4 +118,45 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "where (u.passportNum like :searchParam or \n" +
             "u.login like :searchParam or u.RFID like :searchParam) and D.user_id=:dekanId",nativeQuery = true)
     List<SearchUserForDekanUseSendMessage> getUserSearchingForDekan2(@Param("searchParam") String searchParam, @Param("dekanId") String dekanId);
+
+    @Query(value = "select Top 16 u.id,count(sr.score) as fails from StudentResult sr\n" +
+            "join users u on sr.user_id = u.id\n" +
+            "join Student S on u.id = S.user_id\n" +
+            "join groups g on S.group_id = g.id\n" +
+            "where (g.faculty_id=:facultyId and CONVERT(int, LEFT(sr.score, CHARINDEX('.', sr.score) - 1))<65)\n" +
+            "group by u.id order by fails asc",nativeQuery = true)
+    List<DekanBestStudent> getBestStudents(@Param("facultyId") String facultyId);
+
+    @Query(value = "select u.id from Student s\n" +
+            "join users u on s.user_id = u.id\n" +
+            "join groups g on s.group_id = g.id\n" +
+            "where g.faculty_id=:id",nativeQuery = true)
+    List<AllStudentsOfFaculty> getAllStudentsOfFaculty(@Param("id") String id);
+
+    @Query(value = "select :id as id",nativeQuery = true)
+    GetForBadStudent getForBadStudent(@Param("id") String id);
+
+    @Query(value = "select :id as id",nativeQuery = true)
+    BadAndBestStudent getBadAndStudent(@Param("id") String id);
+
+
+    @Query(value = "select section2.name,section1.count from\n" +
+            "    (select g.name,count(g.name) as count from groups g\n" +
+            "left join Student s on g.id = s.group_id\n" +
+            "    join users u on s.user_id = u.id\n" +
+            "    join StudentResult sr on u.id = sr.user_id\n" +
+            "where ( g.faculty_id=:facultyId and CONVERT(int, LEFT(sr.score, CHARINDEX('.', sr.score) - 1))<65)\n" +
+            "group by g.name) as section1\n" +
+            "right join (\n" +
+            "    select name  from groups where faculty_id=:facultyId\n" +
+            "    ) as section2 on section1.name=section2.name",nativeQuery = true)
+    List<FailsCountOfGroup> getFailsCountOfGroup(@Param("facultyId") String facultyId);
+
+    @Query(value = "select u.id,count(sr.score) as fails from StudentResult sr\n" +
+            "join users u on sr.user_id = u.id\n" +
+            "join Student S on u.id = S.user_id\n" +
+            "join groups g on S.group_id = g.id\n" +
+            "where (g.name=:group and CONVERT(int, LEFT(sr.score, CHARINDEX('.', sr.score) - 1))<65)\n" +
+            "group by u.id order by fails asc",nativeQuery = true)
+    List<ForGroupFails> getGroupFails(@Param("group") String group);
 }

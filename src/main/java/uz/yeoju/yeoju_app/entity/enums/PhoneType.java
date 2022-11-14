@@ -5,5 +5,6 @@ public enum PhoneType {
     FATHER_PHONE,
     MOTHER_PHONE,
     HOME_PHONE,
+    WORK_PHONE,
     OTHER_PHONE
 }

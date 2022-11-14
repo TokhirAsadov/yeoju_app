@@ -78,6 +78,11 @@ public class JwtFilter extends OncePerRequestFilter {
                     System.err.println("User Expired");
                 }
             }
+            else {
+//                response.sendRedirect("/login");
+                response.sendRedirect("http://localhost:3000/login");
+                response.setStatus(200);
+            }
         }
         filterChain.doFilter(request, response);
 

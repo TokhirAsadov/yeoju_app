@@ -9,8 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AddressDto {
     private String id;
+    private UserDto userDto;
     private String country;
     private String region;
-    private String district;
-    private String streetAndOthers;
+    private String area;
+    private String address;
+    private Boolean constant;
+    private Boolean asCurrent;
+
 }

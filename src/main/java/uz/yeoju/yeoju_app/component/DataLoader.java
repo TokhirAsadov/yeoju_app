@@ -68,17 +68,20 @@ public class DataLoader implements CommandLineRunner {
 
 
 
-//                Optional<Role> role_dekan = roleRepository.findRoleByRoleName("Student");
+//                Optional<Role> role_dekan = roleRepository.findRoleByRoleName("ROLE_STUDENT");
 //        User user = new User(
-//                "student",
-//                "student",
-//                passwordEncoder.encode("student"),
-//                "8765",
-//                "guvalakat16031@gmail.com",
+//                "kafedra",
+//                "kafedra",
+//                passwordEncoder.encode("kafedra"),
+//                "9876",
+//                "guvalakat16032@gmail.com",
 //                ganderRepository.getGanderByGandername(Gandername.MALE),
 //                new HashSet<>(Collections.singletonList(role_dekan.get()))
 //        );
-//        userRepository.saveAndFlush(user);
+//        Optional<User> userOptional = userRepository.findById("5ad503f7-a0fb-4acb-ba56-b1ee414fdd8d");
+//        User user1 = userOptional.get();
+//        user1.setPassword(passwordEncoder.encode("AD1153084"));
+//        userRepository.saveAndFlush(user1);
 //
 //        Student student = new Student();
 //        Optional<Group> group = groupRepository.findById("910494b7-a590-4c77-b016-f4f007ba065d");

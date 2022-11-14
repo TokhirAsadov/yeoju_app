@@ -15,7 +15,7 @@ public interface PhoneNumberRepository extends JpaRepository<PhoneNumber, String
     List<PhoneNumber> findPhoneNumbersByUserId(String user_id);
 
 
-    @Query(value = "select id,phoneNumber,phoneType from PhoneNumber p_n where p_n.user_id=:userId",nativeQuery = true)
+    @Query(value = "select id,phoneNumber,phoneType,hasTg,hasInstagram,hasFacebook from PhoneNumber p_n where p_n.user_id=:userId",nativeQuery = true)
     List<StudentPhones> getPhoneNumberUserId(@Param("userId") String userId);
 
     @Query(value = "select pn.phoneNumber from PhoneNumber pn join users u on pn.user_id = u.id join Student S on u.id = S.user_id\n" +

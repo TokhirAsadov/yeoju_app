@@ -5,13 +5,19 @@ import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.GroupDto;
+import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class;
+import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.GroupXml;
+import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.LessonXml;
+import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable;
 import uz.yeoju.yeoju_app.repository.*;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.GroupImplService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +29,11 @@ public class GroupService implements GroupImplService<GroupDto> {
     public final EducationLanRepository eduLanRepo;
     public final EducationFormRepository eduFormRepo;
     public final EducationTypeRepository eduTypeRepo;
+
+
+    public ApiResponse getGroupNameByUserId(String userId){
+        return new ApiResponse(true,"group",groupRepository.getGroupNameByUserId(userId));
+    }
 
 
 
@@ -211,5 +222,18 @@ public class GroupService implements GroupImplService<GroupDto> {
                         .stream().map(this::generateGroupDto)
                         .collect(Collectors.toSet())
         );
+    }
+
+
+    //TODO ----> Time table from .xml file
+    public ApiResponse getSubjectOfGroup(String group) {
+        String id = DataBaseForTimeTable.classes.stream().filter(item -> Objects.equals(item.getName(), group)).findFirst().get().getId();
+        List<LessonXml> lessonXmlList = DataBaseForTimeTable.lessons.stream().filter(item -> item.getClassIds().contains(id)).collect(Collectors.toList());
+        List<String> response = new ArrayList<>();
+        for (LessonXml lessonXml : lessonXmlList) {
+            String name = DataBaseForTimeTable.subjects.stream().filter(item -> Objects.equals(item.getId(), lessonXml.getSubjectId())).findFirst().get().getName();
+            response.add(name);
+        }
+        return new ApiResponse(true,"subjects",response);
     }
 }

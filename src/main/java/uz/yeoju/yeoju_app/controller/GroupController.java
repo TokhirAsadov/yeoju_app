@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.GroupDto;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.GroupService;
 
 import java.util.List;
@@ -15,6 +17,17 @@ import java.util.List;
 public class GroupController {
 
     public final GroupService groupService;
+
+
+    @GetMapping("/getSubjectOfGroup/{group}")
+    public HttpEntity<?> getSubjectOfGroup(@PathVariable("group") String group){
+        return ResponseEntity.ok(groupService.getSubjectOfGroup(group));
+    }
+
+    @GetMapping("/getGroupNameByUserId")
+    public HttpEntity<?> getGroupNameByUserId(@CurrentUser User user){
+        return ResponseEntity.ok(groupService.getGroupNameByUserId(user.getId()));
+    }
 
     @GetMapping("/createGroupsByGroupNamesAndFacultyId")
     public HttpEntity<?> createGroupsByGroupNamesAndFacultyId(

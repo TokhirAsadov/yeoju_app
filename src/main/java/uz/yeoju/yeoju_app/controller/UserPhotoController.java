@@ -5,6 +5,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.payload.UserPhotoDto;
+import uz.yeoju.yeoju_app.payload.UserPhotoSaveDto;
 import uz.yeoju.yeoju_app.service.useServices.UserPhotoService;
 
 @RestController
@@ -36,7 +37,12 @@ public class UserPhotoController {
         return ResponseEntity.status(201).body(userPhotoService.saveOrUpdate(dto));
     }
 
-    @PostMapping("/updateUserPhoto")
+    @PostMapping("/savingUserPhoto")
+    public HttpEntity<?> savingNewUserPhoto(@RequestBody UserPhotoSaveDto dto){
+        return ResponseEntity.status(201).body(userPhotoService.saving(dto));
+    }
+
+    @PutMapping("/updateUserPhoto")
     public HttpEntity<?> updateUserPhoto(@RequestBody UserPhotoDto dto){
         return ResponseEntity.status(202).body(userPhotoService.saveOrUpdate(dto));
     }

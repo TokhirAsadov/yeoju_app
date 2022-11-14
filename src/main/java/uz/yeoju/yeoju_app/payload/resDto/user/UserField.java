@@ -16,8 +16,13 @@ public interface UserField {
     String getNationality();
     String getPassportNum();
 
+    String getEmail();
+
     @Value("#{@addressUserRepository.getAddressByUserId(target.id)}")
     StudentAddress getAddress();
+
+    @Value("#{@addressUserRepository.getAddressCurrentByUserId(target.id)}")
+    StudentAddress getAddressCurrent();
 
     @Value("#{@phoneNumberRepository.getPhoneNumberUserId(target.id)}")
     List<StudentPhones> getPhones();

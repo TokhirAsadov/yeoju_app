@@ -104,7 +104,7 @@ public class FileReaderController {
                     }
                 }
                 else {
-                    //todo====================== RETAKE LARNI YOZIW KK LOGIKASINI ==============================
+                    //todo====================== RETAKE LARNI YOZIW Chat LOGIKASINI ==============================
                 }
             }
 

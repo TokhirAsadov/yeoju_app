@@ -4,5 +4,7 @@ public enum SmsType {
     ALL,
     COURSE,
     GROUP,
-    STUDENT
+    STUDENT,
+    TEACHER,
+    ALL_TEACHER
 }

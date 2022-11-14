@@ -295,7 +295,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "         join users_Role ur\n" +
             "              on u.id = ur.users_id\n" +
             "         join Role R2 on ur.roles_id = R2.id\n" +
-            "where al.time between :dateFrom and :dateTo and R2.roleName='Student' and cast(:cardNo as varchar) = cast(al.card_no as varchar)\n" +
+            "where al.time between :dateFrom and :dateTo and R2.roleName='ROLE_STUDENT' and cast(:cardNo as varchar) = cast(al.card_no as varchar)\n" +
             "order by al.time asc\n" +
             "              ) as t1\n" +
             "join (\n" +
@@ -306,7 +306,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "         join users_Role ur\n" +
             "              on u.id = ur.users_id\n" +
             "         join Role R2 on ur.roles_id = R2.id\n" +
-            "where al.time between :dateFrom and :dateTo and R2.roleName='Student' and  cast(:cardNo as varchar) = cast(al.card_no as varchar)\n" +
+            "where al.time between :dateFrom and :dateTo and R2.roleName='ROLE_STUDENT' and  cast(:cardNo as varchar) = cast(al.card_no as varchar)\n" +
             "order by al.time desc\n" +
             ") as t2 on t1.cardNo = t2.card_no",nativeQuery = true)
     StudentWithAscAndDescDate getStudentWithAscAndDescDate(

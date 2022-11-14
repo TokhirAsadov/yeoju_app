@@ -15,6 +15,6 @@ public interface UserPhotoRepo extends JpaRepository<UserPhoto, String> {
     boolean existsUserPhotoByUserId(String user_id);
     boolean existsUserPhotoByActive(boolean active);
 
-    @Query(value = "select a.id,a.originalName,a.size,a.contentType from UserPhoto u_p join Attachment a on u_p.attachment_id = a.id where u_p.user_id=:userId",nativeQuery = true)
+    @Query(value = "select Top 1 a.id,a.originalName,a.size,a.contentType from UserPhoto u_p join Attachment a on u_p.attachment_id = a.id where u_p.user_id=:userId order by u_p.createdAt desc ",nativeQuery = true)
     UserPhotoRes getUserPhotoRes(@Param("userId") String userId);
 }

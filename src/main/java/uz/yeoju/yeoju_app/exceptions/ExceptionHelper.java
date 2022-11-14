@@ -30,6 +30,7 @@ import uz.yeoju.yeoju_app.payload.ApiResult;
 import uz.yeoju.yeoju_app.payload.ErrorData;
 import uz.yeoju.yeoju_app.utills.constants.Rest;
 
+import java.security.SignatureException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -293,5 +294,14 @@ public class ExceptionHelper {
         return new ResponseEntity<>(ApiResult.error(ex.getUserMsg(), ex.getErrorCode() != null ? ex.getErrorCode() : ex.getStatus().value()), ex.getStatus());
     }
 
+
+
+    @ExceptionHandler(value = {SignatureException.class})
+    public ResponseEntity<ApiResult<ErrorData>> handleException(SignatureException ex) {
+        System.out.println("=========  run  ===========");
+        return new ResponseEntity<>(
+                ApiResult.error(ex.getMessage(), 444),
+                HttpStatus.BAD_REQUEST);
+    }
 
 }

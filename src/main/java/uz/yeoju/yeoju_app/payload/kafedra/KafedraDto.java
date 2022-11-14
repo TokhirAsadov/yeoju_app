@@ -1,4 +1,4 @@
-package uz.yeoju.yeoju_app.payload;
+package uz.yeoju.yeoju_app.payload.kafedra;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

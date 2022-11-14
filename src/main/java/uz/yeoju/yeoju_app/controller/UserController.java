@@ -1,10 +1,15 @@
 package uz.yeoju.yeoju_app.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.YeojuAppApplication;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.enums.WorkerStatus;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
@@ -14,10 +19,10 @@ import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable.getSAXParsedDocument;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/user")
@@ -26,6 +31,69 @@ public class UserController {
 
     public final UserService userService;
     public final UserRepository userRepository;
+
+
+    @GetMapping("/updateFullName")
+    public HttpEntity<?> updateFullName(@CurrentUser User user, @RequestParam String fullName){
+        user.setFullName(fullName);
+        userRepository.save(user);
+        return ResponseEntity.ok("updated");
+    }
+
+
+    @GetMapping("/updateCivil")
+    public HttpEntity<?> updateCivil(@CurrentUser User user, @RequestParam String civil){
+        Optional<User> userOptional = userRepository.findById(user.getId());
+        if (userOptional.isPresent()){
+            User user1 = userOptional.get();
+            user1.setCitizenship(civil);
+            userRepository.save(user1);
+        }
+        return ResponseEntity.ok("updated");
+    }
+
+
+    @GetMapping("/updateNation")
+    public HttpEntity<?> updateNation(@CurrentUser User user, @RequestParam String nation){
+        Optional<User> userOptional = userRepository.findById(user.getId());
+        if (userOptional.isPresent()){
+            User user1 = userOptional.get();
+            user1.setNationality(nation);
+            userRepository.save(user1);
+        }
+        return ResponseEntity.ok("updated");
+    }
+    @GetMapping("/updateEmail")
+    public HttpEntity<?> updateEmail(@CurrentUser User user, @RequestParam String email){
+        Optional<User> userOptional = userRepository.findById(user.getId());
+        if (userOptional.isPresent()){
+            User user1 = userOptional.get();
+            user1.setEmail(email);
+            userRepository.save(user1);
+        }
+        return ResponseEntity.ok("updated");
+    }
+
+    @GetMapping("/updateBirth")
+    public HttpEntity<?> updateBirth(@CurrentUser User user, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date birth){
+        Optional<User> userOptional = userRepository.findById(user.getId());
+        if (userOptional.isPresent()){
+            User user1 = userOptional.get();
+            user1.setBornYear(birth);
+            userRepository.save(user1);
+        }
+        return ResponseEntity.ok("updated");
+    }
+
+    @GetMapping("/notification")
+    public HttpEntity<?> getNotification(@RequestParam("kafedraId") String kafedraId){
+        return ResponseEntity.ok(userService.getNotification(kafedraId));
+    }
+
+    @GetMapping("/getTimeTable")
+    public HttpEntity<?> getTimeTable(@RequestParam("kafedraId") String kafedraId){
+        return ResponseEntity.ok(userService.getTimeTable(kafedraId));
+    }
 
     @GetMapping("/getUserFields")
     public HttpEntity<?> getUserFields(@CurrentUser User user){
@@ -36,6 +104,21 @@ public class UserController {
     public HttpEntity<?> studentAllData(@PathVariable("userId") String userId){
         return ResponseEntity.ok(userRepository.getStudentDataByUserId(userId));
     }
+    @GetMapping("/studentAllDataForOwn")
+    public HttpEntity<?> studentAllDataForOwn(@CurrentUser User user){
+        return ResponseEntity.ok(userRepository.getStudentDataByUserId(user.getId()));
+    }
+
+    @GetMapping("/teacherAllData/{userId}")
+    public HttpEntity<?> teacherAllData(@PathVariable("userId") String userId){
+        return ResponseEntity.ok(userRepository.getTeacherDataByUserId(userId));
+    }
+
+    @GetMapping("/teacherAllDataForOwn")
+    public HttpEntity<?> teacherAllDataForOwn(@CurrentUser User user){
+        return ResponseEntity.ok(userRepository.getTeacherDataByUserId(user.getId()));
+    }
+
 
     @GetMapping("/passport")
     public HttpEntity<?> passport(){
@@ -109,16 +192,18 @@ public class UserController {
                                 }
                                 for (DaysDef daysDef : DataBaseForTimeTable.daysDefs) {
                                     if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                        if (daysDef.getDays().get(0).equals("10000"))
+                                        if (daysDef.getDays().get(0).equals("100000"))
                                             show.setDayNumber(1);
-                                        if (daysDef.getDays().get(0).equals("01000"))
+                                        if (daysDef.getDays().get(0).equals("010000"))
                                             show.setDayNumber(2);
-                                        if (daysDef.getDays().get(0).equals("00100"))
+                                        if (daysDef.getDays().get(0).equals("001000"))
                                             show.setDayNumber(3);
-                                        if (daysDef.getDays().get(0).equals("00010"))
+                                        if (daysDef.getDays().get(0).equals("000100"))
                                             show.setDayNumber(4);
-                                        if (daysDef.getDays().get(0).equals("00001"))
+                                        if (daysDef.getDays().get(0).equals("000010"))
                                             show.setDayNumber(5);
+                                        if (daysDef.getDays().get(0).equals("000001"))
+                                            show.setDayNumber(6);
                                         show.setDaysName(daysDef.getName());
                                         break;
                                     }
@@ -192,5 +277,47 @@ public class UserController {
     @GetMapping("/getUserByRfid/{rfid}")
     public HttpEntity<?> getUserByRfid(@PathVariable("rfid") String rfid){
         return ResponseEntity.ok(userService.getUserByRFID(rfid));
+    }
+
+    @GetMapping("/getUserForTeacherSaving")
+    public HttpEntity<?> getUserForTeacherSaving(@CurrentUser User user){
+        return ResponseEntity.ok(userService.getItemsForTeacherSaving(user.getId()));
+    }
+    @GetMapping("/getUserForTeacherSavingSearch")
+    public HttpEntity<?> getUserForTeacherSaving(@RequestParam("keyword") String keyword){
+        return ResponseEntity.ok(userService.getUserForTeacherSavingSearch("%" + keyword + "%"));
+    }
+
+    @GetMapping("/workerStatus")
+    public HttpEntity<?> getWorkerStatuses(){
+        WorkerStatus[] values = WorkerStatus.values();
+        return ResponseEntity.ok(values);
+    }
+
+    @GetMapping("/clearTable")
+    public HttpEntity<?> clearTimeTable(){
+        return ResponseEntity.ok(DataBaseForTimeTable.clearTimeTable());
+    }
+
+    @GetMapping("/timeTable")
+    public void RestartTimeTableDataBase(){
+        String xmlFile = "yeoju.xml";
+        Document document = getSAXParsedDocument(xmlFile);
+        System.out.println(document);
+        Element rootNode = document.getRootElement();
+        rootNode.getChild("periods").getChildren("period").forEach(System.out::println);
+        rootNode.getChild("periods").getChildren("period").forEach(YeojuAppApplication::readPeriod);
+        rootNode.getChild("daysdefs").getChildren("daysdef").forEach(YeojuAppApplication::readDaysDef);
+        rootNode.getChild("weeksdefs").getChildren("weeksdef").forEach(YeojuAppApplication::readWeeksDef);
+        rootNode.getChild("termsdefs").getChildren("termsdef").forEach(YeojuAppApplication::readTermsDefs);
+        rootNode.getChild("subjects").getChildren("subject").forEach(YeojuAppApplication::readSubject);
+        rootNode.getChild("teachers").getChildren("teacher").forEach(YeojuAppApplication::readTeacher);
+        rootNode.getChild("classrooms").getChildren("classroom").forEach(YeojuAppApplication::readClassroom);
+        rootNode.getChild("grades").getChildren("grade").forEach(YeojuAppApplication::readGrade);
+        rootNode.getChild("classes").getChildren("class").forEach(YeojuAppApplication::readClass);
+        rootNode.getChild("groups").getChildren("group").forEach(YeojuAppApplication::readGroup);
+        rootNode.getChild("lessons").getChildren("lesson").forEach(YeojuAppApplication::readLesson);
+        rootNode.getChild("cards").getChildren("card").forEach(YeojuAppApplication::readCard);
+
     }
 }

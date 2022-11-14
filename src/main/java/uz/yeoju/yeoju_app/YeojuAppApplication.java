@@ -26,48 +26,18 @@ public class YeojuAppApplication {
 		Document document = getSAXParsedDocument(xmlFile);
 		Element rootNode = document.getRootElement();
 		rootNode.getChild("periods").getChildren("period").forEach(YeojuAppApplication::readPeriod);
-		DataBaseForTimeTable.periods.forEach(System.out::println);
-		System.out.println("periods - "+DataBaseForTimeTable.periods);
-		System.out.println("======================== ************************************ ============================");
 		rootNode.getChild("daysdefs").getChildren("daysdef").forEach(YeojuAppApplication::readDaysDef);
-		DataBaseForTimeTable.daysDefs.forEach(System.out::println);
-		System.out.println("======================== ************************************ ============================");
 		rootNode.getChild("weeksdefs").getChildren("weeksdef").forEach(YeojuAppApplication::readWeeksDef);
-		DataBaseForTimeTable.weeksDefs.forEach(System.out::println);
-		System.out.println("======================== ************************************ ============================");
 		rootNode.getChild("termsdefs").getChildren("termsdef").forEach(YeojuAppApplication::readTermsDefs);
-		DataBaseForTimeTable.termsDefs.forEach(System.out::println);
-		System.out.println("======================== ************************************ ============================");
 		rootNode.getChild("subjects").getChildren("subject").forEach(YeojuAppApplication::readSubject);
-		DataBaseForTimeTable.subjects.forEach(System.out::println);
-//        subjects.removeAll(subjects);
-//        System.out.println(subjects);
-//        System.out.println("subject x -> "+subjects);
-		System.out.println("======================== ************************************ ============================");
 		rootNode.getChild("teachers").getChildren("teacher").forEach(YeojuAppApplication::readTeacher);
-		DataBaseForTimeTable.teachers.forEach(System.out::println);
-		System.out.println("======================== ************************************ ============================");
 		rootNode.getChild("classrooms").getChildren("classroom").forEach(YeojuAppApplication::readClassroom);
-		DataBaseForTimeTable.classRooms.forEach(System.out::println);
-		System.out.println("======================== ************************************ ============================");
 		rootNode.getChild("grades").getChildren("grade").forEach(YeojuAppApplication::readGrade);
-		DataBaseForTimeTable.grades.forEach(System.out::println);
-		System.out.println("======================== ************************************ ============================");
 		rootNode.getChild("classes").getChildren("class").forEach(YeojuAppApplication::readClass);
-		DataBaseForTimeTable.classes.forEach(System.out::println);
-		System.out.println("======================== ************************************ ============================");
 		rootNode.getChild("groups").getChildren("group").forEach(YeojuAppApplication::readGroup);
-		DataBaseForTimeTable.groups.forEach(System.out::println);
-		System.out.println("======================== ************************************ ============================");
 		rootNode.getChild("lessons").getChildren("lesson").forEach(YeojuAppApplication::readLesson);
-		DataBaseForTimeTable.lessons.forEach(System.out::println);
-		System.out.println("======================== ************************************ ============================");
 		rootNode.getChild("cards").getChildren("card").forEach(YeojuAppApplication::readCard);
-//        DataBaseForTimeTable.cards.forEach(System.out::println);
-		System.out.println(DataBaseForTimeTable.cards);
-		System.out.println(DataBaseForTimeTable.periods);
-		System.out.println(DataBaseForTimeTable.groups);
-		System.out.println(DataBaseForTimeTable.classRooms);
+
 
 	}
 
@@ -95,8 +65,6 @@ public class YeojuAppApplication {
 	{
 		String days = employeeNode.getAttributeValue("days");
 		List<String> array = array(days);
-		System.out.println("array  <-*****->  "+array);
-		System.out.println("-----------------------------------");
 		DataBaseForTimeTable.daysDefs.add(
 				new DaysDef(
 						employeeNode.getAttributeValue("id"),
@@ -111,8 +79,6 @@ public class YeojuAppApplication {
 	{
 		String days = employeeNode.getAttributeValue("weeks");
 		List<String> array = array(days);
-		System.out.println("array  <-*****->  "+array);
-		System.out.println("-----------------------------------");
 		DataBaseForTimeTable.weeksDefs.add(
 				new WeeksDef(
 						employeeNode.getAttributeValue("id"),
@@ -127,8 +93,6 @@ public class YeojuAppApplication {
 	{
 		String days = employeeNode.getAttributeValue("terms");
 		List<String> array = array(days);
-		System.out.println("array  <-*****->  "+array);
-		System.out.println("-----------------------------------");
 		DataBaseForTimeTable.termsDefs.add(
 				new TermsDef(
 						employeeNode.getAttributeValue("id"),
@@ -261,8 +225,6 @@ public class YeojuAppApplication {
 
 		while (has){
 			int index = str.indexOf(',');
-			System.out.println("Index  -->  "+index);
-
 			if (index == -1) {
 				arr.add(str);
 				has = false;
@@ -270,7 +232,6 @@ public class YeojuAppApplication {
 			else {
 				arr.add(str.substring(0,index));
 				str = str.substring(index+1);
-				System.out.println("Str  -->  "+str);
 			}
 		}
 
