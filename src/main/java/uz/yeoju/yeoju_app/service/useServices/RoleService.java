@@ -19,6 +19,9 @@ import java.util.stream.Collectors;
 public class RoleService implements RoleImplService<RoleDto> {
     public final RoleRepository roleRepository;
 
+    public ApiResponse allRoles(){
+        return new ApiResponse(true,"all roles",roleRepository.allRoles());
+    }
 
     @Override
     public ApiResponse findAll() {

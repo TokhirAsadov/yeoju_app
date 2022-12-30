@@ -20,9 +20,25 @@
   "rektor_sidebar_teacher": "O`qituvchilar",
   "rektor_sidebar_user_service": "Sozlamalar",
 
+  "super_admin_sidebar_user": "User",
+  "super_admin_sidebar_teacher": "Teacher",
+  "super_admin_sidebar_kafedra": "Kafedra",
+  "super_admin_sidebar_dekanat": "Dekanat",
+  "super_admin_sidebar_dekan": "Dekan",
+  "super_admin_sidebar_dashboard": "Dashboard",
+  "super_admin_sidebar_student": "Student",
+
   "dekan_sidebar_dashboard": "Boshqaruv paneli",
   "dekan_sidebar_users": "Talabalar",
   "dekan_sidebar_message": "Xabarlar",
   "dekan_sidebar_groups": "Guruhlar",
-  "dekan_sidebar_sms_history": "SMS lar tarixi"
+  "dekan_sidebar_sms_history": "SMS lar tarixi",
+  "dekan_sidebar_kafedra": "Kafedra",
+  "dekan_sidebar_studentAdd": "Student Settings",
+
+  "kafedra_sidebar_dashboard": "Boshqaruv paneli",
+  "kafedra_sidebar_teachers": "O`qituvchilar",
+  "kafedra_sidebar_message": "Xabarlat",
+  "kafedra_sidebar_sms_history": "SMS lar tarixi",
+  "kafedra_sidebar_roles": "Roles of User"
 }

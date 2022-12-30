@@ -12,12 +12,27 @@
   "rektor_sidebar_staff": "Персонал",
   "rektor_sidebar_user_service": "Служба Пользователя",
 
+  "super_admin_sidebar_user": "User",
+  "super_admin_sidebar_teacher": "Teacher",
+  "super_admin_sidebar_kafedra": "Kafedra",
+  "super_admin_sidebar_dekanat": "Dekanat",
+  "super_admin_sidebar_dekan": "Dekan",
+  "super_admin_sidebar_dashboard": "Dashboard",
+  "super_admin_sidebar_student": "Student",
+
   "dekan_sidebar_dashboard": "Приборная Доска",
   "dekan_sidebar_users": "Ученики",
   "dekan_sidebar_message": "Сообщения",
   "dekan_sidebar_groups": "Группы",
   "dekan_sidebar_sms_history": "История СМС",
+  "dekan_sidebar_kafedra": "Kafedra",
+  "dekan_sidebar_studentAdd": "Student Settings",
 
+  "kafedra_sidebar_dashboard": "Приборная Доска",
+  "kafedra_sidebar_teachers": "Учителя",
+  "kafedra_sidebar_message": "Сообщения",
+  "kafedra_sidebar_sms_history": "История СМС",
+  "kafedra_sidebar_roles": "Roles of User",
 
   "barchart_workers_title": "Рабочий персонал",
 

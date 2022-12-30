@@ -1,29 +1,43 @@
 package uz.yeoju.yeoju_app.service.useServices;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import uz.yeoju.yeoju_app.entity.Role;
-import uz.yeoju.yeoju_app.entity.Student;
-import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.payload.ResToken;
-import uz.yeoju.yeoju_app.payload.SignInDto;
-import uz.yeoju.yeoju_app.payload.UserDto;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import uz.yeoju.yeoju_app.entity.*;
+import uz.yeoju.yeoju_app.payload.*;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
+import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Teacher;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.Table;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherData;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra28;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra29;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra30;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra31;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraTeachers28;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraTeachers29;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraTeachers30;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraTeachers31;
 import uz.yeoju.yeoju_app.payload.resDto.search.SearchDto;
-import uz.yeoju.yeoju_app.repository.RoleRepository;
-import uz.yeoju.yeoju_app.repository.StudentRepository;
-import uz.yeoju.yeoju_app.repository.UserRepository;
+import uz.yeoju.yeoju_app.payload.superAdmin.StudentSaveDto;
+import uz.yeoju.yeoju_app.repository.*;
 import uz.yeoju.yeoju_app.secret.JwtProvider;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.UserImplService;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -35,14 +49,21 @@ public class UserService implements UserImplService<UserDto> {
 
     public final UserRepository userRepository;
     public final GanderService ganderService;
+    public final PasswordEncoder passwordEncoder;
+    public final RoleRepository roleRepository;
 
-    @Autowired
-    AuthenticationManager manager;
+    public final AuthenticationManager manager;
     public final JwtProvider provider;
     public final RoleService roleService;
 
-    public final RoleRepository roleRepository;
     public final StudentRepository studentRepository;
+    public final GroupRepository groupRepository;
+    public final FacultyRepository facultyRepository;
+    public final EducationLanRepository eduLanRepo;
+    public final EducationFormRepository eduFormRepo;
+    public final EducationTypeRepository eduTypeRepo;
+
+
 
     public ResToken login(SignInDto signInDto){
         Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -52,6 +73,29 @@ public class UserService implements UserImplService<UserDto> {
         User user = (User) auth.getPrincipal();
         String token = provider.generateToken(user);
         return new ResToken(token);
+    }
+
+
+    public ApiResponse getStatisticsForRektorTeacherPage(String id) {
+        int maxDay = Calendar.getInstance().getMaximum(Calendar.DATE);
+        Calendar calendar = Calendar.getInstance();
+        int days = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        if (days==31){
+            System.out.println( "31 <---===========================================================================================================================================-----------------------------------------------------------------------------------------------------------------------------------------");
+            KafedraTeachers31 forRektorByKafedraId31 = userRepository.getKafedraTeachersDataForRektorByKafedraId31(id);
+            return new ApiResponse(true,"show", forRektorByKafedraId31);
+        }
+        else if (days==30){
+            KafedraTeachers30 forRektorByKafedraId30 = userRepository.getKafedraTeachersDataForRektorByKafedraId30(id);
+            return new ApiResponse(true,"show", forRektorByKafedraId30);
+        }else if (maxDay==29){
+            KafedraTeachers29 forRektorByKafedraId29 = userRepository.getKafedraTeachersDataForRektorByKafedraId29(id);
+            return new ApiResponse(true,"show",forRektorByKafedraId29 );
+        }else {
+            KafedraTeachers28 forRektorByKafedraId28 = userRepository.getKafedraTeachersDataForRektorByKafedraId28(id);
+            return new ApiResponse(true,"show", forRektorByKafedraId28);
+        }
+
     }
 
 
@@ -380,7 +424,7 @@ public class UserService implements UserImplService<UserDto> {
 
 
     public ApiResponse generateTeacherByRfid(List<String> ids){
-        Optional<Role> roleName = roleRepository.findRoleByRoleName("O`qituvchi");
+        Optional<Role> roleName = roleRepository.findRoleByRoleName("ROLE_TEACHER");
         Role role = roleName.get();
         for (int i = 0; i < ids.size(); i++) {
             System.out.println(ids.get(i));
@@ -496,5 +540,250 @@ public class UserService implements UserImplService<UserDto> {
 
 
         return new ApiResponse(true,"teachers", tables);
+    }
+
+    public ApiResponse saveRoleUser(RoleUser dto) {
+        Optional<User> userOptional = userRepository.findById(dto.getUserId());
+        if (userOptional.isPresent()){
+            User user = userOptional.get();
+            Set<Role> roles = new HashSet<>();
+
+            for (String s : dto.getRoleId()) {
+                Optional<Role> roleOptional = roleRepository.findById(s);
+                roleOptional.ifPresent(roles::add);
+            }
+            user.setRoles(roles);
+            userRepository.save(user);
+        }
+        else {
+           return new ApiResponse(false,"not found user");
+        }
+
+        return null;
+    }
+
+
+
+
+    @Transactional
+    public ApiResponse saving(MultipartHttpServletRequest request) throws IOException {
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return readDataFromExcel(file);
+            }
+        }
+        return null;
+    }
+
+
+    @Transactional
+    public ApiResponse readDataFromExcel(MultipartFile file) {
+        try {
+            Workbook workbook = getWorkBook(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            rows.next();
+            System.out.println(rows);
+            System.out.println(rows.hasNext());
+            while (rows.hasNext()){
+                Row row = rows.next();
+//                row.getCell(3).getStringCellValue()
+
+                System.out.println(row.getCell(0));
+
+                User user = new User();
+                user.setFullName(row.getCell(0).getStringCellValue());
+                user.setRFID(row.getCell(1).getStringCellValue());
+                user.setLogin(row.getCell(2).getStringCellValue());
+                user.setPassportNum(row.getCell(3).getStringCellValue());
+                user.setPassword(passwordEncoder.encode(row.getCell(3).getStringCellValue()));
+                user.setEmail(row.getCell(4).getStringCellValue());
+                Optional<Role> optional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                user.setRoles(new HashSet<>(Collections.singletonList(optional.get())));
+
+                System.out.println(user);
+
+//                userRepository.save(user);
+
+                /**
+                 *  full name
+                 *  rfid
+                 *  login
+                 *  passport number
+                 *  email
+                 * **/
+
+
+            }
+
+
+            return new ApiResponse(true,"saved users");
+        }catch (Exception e){
+            return new ApiResponse(false,"error saved users");
+        }
+    }
+
+
+    private Workbook getWorkBook(MultipartFile file) {
+        Workbook workbook = null;
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        try {
+            assert extension != null;
+            if (extension.equalsIgnoreCase("xlsx")){
+                workbook = new XSSFWorkbook(file.getInputStream());
+
+            } else if (extension.equalsIgnoreCase("xls")){
+                workbook = new HSSFWorkbook(file.getInputStream());
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return workbook;
+    }
+
+
+    @Transactional
+    public ApiResponse saveStudentFromSuperAdmin(StudentSaveDto dto) {
+        User userByRFID = userRepository.findUserByRFID(dto.getRfid());
+        if (userByRFID!=null){
+            Student studentByUserId = studentRepository.findStudentByUserId(userByRFID.getId());
+            if (studentByUserId!=null){
+                Group groupByName = groupRepository.findGroupByName(dto.getGroup());
+                if (groupByName!=null){
+                    userByRFID.setRFID(dto.getRfid());
+                    userByRFID.setFullName(dto.getFullName());
+                    userByRFID.setLogin(dto.getLogin());
+                    userByRFID.setPassportNum(dto.getPassport());
+                    userByRFID.setPassword(passwordEncoder.encode(dto.getPassword()));
+                    userByRFID.setEnabled(true);
+                    userByRFID.setAccountNonExpired(true);
+                    userByRFID.setAccountNonLocked(true);
+                    userByRFID.setCredentialsNonExpired(true);
+                    userRepository.save(userByRFID);
+
+                    studentByUserId.setGroup(groupByName);
+                    studentByUserId.setUser(userByRFID);
+                    studentRepository.save(studentByUserId);
+                    return new ApiResponse(true,"saved student");
+                }
+                else {
+                    Group group = new Group();
+                    group.setName(dto.getGroup());
+                    group.setLevel(dto.getLevel());
+
+                    if (group.getName().charAt(group.getName().length() - 1) == 'U')
+                        group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                    if (group.getName().charAt(group.getName().length() - 1) == 'R')
+                        group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                    if (group.getName().charAt(group.getName().length() - 1) == 'E')
+                        group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+
+                    if (group.getName().indexOf('-') == 3) {
+                        group.setEducationType(eduTypeRepo.findEducationTypeByName("KUNDUZGI").get());
+                    } else {
+                        if (group.getName().charAt(3) == 'P')
+                            group.setEducationType(eduTypeRepo.findEducationTypeByName("SIRTQI").get());
+                        else group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
+                    }
+
+
+
+                    Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(group.getName().substring(0, 3));
+
+                    if (facultyOptional.isPresent()){
+                        group.setFaculty(facultyOptional.get());
+                        Group save1 = groupRepository.save(group);
+                        studentByUserId.setUser(userByRFID);
+                        studentByUserId.setGroup(save1);
+                        studentRepository.save(studentByUserId);
+                        return new ApiResponse(true,"saved student");
+                    }
+                    else {
+                        return new ApiResponse(false,"not fount faculty");
+                    }
+
+                }
+
+
+            }
+            else {
+                Group groupByName = groupRepository.findGroupByName(dto.getGroup());
+                if (groupByName!=null){
+                    userByRFID.setRFID(dto.getRfid());
+                    userByRFID.setFullName(dto.getFullName());
+                    userByRFID.setLogin(dto.getLogin());
+                    userByRFID.setPassportNum(dto.getPassport());
+                    userByRFID.setPassword(passwordEncoder.encode(dto.getPassword()));
+                    userByRFID.setEnabled(true);
+                    userByRFID.setAccountNonExpired(true);
+                    userByRFID.setAccountNonLocked(true);
+                    userByRFID.setCredentialsNonExpired(true);
+                    userRepository.save(userByRFID);
+
+                    Student student=new Student();
+                    student.setGroup(groupByName);
+                    student.setUser(userByRFID);
+                    studentRepository.save(student);
+                    return new ApiResponse(true,"saved student");
+                }
+                else {
+
+                    userByRFID.setRFID(dto.getRfid());
+                    userByRFID.setFullName(dto.getFullName());
+                    userByRFID.setLogin(dto.getLogin());
+                    userByRFID.setPassportNum(dto.getPassport());
+                    userByRFID.setPassword(passwordEncoder.encode(dto.getPassword()));
+                    userByRFID.setEnabled(true);
+                    userByRFID.setAccountNonExpired(true);
+                    userByRFID.setAccountNonLocked(true);
+                    userByRFID.setCredentialsNonExpired(true);
+                    userRepository.save(userByRFID);
+
+
+                    Group group = new Group();
+                    group.setName(dto.getGroup());
+                    group.setLevel(dto.getLevel());
+
+                    if (group.getName().charAt(group.getName().length() - 1) == 'U')
+                        group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                    if (group.getName().charAt(group.getName().length() - 1) == 'R')
+                        group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                    if (group.getName().charAt(group.getName().length() - 1) == 'E')
+                        group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+
+                    if (group.getName().indexOf('-') == 3) {
+                        group.setEducationType(eduTypeRepo.findEducationTypeByName("KUNDUZGI").get());
+                    } else {
+                        if (group.getName().charAt(3) == 'P')
+                            group.setEducationType(eduTypeRepo.findEducationTypeByName("SIRTQI").get());
+                        else group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
+                    }
+
+
+
+                    Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(group.getName().substring(0, 3));
+
+                    if (facultyOptional.isPresent()){
+                        group.setFaculty(facultyOptional.get());
+                        Group save1 = groupRepository.save(group);
+                        Student student = new Student();
+                        student.setUser(userByRFID);
+                        student.setGroup(save1);
+                        studentRepository.save(student);
+                        return new ApiResponse(true,"saved student");
+                    }
+                    else {
+                        return new ApiResponse(false,"not fount faculty");
+                    }
+
+                }
+            }
+        }
+        else {
+            return new ApiResponse(false,"Not fount user by rfid");
+        }
     }
 }

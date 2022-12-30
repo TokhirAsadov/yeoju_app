@@ -12,6 +12,13 @@ public interface PositionRepository extends JpaRepository<Position, Long> {
     Position getPositionByUserPositionName(String name);
     boolean existsPositionByUserPositionName(String name);
 
+
+    @Query(value = "select CAST(p.id as varchar) as value, p.userPositionName as label\n" +
+            "from Position p\n" +
+            "         join users_Position uP on p.id = uP.positions_id\n" +
+            "where uP.users_id=:id",nativeQuery = true)
+    UserForTeacherSaveItem getUserPositionForEditUserPosition(@Param("id") String id);
+
     @Query(value = "select CAST(id as varchar) as value, userPositionName as label from Position order by userPositionName asc",nativeQuery = true)
     List<UserForTeacherSaveItem> getPositionsForTeacherSaving();
 

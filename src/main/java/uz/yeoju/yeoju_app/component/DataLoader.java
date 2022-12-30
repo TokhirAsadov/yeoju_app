@@ -54,6 +54,47 @@ public class DataLoader implements CommandLineRunner {
         )
         );
 
+        Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_SUPER_ADMIN");
+        if (!roleOptional.isPresent()){
+            Role superAdmin = roleRepository.save(new Role("ROLE_SUPER_ADMIN"));
+            User user = new User();
+            user.setLogin("super_admin");
+            user.setPassword(passwordEncoder.encode("r00t123"));
+            user.setRoles(new HashSet<>(Collections.singleton(superAdmin)));
+            userRepository.save(user);
+        }
+
+//        Optional<User> optional = userRepository.findById("c6b603ca-cfe2-4095-a2e3-d21ab376f1ea");
+//        User user = optional.get();
+//
+//        if (user.getLogin()==null){
+//        user.setAccountNonExpired(true);
+//        user.setAccountNonLocked(true);
+//        user.setCredentialsNonExpired(true);
+//        user.setEnabled(true);
+//        user.setEmail("mashrab");
+//            user.setLogin("mashrab");
+//            user.setPassword(passwordEncoder.encode("mashrab123"));
+//            userRepository.save(user);
+//        }
+
+
+//        Optional<User> userOptional = userRepository.findById("53625939-0cf5-4ef4-a395-c6c8007cba4e");
+//        if (userOptional.isPresent()){
+//            User user = userOptional.get();
+//            Set<Role> roles = user.getRoles();
+//            Set<Role> userRoles = new HashSet<>();
+//            for (Role role : roles) {
+//                if (role.getRoleName().equals("ROLE_STUDENT")){
+//                    userRoles.add(roleRepository.findRoleByRoleName("ROLE_TEACHER").get());
+//                    user.setRoles(userRoles);
+//                    break;
+//                }
+//            }
+//
+//            userRepository.save(user);
+//        }
+
 //        SmsSendContentDTO smsSendContentDTO = new SmsSendContentDTO("Hello bro, by yeoju ERP");
 //        SmsSendBodyDTO smsSendBodyDTO = new SmsSendBodyDTO(smsSendContentDTO);
 //        SmsSendMessagesDTO messagesDTO = new SmsSendMessagesDTO("998993361603","1");
@@ -87,10 +128,11 @@ public class DataLoader implements CommandLineRunner {
 //        Optional<Group> group = groupRepository.findById("910494b7-a590-4c77-b016-f4f007ba065d");
 //        student.setUser(user.get());
 //        student.setGroup(group.get());
-//
+
 //        Student save = studentRepository.save(student);
 //
-//        Optional<User> user = userRepository.findById("1ddd893c-5450-4af2-9e98-35d3324b2868");
+//        Optional<User> user = userRepository.findById("5d5eeca7-ae7d-4e73-8a40-9ccc55cafde2");
+//        System.out.println(user.get());
 //        PhoneNumber phoneNumber = new PhoneNumber();
 //        phoneNumber.setPhoneNumber("993361603");
 //        phoneNumber.setUser(user.get());

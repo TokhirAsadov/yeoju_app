@@ -5,7 +5,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.payload.RoleDto;
-import uz.yeoju.yeoju_app.payload.SectionDto;
 import uz.yeoju.yeoju_app.service.useServices.RoleService;
 
 @RestController
@@ -16,7 +15,7 @@ public class RoleController {
 
     @GetMapping("/allRoles")
     public HttpEntity<?> allRoles(){
-        return ResponseEntity.ok(roleService.findAll());
+        return ResponseEntity.ok(roleService.allRoles());
     }
 
 

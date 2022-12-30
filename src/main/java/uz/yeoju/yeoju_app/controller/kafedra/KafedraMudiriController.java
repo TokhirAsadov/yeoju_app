@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.payload.dekanat.DekanSave;
 import uz.yeoju.yeoju_app.payload.kafedra.KafedraMudiriSaving;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.kafedra.KafedraMudiriService;
@@ -21,6 +22,18 @@ public class KafedraMudiriController {
 
     @Autowired
     private KafedraMudiriService service;
+
+
+    @GetMapping("/positionEdit")
+    public HttpEntity<?> positionEdit(@RequestParam("id") String id){
+        return ResponseEntity.ok(service.positionEdit(id));
+    }
+
+
+    @PostMapping("/saveKafedra")
+    public HttpEntity<?> saveKafedra(@RequestBody DekanSave dto){
+        return ResponseEntity.status(201).body(service.saveKafedra(dto));
+    }
 
     @GetMapping("/findAll")
     public HttpEntity<?> findAll(){
@@ -42,6 +55,13 @@ public class KafedraMudiriController {
     @DateTimeFormat(pattern = "yyyy.MM.dd") Date date)
     {
         return ResponseEntity.ok(service.getStatistics(user,userId,date));
+    }
+
+    @GetMapping("/getStatisticssForRektor")
+    public HttpEntity<?> getStatisticssForRektor(@CurrentUser User user,@RequestParam("kafedraId") String kafedraId,@RequestParam("date")
+    @DateTimeFormat(pattern = "yyyy.MM.dd") Date date)
+    {
+        return ResponseEntity.ok(service.getStatisticsForRektor(kafedraId,date));
     }
 
 //    @PostMapping("/date")

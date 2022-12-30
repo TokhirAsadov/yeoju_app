@@ -16,6 +16,13 @@ public class FacultyController {
 
     public final FacultyService facultyService;
 
+    @GetMapping("/getFacultyForDekanatSaved")
+    public HttpEntity<?> getFacultyForDekanatSaved(){
+        return ResponseEntity.ok(facultyService.getFacultyForDekanatSaved());
+    }
+
+    //getFacultyForDekanatSaved
+
 
     @GetMapping("/createFacultiesByNames")
     public HttpEntity<?> createFacultiesByNames(@RequestParam("namesOfFaculties") List<String> namesOfFaculties){

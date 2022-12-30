@@ -2,6 +2,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.kafedra;
 
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.dekanat.DekanSave;
 import uz.yeoju.yeoju_app.payload.kafedra.KafedraMudiriSaving;
 
 import java.time.LocalDateTime;
@@ -15,4 +16,12 @@ public interface KafedraMudiriService {
     ApiResponse getStatistics(User user);
 
     ApiResponse getStatistics(User user, String userId,Date date);
+
+    ApiResponse getStatisticsForRektorTeacherPage(String id);
+
+    ApiResponse getStatisticsForRektor(String kafedraId, Date date);
+
+    ApiResponse saveKafedra(DekanSave dekanSave);
+
+    ApiResponse positionEdit(String id);
 }

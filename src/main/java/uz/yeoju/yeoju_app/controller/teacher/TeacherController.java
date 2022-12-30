@@ -33,6 +33,11 @@ public class TeacherController {
 
     }
 
+    @GetMapping("/changeTeacherPosition")
+    public HttpEntity<?> changeTeacherPosition(@RequestParam("userId") String userId,@RequestParam("positionId") Long positionId){
+        return ResponseEntity.ok(teacherService.changeTeacherPosition(userId,positionId));
+    }
+
     @GetMapping("/findAll")
     public HttpEntity<?> findAll(){
         return ResponseEntity.ok(teacherService.findAll());

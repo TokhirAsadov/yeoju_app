@@ -44,15 +44,15 @@ public class GroupService implements GroupImplService<GroupDto> {
             group.setName(name);
             group.setLevel(courseLevel);
 
-            if (name.charAt(name.length()-1) == 'U') group.setEducationLanguage(eduLanRepo.findById("0a163569-f5cb-49e7-9c9a-7146befca335").get());
-            if (name.charAt(name.length()-1) == 'R') group.setEducationLanguage(eduLanRepo.findById("e1a4a374-54fe-4fec-a0df-e23b06fca51a").get());
-            if (name.charAt(name.length()-1) == 'E') group.setEducationLanguage(eduLanRepo.findById("9af8fc2d-2e62-4418-bafc-99a32efa7b2c").get());
+            if (name.charAt(name.length()-1) == 'U') group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+            if (name.charAt(name.length()-1) == 'R') group.setEducationLanguage(eduLanRepo.findById("RUSSIAN").get());
+            if (name.charAt(name.length()-1) == 'E') group.setEducationLanguage(eduLanRepo.findById("ENGLISH").get());
 
             if (name.indexOf('-') == 3){
-                group.setEducationType(eduTypeRepo.findById("8c7ea763-9a2d-41e0-807a-e471d9a4d466").get());
+                group.setEducationType(eduTypeRepo.findEducationTypeByName("KUNDUZGI").get());
             }else {
-                if (name.charAt(3) == 'P') group.setEducationType(eduTypeRepo.findById("71417a41-5fa5-4921-81c7-83472577f166").get());
-                else group.setEducationType(eduTypeRepo.findById("6bea766d-cb8b-47d2-b56d-f303d3d6295b").get());
+                if (name.charAt(3) == 'P') group.setEducationType(eduTypeRepo.findById("SIRTQI").get());
+                else group.setEducationType(eduTypeRepo.findById("KECHKI").get());
             }
 
             group.setFaculty(facultyRepository.findById(facultyId).get());

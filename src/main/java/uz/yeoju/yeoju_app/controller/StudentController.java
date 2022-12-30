@@ -6,10 +6,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.StudentDto;
 import uz.yeoju.yeoju_app.repository.StudentRepository;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.StudentService;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,6 +26,16 @@ public class StudentController {
 
     public final StudentService studentService;
     public final StudentRepository studentRepository;
+
+
+
+    @PostMapping("/uploadStudent")
+    public HttpEntity<?> uploadPhotoForUser(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        System.out.println(" ----------------------------- 1 1 1 ------------------------ --");
+        ApiResponse apiResponse = studentService.saving(request);
+        System.out.println(" ----------------------------- ------------------------ --");
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
 
     @GetMapping("/getStudentWithRFIDForToday/{groupName}")
     public HttpEntity<?> getStudentWithRFIDForToday(

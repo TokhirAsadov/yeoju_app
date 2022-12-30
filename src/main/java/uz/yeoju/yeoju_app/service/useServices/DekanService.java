@@ -1,15 +1,23 @@
 package uz.yeoju.yeoju_app.service.useServices;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import uz.yeoju.yeoju_app.entity.dekan.Dekan;
+import uz.yeoju.yeoju_app.entity.EducationType;
+import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.dekanat.Dekan;
+import uz.yeoju.yeoju_app.entity.dekanat.Dekanat;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.payload.UserDto;
-import uz.yeoju.yeoju_app.payload.dekan.DekanDto;
-import uz.yeoju.yeoju_app.repository.DekanRepository;
+import uz.yeoju.yeoju_app.payload.dekanat.DekanDto;
+import uz.yeoju.yeoju_app.payload.dekanat.DekanSave;
+import uz.yeoju.yeoju_app.payload.dekanat.DekanSaveWithEduType;
+import uz.yeoju.yeoju_app.payload.dekanat.DekanatSaveDto;
+import uz.yeoju.yeoju_app.repository.*;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.DekanImplService;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,7 +26,12 @@ import java.util.stream.Collectors;
 public class DekanService implements DekanImplService<DekanDto> {
     private final DekanRepository dekanRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
     private final FacultyService facultyService;
+    private final StudentRepository studentRepository;
+    private final DekanatRepository dekanatRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final EducationTypeRepository educationTypeRepository;
 
 
 //    public ApiResponse getRetakesByStudentId(String studentId){
@@ -119,5 +132,58 @@ public class DekanService implements DekanImplService<DekanDto> {
     @Override
     public ApiResponse deleteById(String id) {
         return null;
+    }
+
+    public ApiResponse getStudents(String id) {
+        return new ApiResponse(true,"transfer",studentRepository.getStudentsForTransfer(id));
+    }
+
+    public ApiResponse getFacultiesForStudentTransfer(){
+        return new ApiResponse(true,"faculties",dekanRepository.getFacultiesForStudentTransfer());
+    }
+
+    public ApiResponse getForStudentTransferData(String id){
+        return new ApiResponse(true,"transfer data",dekanRepository.getForStudentTransferData(id));
+    }
+
+    public ApiResponse getGroupByFacultyIdAndCourse(String id, Integer course) {
+        return new ApiResponse(true,"groups", dekanRepository.getGroupByFacultyIdAndCourse(id,course));
+    }
+
+    public ApiResponse saveDekan(DekanSaveWithEduType dto) {
+        Optional<User> userOptional = userRepository.findById(dto.getUserId());
+        if (userOptional.isPresent()){
+            User user = userOptional.get();
+            user.setEnabled(true);
+            user.setAccountNonLocked(true);
+            user.setAccountNonExpired(true);
+            user.setCredentialsNonExpired(true);
+            user.setLogin(user.getFullName());
+            user.setPassword(passwordEncoder.encode("root123"));
+
+            userRepository.save(user);
+            Optional<Dekanat> dekanatOptional = dekanatRepository.findById(dto.getDekanatId());
+
+            if (dekanatOptional.isPresent()){
+                Optional<EducationType> typeOptional = educationTypeRepository.findEducationTypeByName(dto.getEdu());
+                if (typeOptional.isPresent()) {
+                    Dekan dekan = new Dekan();
+                    dekan.setDekanat(dekanatOptional.get());
+                    dekan.setUser(userOptional.get());
+                    dekan.setEducationType(typeOptional.get());
+                    dekanRepository.saveAndFlush(dekan);
+                    return new ApiResponse(true, "saved", dekan);
+                }
+                else {
+                    return new ApiResponse(false,"not fount education type");
+                }
+            }
+            else {
+                return new ApiResponse(false,"not fount dekanat");
+            }
+        }
+        else {
+            return new ApiResponse(false,"not fount user");
+        }
     }
 }

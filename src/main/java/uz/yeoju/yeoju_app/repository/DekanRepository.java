@@ -3,8 +3,7 @@ package uz.yeoju.yeoju_app.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.PathVariable;
-import uz.yeoju.yeoju_app.entity.dekan.Dekan;
+import uz.yeoju.yeoju_app.entity.dekanat.Dekan;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.*;
 
 import java.time.LocalDateTime;
@@ -14,91 +13,197 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
 
     Dekan getDekanByUserId(String user_id);
 
-    @Query(value = "select Top 1 f.id,f.name from Faculty f\n" +
-            "join Dekan_Faculty DF on f.id = DF.faculties_id\n" +
-            "join Dekan D on DF.Dekan_id = D.id\n" +
+
+    @Query(value = "select id as value ,name as label from Faculty",nativeQuery = true)
+    List<FacultiesResDto> getFacultiesForStudentTransfer();
+
+//    @Query(value = "select Top 1 f.id,f.name from Faculty f\n" +
+//            "join Dekan_Faculty DF on f.id = DF.faculties_id\n" +
+//            "join Dekan D on DF.Dekan_id = D.id\n" +
+//            "where D.user_id=:id",nativeQuery = true)
+//    FacultyForDekan getFacultyForDekan(@Param("id") String id);
+
+    @Query(value = "select Top 1 F.id,F.name from Dekanat_Faculty df\n" +
+            "join Dekan D on df.Dekanat_id = D.dekanat_id\n" +
+            "join users u on D.user_id = u.id\n" +
+            "join Faculty F on df.faculties_id = F.id\n" +
             "where D.user_id=:id",nativeQuery = true)
     FacultyForDekan getFacultyForDekan(@Param("id") String id);
 
 
-    @Query(value = "select countCome.level,countCome.comeCount,allUser.allCount from\n" +
-            "(select g.level,count(user_id) as comeCount from\n" +
-            "   (\n" +
-            "       select u.id from acc_monitor_log al\n" +
-            "       join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "       join users_Role ur on u.id = ur.users_id\n" +
-            "       join (select id from Role where roleName='ROLE_STUDENT') as role on role.id = ur.roles_id\n" +
-            "       where al.time\n" +
-            "                 between\n" +
-            "                 :dateFrom\n" +
-            "                 and\n" +
-            "                 :dateTo\n" +
-            "group by u.id" +
-            "    ) as users1\n" +
-            "join Student s on users1.id = s.user_id\n" +
-            "   join groups g on g.id = s.group_id\n" +
-            "       join Faculty F on F.id = g.faculty_id\n" +
-            "               where g.faculty_id=:facultyId\n" +
-            "group by g.level\n" +
-            ") as countCome\n" +
-            "join(\n" +
-            "select g1.level, count(s.id) as allCount from Student s\n" +
-            "join groups g1 on g1.id = s.group_id\n" +
-            "join Faculty F on F.id = g1.faculty_id\n" +
-            "where g1.faculty_id=:facultyId\n" +
-            "group by g1.level\n" +
-            ") as allUser on countCome.level=allUser.level order by countCome.level",nativeQuery = true)
-    List<CourseStatistics> getCourseStatisticsForDekan(
-            @Param("facultyId") String facultyId,
-            @Param("dateFrom") LocalDateTime dateFrom,
-            @Param("dateTo") LocalDateTime dateTo
-    );
-
-    @Query(value = "select g1.level,g1.name, g1.comeCount,g2.allCount from (\n" +
-            "            select g.level,g.name,count(card.cardNo) as comeCount from\n" +
-            "              (\n" +
-            "                    select  al.card_no as cardNo\n" +
-            "              from acc_monitor_log al  join users u\n" +
-            "                  on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "                  join users_Role ur on u.id = ur.users_id\n" +
-            "                  join Role R2 on ur.roles_id = R2.id\n" +
-            "              where al.time between :dateFrom and :dateTo and R2.roleName='ROLE_STUDENT'\n" +
-            "              group by al.card_no    ) as card\n" +
+    @Query(value = "select g2.level,g2.name, g1.comeCount,g2.allCount from (\n" +
+            "           select g.level,g.name,count(card.cardNo) as comeCount from\n" +
+            "               (\n" +
+            "                   select  al.card_no as cardNo\n" +
+            "                   from acc_monitor_log al  join users u\n" +
+            "                                                 on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "                                            join users_Role ur on u.id = ur.users_id join Role R2 on ur.roles_id = R2.id\n" +
+            "                   where al.time between :dateFrom and :dateTo and R2.roleName='ROLE_STUDENT'\n" +
+            "                   group by al.card_no    ) as card\n" +
             "                   join users u on cast(card.cardNo as varchar) =\n" +
-            "                                    cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "                    join Student S on u.id = S.user_id\n" +
-            "                    join groups g on g.id = S.group_id\n" +
-            "                    join Faculty F on F.id = g.faculty_id\n" +
-            "            where F.id =:facultyId\n" +
-            "            group by g.name, g.level\n" +
-            "                ) as g1\n" +
-            "            join (select g.name,count(s.id) as allCount from Student s\n" +
-            "    join groups g on s.group_id = g.id\n" +
-            "    join Faculty F on F.id = g.faculty_id\n" +
-            "    and F.id = :facultyId\n" +
-            "    group by g.name) as g2 on g2.name = g1.name order by g1.level,g1.name",nativeQuery = true)
-    List<DekanGroupsStatistic> getGroupsStatisticForDekan(
-            @Param("facultyId") String facultyId,
+            "                                   cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "                   join Student S on u.id = S.user_id\n" +
+            "                   join groups g on g.id = S.group_id\n" +
+            "                   join Faculty F on F.id = g.faculty_id\n" +
+            "                   join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
+            "                   join Dekanat D on DF.Dekanat_id = D.id\n" +
+            "                   join Dekan D2 on D.id = D2.dekanat_id\n" +
+            "           where D2.user_id=:id and g.educationType_id=D2.educationType_id\n" +
+            "           group by g.name, g.level\n" +
+            "       ) as g1\n" +
+            "         right join (select g.name,g.level,count(s.id) as allCount from Student s\n" +
+            "                    join groups g on s.group_id = g.id join Faculty F on F.id = g.faculty_id\n" +
+            "                    join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
+            "                    join Dekanat D on DF.Dekanat_id = D.id\n" +
+            "                    join Dekan D2 on D.id = D2.dekanat_id\n" +
+            "                     where D2.user_id=:id and g.educationType_id=D2.educationType_id\n" +
+            "                     group by g.name, g.level) as g2 on g2.name = g1.name order by g1.level,g1.name",nativeQuery = true)
+    List<CourseStatistics> getCourseStatisticsForDekan(
+            @Param("id") String facultyId,
             @Param("dateFrom") LocalDateTime dateFrom,
             @Param("dateTo") LocalDateTime dateTo
     );
 
-    @Query(value = "select g.name from groups g\n" +
-            "where g.faculty_id =:facultyId\n" +
-            "order by g.level desc",nativeQuery = true)
-    List<String> getGroupsNamesForDekanByFacultyId(@Param("facultyId") String facultyId);
+
+//    @Query(value = "select countCome.level,countCome.comeCount,allUser.allCount from\n" +
+//            "(select g.level,count(user_id) as comeCount from\n" +
+//            "   (\n" +
+//            "       select u.id from acc_monitor_log al\n" +
+//            "       join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "       join users_Role ur on u.id = ur.users_id\n" +
+//            "       join (select id from Role where roleName='ROLE_STUDENT') as role on role.id = ur.roles_id\n" +
+//            "       where al.time\n" +
+//            "                 between\n" +
+//            "                 :dateFrom\n" +
+//            "                 and\n" +
+//            "                 :dateTo\n" +
+//            "group by u.id" +
+//            "    ) as users1\n" +
+//            "join Student s on users1.id = s.user_id\n" +
+//            "   join groups g on g.id = s.group_id\n" +
+//            "       join Faculty F on F.id = g.faculty_id\n" +
+//            "               where g.faculty_id=:facultyId\n" +
+//            "group by g.level\n" +
+//            ") as countCome\n" +
+//            "join(\n" +
+//            "select g1.level, count(s.id) as allCount from Student s\n" +
+//            "join groups g1 on g1.id = s.group_id\n" +
+//            "join Faculty F on F.id = g1.faculty_id\n" +
+//            "where g1.faculty_id=:facultyId\n" +
+//            "group by g1.level\n" +
+//            ") as allUser on countCome.level=allUser.level order by countCome.level",nativeQuery = true)
+//    List<CourseStatistics> getCourseStatisticsForDekan(
+//            @Param("facultyId") String facultyId,
+//            @Param("dateFrom") LocalDateTime dateFrom,
+//            @Param("dateTo") LocalDateTime dateTo
+//    );
+
+
+    @Query(value = "select g2.level,g2.name, g1.comeCount,g2.allCount from (\n" +
+            "       select g.level,g.name,count(card.cardNo) as comeCount from\n" +
+            "           (\n" +
+            "               select  al.card_no as cardNo\n" +
+            "               from acc_monitor_log al  join users u\n" +
+            "                                             on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "                                        join users_Role ur on u.id = ur.users_id\n" +
+            "                                        join Role R2 on ur.roles_id = R2.id\n" +
+            "               where al.time between :dateFrom and :dateTo and R2.roleName='ROLE_STUDENT'\n" +
+            "               group by al.card_no    ) as card\n" +
+            "               join users u on cast(card.cardNo as varchar) =\n" +
+            "                               cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "               join Student S on u.id = S.user_id\n" +
+            "               join groups g on g.id = S.group_id\n" +
+            "               join Faculty F on F.id = g.faculty_id\n" +
+            "               join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
+            "               join Dekanat D on DF.Dekanat_id = D.id\n" +
+            "               join Dekan D2 on D.id = D2.dekanat_id\n" +
+            "       where D2.user_id=:id and g.educationType_id=D2.educationType_id\n" +
+            "       group by g.name, g.level\n" +
+            "   ) as g1\n" +
+            "     right join (\n" +
+            "    select g.name as name,count(s.id) as allCount,g.level as level  from Student s\n" +
+            "   join groups g on s.group_id = g.id\n" +
+            "   join Faculty F on F.id = g.faculty_id\n" +
+            "   join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
+            "   join Dekanat D on DF.Dekanat_id = D.id\n" +
+            "   join Dekan D2 on D.id = D2.dekanat_id\n" +
+            "    where D2.user_id=:id and g.educationType_id=D2.educationType_id\n" +
+            "    group by g.name, g.level) as g2 on g2.name = g1.name order by g1.level,g1.name",nativeQuery = true)
+    List<DekanGroupsStatistic> getGroupsStatisticForDekan(
+            @Param("id") String facultyId,
+            @Param("dateFrom") LocalDateTime dateFrom,
+            @Param("dateTo") LocalDateTime dateTo
+    );
+
+
+//    @Query(value = "select g1.level,g1.name, g1.comeCount,g2.allCount from (\n" +
+//            "            select g.level,g.name,count(card.cardNo) as comeCount from\n" +
+//            "              (\n" +
+//            "                    select  al.card_no as cardNo\n" +
+//            "              from acc_monitor_log al  join users u\n" +
+//            "                  on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "                  join users_Role ur on u.id = ur.users_id\n" +
+//            "                  join Role R2 on ur.roles_id = R2.id\n" +
+//            "              where al.time between :dateFrom and :dateTo and R2.roleName='ROLE_STUDENT'\n" +
+//            "              group by al.card_no    ) as card\n" +
+//            "                   join users u on cast(card.cardNo as varchar) =\n" +
+//            "                                    cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "                    join Student S on u.id = S.user_id\n" +
+//            "                    join groups g on g.id = S.group_id\n" +
+//            "                    join Faculty F on F.id = g.faculty_id\n" +
+//            "            where F.id =:facultyId\n" +
+//            "            group by g.name, g.level\n" +
+//            "                ) as g1\n" +
+//            "            join (select g.name,count(s.id) as allCount from Student s\n" +
+//            "    join groups g on s.group_id = g.id\n" +
+//            "    join Faculty F on F.id = g.faculty_id\n" +
+//            "    and F.id = :facultyId\n" +
+//            "    group by g.name) as g2 on g2.name = g1.name order by g1.level,g1.name",nativeQuery = true)
+//    List<DekanGroupsStatistic> getGroupsStatisticForDekan(
+//            @Param("facultyId") String facultyId,
+//            @Param("dateFrom") LocalDateTime dateFrom,
+//            @Param("dateTo") LocalDateTime dateTo
+//    );
 
     @Query(value = "select g.name from groups g\n" +
-            "join Dekan_Faculty d_f on d_f.faculties_id = g.faculty_id\n" +
-            "join Dekan D on d_f.Dekan_id = D.id\n" +
-            "where D.user_id=:userId and g.level=:level\n" +
-            "order by g.name,g.level desc",nativeQuery = true)
+            "join Faculty F on g.faculty_id = F.id\n" +
+            "join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
+            "join Dekan D on DF.Dekanat_id = D.dekanat_id\n" +
+            "where g.educationType_id=D.educationType_id and D.user_id=:id\n" +
+            "order by g.name asc",nativeQuery = true)
+    List<String> getGroupsNamesForDekanByFacultyId(@Param("id") String id);
+
+    @Query(value = "select g.name from groups g\n" +
+            "join Dekanat_Faculty DF on Df.faculties_id=g.faculty_id\n" +
+            "join Dekanat D on DF.Dekanat_id = D.id\n" +
+            "join Dekan d2 on D.id = d2.dekanat_id\n" +
+            "where (g.level=:level and d2.user_id=:userId and g.educationType_id=d2.educationType_id) order by g.name asc ",nativeQuery = true)
     List<String> getGroupsNamesForDekanByDekanIdAndLevel(@Param("userId") String userId,@Param("level") Integer level);
 
+//    @Query(value = "select g.name from groups g\n" +
+//            "join Dekanat_Faculty DF on Df.faculties_id=g.faculty_id\n" +
+//            "join Dekanat D on DF.Dekanat_id = D.id\n" +
+//            "join Dekan d2 on D.id = d2.dekanat_id\n" +
+//            "where (g.level=:level and d2.user_id=:userId)",nativeQuery = true)
+//    List<String> getGroupsNamesForDekanByDekanIdAndLevel(@Param("userId") String userId,@Param("level") Integer level);
+//    @Query(value = "select g.name from groups g\n" +
+//            "join Dekan_Faculty d_f on d_f.faculties_id = g.faculty_id\n" +
+//            "join Dekan D on d_f.Dekan_id = D.id\n" +
+//            "where D.user_id=:userId and g.level=:level\n" +
+//            "order by g.name,g.level desc",nativeQuery = true)
+//    List<String> getGroupsNamesForDekanByDekanIdAndLevel(@Param("userId") String userId,@Param("level") Integer level);
+
+//    @Query(value = "select g.name from groups g\n" +
+//            "join Dekan_Faculty d_f on d_f.faculties_id = g.faculty_id\n" +
+//            "join Dekan D on d_f.Dekan_id = D.id\n" +
+//            "where D.user_id=:userId order by g.name,g.level desc ",nativeQuery = true)
+//    List<String> getGroupsNamesForDekanByDekanId(@Param("userId") String userId);
+
     @Query(value = "select g.name from groups g\n" +
-            "join Dekan_Faculty d_f on d_f.faculties_id = g.faculty_id\n" +
-            "join Dekan D on d_f.Dekan_id = D.id\n" +
-            "where D.user_id=:userId order by g.name,g.level desc ",nativeQuery = true)
+            "join Dekanat_Faculty d_f on d_f.faculties_id = g.faculty_id\n" +
+            "    join Dekanat D2 on d_f.Dekanat_id = D2.id\n" +
+            "join Dekan D on D2.id = D.dekanat_id\n" +
+            "where D.user_id=:userId and g.educationType_id=D.educationType_id order by g.name asc ",nativeQuery = true)
     List<String> getGroupsNamesForDekanByDekanId(@Param("userId") String userId);
 
     @Query(value = "select u.id as id,u.fullName as fullName from Student s\n" +
@@ -159,4 +264,11 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "where (g.name=:group and CONVERT(int, LEFT(sr.score, CHARINDEX('.', sr.score) - 1))<65)\n" +
             "group by u.id order by fails asc",nativeQuery = true)
     List<ForGroupFails> getGroupFails(@Param("group") String group);
+
+
+    @Query(value = "select :id as id",nativeQuery = true)
+    ForStudentTransferData getForStudentTransferData(@Param("id") String id);
+
+    @Query(value = "select id as value ,name as label from groups where faculty_id=:id and level=:course",nativeQuery = true)
+    List<GroupByFacultyIdAndCourse> getGroupByFacultyIdAndCourse(@Param("id") String id, @Param("course") Integer course);
 }

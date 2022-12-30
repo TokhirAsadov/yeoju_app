@@ -3,17 +3,12 @@ package uz.yeoju.yeoju_app.service.useServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.admin.Room;
-import uz.yeoju.yeoju_app.entity.dekan.Dekan;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.payload.FacultyDto;
-import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.payload.admin.RoomDto;
-import uz.yeoju.yeoju_app.payload.dekan.DekanDto;
 import uz.yeoju.yeoju_app.repository.RoomRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.RoomImplService;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

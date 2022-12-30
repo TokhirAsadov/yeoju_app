@@ -9,7 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Faculty extends AbsEntity {
@@ -17,8 +17,21 @@ public class Faculty extends AbsEntity {
     @Column(unique = true)
     private String name;
 
+    private String shortName;
+
+
+    public Faculty(String name) {
+        this.name = name;
+    }
+
     public Faculty(String id, String name) {
         super(id);
         this.name = name;
+    }
+
+    public Faculty(String id, String name, String shortName) {
+        super(id);
+        this.name = name;
+        this.shortName = shortName;
     }
 }

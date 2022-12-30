@@ -18,8 +18,34 @@
   "dekan_sidebar_message": "Messages",
   "dekan_sidebar_groups": "Groups",
   "dekan_sidebar_sms_history": "SMS History",
+  "dekan_sidebar_kafedra": "Kafedra",
+  "dekan_sidebar_transfer": "Tranfer",
+  "dekan_sidebar_studentAdd": "Student Settings",
+
+  "kafedra_sidebar_dashboard": "Dashboard",
+  "kafedra_sidebar_teachers": "Teachers",
+  "kafedra_sidebar_message": "Messages",
+  "kafedra_sidebar_sms_history": "SMS History",
+  "kafedra_sidebar_roles": "Roles of User",
+
+  "student_sidebar_settings": "Settings",
+  "student_sidebar_menu": "Menu",
+  "student_sidebar_lesson": "Lessons",
+  "student_sidebar_time_table": "Time Table",
+  "student_sidebar_statistics": "Statistics",
+
+  "teacher_sidebar_files": "Files",
+  "teacher_sidebar_statistics": "Statistics",
 
   "barchart_workers_title": "Working staff",
+
+  "super_admin_sidebar_user": "User",
+  "super_admin_sidebar_teacher": "Teacher",
+  "super_admin_sidebar_kafedra": "Kafedra",
+  "super_admin_sidebar_dekanat": "Dekanat",
+  "super_admin_sidebar_dekan": "Dekan",
+  "super_admin_sidebar_dashboard": "Dashboard",
+  "super_admin_sidebar_student": "Student",
 
   "doughnut_chart_labels_data": [
     "did not come",

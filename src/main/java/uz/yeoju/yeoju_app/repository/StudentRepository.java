@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.entity.Student;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.SearchUserForDekanUseSendMessage;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.dashboard.StudentEduLangFormType;
 import uz.yeoju.yeoju_app.payload.resDto.student.*;
 
 import java.sql.Timestamp;
@@ -15,6 +16,48 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student, String> {
     Student findStudentByUserId(String user_id);
     Student findStudentByUserLogin(String user_login);
+
+    @Query(value = "select  COUNT(al.card_no) as count\n" +
+            "from acc_monitor_log al\n" +
+            "         join users u\n" +
+            "              on cast(u.RFID as varchar) =\n" +
+            "                 cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "         join users_Role ur\n" +
+            "              on u.id = ur.users_id\n" +
+            "         join (select id,roleName from Role where (roleName <> 'ROLE_STUDENT' and roleName <> 'ROLE_TEACHER' )) as role\n" +
+            "              on ur.roles_id = role.id\n" +
+            "where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)\n" +
+            "group by al.card_no, u.fullName, role.roleName\n" +
+            "\n" +
+            "union\n" +
+            "\n" +
+            "select count(u.id) from users u  join users_Role ur\n" +
+            "    on u.id = ur.users_id join (select id,roleName from Role where (roleName <> 'ROLE_STUDENT' and roleName <> 'ROLE_TEACHER')) as role\n" +
+            "    on ur.roles_id = role.id",nativeQuery = true)
+    List<Integer> getStaffComeCount();
+
+
+
+    @Query(value = "SELECT count(f.cardNo) as comeCount from (\n" +
+            "\n" +
+            "select  COUNT(al.card_no) as cardNo\n" +
+            "from acc_monitor_log al\n" +
+            " join users u\n" +
+            "      on cast(u.RFID as varchar) =\n" +
+            "         cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            " join users_Role ur\n" +
+            "      on u.id = ur.users_id\n" +
+            " join (select id from Role where roleName = 'ROLE_STUDENT') as role\n" +
+            "      on ur.roles_id = role.id\n" +
+            "where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)\n" +
+            "group by al.card_no\n" +
+            "\n" +
+            ") as f\n" +
+            "union\n" +
+            "select count(u.id) from users u  join users_Role ur\n" +
+            "on u.id = ur.users_id join (select id from Role where roleName = 'ROLE_STUDENT') as role\n" +
+            "on ur.roles_id = role.id",nativeQuery = true)
+    List<Integer> getStudentComeCount();
 
     @Query(value = "select * from groups g\n" +
             "join Student s on g.id = s.group_id\n" +
@@ -41,7 +84,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "                 cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "         join users_Role ur\n" +
             "              on u.id = ur.users_id\n" +
-            "         join (select id from Role where roleName = 'Student') as role\n" +
+            "         join (select id from Role where roleName = 'ROLE_STUDENT') as role\n" +
             "              on ur.roles_id = role.id\n" +
             "where al.time between :dateFrom and :dateTo\n" +
             "group by al.card_no\n" +
@@ -78,7 +121,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "                 join users_Role ur\n" +
             "                      on u.id = ur.users_id\n" +
             "                 join Role R2 on ur.roles_id = R2.id\n" +
-            "                where al.time between :dateFrom and :dateTo and R2.roleName='Student'\n" +
+            "                where al.time between :dateFrom and :dateTo and R2.roleName='ROLE_STUDENT'\n" +
             "                group by al.card_no\n" +
             "            ) as card\n" +
             "                join users u on cast(card.cardNo as varchar) =\n" +
@@ -109,7 +152,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "                 join users_Role ur\n" +
             "                      on u.id = ur.users_id\n" +
             "                 join Role R2 on ur.roles_id = R2.id\n" +
-            "                where al.time between dateadd(d,:weekOrMonth,convert(DATE,GETDATE())) and dateadd(d,1,convert(DATE,GETDATE())) and R2.roleName='Student'\n" +
+            "                where al.time between dateadd(d,:weekOrMonth,convert(DATE,GETDATE())) and dateadd(d,1,convert(DATE,GETDATE())) and R2.roleName='ROLE_STUDENT'\n" +
             "                group by al.card_no\n" +
             "            ) as card\n" +
             "                join users u on cast(card.cardNo as varchar) =\n" +
@@ -139,7 +182,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "          cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "  join users_Role ur\n" +
             "       on u.id = ur.users_id\n" +
-            "  join (select id from Role where roleName = 'Student') as role\n" +
+            "  join (select id from Role where roleName = 'ROLE_STUDENT') as role\n" +
             "       on ur.roles_id = role.id\n" +
             "where al.time between :dateFrom and :dateTo\n" +
             "group by al.card_no\n" +
@@ -183,7 +226,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "                 join users_Role ur\n" +
             "                      on u.id = ur.users_id\n" +
             "                 join Role R2 on ur.roles_id = R2.id\n" +
-            "        where al.time between :dateFrom and :dateTo and R2.roleName='Student'\n" +
+            "        where al.time between :dateFrom and :dateTo and R2.roleName='ROLE_STUDENT'\n" +
             "        group by al.card_no\n" +
             "    ) as card\n" +
             "        join users u on cast(card.cardNo as varchar) =\n" +
@@ -218,7 +261,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "                 join users_Role ur\n" +
             "                      on u.id = ur.users_id\n" +
             "                 join Role R2 on ur.roles_id = R2.id\n" +
-            "        where al.time between :dateFrom and :dateTo and R2.roleName='Student'\n" +
+            "        where al.time between :dateFrom and :dateTo and R2.roleName='ROLE_STUDENT'\n" +
             "        group by al.card_no\n" +
             "    ) as card\n" +
             "        join users u on cast(card.cardNo as varchar) =\n" +
@@ -255,7 +298,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "                 join users_Role ur\n" +
             "                      on u.id = ur.users_id\n" +
             "                 join Role R2 on ur.roles_id = R2.id\n" +
-            "        where al.time between dateadd(d,:timeInterval,convert(DATE,GETDATE())) and dateadd(d,1,convert(DATE,GETDATE())) and R2.roleName='Student'\n" +
+            "        where al.time between dateadd(d,:timeInterval,convert(DATE,GETDATE())) and dateadd(d,1,convert(DATE,GETDATE())) and R2.roleName='ROLE_STUDENT'\n" +
             "        group by al.card_no\n" +
             "    ) as card\n" +
             "        join users u on cast(card.cardNo as varchar) =\n" +
@@ -334,7 +377,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "         join users_Role ur\n" +
             "              on u.id = ur.users_id\n" +
             "         join Role R2 on ur.roles_id = R2.id\n" +
-            "where al.time between dateadd(d,0,convert(DATE,GETDATE())) and dateadd(d,1,convert(DATE,GETDATE())) and R2.roleName='Student' and al.card_no =:cardNo\n" +
+            "where al.time between dateadd(d,0,convert(DATE,GETDATE())) and dateadd(d,1,convert(DATE,GETDATE())) and R2.roleName='ROLE_STUDENT' and al.card_no =:cardNo\n" +
             "order by al.time desc\n" +
             ") as t2 on t1.cardNo = t2.card_no",nativeQuery = true)
     StudentWithAscAndDescDate getStudentWithAscAndDescDateForToday(
@@ -346,4 +389,32 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "join groups g on g.id = s.group_id\n" +
             "where u.login=:login",nativeQuery = true)
     Group getGroupIdForStudentResult(@Param("login") String login);
+
+    @Query(value = "select TOP 50 u.id,u.fullName,g.name as groupName,g.level,EF.name as form,ET.name as type,EL.name as lang from Student s\n" +
+            "join users u on s.user_id = u.id\n" +
+            "join groups g on s.group_id = g.id\n" +
+            "    join EducationType ET on g.educationType_id = ET.id\n" +
+            "    join EducationLanguage EL on g.educationLanguage_id = EL.id\n" +
+            "    left join EducationForm EF on g.educationForm_id = EF.id\n" +
+            "where g.faculty_id=:id",nativeQuery = true)
+    List<ForStudentTransfer> getStudentsForTransfer(@Param("id") String id);
+
+
+    @Query(value = "select count(s.user_id) as count, EL.name from Student s\n" +
+            "join groups g on s.group_id = g.id\n" +
+            "join EducationLanguage EL on g.educationLanguage_id = EL.id\n" +
+            "group by EL.name",nativeQuery = true)
+    List<StudentEduLangFormType> getCountStudentLang();
+
+    @Query(value = "select count(s.user_id) as count, EF.name from Student s\n" +
+            "join groups g on s.group_id = g.id\n" +
+            "join EducationForm EF on g.educationForm_id = EF.id\n" +
+            "group by EF.name",nativeQuery = true)
+    List<StudentEduLangFormType> getCountStudentForm();
+
+    @Query(value = "select count(s.user_id) as count, ET.name from Student s\n" +
+            "join groups g on s.group_id = g.id\n" +
+            "join EducationType ET on g.educationType_id = ET.id\n" +
+            "group by ET.name",nativeQuery = true)
+    List<StudentEduLangFormType> getCountStudentType();
 }

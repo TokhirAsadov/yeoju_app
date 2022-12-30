@@ -20,12 +20,13 @@ public class StudentResultController {
     private final StudentResultRepository repository;
 
 
-    @GetMapping("/getStudentResultsForRektor")
+    //getStudentResultsForDekan
+    @GetMapping("/getStudentResultsForRektor")//#/studentResult/getStudentResultsForDekan/
     public HttpEntity<?> getStudentResultsForRektor(){
         return ResponseEntity.ok(repository.getStudentResultsForRektor());
     }
 
-
+//getStudentResultsForDekan
     @GetMapping("/getStudentResultsForDekan/{groupName}")
     public HttpEntity<?> getStudentResultsForDekan(@PathVariable("groupName") String groupName){
         return ResponseEntity.ok(repository.getStudentResultsForDekan(groupName));

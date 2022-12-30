@@ -20,5 +20,8 @@ public interface GetTeachersOfKafedra29 {
     @Value("#{@teacherRepository.getDaysOfMonthStatistics(target.id)}")
     Get29OfMonthStatistics getMonthly();
 
+    @Value("#{@positionRepository.getNameOfPosition(target.id)}")
+    String getPositions();
+
     //TODO == BUYERGA UQITUVCHILARNING MAQOLALARI HAMDA POSITIONLARINI OLIB KELISHIM KK ==
 }

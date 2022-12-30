@@ -15,11 +15,16 @@ public interface ComeStatistics {
     String getFullName();
     String getRfid();
 
+    Date getTime();
+
     @Value("#{@kafedraRepository.getEnterTime(target.id)}")
     Date getEnter();
 
     @Value("#{@positionRepository.getNameOfPosition(target.id)}")
     String getPositions();
+
+    // @Value("#{@positionRepository.getNameOfPosition(target.id)}")
+    //    String getPositions();
 
     @Value("#{@userPhotoRepo.getUserPhotoRes(target.id)}")
     UserPhotoRes getPhoto();

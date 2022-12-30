@@ -123,6 +123,7 @@ public class LessonService implements LessonImplService<LessonDto> {
 
     public Lesson generateLesson(LessonDto dto) {
         return new Lesson(
+                dto.getId(),
                 dto.getName(),
 //                kafedraService.generateKafedra(dto.getKafedraDto()),
 //                positionService.generatePosition(dto.getFacultyDto()),

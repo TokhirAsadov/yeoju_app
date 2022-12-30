@@ -21,7 +21,11 @@ import java.util.List;
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
+        registry
+                .addMapping("/**")
+//                .allowedOrigins("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS")
+                .allowedOriginPatterns("*");
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

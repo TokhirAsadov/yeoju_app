@@ -7,18 +7,22 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.YeojuAppApplication;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.enums.WorkerStatus;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.RoleUser;
 import uz.yeoju.yeoju_app.payload.UserDto;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable;
+import uz.yeoju.yeoju_app.payload.superAdmin.StudentSaveDto;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,6 +36,47 @@ public class UserController {
     public final UserService userService;
     public final UserRepository userRepository;
 
+    //todo-------------------------------------------------
+    @PostMapping("/saveStudentFromSuperAdmin")
+    public HttpEntity<?> saveStudentFromSuperAdmin(@RequestBody StudentSaveDto dto){
+        return ResponseEntity.ok(userService.saveStudentFromSuperAdmin(dto));
+    }
+
+
+    @PostMapping("/uploadUser")
+    public HttpEntity<?> uploadPhotoForUser(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        ApiResponse apiResponse = userService.saving(request);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+
+    @GetMapping("/getKafedraTeachersDataForRektorByKafedraId")
+    public HttpEntity<?> getKafedraTeachersDataForRektorByKafedraId(@CurrentUser User user,@RequestParam("id") String id){
+        return ResponseEntity.ok(userService.getStatisticsForRektorTeacherPage(id));
+    }
+    @GetMapping("/rektorTeacher")
+    public HttpEntity<?> getKafedraStatisticsForRektor(@CurrentUser User user){
+        return ResponseEntity.ok(userRepository.getKafedraStatisticsForRektor());
+    }
+
+    @GetMapping("/rektorDashboardStaffs")
+    public HttpEntity<?> getRektorDashboardStaffs(@CurrentUser User user){
+        return ResponseEntity.ok(userRepository.getStaffDataForRektorDashboard());
+    }
+    @GetMapping("/rektorDashboardStudents")
+    public HttpEntity<?> getRektorDashboardStudents(@CurrentUser User user){
+        return ResponseEntity.ok(userRepository.getStudentDataForRektorDashboard());
+    }
+    @GetMapping("/rektorDashboardTeachers")
+    public HttpEntity<?> getRektorDashboardTeachers(@CurrentUser User user){
+        return ResponseEntity.ok(userRepository.getTeacherDataForRektorDashboard());
+    }
+
+
+    @GetMapping("/rektorDashboard")
+    public HttpEntity<?> getRektorDashboard(@CurrentUser User user){
+        return ResponseEntity.ok(userRepository.getRektorDashboard(user.getId()));
+    }
 
     @GetMapping("/updateFullName")
     public HttpEntity<?> updateFullName(@CurrentUser User user, @RequestParam String fullName){
@@ -86,13 +131,17 @@ public class UserController {
     }
 
     @GetMapping("/notification")
-    public HttpEntity<?> getNotification(@RequestParam("kafedraId") String kafedraId){
-        return ResponseEntity.ok(userService.getNotification(kafedraId));
+    public HttpEntity<?> getNotification(@CurrentUser User user){
+        return ResponseEntity.ok(userService.getNotification(user.getId()));
     }
+//    @GetMapping("/notification")
+//    public HttpEntity<?> getNotification(@RequestParam("kafedraId") String kafedraId){
+//        return ResponseEntity.ok(userService.getNotification(kafedraId));
+//    }
 
     @GetMapping("/getTimeTable")
-    public HttpEntity<?> getTimeTable(@RequestParam("kafedraId") String kafedraId){
-        return ResponseEntity.ok(userService.getTimeTable(kafedraId));
+    public HttpEntity<?> getTimeTable(@CurrentUser User user){
+        return ResponseEntity.ok(userService.getTimeTable(user.getId()));
     }
 
     @GetMapping("/getUserFields")
@@ -100,7 +149,7 @@ public class UserController {
         return ResponseEntity.ok(userRepository.getUserFields(user.getId()));
     }
 
-    @GetMapping("/studentAllData/{userId}")
+    @GetMapping("/studentAllData/{userId}")//studentAllData
     public HttpEntity<?> studentAllData(@PathVariable("userId") String userId){
         return ResponseEntity.ok(userRepository.getStudentDataByUserId(userId));
     }
@@ -235,6 +284,12 @@ public class UserController {
         return shows;
     }
 
+    @PostMapping("/userRole")
+    public HttpEntity<?> roleUser(@RequestBody RoleUser dto) {
+        return ResponseEntity.status(201).body(userService.saveRoleUser(dto));
+    }
+    //studentAllData
+
     @GetMapping("/me")
     public HttpEntity<?> me(@CurrentUser User user){
         return ResponseEntity.status(user!=null?200:409).body(new ApiResponse(user != null,"Ok"));
@@ -283,6 +338,12 @@ public class UserController {
     public HttpEntity<?> getUserForTeacherSaving(@CurrentUser User user){
         return ResponseEntity.ok(userService.getItemsForTeacherSaving(user.getId()));
     }
+
+    @GetMapping("/getUsersForUserRole")
+    public HttpEntity<?> getUsersForUserRole(@RequestParam("keyword") String keyword){
+        return ResponseEntity.ok(userService.getUserForTeacherSavingSearch("%" + keyword + "%"));
+    }
+
     @GetMapping("/getUserForTeacherSavingSearch")
     public HttpEntity<?> getUserForTeacherSaving(@RequestParam("keyword") String keyword){
         return ResponseEntity.ok(userService.getUserForTeacherSavingSearch("%" + keyword + "%"));

@@ -20,6 +20,8 @@ public class Lesson extends AbsEntity {
     private String name;
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    private Kafedra kafedra;
+
+//todo -----------------  dekanatlar uchun fakulty(yunalishlarni quwiw kk)  -------------
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    private Faculty faculty;
     private boolean active = true;

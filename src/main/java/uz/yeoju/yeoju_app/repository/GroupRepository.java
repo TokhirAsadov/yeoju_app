@@ -19,7 +19,8 @@ public interface GroupRepository extends JpaRepository<Group,String> {
            "join groups g on g.id = s.group_id\n" +
            "join Faculty F on F.id = g.faculty_id\n" +
            "join EducationType et on g.educationType_id = et.id\n" +
-           "where s.user_id =:userId",nativeQuery = true)
+           "where s.user_id =:userId\n" +
+           "group by  g.id, g.level, g.name, F.name, et.name",nativeQuery = true)
    StudentGroupField getGroupFieldByUserId(@Param("userId") String userId);
 
    @Query(value = "select g.id,g.name from groups g join Student S on g.id = S.group_id where S.user_id=:id",nativeQuery = true)

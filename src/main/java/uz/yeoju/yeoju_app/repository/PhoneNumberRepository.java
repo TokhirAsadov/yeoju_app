@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.PhoneNumber;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentPhones;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraMudiriPhonesForRektorTeacherPage;
 
 import java.util.List;
 
@@ -45,4 +46,6 @@ public interface PhoneNumberRepository extends JpaRepository<PhoneNumber, String
             "where u2.id = :id and pn.user_id= :userId",nativeQuery = true)
     List<String> getPhoneNumberForSendSmsToSingleStudentByDekanId(@Param("id") String id,@Param("userId") String userId);
 
+    @Query(value = "select id,phoneType,phoneNumber from PhoneNumber pn where pn.user_id=:id",nativeQuery = true)
+    List<KafedraMudiriPhonesForRektorTeacherPage> getKafedraMudiriPhonesForRektorTeacherPage(@Param("id") String id);
 }

@@ -19,6 +19,9 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
     public final FacultyRepository facultyRepository;
 
 
+    public ApiResponse getFacultyForDekanatSaved(){
+        return new ApiResponse(true,"faculties",facultyRepository.getFacultyForDekanatSaved());
+    }
     public ApiResponse createFacultiesByNames(List<String> namesOfFaculties){
         for (String namesOfFaculty : namesOfFaculties) {
             facultyRepository.save(new Faculty(namesOfFaculty));
