@@ -653,6 +653,10 @@ public class UserService implements UserImplService<UserDto> {
             if (studentByUserId!=null){
                 Group groupByName = groupRepository.findGroupByName(dto.getGroup());
                 if (groupByName!=null){
+
+                    groupByName.setLevel(dto.getLevel());
+                    groupRepository.save(groupByName);
+
                     userByRFID.setRFID(dto.getRfid());
                     userByRFID.setFullName(dto.getFullName());
                     userByRFID.setLogin(dto.getLogin());
@@ -712,6 +716,9 @@ public class UserService implements UserImplService<UserDto> {
             else {
                 Group groupByName = groupRepository.findGroupByName(dto.getGroup());
                 if (groupByName!=null){
+                    groupByName.setLevel(dto.getLevel());
+                    groupRepository.save(groupByName);
+
                     userByRFID.setRFID(dto.getRfid());
                     userByRFID.setFullName(dto.getFullName());
                     userByRFID.setLogin(dto.getLogin());

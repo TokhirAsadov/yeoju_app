@@ -56,12 +56,16 @@ public class DataLoader implements CommandLineRunner {
 
         Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_SUPER_ADMIN");
         if (!roleOptional.isPresent()){
-            Role superAdmin = roleRepository.save(new Role("ROLE_SUPER_ADMIN"));
-            User user = new User();
-            user.setLogin("super_admin");
-            user.setPassword(passwordEncoder.encode("r00t123"));
-            user.setRoles(new HashSet<>(Collections.singleton(superAdmin)));
-            userRepository.save(user);
+
+            User super_admin = userRepository.getUserByLogin("super_admin");
+            if (super_admin==null){
+                Role superAdmin = roleRepository.save(new Role("ROLE_SUPER_ADMIN"));
+                User user = new User();
+                user.setLogin("super_admin");
+                user.setPassword(passwordEncoder.encode("r00t123"));
+                user.setRoles(new HashSet<>(Collections.singleton(superAdmin)));
+                userRepository.save(user);
+            }
         }
 
 //        Optional<User> optional = userRepository.findById("c6b603ca-cfe2-4095-a2e3-d21ab376f1ea");
