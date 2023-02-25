@@ -5,7 +5,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.GroupDto;
+import uz.yeoju.yeoju_app.payload.dekanat.DekanGroupUpdateDto;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.GroupService;
 
@@ -18,6 +20,11 @@ public class GroupController {
 
     public final GroupService groupService;
 
+
+    @GetMapping("/getGroupsAndLessonsOfWeek")
+    public HttpEntity<?> getGroupsAndLessonsOfWeek(@CurrentUser User user){
+        return ResponseEntity.ok(groupService.getGroupsAndLessonsOfWeek());
+    }
 
     @GetMapping("/getSubjectOfGroup/{group}")
     public HttpEntity<?> getSubjectOfGroup(@PathVariable("group") String group){
@@ -51,6 +58,18 @@ public class GroupController {
         return id!=null ? ResponseEntity.ok(groupService.findById(id))
                 :
                 ResponseEntity.ok(groupService.findGroupByName(name));
+    }
+
+    @PostMapping("/createGroups")
+    public HttpEntity<?> createGroups(@RequestBody DekanGroupUpdateDto dto){
+        ApiResponse apiResponse = groupService.updateGroups(dto);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 409).body(apiResponse);
+    }
+
+    @PutMapping("/updateGroups")
+    public HttpEntity<?> updateGroups(@RequestBody DekanGroupUpdateDto dto){
+        ApiResponse apiResponse = groupService.updateGroups(dto);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 203 : 409).body(apiResponse);
     }
 
     @PostMapping("/createGroup")

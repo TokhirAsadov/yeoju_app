@@ -33,6 +33,15 @@ public class KafedraController {
     public final PasswordEncoder passwordEncoder;
     public final RoleRepository roleRepository;
 
+    @GetMapping("/getTeachersForSelectByKafedraId")
+    public HttpEntity<?> getTeachersForSelectByKafedraId(@CurrentUser User user,@RequestParam(name = "kafedraId") String kafedraId){
+        return ResponseEntity.ok(kafedraService.getTeachersForSelectByKafedraId(kafedraId));
+    }
+
+    @GetMapping("/getKafedrasForSelect")
+    public HttpEntity<?> getKafedrasForSelect(@CurrentUser User user){
+        return ResponseEntity.ok(kafedraService.getKafedrasForSelect());
+    }
 
     @GetMapping("/getTeachersForSendSms")
     public HttpEntity<?> getTeachersForSendSms(@RequestParam("kafedraId") String kafedraId, @RequestParam("search") String search){
@@ -71,9 +80,10 @@ public class KafedraController {
         return ResponseEntity.status(204).body(kafedraService.deleteById(id));
     }
 
+//    getStatisticsForKafedraDashboard
     @GetMapping("/getComeCountTodayStatistics")
-    public HttpEntity<?> getComeCountTodayStatistics(@CurrentUser User user){
-        return ResponseEntity.ok(kafedraService.getComeCountTodayStatistics(user.getId()));
+    public HttpEntity<?> getComeCountTodayStatistics(@CurrentUser User user,@RequestParam(name = "id") String kafedraId){
+        return ResponseEntity.ok(kafedraService.getComeCountTodayStatistics(kafedraId));
     }
 
     //getStatisticsForKafedraDashboard

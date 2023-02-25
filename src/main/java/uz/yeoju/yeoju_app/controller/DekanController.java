@@ -14,6 +14,7 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanSave;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanSaveWithEduType;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanatSaveDto;
+import uz.yeoju.yeoju_app.payload.dekanat.StudentChangeDto;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.FacultyForDekan;
 import uz.yeoju.yeoju_app.repository.DekanRepository;
 import uz.yeoju.yeoju_app.repository.DekanatRepository;
@@ -41,6 +42,27 @@ public class DekanController {
     private final DekanService dekanService;
     private final UserService userService;
     private final FacultyService facultyService;
+
+    @GetMapping("/getStudentDataWithUserId/{id}")
+    public HttpEntity<?> getStudentDataForEditedDekan(@CurrentUser User user,@PathVariable String id){
+        return ResponseEntity.ok(dekanRepository.getStudentDataForEditedDekan(id));
+    }
+
+    @GetMapping("/getFacultiesShortnamesWithDekanId")
+    public HttpEntity<?> getFacultiesShortnamesWithDekanId(@CurrentUser User user){
+        return ResponseEntity.ok(dekanatRepository.getFacultiesShortNameAndDekanEducationTypes(user.getId()));
+    }
+
+
+    @PostMapping("/changeStudent")
+    public HttpEntity<?> changeStudent(@RequestBody StudentChangeDto dto){
+        return ResponseEntity.status(201).body(dekanService.changeStudent(dto));
+    }
+
+    @GetMapping("/getStudentForSettings")
+    public HttpEntity<?> getStudentForSettings(@CurrentUser User user){
+        return ResponseEntity.ok(dekanRepository.getStudentsForSettings(user.getId()));
+    }
 
     @PostMapping("/save")
     public HttpEntity<?> save(@RequestBody DekanSaveWithEduType dto){

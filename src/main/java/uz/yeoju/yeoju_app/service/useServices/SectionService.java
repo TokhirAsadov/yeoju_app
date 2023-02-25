@@ -3,19 +3,30 @@ package uz.yeoju.yeoju_app.service.useServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Section;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.SectionDto;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.ComeStatistics;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.NoComeStatistics;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra28;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra29;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra30;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra31;
 import uz.yeoju.yeoju_app.repository.SectionRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.FacultyImplService;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class SectionService implements FacultyImplService<SectionDto> {
     public final SectionRepository sectionRepository;
+
+
+    public ApiResponse getSectionDatas(String userId){
+        return new ApiResponse(true,"all section data",sectionRepository.getSectionDatas(userId));
+    }
 
     @Override
     public ApiResponse findAll() {
@@ -121,6 +132,92 @@ public class SectionService implements FacultyImplService<SectionDto> {
         }
         else {
             return new ApiResponse(false,"error... not fount section!");
+        }
+    }
+
+    public ApiResponse getStaffComeCountTodayStatistics(String id) {
+        return new ApiResponse(true,"statistics",sectionRepository.getStaffComeCountTodayStatistics(id));
+    }
+
+    public ApiResponse getStatisticsForSectionDashboard(Integer index, String sectionId) {
+
+        if (index!=0){
+            List<NoComeStatistics> noComeStatisticsList = sectionRepository.getStatisticsForSectionDashboardNoCome(sectionId);
+            return new ApiResponse(true,"no come",noComeStatisticsList);
+        }
+        else {
+            List<ComeStatistics> comeStatistics = sectionRepository.getStatisticsForSectionDashboardCome(sectionId);
+            return new ApiResponse(true,"come",comeStatistics);
+        }
+
+    }
+
+
+    public ApiResponse getStatisticsForDekan(User user) {
+
+        int maxDay = Calendar.getInstance().getMaximum(Calendar.DATE);
+        Calendar calendar = Calendar.getInstance();
+        int days = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        if (days==31){
+            System.out.println( "31 <---===========================================================================================================================================-----------------------------------------------------------------------------------------------------------------------------------------");
+            List<GetTeachersOfKafedra31> teachersOfKafedra = sectionRepository.getStaffsOfDekan31(user.getId());
+            System.out.println( teachersOfKafedra+"31 <---===========================================================================================================================================-----------------------------------------------------------------------------------------------------------------------------------------");
+            return new ApiResponse(true,"show", teachersOfKafedra);
+        }
+        else if (days==30){
+            List<GetTeachersOfKafedra30> teachersOfKafedra30 = sectionRepository.getStaffsOfDekan30(user.getId());
+            return new ApiResponse(true,"show", teachersOfKafedra30);
+        }else if (maxDay==29){
+            List<GetTeachersOfKafedra29> teachersOfKafedra29 = sectionRepository.getStaffsOfDekan29(user.getId());
+            return new ApiResponse(true,"show",teachersOfKafedra29 );
+        }else {
+            List<GetTeachersOfKafedra28> teachersOfKafedra28 = sectionRepository.getStaffsOfDekan28(user.getId());
+            return new ApiResponse(true,"show", teachersOfKafedra28);
+        }
+
+    }
+
+
+    public ApiResponse getStatistics(User user) {
+
+        int maxDay = Calendar.getInstance().getMaximum(Calendar.DATE);
+        Calendar calendar = Calendar.getInstance();
+        int days = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        if (days==31){
+            System.out.println( "31 <---===========================================================================================================================================-----------------------------------------------------------------------------------------------------------------------------------------");
+            List<GetTeachersOfKafedra31> teachersOfKafedra = sectionRepository.getStaffsOfKafedra31(user.getId());
+            System.out.println( teachersOfKafedra+"31 <---===========================================================================================================================================-----------------------------------------------------------------------------------------------------------------------------------------");
+            return new ApiResponse(true,"show", teachersOfKafedra);
+        }
+        else if (days==30){
+            List<GetTeachersOfKafedra30> teachersOfKafedra30 = sectionRepository.getStaffsOfKafedra30(user.getId());
+            return new ApiResponse(true,"show", teachersOfKafedra30);
+        }else if (maxDay==29){
+            List<GetTeachersOfKafedra29> teachersOfKafedra29 = sectionRepository.getStaffsOfKafedra29(user.getId());
+            return new ApiResponse(true,"show",teachersOfKafedra29 );
+        }else {
+            List<GetTeachersOfKafedra28> teachersOfKafedra28 = sectionRepository.getStaffsOfKafedra28(user.getId());
+            return new ApiResponse(true,"show", teachersOfKafedra28);
+        }
+
+    }
+
+    public ApiResponse getStatisticsForRektor(String sectionId, Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int maxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//        System.out.println(Calendar.getInstance().getMaximum(Calendar.DATE)+"-----------------------------------");
+//        System.out.println(date+" /// ");
+
+        if (maxDay==31){
+            return new ApiResponse(true,"<??? 31",sectionRepository.getDateForRektor31(date,sectionId));
+        }
+        else if (maxDay==30){
+            return new ApiResponse(true,"<??? 30",sectionRepository.getDateForRektor30(date,sectionId));
+        }else if (maxDay==29){
+            return new ApiResponse(true,"<??? 29",sectionRepository.getDateForRektor29(date,sectionId));
+        }else {
+            return new ApiResponse(true,"<??? 28",sectionRepository.getDateForRektor28(date,sectionId));
         }
     }
 }

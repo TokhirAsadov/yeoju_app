@@ -2,10 +2,11 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.address;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uz.yeoju.yeoju_app.entity.AddressUser;
+import uz.yeoju.yeoju_app.entity.address.AddressUser;
 import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.payload.AddressDto;
+import uz.yeoju.yeoju_app.payload.address.AddressDto;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.address.SelectAddressDto;
 import uz.yeoju.yeoju_app.repository.AddressUserRepository;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
@@ -55,12 +56,16 @@ public class AddressImplService implements AddressService{
                                 dto.getRegion(),
                                 dto.getArea(),
                                 dto.getAddress(),
-                                dto.getConstant(),
-                                dto.getAsCurrent()
+                                dto.getConstant()
                             )
                         );
         }
         return new ApiResponse(false,"not fount user");
+    }
+
+    @Override
+    public ApiResponse saveSecond(User user, SelectAddressDto dto) {
+        return null;
     }
 
 
@@ -72,8 +77,7 @@ public class AddressImplService implements AddressService{
                 dto.getRegion(),
                 dto.getArea(),
                 dto.getAddress(),
-                dto.getConstant(),
-                dto.getAsCurrent()
+                dto.getConstant()
         );
     }
 
@@ -85,8 +89,7 @@ public class AddressImplService implements AddressService{
                 address.getRegion(),
                 address.getArea(),
                 address.getAddress(),
-                address.getConstant(),
-                address.getIsCurrent()
+                address.getIsConstant()
         );
     }
 }

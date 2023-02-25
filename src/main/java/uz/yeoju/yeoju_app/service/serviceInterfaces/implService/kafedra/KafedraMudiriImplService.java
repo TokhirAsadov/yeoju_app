@@ -1,23 +1,23 @@
 package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.kafedra;
 
+import org.jaxen.util.SingletonList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.entity.dekanat.Dekan;
+import uz.yeoju.yeoju_app.entity.*;
+import uz.yeoju.yeoju_app.entity.enums.WorkerStatus;
 import uz.yeoju.yeoju_app.entity.kafedra.Kafedra;
 import uz.yeoju.yeoju_app.entity.kafedra.KafedraMudiri;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanSave;
 import uz.yeoju.yeoju_app.payload.kafedra.KafedraMudiriSaving;
+import uz.yeoju.yeoju_app.payload.kafedra.TeacherEditDto;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra31;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra28;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra29;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra30;
-import uz.yeoju.yeoju_app.repository.KafedraMudirRepository;
-import uz.yeoju.yeoju_app.repository.KafedraRepository;
-import uz.yeoju.yeoju_app.repository.UserRepository;
+import uz.yeoju.yeoju_app.repository.*;
 
 import java.util.*;
 
@@ -31,10 +31,33 @@ public class KafedraMudiriImplService implements KafedraMudiriService{
     private UserRepository userRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private TeacherRepository teacherRepository;
+
+    @Autowired
+    private PositionRepository positionRepository;
+
+    @Autowired
+    private LessonRepository lessonRepository;
+
+    @Autowired
     private KafedraRepository kafedraRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+
+
+
+
+    @Override
+    public ApiResponse getTeachersStatisticsForKafedraDashboard(String kafedraId) {
+
+
+        return new ApiResponse(true,"dashboard", kafedraMudirRepository.getTeachersStatisticsForKafedraDashboard(kafedraId));
+    }
 
     @Override
     public ApiResponse findAll() {
@@ -53,7 +76,12 @@ public class KafedraMudiriImplService implements KafedraMudiriService{
             user.setAccountNonLocked(true);
             user.setAccountNonExpired(true);
             user.setCredentialsNonExpired(true);
-            user.setLogin(user.getFullName());
+            if (user.getUserId()!=null) {
+                user.setLogin(user.getUserId());
+            }
+            else {
+                user.setLogin(user.getRFID());
+            }
             user.setPassword(passwordEncoder.encode("root123"));
 //            user.setPassportNum("");
             userRepository.save(user);
@@ -79,6 +107,130 @@ public class KafedraMudiriImplService implements KafedraMudiriService{
         return new ApiResponse(true,"position change",kafedraMudirRepository.getPositionEdit(id));
     }
 
+    @Transactional
+    @Override
+    public ApiResponse changeTeacher(TeacherEditDto dto) {
+        Optional<User> userOptional = userRepository.findById(dto.getId());
+        User userByRFID = userRepository.findUserByRFID(dto.getRFID());
+
+        if (userOptional.isPresent()){
+
+            if (userByRFID!=null) {
+
+                if (Objects.equals(userByRFID.getId(), dto.getId())) {
+
+                    User user = userOptional.get();
+
+                    user.setLogin(dto.getLogin());
+                    user.setFullName(dto.getFullName());
+                    user.setRFID(dto.getRFID());
+                    user.setEmail(dto.getEmail());
+                    user.setCitizenship(dto.getCitizenship());
+                    user.setNationality(dto.getNationality());
+                    user.setPassportNum(dto.getPassportNum());
+
+                    Position positionByUserPositionName = positionRepository.getPositionByUserPositionName(dto.getPosition());
+
+                    if (positionByUserPositionName != null) {
+                        user.setPositions(new HashSet<>(Collections.singletonList(positionByUserPositionName)));
+                    } else {
+                        return new ApiResponse(false, "not fount position");
+                    }
+
+                    user.setAccountNonLocked(true);
+                    user.setAccountNonExpired(true);
+                    user.setCredentialsNonExpired(true);
+                    user.setEnabled(true);
+
+                    System.out.println(user.toString());
+
+                    userRepository.save(user);
+
+                    /***    teacher    ***/
+                    Teacher teacherByUserId = teacherRepository.getTeacherByUserId(dto.getId());
+
+                    if (teacherByUserId != null) {
+
+                        /***    subjects    ***/
+                        Set<Lesson> lessons = new HashSet<>();
+                        for (String subject : dto.getSubjects()) {
+                            Lesson lessonByName = lessonRepository.getLessonByName(subject);
+                            if (lessonByName == null) {
+                                return new ApiResponse(false, "not fount subject");
+                            }
+                            lessons.add(lessonByName);
+                        }
+                        teacherByUserId.setSubjects(lessons);
+
+                        /***    worker status - asosiy,soatbay,orindosh    ***/
+                        String workStatus = dto.getWorkStatus();
+                        WorkerStatus workerStatus = WorkerStatus.valueOf(workStatus);
+                        teacherByUserId.setWorkerStatus(workerStatus);
+
+                        /***    kafedra    ***/
+                        Optional<Kafedra> kafedraOptional = kafedraRepository.findById(dto.getKafedraId());
+                        if (kafedraOptional.isPresent()) {
+                            teacherByUserId.setKafedra(kafedraOptional.get());
+                        } else {
+                            return new ApiResponse(false, "not fount kafedra");
+                        }
+
+                        /***    user    ***/
+                        teacherByUserId.setUser(user);
+
+                        teacherRepository.save(teacherByUserId);
+
+                        return new ApiResponse(true, "Updated " + user.getFullName() + " successfully!.");
+                    } else {
+                        return new ApiResponse(false, "not fount teacher");
+                    }
+                } else {
+                    return new ApiResponse(false, "error.. this rfid already exists.. enter other rfid.");
+                }
+            }
+            else {
+                return new ApiResponse(false, "error.. not fount rfid.");
+            }
+        }
+        else {
+            return new ApiResponse(false,"not fount user");
+        }
+
+    }
+
+    @Override
+    public ApiResponse deletedTeacherWithUserId(String id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        Optional<Role> role_user = roleRepository.findRoleByRoleName("ROLE_USER");
+        User user = userOptional.get();
+        user.setRoles(new HashSet<>(new SingletonList(role_user.get())));
+        userRepository.save(user);
+
+        Teacher teacherByUserId = teacherRepository.getTeacherByUserId(id);
+        teacherRepository.deleteById(teacherByUserId.getId());
+        return new ApiResponse(true,userOptional.get().getFullName()+" deleted teacher");
+    }
+
+    @Override
+    public ApiResponse changeRolesTeachers() {
+
+        List<Teacher> teacherList = teacherRepository.findAll();
+        Optional<Role> role_teacher = roleRepository.findRoleByRoleName("ROLE_TEACHER");
+
+        if (role_teacher.isPresent()){
+            for (Teacher teacher : teacherList) {
+                Optional<User> userOptional = userRepository.findById(teacher.getUser().getId());
+                User user = userOptional.get();
+                user.setRoles(new HashSet<>(new SingletonList(role_teacher.get())));
+                userRepository.save(user);
+            }
+
+            return new ApiResponse(true,"changed roles");
+        }
+
+        return new ApiResponse(false,"Not fount role");
+    }
+
     @Override
     public ApiResponse save(KafedraMudiriSaving saving) {
 
@@ -94,6 +246,9 @@ public class KafedraMudiriImplService implements KafedraMudiriService{
 
         return new ApiResponse(false,"Error not fount user or kafedra");
     }
+
+
+
 
     @Override
     public ApiResponse getStatistics(User user) {
@@ -115,6 +270,29 @@ public class KafedraMudiriImplService implements KafedraMudiriService{
             return new ApiResponse(true,"show",teachersOfKafedra29 );
         }else {
             List<GetTeachersOfKafedra28> teachersOfKafedra28 = kafedraRepository.getTeachersOfKafedra28(user.getId());
+            return new ApiResponse(true,"show", teachersOfKafedra28);
+        }
+
+    }
+
+    @Override
+    public ApiResponse getStatistics(String kafedraId) {
+
+        int maxDay = Calendar.getInstance().getMaximum(Calendar.DATE);
+        Calendar calendar = Calendar.getInstance();
+        int days = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        if (days==31){
+            List<GetTeachersOfKafedra31> teachersOfKafedra = kafedraRepository.getTeachersOfKafedra31(kafedraId);
+            return new ApiResponse(true,"show", teachersOfKafedra);
+        }
+        else if (days==30){
+            List<GetTeachersOfKafedra30> teachersOfKafedra30 = kafedraRepository.getTeachersOfKafedra30(kafedraId);
+            return new ApiResponse(true,"show", teachersOfKafedra30);
+        }else if (maxDay==29){
+            List<GetTeachersOfKafedra29> teachersOfKafedra29 = kafedraRepository.getTeachersOfKafedra29(kafedraId);
+            return new ApiResponse(true,"show",teachersOfKafedra29 );
+        }else {
+            List<GetTeachersOfKafedra28> teachersOfKafedra28 = kafedraRepository.getTeachersOfKafedra28(kafedraId);
             return new ApiResponse(true,"show", teachersOfKafedra28);
         }
 

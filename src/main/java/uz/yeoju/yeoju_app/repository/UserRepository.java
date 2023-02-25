@@ -1,11 +1,13 @@
 package uz.yeoju.yeoju_app.repository;
 
+import org.apache.tomcat.jni.Time;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentData;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherData;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherStatisticsOfWeekday;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.dashboard.KafedraStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.dashboard.RektorDashboard;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.dashboard.StaffDatasForRektorDashboard;
@@ -14,21 +16,49 @@ import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraTeachers2
 import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraTeachers29;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraTeachers30;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraTeachers31;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.staff.*;
 import uz.yeoju.yeoju_app.payload.resDto.search.SearchDto;
-import uz.yeoju.yeoju_app.payload.resDto.user.UserField;
-import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSave;
-import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSaveItem;
-import uz.yeoju.yeoju_app.payload.resDto.user.UserResDto;
+import uz.yeoju.yeoju_app.payload.resDto.staff.DataForStaffSaving;
+import uz.yeoju.yeoju_app.payload.resDto.user.*;
+import uz.yeoju.yeoju_app.payload.resDto.user.timeTableStatistics.*;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, String> {
     User getUserByLoginOrEmailOrRFID(String login, String email, String RFID);
     User getUserByLogin(String login);
     User findUserByEmail(String email);
+
+    Optional<User> findUserByPassportNum(String passportNum);
     User findUserByRFID(String RFID);
 
     boolean existsUserByLoginOrEmailOrRFID(String login, String email, String RFID);
+
+    @Query(value = "select :id as id",nativeQuery = true)
+    SectionStaff31 getSectionStaffsDataForRektorBySectionId31(@Param("id") String id);
+
+    @Query(value = "select :id as id",nativeQuery = true)
+    SectionStaff30 getSectionStaffsDataForRektorBySectionId30(@Param("id") String id);
+
+    @Query(value = "select :id as id",nativeQuery = true)
+    SectionStaff29 getSectionStaffsDataForRektorBySectionId29(@Param("id") String id);
+
+    @Query(value = "select :id as id",nativeQuery = true)
+    SectionStaff28 getSectionStaffsDataForRektorBySectionId28(@Param("id") String id);
+
+    @Query(value = "select :id as id",nativeQuery = true)
+    SectionStaff31No getSectionStaffsDataForRektorBySectionId31No(@Param("id") String id);
+
+    @Query(value = "select :id as id",nativeQuery = true)
+    SectionStaff30No getSectionStaffsDataForRektorBySectionId30No(@Param("id") String id);
+
+    @Query(value = "select :id as id",nativeQuery = true)
+    SectionStaff29No getSectionStaffsDataForRektorBySectionId29No(@Param("id") String id);
+
+    @Query(value = "select :id as id",nativeQuery = true)
+    SectionStaff28No getSectionStaffsDataForRektorBySectionId28No(@Param("id") String id);
+
 
     @Query(value = "select :id as id",nativeQuery = true)
     KafedraTeachers31 getKafedraTeachersDataForRektorByKafedraId31(@Param("id") String id);
@@ -42,8 +72,16 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "select :id as id",nativeQuery = true)
     KafedraTeachers28 getKafedraTeachersDataForRektorByKafedraId28(@Param("id") String id);
 
-    @Query(value = "select id,nameEn as name from Kafedra",nativeQuery = true)
+    @Query(value = "select id,nameEn as name from Kafedra order by name asc ",nativeQuery = true)
     List<KafedraStatistics> getKafedraStatisticsForRektor();
+
+    @Query(value = "select id,name from Section\n" +
+            "where name <> 'Rahbariyat' order by name ",nativeQuery = true)
+    List<StaffStatistics> getStaffStatisticsForRektor();
+
+    @Query(value = "select id,name from Dekanat\n" +
+            "order by name ",nativeQuery = true)
+    List<DekanStaffStatistics> getStaffStatisticsForRektor2();
 
     @Query(value = "select u.id,u.email, u.login,u.fullName,u.bornYear,u.citizenship,u.nationality,u.passportNum,R2.roleName from users u join users_Role uR on u.id = uR.users_id\n" +
             "join Role R2 on uR.roles_id = R2.id\n" +
@@ -97,8 +135,23 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "select id from users where id=:id",nativeQuery = true)
     UserForTeacherSave getItemsForTeacherSaving(@Param("id") String id);
 
-    @Query(value = "select id as value,fullName as label from users where fullName like :keyword order by fullName asc",nativeQuery = true)
+//    @Query(value = "select id as value,fullName as label from users where fullName like :keyword order by fullName asc",nativeQuery = true)
+//    List<UserForTeacherSaveItem> getUserForTeacherSavingSearch(@Param("keyword") String keyword);
+
+    @Query(value = "select u.id as value,u.fullName as label from users u\n" +
+            "left join users_Role uR on u.id = uR.users_id\n" +
+            "join Role R2 on uR.roles_id = R2.id\n" +
+            " where (u.fullName like :keyword ) order by fullName asc",nativeQuery = true)
     List<UserForTeacherSaveItem> getUserForTeacherSavingSearch(@Param("keyword") String keyword);
+
+    @Query(value = "select r.id as value,r.roleName as label from Role r order by r.roleName asc ",nativeQuery = true)
+    List<UserForTeacherSaveItem> getRolesForStaffSaving();
+
+    @Query(value = "select s.id as value,s.name as label from Section s order by s.name asc ",nativeQuery = true)
+    List<UserForTeacherSaveItem> getSectionsForStaffSaving();
+
+    @Query(value = "select :id as id",nativeQuery = true)
+    DataForStaffSaving getDataForStaffSaving(@Param("id") String id);
 
 
     @Query(value = "select f2.user_id as id,f2.fullName,f2.email,f2.RFID,f2.login,f2.passportNum as passport from (\n" +
@@ -132,30 +185,1640 @@ public interface UserRepository extends JpaRepository<User, String> {
             ") as f2 on f2.user_id = f1.user_id where f1.user_id is null",nativeQuery = true)
     TeacherData getTeachersForRemember(@Param("pass") String pass,@Param("kafedraId") String kafedraId);
 
-//    @Query(value = "select f2.user_id as id,f2.fullName,f2.email,f2.RFID,f2.login,f2.passportNum as passport from (\n" +
-//            " select t.kafedra_id,t.user_id from\n" +
-//            "     (select  al.card_no as cardNo\n" +
-//            "      from acc_monitor_log al\n" +
-//            "               join users u\n" +
-//            "                    on cast(u.RFID as varchar) =\n" +
-//            "                       cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-//            "               join users_Role ur\n" +
-//            "                    on u.id = ur.users_id\n" +
-//            "               join (select id from Role where roleName = 'ROLE_TEACHER') as role\n" +
-//            "                    on ur.roles_id = role.id\n" +
-//            "      where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and u.passportNum=:pass\n" +
-//            "     ) as card\n" +
-//            "         join users u on cast(card.cardNo as varchar) =\n" +
-//            "                         cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-//            "         join Teacher t on u.id = t.user_id\n" +
-//            " where t.kafedra_id=:kafedraId\n" +
-//            " group by t.kafedra_id,t.user_id\n" +
-//            ") as f1\n" +
-//            "right join (\n" +
-//            "    select t.kafedra_id,t.user_id,u2.fullName, u2.email, u2.RFID, u2.login,u2.passportNum from Teacher t\n" +
-//            "                                  join users u2 on t.user_id = u2.id\n" +
-//            "    where t.kafedra_id=:kafedraId and u2.passportNum=:pass\n" +
-//            "    group by t.kafedra_id,t.user_id,u2.fullName, t.user_id, t.kafedra_id, u2.email, u2.RFID, u2.login, u2.passportNum\n" +
-//            ") as f2 on f2.user_id = f1.user_id where f1.user_id is null",nativeQuery = true)
-//    TeacherData getTeachersForRemember(@Param("pass") String pass,@Param("kafedraId") String kafedraId);
+
+    //todo------------------ bugun uzgartirding 2023.01.26
+    @Query(value = "select f2.user_id as id,f2.fullName,f2.email,f2.RFID,f2.login,f2.passportNum as passport from (\n" +
+            "  select t.kafedra_id,t.user_id from\n" +
+            "      (select  al.card_no as cardNo\n" +
+            "       from acc_monitor_log al\n" +
+            "                join users u\n" +
+            "                     on cast(u.RFID as varchar) =\n" +
+            "                        cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "                join users_Role ur\n" +
+            "                     on u.id = ur.users_id\n" +
+            "                join (select id from Role where roleName = 'ROLE_TEACHER') as role\n" +
+            "                     on ur.roles_id = role.id\n" +
+            "       where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and u.passportNum=:pass\n" +
+            "      ) as card\n" +
+            "          join users u on cast(card.cardNo as varchar) =\n" +
+            "                          cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "          join Teacher t on u.id = t.user_id\n" +
+            "          join Kafedra K on t.kafedra_id = K.id\n" +
+            "          join KafedraMudiri KM on K.id = KM.kafedra_id\n" +
+            "  where KM.user_id=:kafedraMudiriId and u.passportNum=:pass\n" +
+            "  group by t.kafedra_id,t.user_id\n" +
+            ") as f1\n" +
+            " right  join (\n" +
+            "    select t.kafedra_id,t.user_id,u2.fullName, u2.email, u2.RFID, u2.login,u2.passportNum from Teacher t\n" +
+            "   join users u2 on t.user_id = u2.id\n" +
+            "   join Kafedra K on t.kafedra_id = K.id\n" +
+            "   join KafedraMudiri KM on K.id = KM.kafedra_id\n" +
+            "    where KM.user_id=:kafedraMudiriId and u2.passportNum=:pass\n" +
+            "    group by t.kafedra_id,t.user_id,u2.fullName, t.user_id, t.kafedra_id, u2.email, u2.RFID, u2.login, u2.passportNum\n" +
+            ") as f2 on f2.user_id = f1.user_id",nativeQuery = true)
+    TeacherData getTeachersForRememberWithKafedraMudiriId(@Param("pass") String pass, @Param("kafedraMudiriId") String kafedraMudiriId);
+
+
+    @Query(value = "select f2.user_id as id,f2.fullName,f2.email,f2.RFID,f2.login,f2.passportNum as passport from (\n" +
+            "  select t.kafedra_id,t.user_id from\n" +
+            "      (select  al.card_no as cardNo\n" +
+            "       from acc_monitor_log al\n" +
+            "            join users u\n" +
+            "                 on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "            join users_Role ur\n" +
+            "                 on u.id = ur.users_id\n" +
+            "            join (select id from Role where roleName = 'ROLE_TEACHER') as role\n" +
+            "                 on ur.roles_id = role.id\n" +
+            "       where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and u.passportNum=:pass\n" +
+            "      ) as card\n" +
+            "          join users u on cast(card.cardNo as varchar) =  cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "          join Teacher t on u.id = t.user_id\n" +
+            "  where t.kafedra_id=:kafedraId and u.passportNum=:pass\n" +
+            "  group by t.kafedra_id,t.user_id\n" +
+            ") as f1\n" +
+            "  right  join (\n" +
+            "    select t.kafedra_id,t.user_id,u2.fullName, u2.email, u2.RFID, u2.login,u2.passportNum from Teacher t\n" +
+            "               join users u2 on t.user_id = u2.id\n" +
+            "    where t.kafedra_id=:kafedraId and u2.passportNum=:pass\n" +
+            "    group by t.kafedra_id,t.user_id,u2.fullName, t.user_id, t.kafedra_id, u2.email, u2.RFID, u2.login, u2.passportNum\n" +
+            ") as f2 on f2.user_id = f1.user_id",nativeQuery = true)
+    TeacherData getTeachersForRememberWithKafedraId(@Param("pass") String pass, @Param("kafedraId") String kafedraId);
+
+
+    @Query(value = "select Top 1 id, fullName, email, RFID, login, passportNum as passport from users where passportNum=:pass ",nativeQuery = true)
+    TeacherData getTeachersForRemember3(@Param("pass") String pass);
+
+    @Query(value = "select u.id, u.fullName, ad.door_name as room from acc_monitor_log al\n" +
+            "          join acc_door ad on ad.device_id=al.device_id\n" +
+            "         join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and u.id=:userId\n" +
+            "group by u.id, u.fullName, ad.door_name",nativeQuery = true)
+    List<UserCheckRoomStatistics> getUserCheckRoomStatistics(@Param("userId") String userId);
+
+
+    @Query(value = "select  u.id,u.fullName,ad.door_name as room,\n" +
+            "          al.time,\n" +
+            "        CASE\n" +
+            "            WHEN\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    9,\n" +
+            "                    00,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 1\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    9,\n" +
+            "                    00,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    9,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 1\n" +
+            "\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    9,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    10,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 2\n" +
+            "\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    10,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    11,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 3\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    11,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    12,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 4\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    12,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    13,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 5\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    13,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    14,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 6\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    14,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    15,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 7\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    15,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    16,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 8\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    16,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    17,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 9\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    17,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    18,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 10\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    18,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    19,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 11\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    19,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    21,\n" +
+            "                    00,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 12\n" +
+            "\n" +
+            "            ELSE 0\n" +
+            "            END as section\n" +
+            "\n" +
+            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+            "      join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "     where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and ad.door_name=:room and u.id=:userId",nativeQuery = true)
+    List<EachOneTimeOfRoomStatistics> getEachOneTimeOfRoomStatistics(@Param("userId") String userId,@Param("room") String room);
+
+
+    @Query(value = "select id,fullName from users where id=:id",nativeQuery = true)
+    UserForRoomStatistics getUserForRoomStatistics(@Param("id") String id);
+
+
+    @Query(value = "select id,fullName from users where id=:id",nativeQuery = true)
+    WeekStatistics getUserForWeekStatistics(@Param("id") String id);
+
+    @Query(value = "select id,fullName from users where passportNum=:passport",nativeQuery = true)
+    WeekStatistics getUserForWeekStatisticsByPassport(@Param("passport") String passport);
+
+    @Query(value = "select  :userId as id, ad.door_name as room\n" +
+            "from acc_monitor_log al\n" +
+            "         join acc_door ad on ad.device_id=al.device_id\n" +
+            "         join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and u.id=:userId\n" +
+            "group by u.id, ad.door_name",nativeQuery = true)
+    List<RoomsForStatistics> getRoomsForStatistics(@Param("userId") String userId);
+
+    @Query(value = "select  :userId as id, ad.door_name as room, :weekday as weekday\n" +
+            "from acc_monitor_log al\n" +
+            "         join acc_door ad on ad.device_id=al.device_id\n" +
+            "         join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where al.time between\n" +
+            "    dateadd(\n" +
+            "            dd,\n" +
+            "            DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),\n" +
+            "            0\n" +
+            "        )\n" +
+            "\n" +
+            "    and\n" +
+            "    dateadd(\n" +
+            "            dd,\n" +
+            "            DATEDIFF(dd, DATEPART(dw, GETDATE())-2-:weekday, getdate()),\n" +
+            "            0\n" +
+            "        )\n" +
+            "  and u.id=:userId\n" +
+            "group by u.id, ad.door_name",nativeQuery = true)
+    List<RoomsForWeekStatistics> getRoomsForStatistics(@Param("userId") String userId,@Param("weekday") Integer weekday);
+    //    todo----------------------------------------------------------------------------------------------------------------------------------------
+
+
+    @Query(value = "select al.time,\n" +
+            "        CASE\n" +
+            "            WHEN\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    9,\n" +
+            "                    00,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 1\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    9,\n" +
+            "                    00,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    9,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 1\n" +
+            "\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    9,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    10,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 2\n" +
+            "\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    10,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    11,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 3\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    11,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    12,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 4\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    12,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    13,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 5\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    13,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    14,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 6\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    14,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    15,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 7\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    15,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    16,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 8\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    16,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    17,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 9\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    17,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    18,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 10\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    18,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    19,\n" +
+            "                    52,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 11\n" +
+            "\n" +
+            "            when\n" +
+            "                al.time > DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    19,\n" +
+            "                    50,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )\n" +
+            "                and\n" +
+            "                al.time < DATETIMEFROMPARTS(\n" +
+            "                    DATEPART(YEAR, getdate()),\n" +
+            "                    DATEPART(MONTH, getdate()),\n" +
+            "                    DATEPART(DAY, getdate()),\n" +
+            "                    21,\n" +
+            "                    00,\n" +
+            "                    00,\n" +
+            "                    0\n" +
+            "                )  THEN 12\n" +
+            "\n" +
+            "            ELSE 0\n" +
+            "            END as section\n" +
+            "\n" +
+            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+            "      join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "     where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and ad.door_name=:room and u.id=:userId",nativeQuery = true)
+    List<TimesForRoom> getTimesForRoomStatistics(@Param("userId") String userId, @Param("room") String room);
+
+
+//    @Query(value = "\n" +
+//            "select al.time,\n" +
+//            "        CASE\n" +
+//            "            WHEN\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    9,\n" +
+//            "                    00,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 1\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    9,\n" +
+//            "                    00,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    9,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 1\n" +
+//            "\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    9,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    10,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 2\n" +
+//            "\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    10,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    11,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 3\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    11,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    12,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 4\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    12,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    13,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 5\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    13,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    14,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 6\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    14,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    15,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 7\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    15,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    16,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 8\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    16,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    17,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 9\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    17,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    18,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 10\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    18,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    19,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 11\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    19,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
+//            "                    21,\n" +
+//            "                    00,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 12\n" +
+//            "\n" +
+//            "            ELSE 0\n" +
+//            "            END as section\n" +
+//            "\n" +
+//            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+//            "      join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "     where al.time between DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, :weekday-1, getdate()), 0) and ad.door_name=:room and u.id=:userId",nativeQuery = true)
+//    List<TimesForRoom> getTimesForRoomStatistics(@Param("userId") String userId, @Param("room") String room,@Param("weekday") Integer weekday);
+//    todo----------------------------------------------------------------------------------------------------------------------------------------
+
+    @Query(value = "select al.time,\n" +
+            "       CASE\n" +
+            "           WHEN\n" +
+            "                   al.time < DATETIMEFROMPARTS(\n" +
+            "                       DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                       DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                       DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                       9,\n" +
+            "                       00,\n" +
+            "                       00,\n" +
+            "                       0\n" +
+            "                   )  THEN 1\n" +
+            "\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           9,\n" +
+            "                           00,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               9,\n" +
+            "                               52,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 1\n" +
+            "\n" +
+            "\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           9,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               10,\n" +
+            "                               52,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 2\n" +
+            "\n" +
+            "\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           10,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               11,\n" +
+            "                               52,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 3\n" +
+            "\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           11,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               12,\n" +
+            "                               52,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 4\n" +
+            "\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           12,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               13,\n" +
+            "                               52,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 5\n" +
+            "\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           13,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               14,\n" +
+            "                               52,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 6\n" +
+            "\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           14,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               15,\n" +
+            "                               52,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 7\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           15,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               16,\n" +
+            "                               52,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 8\n" +
+            "\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           16,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               17,\n" +
+            "                               52,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 9\n" +
+            "\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           17,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               18,\n" +
+            "                               52,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 10\n" +
+            "\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           18,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               19,\n" +
+            "                               52,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 11\n" +
+            "\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                           19,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                               21,\n" +
+            "                               00,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 12\n" +
+            "\n" +
+            "           ELSE 0\n" +
+            "           END as section\n" +
+            "\n" +
+            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+            "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where al.time between dateadd(\n" +
+            "        dd,\n" +
+            "        DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),\n" +
+            "        0\n" +
+            "    ) and dateadd(\n" +
+            "        dd,\n" +
+            "        DATEDIFF(dd, DATEPART(dw, GETDATE())-2-:weekday, getdate()),\n" +
+            "        0\n" +
+            "    ) and ad.door_name=:room and u.id=:userId",nativeQuery = true)
+    List<TimesForRoom> getTimesForRoomStatistics(@Param("userId") String userId, @Param("room") String room,@Param("weekday") Integer weekday);
+
+
+    @Query(value = "select u.id,u.fullName,al.time, :weekday as weekday,  :section as section \n" +
+            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+            "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where al.time between\n" +
+            "    case\n" +
+            "        when :section=1 then DATETIMEFROMPARTS(\n" +
+            "            DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "            DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "            DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "            8,\n" +
+            "            50,\n" +
+            "            00,\n" +
+            "            0)\n" +
+            "        when :section=2 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                9,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=3 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                10,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=4 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                11,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=5 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                12,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=6 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                13,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=7 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                14,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=8 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                15,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=9 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                16,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=10 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                17,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=11 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                18,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=12 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                19,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        ELSE 0\n" +
+            "        END\n" +
+            "    and\n" +
+            "          case\n" +
+            "              when :section=1 then DATETIMEFROMPARTS(\n" +
+            "                      DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      9,\n" +
+            "                      54,\n" +
+            "                      00,\n" +
+            "                      0)\n" +
+            "              when :section=2 then DATETIMEFROMPARTS(\n" +
+            "                      DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      10,\n" +
+            "                      54,\n" +
+            "                      00,\n" +
+            "                      0)\n" +
+            "              when :section=3 then DATETIMEFROMPARTS(\n" +
+            "                      DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      11,\n" +
+            "                      54,\n" +
+            "                      00,\n" +
+            "                      0)\n" +
+            "              when :section=4 then DATETIMEFROMPARTS(\n" +
+            "                      DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      12,\n" +
+            "                      54,\n" +
+            "                      00,\n" +
+            "                      0)\n" +
+            "              when :section=5 then DATETIMEFROMPARTS(\n" +
+            "                      DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      13,\n" +
+            "                      54,\n" +
+            "                      00,\n" +
+            "                      0)\n" +
+            "              when :section=6 then DATETIMEFROMPARTS(\n" +
+            "                      DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      14,\n" +
+            "                      54,\n" +
+            "                      00,\n" +
+            "                      0)\n" +
+            "              when :section=7 then DATETIMEFROMPARTS(\n" +
+            "                      DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      15,\n" +
+            "                      54,\n" +
+            "                      00,\n" +
+            "                      0)\n" +
+            "              when :section=8 then DATETIMEFROMPARTS(\n" +
+            "                      DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      16,\n" +
+            "                      54,\n" +
+            "                      00,\n" +
+            "                      0)\n" +
+            "              when :section=9 then DATETIMEFROMPARTS(\n" +
+            "                      DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      17,\n" +
+            "                      54,\n" +
+            "                      00,\n" +
+            "                      0)\n" +
+            "              when :section=10 then DATETIMEFROMPARTS(\n" +
+            "                      DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      18,\n" +
+            "                      54,\n" +
+            "                      00,\n" +
+            "                      0)\n" +
+            "              when :section=11 then DATETIMEFROMPARTS(\n" +
+            "                      DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      19,\n" +
+            "                      54,\n" +
+            "                      00,\n" +
+            "                      0)\n" +
+            "              when :section=12 then DATETIMEFROMPARTS(\n" +
+            "                      DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                      21,\n" +
+            "                      00,\n" +
+            "                      00,\n" +
+            "                      0)\n" +
+            "              ELSE 0\n" +
+            "              END\n" +
+            "  and ad.door_name=:room and u.passportNum=:passport",nativeQuery = true)
+    List<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByPassport(@Param("passport") String passport, @Param("room") String room, @Param("weekday") Integer weekday, @Param("section") Integer section);
+//todo-------------------------------------------------------------------------------------------------------------------========================
+
+    @Query(value = "select u.id,u.fullName,al.time, :weekday as weekday,  :section as section\n" +
+            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+            "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where al.time between\n" +
+            "    case\n" +
+            "        when :section=1 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                8,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=2 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                9,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=3 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                10,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=4 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                11,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=5 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                12,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=6 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                13,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=7 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                14,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=8 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                15,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=9 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                16,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=10 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                17,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=11 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                18,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=12 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                19,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        ELSE 0\n" +
+            "        END\n" +
+            "    and\n" +
+            "    case\n" +
+            "        when :section=1 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                9,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=2 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                10,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=3 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                11,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=4 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                12,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=5 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                13,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=6 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                14,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=7 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                15,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=8 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                16,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=9 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                17,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=10 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                18,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=11 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                19,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=12 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                21,\n" +
+            "                00,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        ELSE 0\n" +
+            "        END\n" +
+            "  and ad.door_name=:room and u.id=:userId\n",nativeQuery = true)
+    List<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByUserId(@Param("userId") String userId, @Param("room") String room, @Param("weekday") Integer weekday, @Param("section") Integer section);
 }
+
+

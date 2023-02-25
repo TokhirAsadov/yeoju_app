@@ -12,4 +12,6 @@ public interface DekanatService {
     ApiResponse getDekansSavedDatas();
 
     ApiResponse getKafedrasSavedDatas();
+
+    ApiResponse getDekanatDataForDekan(String id);
 }

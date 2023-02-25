@@ -18,6 +18,7 @@ public interface TeacherData {
     String getCitizenship();
     String getNationality();
     String getPassportNum();
+    String getPassport();
     String getWorkerStatus();
 
     @Value("#{@positionRepository.getNamesOfPosition(target.id)}")

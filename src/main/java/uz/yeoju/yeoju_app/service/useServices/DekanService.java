@@ -3,20 +3,21 @@ package uz.yeoju.yeoju_app.service.useServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uz.yeoju.yeoju_app.entity.EducationType;
+import uz.yeoju.yeoju_app.entity.Group;
+import uz.yeoju.yeoju_app.entity.Student;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.dekanat.Dekan;
 import uz.yeoju.yeoju_app.entity.dekanat.Dekanat;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.payload.UserDto;
-import uz.yeoju.yeoju_app.payload.dekanat.DekanDto;
-import uz.yeoju.yeoju_app.payload.dekanat.DekanSave;
-import uz.yeoju.yeoju_app.payload.dekanat.DekanSaveWithEduType;
-import uz.yeoju.yeoju_app.payload.dekanat.DekanatSaveDto;
+import uz.yeoju.yeoju_app.payload.dekanat.*;
 import uz.yeoju.yeoju_app.repository.*;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.DekanImplService;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,6 +30,7 @@ public class DekanService implements DekanImplService<DekanDto> {
     private final UserRepository userRepository;
     private final FacultyService facultyService;
     private final StudentRepository studentRepository;
+    private final GroupRepository groupRepository;
     private final DekanatRepository dekanatRepository;
     private final PasswordEncoder passwordEncoder;
     private final EducationTypeRepository educationTypeRepository;
@@ -158,7 +160,12 @@ public class DekanService implements DekanImplService<DekanDto> {
             user.setAccountNonLocked(true);
             user.setAccountNonExpired(true);
             user.setCredentialsNonExpired(true);
-            user.setLogin(user.getFullName());
+            if (user.getUserId()!=null) {
+                user.setLogin(user.getUserId());
+            }
+            else {
+                user.setLogin(user.getRFID());
+            }
             user.setPassword(passwordEncoder.encode("root123"));
 
             userRepository.save(user);
@@ -180,6 +187,61 @@ public class DekanService implements DekanImplService<DekanDto> {
             }
             else {
                 return new ApiResponse(false,"not fount dekanat");
+            }
+        }
+        else {
+            return new ApiResponse(false,"not fount user");
+        }
+    }
+
+    @Transactional
+    public ApiResponse changeStudent(StudentChangeDto dto) {
+        Optional<User> userOptional = userRepository.findById(dto.getId());
+        User userByRFID = userRepository.findUserByRFID(dto.getRFID());
+        if (userOptional.isPresent()){
+
+            if (userByRFID!=null) {
+                if (Objects.equals(userByRFID.getId(), dto.getId())) {
+
+                    User user = userOptional.get();
+
+                    user.setLogin(dto.getLogin());
+                    user.setFullName(dto.getFullName());
+                    user.setRFID(dto.getRFID());
+                    user.setEmail(dto.getEmail());
+                    user.setCitizenship(dto.getCitizenship());
+                    user.setNationality(dto.getNationality());
+                    user.setPassportNum(dto.getPassportNum());
+
+                    user.setAccountNonLocked(true);
+                    user.setAccountNonExpired(true);
+                    user.setCredentialsNonExpired(true);
+                    user.setEnabled(true);
+
+                    userRepository.save(user);
+
+                    Student studentByUserId = studentRepository.findStudentByUserId(dto.getId());
+                    if (studentByUserId != null) {
+                        Group groupByName = groupRepository.findGroupByName(dto.getGroup());
+                        if (groupByName != null) {
+                            groupByName.setLevel(dto.getLevel());
+                            groupRepository.save(groupByName);
+                            studentByUserId.setGroup(groupByName);
+                            studentRepository.save(studentByUserId);
+
+                            return new ApiResponse(true, "change student successfully...");
+                        } else {
+                            return new ApiResponse(false, "not fount group");
+                        }
+                    } else {
+                        return new ApiResponse(false, "not fount student");
+                    }
+                } else {
+                    return new ApiResponse(false, "error.. this rfid already exists.. enter other rfid.");
+                }
+            }
+            else {
+                return new ApiResponse(false, "error.. not fount rfid.");
             }
         }
         else {

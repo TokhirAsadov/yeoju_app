@@ -81,14 +81,18 @@ public class StudentService implements StudentImplService<StudentDto> {
                 System.out.println(row.getCell(3).getStringCellValue());
                 System.out.println(row.getCell(4).getStringCellValue());
                 System.out.println(row.getCell(5).getStringCellValue());
-                System.out.println(row.getCell(6).getStringCellValue());
-                System.out.println(row.getCell(7).getStringCellValue());
-                System.out.println(row.getCell(8).getStringCellValue());
-                System.out.println(row.getCell(9).getStringCellValue());
+//                System.out.println(row.getCell(6).getStringCellValue());
+//                System.out.println(row.getCell(7).getStringCellValue());
+//                System.out.println(row.getCell(8).getStringCellValue());
+//                System.out.println(row.getCell(9).getStringCellValue());
 
-                User userByRFID = userRepository.findUserByRFID(row.getCell(6).getStringCellValue());
+                User userByRFID = userRepository.findUserByRFID(row.getCell(3).getStringCellValue());
 
                 if (userByRFID !=null) {
+
+//                    Student studentByUserId1 = studentRepository.findStudentByUserId(userByRFID.getId());
+
+//                    if (studentByUserId1==null){
 
                     if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
                         Group group = new Group();
@@ -126,30 +130,30 @@ public class StudentService implements StudentImplService<StudentDto> {
                         userByRFID.setAccountNonLocked(true);
                         userByRFID.setCredentialsNonExpired(true);
 
-                        userByRFID.setRFID(row.getCell(6).getStringCellValue());
+                        userByRFID.setRFID(row.getCell(3).getStringCellValue());
                         userByRFID.setFullName(row.getCell(0).getStringCellValue());
-                        userByRFID.setLogin(row.getCell(5).getStringCellValue());
-                        userByRFID.setPassportNum(row.getCell(8).getStringCellValue());
-                        userByRFID.setPassword(passwordEncoder.encode(row.getCell(8).getStringCellValue()));
+                        userByRFID.setLogin(row.getCell(4).getStringCellValue());
+                        userByRFID.setPassportNum(row.getCell(5).getStringCellValue());
+                        userByRFID.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
                         Set<Role> userRoles = new HashSet<>();
                         Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
                         roleOptional.ifPresent(userRoles::add);
                         userByRFID.setRoles(userRoles);
-                        userByRFID.setNationality(row.getCell(9).getStringCellValue());
-                        if (row.getCell(4).getStringCellValue()=="MALE"){
-                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
-                            userByRFID.setGander(ganderByGandername);
-                        }
-                        else {
-                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
-                            userByRFID.setGander(ganderByGandername);
-                        }
+//                        userByRFID.setNationality(row.getCell(9).getStringCellValue());
+//                        if (row.getCell(4).getStringCellValue()=="MALE"){
+//                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+//                            userByRFID.setGander(ganderByGandername);
+//                        }
+//                        else {
+//                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+//                            userByRFID.setGander(ganderByGandername);
+//                        }
 
                         userRepository.save(userByRFID);
 
                         //todo-----------
-                        if (studentRepository.existsStudentByUserId(userByRFID.getRFID())) {
-                            Student studentByUserId = studentRepository.findStudentByUserId(userByRFID.getRFID());
+                        if (studentRepository.existsStudentByUserId(userByRFID.getId())) {
+                            Student studentByUserId = studentRepository.findStudentByUserId(userByRFID.getId());
 
                             studentByUserId.setUser(userByRFID);
                             studentByUserId.setGroup(save1);
@@ -170,26 +174,26 @@ public class StudentService implements StudentImplService<StudentDto> {
                         userByRFID.setAccountNonExpired(true);
                         userByRFID.setAccountNonLocked(true);
                         userByRFID.setCredentialsNonExpired(true);
-                        userByRFID.setRFID(row.getCell(6).getStringCellValue());
+                        userByRFID.setRFID(row.getCell(3).getStringCellValue());
                         userByRFID.setFullName(row.getCell(0).getStringCellValue());
-                        userByRFID.setLogin(row.getCell(5).getStringCellValue());
-                        userByRFID.setPassportNum(row.getCell(8).getStringCellValue());
-                        userByRFID.setPassword(passwordEncoder.encode(row.getCell(8).getStringCellValue()));
+                        userByRFID.setLogin(row.getCell(4).getStringCellValue());
+                        userByRFID.setPassportNum(row.getCell(5).getStringCellValue());
+                        userByRFID.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
                         Set<Role> userRoles = new HashSet<>();
                         Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
                         roleOptional.ifPresent(userRoles::add);
                         userByRFID.setRoles(userRoles);
-                        userByRFID.setNationality(row.getCell(9).getStringCellValue());
-                        if (row.getCell(4).getStringCellValue()=="MALE"){
-                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
-                            userByRFID.setGander(ganderByGandername);
-                        }
-                        else {
-                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
-                            userByRFID.setGander(ganderByGandername);
-                        }
+//                        userByRFID.setNationality(row.getCell(9).getStringCellValue());
+//                        if (row.getCell(4).getStringCellValue()=="MALE"){
+//                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+//                            userByRFID.setGander(ganderByGandername);
+//                        }
+//                        else {
+//                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+//                            userByRFID.setGander(ganderByGandername);
+//                        }
 
-                        userRepository.save(userByRFID);
+                        User save1 = userRepository.save(userByRFID);
 
                         // group
                         Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
@@ -197,10 +201,10 @@ public class StudentService implements StudentImplService<StudentDto> {
                         groupRepository.save(groupByName);
 
                         // student
-                        if (studentRepository.existsStudentByUserId(userByRFID.getRFID())) {
-                            Student studentByUserId = studentRepository.findStudentByUserId(userByRFID.getRFID());
+                        if (studentRepository.existsStudentByUserId(save1.getId())) {
+                            Student studentByUserId = studentRepository.findStudentByUserId(save1.getId());
 
-                            studentByUserId.setUser(userByRFID);
+                            studentByUserId.setUser(save1);
                             studentByUserId.setGroup(groupByName);
 
                             Student save = studentRepository.save(studentByUserId);
@@ -220,24 +224,24 @@ public class StudentService implements StudentImplService<StudentDto> {
                     user.setAccountNonExpired(true);
                     user.setAccountNonLocked(true);
                     user.setCredentialsNonExpired(true);
-                    user.setRFID(row.getCell(6).getStringCellValue());
+                    user.setRFID(row.getCell(3).getStringCellValue());
                     user.setFullName(row.getCell(0).getStringCellValue());
-                    user.setLogin(row.getCell(5).getStringCellValue());
-                    user.setPassportNum(row.getCell(8).getStringCellValue());
-                    user.setPassword(passwordEncoder.encode(row.getCell(8).getStringCellValue()));
+                    user.setLogin(row.getCell(4).getStringCellValue());
+                    user.setPassportNum(row.getCell(5).getStringCellValue());
+                    user.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
                     Set<Role> userRoles = new HashSet<>();
                     Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
                     roleOptional.ifPresent(userRoles::add);
                     user.setRoles(userRoles);
-                    user.setNationality(row.getCell(9).getStringCellValue());
-                    if (row.getCell(4).getStringCellValue()=="MALE"){
-                        Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
-                        user.setGander(ganderByGandername);
-                    }
-                    else {
-                        Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
-                        user.setGander(ganderByGandername);
-                    }
+//                    user.setNationality(row.getCell(9).getStringCellValue());
+//                    if (row.getCell(4).getStringCellValue()=="MALE"){
+//                        Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+//                        user.setGander(ganderByGandername);
+//                    }
+//                    else {
+//                        Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+//                        user.setGander(ganderByGandername);
+//                    }
                     userRepository.saveAndFlush(user);
 
 

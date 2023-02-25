@@ -13,6 +13,8 @@ public interface StudentData {
     String getCitizenship();
     String getNationality();
     String getPassportNum();
+    String getEmail();
+    String getRFID();
 
 
 

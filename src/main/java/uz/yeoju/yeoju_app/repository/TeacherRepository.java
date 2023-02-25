@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.Teacher;
 import uz.yeoju.yeoju_app.payload.resDto.TeacherCountComeAndAll;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherData;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.*;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.dashboard.TeacherStatusAndPosition;
 
@@ -15,6 +14,10 @@ import java.util.List;
 //@EnableJpaRepositories
 public interface TeacherRepository extends JpaRepository<Teacher, String> {
 
+
+    Boolean existsTeacherByUserId(String user_id);
+
+    Teacher getTeacherByUserId(String user_id);
 
 
     @Query(value = "select f2.kafedra_id as id, f1.count as comeCount,f2.count as allCount from (\n" +
@@ -176,4 +179,309 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
             "join Position P on uP.positions_id = P.id\n" +
             "group by P.userPositionName",nativeQuery = true)
     List<TeacherStatusAndPosition> getCountTeachersPosition();
+
+    @Query(value = "select Top 1 workerStatus from Teacher where user_id=:id",nativeQuery = true)
+    String getWorkerStatus(@Param("id") String id);
+
+
+//todo---------  -- 1 uqituvchilarning kirgan xonalarini olish --
+//select  u.id,u.fullName,card.room from
+//    (select  u.RFID as cardNo, ad.door_name as room
+//     from acc_monitor_log al
+//              join acc_door ad on ad.device_id=al.device_id
+//              join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS
+//     where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)
+//    ) as card
+//      right join users u on card.cardNo = u.RFID
+//where u.id=:userId
+//group by u.id, u.fullName, card.room
+
+//    @Query(value = "select  u.id,u.fullName,card.room from\n" +
+//            "    (select  u.RFID as cardNo, ad.door_name as room\n" +
+//            "     from acc_monitor_log al\n" +
+//            "              join acc_door ad on ad.device_id=al.device_id\n" +
+//            "              join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "     where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)\n" +
+//            "    ) as card\n" +
+//            "      right join users u on card.cardNo = u.RFID\n" +
+//            "where u.id=:userId\n" +
+//            "group by u.id, u.fullName, card.room",nativeQuery = true)
+//    UserCheckRoomStatistics getUserCheckRoomStatistics(@Param("userId") String userId);
+
+
+//todo-------------------------------------------
+//    @Query(value = "select  u.id,u.fullName,ad.door_name as room,\n" +
+//            "          al.time,\n" +
+//            "        CASE\n" +
+//            "            WHEN\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    9,\n" +
+//            "                    00,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 1\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    9,\n" +
+//            "                    00,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    9,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 1\n" +
+//            "\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    9,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    10,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 2\n" +
+//            "\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    10,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    11,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 3\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    11,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    12,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 4\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    12,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    13,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 5\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    13,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    14,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 6\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    14,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    15,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 7\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    15,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    16,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 8\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    16,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    17,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 9\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    17,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    18,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 10\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    18,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    19,\n" +
+//            "                    52,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 11\n" +
+//            "\n" +
+//            "            when\n" +
+//            "                al.time > DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    19,\n" +
+//            "                    50,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )\n" +
+//            "                and\n" +
+//            "                al.time < DATETIMEFROMPARTS(\n" +
+//            "                    DATEPART(YEAR, getdate()),\n" +
+//            "                    DATEPART(MONTH, getdate()),\n" +
+//            "                    DATEPART(DAY, getdate()),\n" +
+//            "                    21,\n" +
+//            "                    00,\n" +
+//            "                    00,\n" +
+//            "                    0\n" +
+//            "                )  THEN 12\n" +
+//            "\n" +
+//            "            ELSE 0\n" +
+//            "            END as section\n" +
+//            "\n" +
+//            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+//            "      join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "     where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and ad.door_name=:door and u.id=:userId",nativeQuery = true)
+//    yangi obyekt yaratiwing kk
 }

@@ -2,7 +2,6 @@ package uz.yeoju.yeoju_app.controller.studentBall;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -17,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.*;
+import uz.yeoju.yeoju_app.entity.address.AddressUser;
 import uz.yeoju.yeoju_app.entity.enums.Gandername;
 import uz.yeoju.yeoju_app.entity.enums.PhoneType;
 import uz.yeoju.yeoju_app.entity.studentBall.StudentResult;
 import uz.yeoju.yeoju_app.entity.studentBall.SubjectCredit;
 import uz.yeoju.yeoju_app.repository.*;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -153,7 +152,7 @@ public class FileReaderController {
             if (user != null){
 
                 // address
-                AddressUser addressUser = new AddressUser(user,country,region,area,address,true,false);
+                AddressUser addressUser = new AddressUser(user,country,region,area,address,true);
                 addressUserRepository.saveAndFlush(addressUser);
 
 

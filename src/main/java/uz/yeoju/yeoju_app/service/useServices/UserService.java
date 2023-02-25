@@ -7,7 +7,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,18 +18,16 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.payload.*;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
+import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Teacher;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.Table;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherData;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra28;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra29;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra30;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra31;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraTeachers28;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraTeachers29;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraTeachers30;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraTeachers31;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.staff.*;
 import uz.yeoju.yeoju_app.payload.resDto.search.SearchDto;
 import uz.yeoju.yeoju_app.payload.superAdmin.StudentSaveDto;
 import uz.yeoju.yeoju_app.repository.*;
@@ -73,6 +70,52 @@ public class UserService implements UserImplService<UserDto> {
         User user = (User) auth.getPrincipal();
         String token = provider.generateToken(user);
         return new ResToken(token);
+    }
+
+
+    public ApiResponse getStatisticsForRektorStaffPageDekan(String id) {
+        int maxDay = Calendar.getInstance().getMaximum(Calendar.DATE);
+        Calendar calendar = Calendar.getInstance();
+        int days = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        if (days==31){
+            System.out.println( "31 <---===========================================================================================================================================-----------------------------------------------------------------------------------------------------------------------------------------");
+            SectionStaff31 sectionStaffsDataForRektorBySectionId31 = userRepository.getSectionStaffsDataForRektorBySectionId31(id);
+            return new ApiResponse(true,"show", sectionStaffsDataForRektorBySectionId31);
+        }
+        else if (days==30){
+            SectionStaff30 sectionStaffsDataForRektorBySectionId30 = userRepository.getSectionStaffsDataForRektorBySectionId30(id);
+            return new ApiResponse(true,"show", sectionStaffsDataForRektorBySectionId30);
+        }else if (maxDay==29){
+            SectionStaff29 sectionStaffsDataForRektorBySectionId29 = userRepository.getSectionStaffsDataForRektorBySectionId29(id);
+            return new ApiResponse(true,"show",sectionStaffsDataForRektorBySectionId29 );
+        }else {
+            SectionStaff28 sectionStaffsDataForRektorBySectionId28 = userRepository.getSectionStaffsDataForRektorBySectionId28(id);
+            return new ApiResponse(true,"show", sectionStaffsDataForRektorBySectionId28);
+        }
+
+    }
+
+
+    public ApiResponse getStatisticsForRektorStaffPage(String id) {
+        int maxDay = Calendar.getInstance().getMaximum(Calendar.DATE);
+        Calendar calendar = Calendar.getInstance();
+        int days = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        if (days==31){
+            System.out.println( "31 <---===========================================================================================================================================-----------------------------------------------------------------------------------------------------------------------------------------");
+            SectionStaff31No sectionStaffsDataForRektorBySectionId31 = userRepository.getSectionStaffsDataForRektorBySectionId31No(id);
+            return new ApiResponse(true,"show", sectionStaffsDataForRektorBySectionId31);
+        }
+        else if (days==30){
+            SectionStaff30No sectionStaffsDataForRektorBySectionId30No = userRepository.getSectionStaffsDataForRektorBySectionId30No(id);
+            return new ApiResponse(true,"show", sectionStaffsDataForRektorBySectionId30No);
+        }else if (maxDay==29){
+            SectionStaff29No sectionStaffsDataForRektorBySectionId29No = userRepository.getSectionStaffsDataForRektorBySectionId29No(id);
+            return new ApiResponse(true,"show",sectionStaffsDataForRektorBySectionId29No );
+        }else {
+            SectionStaff28No sectionStaffsDataForRektorBySectionId28No = userRepository.getSectionStaffsDataForRektorBySectionId28No(id);
+            return new ApiResponse(true,"show", sectionStaffsDataForRektorBySectionId28No);
+        }
+
     }
 
 
@@ -447,7 +490,7 @@ public class UserService implements UserImplService<UserDto> {
 
     public ApiResponse getNotification(String kafedraId) {
 
-//        LocalDate localDate= LocalDate.of(2022,5,30);
+//        LocalDate localDate= LocalDate.of(2023,1,31);
         LocalDate localDate= LocalDate.now();
         Locale spanishLocale=new Locale("ru", "RU");
         String day = localDate.format(DateTimeFormatter.ofPattern("EEEE",spanishLocale));
@@ -479,10 +522,10 @@ public class UserService implements UserImplService<UserDto> {
         return new ApiResponse(true,"teachers", teacherData);
     }
 
-    public ApiResponse getTimeTable(String kafedraId) {
+    public ApiResponse getTimeTableWithKafedraMudiriId(String kafedraMudiriId) {
 
-        LocalDate localDate= LocalDate.of(2022,6,1);
-//        LocalDate localDate= LocalDate.now();
+//        LocalDate localDate= LocalDate.of(2023,2,1);
+        LocalDate localDate= LocalDate.now();
         Locale spanishLocale=new Locale("ru", "RU");
         String day = localDate.format(DateTimeFormatter.ofPattern("EEEE",spanishLocale));
 
@@ -497,6 +540,95 @@ public class UserService implements UserImplService<UserDto> {
             teachersIds.addAll(lessonXml.getTeacherIds());
         }
 
+        Set<Teacher> teachers = new HashSet<>();
+        for (String id : teachersIds) {
+            Optional<Teacher> first = DataBaseForTimeTable.teachers.stream().filter(item -> item.getId().equals(id)).findFirst();
+            first.ifPresent(teachers::add);
+        }
+
+        List<TeacherData> teacherData = new ArrayList<>();
+        List<Table> tables = new ArrayList<>();
+        for (Teacher teacher : teachers) {
+//            TeacherData teacherData1 = userRepository.getTeachersForRemember(teacher.getEmail(),kafedraMudiriId);
+            TeacherData teacherData1 = userRepository.getTeachersForRememberWithKafedraMudiriId(teacher.getEmail(), kafedraMudiriId);
+
+
+            if (teacherData1!=null) {
+                teacherData.add(teacherData1);
+                List<Show> shows = new ArrayList<>();
+                for (String id : lessonsIds) {
+                    List<LessonXml> lessonXmls = DataBaseForTimeTable.lessons.stream().filter(item -> item.getId().equals(id) && item.getTeacherIds().contains(teacher.getId())).collect(Collectors.toList());
+                    if (lessonXmls.size()!=0) {
+                        for (LessonXml xml : lessonXmls) {
+                            List<Card> collect = DataBaseForTimeTable.cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(dayId)).collect(Collectors.toList());
+                            for (Card card : collect) {
+                                Show show = new Show();
+//                                Card card = DataBaseForTimeTable.cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(dayId)).findFirst().get();
+                                Period period = DataBaseForTimeTable.periods.stream().filter(i -> i.getName().equals(card.getPeriod())).findFirst().get();
+                                for (String s : card.getClassroomIds()) {
+                                    ClassRoom room = DataBaseForTimeTable.classRooms.stream().filter(i -> i.getId().equals(s)).findFirst().get();
+                                    show.setRoom(room.getName());
+                                    break;
+                                }
+//                                LessonXml lessonXml = DataBaseForTimeTable.lessons.stream().filter(i -> i.getId().equals(card.getLessonId())).findFirst().get();
+                                List<String> classIds = xml.getClassIds();
+                                List<String> stringList = new ArrayList<>();
+
+                                for (String classId : classIds) {
+                                    Class aClass = DataBaseForTimeTable.classes.stream().filter(i -> i.getId().equals(classId)).findFirst().get();
+                                    stringList.add(aClass.getName());
+                                }
+
+                                show.setGroups(stringList);
+
+                                show.setLessonName(DataBaseForTimeTable.subjects.stream().filter(i->i.getId().equals(xml.getSubjectId())).findFirst().get().getName());
+                                show.setHourNumber(period.getPeriod());
+                                show.setPeriodStartAndEndTime(period.getStartTime()+"-"+period.getEndTime());
+                                shows.add(show);
+                            }
+
+//                            Card card = DataBaseForTimeTable.cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(dayId)).findFirst().get();
+//                            Period period = DataBaseForTimeTable.periods.stream().filter(i -> i.getName().equals(card.getPeriod())).findFirst().get();
+//                            for (String s : card.getClassroomIds()) {
+//                                ClassRoom room = DataBaseForTimeTable.classRooms.stream().filter(i -> i.getId().equals(s)).findFirst().get();
+//                                show.setRoom(room.getName());
+//                                break;
+//                            }
+//
+//                            show.setLessonName(DataBaseForTimeTable.subjects.stream().filter(i->i.getId().equals(xml.getSubjectId())).findFirst().get().getName());
+//                            show.setHourNumber(period.getPeriod());
+//                            show.setPeriodStartAndEndTime(period.getStartTime()+"-"+period.getEndTime());
+//                            shows.add(show);
+                        }
+                    }
+                }
+                tables.add(new Table(teacherData1,shows));
+            }
+        }
+
+
+
+        return new ApiResponse(true,"teachers", tables);
+    }
+
+
+    public ApiResponse getTimeTableWithKafedraId(String kafedraId) {
+
+//        LocalDate localDate= LocalDate.of(2023,2,1);
+        LocalDate localDate= LocalDate.now();
+        Locale spanishLocale=new Locale("ru", "RU");
+        String day = localDate.format(DateTimeFormatter.ofPattern("EEEE",spanishLocale));
+
+        String dayId = DataBaseForTimeTable.daysDefs.stream().filter(item -> item.getName().equalsIgnoreCase(day)).findFirst().get().getDays().get(0);
+
+        Set<String> lessonsIds = DataBaseForTimeTable.cards.stream().filter(item -> item.getDays().contains(dayId)).map(Card::getLessonId).collect(Collectors.toSet());
+
+        Set<String> teachersIds = new HashSet<>();
+
+        for (String id : lessonsIds) {
+            LessonXml lessonXml = DataBaseForTimeTable.lessons.stream().filter(item -> item.getId().equals(id)).findFirst().get();
+            teachersIds.addAll(lessonXml.getTeacherIds());
+        }
 
         Set<Teacher> teachers = new HashSet<>();
         for (String id : teachersIds) {
@@ -507,39 +639,147 @@ public class UserService implements UserImplService<UserDto> {
         List<TeacherData> teacherData = new ArrayList<>();
         List<Table> tables = new ArrayList<>();
         for (Teacher teacher : teachers) {
-            TeacherData teacherData1 = userRepository.getTeachersForRemember(teacher.getEmail(),kafedraId);
+//            TeacherData teacherData1 = userRepository.getTeachersForRemember(teacher.getEmail(),kafedraId);
+            TeacherData teacherData1 = userRepository.getTeachersForRememberWithKafedraId(teacher.getEmail(),kafedraId);
+
+
             if (teacherData1!=null) {
                 teacherData.add(teacherData1);
                 List<Show> shows = new ArrayList<>();
                 for (String id : lessonsIds) {
                     List<LessonXml> lessonXmls = DataBaseForTimeTable.lessons.stream().filter(item -> item.getId().equals(id) && item.getTeacherIds().contains(teacher.getId())).collect(Collectors.toList());
                     if (lessonXmls.size()!=0) {
-//                        lists.add(lessonXmls);
-                        Show show = new Show();
                         for (LessonXml xml : lessonXmls) {
-                            Card card = DataBaseForTimeTable.cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(dayId)).findFirst().get();
-                            Period period = DataBaseForTimeTable.periods.stream().filter(i -> i.getName().equals(card.getPeriod())).findFirst().get();
-                            for (String s : card.getClassroomIds()) {
-                                ClassRoom room = DataBaseForTimeTable.classRooms.stream().filter(i -> i.getId().equals(s)).findFirst().get();
-                                show.setRoom(room.getName());
-                                break;
+                            List<Card> collect = DataBaseForTimeTable.cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(dayId)).collect(Collectors.toList());
+                            for (Card card : collect) {
+                                Show show = new Show();
+//                                Card card = DataBaseForTimeTable.cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(dayId)).findFirst().get();
+                                Period period = DataBaseForTimeTable.periods.stream().filter(i -> i.getName().equals(card.getPeriod())).findFirst().get();
+                                for (String s : card.getClassroomIds()) {
+                                    ClassRoom room = DataBaseForTimeTable.classRooms.stream().filter(i -> i.getId().equals(s)).findFirst().get();
+                                    show.setRoom(room.getName());
+                                    break;
+                                }
+//                                LessonXml lessonXml = DataBaseForTimeTable.lessons.stream().filter(i -> i.getId().equals(card.getLessonId())).findFirst().get();
+                                List<String> classIds = xml.getClassIds();
+                                List<String> stringList = new ArrayList<>();
+
+                                for (String classId : classIds) {
+                                    Class aClass = DataBaseForTimeTable.classes.stream().filter(i -> i.getId().equals(classId)).findFirst().get();
+                                    stringList.add(aClass.getName());
+                                }
+
+                                show.setGroups(stringList);
+
+                                show.setLessonName(DataBaseForTimeTable.subjects.stream().filter(i->i.getId().equals(xml.getSubjectId())).findFirst().get().getName());
+                                show.setHourNumber(period.getPeriod());
+                                show.setPeriodStartAndEndTime(period.getStartTime()+"-"+period.getEndTime());
+                                shows.add(show);
                             }
 
-                            show.setLessonName(DataBaseForTimeTable.subjects.stream().filter(i->i.getId().equals(xml.getSubjectId())).findFirst().get().getName());
-                            show.setHourNumber(period.getPeriod());
-                            show.setPeriodStartAndEndTime(period.getStartTime()+"-"+period.getEndTime());
-                            shows.add(show);
+//                            Card card = DataBaseForTimeTable.cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(dayId)).findFirst().get();
+//                            Period period = DataBaseForTimeTable.periods.stream().filter(i -> i.getName().equals(card.getPeriod())).findFirst().get();
+//                            for (String s : card.getClassroomIds()) {
+//                                ClassRoom room = DataBaseForTimeTable.classRooms.stream().filter(i -> i.getId().equals(s)).findFirst().get();
+//                                show.setRoom(room.getName());
+//                                break;
+//                            }
+//
+//                            show.setLessonName(DataBaseForTimeTable.subjects.stream().filter(i->i.getId().equals(xml.getSubjectId())).findFirst().get().getName());
+//                            show.setHourNumber(period.getPeriod());
+//                            show.setPeriodStartAndEndTime(period.getStartTime()+"-"+period.getEndTime());
+//                            shows.add(show);
                         }
                     }
                 }
                 tables.add(new Table(teacherData1,shows));
-//                shows.clear();
             }
         }
 
 
 
         return new ApiResponse(true,"teachers", tables);
+    }
+
+    public ApiResponse getTeacherTimeTable(User user){
+        List<String> daysList =DataBaseForTimeTable.daysDefs.
+                stream().filter(item -> !item.getName().equalsIgnoreCase("В любой день") && !item.getName().equalsIgnoreCase("Каждый день"))
+                .collect(Collectors.toSet()).stream().map(i-> i.getDays().get(0)).collect(Collectors.toList());
+        Collections.sort(daysList, Collections.reverseOrder());
+        List<Table> tables = new ArrayList<>();
+        for (String s : daysList) {
+            Set<String> lessonsIds = DataBaseForTimeTable.cards.stream().filter(item -> item.getDays().contains(s)).map(Card::getLessonId).collect(Collectors.toSet());
+            Set<String> teachersIds = new HashSet<>();
+            for (String id : lessonsIds) {
+                LessonXml lessonXml = DataBaseForTimeTable.lessons.stream().filter(item -> item.getId().equals(id)).findFirst().get();
+                teachersIds.addAll(lessonXml.getTeacherIds());
+            }
+            Set<Teacher> teachers = new HashSet<>();
+            for (String id : teachersIds) {
+                Optional<Teacher> first = DataBaseForTimeTable.teachers.stream().filter(item -> item.getId().equals(id) && item.getEmail().equals(user.getPassportNum()) ).findFirst();
+                first.ifPresent(teachers::add);
+            }
+            List<TeacherData> teacherData = new ArrayList<>();
+            for (Teacher teacher : teachers) {
+                TeacherData teacherData1 = userRepository.getTeachersForRemember3(teacher.getEmail());
+                if (teacherData1!=null) {
+                    teacherData.add(teacherData1);
+                    List<Show> shows = new ArrayList<>();
+                    for (String id : lessonsIds) {
+                        List<LessonXml> lessonXmls = DataBaseForTimeTable.lessons.stream().filter(item -> item.getId().equals(id) && item.getTeacherIds().contains(teacher.getId())).collect(Collectors.toList());
+                        if (lessonXmls.size()!=0) {
+    //                        lists.add(lessonXmls);
+                            for (LessonXml xml : lessonXmls) {
+                                List<Card> collect = DataBaseForTimeTable.cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(s)).collect(Collectors.toList());
+//                                Card card = DataBaseForTimeTable.cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(s)).findFirst().get();
+
+                                for (Card card : collect) {
+                                    Show show = new Show();
+
+                                    Period period = DataBaseForTimeTable.periods.stream().filter(i -> i.getName().equals(card.getPeriod())).findFirst().get();
+                                    for (String s2 : card.getClassroomIds()) {
+                                        ClassRoom room = DataBaseForTimeTable.classRooms.stream().filter(i -> i.getId().equals(s2)).findFirst().get();
+                                        show.setRoom(room.getName());
+                                        break;
+                                    }
+
+                                    show.setLessonName(DataBaseForTimeTable.subjects.stream().filter(i->i.getId().equals(xml.getSubjectId())).findFirst().get().getName());
+                                    show.setHourNumber(period.getPeriod());
+                                    show.setPeriodStartAndEndTime(period.getStartTime()+"-"+period.getEndTime());
+
+                                    List<String> classIds = xml.getClassIds();
+                                    List<String> stringList = new ArrayList<>();
+
+                                    for (String classId : classIds) {
+                                        Class aClass = DataBaseForTimeTable.classes.stream().filter(i -> i.getId().equals(classId)).findFirst().get();
+                                        stringList.add(aClass.getName());
+                                    }
+
+                                    show.setGroups(stringList);
+
+
+                                    show.setDaysName(
+                                            DataBaseForTimeTable.daysDefs.
+                                                    stream().filter(item -> item.getDays().contains(s))
+                                                    .findFirst().get().getShortName()
+                                    );
+                                    System.out.println(show.toString()+" <- show "+s);
+
+                                    shows.add(show);
+
+                                }
+
+
+
+
+                            }
+                        }
+                    }
+                    tables.add(new Table(teacherData1,shows));
+                }
+            }
+        }
+        return new ApiResponse(false,"ishlayapdi",tables);
     }
 
     public ApiResponse saveRoleUser(RoleUser dto) {
@@ -793,4 +1033,20 @@ public class UserService implements UserImplService<UserDto> {
             return new ApiResponse(false,"Not fount user by rfid");
         }
     }
+
+    public ApiResponse getUserForRoomStatistics(String userId) {
+        Calendar c = Calendar.getInstance();
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        System.out.println(dayOfWeek+ " <--------------------------------------------------------------------------------- ");
+        return new ApiResponse(true,"week statistics", userRepository.getUserForWeekStatistics(userId));
+    }
+
+
+    public ApiResponse getUserForRoomStatisticsByPassport(String passport) {
+        Calendar c = Calendar.getInstance();
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        System.out.println(dayOfWeek+ " <--------------------------------------------------------------------------------- ");
+        return new ApiResponse(true,"week statistics", userRepository.getUserForWeekStatisticsByPassport(passport));
+    }
+
 }

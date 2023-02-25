@@ -148,7 +148,9 @@ public class KafedraService implements KafedraImplService<KafedraDto> {
 
     public ApiResponse getComeCountTodayStatistics(String id) {
 
+        System.out.println("method ga kirdi");
         ComeCountTodayStatistics statistics = kafedraRepository.getComeCountTodayStatistics(id);
+        System.out.println(statistics.toString());
 
         return new ApiResponse(true,"statistics",statistics);
     }
@@ -164,5 +166,13 @@ public class KafedraService implements KafedraImplService<KafedraDto> {
             return new ApiResponse(true,"come",comeStatistics);
         }
 
+    }
+
+    public ApiResponse getKafedrasForSelect() {
+        return new ApiResponse(true,"all kafedras",kafedraRepository.getKafedrasForSelect());
+    }
+
+    public ApiResponse getTeachersForSelectByKafedraId(String kafedraId) {
+        return new ApiResponse(true,"all teachers of kafedras",kafedraRepository.getTeachersForSelectByKafedraId(kafedraId));
     }
 }

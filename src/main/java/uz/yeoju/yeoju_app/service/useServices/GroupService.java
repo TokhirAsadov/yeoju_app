@@ -2,20 +2,19 @@ package uz.yeoju.yeoju_app.service.useServices;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import uz.yeoju.yeoju_app.entity.Group;
+import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.GroupDto;
+import uz.yeoju.yeoju_app.payload.dekanat.DekanGroupUpdateDto;
+import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class;
-import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.GroupXml;
-import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.LessonXml;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable;
+import uz.yeoju.yeoju_app.payload.uquvbulimi.GroupAndLessonsOfWeek;
+import uz.yeoju.yeoju_app.payload.uquvbulimi.LessonDataForWeek;
 import uz.yeoju.yeoju_app.repository.*;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.GroupImplService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,6 +28,66 @@ public class GroupService implements GroupImplService<GroupDto> {
     public final EducationLanRepository eduLanRepo;
     public final EducationFormRepository eduFormRepo;
     public final EducationTypeRepository eduTypeRepo;
+
+
+    public ApiResponse getGroupsAndLessonsOfWeek(){
+
+//        String dayId = DataBaseForTimeTable.daysDefs.stream().filter(item -> item.getName().equalsIgnoreCase(day)).findFirst().get().getDays().get(0);
+//
+//        Set<String> lessonsIds = DataBaseForTimeTable.cards.stream().filter(item -> item.getDays().contains(dayId)).map(Card::getLessonId).collect(Collectors.toSet());
+
+        Set<Class> classes = new HashSet<>(DataBaseForTimeTable.classes);
+
+        Set<GroupAndLessonsOfWeek> groupsData = new HashSet<>();
+
+        for (Class aClass : classes) {
+            GroupAndLessonsOfWeek groupAndLessonsOfWeek = new GroupAndLessonsOfWeek();
+            groupAndLessonsOfWeek.setGroup(aClass.getName());
+
+            Set<LessonXml> lessonXmls = DataBaseForTimeTable.lessons.stream().filter(i -> i.getClassIds().contains(aClass.getId())).collect(Collectors.toSet());
+
+            List<LessonDataForWeek> lessonDataForWeekList = new ArrayList<>();
+
+            for (LessonXml lessonXml : lessonXmls) {
+                Optional<Card> first = DataBaseForTimeTable.cards.stream().filter(i -> i.getLessonId().equals(lessonXml.getId())).findFirst();
+                LessonDataForWeek lessonDataForWeek = new LessonDataForWeek();
+
+                if (first.isPresent()){
+                    Card card = first.get();
+                    lessonDataForWeek.setHourPariod(card.getPeriod()); // hour pariod 1,2,...,11,12
+
+                    for (String classroomId : card.getClassroomIds()) {
+                        Optional<ClassRoom> first1 = DataBaseForTimeTable.classRooms.stream().filter(i -> i.getId().equals(classroomId)).findFirst();
+                        first1.ifPresent(classRoom -> lessonDataForWeek.setRoom(classRoom.getName())); // dars buladigan xona A-108 va h.k.
+                    }
+
+                    for (String day : card.getDays()) {
+                        Optional<DaysDef> first1 = DataBaseForTimeTable.daysDefs.stream().filter(i -> i.getDays().contains(day) && !i.getShortName().equals("X") && !i.getShortName().equals("E")).findFirst();
+                        first1.ifPresent(daysDef -> lessonDataForWeek.setWeekDay(daysDef.getShortName())); // hafta kuni dushanba,seshanba,....
+                    }
+                    lessonDataForWeekList.add(lessonDataForWeek);
+                }
+
+
+            }
+
+            groupAndLessonsOfWeek.setLessons(lessonDataForWeekList);
+
+            groupsData.add(groupAndLessonsOfWeek);
+        }
+
+
+
+
+        return new ApiResponse(true,"group data",groupsData);
+    }
+
+
+
+
+
+
+
 
 
     public ApiResponse getGroupNameByUserId(String userId){
@@ -236,4 +295,125 @@ public class GroupService implements GroupImplService<GroupDto> {
         }
         return new ApiResponse(true,"subjects",response);
     }
+
+    public ApiResponse updateGroups(DekanGroupUpdateDto dto) {
+        System.out.println(dto.toString());
+        System.out.println(dto.getId()!=null);
+        System.out.println( !Objects.equals(dto.getId(), ""));
+        System.out.println( dto.getId()!=null && !Objects.equals(dto.getId(), ""));
+
+        if (dto.getId()!=null && !Objects.equals(dto.getId(), "")){
+            return updateGroup(dto);
+        }
+        else {
+            return saveGroup(dto);
+        }
+
+//        return new ApiResponse(false,"error.. please. connect with programmers.");
+    }
+
+    public ApiResponse saveGroup(DekanGroupUpdateDto dto){
+
+            boolean groupByName = groupRepository.existsGroupByName(dto.getName());
+
+            if (!groupByName) {
+                EducationForm form = eduFormRepo.getEducationFormByName(dto.getForm());
+                EducationLanguage language = eduLanRepo.getEducationLanguageByName(dto.getLanguage());
+                EducationType type = eduTypeRepo.getEducationTypeByName(dto.getType());
+
+                Group group = new Group();
+                group.setName(dto.getName());
+                group.setLevel(dto.getLevel());
+                group.setEducationForm(form);
+                group.setEducationType(type);
+                group.setEducationLanguage(language);
+
+                Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(dto.getFaculty());
+                if (facultyOptional.isPresent()) {
+                    group.setFaculty(facultyOptional.get());
+                } else {
+                    return new ApiResponse(false, "Not fount Faculty");
+                }
+
+                groupRepository.save(group);
+                return new ApiResponse(true, dto.getName() + " edited successfully..");
+            }
+            else {
+                return new ApiResponse(false, dto.getName() + " already exists.. Enter other group name, please..");
+            }
+
+    }
+
+    public ApiResponse updateGroup(DekanGroupUpdateDto dto){
+        Optional<Group> groupOptional = groupRepository.findById(dto.getId());
+
+        if (groupOptional.isPresent()) {
+            Group group = groupOptional.get();
+            Group groupByName = groupRepository.findGroupByName(dto.getName());
+
+            if (groupByName == null) {
+                EducationForm form = eduFormRepo.getEducationFormByName(dto.getForm());
+                EducationLanguage language = eduLanRepo.getEducationLanguageByName(dto.getLanguage());
+                EducationType type = eduTypeRepo.getEducationTypeByName(dto.getType());
+
+                group.setLevel(dto.getLevel());
+                group.setName(dto.getName());
+
+                System.out.println(form.toString());
+
+                group.setEducationForm(form);
+                group.setEducationType(type);
+                group.setEducationLanguage(language);
+
+                Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(dto.getFaculty());
+                if (facultyOptional.isPresent()) {
+                    group.setFaculty(facultyOptional.get());
+                } else {
+                    return new ApiResponse(false, "Not fount Faculty");
+                }
+
+                groupRepository.save(group);
+                return new ApiResponse(true, dto.getName() + " edited successfully..");
+            }
+            else {
+
+                if (Objects.equals(groupByName.getId(), dto.getId())){
+
+                    EducationForm form = eduFormRepo.getEducationFormByName(dto.getForm());
+                    EducationLanguage language = eduLanRepo.getEducationLanguageByName(dto.getLanguage());
+                    EducationType type = eduTypeRepo.getEducationTypeByName(dto.getType());
+
+                    group.setLevel(dto.getLevel());
+                    group.setName(dto.getName());
+
+                    System.out.println(form.toString());
+
+                    group.setEducationForm(form);
+                    group.setEducationType(type);
+                    group.setEducationLanguage(language);
+
+                    Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(dto.getFaculty());
+                    if (facultyOptional.isPresent()) {
+                        group.setFaculty(facultyOptional.get());
+                    } else {
+                        return new ApiResponse(false, "Not fount Faculty");
+                    }
+
+                    groupRepository.save(group);
+                    return new ApiResponse(true, dto.getName() + " edited successfully..");
+
+                }
+                else {
+                    return new ApiResponse(false, dto.getName() + " already exists.. Enter other group name, please..");
+                }
+            }
+        }
+        else {
+            return new ApiResponse(false, dto.getName() + " not fount group");
+        }
+    }
+
+
+
+
 }

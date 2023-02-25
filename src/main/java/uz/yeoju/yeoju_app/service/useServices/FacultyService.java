@@ -137,4 +137,13 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
             return new ApiResponse(false,"error... not fount faculty!");
         }
     }
+
+
+    public ApiResponse getFacultiesForSelect(String educationName) {
+        return new ApiResponse(true,"all faculties",facultyRepository.getFacultiesForSelect(educationName));
+    }
+
+    public ApiResponse getGroupsForSelect(String facultyId,String eduTypeName) {
+        return new ApiResponse(true,"all groups",facultyRepository.getGroupsForSelect(facultyId,eduTypeName));
+    }
 }

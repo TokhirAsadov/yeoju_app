@@ -19,7 +19,7 @@ import java.util.Set;
 @Entity(name = "users")
 public class User extends AbsEntity implements UserDetails {
 
-    private Integer userId;
+    private String userId;
     private String fullName;
 
     private String login;
@@ -106,7 +106,7 @@ public class User extends AbsEntity implements UserDetails {
         return this.enabled;
     }
 
-    public User(String id, Integer userId, String fullName, String login, String password, String RFID, String email, Gander gander, Set<Role> roles) {
+    public User(String id, String userId, String fullName, String login, String password, String RFID, String email, Gander gander, Set<Role> roles) {
         super(id);
         this.userId = userId;
         this.fullName = fullName;
@@ -149,13 +149,13 @@ public class User extends AbsEntity implements UserDetails {
         this.roles = roles;
     }
 
-    public User(Integer userId, String fullName, String RFID) {
+    public User(String userId, String fullName, String RFID) {
         this.userId = userId;
         this.fullName = fullName;
         this.RFID = RFID;
     }
 
-    public User(Integer userId, String fullName, String RFID, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled) {
+    public User(String userId, String fullName, String RFID, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled) {
         this.userId = userId;
         this.fullName = fullName;
         this.RFID = RFID;

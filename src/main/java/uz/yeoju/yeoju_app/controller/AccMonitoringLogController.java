@@ -70,7 +70,7 @@ public class AccMonitoringLogController {
 
         for (int i = 0; i < 17815; i++) {
             User user = new User();
-            user.setUserId(userinfoList.get(i).getUSERID());
+            user.setUserId(Math.toIntExact(userinfoList.get(i).getUSERID())+"");
             user.setFullName(userinfoList.get(i).getName()+" "+userinfoList.get(i).getLastname());
             user.setRFID(userinfoList.get(i).getCardNo());
 

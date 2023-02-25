@@ -16,7 +16,7 @@ import java.util.Set;
 @Entity
 public class Teacher extends AbsEntity {
 
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     private User user;
 
     @Enumerated(EnumType.STRING)
@@ -25,7 +25,7 @@ public class Teacher extends AbsEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private Kafedra kafedra;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Lesson> subjects;
 
 }

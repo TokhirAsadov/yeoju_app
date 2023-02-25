@@ -10,5 +10,5 @@ public interface MonthlyTeachersForRektor30 {
     Date getDate();
 
     @Value("#{@kafedraRepository.getMonthlyTeachersOfKafedraForRektor30(target.id,target.date)}")
-    List<GetTeachersForDekan30> getAllTeachers();
+    List<GetTeachersForDekan30> getAll();
 }

@@ -6,14 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.payload.AddressDto;
-import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.repository.UserRepository;
+import uz.yeoju.yeoju_app.payload.address.AddressDto;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.address.AddressService;
-import uz.yeoju.yeoju_app.service.useServices.UserService;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/address")

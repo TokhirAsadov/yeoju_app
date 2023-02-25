@@ -108,7 +108,7 @@ public class LessonService implements LessonImplService<LessonDto> {
     }
 
     public ApiResponse save(LessonDto dto){
-        if (lessonRepository.existsLessonByName(dto.getName())){
+        if (!lessonRepository.existsLessonByName(dto.getName())){
             Lesson lesson = generateLesson(dto);
             lessonRepository.saveAndFlush(lesson);
             return new ApiResponse(true,"new lesson saved successfully!...");

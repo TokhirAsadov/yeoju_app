@@ -14,4 +14,7 @@ public interface PositionEdit {
 
     @Value("#{@positionRepository.getPositionsForTeacherSaving()}")
     List<UserForTeacherSaveItem> getPositions();
+
+    @Value("#{@lessonRepository.getLessonNames()}")
+    List<String> getSubjects();
 }

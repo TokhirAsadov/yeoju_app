@@ -39,24 +39,21 @@ public interface StudentRepository extends JpaRepository<Student, String> {
 
 
     @Query(value = "SELECT count(f.cardNo) as comeCount from (\n" +
-            "\n" +
             "select  COUNT(al.card_no) as cardNo\n" +
             "from acc_monitor_log al\n" +
-            " join users u\n" +
-            "      on cast(u.RFID as varchar) =\n" +
-            "         cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            " join users_Role ur\n" +
-            "      on u.id = ur.users_id\n" +
-            " join (select id from Role where roleName = 'ROLE_STUDENT') as role\n" +
-            "      on ur.roles_id = role.id\n" +
+            "      join users u\n" +
+            "           on cast(u.RFID as varchar) =\n" +
+            "              cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "      join users_Role ur\n" +
+            "           on u.id = ur.users_id\n" +
+            "      join (select id from Role where roleName = 'ROLE_STUDENT') as role\n" +
+            "           on ur.roles_id = role.id\n" +
             "where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)\n" +
             "group by al.card_no\n" +
             "\n" +
             ") as f\n" +
             "union\n" +
-            "select count(u.id) from users u  join users_Role ur\n" +
-            "on u.id = ur.users_id join (select id from Role where roleName = 'ROLE_STUDENT') as role\n" +
-            "on ur.roles_id = role.id",nativeQuery = true)
+            "select count(u.id) from users u  join Student s on u.id = s.user_id",nativeQuery = true)
     List<Integer> getStudentComeCount();
 
     @Query(value = "select * from groups g\n" +

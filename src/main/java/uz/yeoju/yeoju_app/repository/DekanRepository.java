@@ -8,13 +8,28 @@ import uz.yeoju.yeoju_app.payload.resDto.dekan.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface DekanRepository extends JpaRepository<Dekan,String> {
 
     Dekan getDekanByUserId(String user_id);
 
+    @Query(value = "select u.id,u.fullName,u.email,u.passportNum,u.login,u.RFID,u.citizenship,u.nationality,g.name as groupName ,g.level from Student s join users u on s.user_id = u.id\n" +
+            "join groups g on s.group_id = g.id where u.id=:id",nativeQuery = true)
+    StudentDataForEditedDekan getStudentDataForEditedDekan(@Param("id") String id);
 
-    @Query(value = "select id as value ,name as label from Faculty",nativeQuery = true)
+
+    @Query(value = "select u.id,u.RFID, u.fullName,u.login,u.email,u.passportNum,u.citizenship,u.nationality,u.bornYear from users u\n" +
+            "    join Student s on s.user_id=u.id\n" +
+            "    join groups g on s.group_id = g.id\n" +
+            "    join Faculty F on g.faculty_id = F.id\n" +
+            "    join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
+            "    join Dekanat D on DF.Dekanat_id=D.id\n" +
+            "join Dekan D2 on D.id = D2.dekanat_id\n" +
+            "where D2.user_id=:id order by g.name",nativeQuery = true)
+    List<StudentSettings> getStudentsForSettings(@Param("id") String id);
+
+    @Query(value = "select id as value ,shortName as label from Faculty",nativeQuery = true)
     List<FacultiesResDto> getFacultiesForStudentTransfer();
 
 //    @Query(value = "select Top 1 f.id,f.name from Faculty f\n" +
@@ -165,13 +180,16 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
 //            @Param("dateTo") LocalDateTime dateTo
 //    );
 
-    @Query(value = "select g.name from groups g\n" +
-            "join Faculty F on g.faculty_id = F.id\n" +
-            "join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
-            "join Dekan D on DF.Dekanat_id = D.dekanat_id\n" +
-            "where g.educationType_id=D.educationType_id and D.user_id=:id\n" +
-            "order by g.name asc",nativeQuery = true)
-    List<String> getGroupsNamesForDekanByFacultyId(@Param("id") String id);
+    @Query(value = "select g.id,g.level,g.name as name, el.name as language,et.name as type,ef.name as form,f.shortName as faculty from groups g\n" +
+            "left join EducationLanguage el on g.educationLanguage_id = el.id\n" +
+            "left join EducationType et on g.educationType_id = et.id\n" +
+            "left join EducationForm ef on g.educationForm_id = ef.id\n" +
+            "    join Faculty f on g.faculty_id = f.id\n" +
+            "join Dekanat_Faculty d_f on d_f.faculties_id = g.faculty_id\n" +
+            "join Dekanat D2 on d_f.Dekanat_id = D2.id\n" +
+            "join Dekan D on D2.id = D.dekanat_id\n" +
+            "where D.user_id=:id and g.educationType_id=D.educationType_id order by g.name asc",nativeQuery = true)
+    List<GroupsDatas> getGroupsNamesForDekanByFacultyId(@Param("id") String id);
 
     @Query(value = "select g.name from groups g\n" +
             "join Dekanat_Faculty DF on Df.faculties_id=g.faculty_id\n" +
@@ -271,4 +289,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
 
     @Query(value = "select id as value ,name as label from groups where faculty_id=:id and level=:course",nativeQuery = true)
     List<GroupByFacultyIdAndCourse> getGroupByFacultyIdAndCourse(@Param("id") String id, @Param("course") Integer course);
+
+    @Query(value = "select ET.name from Dekan d join EducationType ET on d.educationType_id = ET.id where d.user_id=:id",nativeQuery = true)
+    Set<String> getDekanEducationTypes(@Param("id") String id);
 }

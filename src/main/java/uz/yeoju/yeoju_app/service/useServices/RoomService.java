@@ -16,6 +16,11 @@ import java.util.stream.Collectors;
 public class RoomService implements RoomImplService<RoomDto> {
     private final RoomRepository roomRepository;
 
+
+    public ApiResponse getRoomsForSelect(){
+        return new ApiResponse(true,"rooms",roomRepository.getRoomsForSelect());
+    }
+
     @Override
     public ApiResponse findAll() {
         return new ApiResponse(

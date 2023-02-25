@@ -46,13 +46,13 @@ public class YeojuAppApplication {
 	public static void readPeriod(Element employeeNode)
 	{
 		DataBaseForTimeTable.periods.add(
-				new Period(
-						Integer.valueOf(employeeNode.getAttributeValue("name")),
-						Integer.valueOf(employeeNode.getAttributeValue("short")),
-						Integer.valueOf(employeeNode.getAttributeValue("period")),
-						employeeNode.getAttributeValue("starttime"),
-						employeeNode.getAttributeValue("endtime")
-				)
+			new Period(
+				Integer.valueOf(employeeNode.getAttributeValue("short")),
+				Integer.valueOf(employeeNode.getAttributeValue("short")),
+				Integer.valueOf(employeeNode.getAttributeValue("period")),
+				employeeNode.getAttributeValue("starttime"),
+				employeeNode.getAttributeValue("endtime")
+			)
 		);
 
 		//Country

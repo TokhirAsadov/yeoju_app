@@ -4,8 +4,8 @@ import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanSave;
 import uz.yeoju.yeoju_app.payload.kafedra.KafedraMudiriSaving;
+import uz.yeoju.yeoju_app.payload.kafedra.TeacherEditDto;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public interface KafedraMudiriService {
@@ -14,6 +14,8 @@ public interface KafedraMudiriService {
     ApiResponse save(KafedraMudiriSaving saving);
 
     ApiResponse getStatistics(User user);
+
+    ApiResponse getStatistics(String kafedraId);
 
     ApiResponse getStatistics(User user, String userId,Date date);
 
@@ -24,4 +26,12 @@ public interface KafedraMudiriService {
     ApiResponse saveKafedra(DekanSave dekanSave);
 
     ApiResponse positionEdit(String id);
+
+    ApiResponse changeTeacher(TeacherEditDto dto);
+
+    ApiResponse deletedTeacherWithUserId(String id);
+
+    ApiResponse changeRolesTeachers();
+
+    ApiResponse getTeachersStatisticsForKafedraDashboard(String kafedraId);
 }

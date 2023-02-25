@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.FacultyDto;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.FacultyService;
 
 import java.util.List;
@@ -15,6 +17,16 @@ import java.util.List;
 public class FacultyController {
 
     public final FacultyService facultyService;
+
+    @GetMapping("/getGroupsForSelect")
+    public HttpEntity<?> getGroupsForSelect(@CurrentUser User user,@RequestParam("facultyId") String facultyId,@RequestParam("eduTypeName") String eduTypeName){
+        return ResponseEntity.ok(facultyService.getGroupsForSelect(facultyId,eduTypeName));
+    }
+
+    @GetMapping("/getFacultiesForSelect")
+    public HttpEntity<?> getFacultiesForSelect(@CurrentUser User user,@RequestParam("educationName") String educationName){
+        return ResponseEntity.ok(facultyService.getFacultiesForSelect(educationName));
+    }
 
     @GetMapping("/getFacultyForDekanatSaved")
     public HttpEntity<?> getFacultyForDekanatSaved(){

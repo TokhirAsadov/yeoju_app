@@ -76,5 +76,10 @@ public class DekanatImplService implements DekanatService{
         return new ApiResponse(true,"datas",dekanatRepository.getForKafedraRoleSettings());
     }
 
+    @Override
+    public ApiResponse getDekanatDataForDekan(String id) {
+        return new ApiResponse(true,"dekanat data for dekan",dekanatRepository.getDekanatDataForDekan(id));
+    }
+
 
 }

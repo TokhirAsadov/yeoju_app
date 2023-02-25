@@ -1,17 +1,56 @@
 package uz.yeoju.yeoju_app.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.SectionDto;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.SectionService;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/section")
 @RequiredArgsConstructor
 public class SectionController {
     public final SectionService sectionService;
+
+    @GetMapping("/getStatisticsForRektor")
+    public HttpEntity<?> getStatisticssForRektor(@CurrentUser User user,@RequestParam("sectionId") String sectionId,@RequestParam("date")
+    @DateTimeFormat(pattern = "yyyy.MM.dd") Date date)
+    {
+        return ResponseEntity.ok(sectionService.getStatisticsForRektor(sectionId,date));
+    }
+
+
+    @GetMapping("/getStatistics")
+    public HttpEntity<?> getStatistics(@CurrentUser User user){
+        return ResponseEntity.ok(sectionService.getStatistics(user));
+    }
+
+    @GetMapping("/getStatisticsForDekan")
+    public HttpEntity<?> getStatisticsForDekan(@CurrentUser User user){
+        return ResponseEntity.ok(sectionService.getStatisticsForDekan(user));
+    }
+
+    @GetMapping("/getStatisticsForSectionDashboard")
+    public HttpEntity<?> getStatisticsForSectionDashboard(@RequestParam("index") Integer index,@RequestParam("sectionId") String sectionId){
+        return ResponseEntity.ok(sectionService.getStatisticsForSectionDashboard(index,sectionId));
+    }
+
+    @GetMapping("/getStaffComeCountTodayStatistics")
+    public HttpEntity<?> getStaffComeCountTodayStatistics(@CurrentUser User user){
+        return ResponseEntity.ok(sectionService.getStaffComeCountTodayStatistics(user.getId()));
+    }
+
+
+    @GetMapping("/getSectionDatas")
+    public HttpEntity<?> getSectionDatas(@CurrentUser User user){
+        return ResponseEntity.ok(sectionService.getSectionDatas(user.getId()));
+    }
 
     @GetMapping("/allSections")
     public HttpEntity<?> getAllSections(){

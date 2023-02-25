@@ -33,6 +33,7 @@ public class StudentController {
     public HttpEntity<?> uploadPhotoForUser(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
         System.out.println(" ----------------------------- 1 1 1 ------------------------ --");
         ApiResponse apiResponse = studentService.saving(request);
+//        ApiResponse apiResponse = new ApiResponse(true,"keldi");
         System.out.println(" ----------------------------- ------------------------ --");
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
@@ -106,14 +107,14 @@ public class StudentController {
     ){
         return ResponseEntity.ok(studentService.getFacultyAndComingCountWithAll(startTime,endTime));
     }
-    @GetMapping("/getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth")
+    @GetMapping("/getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth") //todo----------------------------------
     public HttpEntity<?> getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(
             @RequestParam("level") Integer level,
             @RequestParam("weekOrMonth") Integer weekOrMonth
     ){
         return ResponseEntity.ok(studentService.getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(level,weekOrMonth));
     }
-    @PostMapping("/getFacultyAndComingCountWithAllByGroupLevel")
+    @PostMapping("/getFacultyAndComingCountWithAllByGroupLevel") //todo-----------------------------------------------
     public HttpEntity<?> getFacultyAndComingCountWithAllByGroupLevel(
             @RequestParam("level") String level,
             @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,

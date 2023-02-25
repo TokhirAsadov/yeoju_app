@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanSave;
+import uz.yeoju.yeoju_app.payload.dekanat.StudentChangeDto;
 import uz.yeoju.yeoju_app.payload.kafedra.KafedraMudiriSaving;
+import uz.yeoju.yeoju_app.payload.kafedra.TeacherEditDto;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.kafedra.KafedraMudiriService;
 
@@ -23,6 +25,17 @@ public class KafedraMudiriController {
     @Autowired
     private KafedraMudiriService service;
 
+
+    @GetMapping("/getTeachersStatisticsForKafedraDashboard")
+    public HttpEntity<?> getTeachersStatisticsForKafedraDashboard(@CurrentUser User user,@RequestParam(name = "kafedraId",required = false) String kafedraId){
+        return  ResponseEntity.ok(service.getTeachersStatisticsForKafedraDashboard(kafedraId));
+    }
+
+
+    @PostMapping("/changeTeacher")
+    public HttpEntity<?> changeStudent(@RequestBody TeacherEditDto dto){
+        return ResponseEntity.status(201).body(service.changeTeacher(dto));
+    }
 
     @GetMapping("/positionEdit")
     public HttpEntity<?> positionEdit(@RequestParam("id") String id){
@@ -46,8 +59,9 @@ public class KafedraMudiriController {
     }
 
     @GetMapping("/getStatistics")
-    public HttpEntity<?> getStatistics(@CurrentUser User user) {
-        return ResponseEntity.ok(service.getStatistics(user));
+    public HttpEntity<?> getStatistics(@CurrentUser User user,@RequestParam(name = "id") String kafedraId) {
+        return ResponseEntity.ok(service.getStatistics(kafedraId));
+//        return ResponseEntity.ok(service.getStatistics(user));
     }
 
     @GetMapping("/getStatisticss")
@@ -62,6 +76,16 @@ public class KafedraMudiriController {
     @DateTimeFormat(pattern = "yyyy.MM.dd") Date date)
     {
         return ResponseEntity.ok(service.getStatisticsForRektor(kafedraId,date));
+    }
+
+    @DeleteMapping("/deletedTeacherWithUserId/{id}")
+    public HttpEntity<?> deletedTeacherWithUserId(@PathVariable("id") String id){
+        return ResponseEntity.ok(service.deletedTeacherWithUserId(id));
+    }
+
+    @GetMapping("/changeRoles")
+    public HttpEntity<?> changeRolesTeachers(){
+        return ResponseEntity.ok(service.changeRolesTeachers());
     }
 
 //    @PostMapping("/date")

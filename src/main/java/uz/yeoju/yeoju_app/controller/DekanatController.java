@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanatSaveDto;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.dekanat.DekanatService;
 
 @RestController
@@ -13,6 +15,11 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.dekanat.DekanatS
 public class DekanatController {
 
     private final DekanatService service;
+
+    @GetMapping("/dekanatDataForDekan")
+    public HttpEntity<?> getDekanatDataForDekan(@CurrentUser User user){
+        return ResponseEntity.ok(service.getDekanatDataForDekan(user.getId()));
+    }
 
     @PostMapping("/save")
     public HttpEntity<?> save(@RequestBody DekanatSaveDto dto){

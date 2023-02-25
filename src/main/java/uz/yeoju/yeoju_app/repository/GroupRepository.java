@@ -8,12 +8,14 @@ import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentGroupField;
 import uz.yeoju.yeoju_app.payload.resDto.group.GroupForStudent;
 
 import java.util.List;
+import java.util.Set;
 
 public interface GroupRepository extends JpaRepository<Group,String> {
    Group findGroupByName(String name);
    boolean existsGroupByName(String name);
    List<Group> findGroupsByLevel(Integer level);
    List<Group> findGroupsByFacultyId(String faculty_id);
+
 
    @Query(value = "select g.id,g.level,g.name,F.name as facultyName,et.name as educationTypeName from Student s\n" +
            "join groups g on g.id = s.group_id\n" +
