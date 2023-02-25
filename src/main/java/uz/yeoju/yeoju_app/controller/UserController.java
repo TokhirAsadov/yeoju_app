@@ -18,8 +18,10 @@ import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable;
 import uz.yeoju.yeoju_app.payload.superAdmin.StudentSaveDto;
+import uz.yeoju.yeoju_app.repository.UserRFIDRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
+import uz.yeoju.yeoju_app.service.useServices.UserRFIDServer;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
 import java.io.IOException;
@@ -33,8 +35,12 @@ import static uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForT
 @RequiredArgsConstructor
 public class UserController {
 
+
     public final UserService userService;
+    public final UserRFIDServer userRFIDService;
+    public final UserRFIDServer getUserRFIDByRFID;
     public final UserRepository userRepository;
+    public final UserRFIDRepository userRFIDRepository;
 
     //todo-------------------------------------------------
     @PostMapping("/saveStudentFromSuperAdmin")
@@ -334,6 +340,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserByRFID(rfid));
     }
 
+    @GetMapping("/getUserRfid/{rfid}")
+    public HttpEntity<?> getUserRFIDByRfid(@PathVariable("rfid") String rfid){
+        return ResponseEntity.ok(userRFIDRepository.getUserShareRFID(rfid));
+    }
     @GetMapping("/getUserForTeacherSaving")
     public HttpEntity<?> getUserForTeacherSaving(@CurrentUser User user){
         return ResponseEntity.ok(userService.getItemsForTeacherSaving(user.getId()));
