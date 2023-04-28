@@ -158,17 +158,17 @@
         </dependency>
 
 
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-webflux</artifactId>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
 
-<!--		&lt;!&ndash; https://mvnrepository.com/artifact/io.projectreactor/reactor-core &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>io.projectreactor</groupId>-->
-<!--			<artifactId>reactor-core</artifactId>-->
-<!--			<version>3.5.4</version>-->
-<!--		</dependency>-->
+		<!-- https://mvnrepository.com/artifact/io.projectreactor/reactor-core -->
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-core</artifactId>
+			<version>3.5.4</version>
+		</dependency>
 
     </dependencies>
 
