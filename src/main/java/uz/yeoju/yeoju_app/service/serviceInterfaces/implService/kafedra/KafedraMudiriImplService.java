@@ -103,8 +103,8 @@ public class KafedraMudiriImplService implements KafedraMudiriService{
     }
 
     @Override
-    public ApiResponse positionEdit(String id) {
-        return new ApiResponse(true,"position change",kafedraMudirRepository.getPositionEdit(id));
+    public ApiResponse positionEdit(String id,String teacherId) {
+        return new ApiResponse(true,"position change",kafedraMudirRepository.getPositionEdit(id,teacherId));
     }
 
     @Transactional

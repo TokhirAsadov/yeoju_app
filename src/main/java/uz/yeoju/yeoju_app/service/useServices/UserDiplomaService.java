@@ -93,7 +93,7 @@ public class UserDiplomaService implements UserDiplomaImplService<UserDiplomaDto
         else {
             return new ApiResponse(
                     false,
-                    "error! did not save user diplomas! You have an active user diplomas...!"
+                    "error! did not saveOrUpdate user diplomas! You have an active user diplomas...!"
             );
         }
     }

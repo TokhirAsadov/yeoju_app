@@ -203,24 +203,39 @@ public class GroupService implements GroupImplService<GroupDto> {
 
     public ApiResponse save(GroupDto dto){
         if (!groupRepository.existsGroupByName(dto.getName())){
-            Group group = generateGroup(dto);
+            Group group = generateGroup2(dto);
             groupRepository.saveAndFlush(group);
             return new ApiResponse(true,"new group saved successfully!...");
         }
         else {
             return new ApiResponse(
                     false,
-                    "error! did not save group! Please, enter other group userPositionName!"
+                    "error! did not saveOrUpdate group! Please, enter other group userPositionName!"
             );
         }
     }
 
+    @Deprecated
     public Group generateGroup(GroupDto groupDto) {
         return new Group(
                 groupDto.getName(),
                 groupDto.getLevel(),
                 facultyService.generateFaculty(groupDto.getFacultyDto())
         );
+    }
+
+    public Group generateGroup2(GroupDto dto) {
+
+        Group group = new Group();
+        group.setId(dto.getId());
+        group.setName(dto.getName());
+        group.setLevel(dto.getLevel());
+        group.setEducationType(eduTypeRepo.findById(dto.getEduTypeDto().getId()).get());
+        group.setEducationForm(eduFormRepo.findById(dto.getEduFormDto().getId()).get());
+        group.setEducationLanguage(eduLanRepo.findById(dto.getEduLanDto().getId()).get());
+        group.setFaculty(facultyRepository.findById(dto.getFacultyDto().getId()).get());
+
+        return group;
     }
 
     public GroupDto generateGroupDto(Group group) {

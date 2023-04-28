@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.entity.Student;
-import uz.yeoju.yeoju_app.payload.resDto.dekan.SearchUserForDekanUseSendMessage;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.dashboard.StudentEduLangFormType;
 import uz.yeoju.yeoju_app.payload.resDto.student.*;
 
@@ -53,7 +52,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "\n" +
             ") as f\n" +
             "union\n" +
-            "select count(u.id) from users u  join Student s on u.id = s.user_id",nativeQuery = true)
+            "select count(s.id) from Student s join AddressUser a on s.user_id = a.user_id",nativeQuery = true)
     List<Integer> getStudentComeCount();
 
     @Query(value = "select * from groups g\n" +
@@ -138,36 +137,76 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "    ) as f2 on f2.name = f1.name",nativeQuery = true)
     List<FacultyStatistic> getFacultyAndComingCountWithAllByGroupLevel(@Param("level") Integer level,@Param("dateFrom")LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
 
-    @Query(value =  "select  f1.name,f1.count as comeCount,f2.count as allCount from\n" +
+
+    @Query(value = "select  f2.name,f1.count as comeCount,f2.count as allCount from\n" +
             "    (\n" +
             "        select F.name,count(card.cardNo) as count from\n" +
             "            (\n" +
             "                select  al.card_no as cardNo\n" +
             "                from acc_monitor_log al\n" +
-            "                 join users u\n" +
-            "                      on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "                 join users_Role ur\n" +
-            "                      on u.id = ur.users_id\n" +
-            "                 join Role R2 on ur.roles_id = R2.id\n" +
-            "                where al.time between dateadd(d,:weekOrMonth,convert(DATE,GETDATE())) and dateadd(d,1,convert(DATE,GETDATE())) and R2.roleName='ROLE_STUDENT'\n" +
+            "                         join users u  on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "                         join users_Role ur  on u.id = ur.users_id\n" +
+            "                         join Role R2 on ur.roles_id = R2.id\n" +
+            "                where al.time between :dateFrom and :dateTo and R2.roleName='ROLE_STUDENT'\n" +
             "                group by al.card_no\n" +
             "            ) as card\n" +
-            "                join users u on cast(card.cardNo as varchar) =\n" +
-            "                                cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "                join users u on cast(card.cardNo as varchar) =  cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "                join Student S on u.id = S.user_id\n" +
             "                join groups g on g.id = S.group_id\n" +
+            "                join EducationType et on g.educationType_id = et.id\n" +
             "                join Faculty F on F.id = g.faculty_id\n" +
-            "        where g.level=:level\n" +
+            "        where g.level=:level and F.schoolCode=:schoolCode and et.name=:eduType\n" +
             "        group by F.name\n" +
             "    ) as f1\n" +
-            "        join (\n" +
+            "        right join (\n" +
             "        select F.name, count(S.id) as count from Student S\n" +
-            "                         join groups g on S.group_id = g.id\n" +
-            "                         join Faculty F on F.id = g.faculty_id\n" +
-            "        where g.level=:level\n" +
+            "            join groups g on S.group_id = g.id\n" +
+            "            join EducationType et on g.educationType_id = et.id\n" +
+            "            join Faculty F on F.id = g.faculty_id\n" +
+            "        where g.level=:level and F.schoolCode=:schoolCode and et.name=:eduType\n" +
             "        group by F.name\n" +
             "    ) as f2 on f2.name = f1.name",nativeQuery = true)
-    List<FacultyStatistic> getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(@Param("level") Integer level,@Param("weekOrMonth") Integer weekOrMonth);
+    List<FacultyStatistic> getFacultyAndComingCountWithAllByGroupLevelWithSchoolCode(@Param("schoolCode") Integer schoolCode,@Param("level") Integer level,@Param("eduType") String eduType,@Param("dateFrom")LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
+
+    @Query(value = "select s.id,s.nameEn as schoolName, s.code as schoolCode,:eduType as eduType ,:level as level, :dateFrom as dateFrom, :dateTo as dateTo from School s order by s.code",nativeQuery = true)
+    List<FacultyStatisticsWithSchoolCode> getSchoolStatistics(@Param("level") Integer level,@Param("eduType") String eduType,@Param("dateFrom")LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
+
+
+    @Query(value = "select s.id,s.nameEn as schoolName, s.code as schoolCode,:level as level, :weekOrMonth as weekOrMonth from School s order by s.code",nativeQuery = true)
+    List<FacultyStatisticsWithWeekOrMonth> getSchoolStatisticsByWeekOrMonth(@Param("level") Integer level,@Param("weekOrMonth") Integer weekOrMonth);
+
+
+//
+//    @Query(value =  "select  f1.name,f1.count as comeCount,f2.count as allCount from\n" +
+//            "    (\n" +
+//            "        select F.name,count(card.cardNo) as count from\n" +
+//            "            (\n" +
+//            "                select  al.card_no as cardNo\n" +
+//            "                from acc_monitor_log al\n" +
+//            "                 join users u\n" +
+//            "                      on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "                 join users_Role ur\n" +
+//            "                      on u.id = ur.users_id\n" +
+//            "                 join Role R2 on ur.roles_id = R2.id\n" +
+//            "                where al.time between dateadd(d,:weekOrMonth,convert(DATE,GETDATE())) and dateadd(d,1,convert(DATE,GETDATE())) and R2.roleName='ROLE_STUDENT'\n" +
+//            "                group by al.card_no\n" +
+//            "            ) as card\n" +
+//            "                join users u on cast(card.cardNo as varchar) =\n" +
+//            "                                cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "                join Student S on u.id = S.user_id\n" +
+//            "                join groups g on g.id = S.group_id\n" +
+//            "                join Faculty F on F.id = g.faculty_id\n" +
+//            "        where g.level=:level\n" +
+//            "        group by F.name\n" +
+//            "    ) as f1\n" +
+//            "        join (\n" +
+//            "        select F.name, count(S.id) as count from Student S\n" +
+//            "                         join groups g on S.group_id = g.id\n" +
+//            "                         join Faculty F on F.id = g.faculty_id\n" +
+//            "        where g.level=:level\n" +
+//            "        group by F.name\n" +
+//            "    ) as f2 on f2.name = f1.name",nativeQuery = true)
+//    List<FacultyStatistic> getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(@Param("level") Integer level,@Param("weekOrMonth") Integer weekOrMonth);
 
     @Query(value = "select g1.name,g1.come as comeCount,g2.allCount from\n" +
             "(\n" +
@@ -414,4 +453,36 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "join EducationType ET on g.educationType_id = ET.id\n" +
             "group by ET.name",nativeQuery = true)
     List<StudentEduLangFormType> getCountStudentType();
+
+
+    @Query(value = "select  f2.name,f1.count as comeCount,f2.count as allCount from\n" +
+            "    (\n" +
+            "        select F.name,count(card.cardNo) as count from\n" +
+            "            (\n" +
+            "                select  al.card_no as cardNo\n" +
+            "                from acc_monitor_log al\n" +
+            "                 join users u\n" +
+            "                      on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "                 join users_Role ur\n" +
+            "                      on u.id = ur.users_id\n" +
+            "                 join Role R2 on ur.roles_id = R2.id\n" +
+            "                where al.time between dateadd(d,:weekOrMonth,convert(DATE,GETDATE())) and dateadd(d,1,convert(DATE,GETDATE())) and R2.roleName='ROLE_STUDENT'\n" +
+            "                group by al.card_no\n" +
+            "            ) as card\n" +
+            "                join users u on cast(card.cardNo as varchar) =\n" +
+            "                                cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "                join Student S on u.id = S.user_id\n" +
+            "                join groups g on g.id = S.group_id\n" +
+            "                join Faculty F on F.id = g.faculty_id\n" +
+            "        where g.level=:level and F.schoolCode=:schoolCode\n" +
+            "        group by F.name\n" +
+            "    ) as f1\n" +
+            "        join (\n" +
+            "        select F.name, count(S.id) as count from Student S\n" +
+            "                         join groups g on S.group_id = g.id\n" +
+            "                         join Faculty F on F.id = g.faculty_id\n" +
+            "        where g.level=:level and F.schoolCode=:schoolCode \n" +
+            "        group by F.name\n" +
+            "    ) as f2 on f2.name = f1.name",nativeQuery = true)
+    List<FacultyStatistic> studentFaculty123231213ByWeekOrMonthBySchoolCode123(@Param("schoolCode") Integer schoolCode, @Param("level") Integer level, @Param("weekOrMonth") Integer weekOrMonth);
 }

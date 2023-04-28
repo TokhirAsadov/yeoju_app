@@ -6,7 +6,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.SectionDto;
+import uz.yeoju.yeoju_app.payload.SectionDtoV2;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.SectionService;
 
@@ -17,6 +19,16 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class SectionController {
     public final SectionService sectionService;
+
+    @PostMapping("/createSectionV2")
+    public HttpEntity<?> createNewSection(@RequestBody SectionDtoV2 dto){
+        return ResponseEntity.status(201).body(sectionService.saveOrUpdate(dto));
+    }
+    @GetMapping("/getSectionById")
+    public HttpEntity<?> getSectionById(@CurrentUser User user,@RequestParam("id") String id){
+        ApiResponse response = sectionService.getSectionById(id);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 401).body(response);
+    }
 
     @GetMapping("/getStatisticsForRektor")
     public HttpEntity<?> getStatisticssForRektor(@CurrentUser User user,@RequestParam("sectionId") String sectionId,@RequestParam("date")
@@ -42,14 +54,19 @@ public class SectionController {
     }
 
     @GetMapping("/getStaffComeCountTodayStatistics")
-    public HttpEntity<?> getStaffComeCountTodayStatistics(@CurrentUser User user){
-        return ResponseEntity.ok(sectionService.getStaffComeCountTodayStatistics(user.getId()));
+    public HttpEntity<?> getStaffComeCountTodayStatistics(@CurrentUser User user,@RequestParam("s") Boolean s){
+        return ResponseEntity.ok(sectionService.getStaffComeCountTodayStatistics(user.getId(),s));
     }
 
 
     @GetMapping("/getSectionDatas")
     public HttpEntity<?> getSectionDatas(@CurrentUser User user){
         return ResponseEntity.ok(sectionService.getSectionDatas(user.getId()));
+    }
+
+    @GetMapping("/getSectionDatasByUserId")
+    public HttpEntity<?> getSectionDatasByUserId(@CurrentUser User user){
+        return ResponseEntity.ok(sectionService.getSectionDatasByUserId(user.getId()));
     }
 
     @GetMapping("/allSections")

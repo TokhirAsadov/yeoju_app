@@ -69,7 +69,7 @@ public class SubjectCreditService implements SubjectCreditImplService<SubjectCre
     @Override
     public ApiResponse saveOrUpdate(SubjectCreditDto dto) {
 
-        if (dto.getId() == null){ //save
+        if (dto.getId() == null){ //saveOrUpdate
             ApiResponse byId = groupService.getById(dto.getGroupDto().getId());
             if (byId.getObj()!=null) {
                 ApiResponse lessonServiceById = lessonService.getById(dto.getLessonDto().getId());

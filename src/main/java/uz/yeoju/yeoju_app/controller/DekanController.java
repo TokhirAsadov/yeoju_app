@@ -175,12 +175,12 @@ public class DekanController {
 //        roleOptional.ifPresent(userRoles::add);
 //        user.setRoles(userRoles);
 //
-//        userRepository.save(user);
+//        userRepository.saveOrUpdate(user);
 //
 //        Dekan dekan = dekanOptional.get();
 //        dekan.setUser(userOptional.get());
 //
-//        dekanRepository.save(dekan);
+//        dekanRepository.saveOrUpdate(dekan);
 //        return ResponseEntity.ok(new ApiResponse(true,"ok"));
 //    }
 }

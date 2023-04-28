@@ -38,8 +38,8 @@ public class KafedraMudiriController {
     }
 
     @GetMapping("/positionEdit")
-    public HttpEntity<?> positionEdit(@RequestParam("id") String id){
-        return ResponseEntity.ok(service.positionEdit(id));
+    public HttpEntity<?> positionEdit(@CurrentUser User user,@RequestParam("id") String id){
+        return ResponseEntity.ok(service.positionEdit(user.getId(),id));
     }
 
 

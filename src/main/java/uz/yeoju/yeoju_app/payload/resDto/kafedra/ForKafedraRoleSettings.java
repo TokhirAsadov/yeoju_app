@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSaveItem;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ForKafedraRoleSettings {
 
@@ -14,4 +15,10 @@ public interface ForKafedraRoleSettings {
 
     @Value("#{@kafedraRepository.getKafedraForKafedraMudiriSaved()}")
     List<UserForTeacherSaveItem> getDekanats();
+
+    @Value("#{@roleRepository.getRolesNamesForSelect()}")
+    Set<String> getRoles();
+
+    @Value("#{@positionRepository.getPositionsNameForSelect()}")
+    Set<String> getPositions();
 }

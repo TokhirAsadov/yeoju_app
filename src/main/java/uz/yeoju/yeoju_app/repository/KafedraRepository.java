@@ -20,78 +20,134 @@ public interface KafedraRepository extends JpaRepository<Kafedra, String> {
     boolean existsKafedraByNameEn(String name);
 
 
+//    @Query(value = "select f1.count as comeCount,f2.count as allCount from (\n" +
+//            "        select t.kafedra_id,count(card.cardNo) as count from\n" +
+//            "            (select  al.card_no as cardNo\n" +
+//            "             from acc_monitor_log al\n" +
+//            "                      join users u\n" +
+//            "                           on cast(u.RFID as varchar) =\n" +
+//            "                              cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "                      join users_Role ur\n" +
+//            "                           on u.id = ur.users_id\n" +
+//            "                      join (select id from Role where roleName = 'ROLE_TEACHER') as role\n" +
+//            "                           on ur.roles_id = role.id\n" +
+//            "             where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)\n" +
+//            "             group by al.card_no\n" +
+//            "            ) as card\n" +
+//            "                join users u on cast(card.cardNo as varchar) =\n" +
+//            "                                cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "                join Teacher t on u.id = t.user_id\n" +
+//            "        where t.kafedra_id=:kafedraId\n" +
+//            "        group by t.kafedra_id\n" +
+//            "    ) as f1\n" +
+//            "        right join (\n" +
+//            "    select t.kafedra_id,count(t.id) as count from Teacher t\n" +
+//            "    where t.kafedra_id=:kafedraId\n" +
+//            "    group by t.kafedra_id\n" +
+//            ") as f2 on f2.kafedra_id = f1.kafedra_id",nativeQuery = true)
+//    TeacherComeStatistics getComeCountForRektor(@Param("kafedraId") String kafedraId);
+
     @Query(value = "select f1.count as comeCount,f2.count as allCount from (\n" +
-            "        select t.kafedra_id,count(card.cardNo) as count from\n" +
-            "            (select  al.card_no as cardNo\n" +
-            "             from acc_monitor_log al\n" +
-            "                      join users u\n" +
-            "                           on cast(u.RFID as varchar) =\n" +
-            "                              cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "                      join users_Role ur\n" +
-            "                           on u.id = ur.users_id\n" +
-            "                      join (select id from Role where roleName = 'ROLE_TEACHER') as role\n" +
-            "                           on ur.roles_id = role.id\n" +
-            "             where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)\n" +
-            "             group by al.card_no\n" +
-            "            ) as card\n" +
-            "                join users u on cast(card.cardNo as varchar) =\n" +
-            "                                cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "                join Teacher t on u.id = t.user_id\n" +
-            "        where t.kafedra_id=:kafedraId\n" +
-            "        group by t.kafedra_id\n" +
-            "    ) as f1\n" +
-            "        right join (\n" +
-            "    select t.kafedra_id,count(t.id) as count from Teacher t\n" +
-            "    where t.kafedra_id=:kafedraId\n" +
-            "    group by t.kafedra_id\n" +
+            "   select card.kafedra_id,count(card.cardNo) as count from\n" +
+            "       (select  u.RFID as cardNo,t.kafedra_id\n" +
+            "        from acc_monitor_log al\n" +
+            "             join users u\n" +
+            "                  on cast(u.RFID as varchar) =\n" +
+            "                     cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "             join users_Role ur\n" +
+            "                  on u.id = ur.users_id\n" +
+            "             join (select id from Role where roleName = 'ROLE_TEACHER') as role\n" +
+            "                  on ur.roles_id = role.id\n" +
+            "             join Teacher t on u.id = t.user_id\n" +
+            "        where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and t.kafedra_id=:kafedraId\n" +
+            "        group by u.RFID, t.kafedra_id\n" +
+            "       ) as card\n" +
+            "   group by card.kafedra_id\n" +
+            ") as f1\n" +
+            "   right join (\n" +
+            "    select t.kafedra_id,count(t.id) as count from Teacher t where t.kafedra_id=:kafedraId group by t.kafedra_id\n" +
             ") as f2 on f2.kafedra_id = f1.kafedra_id",nativeQuery = true)
     TeacherComeStatistics getComeCountForRektor(@Param("kafedraId") String kafedraId);
 
 
+//    @Query(value = "select f1.count as comeCount,f2.count as allCount from (\n" +
+//            "   select S.section_id,count(card.cardNo) as count from\n" +
+//            "       (select  al.card_no as cardNo\n" +
+//            "        from acc_monitor_log al\n" +
+//            "                 join users u\n" +
+//            "                      on cast(u.RFID as varchar) =\n" +
+//            "                         cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "        where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)\n" +
+//            "        group by al.card_no\n" +
+//            "       ) as card\n" +
+//            "           join users u on cast(card.cardNo as varchar) =\n" +
+//            "                           cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "           join Staff S on u.id = S.user_id\n" +
+//            "   where S.section_id=:kafedraId \n" +
+//            "   group by S.section_id\n" +
+//            ") as f1\n" +
+//            "   right join (\n" +
+//            "    select s.section_id,count(s.id) as count from Staff s\n" +
+//            "    where s.section_id=:kafedraId \n" +
+//            "    group by s.section_id\n" +
+//            ") as f2 on f2.section_id = f1.section_id",nativeQuery = true)
+//    TeacherComeStatistics getStaffComeCountForRektor(@Param("kafedraId") String kafedraId);
+
     @Query(value = "select f1.count as comeCount,f2.count as allCount from (\n" +
-            "   select S.section_id,count(card.cardNo) as count from\n" +
-            "       (select  al.card_no as cardNo\n" +
-            "        from acc_monitor_log al\n" +
-            "                 join users u\n" +
-            "                      on cast(u.RFID as varchar) =\n" +
-            "                         cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "        where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)\n" +
-            "        group by al.card_no\n" +
-            "       ) as card\n" +
-            "           join users u on cast(card.cardNo as varchar) =\n" +
-            "                           cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "           join Staff S on u.id = S.user_id\n" +
-            "   where S.section_id=:kafedraId \n" +
-            "   group by S.section_id\n" +
-            ") as f1\n" +
-            "   right join (\n" +
-            "    select s.section_id,count(s.id) as count from Staff s\n" +
-            "    where s.section_id=:kafedraId \n" +
+            "       select card.section_id,count(card.cardNo) as count from\n" +
+            "           (select  u.RFID as cardNo, S.section_id from acc_monitor_log al\n" +
+            "                     join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "                     join Staff S on u.id = S.user_id\n" +
+            "            where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and S.section_id=:kafedraId\n" +
+            "            group by u.RFID, S.section_id\n" +
+            "           ) as card\n" +
+            "            group by card.section_id\n" +
+            "   ) as f1\n" +
+            "    right join (\n" +
+            "    select s.section_id,count(s.id) as count from Staff s where s.section_id=:kafedraId\n" +
             "    group by s.section_id\n" +
             ") as f2 on f2.section_id = f1.section_id",nativeQuery = true)
     TeacherComeStatistics getStaffComeCountForRektor(@Param("kafedraId") String kafedraId);
 
+//    @Query(value = "select f1.count as comeCount,f2.count as allCount from (\n" +
+//            "   select S.dekanat_id,count(u.id) as count from\n" +
+//            "       (select  al.card_no as cardNo\n" +
+//            "        from acc_monitor_log al\n" +
+//            "                 join users u\n" +
+//            "                      on cast(u.RFID as varchar) =\n" +
+//            "                         cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "        where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)\n" +
+//            "        group by al.card_no\n" +
+//            "       ) as card\n" +
+//            "           join users u on cast(card.cardNo as varchar) =\n" +
+//            "                           cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+//            "           join Staff S on u.id = S.user_id\n" +
+//            "   where S.dekanat_id=:kafedraId\n" +
+//            "   group by S.dekanat_id\n" +
+//            ") as f1\n" +
+//            "   right join (\n" +
+//            "    select s.dekanat_id,count(s.id) as count from Staff s\n" +
+//            "    where s.dekanat_id=:kafedraId\n" +
+//            "    group by S.dekanat_id\n" +
+//            ") as f2 on f2.dekanat_id = f1.dekanat_id\n",nativeQuery = true)
+//    TeacherComeStatistics getStaffComeCountForRektor2(@Param("kafedraId") String kafedraId);
+
     @Query(value = "select f1.count as comeCount,f2.count as allCount from (\n" +
-            "   select S.dekanat_id,count(u.id) as count from\n" +
-            "       (select  al.card_no as cardNo\n" +
-            "        from acc_monitor_log al\n" +
-            "                 join users u\n" +
-            "                      on cast(u.RFID as varchar) =\n" +
-            "                         cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "        where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)\n" +
-            "        group by al.card_no\n" +
-            "       ) as card\n" +
-            "           join users u on cast(card.cardNo as varchar) =\n" +
-            "                           cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "           join Staff S on u.id = S.user_id\n" +
-            "   where S.dekanat_id=:kafedraId\n" +
-            "   group by S.dekanat_id\n" +
-            ") as f1\n" +
-            "   right join (\n" +
+            "       select card.dekanat_id,count(card.cardNo) as count from\n" +
+            "           (select  u.RFID as cardNo,S.dekanat_id\n" +
+            "            from acc_monitor_log al\n" +
+            "                     join users u  on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "                     join Staff S on u.id = S.user_id\n" +
+            "            where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and S.dekanat_id=:kafedraId\n" +
+            "            group by u.RFID,S.dekanat_id\n" +
+            "           ) as card\n" +
+            "       group by card.dekanat_id\n" +
+            "   ) as f1\n" +
+            "       right join (\n" +
             "    select s.dekanat_id,count(s.id) as count from Staff s\n" +
             "    where s.dekanat_id=:kafedraId\n" +
             "    group by S.dekanat_id\n" +
-            ") as f2 on f2.dekanat_id = f1.dekanat_id\n",nativeQuery = true)
+            ") as f2 on f2.dekanat_id = f1.dekanat_id",nativeQuery = true)
     TeacherComeStatistics getStaffComeCountForRektor2(@Param("kafedraId") String kafedraId);
 
 

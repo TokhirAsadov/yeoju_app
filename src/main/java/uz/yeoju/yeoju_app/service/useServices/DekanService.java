@@ -80,7 +80,7 @@ public class DekanService implements DekanImplService<DekanDto> {
     @Override
     public ApiResponse saveOrUpdate(DekanDto dto) {
 
-        if (dto.getId() == null){ //save
+        if (dto.getId() == null){ //saveOrUpdate
             UserDto userByLogin = userService.getUserByLogin(dto.getUserDto().getLogin());
             if (userByLogin!=null) {
                 Set<FacultyDto> facultyDtos = dto.getFacultyDtos();

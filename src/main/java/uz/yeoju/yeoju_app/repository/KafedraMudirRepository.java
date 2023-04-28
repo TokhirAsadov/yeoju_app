@@ -22,8 +22,8 @@ public interface KafedraMudirRepository extends JpaRepository<KafedraMudiri, Str
 
     Optional<KafedraMudiri> findKafedraMudiriByUserId(String user_id);
 
-    @Query(value = "select :id as id",nativeQuery = true)
-    PositionEdit getPositionEdit(@Param("id") String id);
+    @Query(value = "select :id as id,:teacherId as teacherId",nativeQuery = true)
+    PositionEdit getPositionEdit(@Param("id") String id,@Param("teacherId") String teacherId);
 
     @Query(value = "select u.id,u.fullName,u.RFID,u.passportNum as passport from users u join Teacher T on u.id = T.user_id where T.kafedra_id=:kafedraId",nativeQuery = true)
     List<UserForRoomStatistics> getTeachersStatisticsForKafedraDashboard(@Param("kafedraId") String kafedraId);

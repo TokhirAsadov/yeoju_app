@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Faculty;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.repository.FacultyRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.FacultyImplService;
@@ -19,8 +20,8 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
     public final FacultyRepository facultyRepository;
 
 
-    public ApiResponse getFacultyForDekanatSaved(){
-        return new ApiResponse(true,"faculties",facultyRepository.getFacultyForDekanatSaved());
+    public ApiResponseTwoObj getFacultyForDekanatSaved(){
+        return new ApiResponseTwoObj(true,"faculties",facultyRepository.getFacultyForDekanatSaved(),facultyRepository.getRolesAndPositionsForDekanatCRUD());
     }
     public ApiResponse createFacultiesByNames(List<String> namesOfFaculties){
         for (String namesOfFaculty : namesOfFaculties) {

@@ -56,6 +56,16 @@ public class UserController {
         return  ResponseEntity.ok(userService.getUserForRoomStatistics(teacherId));
     }
 
+    @GetMapping("/getTeacherStatisticsForTimeTableByWeek")
+    public HttpEntity<?> getTeacherStatisticsForTimeTableByWeek(
+            @CurrentUser User user,
+            @RequestParam(name = "teacherId",required = true) String teacherId,
+            @RequestParam("week") Integer week,
+            @RequestParam("year") Integer year
+    ){
+        return  ResponseEntity.ok(userService.getUserForRoomStatisticsByWeek(teacherId,week,year));
+    }
+
     //@GetMapping("/getTeacherStatisticsForTimeTable")
     //    public HttpEntity<?> getTeacherStatisticsForTimeTable(@CurrentUser User user,@RequestParam(name = "passport",required = true) String passport){
     //        return  ResponseEntity.ok(userService.getUserForRoomStatisticsByPassport(passport));
@@ -92,7 +102,7 @@ public class UserController {
         return ResponseEntity.ok(userRepository.getDataForStaffSaving(user.getId()));
     }
 
-    @PostMapping("/uploadUser")
+    @PostMapping("/uploadUser")//getUserForTeacherSaving
     public HttpEntity<?> uploadPhotoForUser(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
         ApiResponse apiResponse = userService.saving(request);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
@@ -571,9 +581,9 @@ public class UserController {
         Set<Show> shows = timeTable(cardSet);
 
         Calendar c = Calendar.getInstance();
-        c.set(2023,2,24);
+//        c.set(2023,2,24);
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-//        System.out.println(dayOfWeek+ " <--------------------------------------------------------------------------------- week day ");
+        System.out.println(dayOfWeek+ " <--------------------------------------------------------------------------------- week day ");
 
         Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber().equals(dayOfWeek-1)).collect(Collectors.toSet());
 
@@ -668,6 +678,15 @@ public class UserController {
         });
 
         return ResponseEntity.ok(new ApiResponseTwoObj(true,"time table room",showSet,lists));
+    }
+
+    @GetMapping("/getTimeTableByWeekOfYear")
+    public HttpEntity<?> getTimeTableByWeekOfYear(){
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+//        calendar.set(year, month, day);
+        int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+        return ResponseEntity.ok(new ApiResponse(true,"week of year",weekOfYear));
     }
 
 
@@ -783,7 +802,7 @@ public class UserController {
                                             show.setDayNumber(5);
                                         if (daysDef.getDays().get(0).equals("000001"))
                                             show.setDayNumber(6);
-                                        show.setDaysName(daysDef.getName());
+                                        show.setDaysName(daysDef.getShortName());
                                         break;
                                     }
                                 }
@@ -855,6 +874,11 @@ public class UserController {
     @DeleteMapping("/deleteUser/{id}")
     public HttpEntity<?> deleteUser(@PathVariable String id){
         return ResponseEntity.status(204).body(userService.deleteById(id));
+    }
+
+    @PostMapping("/deleteUsers")
+    public HttpEntity<?> deleteUser(@RequestBody RemoveUsers users){
+        return ResponseEntity.status(204).body(userService.deleteUsers(users.getIds()));
     }
 
     @PostMapping("/generateTeacherByRfid")

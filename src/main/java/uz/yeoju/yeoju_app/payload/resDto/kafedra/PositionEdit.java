@@ -8,11 +8,12 @@ import java.util.List;
 public interface PositionEdit {
 
     String getId();
+    String getTeacherId();
 
-    @Value("#{@positionRepository.getUserPositionForEditUserPosition(target.id)}")
+    @Value("#{@positionRepository.getUserPositionForEditUserPosition(target.teacherId)}")
     UserForTeacherSaveItem getUserPosition();
 
-    @Value("#{@positionRepository.getPositionsForTeacherSaving()}")
+    @Value("#{@positionRepository.getPositionsForTeacherSaving2(target.id)}")
     List<UserForTeacherSaveItem> getPositions();
 
     @Value("#{@lessonRepository.getLessonNames()}")

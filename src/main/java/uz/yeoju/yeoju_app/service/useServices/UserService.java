@@ -21,6 +21,7 @@ import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Teacher;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable;
+import uz.yeoju.yeoju_app.payload.permissionDto.UserDto2;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.Table;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherData;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.KafedraTeachers28;
@@ -845,7 +846,7 @@ public class UserService implements UserImplService<UserDto> {
 
                 System.out.println(user);
 
-//                userRepository.save(user);
+//                userRepository.saveOrUpdate(user);
 
                 /**
                  *  full name
@@ -963,7 +964,7 @@ public class UserService implements UserImplService<UserDto> {
                     userByRFID.setFullName(dto.getFullName());
                     userByRFID.setLogin(dto.getLogin());
                     userByRFID.setPassportNum(dto.getPassport());
-                    userByRFID.setPassword(passwordEncoder.encode(dto.getPassword()));
+                    userByRFID.setPassword(passwordEncoder.encode(dto.getPassport()));
                     userByRFID.setEnabled(true);
                     userByRFID.setAccountNonExpired(true);
                     userByRFID.setAccountNonLocked(true);
@@ -1042,6 +1043,13 @@ public class UserService implements UserImplService<UserDto> {
     }
 
 
+    public ApiResponse getUserForRoomStatisticsByWeek(String userId,Integer week,Integer year) {
+        Calendar c = Calendar.getInstance();
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        System.out.println(dayOfWeek+ " <--------------------------------------------------------------------------------- ");
+        return new ApiResponse(true,"week statistics", userRepository.getUserForWeekStatisticsByWeek(userId,week,year));
+    }
+
     public ApiResponse getUserForRoomStatisticsByPassport(String passport) {
         Calendar c = Calendar.getInstance();
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
@@ -1049,4 +1057,28 @@ public class UserService implements UserImplService<UserDto> {
         return new ApiResponse(true,"week statistics", userRepository.getUserForWeekStatisticsByPassport(passport));
     }
 
+    public UserDto2 getUserFields(String id) {
+        Optional<User> optional = userRepository.findById(id);
+        return optional
+                .map(this::generateUserDto2)
+                .orElseGet(UserDto2::new);
+    }
+
+    public UserDto2 generateUserDto2(User user) {
+        return new UserDto2(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getMiddleName(),
+//                user.getLogin(),
+//                user.getPassword(),
+                user.getEmail(),
+                user.getRoles().stream().map(roleService::generateRoleDto).collect(Collectors.toSet())
+        );
+    }
+
+    public ApiResponse deleteUsers(List<String> ids) {
+        ids.forEach(userRepository::deleteById);
+        return new ApiResponse(true,"deleted users");
+    }
 }

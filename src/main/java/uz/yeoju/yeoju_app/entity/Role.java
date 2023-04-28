@@ -3,8 +3,6 @@ package uz.yeoju.yeoju_app.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
@@ -21,11 +19,16 @@ public class Role extends AbsEntity implements GrantedAuthority {
     @Column
     private String roleName;
 
+    private Integer degree;
+
     @Override
     public String getAuthority() {
         return roleName;
     }
 
+    public Role(String roleName) {
+        this.roleName = roleName;
+    }
 
     public Role(String id, String roleName) {
         super(id);

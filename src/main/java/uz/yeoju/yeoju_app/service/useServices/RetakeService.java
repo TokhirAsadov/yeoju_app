@@ -68,7 +68,7 @@ public class RetakeService implements RetakeImplService<RetakeDto> {
     @Override
     public ApiResponse saveOrUpdate(RetakeDto dto) {
 
-        if (dto.getId() == null){ //save
+        if (dto.getId() == null){ //saveOrUpdate
             UserDto userByLogin = userService.getUserByLogin(dto.getUserDto().getLogin());
             if (userByLogin!=null) {
                 ApiResponse lessonServiceById = lessonService.getById(dto.getLessonDto().getId());

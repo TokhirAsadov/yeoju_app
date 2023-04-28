@@ -40,7 +40,7 @@ public class CharImplService implements ChatService{
                     .build()
             );
 
-            return new ApiResponse(true,"save Chat");
+            return new ApiResponse(true,"saveOrUpdate Chat");
         }
         else {
             return new ApiResponse(false,"not fount user");

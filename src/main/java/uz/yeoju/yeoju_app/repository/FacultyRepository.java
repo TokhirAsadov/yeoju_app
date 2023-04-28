@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.Faculty;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.FacultiesResDto;
+import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.RolesAndPositionsForDekanatCRUD;
+import uz.yeoju.yeoju_app.payload.resDto.student.FacultyStatistic;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSaveItem;
 
 import java.util.List;
@@ -26,7 +28,8 @@ public interface FacultyRepository extends JpaRepository<Faculty, String> {
     List<UserForTeacherSaveItem> getFacultyForDekanatSaved();
 
 
-
+    @Query(value = "select 1 as id",nativeQuery = true)
+    RolesAndPositionsForDekanatCRUD getRolesAndPositionsForDekanatCRUD();
     @Query(value = "select f.id as value, f.shortName as label from Faculty f join Dekanat_Faculty DF on f.id = DF.faculties_id\n" +
             "    join Dekanat D on D.id = DF.Dekanat_id join Dekan D2 on D.id = D2.dekanat_id\n" +
             "   join EducationType et on D2.educationType_id = et.id where et.name=:educationName",nativeQuery = true)

@@ -85,7 +85,7 @@
 //
 //    //MULTIPART FILENI SAVE QILIB ATTACHMENT QAYTARDIM
 //    public Attachment attachmentToFile(MultipartFile file) {
-//        return attachmentRepository.save(Attachment.builder()
+//        return attachmentRepository.saveOrUpdate(Attachment.builder()
 //                .originalName(file.getOriginalFilename())
 //                .fileName(createFileUrl(Objects.requireNonNull(file.getOriginalFilename())))
 //                .size((int) file.getSize())

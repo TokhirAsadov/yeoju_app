@@ -93,7 +93,7 @@ public class PassportCopyService implements PassportCopyImplService<PassportCopy
         else {
             return new ApiResponse(
                     false,
-                    "error! did not save passport copy! You have an active passport copy...!"
+                    "error! did not saveOrUpdate passport copy! You have an active passport copy...!"
             );
         }
     }

@@ -14,6 +14,9 @@ import javax.persistence.Entity;
 public class Building extends AbsEntity {
     private String name;
 
+    private Integer minFloor;
+    private Integer maxFloor;
+
     public Building(String id, String name) {
         super(id);
         this.name = name;

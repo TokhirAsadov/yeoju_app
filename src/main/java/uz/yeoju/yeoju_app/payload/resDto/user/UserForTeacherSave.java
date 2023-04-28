@@ -18,7 +18,7 @@ public interface UserForTeacherSave {
     @Value("#{@lessonRepository.getSubjectsForTeacherSaving()}")
     List<UserForTeacherSaveItem> getSubjects();
 
-    @Value("#{@positionRepository.getPositionsForTeacherSaving()}")
+    @Value("#{@positionRepository.getPositionsForTeacherSaving2(target.id)}")
     List<UserForTeacherSaveItem> getPositions();
 
     default WorkerStatus [] getWorkerStatus(){

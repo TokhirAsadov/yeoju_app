@@ -25,4 +25,5 @@ public class Show {
     private List<String> teacherName;
     private List<Teacher> teachers;
     private List<String> groups;
+    private String kafedraId;
 }

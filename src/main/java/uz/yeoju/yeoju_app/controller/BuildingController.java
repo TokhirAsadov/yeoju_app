@@ -15,6 +15,11 @@ public class BuildingController {
 
     public final BuildingService buildingService;
 
+    @GetMapping("/getBuildingsForSelect")
+    public HttpEntity<?> getBuildingsForSelect(){
+        return ResponseEntity.ok(buildingService.getBuildingsForSelect());
+    }
+
     @GetMapping("/buildings")
     public HttpEntity<?> allBuildings(){
         return ResponseEntity.ok(buildingService.findAll());

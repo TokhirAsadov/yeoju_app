@@ -10,15 +10,20 @@ import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentDataForEditedDekan;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.DekanatDataForDekan;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.FacultyOfDekanat;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.ForKafedraRoleSettings;
+import uz.yeoju.yeoju_app.payload.resDto.user.UserForDekanSave;
+import uz.yeoju.yeoju_app.payload.resDto.user.UserForSectionSave;
+import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSave;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSaveItem;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface DekanatRepository extends JpaRepository<Dekanat, String> {
 
     Boolean existsDekanatByName(String name);
 
+    Dekanat findDekanatByName(String name);
 
     @Query(value = "select d.id,d.name from Dekanat d join Dekan D2 on d.id = D2.dekanat_id where D2.user_id=:id",nativeQuery = true)
     DekanatDataForDekan getDekanatDataForDekan(@Param("id") String id);
@@ -57,4 +62,12 @@ public interface DekanatRepository extends JpaRepository<Dekanat, String> {
 
     @Query(value = "select f.id,f.name,f.shortName from Faculty f join Dekanat_Faculty DF on f.id = DF.faculties_id where DF.Dekanat_id=:dekanatId",nativeQuery = true)
     List<FacultyOfDekanat> getFacultiesOfDekanatByDekanatId(@Param("dekanatId") String dekanatId);
+
+
+    @Query(value = "select id from users where id=:id",nativeQuery = true)
+    UserForDekanSave getUserForDekanSave(@Param("id") String id);
+
+    @Query(value = "select id from users where id=:id",nativeQuery = true)
+    UserForSectionSave getUserForSectionSave(@Param("id") String id);
+
 }

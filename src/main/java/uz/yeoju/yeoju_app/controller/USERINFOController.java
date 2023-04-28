@@ -57,7 +57,7 @@ public class USERINFOController {
 //            user.setFullName(userinfo.getName()+" "+userinfo.getLastname());
 //            user.setRFID(userinfo.getCardNo());
 //
-//            userRepository.save(user);
+//            userRepository.saveOrUpdate(user);
 //            System.out.println("OK");
 //        }
 //        return ResponseEntity.ok("ok");

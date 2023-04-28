@@ -2,16 +2,22 @@ package uz.yeoju.yeoju_app.service.useServices;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.yeoju.yeoju_app.entity.Position;
+import uz.yeoju.yeoju_app.entity.Role;
 import uz.yeoju.yeoju_app.entity.Section;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.kafedra.Kafedra;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.SectionDto;
+import uz.yeoju.yeoju_app.payload.SectionDtoV2;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.ComeStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.NoComeStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra28;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra29;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra30;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra31;
+import uz.yeoju.yeoju_app.repository.PositionRepository;
+import uz.yeoju.yeoju_app.repository.RoleRepository;
 import uz.yeoju.yeoju_app.repository.SectionRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.FacultyImplService;
 
@@ -22,10 +28,41 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SectionService implements FacultyImplService<SectionDto> {
     public final SectionRepository sectionRepository;
+    public final RoleRepository roleRepository;
+    public final PositionRepository positionRepository;
+
+    public ApiResponse getSectionById(String id){
+        Optional<Section> sectionOptional = sectionRepository.findById(id);
+        if (sectionOptional.isPresent()){
+            Section section = sectionOptional.get();
+            System.out.println(section+" 45465v ---");
+//            Set<String> roleSet = new HashSet<>();
+//            Set<String> positionSet = new HashSet<>();
+//            section.getRoles().stream().map(role -> roleSet.add(role.getRoleName()));
+//            section.getPositions().stream().map(position -> positionSet.add(position.getUserPositionName()));
+            return new ApiResponse(
+                    true,
+                    "by id",
+                    new SectionDtoV2(
+                            section.getId(),
+                            section.getName(),
+                            section.getRoles().stream().map(Role::getRoleName).collect(Collectors.toSet()),
+                            section.getPositions().stream().map(Position::getUserPositionName).collect(Collectors.toSet())
+                    )
+            );
+        }
+        else {
+            return new ApiResponse(false,"not fount section");
+        }
+    }
 
 
     public ApiResponse getSectionDatas(String userId){
         return new ApiResponse(true,"all section data",sectionRepository.getSectionDatas(userId));
+    }
+
+    public ApiResponse getSectionDatasByUserId(String userId){
+        return new ApiResponse(true,"all section data",sectionRepository.getSectionDatasByUserId(userId));
     }
 
     @Override
@@ -135,8 +172,8 @@ public class SectionService implements FacultyImplService<SectionDto> {
         }
     }
 
-    public ApiResponse getStaffComeCountTodayStatistics(String id) {
-        return new ApiResponse(true,"statistics",sectionRepository.getStaffComeCountTodayStatistics(id));
+    public ApiResponse getStaffComeCountTodayStatistics(String id,Boolean s) {
+        return new ApiResponse(true,"statistics",s ? sectionRepository.getStaffComeCountTodayStatistics(id) : sectionRepository.getStaffComeCountTodayStatistics());
     }
 
     public ApiResponse getStatisticsForSectionDashboard(Integer index, String sectionId) {
@@ -219,5 +256,118 @@ public class SectionService implements FacultyImplService<SectionDto> {
         }else {
             return new ApiResponse(true,"<??? 28",sectionRepository.getDateForRektor28(date,sectionId));
         }
+    }
+
+    public ApiResponse saveOrUpdate(SectionDtoV2 dto) {
+        if (dto.getId() == null){
+            return save(dto);
+        }
+        else {
+            return update(dto);
+        }
+
+    }
+
+    private ApiResponse update(SectionDtoV2 dto) {
+        Optional<Section> optional = sectionRepository.findById(dto.getId());
+        if (optional.isPresent()){
+
+            Section section = optional.get();
+            Section kafedraByName = sectionRepository.getSectionByName(dto.getName());
+            if (kafedraByName !=null) {
+                if ( Objects.equals(kafedraByName.getId(), section.getId())   ) {
+
+                    System.out.println(section+" ---------------------------- section -----------------------------");
+                    section.setName(dto.getName());
+
+                    Set<Role> roleSet = new HashSet<>();
+                    Set<Position> positionSet = new HashSet<>();
+                    dto.getRoles().forEach(role -> {
+                        if(roleRepository.findRoleByRoleName(role).isPresent()) roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                    });
+                    dto.getPositions().forEach(position -> {
+                        if(positionRepository.findRoleByUserPositionName(position).isPresent()) positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                    });
+
+                    section.setRoles(roleSet);
+                    section.setPositions(positionSet);
+
+                    sectionRepository.save(section);
+                    return new ApiResponse(true, section.getName()+" section updated successfully!..");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! not saved section! Please, enter other section name!.."
+                    );
+                }
+            }
+            else {
+                if (!sectionRepository.existsSectionByName(dto.getName())){
+                    section.setName(dto.getName());
+
+                    Set<Role> roleSet = new HashSet<>();
+                    Set<Position> positionSet = new HashSet<>();
+                    dto.getRoles().forEach(role -> {
+                        if(roleRepository.findRoleByRoleName(role).isPresent()) roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                    });
+                    dto.getPositions().forEach(position -> {
+                        if(positionRepository.findRoleByUserPositionName(position).isPresent()) positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                    });
+
+                    section.setRoles(roleSet);
+                    section.setPositions(positionSet);
+
+                    sectionRepository.save(section);
+                    return new ApiResponse(true,section.getName()+" section updated successfully!..");
+                }
+                else {
+                    return new ApiResponse(
+                            false,
+                            "error! not saved section! Please, enter other section!.."
+                    );
+                }
+            }
+        }
+        else{
+            return new ApiResponse(
+                    false,
+                    "error... not fount section"
+            );
+        }
+    }
+
+    private ApiResponse save(SectionDtoV2 dto) {
+        if (!sectionRepository.existsSectionByName(dto.getName())){
+            Section section = generateSection(dto);
+            sectionRepository.saveAndFlush(section);
+            return new ApiResponse(true,"new section saved successfully!...");
+        }
+        else {
+            return new ApiResponse(
+                    false,
+                    "error! not saved Kafedra! Please, enter other Kafedra!"
+            );
+        }
+    }
+
+    private Section generateSection(SectionDtoV2 dto) {
+
+        Set<Role> roles = new HashSet<>();
+        Set<Position> positions = new HashSet<>();
+        dto.getRoles().forEach(role -> {
+            Optional<Role> roleOptional = roleRepository.findRoleByRoleName(role);
+            roleOptional.ifPresent(roles::add);
+        });
+        dto.getPositions().forEach(position -> {
+            Optional<Position> positionOptional = positionRepository.findRoleByUserPositionName(position);
+            positionOptional.ifPresent(positions::add);
+        });
+
+        return new Section(
+                dto.getId(),
+                dto.getName(),
+                roles,
+                positions
+        );
     }
 }

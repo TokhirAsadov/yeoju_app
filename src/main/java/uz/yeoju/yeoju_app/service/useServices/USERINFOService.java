@@ -270,7 +270,7 @@ USERINFOService implements USERINFOImplService<USERINFO> {
                     else {
                         user.setRoles(new HashSet<>(new SingletonList(roleRepository.findRoleByRoleName("ROLE_USER").get())));
                     }
-                    userRepository.save(user);*/
+                    userRepository.saveOrUpdate(user);*/
                 }
                 else {
                     byCardNo.setBadgenumber((long) row.getCell(3).getNumericCellValue());
@@ -367,7 +367,7 @@ USERINFOService implements USERINFOImplService<USERINFO> {
                     userinfo.setLastname(row.getCell(0).getStringCellValue());
                     userinfo.setCardNo(row.getCell(5).getStringCellValue());
                     System.out.println(userinfo.toString());
-                    userInfoRepo.save(userinfo);
+                    userInfoRepo.saveOrUpdate(userinfo);
 
                     User user = new User();
                     user.setFullName(row.getCell(0).getStringCellValue()+" "+row.getCell(1).getStringCellValue()+" "+row.getCell(2).getStringCellValue());
@@ -387,7 +387,7 @@ USERINFOService implements USERINFOImplService<USERINFO> {
                     else {
                         user.setRoles(new HashSet<>(new SingletonList(roleRepository.findRoleByRoleName("ROLE_USER").get())));
                     }
-                    userRepository.save(user);
+                    userRepository.saveOrUpdate(user);
                 }
                 else {
 
@@ -411,7 +411,7 @@ USERINFOService implements USERINFOImplService<USERINFO> {
                         else {
                             user.setRoles(new HashSet<>(new SingletonList(roleRepository.findRoleByRoleName("ROLE_USER").get())));
                         }
-                        userRepository.save(user);
+                        userRepository.saveOrUpdate(user);
                     }
                     else {
                         userByRFID.setFullName(row.getCell(0).getStringCellValue()+" "+row.getCell(1).getStringCellValue()+" "+row.getCell(2).getStringCellValue());
@@ -431,7 +431,7 @@ USERINFOService implements USERINFOImplService<USERINFO> {
                         else {
                             userByRFID.setRoles(new HashSet<>(new SingletonList(roleRepository.findRoleByRoleName("ROLE_USER").get())));
                         }
-                        userRepository.save(userByRFID);
+                        userRepository.saveOrUpdate(userByRFID);
 //                        return new ApiResponse(false, row.getCell(5).getStringCellValue() + " <- bunday card_no (rfid) li user mavjud. Boshqa card_no kiriting");
                     }
                 }
@@ -476,7 +476,7 @@ USERINFOService implements USERINFOImplService<USERINFO> {
             userinfo.setLastname(dto.getLastname());
             userinfo.setCardNo(dto.getCardNo());
             System.out.println(userinfo.toString());
-            userInfoRepo.save(userinfo);
+            userInfoRepo.saveOrUpdate(userinfo);
 
             User user = new User();
             user.setFullName(dto.getName()+" "+dto.getLastname());
@@ -498,7 +498,7 @@ USERINFOService implements USERINFOImplService<USERINFO> {
             }
 
 
-            userRepository.save(user);
+            userRepository.saveOrUpdate(user);
 
             return new ApiResponse(true,"saved user successfully.");
 

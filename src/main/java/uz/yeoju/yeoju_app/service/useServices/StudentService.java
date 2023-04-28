@@ -15,6 +15,7 @@ import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.entity.enums.Gandername;
 import uz.yeoju.yeoju_app.entity.enums.TeachStatus;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.GroupDto;
 import uz.yeoju.yeoju_app.payload.StudentDto;
 import uz.yeoju.yeoju_app.payload.payres.FacultyStatisticDto;
@@ -449,43 +450,50 @@ public class StudentService implements StudentImplService<StudentDto> {
         long start = System.currentTimeMillis();
         System.out.println(level);
         System.out.println("Kirdi methodga");
-        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(level, weekOrMonth);
+//        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(level, weekOrMonth);
+        List<FacultyStatisticsWithWeekOrMonth> list2 = studentRepository.getSchoolStatisticsByWeekOrMonth(level, weekOrMonth);
 
-        System.out.println("DB dan keldi: " + (System.currentTimeMillis() - start));
+//        System.out.println("DB dan keldi: " + (System.currentTimeMillis() - start));
+//
+//        start=System.currentTimeMillis();
+//        List<FacultyStatisticDto> dtos = new ArrayList<>();
+//        for (FacultyStatistic item : list) {
+//            FacultyStatisticDto dto = new FacultyStatisticDto(item.getName(), item.getComeCount(), (item.getAllCount() - item.getComeCount()));
+//            dtos.add(dto);
+//        }
+//
+//        System.out.println("Method tugadi");
+//        System.out.println(System.currentTimeMillis() - start);
 
-        start=System.currentTimeMillis();
-        List<FacultyStatisticDto> dtos = new ArrayList<>();
-        for (FacultyStatistic item : list) {
-            FacultyStatisticDto dto = new FacultyStatisticDto(item.getName(), item.getComeCount(), (item.getAllCount() - item.getComeCount()));
-            dtos.add(dto);
-        }
+        System.out.println("database dan keldi --------------------------------------------------------------------------");
+        System.out.println(list2);
 
-        System.out.println("Method tugadi");
-        System.out.println(System.currentTimeMillis() - start);
-
-        return new ApiResponse(true, "send", dtos);
+        return new ApiResponse(true, "send",list2);
     }
-    public ApiResponse getFacultyAndComingCountWithAllByGroupLevel(Integer level, LocalDateTime startTime, LocalDateTime endTime) {
+    public ApiResponse getFacultyAndComingCountWithAllByGroupLevel(Integer level,String eduType, LocalDateTime startTime, LocalDateTime endTime) {
         long start = System.currentTimeMillis();
         System.out.println(startTime);
         System.out.println(endTime);
         System.out.println(level);
         System.out.println("Kirdi methodga");
-        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAllByGroupLevel(level, startTime, endTime);
+//        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAllByGroupLevel(level, startTime, endTime);
+        List<FacultyStatisticsWithSchoolCode> list2 = studentRepository.getSchoolStatistics(level,eduType, startTime, endTime);
 
-        System.out.println("DB dan keldi: " + (System.currentTimeMillis() - start));
 
-        start=System.currentTimeMillis();
-        List<FacultyStatisticDto> dtos = new ArrayList<>();
-        for (FacultyStatistic item : list) {
-            FacultyStatisticDto dto = new FacultyStatisticDto(item.getName(), item.getComeCount(), (item.getAllCount() - item.getComeCount()));
-            dtos.add(dto);
-        }
+//        System.out.println("DB dan keldi: " + (System.currentTimeMillis() - start));
+//
+//        start=System.currentTimeMillis();
+//        List<FacultyStatisticDto> dtos = new ArrayList<>();
+//        for (FacultyStatistic item : list) {
+//            FacultyStatisticDto dto = new FacultyStatisticDto(item.getName(), item.getComeCount(), (item.getAllCount() - item.getComeCount()));
+//            dtos.add(dto);
+//        }
+//
+//        System.out.println("Method tugadi");
+//        System.out.println(System.currentTimeMillis() - start);
 
-        System.out.println("Method tugadi");
-        System.out.println(System.currentTimeMillis() - start);
-
-        return new ApiResponse(true, "send", dtos);
+        System.out.println("-----------------------------------------------------------------------------------------------------------------");
+        return new ApiResponse(true, "send", list2);
     }
 
     public ApiResponse getFacultyAndComingCountWithAll(LocalDateTime startTime, LocalDateTime endTime) {
@@ -594,7 +602,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! did not save user!"
+                            "error! did not saveOrUpdate user!"
                     );
                 }
             } else {
@@ -609,7 +617,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                 } else {
                     return new ApiResponse(
                             false,
-                            "error! did not save user!"
+                            "error! did not saveOrUpdate user!"
                     );
                 }
             }
@@ -637,7 +645,7 @@ public class StudentService implements StudentImplService<StudentDto> {
         } else {
             return new ApiResponse(
                     false,
-                    "error! did not save user!"
+                    "error! did not saveOrUpdate user!"
             );
         }
     }

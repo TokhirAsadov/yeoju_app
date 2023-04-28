@@ -35,7 +35,7 @@ public interface RektorDashboard {
     List<TeacherStatusAndPosition> getCountTeachersStatus();
 
     @Value("#{@teacherRepository.getCountTeachersPosition()}")
-    List<TeacherStatusAndPosition> getCountTeachersPositions();
+    List<TeacherStatusAndPosition2> getCountTeachersPositions();
 
     @Value("#{@studentRepository.getCountStudentLang()}")
     List<StudentEduLangFormType> getCountStudentLang();

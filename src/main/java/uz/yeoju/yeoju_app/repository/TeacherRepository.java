@@ -7,6 +7,8 @@ import uz.yeoju.yeoju_app.entity.Teacher;
 import uz.yeoju.yeoju_app.payload.resDto.TeacherCountComeAndAll;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.*;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.dashboard.TeacherStatusAndPosition;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.dashboard.TeacherStatusAndPosition2;
+import uz.yeoju.yeoju_app.payload.resDto.user.timeTableStatistics.UserCheckRoomStatistics;
 
 import java.util.Date;
 import java.util.List;
@@ -173,15 +175,21 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
             "group by workerStatus",nativeQuery = true)
     List<TeacherStatusAndPosition> getCountWorkerStatus();
 
-    @Query(value = "select count(u.id) as count, P.userPositionName as name from Teacher t\n" +
-            "join users u on t.user_id = u.id\n" +
-            "join users_Position uP on u.id = uP.users_id\n" +
-            "join Position P on uP.positions_id = P.id\n" +
-            "group by P.userPositionName",nativeQuery = true)
-    List<TeacherStatusAndPosition> getCountTeachersPosition();
+    @Query(value = "select P.id, count(u.id) as count, P.userPositionName as name from Teacher t\n" +
+            " join users u on t.user_id = u.id join users_Position uP on u.id = uP.users_id join Position P on uP.positions_id = P.id\n" +
+            "where P.degree between 1042 and 1046 group by P.userPositionName,P.degree,P.id order by P.degree",nativeQuery = true)
+    List<TeacherStatusAndPosition2> getCountTeachersPosition();
+
+
+    @Query(value = "select count(t.id) as count,workerStatus as name from Teacher t join users u on t.user_id = u.id join users_Position uP on u.id = uP.users_id\n" +
+            "where uP.positions_id=:id group by workerStatus",nativeQuery = true)
+    List<TeacherStatusAndPosition> getCountTeachersPositionWithWorkerStatus(@Param("id") Long id);
 
     @Query(value = "select Top 1 workerStatus from Teacher where user_id=:id",nativeQuery = true)
     String getWorkerStatus(@Param("id") String id);
+
+    @Query(value = "select count(f.count) as count2 from (select count(al.card_no) as count from acc_monitor_log al join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS join users_Position uP on u.id = uP.users_id join Position P on uP.positions_id = P.id where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and P.userPositionName = :position group by al.card_no, P.userPositionName) as f",nativeQuery = true)
+    Integer getComeCountTeachersPositionByPositionName(@Param("position") String position);
 
 
 //todo---------  -- 1 uqituvchilarning kirgan xonalarini olish --

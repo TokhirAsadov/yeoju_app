@@ -52,10 +52,10 @@ public class RoomService implements RoomImplService<RoomDto> {
     @Override
     public ApiResponse saveOrUpdate(RoomDto dto) {
 
-        if (dto.getId() == null){ //save
+        if (dto.getId() == null){ //saveOrUpdate
             if (!roomRepository.existsRoomByName(dto.getName())){
                 roomRepository.save(generateRoom(dto));
-                return new ApiResponse(true,"save room successfully!..");
+                return new ApiResponse(true,"saveOrUpdate room successfully!..");
             }
             return new ApiResponse(false,"error, sorry already exist name of room");
         }

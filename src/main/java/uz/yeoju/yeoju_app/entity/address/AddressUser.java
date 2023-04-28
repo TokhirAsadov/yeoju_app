@@ -24,6 +24,7 @@ public class AddressUser extends AbsEntity {
     private Villages village;
 
     private Boolean isConstant=false;
+    private Boolean fromUzbekistan=true;
 
 
     // Uzbekiston dan boshqa davlatdan bulsa country, region, area, address kiritadi

@@ -19,6 +19,11 @@ import java.util.Set;
 @Entity(name = "users")
 public class User extends AbsEntity implements UserDetails {
 
+
+    private String lastName;
+    private String firstName;
+    private String middleName;
+
     private String userId;
     private String fullName;
 

@@ -107,7 +107,7 @@ public class StudentController {
     ){
         return ResponseEntity.ok(studentService.getFacultyAndComingCountWithAll(startTime,endTime));
     }
-    @GetMapping("/getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth") //todo----------------------------------
+    @GetMapping("/getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth") //todo----------------------------------getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth
     public HttpEntity<?> getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(
             @RequestParam("level") Integer level,
             @RequestParam("weekOrMonth") Integer weekOrMonth
@@ -117,10 +117,11 @@ public class StudentController {
     @PostMapping("/getFacultyAndComingCountWithAllByGroupLevel") //todo-----------------------------------------------
     public HttpEntity<?> getFacultyAndComingCountWithAllByGroupLevel(
             @RequestParam("level") String level,
+            @RequestParam("eduType") String eduType,
             @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
             @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime
     ){
-        return ResponseEntity.ok(studentService.getFacultyAndComingCountWithAllByGroupLevel(Integer.parseInt(level),startTime,endTime));
+        return ResponseEntity.ok(studentService.getFacultyAndComingCountWithAllByGroupLevel(Integer.parseInt(level),eduType,startTime,endTime));
     }
 
 

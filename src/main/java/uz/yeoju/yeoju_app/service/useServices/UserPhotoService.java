@@ -97,7 +97,7 @@ public class UserPhotoService implements UserPhotoImplService<UserPhotoDto> {
         else {
             return new ApiResponse(
                     false,
-                    "error! did not save user photo! You have an active user photo...!"
+                    "error! did not saveOrUpdate user photo! You have an active user photo...!"
             );
         }
     }
@@ -115,7 +115,7 @@ public class UserPhotoService implements UserPhotoImplService<UserPhotoDto> {
         else {
             return new ApiResponse(
                     false,
-                    "error! did not save user photo! You have an active user photo...!"
+                    "error! did not saveOrUpdate user photo! You have an active user photo...!"
             );
         }
     }

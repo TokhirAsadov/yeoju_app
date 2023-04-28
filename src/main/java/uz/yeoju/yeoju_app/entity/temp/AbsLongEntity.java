@@ -31,10 +31,10 @@ public abstract class AbsLongEntity {
     private Timestamp updatedAt;
 
     @CreatedBy
-    private UUID createdBy;
+    private String createdBy;
 
     @LastModifiedBy
-    private UUID updatedBy;
+    private String updatedBy;
 
     public AbsLongEntity(Long id) {
         this.id = id;

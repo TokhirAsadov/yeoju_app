@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Deprecated
 public class KafedraDto {
     private String id;
     private String nameUz;

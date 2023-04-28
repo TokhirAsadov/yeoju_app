@@ -93,7 +93,7 @@ public class ObyektivkaService implements ObyektivkaImplService<ObyektivkaDto> {
         else {
             return new ApiResponse(
                     false,
-                    "error! did not save personal sheet! You have an active personal sheet...!"
+                    "error! did not saveOrUpdate personal sheet! You have an active personal sheet...!"
             );
         }
     }

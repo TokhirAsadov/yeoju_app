@@ -4,6 +4,7 @@ import org.apache.tomcat.jni.Time;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentData;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherData;
@@ -152,6 +153,10 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query(value = "select :id as id",nativeQuery = true)
     DataForStaffSaving getDataForStaffSaving(@Param("id") String id);
+
+
+    @Query(value = "select u.id,u.fullName,u.RFID,u.passportNum as passport,:year as year,:week as week,:weekday as weekday from users u join Teacher T on u.id = T.user_id where T.kafedra_id=:kafedraId",nativeQuery = true)
+    List<UserForRoomStatistics2> getTeachersStatisticsForKafedraDashboardWithYearMonthDay(@Param("kafedraId") String kafedraId, @Param("year") Integer year, @Param("week") Integer week,@Param("weekday")Integer weekday);
 
 
     @Query(value = "select f2.user_id as id,f2.fullName,f2.email,f2.RFID,f2.login,f2.passportNum as passport from (\n" +
@@ -535,6 +540,8 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "select id,fullName from users where id=:id",nativeQuery = true)
     UserForRoomStatistics getUserForRoomStatistics(@Param("id") String id);
 
+    @Query(value = "select id,fullName,:week as week,:year as year from users where id=:id",nativeQuery = true)
+    WeekStatisticsByWeek getUserForWeekStatisticsByWeek(@Param("id") String id,@Param("week") Integer week,@Param("year") Integer year);
 
     @Query(value = "select id,fullName from users where id=:id",nativeQuery = true)
     WeekStatistics getUserForWeekStatistics(@Param("id") String id);
@@ -549,6 +556,28 @@ public interface UserRepository extends JpaRepository<User, String> {
             "where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and u.id=:userId\n" +
             "group by u.id, ad.door_name",nativeQuery = true)
     List<RoomsForStatistics> getRoomsForStatistics(@Param("userId") String userId);
+
+
+
+    @Query(value = "select  :userId as id, ad.door_name as room,:year as year ,:week as week,:weekday as weekday\n" +
+            "from acc_monitor_log al\n" +
+            "         join acc_door ad on ad.device_id=al.device_id\n" +
+            "         join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where al.time between\n" +
+            "    DATEADD(\n" +
+            "            DAY,\n" +
+            "            + (:weekday-1),\n" +
+            "            DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week- 1,CAST('1/1/' + cast(:year as varchar) AS Date)))\n" +
+            "        ) and\n" +
+            "    DATEADD(\n" +
+            "            DAY,\n" +
+            "            + (:weekday),\n" +
+            "            DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week- 1,CAST('1/1/' + cast(:year as varchar) AS Date)))\n" +
+            "        )\n" +
+            "    and u.id=:userId\n" +
+            "group by u.id, ad.door_name",nativeQuery = true)
+    List<RoomsForStatistics2> getRoomsForStatistics(@Param("userId") String userId,@Param("year") Integer year, @Param("week") Integer week,@Param("weekday")Integer weekday);
+
 
     @Query(value = "select  :userId as id, ad.door_name as room, :weekday as weekday\n" +
             "from acc_monitor_log al\n" +
@@ -571,6 +600,26 @@ public interface UserRepository extends JpaRepository<User, String> {
             "group by u.id, ad.door_name",nativeQuery = true)
     List<RoomsForWeekStatistics> getRoomsForStatistics(@Param("userId") String userId,@Param("weekday") Integer weekday);
     //    todo----------------------------------------------------------------------------------------------------------------------------------------
+
+
+    @Query(value = "select  :userId as id, ad.door_name as room,:week as week,:year as year, :weekday as weekday\n" +
+            "from acc_monitor_log al\n" +
+            "         join acc_door ad on ad.device_id=al.device_id\n" +
+            "         join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where al.time between\n" +
+            "    DATEADD(\n" +
+            "            DAY,\n" +
+            "            + (:weekday-1),\n" +
+            "            DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week- 1,CAST('1/1/' + cast(:year as varchar) AS Date)))\n" +
+            "        ) and\n" +
+            "    DATEADD(\n" +
+            "            DAY,\n" +
+            "            + (:weekday),\n" +
+            "            DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week- 1,CAST('1/1/' + cast(:year as varchar) AS Date)))\n" +
+            "        )\n" +
+            "  and u.id=:userId\n" +
+            "group by u.id, ad.door_name",nativeQuery = true)
+    List<RoomsForWeekStatisticsByWeek> getRoomsForStatisticsByWeek(@Param("userId") String userId,@Param("week") Integer week,@Param("year") Integer year,@Param("weekday") Integer weekday);
 
 
     @Query(value = "select al.time,\n" +
@@ -602,7 +651,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                    DATEPART(MONTH, getdate()),\n" +
             "                    DATEPART(DAY, getdate()),\n" +
             "                    9,\n" +
-            "                    52,\n" +
+            "                    50,\n" +
             "                    00,\n" +
             "                    0\n" +
             "                )  THEN 1\n" +
@@ -624,7 +673,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                    DATEPART(MONTH, getdate()),\n" +
             "                    DATEPART(DAY, getdate()),\n" +
             "                    10,\n" +
-            "                    52,\n" +
+            "                    50,\n" +
             "                    00,\n" +
             "                    0\n" +
             "                )  THEN 2\n" +
@@ -646,7 +695,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                    DATEPART(MONTH, getdate()),\n" +
             "                    DATEPART(DAY, getdate()),\n" +
             "                    11,\n" +
-            "                    52,\n" +
+            "                    50,\n" +
             "                    00,\n" +
             "                    0\n" +
             "                )  THEN 3\n" +
@@ -667,7 +716,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                    DATEPART(MONTH, getdate()),\n" +
             "                    DATEPART(DAY, getdate()),\n" +
             "                    12,\n" +
-            "                    52,\n" +
+            "                    50,\n" +
             "                    00,\n" +
             "                    0\n" +
             "                )  THEN 4\n" +
@@ -688,7 +737,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                    DATEPART(MONTH, getdate()),\n" +
             "                    DATEPART(DAY, getdate()),\n" +
             "                    13,\n" +
-            "                    52,\n" +
+            "                    50,\n" +
             "                    00,\n" +
             "                    0\n" +
             "                )  THEN 5\n" +
@@ -709,7 +758,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                    DATEPART(MONTH, getdate()),\n" +
             "                    DATEPART(DAY, getdate()),\n" +
             "                    14,\n" +
-            "                    52,\n" +
+            "                    50,\n" +
             "                    00,\n" +
             "                    0\n" +
             "                )  THEN 6\n" +
@@ -730,7 +779,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                    DATEPART(MONTH, getdate()),\n" +
             "                    DATEPART(DAY, getdate()),\n" +
             "                    15,\n" +
-            "                    52,\n" +
+            "                    50,\n" +
             "                    00,\n" +
             "                    0\n" +
             "                )  THEN 7\n" +
@@ -750,7 +799,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                    DATEPART(MONTH, getdate()),\n" +
             "                    DATEPART(DAY, getdate()),\n" +
             "                    16,\n" +
-            "                    52,\n" +
+            "                    50,\n" +
             "                    00,\n" +
             "                    0\n" +
             "                )  THEN 8\n" +
@@ -771,7 +820,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                    DATEPART(MONTH, getdate()),\n" +
             "                    DATEPART(DAY, getdate()),\n" +
             "                    17,\n" +
-            "                    52,\n" +
+            "                    50,\n" +
             "                    00,\n" +
             "                    0\n" +
             "                )  THEN 9\n" +
@@ -792,7 +841,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                    DATEPART(MONTH, getdate()),\n" +
             "                    DATEPART(DAY, getdate()),\n" +
             "                    18,\n" +
-            "                    52,\n" +
+            "                    50,\n" +
             "                    00,\n" +
             "                    0\n" +
             "                )  THEN 10\n" +
@@ -813,7 +862,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                    DATEPART(MONTH, getdate()),\n" +
             "                    DATEPART(DAY, getdate()),\n" +
             "                    19,\n" +
-            "                    52,\n" +
+            "                    50,\n" +
             "                    00,\n" +
             "                    0\n" +
             "                )  THEN 11\n" +
@@ -847,282 +896,6 @@ public interface UserRepository extends JpaRepository<User, String> {
             "     where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and ad.door_name=:room and u.id=:userId",nativeQuery = true)
     List<TimesForRoom> getTimesForRoomStatistics(@Param("userId") String userId, @Param("room") String room);
 
-
-//    @Query(value = "\n" +
-//            "select al.time,\n" +
-//            "        CASE\n" +
-//            "            WHEN\n" +
-//            "                al.time < DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    9,\n" +
-//            "                    00,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )  THEN 1\n" +
-//            "\n" +
-//            "            when\n" +
-//            "                al.time > DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    9,\n" +
-//            "                    00,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )\n" +
-//            "                and\n" +
-//            "                al.time < DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    9,\n" +
-//            "                    52,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )  THEN 1\n" +
-//            "\n" +
-//            "\n" +
-//            "            when\n" +
-//            "                al.time > DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    9,\n" +
-//            "                    50,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )\n" +
-//            "                and\n" +
-//            "                al.time < DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    10,\n" +
-//            "                    52,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )  THEN 2\n" +
-//            "\n" +
-//            "\n" +
-//            "            when\n" +
-//            "                al.time > DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    10,\n" +
-//            "                    50,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )\n" +
-//            "                and\n" +
-//            "                al.time < DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    11,\n" +
-//            "                    52,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )  THEN 3\n" +
-//            "\n" +
-//            "            when\n" +
-//            "                al.time > DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    11,\n" +
-//            "                    50,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )\n" +
-//            "                and\n" +
-//            "                al.time < DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    12,\n" +
-//            "                    52,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )  THEN 4\n" +
-//            "\n" +
-//            "            when\n" +
-//            "                al.time > DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    12,\n" +
-//            "                    50,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )\n" +
-//            "                and\n" +
-//            "                al.time < DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    13,\n" +
-//            "                    52,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )  THEN 5\n" +
-//            "\n" +
-//            "            when\n" +
-//            "                al.time > DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    13,\n" +
-//            "                    50,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )\n" +
-//            "                and\n" +
-//            "                al.time < DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    14,\n" +
-//            "                    52,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )  THEN 6\n" +
-//            "\n" +
-//            "            when\n" +
-//            "                al.time > DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    14,\n" +
-//            "                    50,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )\n" +
-//            "                and\n" +
-//            "                al.time < DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    15,\n" +
-//            "                    52,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )  THEN 7\n" +
-//            "            when\n" +
-//            "                al.time > DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    15,\n" +
-//            "                    50,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )\n" +
-//            "                and\n" +
-//            "                al.time < DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    16,\n" +
-//            "                    52,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )  THEN 8\n" +
-//            "\n" +
-//            "            when\n" +
-//            "                al.time > DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    16,\n" +
-//            "                    50,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )\n" +
-//            "                and\n" +
-//            "                al.time < DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    17,\n" +
-//            "                    52,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )  THEN 9\n" +
-//            "\n" +
-//            "            when\n" +
-//            "                al.time > DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    17,\n" +
-//            "                    50,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )\n" +
-//            "                and\n" +
-//            "                al.time < DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    18,\n" +
-//            "                    52,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )  THEN 10\n" +
-//            "\n" +
-//            "            when\n" +
-//            "                al.time > DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    18,\n" +
-//            "                    50,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )\n" +
-//            "                and\n" +
-//            "                al.time < DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    19,\n" +
-//            "                    52,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )  THEN 11\n" +
-//            "\n" +
-//            "            when\n" +
-//            "                al.time > DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    19,\n" +
-//            "                    50,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )\n" +
-//            "                and\n" +
-//            "                al.time < DATETIMEFROMPARTS(\n" +
-//            "                    DATEPART(YEAR, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(MONTH, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    DATEPART(DAY, DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0)),\n" +
-//            "                    21,\n" +
-//            "                    00,\n" +
-//            "                    00,\n" +
-//            "                    0\n" +
-//            "                )  THEN 12\n" +
-//            "\n" +
-//            "            ELSE 0\n" +
-//            "            END as section\n" +
-//            "\n" +
-//            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
-//            "      join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-//            "     where al.time between DATEADD(dd, DATEDIFF(dd, :weekday, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, :weekday-1, getdate()), 0) and ad.door_name=:room and u.id=:userId",nativeQuery = true)
-//    List<TimesForRoom> getTimesForRoomStatistics(@Param("userId") String userId, @Param("room") String room,@Param("weekday") Integer weekday);
-//    todo----------------------------------------------------------------------------------------------------------------------------------------
 
     @Query(value = "select al.time,\n" +
             "       CASE\n" +
@@ -1407,6 +1180,259 @@ public interface UserRepository extends JpaRepository<User, String> {
     List<TimesForRoom> getTimesForRoomStatistics(@Param("userId") String userId, @Param("room") String room,@Param("weekday") Integer weekday);
 
 
+    @Query(value = "select al.time,\n" +
+            "       CASE\n" +
+            "           WHEN\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               9,\n" +
+            "                               50,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 1\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           9,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               10,\n" +
+            "                               50,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 2\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           10,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               11,\n" +
+            "                               50,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 3\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           11,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               12,\n" +
+            "                               50,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 4\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           12,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               13,\n" +
+            "                               50,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 5\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           13,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               14,\n" +
+            "                               50,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 6\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           14,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                              DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date)))))," +
+            "                               15,\n" +
+            "                               50,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 7\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           15,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               16,\n" +
+            "                               50,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 8\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           16,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               17,\n" +
+            "                               50,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 9\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           17,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               18,\n" +
+            "                               50,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 10\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           18,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               19,\n" +
+            "                               50,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 11\n" +
+            "           when\n" +
+            "                       al.time > DATETIMEFROMPARTS(\n" +
+            "                           DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                           19,\n" +
+            "                           50,\n" +
+            "                           00,\n" +
+            "                           0\n" +
+            "                       )\n" +
+            "                   and\n" +
+            "                       al.time < DATETIMEFROMPARTS(\n" +
+            "                               DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                               21,\n" +
+            "                               00,\n" +
+            "                               00,\n" +
+            "                               0\n" +
+            "                           )  THEN 12\n" +
+            "           ELSE 0\n" +
+            "           END as section\n" +
+            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+            "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where al.time between\n" +
+            "\n" +
+            "    DATEADD(\n" +
+            "            DAY,\n" +
+            "            + (:weekday-1),\n" +
+            "            DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week- 1,CAST('1/1/' + cast(:year as varchar) AS Date)))\n" +
+            "        ) and\n" +
+            "    DATEADD(\n" +
+            "            DAY,\n" +
+            "            + (:weekday),\n" +
+            "            DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week- 1,CAST('1/1/' + cast(:year as varchar) AS Date)))\n" +
+            "        )\n" +
+            "\n" +
+            "    and ad.door_name=:room and u.id=:userId",nativeQuery = true)
+    List<TimesForRoom> getTimesForRoomStatisticsByWeek(@Param("userId") String userId, @Param("room") String room,@Param("week") Integer week,@Param("year") Integer year,@Param("weekday") Integer weekday);
+
+
     @Query(value = "select u.id,u.fullName,al.time, :weekday as weekday,  :section as section \n" +
             "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
             "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
@@ -1612,6 +1638,214 @@ public interface UserRepository extends JpaRepository<User, String> {
             "              END\n" +
             "  and ad.door_name=:room and u.passportNum=:passport",nativeQuery = true)
     List<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByPassport(@Param("passport") String passport, @Param("room") String room, @Param("weekday") Integer weekday, @Param("section") Integer section);
+
+
+
+    @Query(value = "select u.id,u.fullName,al.time, :weekday as weekday,  :section as section, ad.door_name as room\n" +
+            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+            "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where al.time between\n" +
+            "    case\n" +
+            "        when :section=1 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                8,\n" +
+            "                00,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=2 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                9,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=3 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                10,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=4 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                11,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=5 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                12,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=6 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                13,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=7 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                14,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=8 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                15,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=9 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                16,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=10 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                17,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=11 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                18,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=12 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                19,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        ELSE 0\n" +
+            "        END\n" +
+            "    and\n" +
+            "    case\n" +
+            "        when :section=1 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                9,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=2 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                10,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=3 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                11,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=4 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                12,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=5 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                13,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=6 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                14,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=7 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                15,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=8 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                16,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=9 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                17,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=10 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                18,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=11 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                19,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=12 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                21,\n" +
+            "                00,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        ELSE 0\n" +
+            "        END\n" +
+            "  and ad.door_name LIKE :room and u.passportNum=:passport",nativeQuery = true)
+    List<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByPassportByWeek(@Param("passport") String passport, @Param("room") String room, @Param("weekday") Integer weekday,@Param("week") Integer week,@Param("year") Integer year, @Param("section") Integer section);
 //todo-------------------------------------------------------------------------------------------------------------------========================
 
     @Query(value = "select u.id,u.fullName,al.time, :weekday as weekday,  :section as section\n" +
@@ -1819,6 +2053,424 @@ public interface UserRepository extends JpaRepository<User, String> {
             "        END\n" +
             "  and ad.door_name=:room and u.id=:userId\n",nativeQuery = true)
     List<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByUserId(@Param("userId") String userId, @Param("room") String room, @Param("weekday") Integer weekday, @Param("section") Integer section);
+
+
+    @Query(value = "select u.id,u.fullName,al.time, :weekday as weekday,  :section as section\n" +
+            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+            "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where al.time between\n" +
+            "    case\n" +
+            "        when :section=1 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                8,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=2 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                9,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=3 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                10,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=4 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                11,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=5 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                12,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=6 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                13,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=7 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                14,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=8 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                15,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=9 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                16,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=10 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                17,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=11 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                18,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=12 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                19,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        ELSE 0\n" +
+            "        END\n" +
+            "    and\n" +
+            "    case\n" +
+            "        when :section=1 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                9,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=2 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                10,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=3 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                11,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=4 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                12,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=5 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                13,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=6 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                14,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=7 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                15,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=8 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                16,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=9 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                17,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=10 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                18,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=11 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                19,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=12 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                21,\n" +
+            "                00,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        ELSE 0\n" +
+            "        END\n" +
+            "  and ad.door_name=:room and u.id=:userId",nativeQuery = true)
+    List<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByUserIdAndWeek(@Param("userId") String userId, @Param("room") String room, @Param("weekday") Integer weekday,@Param("week") Integer week,@Param("year") Integer year, @Param("section") Integer section);
+
+
+    @Query(value = "select u.id,u.fullName,al.time, :weekday as weekday,  :section as section\n" +
+            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+            "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where al.time between\n" +
+            "    case\n" +
+            "        when :section=1 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                8,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=2 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                9,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=3 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                10,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=4 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                11,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=5 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                12,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=6 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                13,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=7 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                14,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=8 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                15,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=9 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                16,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=10 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                17,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=11 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                18,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=12 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                19,\n" +
+            "                50,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        ELSE 0\n" +
+            "        END\n" +
+            "    and\n" +
+            "    case\n" +
+            "        when :section=1 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                9,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=2 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                10,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=3 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                11,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=4 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                12,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=5 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                13,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=6 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                14,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=7 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                15,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=8 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                16,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=9 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                17,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=10 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                18,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=11 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                19,\n" +
+            "                54,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        when :section=12 then DATETIMEFROMPARTS(\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                21,\n" +
+            "                00,\n" +
+            "                00,\n" +
+            "                0)\n" +
+            "        ELSE 0\n" +
+            "        END\n" +
+            "  and ad.door_name=:room and u.passportNum=:passport",nativeQuery = true)
+    List<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByPassportAndWeek(@Param("passport") String passport, @Param("room") String room, @Param("weekday") Integer weekday,@Param("week") Integer week,@Param("year") Integer year, @Param("section") Integer section);
+
+
+    @Query(value = "select Top 1 K.nameEn from users u join Teacher T on u.id = T.user_id join Kafedra K on T.kafedra_id = K.id where u.passportNum=:passport",nativeQuery = true)
+    String getKafedraIdByUserPassport(@Param("passport") String passport);
 }
 
 

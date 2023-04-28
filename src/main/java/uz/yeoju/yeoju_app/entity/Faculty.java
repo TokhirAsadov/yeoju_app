@@ -17,6 +17,7 @@ public class Faculty extends AbsEntity {
     @Column(unique = true)
     private String name;
 
+    private Integer schoolCode;
     private String shortName;
 
 
@@ -34,4 +35,6 @@ public class Faculty extends AbsEntity {
         this.name = name;
         this.shortName = shortName;
     }
+
+
 }

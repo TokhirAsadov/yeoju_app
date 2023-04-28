@@ -69,7 +69,7 @@ public class DataLoader implements CommandLineRunner {
         }else{
             User super_admin = userRepository.getUserByLogin("super_admin");
             if (super_admin==null){
-//                Role superAdmin = roleRepository.save(new Role("ROLE_SUPER_ADMIN"));
+//                Role superAdmin = roleRepository.saveOrUpdate(new Role("ROLE_SUPER_ADMIN"));
                 User user = new User();
                 user.setLogin("super_admin");
                 user.setPassword(passwordEncoder.encode("r00t123"));
@@ -89,7 +89,7 @@ public class DataLoader implements CommandLineRunner {
 //        user.setEmail("mashrab");
 //            user.setLogin("mashrab");
 //            user.setPassword(passwordEncoder.encode("mashrab123"));
-//            userRepository.save(user);
+//            userRepository.saveOrUpdate(user);
 //        }
 
 
@@ -106,7 +106,7 @@ public class DataLoader implements CommandLineRunner {
 //                }
 //            }
 //
-//            userRepository.save(user);
+//            userRepository.saveOrUpdate(user);
 //        }
 
 //        SmsSendContentDTO smsSendContentDTO = new SmsSendContentDTO("Hello bro, by yeoju ERP");
@@ -143,7 +143,7 @@ public class DataLoader implements CommandLineRunner {
 //        student.setUser(user.get());
 //        student.setGroup(group.get());
 
-//        Student save = studentRepository.save(student);
+//        Student saveOrUpdate = studentRepository.saveOrUpdate(student);
 //
 //        Optional<User> user = userRepository.findById("5d5eeca7-ae7d-4e73-8a40-9ccc55cafde2");
 //        System.out.println(user.get());
@@ -151,7 +151,7 @@ public class DataLoader implements CommandLineRunner {
 //        phoneNumber.setPhoneNumber("993361603");
 //        phoneNumber.setUser(user.get());
 //        phoneNumber.setPhoneType(PhoneType.MOBILE_PHONE);
-//        phoneNumberRepository.save(phoneNumber);
+//        phoneNumberRepository.saveOrUpdate(phoneNumber);
 
         // DEKAN
 //        Optional<Role> role_dekan = roleRepository.findRoleByRoleName("ROLE_DEKAN");
@@ -167,16 +167,16 @@ public class DataLoader implements CommandLineRunner {
 //        userRepository.saveAndFlush(user);
 //
 //        Faculty facultyByName = facultyRepository.getFacultyByName("(B.Sc.) TOURISM");
-//        dekanRepository.save(new Dekan(
+//        dekanRepository.saveOrUpdate(new Dekan(
 //           user,
 //           new HashSet<>(Collections.singletonList(facultyByName))
 //        ));
 
-//        roleRepository.save(new Role("ROLE_DEKAN"));
+//        roleRepository.saveOrUpdate(new Role("ROLE_DEKAN"));
 
 //        Optional<Role> user = roleRepository.findRoleByRoleName("ROLE_ADMIN");
 //        Role role = user.get();
-//        userRepository.save(new User(
+//        userRepository.saveOrUpdate(new User(
 //                "device admin",
 //                "device admin",
 //                passwordEncoder.encode("device"),
@@ -466,7 +466,7 @@ public class DataLoader implements CommandLineRunner {
             roleRepository.saveAndFlush(role62);
 
 
-//            Role user = roleRepository.save(new Role("Student"));
+//            Role user = roleRepository.saveOrUpdate(new Role("Student"));
 
 
 
@@ -494,8 +494,8 @@ public class DataLoader implements CommandLineRunner {
             System.out.println("saqlandi!!!!");
         }
 //        else {
-//            Role user = roleRepository.save(new Role("user"));
-//            userRepository.save(new User(
+//            Role user = roleRepository.saveOrUpdate(new Role("user"));
+//            userRepository.saveOrUpdate(new User(
 //                    1L,
 //                    "user2",
 //                    "user2",

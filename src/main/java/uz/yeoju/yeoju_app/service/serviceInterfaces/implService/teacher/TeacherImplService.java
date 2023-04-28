@@ -214,7 +214,7 @@ public class TeacherImplService implements TeacherService{
                         System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
                         group.setFaculty(facultyOptional.get());
 
-                        Group save1 = groupRepository.save(group);
+                        Group save1 = groupRepository.saveOrUpdate(group);
 
                         userByRFID.setEnabled(true);
                         userByRFID.setAccountNonExpired(true);
@@ -240,7 +240,7 @@ public class TeacherImplService implements TeacherService{
                             userByRFID.setGander(ganderByGandername);
                         }
 
-                        userRepository.save(userByRFID);
+                        userRepository.saveOrUpdate(userByRFID);
 
                         //todo-----------
                         if (studentRepository.existsStudentByUserId(userByRFID.getId())) {
@@ -249,13 +249,13 @@ public class TeacherImplService implements TeacherService{
                             studentByUserId.setUser(userByRFID);
                             studentByUserId.setGroup(save1);
 
-                            Student save = studentRepository.save(studentByUserId);
+                            Student saveOrUpdate = studentRepository.saveOrUpdate(studentByUserId);
                         }
                         else {
                             Student student = new Student();
                             student.setUser(userByRFID);
                             student.setGroup(save1);
-                            Student save = studentRepository.save(student);
+                            Student saveOrUpdate = studentRepository.saveOrUpdate(student);
                         }
 
 
@@ -284,12 +284,12 @@ public class TeacherImplService implements TeacherService{
                             userByRFID.setGander(ganderByGandername);
                         }
 
-                        userRepository.save(userByRFID);
+                        userRepository.saveOrUpdate(userByRFID);
 
                         // group
                         Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
                         groupByName.setLevel((int) row.getCell(1).getNumericCellValue());
-                        groupRepository.save(groupByName);
+                        groupRepository.saveOrUpdate(groupByName);
 
                         // student
                         if (studentRepository.existsStudentByUserId(userByRFID.getId())) {
@@ -298,13 +298,13 @@ public class TeacherImplService implements TeacherService{
                             studentByUserId.setUser(userByRFID);
                             studentByUserId.setGroup(groupByName);
 
-                            Student save = studentRepository.save(studentByUserId);
+                            Student saveOrUpdate = studentRepository.saveOrUpdate(studentByUserId);
                         }
                         else {
                             Student student = new Student();
                             student.setUser(userByRFID);
                             student.setGroup(groupByName);
-                            Student save = studentRepository.save(student);
+                            Student saveOrUpdate = studentRepository.saveOrUpdate(student);
                         }
 
                     }
@@ -359,13 +359,13 @@ public class TeacherImplService implements TeacherService{
                         Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
                         group.setFaculty(facultyOptional.get());
                         System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
-                        Group save1 = groupRepository.save(group);
+                        Group save1 = groupRepository.saveOrUpdate(group);
 
 
                         Student student = new Student();
                         student.setUser(user);
                         student.setGroup(save1);
-                        Student save = studentRepository.save(student);
+                        Student saveOrUpdate = studentRepository.saveOrUpdate(student);
 
                     }
                     else {
@@ -373,13 +373,13 @@ public class TeacherImplService implements TeacherService{
                         // group
                         Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
                         groupByName.setLevel((int) row.getCell(1).getNumericCellValue());
-                        groupRepository.save(groupByName);
+                        groupRepository.saveOrUpdate(groupByName);
 
                         // student
                         Student student = new Student();
                         student.setUser(user);
                         student.setGroup(groupByName);
-                        Student save = studentRepository.save(student);
+                        Student saveOrUpdate = studentRepository.saveOrUpdate(student);
 
                     }
 

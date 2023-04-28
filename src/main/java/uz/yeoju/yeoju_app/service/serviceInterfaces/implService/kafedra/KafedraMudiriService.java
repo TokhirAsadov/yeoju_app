@@ -25,7 +25,7 @@ public interface KafedraMudiriService {
 
     ApiResponse saveKafedra(DekanSave dekanSave);
 
-    ApiResponse positionEdit(String id);
+    ApiResponse positionEdit(String id,String teacherId);
 
     ApiResponse changeTeacher(TeacherEditDto dto);
 

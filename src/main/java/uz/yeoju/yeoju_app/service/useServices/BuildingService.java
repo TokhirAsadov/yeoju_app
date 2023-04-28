@@ -47,10 +47,10 @@ public class BuildingService implements BuildingImplService<BuildingDto> {
     @Override
     public ApiResponse saveOrUpdate(BuildingDto dto) {
 
-        if (dto.getId() == null){ //save
+        if (dto.getId() == null){ //saveOrUpdate
             if (!buildingRepository.existsBuildingByName(dto.getName())){
                 buildingRepository.save(generateBuilding(dto));
-                return new ApiResponse(true,"save building successfully!..");
+                return new ApiResponse(true,"saveOrUpdate building successfully!..");
             }
             return new ApiResponse(false,"error, sorry already exist name of building");
         }
@@ -81,5 +81,9 @@ public class BuildingService implements BuildingImplService<BuildingDto> {
     public ApiResponse deleteById(String id) {
         buildingRepository.deleteById(id);
         return new ApiResponse(true,"Deleted building successfully!...");
+    }
+
+    public ApiResponse getBuildingsForSelect() {
+        return new ApiResponse(true,"buildings",buildingRepository.getBuildingsForSelect());
     }
 }

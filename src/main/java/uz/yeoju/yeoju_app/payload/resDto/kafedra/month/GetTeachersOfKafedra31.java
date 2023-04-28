@@ -27,8 +27,8 @@ public interface GetTeachersOfKafedra31 {
     @Value("#{@positionRepository.getNameOfPosition(target.id)}")
     String getPositions();
 
-//    @Value("#{@lessonRepository.getLessonForTeachers(target.id)}")
-//    List<String> getSubjects();
+    @Value("#{@lessonRepository.getLessonForTeachers(target.id)}")
+    List<String> getSubjects();
 
     @Value("#{@teacherRepository.getWorkerStatus(target.id)}")
     String getStatus();

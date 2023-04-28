@@ -5,6 +5,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.dekanat.DekanatDto;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanatSaveDto;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.dekanat.DekanatService;
@@ -16,6 +18,12 @@ public class DekanatController {
 
     private final DekanatService service;
 
+    @GetMapping("/getDekanatById")
+    public HttpEntity<?> getDekanatById(@CurrentUser User user,@RequestParam("id") String id){
+        ApiResponse response = service.getDekanatById(id);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 401).body(response);
+    }
+
     @GetMapping("/dekanatDataForDekan")
     public HttpEntity<?> getDekanatDataForDekan(@CurrentUser User user){
         return ResponseEntity.ok(service.getDekanatDataForDekan(user.getId()));
@@ -24,6 +32,11 @@ public class DekanatController {
     @PostMapping("/save")
     public HttpEntity<?> save(@RequestBody DekanatSaveDto dto){
         return ResponseEntity.status(201).body(service.saveDekanat(dto));
+    }
+
+    @PostMapping("/saveV2")
+    public HttpEntity<?> saveV2(@RequestBody DekanatDto dto){
+        return ResponseEntity.status(201).body(service.saveDekanatV2(dto));
     }
 
     @GetMapping("/all")
@@ -40,5 +53,10 @@ public class DekanatController {
     @GetMapping("/getDatasForSavedKafedraMudiri")
     public HttpEntity<?> getDatasForSavedKafedraMudiri(){
         return ResponseEntity.ok(service.getKafedrasSavedDatas());
+    }
+
+    @GetMapping("/getUserForDekanSave")
+    public HttpEntity<?> getUserForDekanSaving(@CurrentUser User user,@RequestParam("bool") Boolean bool){
+        return ResponseEntity.ok(service.getUserForDekanSave(user.getId(),bool));
     }
 }

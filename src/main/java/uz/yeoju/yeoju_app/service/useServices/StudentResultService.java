@@ -125,7 +125,7 @@ public class StudentResultService implements StudentResultImplService<StudentRes
     @Override
     public ApiResponse saveOrUpdate(StudentResultDto dto) {
 
-        if (dto.getId() == null){ //save
+        if (dto.getId() == null){ //saveOrUpdate
             ApiResponse byId = userService.getById(dto.getUserDto().getId());
             if (byId.getObj()!=null) {
                 ApiResponse creditServiceById = creditService.getById(dto.getSubjectCreditDto().getId());

@@ -10,6 +10,7 @@ import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.kafedra.KafedraMudiri;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.kafedra.KafedraDto;
+import uz.yeoju.yeoju_app.payload.kafedra.KafedraV2Dto;
 import uz.yeoju.yeoju_app.repository.KafedraMudirRepository;
 import uz.yeoju.yeoju_app.repository.KafedraRepository;
 import uz.yeoju.yeoju_app.repository.RoleRepository;
@@ -32,6 +33,24 @@ public class KafedraController {
     public final UserRepository userRepository;
     public final PasswordEncoder passwordEncoder;
     public final RoleRepository roleRepository;
+
+
+    @GetMapping("/getKafedraByIdV2")
+    public HttpEntity<?> getKafedraByIdV2(@CurrentUser User user,@RequestParam("id") String id){
+        return ResponseEntity.ok(kafedraService.getKafedraByIdV2(id));
+    }
+
+    @PostMapping("/createKafedraV2")
+    public HttpEntity<?> createNewKafedraV2(@RequestBody KafedraV2Dto dto){
+        System.out.println(dto);
+        return ResponseEntity.status(201).body(kafedraService.saveOrUpdateV2(dto));
+    }
+
+    @PutMapping("/updateKafedraV2")
+    public HttpEntity<?> updateKafedraV2(@RequestBody KafedraV2Dto dto){
+        return ResponseEntity.status(202).body(kafedraService.saveOrUpdateV2(dto));
+    }
+
 
     @GetMapping("/getTeachersForSelectByKafedraId")
     public HttpEntity<?> getTeachersForSelectByKafedraId(@CurrentUser User user,@RequestParam(name = "kafedraId") String kafedraId){
