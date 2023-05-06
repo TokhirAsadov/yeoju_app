@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.Set;
 
 @Data
@@ -18,6 +15,12 @@ import java.util.Set;
 public class Section extends AbsEntity {
     @Column(unique = true)
     private String name;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    private User owner;
+
+    private String room;
+    private String phone;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
@@ -37,6 +40,16 @@ public class Section extends AbsEntity {
     public Section(String id, String name, Set<Role> roles, Set<Position> positions) {
         super(id);
         this.name = name;
+        this.roles = roles;
+        this.positions = positions;
+    }
+
+    public Section(String id, String name, User owner, String room, String phone, Set<Role> roles, Set<Position> positions) {
+        super(id);
+        this.name = name;
+        this.owner = owner;
+        this.room = room;
+        this.phone = phone;
         this.roles = roles;
         this.positions = positions;
     }

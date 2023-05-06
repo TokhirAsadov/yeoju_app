@@ -36,5 +36,10 @@ public class SchoolController {
         return ResponseEntity.status(response.isSuccess() ? 201 : 401).body(response);
     }
 
+    @DeleteMapping("/deleteById/{id}")
+    public HttpEntity<?> deleteById(@PathVariable(name = "id") String id){
+        ApiResponse response = service.deleteById(id);
+        return ResponseEntity.status(response.isSuccess() ? 204 : 403).body(response);
+    }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.parameters.P;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.payload.resDto.admin.GetUserForUpdate;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentData;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherData;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherStatisticsOfWeekday;
@@ -139,11 +140,17 @@ public interface UserRepository extends JpaRepository<User, String> {
 //    @Query(value = "select id as value,fullName as label from users where fullName like :keyword order by fullName asc",nativeQuery = true)
 //    List<UserForTeacherSaveItem> getUserForTeacherSavingSearch(@Param("keyword") String keyword);
 
-    @Query(value = "select u.id as value,u.fullName as label from users u\n" +
+    @Query(value = "select u.id as value,u.fullName as label,u.login as login,u.passportNum as passport from users u\n" +
             "left join users_Role uR on u.id = uR.users_id\n" +
             "join Role R2 on uR.roles_id = R2.id\n" +
-            " where (u.fullName like :keyword ) order by fullName asc",nativeQuery = true)
+            " where (u.fullName like :keyword or u.login like :keyword or u.passportNum like :keyword) order by fullName asc",nativeQuery = true)
     List<UserForTeacherSaveItem> getUserForTeacherSavingSearch(@Param("keyword") String keyword);
+
+    @Query(value = "select u.id as value,u.fullName as label,u.firstname as firstName,u.lastName as lastName,u.middleName as middleName,u.login as login,u.passportNum as passport from users u\n" +
+            "left join users_Role uR on u.id = uR.users_id\n" +
+            "join Role R2 on uR.roles_id = R2.id\n" +
+            " where (u.fullName like :keyword or u.login like :keyword or u.passportNum like :keyword) order by fullName asc",nativeQuery = true)
+    List<UserForTeacherSaveItem2> getUserForTeacherSavingSearch2(@Param("keyword") String keyword);
 
     @Query(value = "select r.id as value,r.roleName as label from Role r order by r.roleName asc ",nativeQuery = true)
     List<UserForTeacherSaveItem> getRolesForStaffSaving();
@@ -2471,6 +2478,12 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query(value = "select Top 1 K.nameEn from users u join Teacher T on u.id = T.user_id join Kafedra K on T.kafedra_id = K.id where u.passportNum=:passport",nativeQuery = true)
     String getKafedraIdByUserPassport(@Param("passport") String passport);
+
+    @Query(value = "select id,fullName,firstName,lastName,middleName,login,RFID,passportNum as passport, gander_id as ganderId from users where (login like :param or RFID like :param or passportNum like :param)",nativeQuery = true)
+    List<GetUserForUpdate> getUserForUpdate(@Param("param") String param);
+
+    @Query(value = "select id,fullName,firstName,lastName,middleName,login,RFID,passportNum as passport, gander_id as ganderId from users where id=?1",nativeQuery = true)
+   GetUserForUpdate getUserForUpdateById(String id);
 }
 
 

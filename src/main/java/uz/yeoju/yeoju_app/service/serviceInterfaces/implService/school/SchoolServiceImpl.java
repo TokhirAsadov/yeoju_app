@@ -37,6 +37,17 @@ public class SchoolServiceImpl implements SchoolService{
         return schoolOptional.map(school -> new ApiResponse(true, "send school by id", generateSchoolDto(school))).orElseGet(() -> new ApiResponse(false, "not fount school"));
     }
 
+    @Override
+    public ApiResponse deleteById(String id) {
+        Optional<School> schoolOptional = schoolRepository.findById(id);
+        if (schoolOptional.isPresent()){
+            schoolRepository.deleteById(id);
+            return new ApiResponse(true,"deleted school successfully.");
+        }
+        else {
+            return new ApiResponse(false,"not fount id -> "+id);
+        }
+    }
 
 
     private ApiResponse update(SchoolDto dto) {
@@ -123,7 +134,7 @@ public class SchoolServiceImpl implements SchoolService{
         if (schoolRepository.existsSchoolByCode(dto.getCode())){
             return new ApiResponse(false,"error.. already exists "+dto.getCode()+" code.");
         } else if (schoolRepository.existsSchoolByNameEnOrNameRuOrNameUz(dto.getNameEn(), dto.getNameRu(), dto.getNameUz())) {
-            return new ApiResponse(false,"error.. already exists name_en or name_ru or name_uz");
+            return new ApiResponse(false,"error.. already exists "+dto.getNameEn()+" or "+dto.getNameRu()+" or "+dto.getNameUz());
         } else {
             School school = generateSchool(dto);
             schoolRepository.save(school);

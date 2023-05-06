@@ -3,10 +3,13 @@ package uz.yeoju.yeoju_app.entity.address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.address.Villages;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -17,7 +20,8 @@ import javax.persistence.ManyToOne;
 @Entity
 public class AddressUser extends AbsEntity {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,6 +34,7 @@ public class AddressUser extends AbsEntity {
     // Uzbekiston dan boshqa davlatdan bulsa country, region, area, address kiritadi
     private String country;
     private String region;
+    private String district;
     private String area;
 
     // umumiy address Uzbekiston uchun ham bowqa davlat uchun ham ishlatiladi

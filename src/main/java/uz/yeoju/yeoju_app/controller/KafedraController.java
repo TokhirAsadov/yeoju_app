@@ -35,6 +35,11 @@ public class KafedraController {
     public final RoleRepository roleRepository;
 
 
+    @GetMapping("/getKafedraV3ById")
+    public HttpEntity<?> getKafedraV3ById(@CurrentUser User user,@RequestParam("id") String id){
+        return ResponseEntity.ok(kafedraService.getKafedraV3ById(id));
+    }
+
     @GetMapping("/getKafedraByIdV2")
     public HttpEntity<?> getKafedraByIdV2(@CurrentUser User user,@RequestParam("id") String id){
         return ResponseEntity.ok(kafedraService.getKafedraByIdV2(id));

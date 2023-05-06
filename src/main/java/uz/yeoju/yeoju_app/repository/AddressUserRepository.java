@@ -5,11 +5,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.address.AddressUser;
 import uz.yeoju.yeoju_app.payload.resDto.address.*;
+import uz.yeoju.yeoju_app.payload.resDto.admin.AddressForUserUpdate;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentAddress;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AddressUserRepository extends JpaRepository<AddressUser,String> {
+
+    Optional<AddressUser> findAddressUserByUserId(String user_id);
 
     @Query(value = "select Top 1 au.id,au.country,au.region,au.area,au.address,au.constant,au.isCurrent from AddressUser au where (user_id=:userId and constant='true') order by au.createdAt desc",nativeQuery = true)
     StudentAddress getAddressByUserId(@Param("userId") String userId);
@@ -123,4 +127,7 @@ public interface AddressUserRepository extends JpaRepository<AddressUser,String>
     @Query(value = "select count(u.id) as count,G.gandername as gander, AU.region  from users u join Student s on u.id = s.user_id join groups g2 on s.group_id = g2.id join EducationLanguage el on g2.educationLanguage_id = el.id join  AddressUser AU on u.id = AU.user_id join Gander G on G.id = u.gander_id\n" +
             "where el.name=:eduLang group by G.gandername,AU.region",nativeQuery = true)
     List<DStatisticsByDekanatId> getStatisticsByEduLang(@Param("eduLang") String eduLang);
+
+    @Query(value = "select id,region,district,address from AddressUser where user_id=:userId",nativeQuery = true)
+    AddressForUserUpdate getUserAddressForUpdateByUserId(@Param("userId") String userId);
 }

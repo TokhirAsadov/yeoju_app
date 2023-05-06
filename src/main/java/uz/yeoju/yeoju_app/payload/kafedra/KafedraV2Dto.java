@@ -18,6 +18,10 @@ public class KafedraV2Dto {
     private Set<String> roles;
     private Set<String> positions;
 
+    private String ownerId;
+    private String room;
+    private String phone;
+
     public KafedraV2Dto(String nameUz) {
         this.nameUz = nameUz;
     }
@@ -29,6 +33,15 @@ public class KafedraV2Dto {
     }
 
     public KafedraV2Dto(String nameUz, String nameRu, String nameEn, Set<String> roles, Set<String> positions) {
+        this.nameUz = nameUz;
+        this.nameRu = nameRu;
+        this.nameEn = nameEn;
+        this.roles = roles;
+        this.positions = positions;
+    }
+
+    public KafedraV2Dto(String id, String nameUz, String nameRu, String nameEn, Set<String> roles, Set<String> positions) {
+        this.id = id;
         this.nameUz = nameUz;
         this.nameRu = nameRu;
         this.nameEn = nameEn;

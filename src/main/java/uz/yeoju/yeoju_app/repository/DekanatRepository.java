@@ -10,11 +10,13 @@ import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentDataForEditedDekan;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.DekanatDataForDekan;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.FacultyOfDekanat;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.ForKafedraRoleSettings;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.monthly.*;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserForDekanSave;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserForSectionSave;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSave;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSaveItem;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -69,5 +71,23 @@ public interface DekanatRepository extends JpaRepository<Dekanat, String> {
 
     @Query(value = "select id from users where id=:id",nativeQuery = true)
     UserForSectionSave getUserForSectionSave(@Param("id") String id);
+
+
+    @Query(value = "select :id as id,  dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "       + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME)) as date",nativeQuery = true)
+    MonthlyGroupForDean31 getDateForDean31(@Param("date") Date date, @Param("id") String id);
+
+    @Query(value = "select :id as id,  dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "       + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME)) as date",nativeQuery = true)
+    MonthlyGroupForDean30 getDateForDean30(@Param("date") Date date, @Param("id") String id);
+
+    @Query(value = "select :id as id,  dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "       + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME)) as date",nativeQuery = true)
+    MonthlyGroupForDean29 getDateForDean29(@Param("date") Date date, @Param("id") String id);
+
+    @Query(value = "select :id as id,  dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "       + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME)) as date",nativeQuery = true)
+    MonthlyGroupForDean28 getDateForDean28(@Param("date") Date date, @Param("id") String id);
+
 
 }

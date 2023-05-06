@@ -23,6 +23,8 @@
   "super_admin_sidebar_dashboard": "Dashboard",
   "super_admin_sidebar_student": "Student",
   "super_admin_sidebar_staff": "Staff",
+  "super_admin_sidebar_school": "Школа",
+  "super_admin_sidebar_faculty": "Faculty Directions",
 
   "dekan_sidebar_dashboard": "Приборная Доска",
   "dekan_sidebar_users": "Ученики",

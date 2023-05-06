@@ -157,6 +157,22 @@ public interface KafedraRepository extends JpaRepository<Kafedra, String> {
     @Query(value = "select id as value, nameEn as label from Kafedra order by nameEn",nativeQuery = true)
     List<UserForTeacherSaveItem> getKafedraForTeacherSaving();
 
+    @Query(value = "select u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,:date as date from Student s\n" +
+            "   join users u on s.user_id = u.id where s.group_id=:id",nativeQuery = true)
+    List<GetTeachersForDekan31> getMonthlyStudentsOfGroupForDean31(@Param("id") String id, @Param("date") Date date);
+
+    @Query(value = "select u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,:date as date from Student s\n" +
+            "   join users u on s.user_id = u.id where s.group_id=:id",nativeQuery = true)
+    List<GetTeachersForDekan30> getMonthlyStudentsOfGroupForDean30(@Param("id") String id, @Param("date") Date date);
+
+    @Query(value = "select u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,:date as date from Student s\n" +
+            "   join users u on s.user_id = u.id where s.group_id=:id",nativeQuery = true)
+    List<GetTeachersForDekan29> getMonthlyStudentsOfGroupForDean29(@Param("id") String id, @Param("date") Date date);
+
+    @Query(value = "select u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,:date as date from Student s\n" +
+            "   join users u on s.user_id = u.id where s.group_id=:id",nativeQuery = true)
+    List<GetTeachersForDekan28> getMonthlyStudentsOfGroupForDean28(@Param("id") String id, @Param("date") Date date);
+
     //**
 
     @Query(value = "select u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,:date as date from Teacher T\n" +

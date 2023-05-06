@@ -1,15 +1,19 @@
 package uz.yeoju.yeoju_app.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.dekanat.AddNewStudentDto;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanatDto;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanatSaveDto;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.dekanat.DekanatService;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/dekanat")
@@ -17,6 +21,25 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.dekanat.DekanatS
 public class DekanatController {
 
     private final DekanatService service;
+
+
+    @PostMapping("/addNewStudent")
+    public HttpEntity<?> addNewStudent(@RequestBody AddNewStudentDto dto){
+        return ResponseEntity.status(201).body(service.addNewStudent(dto));
+    }
+    @GetMapping("/getStatisticsOfGroupForDean")
+    public HttpEntity<?> getStatisticssForRektor(
+            @CurrentUser User user,
+            @RequestParam("groupId") String groupId,
+            @RequestParam("date") @DateTimeFormat(pattern = "yyyy.MM.dd") Date date)
+    {
+        return ResponseEntity.ok(service.getStatisticsOfGroupForDean(groupId,date));
+    }
+
+    @DeleteMapping("/deleteById/{id}")
+    public HttpEntity<?> deletedById(@CurrentUser User user,@PathVariable("id") String id){
+        return ResponseEntity.status(204).body(service.deleteById(id));
+    }
 
     @GetMapping("/getDekanatById")
     public HttpEntity<?> getDekanatById(@CurrentUser User user,@RequestParam("id") String id){

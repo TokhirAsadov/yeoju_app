@@ -33,6 +33,8 @@
   "super_admin_sidebar_dashboard": "Dashboard",
   "super_admin_sidebar_student": "Student",
   "super_admin_sidebar_staff": "Xodimlar",
+  "super_admin_sidebar_school": "Maktab",
+  "super_admin_sidebar_faculty": "Fakultet yo`nalishlar",
 
   "dekan_sidebar_dashboard": "Boshqaruv paneli",
   "dekan_sidebar_users": "Talabalar",

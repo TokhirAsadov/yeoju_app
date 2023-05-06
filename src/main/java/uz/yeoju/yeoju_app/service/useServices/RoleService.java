@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Role;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.RoleDto;
-import uz.yeoju.yeoju_app.payload.SectionDto;
 import uz.yeoju.yeoju_app.repository.RoleRepository;
-import uz.yeoju.yeoju_app.repository.SectionRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.RoleImplService;
 
 import java.util.Objects;

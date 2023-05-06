@@ -3,10 +3,13 @@ package uz.yeoju.yeoju_app.service.useServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Faculty;
+import uz.yeoju.yeoju_app.entity.school.School;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
+import uz.yeoju.yeoju_app.payload.DirectionDto;
 import uz.yeoju.yeoju_app.payload.FacultyDto;
 import uz.yeoju.yeoju_app.repository.FacultyRepository;
+import uz.yeoju.yeoju_app.repository.SchoolRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.FacultyImplService;
 
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FacultyService implements FacultyImplService<FacultyDto> {
     public final FacultyRepository facultyRepository;
+    public final SchoolRepository schoolRepository;
 
 
     public ApiResponseTwoObj getFacultyForDekanatSaved(){
@@ -147,4 +151,113 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
     public ApiResponse getGroupsForSelect(String facultyId,String eduTypeName) {
         return new ApiResponse(true,"all groups",facultyRepository.getGroupsForSelect(facultyId,eduTypeName));
     }
+
+    public ApiResponse getDirectionsOfFaculty() {
+        return new ApiResponse(true,"directions of faculty",facultyRepository.getDirectionsOfFaculty());
+    }
+
+    public ApiResponse saveOrUpdateDirection(DirectionDto dto) {
+        if (dto.getId()==null){
+            return saveDirection(dto);
+        }
+        else {
+            return updateDirection(dto);
+        }
+    }
+
+    public ApiResponse saveDirection(DirectionDto dto){
+
+        if (!facultyRepository.existsFacultyByName(dto.getName())){
+            Optional<School> schoolOptional = schoolRepository.findSchoolByCode(dto.getSchoolCode());
+            if (schoolOptional.isPresent()){
+                Faculty faculty = new Faculty();
+                faculty.setName(dto.getName());
+                faculty.setShortName(dto.getShortName());
+                faculty.setSchoolCode(dto.getSchoolCode());
+                facultyRepository.saveAndFlush(faculty);
+                return new ApiResponse(true,"new faculty saved successfully!...");
+            }
+            else {
+                return new ApiResponse(
+                        false,
+                        "error! not fount school by school Code: "+dto.getSchoolCode()
+                );
+            }
+
+        }
+        else {
+            return new ApiResponse(
+                    false,
+                    "error! not saved faculty! Please, enter other faculty userPositionName!"
+            );
+        }
+    }
+
+
+    public ApiResponse updateDirection(DirectionDto dto){
+        Optional<Faculty> optional = facultyRepository.findById(dto.getId());
+        if (optional.isPresent()){
+            Faculty faculty = optional.get();
+            Faculty facultyByName = facultyRepository.getFacultyByName(dto.getName());
+            if (facultyByName!=null) {
+                if (
+                        Objects.equals(facultyByName.getId(), faculty.getId())
+                                ||
+                                !facultyRepository.existsFacultyByName(dto.getName())
+                ) {
+                    Optional<School> schoolOptional = schoolRepository.findSchoolByCode(dto.getSchoolCode());
+                    if (schoolOptional.isPresent()){
+                        faculty.setName(dto.getName());
+                        faculty.setShortName(dto.getShortName());
+                        faculty.setSchoolCode(dto.getSchoolCode());
+                        facultyRepository.saveAndFlush(faculty);
+                        return new ApiResponse(true, dto.getName()+" updated successfully!...");
+                    }
+                    else {
+                        return new ApiResponse(
+                                false,
+                                "error! not fount school by school Code: "+dto.getSchoolCode()
+                        );
+                    }
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved faculty! Please, enter other faculty userPositionName!.."
+                    );
+                }
+            }
+            else {
+                if (!facultyRepository.existsFacultyByName(dto.getName())){
+                    Optional<School> schoolOptional = schoolRepository.findSchoolByCode(dto.getSchoolCode());
+                    if (schoolOptional.isPresent()){
+                        faculty.setName(dto.getName());
+                        faculty.setShortName(dto.getShortName());
+                        faculty.setSchoolCode(dto.getSchoolCode());
+                        facultyRepository.saveAndFlush(faculty);
+                        return new ApiResponse(true, dto.getName()+" updated successfully!...");
+                    }
+                    else {
+                        return new ApiResponse(
+                                false,
+                                "error! not fount school by school Code: "+dto.getSchoolCode()
+                        );
+                    }
+                }
+                else {
+                    return new ApiResponse(
+                            false,
+                            "error! nor saved faculty! Please, enter other faculty userPositionName!.."
+                    );
+                }
+            }
+        }
+        else{
+            return new ApiResponse(
+                    false,
+                    "error... not fount faculty"
+            );
+        }
+    }
+
+
 }

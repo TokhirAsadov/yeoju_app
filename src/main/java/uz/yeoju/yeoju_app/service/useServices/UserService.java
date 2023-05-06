@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.entity.*;
+import uz.yeoju.yeoju_app.entity.address.AddressUser;
 import uz.yeoju.yeoju_app.payload.*;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class;
@@ -46,6 +47,7 @@ import java.util.stream.Collectors;
 public class UserService implements UserImplService<UserDto> {
 
     public final UserRepository userRepository;
+    public final AddressUserRepository addressUserRepository;
     public final GanderService ganderService;
     public final PasswordEncoder passwordEncoder;
     public final RoleRepository roleRepository;
@@ -430,6 +432,8 @@ public class UserService implements UserImplService<UserDto> {
     @Override
     public ApiResponse deleteById(String id) {
         if (userRepository.findById(id).isPresent()) {
+            Optional<AddressUser> addressUserOptional = addressUserRepository.findAddressUserByUserId(id);
+            addressUserOptional.ifPresent(addressUser -> addressUserRepository.deleteById(addressUser.getId()));
             userRepository.deleteById(id);
             return new ApiResponse(true,"user deleted successfully!..");
         }
@@ -486,6 +490,10 @@ public class UserService implements UserImplService<UserDto> {
 
      public ApiResponse getUserForTeacherSavingSearch(String keyword){
         return new ApiResponse(true,"users",userRepository.getUserForTeacherSavingSearch(keyword));
+    }
+
+    public ApiResponse getUserForTeacherSavingSearch2(String keyword){
+        return new ApiResponse(true,"users",userRepository.getUserForTeacherSavingSearch2(keyword));
     }
 
 

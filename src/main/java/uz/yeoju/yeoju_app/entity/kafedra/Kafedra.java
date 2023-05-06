@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.yeoju.yeoju_app.entity.Position;
 import uz.yeoju.yeoju_app.entity.Role;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.*;
@@ -26,6 +27,12 @@ public class Kafedra extends AbsEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Position> positions;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    private User owner;
+
+    private String room;
+    private String phone;
+
     public Kafedra(String nameUz) {
         this.nameUz = nameUz;
     }
@@ -41,5 +48,13 @@ public class Kafedra extends AbsEntity {
         this.nameUz = nameUz;
         this.nameRu = nameRu;
         this.nameEn = nameEn;
+    }
+
+    public Kafedra(String nameUz, String nameRu, String nameEn, Set<Role> roles, Set<Position> positions) {
+        this.nameUz = nameUz;
+        this.nameRu = nameRu;
+        this.nameEn = nameEn;
+        this.roles = roles;
+        this.positions = positions;
     }
 }

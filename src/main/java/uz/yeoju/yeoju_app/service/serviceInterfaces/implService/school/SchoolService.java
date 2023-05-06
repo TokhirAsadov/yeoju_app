@@ -7,4 +7,5 @@ public interface SchoolService {
     ApiResponse findAll();
     ApiResponse saveOrUpdate(SchoolDto dto);
     ApiResponse findById(String id);
+    ApiResponse deleteById(String id);
 }

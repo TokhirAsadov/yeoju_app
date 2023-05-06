@@ -48,4 +48,7 @@ public interface PositionRepository extends JpaRepository<Position, Long> {
 
     @Query(value = "select userPositionName from Position order by createdAt",nativeQuery = true)
     Set<String> getPositionsNameForSelect();
+
+    @Query(value = "select p.userPositionName from Position p join users_Position up on up.positions_id=p.id where up.users_id=:userId",nativeQuery = true)
+    Set<String> getUserPositionsName(@Param("userId") String userId);
 }

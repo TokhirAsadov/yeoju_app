@@ -23,4 +23,7 @@ public interface RoleRepository extends JpaRepository<Role, String> {
 
     @Query(value = "select roleName from ROLE order by createdAt",nativeQuery = true)
     Set<String> getRolesNamesForSelect();
+
+    @Query(value = "select r.roleName from ROLE r join users_Role ur on ur.roles_id=r.id where ur.users_id =:userId",nativeQuery = true)
+    Set<String> getUserRolesName(@Param("userId") String userId);
 }

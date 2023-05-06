@@ -905,6 +905,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserForTeacherSavingSearch("%" + keyword + "%"));
     }
 
+    @GetMapping("/getUsersForUserRole2")
+    public HttpEntity<?> getUsersForUserRole2(@RequestParam("keyword") String keyword){
+        return ResponseEntity.ok(userService.getUserForTeacherSavingSearch2("%" + keyword + "%"));
+    }
+
     @GetMapping("/getUserForTeacherSavingSearch")
     public HttpEntity<?> getUserForTeacherSaving(@RequestParam("keyword") String keyword){
         return ResponseEntity.ok(userService.getUserForTeacherSavingSearch("%" + keyword + "%"));

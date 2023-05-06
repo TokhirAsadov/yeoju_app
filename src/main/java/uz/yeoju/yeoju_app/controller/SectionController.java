@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.payload.SectionDto;
-import uz.yeoju.yeoju_app.payload.SectionDtoV2;
+import uz.yeoju.yeoju_app.payload.section.SectionDto;
+import uz.yeoju.yeoju_app.payload.section.SectionDtoV2;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.SectionService;
 
@@ -26,7 +26,7 @@ public class SectionController {
     }
     @GetMapping("/getSectionById")
     public HttpEntity<?> getSectionById(@CurrentUser User user,@RequestParam("id") String id){
-        ApiResponse response = sectionService.getSectionById(id);
+        ApiResponse response = sectionService.getSection3ById(id);
         return ResponseEntity.status(response.isSuccess() ? 200 : 401).body(response);
     }
 

@@ -5,7 +5,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.DirectionDto;
 import uz.yeoju.yeoju_app.payload.FacultyDto;
+import uz.yeoju.yeoju_app.payload.school.SchoolDto;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.FacultyService;
 
@@ -17,6 +20,17 @@ import java.util.List;
 public class FacultyController {
 
     public final FacultyService facultyService;
+
+    @GetMapping("/getDirectionsOfFaculty")
+    public HttpEntity<?> getDirectionsOfFaculty(@CurrentUser User user){
+        return ResponseEntity.ok(facultyService.getDirectionsOfFaculty());
+    }
+
+    @PostMapping("/saveDirection")
+    public HttpEntity<?> save(@CurrentUser User user, @RequestBody DirectionDto dto){
+        ApiResponse response = facultyService.saveOrUpdateDirection(dto);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 401).body(response);
+    }
 
     @GetMapping("/getGroupsForSelect")
     public HttpEntity<?> getGroupsForSelect(@CurrentUser User user,@RequestParam("facultyId") String facultyId,@RequestParam("eduTypeName") String eduTypeName){
