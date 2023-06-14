@@ -3,10 +3,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.admin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import uz.yeoju.yeoju_app.entity.Position;
-import uz.yeoju.yeoju_app.entity.Role;
-import uz.yeoju.yeoju_app.entity.USERINFO;
-import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.entity.address.AddressUser;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.admin.ForUserSaveDto;
@@ -25,6 +22,7 @@ public class AdminImplService implements AdminService{
 
     private final UserRepository userRepository;
     private final UserInfoRepo userInfoRepo;
+    private final AccMonitoringLogRepo accMonitoringLogRepo;
     private final AddressUserRepository addressUserRepository;
     private final RoleRepository roleRepository;
     private final PositionRepository positionRepository;
@@ -68,9 +66,20 @@ public class AdminImplService implements AdminService{
                                 if (userByLogin != null) {
                                     if (userByLogin.getId() == dto.getId()) {
                                         User user = userOptional.get();
+
+                                        List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                        accMonitorLogList.forEach(i -> {
+                                            i.setCard_no(dto.getRfid());
+                                            accMonitoringLogRepo.save(i);
+                                        });
+                                        USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                        userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                        userInfoRepo.save(userinfoByCardNoForSaving1);
+
                                         user.setFirstName(dto.getFirstName());
                                         user.setLastName(dto.getLastName());
                                         user.setMiddleName(dto.getMiddleName());
+                                        user.setFullName(dto.getLastName()+" "+dto.getFirstName()+" "+dto.getMiddleName());
                                         user.setLogin(dto.getLogin());
                                         user.setRFID(dto.getRfid());
                                         user.setPassportNum(dto.getPassport());
@@ -117,9 +126,20 @@ public class AdminImplService implements AdminService{
                                 }
                                 else {
                                     User user = userOptional.get();
+
+                                    List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                    accMonitorLogList.forEach(i -> {
+                                        i.setCard_no(dto.getRfid());
+                                        accMonitoringLogRepo.save(i);
+                                    });
+                                    USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                    userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                    userInfoRepo.save(userinfoByCardNoForSaving1);
+
                                     user.setFirstName(dto.getFirstName());
                                     user.setLastName(dto.getLastName());
                                     user.setMiddleName(dto.getMiddleName());
+                                    user.setFullName(dto.getLastName()+" "+dto.getFirstName()+" "+dto.getMiddleName());
                                     user.setLogin(dto.getLogin());
                                     user.setRFID(dto.getRfid());
                                     user.setPassportNum(dto.getPassport());
@@ -170,9 +190,20 @@ public class AdminImplService implements AdminService{
                             if (userByLogin != null) {
                                 if (userByLogin.getId() == dto.getId()) {
                                     User user = userOptional.get();
+
+                                    List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                    accMonitorLogList.forEach(i -> {
+                                        i.setCard_no(dto.getRfid());
+                                        accMonitoringLogRepo.save(i);
+                                    });
+                                    USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                    userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                    userInfoRepo.save(userinfoByCardNoForSaving1);
+
                                     user.setFirstName(dto.getFirstName());
                                     user.setLastName(dto.getLastName());
                                     user.setMiddleName(dto.getMiddleName());
+                                    user.setFullName(dto.getLastName()+" "+dto.getFirstName()+" "+dto.getMiddleName());
                                     user.setLogin(dto.getLogin());
                                     user.setRFID(dto.getRfid());
                                     user.setPassportNum(dto.getPassport());
@@ -200,7 +231,8 @@ public class AdminImplService implements AdminService{
                                         addressUser.setDistrict(dto.getDistrict());
                                         addressUser.setAddress(dto.getAddress());
                                         addressUserRepository.save(addressUser); //save user address
-                                    } else {
+                                    }
+                                    else {
                                         AddressUser addressUser = new AddressUser();
                                         addressUser.setUser(user);
                                         addressUser.setRegion(dto.getRegion());
@@ -219,9 +251,33 @@ public class AdminImplService implements AdminService{
                             }
                             else {
                                 User user = userOptional.get();
+
+                                List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                accMonitorLogList.forEach(i -> {
+                                    i.setCard_no(dto.getRfid());
+                                    accMonitoringLogRepo.save(i);
+                                });
+                                USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                if (userinfoByCardNoForSaving1!=null) {
+                                    userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                    userinfoByCardNoForSaving1.setLastname(dto.getLastName());
+                                    userinfoByCardNoForSaving1.setName(dto.getFirstName());
+                                    userInfoRepo.save(userinfoByCardNoForSaving1);
+                                }
+                                else {
+                                    /**============== save user info ==============**/
+                                    USERINFO userinfo = new USERINFO();
+                                    userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+                                    userinfo.setCardNo(dto.getRfid());
+                                    userinfo.setLastname(dto.getLastName());
+                                    userinfo.setName(dto.getFirstName());
+                                    userInfoRepo.save(userinfo);    // save userinfo
+                                }
+
                                 user.setFirstName(dto.getFirstName());
                                 user.setLastName(dto.getLastName());
                                 user.setMiddleName(dto.getMiddleName());
+                                user.setFullName(dto.getLastName()+" "+dto.getFirstName()+" "+dto.getMiddleName());
                                 user.setLogin(dto.getLogin());
                                 user.setRFID(dto.getRfid());
                                 user.setPassportNum(dto.getPassport());
@@ -273,9 +329,33 @@ public class AdminImplService implements AdminService{
                                 if (userByLogin != null) {
                                     if (userByLogin.getId() == dto.getId()) {
                                         User user = userOptional.get();
+
+                                        List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                        accMonitorLogList.forEach(i -> {
+                                            i.setCard_no(dto.getRfid());
+                                            accMonitoringLogRepo.save(i);
+                                        });
+                                        USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                        if (userinfoByCardNoForSaving1!=null) {
+                                            userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                            userinfoByCardNoForSaving1.setLastname(dto.getLastName());
+                                            userinfoByCardNoForSaving1.setName(dto.getFirstName());
+                                            userInfoRepo.save(userinfoByCardNoForSaving1);
+                                        }
+                                        else {
+                                            /**============== save user info ==============**/
+                                            USERINFO userinfo = new USERINFO();
+                                            userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+                                            userinfo.setCardNo(dto.getRfid());
+                                            userinfo.setLastname(dto.getLastName());
+                                            userinfo.setName(dto.getFirstName());
+                                            userInfoRepo.save(userinfo);    // save userinfo
+                                        }
+
                                         user.setFirstName(dto.getFirstName());
                                         user.setLastName(dto.getLastName());
                                         user.setMiddleName(dto.getMiddleName());
+                                        user.setFullName(dto.getLastName()+" "+dto.getFirstName()+" "+dto.getMiddleName());
                                         user.setLogin(dto.getLogin());
                                         user.setRFID(dto.getRfid());
                                         user.setPassportNum(dto.getPassport());
@@ -296,12 +376,12 @@ public class AdminImplService implements AdminService{
                                         userRepository.saveAndFlush(user); //save user
 
                                         /**============== save user info ==============**/
-                                        USERINFO userinfo = new USERINFO();
-                                        userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
-                                        userinfo.setCardNo(dto.getRfid());
-                                        userinfo.setLastname(dto.getLastName());
-                                        userinfo.setName(dto.getFirstName());
-                                        userInfoRepo.save(userinfo);    // save userinfo
+//                                        USERINFO userinfo = new USERINFO();
+//                                        userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+//                                        userinfo.setCardNo(dto.getRfid());
+//                                        userinfo.setLastname(dto.getLastName());
+//                                        userinfo.setName(dto.getFirstName());
+//                                        userInfoRepo.save(userinfo);    // save userinfo
 
                                         Optional<AddressUser> addressUserByUserId = addressUserRepository.findAddressUserByUserId(dto.getId());
                                         if (addressUserByUserId.isPresent()) {
@@ -330,9 +410,33 @@ public class AdminImplService implements AdminService{
                                 }
                                 else {
                                     User user = userOptional.get();
+
+                                    List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                    accMonitorLogList.forEach(i -> {
+                                        i.setCard_no(dto.getRfid());
+                                        accMonitoringLogRepo.save(i);
+                                    });
+                                    USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                    if (userinfoByCardNoForSaving1!=null) {
+                                        userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                        userinfoByCardNoForSaving1.setLastname(dto.getLastName());
+                                        userinfoByCardNoForSaving1.setName(dto.getFirstName());
+                                        userInfoRepo.save(userinfoByCardNoForSaving1);
+                                    }
+                                    else {
+                                        /**============== save user info ==============**/
+                                        USERINFO userinfo = new USERINFO();
+                                        userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+                                        userinfo.setCardNo(dto.getRfid());
+                                        userinfo.setLastname(dto.getLastName());
+                                        userinfo.setName(dto.getFirstName());
+                                        userInfoRepo.save(userinfo);    // save userinfo
+                                    }
+
                                     user.setFirstName(dto.getFirstName());
                                     user.setLastName(dto.getLastName());
                                     user.setMiddleName(dto.getMiddleName());
+                                    user.setFullName(dto.getLastName()+" "+dto.getFirstName()+" "+dto.getMiddleName());
                                     user.setLogin(dto.getLogin());
                                     user.setRFID(dto.getRfid());
                                     user.setPassportNum(dto.getPassport());
@@ -353,12 +457,12 @@ public class AdminImplService implements AdminService{
                                     userRepository.saveAndFlush(user); //save user
 
                                     /**============== save user info ==============**/
-                                    USERINFO userinfo = new USERINFO();
-                                    userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
-                                    userinfo.setCardNo(dto.getRfid());
-                                    userinfo.setLastname(dto.getLastName());
-                                    userinfo.setName(dto.getFirstName());
-                                    userInfoRepo.save(userinfo);    // save userinfo
+//                                    USERINFO userinfo = new USERINFO();
+//                                    userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+//                                    userinfo.setCardNo(dto.getRfid());
+//                                    userinfo.setLastname(dto.getLastName());
+//                                    userinfo.setName(dto.getFirstName());
+//                                    userInfoRepo.save(userinfo);    // save userinfo
 
                                     Optional<AddressUser> addressUserByUserId = addressUserRepository.findAddressUserByUserId(dto.getId());
                                     if (addressUserByUserId.isPresent()) {
@@ -391,9 +495,33 @@ public class AdminImplService implements AdminService{
                             if (userByLogin != null) {
                                 if (userByLogin.getId() == dto.getId()) {
                                     User user = userOptional.get();
+
+                                    List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                    accMonitorLogList.forEach(i -> {
+                                        i.setCard_no(dto.getRfid());
+                                        accMonitoringLogRepo.save(i);
+                                    });
+                                    USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                    if (userinfoByCardNoForSaving1!=null) {
+                                        userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                        userinfoByCardNoForSaving1.setLastname(dto.getLastName());
+                                        userinfoByCardNoForSaving1.setName(dto.getFirstName());
+                                        userInfoRepo.save(userinfoByCardNoForSaving1);
+                                    }
+                                    else {
+                                        /**============== save user info ==============**/
+                                        USERINFO userinfo = new USERINFO();
+                                        userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+                                        userinfo.setCardNo(dto.getRfid());
+                                        userinfo.setLastname(dto.getLastName());
+                                        userinfo.setName(dto.getFirstName());
+                                        userInfoRepo.save(userinfo);    // save userinfo
+                                    }
+
                                     user.setFirstName(dto.getFirstName());
                                     user.setLastName(dto.getLastName());
                                     user.setMiddleName(dto.getMiddleName());
+                                    user.setFullName(dto.getLastName()+" "+dto.getFirstName()+" "+dto.getMiddleName());
                                     user.setLogin(dto.getLogin());
                                     user.setRFID(dto.getRfid());
                                     user.setPassportNum(dto.getPassport());
@@ -438,9 +566,33 @@ public class AdminImplService implements AdminService{
                                 }
                             } else {
                                 User user = userOptional.get();
+
+                                List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                accMonitorLogList.forEach(i -> {
+                                    i.setCard_no(dto.getRfid());
+                                    accMonitoringLogRepo.save(i);
+                                });
+                                USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                if (userinfoByCardNoForSaving1!=null) {
+                                    userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                    userinfoByCardNoForSaving1.setLastname(dto.getLastName());
+                                    userinfoByCardNoForSaving1.setName(dto.getFirstName());
+                                    userInfoRepo.save(userinfoByCardNoForSaving1);
+                                }
+                                else {
+                                    /**============== save user info ==============**/
+                                    USERINFO userinfo = new USERINFO();
+                                    userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+                                    userinfo.setCardNo(dto.getRfid());
+                                    userinfo.setLastname(dto.getLastName());
+                                    userinfo.setName(dto.getFirstName());
+                                    userInfoRepo.save(userinfo);    // save userinfo
+                                }
+
                                 user.setFirstName(dto.getFirstName());
                                 user.setLastName(dto.getLastName());
                                 user.setMiddleName(dto.getMiddleName());
+                                user.setFullName(dto.getLastName()+" "+dto.getFirstName()+" "+dto.getMiddleName());
                                 user.setLogin(dto.getLogin());
                                 user.setRFID(dto.getRfid());
                                 user.setPassportNum(dto.getPassport());
@@ -500,6 +652,18 @@ public class AdminImplService implements AdminService{
                             if (userByLogin != null) {
                                 if (userByLogin.getId() == dto.getId()) {
                                     User user = userOptional.get();
+
+                                    List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                    accMonitorLogList.forEach(i -> {
+                                        i.setCard_no(dto.getRfid());
+                                        accMonitoringLogRepo.save(i);
+                                    });
+                                    USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                    userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                    userinfoByCardNoForSaving1.setLastname(dto.getLastName());
+                                    userinfoByCardNoForSaving1.setName(dto.getFirstName());
+                                    userInfoRepo.save(userinfoByCardNoForSaving1);
+
                                     user.setFirstName(dto.getFirstName());
                                     user.setLastName(dto.getLastName());
                                     user.setMiddleName(dto.getMiddleName());
@@ -547,6 +711,18 @@ public class AdminImplService implements AdminService{
                                 }
                             } else {
                                 User user = userOptional.get();
+
+                                List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                accMonitorLogList.forEach(i -> {
+                                    i.setCard_no(dto.getRfid());
+                                    accMonitoringLogRepo.save(i);
+                                });
+                                USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                userinfoByCardNoForSaving1.setLastname(dto.getLastName());
+                                userinfoByCardNoForSaving1.setName(dto.getFirstName());
+                                userInfoRepo.save(userinfoByCardNoForSaving1);
+
                                 user.setFirstName(dto.getFirstName());
                                 user.setLastName(dto.getLastName());
                                 user.setMiddleName(dto.getMiddleName());
@@ -599,6 +775,18 @@ public class AdminImplService implements AdminService{
                         if (userByLogin != null) {
                             if (userByLogin.getId() == dto.getId()) {
                                 User user = userOptional.get();
+
+                                List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                accMonitorLogList.forEach(i -> {
+                                    i.setCard_no(dto.getRfid());
+                                    accMonitoringLogRepo.save(i);
+                                });
+                                USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                userinfoByCardNoForSaving1.setLastname(dto.getLastName());
+                                userinfoByCardNoForSaving1.setName(dto.getFirstName());
+                                userInfoRepo.save(userinfoByCardNoForSaving1);
+
                                 user.setFirstName(dto.getFirstName());
                                 user.setLastName(dto.getLastName());
                                 user.setMiddleName(dto.getMiddleName());
@@ -646,6 +834,18 @@ public class AdminImplService implements AdminService{
                             }
                         } else {
                             User user = userOptional.get();
+
+                            List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                            accMonitorLogList.forEach(i -> {
+                                i.setCard_no(dto.getRfid());
+                                accMonitoringLogRepo.save(i);
+                            });
+                            USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                            userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                            userinfoByCardNoForSaving1.setLastname(dto.getLastName());
+                            userinfoByCardNoForSaving1.setName(dto.getFirstName());
+                            userInfoRepo.save(userinfoByCardNoForSaving1);
+
                             user.setFirstName(dto.getFirstName());
                             user.setLastName(dto.getLastName());
                             user.setMiddleName(dto.getMiddleName());
@@ -690,7 +890,8 @@ public class AdminImplService implements AdminService{
                             return new ApiResponse(true, dto.getLastName() + " " + dto.getFirstName() + " updated user successfully.");
                         }
                     }
-                } else {
+                }
+                else {
                     Optional<User> userByPassportNum = userRepository.findUserByPassportNum(dto.getPassport());
                     if (userByPassportNum.isPresent()) {
                         User userPN = userByPassportNum.get();
@@ -699,9 +900,33 @@ public class AdminImplService implements AdminService{
                             if (userByLogin != null) {
                                 if (userByLogin.getId() == dto.getId()) {
                                     User user = userOptional.get();
+
+                                    List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                    accMonitorLogList.forEach(i -> {
+                                        i.setCard_no(dto.getRfid());
+                                        accMonitoringLogRepo.save(i);
+                                    });
+                                    USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                    if (userinfoByCardNoForSaving1!=null) {
+                                        userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                        userinfoByCardNoForSaving1.setLastname(dto.getLastName());
+                                        userinfoByCardNoForSaving1.setName(dto.getFirstName());
+                                        userInfoRepo.save(userinfoByCardNoForSaving1);
+                                    }
+                                    else {
+                                        /**============== save user info ==============**/
+                                        USERINFO userinfo = new USERINFO();
+                                        userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+                                        userinfo.setCardNo(dto.getRfid());
+                                        userinfo.setLastname(dto.getLastName());
+                                        userinfo.setName(dto.getFirstName());
+                                        userInfoRepo.save(userinfo);    // save userinfo
+                                    }
+
                                     user.setFirstName(dto.getFirstName());
                                     user.setLastName(dto.getLastName());
                                     user.setMiddleName(dto.getMiddleName());
+                                    user.setFullName(dto.getLastName()+" "+dto.getFirstName()+" "+dto.getMiddleName());
                                     user.setLogin(dto.getLogin());
                                     user.setRFID(dto.getRfid());
                                     user.setPassportNum(dto.getPassport());
@@ -722,12 +947,12 @@ public class AdminImplService implements AdminService{
                                     userRepository.saveAndFlush(user); //save user
 
                                     /**============== save user info ==============**/
-                                    USERINFO userinfo = new USERINFO();
-                                    userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
-                                    userinfo.setCardNo(dto.getRfid());
-                                    userinfo.setLastname(dto.getLastName());
-                                    userinfo.setName(dto.getFirstName());
-                                    userInfoRepo.save(userinfo);    // save userinfo
+//                                    USERINFO userinfo = new USERINFO();
+//                                    userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+//                                    userinfo.setCardNo(dto.getRfid());
+//                                    userinfo.setLastname(dto.getLastName());
+//                                    userinfo.setName(dto.getFirstName());
+//                                    userInfoRepo.save(userinfo);    // save userinfo
 
                                     Optional<AddressUser> addressUserByUserId = addressUserRepository.findAddressUserByUserId(dto.getId());
                                     if (addressUserByUserId.isPresent()) {
@@ -754,9 +979,33 @@ public class AdminImplService implements AdminService{
                                 }
                             } else {
                                 User user = userOptional.get();
+
+                                List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                accMonitorLogList.forEach(i -> {
+                                    i.setCard_no(dto.getRfid());
+                                    accMonitoringLogRepo.save(i);
+                                });
+                                USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                if (userinfoByCardNoForSaving1!=null) {
+                                    userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                    userinfoByCardNoForSaving1.setLastname(dto.getLastName());
+                                    userinfoByCardNoForSaving1.setName(dto.getFirstName());
+                                    userInfoRepo.save(userinfoByCardNoForSaving1);
+                                }
+                                else {
+                                    /**============== save user info ==============**/
+                                    USERINFO userinfo = new USERINFO();
+                                    userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+                                    userinfo.setCardNo(dto.getRfid());
+                                    userinfo.setLastname(dto.getLastName());
+                                    userinfo.setName(dto.getFirstName());
+                                    userInfoRepo.save(userinfo);    // save userinfo
+                                }
+
                                 user.setFirstName(dto.getFirstName());
                                 user.setLastName(dto.getLastName());
                                 user.setMiddleName(dto.getMiddleName());
+                                user.setFullName(dto.getLastName()+" "+dto.getFirstName()+" "+dto.getMiddleName());
                                 user.setLogin(dto.getLogin());
                                 user.setRFID(dto.getRfid());
                                 user.setPassportNum(dto.getPassport());
@@ -777,12 +1026,12 @@ public class AdminImplService implements AdminService{
                                 userRepository.saveAndFlush(user); //save user
 
                                 /**============== save user info ==============**/
-                                USERINFO userinfo = new USERINFO();
-                                userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
-                                userinfo.setCardNo(dto.getRfid());
-                                userinfo.setLastname(dto.getLastName());
-                                userinfo.setName(dto.getFirstName());
-                                userInfoRepo.save(userinfo);    // save userinfo
+//                                USERINFO userinfo = new USERINFO();
+//                                userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+//                                userinfo.setCardNo(dto.getRfid());
+//                                userinfo.setLastname(dto.getLastName());
+//                                userinfo.setName(dto.getFirstName());
+//                                userInfoRepo.save(userinfo);    // save userinfo
 
                                 Optional<AddressUser> addressUserByUserId = addressUserRepository.findAddressUserByUserId(dto.getId());
                                 if (addressUserByUserId.isPresent()) {
@@ -814,9 +1063,33 @@ public class AdminImplService implements AdminService{
                         if (userByLogin != null) {
                             if (userByLogin.getId() == dto.getId()) {
                                 User user = userOptional.get();
+
+                                List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                                accMonitorLogList.forEach(i -> {
+                                    i.setCard_no(dto.getRfid());
+                                    accMonitoringLogRepo.save(i);
+                                });
+                                USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                                if (userinfoByCardNoForSaving1!=null) {
+                                    userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                    userinfoByCardNoForSaving1.setLastname(dto.getLastName());
+                                    userinfoByCardNoForSaving1.setName(dto.getFirstName());
+                                    userInfoRepo.save(userinfoByCardNoForSaving1);
+                                }
+                                else {
+                                    /**============== save user info ==============**/
+                                    USERINFO userinfo = new USERINFO();
+                                    userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+                                    userinfo.setCardNo(dto.getRfid());
+                                    userinfo.setLastname(dto.getLastName());
+                                    userinfo.setName(dto.getFirstName());
+                                    userInfoRepo.save(userinfo);    // save userinfo
+                                }
+
                                 user.setFirstName(dto.getFirstName());
                                 user.setLastName(dto.getLastName());
                                 user.setMiddleName(dto.getMiddleName());
+                                user.setFullName(dto.getLastName()+" "+dto.getFirstName()+" "+dto.getMiddleName());
                                 user.setLogin(dto.getLogin());
                                 user.setRFID(dto.getRfid());
                                 user.setPassportNum(dto.getPassport());
@@ -861,9 +1134,33 @@ public class AdminImplService implements AdminService{
                             }
                         } else {
                             User user = userOptional.get();
+
+                            List<AccMonitorLog> accMonitorLogList = accMonitoringLogRepo.findAccMonitorLogsByCard_no(user.getRFID());
+                            accMonitorLogList.forEach(i -> {
+                                i.setCard_no(dto.getRfid());
+                                accMonitoringLogRepo.save(i);
+                            });
+                            USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(user.getRFID());
+                            if (userinfoByCardNoForSaving1!=null) {
+                                userinfoByCardNoForSaving1.setCardNo(dto.getRfid());
+                                userinfoByCardNoForSaving1.setLastname(dto.getLastName());
+                                userinfoByCardNoForSaving1.setName(dto.getFirstName());
+                                userInfoRepo.save(userinfoByCardNoForSaving1);
+                            }
+                            else {
+                                /**============== save user info ==============**/
+                                USERINFO userinfo = new USERINFO();
+                                userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+                                userinfo.setCardNo(dto.getRfid());
+                                userinfo.setLastname(dto.getLastName());
+                                userinfo.setName(dto.getFirstName());
+                                userInfoRepo.save(userinfo);    // save userinfo
+                            }
+
                             user.setFirstName(dto.getFirstName());
                             user.setLastName(dto.getLastName());
                             user.setMiddleName(dto.getMiddleName());
+                            user.setFullName(dto.getLastName()+" "+dto.getFirstName()+" "+dto.getMiddleName());
                             user.setLogin(dto.getLogin());
                             user.setRFID(dto.getRfid());
                             user.setPassportNum(dto.getPassport());
@@ -926,6 +1223,7 @@ public class AdminImplService implements AdminService{
                         user.setFirstName(dto.getFirstName());
                         user.setLastName(dto.getLastName());
                         user.setMiddleName(dto.getMiddleName());
+                        user.setFullName(dto.getLastName()+" "+dto.getFirstName()+" "+dto.getMiddleName());
                         user.setLogin(dto.getLogin());
                         user.setRFID(dto.getRfid());
                         user.setPassportNum(dto.getPassport());

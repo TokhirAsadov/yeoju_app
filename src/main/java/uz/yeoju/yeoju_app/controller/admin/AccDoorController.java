@@ -5,6 +5,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
+import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.admin.AccDoorDto;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.admin.AccDoorService;
 
@@ -28,6 +29,12 @@ public class AccDoorController {
     @PutMapping("/updated")
     public HttpEntity<?> updated(@RequestBody AccDoorDto dto){
         return ResponseEntity.ok(accDoorService.save(dto));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public HttpEntity<?> deleteById(@PathVariable Long id){
+        ApiResponse response = accDoorService.deleteById(id);
+        return ResponseEntity.status(response.isSuccess() ? 204 : 405).body(response);
     }
 
     @GetMapping("/findByDeviceId/{deviceId}")

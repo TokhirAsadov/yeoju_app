@@ -303,7 +303,7 @@ public class GroupService implements GroupImplService<GroupDto> {
     public ApiResponse getSubjectOfGroup(String group) {
         String id = DataBaseForTimeTable.classes.stream().filter(item -> Objects.equals(item.getName(), group)).findFirst().get().getId();
         List<LessonXml> lessonXmlList = DataBaseForTimeTable.lessons.stream().filter(item -> item.getClassIds().contains(id)).collect(Collectors.toList());
-        List<String> response = new ArrayList<>();
+        Set<String> response = new HashSet<>();
         for (LessonXml lessonXml : lessonXmlList) {
             String name = DataBaseForTimeTable.subjects.stream().filter(item -> Objects.equals(item.getId(), lessonXml.getSubjectId())).findFirst().get().getName();
             response.add(name);

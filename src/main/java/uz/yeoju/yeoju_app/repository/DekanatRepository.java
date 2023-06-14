@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.payload.resDto.dekan.ForDekanRoleSettings;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.GetFacultiesShortNameAndDekanEducationTypes;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentDataForEditedDekan;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.DekanatDataForDekan;
+import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.EduTypeByDekanatId;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.FacultyOfDekanat;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.ForKafedraRoleSettings;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.monthly.*;
@@ -69,7 +70,7 @@ public interface DekanatRepository extends JpaRepository<Dekanat, String> {
     @Query(value = "select id from users where id=:id",nativeQuery = true)
     UserForDekanSave getUserForDekanSave(@Param("id") String id);
 
-    @Query(value = "select id from users where id=:id",nativeQuery = true)
+    @Query(value = "select id from users where id=:id", nativeQuery = true)
     UserForSectionSave getUserForSectionSave(@Param("id") String id);
 
 
@@ -89,5 +90,6 @@ public interface DekanatRepository extends JpaRepository<Dekanat, String> {
             "       + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME)) as date",nativeQuery = true)
     MonthlyGroupForDean28 getDateForDean28(@Param("date") Date date, @Param("id") String id);
 
-
+    @Query(value = "select et.id,et.name from EducationType et join Dekanat D on et.id = D.eduType_id where D.id=?1",nativeQuery = true)
+    EduTypeByDekanatId getEduTypeByDekanatId(String id);
 }

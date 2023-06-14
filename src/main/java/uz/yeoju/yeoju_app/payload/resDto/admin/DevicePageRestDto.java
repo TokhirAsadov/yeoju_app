@@ -9,11 +9,11 @@ public interface DevicePageRestDto {
 
     String getId();
 
-    @Value("#{@machinesRepository.findAll()}")
+    @Value("#{@machinesRepository.findEmptyDevices()}")
     List<MachinesRestDto> getDevices();
 
-    @Value("#{@roomRepository.findAll()}")
-    List<Room> getRooms();
+    @Value("#{@roomRepository.getRoomsForDeviceAdmin()}")
+    List<RoomsForDeviceAdmin> getRooms();
 
     @Value("#{@buildingRepository.getBuildings()}")
     List<BuildingRestDto> getBuildings();

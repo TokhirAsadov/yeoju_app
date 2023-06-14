@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.yeoju.yeoju_app.entity.*;
+import uz.yeoju.yeoju_app.entity.dekanat.Dekan;
 import uz.yeoju.yeoju_app.entity.dekanat.Dekanat;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.OwnerDto;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 public class DekanatImplService implements DekanatService{
 
     private final DekanatRepository dekanatRepository;
+    private final DekanRepository dekanRepository;
     private final UserRepository userRepository;
     private final StudentRepository studentRepository;
     private final GroupRepository groupRepository;
@@ -86,37 +88,239 @@ public class DekanatImplService implements DekanatService{
                 if (Objects.equals(dekanatByName.getId(), dekanat.getId())) {
                     Optional<User> userOptional = userRepository.findById(dto.getOwner().getValue());
                     if (userOptional.isPresent()) {
-                        dekanat.setOwner(userOptional.get());
-                        dekanat.setRoom(dto.getRoom());
-                        dekanat.setPhone(dto.getPhone());
-                        dekanat.setName(dto.getName());
-                        EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                        if (educationTypeByName!=null) {
-                            dekanat.setEduType(educationTypeByName);
+                        Optional<Dekan> dekanOptional = dekanRepository.findDekanByDekanatId(dekanat.getId());
+                        if (dekanOptional.isPresent()) {
+                            Dekan oldDekan = dekanOptional.get();
+                            Dekan dekanByUserId = dekanRepository.getDekanByUserId(dto.getOwner().getValue());
+                            if (dekanByUserId!=null) {
+                                if (oldDekan.getId().equals(dekanByUserId.getId())) {
+                                    dekanat.setOwner(userOptional.get());
+                                    dekanat.setRoom(dto.getRoom());
+                                    dekanat.setPhone(dto.getPhone());
+                                    dekanat.setName(dto.getName());
+                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
+                                    if (educationTypeByName != null) {
+                                        dekanat.setEduType(educationTypeByName);
+                                    }
+
+                                    Set<Role> roleSet = new HashSet<>();
+                                    Set<Position> positionSet = new HashSet<>();
+                                    Set<Faculty> faculties = new HashSet<>();
+                                    dto.getFacultiesName().forEach(faculty -> {
+                                        Optional<Faculty> facultyByShortName = facultyRepository.findFacultyByShortName(faculty);
+                                        facultyByShortName.ifPresent(faculties::add);
+                                    });
+                                    dto.getRoles().forEach(role -> {
+                                        if (roleRepository.findRoleByRoleName(role).isPresent())
+                                            roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                    });
+                                    dto.getPositions().forEach(position -> {
+                                        if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                            positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                    });
+
+                                    dekanat.setRoles(roleSet);
+                                    dekanat.setPositions(positionSet);
+                                    dekanat.setFaculties(faculties);
+
+                                    dekanatRepository.save(dekanat);
+                                    return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
+                                }
+                                else {
+                                    dekanRepository.deleteById(dekanByUserId.getId());
+
+                                    dekanat.setOwner(userOptional.get());
+                                    dekanat.setRoom(dto.getRoom());
+                                    dekanat.setPhone(dto.getPhone());
+                                    dekanat.setName(dto.getName());
+                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
+                                    if (educationTypeByName != null) {
+                                        dekanat.setEduType(educationTypeByName);
+                                    }
+
+                                    Set<Role> roleSet = new HashSet<>();
+                                    Set<Position> positionSet = new HashSet<>();
+                                    Set<Faculty> faculties = new HashSet<>();
+                                    dto.getFacultiesName().forEach(faculty -> {
+                                        Optional<Faculty> facultyByShortName = facultyRepository.findFacultyByShortName(faculty);
+                                        facultyByShortName.ifPresent(faculties::add);
+                                    });
+                                    dto.getRoles().forEach(role -> {
+                                        if (roleRepository.findRoleByRoleName(role).isPresent())
+                                            roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                    });
+                                    dto.getPositions().forEach(position -> {
+                                        if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                            positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                    });
+
+                                    dekanat.setRoles(roleSet);
+                                    dekanat.setPositions(positionSet);
+                                    dekanat.setFaculties(faculties);
+
+                                    dekanatRepository.save(dekanat);
+
+                                    User user = userOptional.get();
+                                    oldDekan.setUser(user);
+                                    if (educationTypeByName != null) {
+                                        oldDekan.setEducationType(educationTypeByName);
+                                    }
+                                    dekanRepository.save(oldDekan);
+
+                                    return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
+                                }
+                            }
+                            else {
+                                User oldMudirUser = oldDekan.getUser();
+                                Set<Role> collect = oldMudirUser.getRoles().stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_DEKAN")).collect(Collectors.toSet());
+                                oldMudirUser.setRoles(collect);
+                                userRepository.save(oldMudirUser);
+
+                                dekanat.setOwner(userOptional.get());
+                                dekanat.setRoom(dto.getRoom());
+                                dekanat.setPhone(dto.getPhone());
+                                dekanat.setName(dto.getName());
+                                EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
+                                if (educationTypeByName != null) {
+                                    dekanat.setEduType(educationTypeByName);
+                                }
+
+                                Set<Role> roleSet = new HashSet<>();
+                                Set<Position> positionSet = new HashSet<>();
+                                Set<Faculty> faculties = new HashSet<>();
+                                dto.getFacultiesName().forEach(faculty -> {
+                                    Optional<Faculty> facultyByShortName = facultyRepository.findFacultyByShortName(faculty);
+                                    facultyByShortName.ifPresent(faculties::add);
+                                });
+                                dto.getRoles().forEach(role -> {
+                                    if (roleRepository.findRoleByRoleName(role).isPresent())
+                                        roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                });
+                                dto.getPositions().forEach(position -> {
+                                    if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                        positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                });
+
+                                dekanat.setRoles(roleSet);
+                                dekanat.setPositions(positionSet);
+                                dekanat.setFaculties(faculties);
+
+                                dekanatRepository.save(dekanat);
+
+                                User user = userOptional.get();
+                                Set<Role> roles = user.getRoles();
+                                Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_DEKAN");
+                                Set<Role> roleSet2 = roles.stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_USER")).collect(Collectors.toSet());
+                                roleSet2.add(roleOptional.get());
+                                user.setRoles(roleSet2);
+                                userRepository.saveAndFlush(user);
+
+                                if (educationTypeByName != null) {
+                                    oldDekan.setEducationType(educationTypeByName);
+                                }
+                                oldDekan.setUser(user);
+                                dekanRepository.save(oldDekan);
+                                return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
+                            }
                         }
+                        else {
+                            Dekan dekanByUserId = dekanRepository.getDekanByUserId(dto.getOwner().getValue());
+                            if (dekanByUserId!=null) {
 
-                        Set<Role> roleSet = new HashSet<>();
-                        Set<Position> positionSet = new HashSet<>();
-                        Set<Faculty> faculties = new HashSet<>();
-                        dto.getFacultiesName().forEach(faculty -> {
-                            Optional<Faculty> facultyByShortName = facultyRepository.findFacultyByShortName(faculty);
-                            facultyByShortName.ifPresent(faculties::add);
-                        });
-                        dto.getRoles().forEach(role -> {
-                            if (roleRepository.findRoleByRoleName(role).isPresent())
-                                roleSet.add(roleRepository.findRoleByRoleName(role).get());
-                        });
-                        dto.getPositions().forEach(position -> {
-                            if (positionRepository.findRoleByUserPositionName(position).isPresent())
-                                positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
-                        });
+                                dekanat.setOwner(userOptional.get());
+                                dekanat.setRoom(dto.getRoom());
+                                dekanat.setPhone(dto.getPhone());
+                                dekanat.setName(dto.getName());
+                                EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
+                                if (educationTypeByName != null) {
+                                    dekanat.setEduType(educationTypeByName);
+                                }
 
-                        dekanat.setRoles(roleSet);
-                        dekanat.setPositions(positionSet);
-                        dekanat.setFaculties(faculties);
+                                Set<Role> roleSet = new HashSet<>();
+                                Set<Position> positionSet = new HashSet<>();
+                                Set<Faculty> faculties = new HashSet<>();
+                                dto.getFacultiesName().forEach(faculty -> {
+                                    Optional<Faculty> facultyByShortName = facultyRepository.findFacultyByShortName(faculty);
+                                    facultyByShortName.ifPresent(faculties::add);
+                                });
+                                dto.getRoles().forEach(role -> {
+                                    if (roleRepository.findRoleByRoleName(role).isPresent())
+                                        roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                });
+                                dto.getPositions().forEach(position -> {
+                                    if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                        positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                });
 
-                        dekanatRepository.save(dekanat);
-                        return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
+                                dekanat.setRoles(roleSet);
+                                dekanat.setPositions(positionSet);
+                                dekanat.setFaculties(faculties);
+
+                                dekanatRepository.save(dekanat);
+
+                                dekanByUserId.setDekanat(dekanat);
+                                if (educationTypeByName != null) {
+                                    dekanByUserId.setEducationType(educationTypeByName);
+                                }
+                                dekanRepository.save(dekanByUserId);
+
+                                return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
+
+                            }
+                            else {
+
+
+                                dekanat.setOwner(userOptional.get());
+                                dekanat.setRoom(dto.getRoom());
+                                dekanat.setPhone(dto.getPhone());
+                                dekanat.setName(dto.getName());
+                                EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
+                                if (educationTypeByName != null) {
+                                    dekanat.setEduType(educationTypeByName);
+                                }
+
+                                Set<Role> roleSet = new HashSet<>();
+                                Set<Position> positionSet = new HashSet<>();
+                                Set<Faculty> faculties = new HashSet<>();
+                                dto.getFacultiesName().forEach(faculty -> {
+                                    Optional<Faculty> facultyByShortName = facultyRepository.findFacultyByShortName(faculty);
+                                    facultyByShortName.ifPresent(faculties::add);
+                                });
+                                dto.getRoles().forEach(role -> {
+                                    if (roleRepository.findRoleByRoleName(role).isPresent())
+                                        roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                });
+                                dto.getPositions().forEach(position -> {
+                                    if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                        positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                });
+
+                                dekanat.setRoles(roleSet);
+                                dekanat.setPositions(positionSet);
+                                dekanat.setFaculties(faculties);
+
+                                dekanatRepository.save(dekanat);
+
+                                User user = userOptional.get();
+                                Set<Role> roles = user.getRoles();
+                                Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_DEKAN");
+                                Set<Role> roleSet2 = roles.stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_USER")).collect(Collectors.toSet());
+                                roleSet2.add(roleOptional.get());
+                                user.setRoles(roleSet2);
+                                userRepository.saveAndFlush(user);
+
+
+                                Dekan dekan = new Dekan();
+                                dekan.setDekanat(dekanat);
+                                if (educationTypeByName != null) {
+                                    dekan.setEducationType(educationTypeByName);
+                                }
+                                dekan.setUser(user);
+                                dekanRepository.save(dekan);
+
+                                return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
+                            }
+                        }
                     }
                     else {
                         return new ApiResponse(
@@ -124,7 +328,8 @@ public class DekanatImplService implements DekanatService{
                                 "error! not fount owner!"
                         );
                     }
-                } else {
+                }
+                else {
                     return new ApiResponse(
                             false,
                             "error! not saved dekanat! Please, enter other dekanat name!.."
@@ -135,38 +340,239 @@ public class DekanatImplService implements DekanatService{
                 if (!dekanatRepository.existsDekanatByName(dto.getName())){
                     Optional<User> userOptional = userRepository.findById(dto.getOwner().getValue());
                     if (userOptional.isPresent()) {
-                        dekanat.setName(dto.getName());
-                        dekanat.setOwner(userOptional.get());
-                        dekanat.setRoom(dto.getRoom());
-                        dekanat.setPhone(dto.getPhone());
+                        Optional<Dekan> dekanOptional = dekanRepository.findDekanByDekanatId(dekanat.getId());
+                        if (dekanOptional.isPresent()) {
+                            Dekan oldDekan = dekanOptional.get();
+                            Dekan dekanByUserId = dekanRepository.getDekanByUserId(dto.getOwner().getValue());
+                            if (dekanByUserId!=null) {
+                                if (oldDekan.getId().equals(dekanByUserId.getId())) {
+                                    dekanat.setOwner(userOptional.get());
+                                    dekanat.setRoom(dto.getRoom());
+                                    dekanat.setPhone(dto.getPhone());
+                                    dekanat.setName(dto.getName());
+                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
+                                    if (educationTypeByName != null) {
+                                        dekanat.setEduType(educationTypeByName);
+                                    }
 
-                        EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                        if (educationTypeByName!=null) {
-                            dekanat.setEduType(educationTypeByName);
+                                    Set<Role> roleSet = new HashSet<>();
+                                    Set<Position> positionSet = new HashSet<>();
+                                    Set<Faculty> faculties = new HashSet<>();
+                                    dto.getFacultiesName().forEach(faculty -> {
+                                        Optional<Faculty> facultyByShortName = facultyRepository.findFacultyByShortName(faculty);
+                                        facultyByShortName.ifPresent(faculties::add);
+                                    });
+                                    dto.getRoles().forEach(role -> {
+                                        if (roleRepository.findRoleByRoleName(role).isPresent())
+                                            roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                    });
+                                    dto.getPositions().forEach(position -> {
+                                        if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                            positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                    });
+
+                                    dekanat.setRoles(roleSet);
+                                    dekanat.setPositions(positionSet);
+                                    dekanat.setFaculties(faculties);
+
+                                    dekanatRepository.save(dekanat);
+                                    return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
+                                }
+                                else {
+                                    dekanRepository.deleteById(dekanByUserId.getId());
+
+                                    dekanat.setOwner(userOptional.get());
+                                    dekanat.setRoom(dto.getRoom());
+                                    dekanat.setPhone(dto.getPhone());
+                                    dekanat.setName(dto.getName());
+                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
+                                    if (educationTypeByName != null) {
+                                        dekanat.setEduType(educationTypeByName);
+                                    }
+
+                                    Set<Role> roleSet = new HashSet<>();
+                                    Set<Position> positionSet = new HashSet<>();
+                                    Set<Faculty> faculties = new HashSet<>();
+                                    dto.getFacultiesName().forEach(faculty -> {
+                                        Optional<Faculty> facultyByShortName = facultyRepository.findFacultyByShortName(faculty);
+                                        facultyByShortName.ifPresent(faculties::add);
+                                    });
+                                    dto.getRoles().forEach(role -> {
+                                        if (roleRepository.findRoleByRoleName(role).isPresent())
+                                            roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                    });
+                                    dto.getPositions().forEach(position -> {
+                                        if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                            positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                    });
+
+                                    dekanat.setRoles(roleSet);
+                                    dekanat.setPositions(positionSet);
+                                    dekanat.setFaculties(faculties);
+
+                                    dekanatRepository.save(dekanat);
+
+                                    User user = userOptional.get();
+                                    oldDekan.setUser(user);
+                                    if (educationTypeByName != null) {
+                                        oldDekan.setEducationType(educationTypeByName);
+                                    }
+                                    dekanRepository.save(oldDekan);
+
+                                    return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
+                                }
+                            }
+                            else {
+                                User oldMudirUser = oldDekan.getUser();
+                                Set<Role> collect = oldMudirUser.getRoles().stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_DEKAN")).collect(Collectors.toSet());
+                                oldMudirUser.setRoles(collect);
+                                userRepository.save(oldMudirUser);
+
+                                dekanat.setOwner(userOptional.get());
+                                dekanat.setRoom(dto.getRoom());
+                                dekanat.setPhone(dto.getPhone());
+                                dekanat.setName(dto.getName());
+                                EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
+                                if (educationTypeByName != null) {
+                                    dekanat.setEduType(educationTypeByName);
+                                }
+
+                                Set<Role> roleSet = new HashSet<>();
+                                Set<Position> positionSet = new HashSet<>();
+                                Set<Faculty> faculties = new HashSet<>();
+                                dto.getFacultiesName().forEach(faculty -> {
+                                    Optional<Faculty> facultyByShortName = facultyRepository.findFacultyByShortName(faculty);
+                                    facultyByShortName.ifPresent(faculties::add);
+                                });
+                                dto.getRoles().forEach(role -> {
+                                    if (roleRepository.findRoleByRoleName(role).isPresent())
+                                        roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                });
+                                dto.getPositions().forEach(position -> {
+                                    if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                        positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                });
+
+                                dekanat.setRoles(roleSet);
+                                dekanat.setPositions(positionSet);
+                                dekanat.setFaculties(faculties);
+
+                                dekanatRepository.save(dekanat);
+
+                                User user = userOptional.get();
+                                Set<Role> roles = user.getRoles();
+                                Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_DEKAN");
+                                Set<Role> roleSet2 = roles.stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_USER")).collect(Collectors.toSet());
+                                roleSet2.add(roleOptional.get());
+                                user.setRoles(roleSet2);
+                                userRepository.saveAndFlush(user);
+
+                                if (educationTypeByName != null) {
+                                    oldDekan.setEducationType(educationTypeByName);
+                                }
+                                oldDekan.setUser(user);
+                                dekanRepository.save(oldDekan);
+                                return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
+                            }
                         }
+                        else {
+                            Dekan dekanByUserId = dekanRepository.getDekanByUserId(dto.getOwner().getValue());
+                            if (dekanByUserId!=null) {
 
-                        Set<Role> roleSet = new HashSet<>();
-                        Set<Position> positionSet = new HashSet<>();
-                        Set<Faculty> faculties = new HashSet<>();
-                        dto.getFacultiesName().forEach(faculty -> {
-                            Optional<Faculty> facultyByShortName = facultyRepository.findFacultyByShortName(faculty);
-                            facultyByShortName.ifPresent(faculties::add);
-                        });
-                        dto.getRoles().forEach(role -> {
-                            if (roleRepository.findRoleByRoleName(role).isPresent())
-                                roleSet.add(roleRepository.findRoleByRoleName(role).get());
-                        });
-                        dto.getPositions().forEach(position -> {
-                            if (positionRepository.findRoleByUserPositionName(position).isPresent())
-                                positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
-                        });
+                                dekanat.setOwner(userOptional.get());
+                                dekanat.setRoom(dto.getRoom());
+                                dekanat.setPhone(dto.getPhone());
+                                dekanat.setName(dto.getName());
+                                EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
+                                if (educationTypeByName != null) {
+                                    dekanat.setEduType(educationTypeByName);
+                                }
 
-                        dekanat.setRoles(roleSet);
-                        dekanat.setPositions(positionSet);
-                        dekanat.setFaculties(faculties);
+                                Set<Role> roleSet = new HashSet<>();
+                                Set<Position> positionSet = new HashSet<>();
+                                Set<Faculty> faculties = new HashSet<>();
+                                dto.getFacultiesName().forEach(faculty -> {
+                                    Optional<Faculty> facultyByShortName = facultyRepository.findFacultyByShortName(faculty);
+                                    facultyByShortName.ifPresent(faculties::add);
+                                });
+                                dto.getRoles().forEach(role -> {
+                                    if (roleRepository.findRoleByRoleName(role).isPresent())
+                                        roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                });
+                                dto.getPositions().forEach(position -> {
+                                    if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                        positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                });
 
-                        dekanatRepository.save(dekanat);
-                        return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
+                                dekanat.setRoles(roleSet);
+                                dekanat.setPositions(positionSet);
+                                dekanat.setFaculties(faculties);
+
+                                dekanatRepository.save(dekanat);
+
+                                dekanByUserId.setDekanat(dekanat);
+                                if (educationTypeByName != null) {
+                                    dekanByUserId.setEducationType(educationTypeByName);
+                                }
+                                dekanRepository.save(dekanByUserId);
+
+                                return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
+
+                            }
+                            else {
+
+
+                                dekanat.setOwner(userOptional.get());
+                                dekanat.setRoom(dto.getRoom());
+                                dekanat.setPhone(dto.getPhone());
+                                dekanat.setName(dto.getName());
+                                EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
+                                if (educationTypeByName != null) {
+                                    dekanat.setEduType(educationTypeByName);
+                                }
+
+                                Set<Role> roleSet = new HashSet<>();
+                                Set<Position> positionSet = new HashSet<>();
+                                Set<Faculty> faculties = new HashSet<>();
+                                dto.getFacultiesName().forEach(faculty -> {
+                                    Optional<Faculty> facultyByShortName = facultyRepository.findFacultyByShortName(faculty);
+                                    facultyByShortName.ifPresent(faculties::add);
+                                });
+                                dto.getRoles().forEach(role -> {
+                                    if (roleRepository.findRoleByRoleName(role).isPresent())
+                                        roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                });
+                                dto.getPositions().forEach(position -> {
+                                    if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                        positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                });
+
+                                dekanat.setRoles(roleSet);
+                                dekanat.setPositions(positionSet);
+                                dekanat.setFaculties(faculties);
+
+                                dekanatRepository.save(dekanat);
+
+                                User user = userOptional.get();
+                                Set<Role> roles = user.getRoles();
+                                Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_DEKAN");
+                                Set<Role> roleSet2 = roles.stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_USER")).collect(Collectors.toSet());
+                                roleSet2.add(roleOptional.get());
+                                user.setRoles(roleSet2);
+                                userRepository.saveAndFlush(user);
+
+
+                                Dekan dekan = new Dekan();
+                                dekan.setDekanat(dekanat);
+                                if (educationTypeByName != null) {
+                                    dekan.setEducationType(educationTypeByName);
+                                }
+                                dekan.setUser(user);
+                                dekanRepository.save(dekan);
+
+                                return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
+                            }
+                        }
                     }
                     else {
                         return new ApiResponse(
@@ -194,16 +600,52 @@ public class DekanatImplService implements DekanatService{
         if (!dekanatRepository.existsDekanatByName(dto.getName())){
             Optional<User> userOptional = userRepository.findById(dto.getOwner().getValue());
             if (userOptional.isPresent()) {
-                Dekanat dekanat = generateDekanat(dto);
-                EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                if (educationTypeByName!=null) {
-                    dekanat.setEduType(educationTypeByName);
+                Dekan dekanByUserId = dekanRepository.getDekanByUserId(dto.getOwner().getValue());
+                if (dekanByUserId!=null) {
+                    Dekanat dekanat = generateDekanat(dto);
+                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
+                    if (educationTypeByName != null) {
+                        dekanat.setEduType(educationTypeByName);
+                    }
+                    dekanat.setOwner(userOptional.get());
+                    dekanat.setPhone(dto.getPhone());
+                    dekanat.setRoom(dto.getRoom());
+                    dekanatRepository.saveAndFlush(dekanat);
+
+                    dekanByUserId.setDekanat(dekanat);
+                    dekanRepository.save(dekanByUserId);
+
+                    return new ApiResponse(true, "new dekanat saved successfully!...");
                 }
-                dekanat.setOwner(userOptional.get());
-                dekanat.setPhone(dto.getPhone());
-                dekanat.setRoom(dto.getRoom());
-                dekanatRepository.saveAndFlush(dekanat);
-                return new ApiResponse(true, "new dekanat saved successfully!...");
+                else {
+                    User user = userOptional.get();
+
+                    Dekanat dekanat = generateDekanat(dto);
+                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
+                    if (educationTypeByName != null) {
+                        dekanat.setEduType(educationTypeByName);
+                    }
+                    dekanat.setOwner(user);
+                    dekanat.setPhone(dto.getPhone());
+                    dekanat.setRoom(dto.getRoom());
+                    dekanatRepository.saveAndFlush(dekanat);
+
+                    Set<Role> roles = user.getRoles();
+                    Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_DEKAN");
+                    Set<Role> roleSet = roles.stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_USER")).collect(Collectors.toSet());
+                    roleSet.add(roleOptional.get());
+                    user.setRoles(roleSet);
+                    userRepository.saveAndFlush(user);
+
+                    Dekan dekan = new Dekan();
+                    dekan.setDekanat(dekanat);
+                    if (educationTypeByName != null) {
+                        dekan.setEducationType(educationTypeByName);
+                    }
+                    dekan.setUser(user);
+                    dekanRepository.save(dekan);
+                    return new ApiResponse(true, "new dekanat saved successfully!...");
+                }
             }
             else {
                 return new ApiResponse(

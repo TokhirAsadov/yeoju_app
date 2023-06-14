@@ -21,6 +21,17 @@ public class TimeTableByWeekOfYearController {
     private final TimeTableByWeekOfYearService service;
     private final UserRepository userRepository;
 
+    @GetMapping("/studentStatisticsWithWeekOfEduYear/{eduYearId}")
+    public HttpEntity<?> getStudentStatisticsWithWeekOfEdu(
+            @PathVariable String eduYearId,
+            @RequestParam("facultyId") String facultyId,
+            @RequestParam("eduType") String eduType,
+            @RequestParam("eduTypeId") String eduTypeId,
+            @RequestParam("facultyShortName") String facultyShortName
+    ){
+        return ResponseEntity.ok(service.getStatisticsForDeanDashboard(eduYearId,eduType,eduTypeId,facultyId,facultyShortName));
+    }
+
 
     @GetMapping("/getItem")
     public HttpEntity<?> getItem(@RequestParam("week") Integer week){
@@ -31,11 +42,26 @@ public class TimeTableByWeekOfYearController {
     public HttpEntity<?> studentTimeTableAPI(
             @CurrentUser User user,
             @PathVariable String groupName,
+            @RequestParam(name = "year") Integer year,
             @RequestParam(name = "week") Integer week,
             @RequestParam(name = "day") Integer day,
             @RequestParam(name = "s") Boolean s
     ) {
-        return ResponseEntity.ok(service.getStudentTimeTableAPIByWeekOfYear(user,groupName,week,day,s));
+        System.out.println(week+" <- week");
+        return ResponseEntity.ok(service.getStudentTimeTableAPIByWeekOfYear(user,groupName,year,week,day,s));
+    }
+
+    @GetMapping("/studentTimeTable/{groupName}/{userId}")
+    public HttpEntity<?> studentTimeTableAPI(
+            @PathVariable String groupName,
+            @PathVariable String userId,
+            @RequestParam(name = "year") Integer year,
+            @RequestParam(name = "week") Integer week,
+            @RequestParam(name = "day") Integer day,
+            @RequestParam(name = "s") Boolean s
+    ) {
+        System.out.println(week+" <- week");
+        return ResponseEntity.ok(service.getStudentTimeTableAPIByWeekOfYear(userId,groupName,year,week,day,s));
     }
 
     @GetMapping("/studentTimeTableByWeek/{groupName}")
@@ -51,13 +77,13 @@ public class TimeTableByWeekOfYearController {
     }
 
     @GetMapping("/getTeacherTimeTable")
-    public HttpEntity<?> getTeacherTimeTable(@CurrentUser User user,@RequestParam(name = "t",required = false) String teacherId, @RequestParam("week") Integer week){
+    public HttpEntity<?> getTeacherTimeTable(@CurrentUser User user,@RequestParam(name = "t",required = false) String teacherId, @RequestParam("week") Integer week,@RequestParam("year") Integer year){
         if (teacherId==null) {
-            return ResponseEntity.ok(service.getTeacherTimeTable(user,week));
+            return ResponseEntity.ok(service.getTeacherTimeTable(user,week,year));
         }
         else {
             Optional<User> userOptional = userRepository.findById(teacherId);
-            return userOptional.map(value -> ResponseEntity.ok(service.getTeacherTimeTable(value,week))).orElseGet(() -> ResponseEntity.ok(new ApiResponse(false, "error... not fount user...")));
+            return userOptional.map(value -> ResponseEntity.ok(service.getTeacherTimeTable(value,week,year))).orElseGet(() -> ResponseEntity.ok(new ApiResponse(false, "error... not fount user...")));
         }
     }
 

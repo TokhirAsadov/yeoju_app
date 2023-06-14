@@ -12,15 +12,33 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentFullNameAndAscAndDescDateDto {
-    private Integer id;
+    private String id;
     private String fullName;
+    private String firstName;
+    private String lastName;
+    private String middleName;
+    private String email;
+    private String passport;
+    private String userId;
     private String cardNo;
     private Date dateAsc;
     private Date dateDesc;
 
-    public StudentFullNameAndAscAndDescDateDto(Integer id, String fullName, String cardNo) {
+    public StudentFullNameAndAscAndDescDateDto(String id, String fullName, String cardNo) {
         this.id = id;
         this.fullName = fullName;
+        this.cardNo = cardNo;
+    }
+
+    public StudentFullNameAndAscAndDescDateDto(String id, String fullName, String firstName, String lastName, String middleName, String email, String passport, String userId, String cardNo) {
+        this.id = id;
+        this.fullName = fullName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.email = email;
+        this.passport = passport;
+        this.userId = userId;
         this.cardNo = cardNo;
     }
 }

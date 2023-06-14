@@ -61,7 +61,7 @@ public class KafedraMudiriController {
     @GetMapping("/getStatistics")
     public HttpEntity<?> getStatistics(@CurrentUser User user,@RequestParam(name = "id") String kafedraId) {
         return ResponseEntity.ok(service.getStatistics(kafedraId));
-//        return ResponseEntity.ok(service.getStatistics(user));
+//        return ResponseEntity.ok(service.getStatisticsOneLesson(user));
     }
 
     @GetMapping("/getStatisticss")

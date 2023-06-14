@@ -20,7 +20,7 @@ public interface AccDoorRepository extends JpaRepository<AccDoor,Long> {
 
     List<AccDoor> findAllByDeviceId(Long deviceId);
 
-    @Query(value = "select door_no as port from acc_door where device_id=:id",nativeQuery = true)
+    @Query(value = "select door_no as port from acc_door where device_id=:id and door_name like '172%'",nativeQuery = true)
     List<Long> getPortsByDeviceId(@Param("id") Long id);
 
     @Query(value = "select * from acc_door where device_id=:deviceId and door_no=:port",nativeQuery = true)
@@ -34,7 +34,7 @@ public interface AccDoorRepository extends JpaRepository<AccDoor,Long> {
     @Query(value = "select id from users where id =:id",nativeQuery = true)
     DevicePageRestDto deviceDates(@Param("id") String id);
 
-    @Query(value = "select ac.id, m.IP as ip,ac.door_no as port,ac.door_name as room from acc_door ac join Machines m on ac.device_id=m.ID",nativeQuery = true)
+    @Query(value = "select ac.id, ac.device_id as deviceId, m.IP as ip,ac.door_no as port,ac.door_name as room from acc_door ac join Machines m on ac.device_id=m.ID",nativeQuery = true)
     List<DeviceList> getDevicesList();
 
 

@@ -9,6 +9,9 @@ public interface DekanatDataForDekan {
     String getId();
     String getName();
 
+    @Value("#{@dekanatRepository.getEduTypeByDekanatId(target.id)}")
+    EduTypeByDekanatId getEduType();
+
     @Value("#{@dekanatRepository.getFacultiesOfDekanatByDekanatId(target.id)}")
     List<FacultyOfDekanat> getFaculties();
 }

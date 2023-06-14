@@ -110,9 +110,10 @@ public class StudentController {
     @GetMapping("/getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth") //todo----------------------------------getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth
     public HttpEntity<?> getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(
             @RequestParam("level") Integer level,
+            @RequestParam("eduType") String eduType,
             @RequestParam("weekOrMonth") Integer weekOrMonth
     ){
-        return ResponseEntity.ok(studentService.getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(level,weekOrMonth));
+        return ResponseEntity.ok(studentService.getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(level,weekOrMonth,eduType));
     }
     @PostMapping("/getFacultyAndComingCountWithAllByGroupLevel") //todo-----------------------------------------------
     public HttpEntity<?> getFacultyAndComingCountWithAllByGroupLevel(

@@ -6,6 +6,7 @@ import uz.yeoju.yeoju_app.entity.Position;
 import uz.yeoju.yeoju_app.entity.Role;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.kafedra.Kafedra;
+import uz.yeoju.yeoju_app.entity.kafedra.KafedraMudiri;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.kafedra.KafedraDto;
 import uz.yeoju.yeoju_app.payload.kafedra.KafedraV2Dto;
@@ -15,10 +16,7 @@ import uz.yeoju.yeoju_app.payload.resDto.kafedra.ComeCountTodayStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.ComeStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.KafedraResDto;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.NoComeStatistics;
-import uz.yeoju.yeoju_app.repository.KafedraRepository;
-import uz.yeoju.yeoju_app.repository.PositionRepository;
-import uz.yeoju.yeoju_app.repository.RoleRepository;
-import uz.yeoju.yeoju_app.repository.UserRepository;
+import uz.yeoju.yeoju_app.repository.*;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.KafedraImplService;
 
 import java.util.*;
@@ -29,6 +27,7 @@ import java.util.stream.Collectors;
 public class KafedraService implements KafedraImplService<KafedraDto> {
     public final KafedraRepository kafedraRepository;
     public final UserRepository userRepository;
+    public final KafedraMudirRepository kafedraMudirRepository;
     public final RoleRepository roleRepository;
     public final PositionRepository positionRepository;
 
@@ -201,12 +200,42 @@ public class KafedraService implements KafedraImplService<KafedraDto> {
         if (!kafedraRepository.existsKafedraByNameEn(dto.getNameEn())){
             Optional<User> userOptional = userRepository.findById(dto.getOwnerId());
             if (userOptional.isPresent()) {
-                Kafedra kafedra = generateKafedra(dto);
-                kafedra.setOwner(userOptional.get());
-                kafedra.setRoom(dto.getRoom());
-                kafedra.setPhone(dto.getPhone());
-                kafedraRepository.saveAndFlush(kafedra);
-                return new ApiResponse(true, dto.getNameEn()+" saved successfully!...");
+                Optional<KafedraMudiri> mudiriOptional = kafedraMudirRepository.findKafedraMudiriByUserId(dto.getOwnerId());
+                if (mudiriOptional.isPresent()) {
+
+                    Kafedra kafedra = generateKafedra(dto);
+                    kafedra.setOwner(userOptional.get());
+                    kafedra.setRoom(dto.getRoom());
+                    kafedra.setPhone(dto.getPhone());
+                    kafedraRepository.saveAndFlush(kafedra);
+
+                    KafedraMudiri kafedraMudiri = mudiriOptional.get();
+                    kafedraMudiri.setKafedra(kafedra);
+
+                    return new ApiResponse(true, dto.getNameEn() + " saved successfully!...");
+                }
+                else {
+                    User user = userOptional.get();
+                    Kafedra kafedra = generateKafedra(dto);
+                    kafedra.setOwner(user);
+                    kafedra.setRoom(dto.getRoom());
+                    kafedra.setPhone(dto.getPhone());
+                    kafedraRepository.saveAndFlush(kafedra);
+
+                    Set<Role> roles = user.getRoles();
+                    Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_KAFEDRA");
+                    Set<Role> roleSet = roles.stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_USER")).collect(Collectors.toSet());
+                    roleSet.add(roleOptional.get());
+                    user.setRoles(roleSet);
+                    userRepository.save(user);
+
+                    KafedraMudiri kafedraMudiri = new KafedraMudiri();
+                    kafedraMudiri.setKafedra(kafedra);
+                    kafedraMudiri.setUser(user);
+                    kafedraMudirRepository.save(kafedraMudiri);
+
+                    return new ApiResponse(true, dto.getNameEn() + " saved successfully!...");
+                }
             }
             else {
                 return new ApiResponse(false,"not fount owner");
@@ -248,27 +277,222 @@ public class KafedraService implements KafedraImplService<KafedraDto> {
                 ) {
                     Optional<User> userOptional = userRepository.findById(dto.getOwnerId());
                     if (userOptional.isPresent()) {
-                        kafedra.setNameUz(dto.getNameUz());
-                        kafedra.setNameRu(dto.getNameRu());
-                        kafedra.setNameEn(dto.getNameEn());
 
-                        Set<Role> roleSet = new HashSet<>();
-                        Set<Position> positionSet = new HashSet<>();
-                        dto.getRoles().forEach(role -> {
-                            if(roleRepository.findRoleByRoleName(role).isPresent()) roleSet.add(roleRepository.findRoleByRoleName(role).get());
-                        });
-                        dto.getPositions().forEach(position -> {
-                            if(positionRepository.findRoleByUserPositionName(position).isPresent()) positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
-                        });
+                        Optional<KafedraMudiri> mudiriOptional = kafedraMudirRepository.findKafedraMudiriByKafedraId(kafedra.getId());
+                        if (mudiriOptional.isPresent()) {
+                            KafedraMudiri oldMudir = mudiriOptional.get();
+                            if (Objects.equals(oldMudir.getUser().getId(), dto.getOwnerId())) {
+                                Optional<KafedraMudiri> mudiriOptional1 = kafedraMudirRepository.findKafedraMudiriByUserId(dto.getOwnerId());
+                                if (oldMudir.getId().equals(mudiriOptional1.get().getId())){
+                                    kafedra.setNameUz(dto.getNameUz());
+                                    kafedra.setNameRu(dto.getNameRu());
+                                    kafedra.setNameEn(dto.getNameEn());
 
-                        kafedra.setRoles(roleSet);
-                        kafedra.setPositions(positionSet);
-                        kafedra.setOwner(userOptional.get());
-                        kafedra.setRoom(dto.getRoom());
-                        kafedra.setPhone(dto.getPhone());
+                                    Set<Role> roleSet = new HashSet<>();
+                                    Set<Position> positionSet = new HashSet<>();
+                                    dto.getRoles().forEach(role -> {
+                                        if(roleRepository.findRoleByRoleName(role).isPresent()) roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                    });
+                                    dto.getPositions().forEach(position -> {
+                                        if(positionRepository.findRoleByUserPositionName(position).isPresent()) positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                    });
 
-                        kafedraRepository.save(kafedra);
-                        return new ApiResponse(true, dto.getNameEn()+" kafedra updated successfully!..");
+                                    kafedra.setRoles(roleSet);
+                                    kafedra.setPositions(positionSet);
+                                    kafedra.setOwner(userOptional.get());
+                                    kafedra.setRoom(dto.getRoom());
+                                    kafedra.setPhone(dto.getPhone());
+
+                                    kafedraRepository.save(kafedra);
+                                    return new ApiResponse(true, dto.getNameEn()+" kafedra updated successfully!..");
+                                }
+                                else {
+                                    KafedraMudiri mudiri = mudiriOptional1.get();
+                                    kafedraMudirRepository.deleteById(mudiri.getId());
+
+                                    kafedra.setNameUz(dto.getNameUz());
+                                    kafedra.setNameRu(dto.getNameRu());
+                                    kafedra.setNameEn(dto.getNameEn());
+
+                                    Set<Role> roleSet = new HashSet<>();
+                                    Set<Position> positionSet = new HashSet<>();
+                                    dto.getRoles().forEach(role -> {
+                                        if(roleRepository.findRoleByRoleName(role).isPresent()) roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                    });
+                                    dto.getPositions().forEach(position -> {
+                                        if(positionRepository.findRoleByUserPositionName(position).isPresent()) positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                    });
+
+                                    kafedra.setRoles(roleSet);
+                                    kafedra.setPositions(positionSet);
+                                    kafedra.setOwner(userOptional.get());
+                                    kafedra.setRoom(dto.getRoom());
+                                    kafedra.setPhone(dto.getPhone());
+
+                                    User user = userOptional.get();
+                                    oldMudir.setUser(user);
+                                    kafedraMudirRepository.save(oldMudir);
+
+                                    kafedraRepository.save(kafedra);
+                                    return new ApiResponse(true, dto.getNameEn()+" kafedra updated successfully!..");
+                                }
+                            }
+                            else {
+                                Optional<KafedraMudiri> mudiriOptional1 = kafedraMudirRepository.findKafedraMudiriByUserId(dto.getOwnerId());
+                                if (mudiriOptional1.isPresent()) {
+
+                                        User oldMudirUser = oldMudir.getUser();
+                                        Set<Role> collect = oldMudirUser.getRoles().stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_KAFEDRA")).collect(Collectors.toSet());
+                                        oldMudirUser.setRoles(collect);
+                                        userRepository.save(oldMudirUser);
+                                        kafedraMudirRepository.deleteById(mudiriOptional1.get().getId());
+
+                                        User user = userOptional.get();
+                                        oldMudir.setUser(user);
+                                        kafedraMudirRepository.save(oldMudir);
+
+                                        kafedra.setNameUz(dto.getNameUz());
+                                        kafedra.setNameRu(dto.getNameRu());
+                                        kafedra.setNameEn(dto.getNameEn());
+
+                                        Set<Role> roleSet = new HashSet<>();
+                                        Set<Position> positionSet = new HashSet<>();
+                                        dto.getRoles().forEach(role -> {
+                                            if (roleRepository.findRoleByRoleName(role).isPresent())
+                                                roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                        });
+                                        dto.getPositions().forEach(position -> {
+                                            if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                                positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                        });
+
+                                        kafedra.setRoles(roleSet);
+                                        kafedra.setPositions(positionSet);
+                                        kafedra.setOwner(userOptional.get());
+                                        kafedra.setRoom(dto.getRoom());
+                                        kafedra.setPhone(dto.getPhone());
+
+                                        kafedraRepository.save(kafedra);
+                                        return new ApiResponse(true, dto.getNameEn() + " kafedra updated successfully!..");
+
+                                }
+                                else {
+                                    User oldMudirUser = oldMudir.getUser();
+                                    Set<Role> collect = oldMudirUser.getRoles().stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_KAFEDRA")).collect(Collectors.toSet());
+                                    oldMudirUser.setRoles(collect);
+                                    userRepository.save(oldMudirUser);
+                                    kafedraMudirRepository.deleteById(mudiriOptional1.get().getId());
+
+                                    User user = userOptional.get();
+                                    Set<Role> roles = user.getRoles();
+                                    Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_KAFEDRA");
+                                    Set<Role> roleSet1 = roles.stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_USER")).collect(Collectors.toSet());
+                                    roleSet1.add(roleOptional.get());
+                                    user.setRoles(roleSet1);
+                                    userRepository.saveAndFlush(user);
+
+                                    oldMudir.setUser(user);
+                                    kafedraMudirRepository.save(oldMudir);
+
+                                    kafedra.setNameUz(dto.getNameUz());
+                                    kafedra.setNameRu(dto.getNameRu());
+                                    kafedra.setNameEn(dto.getNameEn());
+
+                                    Set<Role> roleSet = new HashSet<>();
+                                    Set<Position> positionSet = new HashSet<>();
+                                    dto.getRoles().forEach(role -> {
+                                        if (roleRepository.findRoleByRoleName(role).isPresent())
+                                            roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                    });
+                                    dto.getPositions().forEach(position -> {
+                                        if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                            positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                    });
+
+                                    kafedra.setRoles(roleSet);
+                                    kafedra.setPositions(positionSet);
+                                    kafedra.setOwner(userOptional.get());
+                                    kafedra.setRoom(dto.getRoom());
+                                    kafedra.setPhone(dto.getPhone());
+
+                                    kafedraRepository.save(kafedra);
+                                    return new ApiResponse(true, dto.getNameEn() + " kafedra updated successfully!..");
+                                }
+                            }
+                        }
+                        else {
+                            Optional<KafedraMudiri> mudiriOptional1 = kafedraMudirRepository.findKafedraMudiriByUserId(dto.getOwnerId());
+                            if (mudiriOptional1.isPresent()) {
+
+                                KafedraMudiri kafedraMudiri = mudiriOptional1.get();
+                                kafedraMudiri.setKafedra(kafedra);
+                                kafedraMudirRepository.save(kafedraMudiri);
+
+                                kafedra.setNameUz(dto.getNameUz());
+                                kafedra.setNameRu(dto.getNameRu());
+                                kafedra.setNameEn(dto.getNameEn());
+
+                                Set<Role> roleSet = new HashSet<>();
+                                Set<Position> positionSet = new HashSet<>();
+                                dto.getRoles().forEach(role -> {
+                                    if (roleRepository.findRoleByRoleName(role).isPresent())
+                                        roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                });
+                                dto.getPositions().forEach(position -> {
+                                    if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                        positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                });
+
+                                kafedra.setRoles(roleSet);
+                                kafedra.setPositions(positionSet);
+                                kafedra.setOwner(userOptional.get());
+                                kafedra.setRoom(dto.getRoom());
+                                kafedra.setPhone(dto.getPhone());
+
+                                kafedraRepository.save(kafedra);
+                                return new ApiResponse(true, dto.getNameEn() + " kafedra updated successfully!..");
+
+                            }
+                            else {
+                                User user = userOptional.get();
+                                Set<Role> roles = user.getRoles();
+                                Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_KAFEDRA");
+                                Set<Role> roleSet1 = roles.stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_USER")).collect(Collectors.toSet());
+                                roleSet1.add(roleOptional.get());
+                                user.setRoles(roleSet1);
+                                userRepository.saveAndFlush(user);
+
+                                KafedraMudiri kafedraMudiri = new KafedraMudiri();
+                                kafedraMudiri.setUser(user);
+                                kafedraMudiri.setKafedra(kafedra);
+                                kafedraMudirRepository.save(kafedraMudiri);
+
+                                kafedra.setNameUz(dto.getNameUz());
+                                kafedra.setNameRu(dto.getNameRu());
+                                kafedra.setNameEn(dto.getNameEn());
+
+                                Set<Role> roleSet = new HashSet<>();
+                                Set<Position> positionSet = new HashSet<>();
+                                dto.getRoles().forEach(role -> {
+                                    if (roleRepository.findRoleByRoleName(role).isPresent())
+                                        roleSet.add(roleRepository.findRoleByRoleName(role).get());
+                                });
+                                dto.getPositions().forEach(position -> {
+                                    if (positionRepository.findRoleByUserPositionName(position).isPresent())
+                                        positionSet.add(positionRepository.findRoleByUserPositionName(position).get());
+                                });
+
+                                kafedra.setRoles(roleSet);
+                                kafedra.setPositions(positionSet);
+                                kafedra.setOwner(userOptional.get());
+                                kafedra.setRoom(dto.getRoom());
+                                kafedra.setPhone(dto.getPhone());
+
+                                kafedraRepository.save(kafedra);
+                                return new ApiResponse(true, dto.getNameEn() + " kafedra updated successfully!..");
+                            }
+                        }
+
                     }
                     else {
                         return new ApiResponse(false,"not fount owner");

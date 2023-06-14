@@ -131,6 +131,11 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
         return new FacultyDto(faculty.getId(),faculty.getName());
     }
 
+    public FacultyDto generateFacultyDto2(Faculty faculty) {
+        return new FacultyDto(faculty.getId(),faculty.getShortName());
+    }
+
+
 
     @Override
     public ApiResponse deleteById(String id) {
@@ -260,4 +265,11 @@ public class FacultyService implements FacultyImplService<FacultyDto> {
     }
 
 
+    public ApiResponse findAllShortName() {
+        return new ApiResponse(
+                true,
+                "List of all faculty short names",
+                facultyRepository.findAll().stream().map(this::generateFacultyDto2).collect(Collectors.toSet())
+        );
+    }
 }

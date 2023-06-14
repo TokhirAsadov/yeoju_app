@@ -10,6 +10,7 @@
   "navbar_menu_tarix": "history",
 
   "rektor_sidebar_menu": "Menu",
+  "rektor_dean_many_nb": "Attendance of students",
   "rektor_sidebar_student": "Students",
   "rektor_sidebar_teacher": "Teachers",
   "rektor_sidebar_staff": "Staffs",
@@ -57,6 +58,7 @@
   "teacher_sidebar_statistics": "Statistics",
   "teacher_sidebar_kafedra_dashboard": "Change User",
   "teacher_sidebar_journal": "Journal",
+  "teacher_sidebar_sciences": "Sciences",
 
   "barchart_workers_title": "Working staff",
 

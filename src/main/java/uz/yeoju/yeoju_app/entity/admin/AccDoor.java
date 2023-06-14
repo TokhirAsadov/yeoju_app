@@ -24,6 +24,7 @@ public class AccDoor {
     private String deleteOperator;
     private Date deleteTime;
     private Integer status;
+    @Column(name = "device_id")
     private Long deviceId;
     @Column(name = "door_no")
     private Integer doorNo;

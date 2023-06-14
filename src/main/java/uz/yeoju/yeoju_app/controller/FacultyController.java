@@ -60,6 +60,11 @@ public class FacultyController {
         return ResponseEntity.ok(facultyService.findAll());
     }
 
+    @GetMapping("/allFacultiesWithShortName")
+    public HttpEntity<?> allFacultiesWithShortName(){
+        return ResponseEntity.ok(facultyService.findAllShortName());
+    }
+
     @GetMapping("/getFacultyById/{id}")
     public HttpEntity<?> getFacultyById(@PathVariable String id){
         return ResponseEntity.ok(facultyService.findById(id));

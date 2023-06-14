@@ -1,13 +1,15 @@
 {
   "files": {
     "main.css": "/static/css/main.3b7d425b.css",
-    "main.js": "/static/js/main.398de6ba.js",
+    "main.js": "/static/js/main.a5babc1c.js",
     "static/media/marketing.png": "/static/media/marketing.a0b05dc967cfc2611f17.png",
     "static/media/Mechatronics.png": "/static/media/Mechatronics.528cf5870ad7190a0f5f.png",
     "static/media/Maktabgachata’lim.png": "/static/media/Maktabgachata’lim.6d4d6c8d7d969d369982.png",
     "static/media/do.svg": "/static/media/do.3ecb625b75ec64be4376.svg",
+    "static/media/logo3d.png": "/static/media/logo3d.6b63e6a77f4429d3ba9c.png",
     "static/media/Katta_uqituvchi.png": "/static/media/Katta_uqituvchi.af2d30691113be7213b9.png",
     "static/media/rs.svg": "/static/media/rs.9f00a7d8eafa6f593713.svg",
+    "static/media/emptyimg.jpg": "/static/media/emptyimg.7e1ca706e69ab623fec6.jpg",
     "static/media/ARCHITECTURE.png": "/static/media/ARCHITECTURE.f31697a0ac812c35b775.png",
     "static/media/accounting2.png": "/static/media/accounting2.282963066a32ed53fddd.png",
     "static/media/tourizm.png": "/static/media/tourizm.8091a9a372a040caf7c1.png",
@@ -309,10 +311,10 @@
     "static/media/de.svg": "/static/media/de.6435bf24d148ca7248e7.svg",
     "static/media/bd.svg": "/static/media/bd.0ad8c443ef4d47ea0497.svg",
     "main.3b7d425b.css.map": "/static/css/main.3b7d425b.css.map",
-    "main.398de6ba.js.map": "/static/js/main.398de6ba.js.map"
+    "main.a5babc1c.js.map": "/static/js/main.a5babc1c.js.map"
   },
   "entrypoints": [
     "static/css/main.3b7d425b.css",
-    "static/js/main.398de6ba.js"
+    "static/js/main.a5babc1c.js"
   ]
 }

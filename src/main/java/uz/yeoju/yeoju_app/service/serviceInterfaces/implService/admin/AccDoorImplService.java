@@ -3,10 +3,12 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.admin.AccDoor;
+import uz.yeoju.yeoju_app.entity.admin.Machines;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.admin.AccDoorDto;
 import uz.yeoju.yeoju_app.payload.resDto.admin.DeviceList;
 import uz.yeoju.yeoju_app.repository.AccDoorRepository;
+import uz.yeoju.yeoju_app.repository.MachinesRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +19,9 @@ public class AccDoorImplService implements AccDoorService{
 
     @Autowired
     private AccDoorRepository accDoorRepository;
+
+    @Autowired
+    private MachinesRepository machinesRepository;
 
     @Override
     public ApiResponse findAll() {
@@ -35,9 +40,30 @@ public class AccDoorImplService implements AccDoorService{
         AccDoor doorForSave = accDoorRepository.getDoorForSave(dto.getDeviceId(), dto.getDoorNo());
         doorForSave.setDoorName(dto.getDoorName());
         AccDoor save = accDoorRepository.save(doorForSave);
-        System.out.println(save.getId()+" ---> "+save.getDoorName());
-        System.out.println(accDoorRepository.findById(save.getId()).get()+" <-- saved");
+//        System.out.println(save.getId()+" ---> "+save.getDoorName());
+//        System.out.println(accDoorRepository.findById(save.getId()).get()+" <-- saved");
+//        System.out.println("-> "+doorForSave);
         return new ApiResponse(true,"saved successfully...");
+    }
+
+    @Override
+    public ApiResponse deleteById(Long id) {
+//        System.out.println(id+" --->");
+        Optional<AccDoor> accDoorOptional = accDoorRepository.findById(id);
+        if (accDoorOptional.isPresent()) {
+            AccDoor accDoor = accDoorOptional.get();
+            Optional<Machines> machinesOptional = machinesRepository.findById(accDoor.getDeviceId());
+            Machines machines = machinesOptional.get();
+//            System.out.println("m -> "+machines);
+            accDoor.setDoorName(machines.getIp()+"-"+accDoor.getDoorNo());
+            AccDoor save = accDoorRepository.save(accDoor);
+            return new ApiResponse(true,"deleted successfully...",save);
+        }
+        else {
+            return new ApiResponse(false,"not fount door...");
+        }
+
+
     }
 
     @Override
@@ -62,7 +88,7 @@ public class AccDoorImplService implements AccDoorService{
         dto.setId(accDoor.getId());
         dto.setDoorNo(accDoor.getDoorNo());
         dto.setDeviceId(accDoor.getDeviceId());
-        dto.setDoorName(dto.getDoorName());
+        dto.setDoorName(accDoor.getDoorName());
         return dto;
     }
 }

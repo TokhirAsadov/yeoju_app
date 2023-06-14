@@ -43,6 +43,11 @@ public class DekanController {
     private final UserService userService;
     private final FacultyService facultyService;
 
+    @GetMapping("/studentStatisticsWithWeekOfEduYear/{eduYearId}")
+    public HttpEntity<?> getStudentStatisticsWithWeekOfEdu(@PathVariable String eduYearId,@RequestParam("facultyId") String facultyId,@RequestParam("eduType") String eduType,@RequestParam("eduTypeId") String eduTypeId){
+        return ResponseEntity.ok(dekanRepository.getStudentStatisticsWithWeekOfEdu(eduYearId,facultyId,eduType,eduTypeId));
+    }
+
     @GetMapping("/getStudentDataWithUserId/{id}")
     public HttpEntity<?> getStudentDataForEditedDekan(@CurrentUser User user,@PathVariable String id){
         return ResponseEntity.ok(dekanRepository.getStudentDataForEditedDekan(id));
@@ -125,6 +130,17 @@ public class DekanController {
     public HttpEntity<?> getGroupsNamesForDekanByFacultyId(@CurrentUser User user){
         return ResponseEntity.ok(dekanRepository.getGroupsNamesForDekanByFacultyId(user.getId()));
     }
+
+    @GetMapping("/getGroupsNamesForDekanByFacultyId/{facultyId}") //getGroupsNamesForDekanByFacultyId
+    public HttpEntity<?> getGroupsNamesForDekanByFacultyId(@CurrentUser User user,@PathVariable("facultyId") String facultyId,@RequestParam(name = "dekanId",required = false) String dekanId){
+        return ResponseEntity.ok(dekanRepository.getGroupsNamesForDekanByFacultyId(dekanId==null ? user.getId() : dekanId,facultyId));
+    }
+
+    @GetMapping("/getGroupsNamesForRektorByFacultyId/{facultyId}") //getGroupsNamesForDekanByFacultyId
+    public HttpEntity<?> getGroupsNamesByFacultyIdAndLevelAndEduType(@CurrentUser User user,@PathVariable("facultyId") String facultyId,@RequestParam(name = "course") Integer course,@RequestParam(name = "eduType") String eduType){
+        return ResponseEntity.ok(dekanRepository.getGroupsNamesByFacultyIdAndLevelAndEduType(facultyId,course,eduType));
+    }
+
 
     @GetMapping("/getFacultiesFromDekanByUserId")//getFacultiesFromDekanByUserId
     public HttpEntity<?> getFacultiesFromDekanByUserId(@CurrentUser User user){

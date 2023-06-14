@@ -575,9 +575,12 @@ public class UserService implements UserImplService<UserDto> {
 //                                Card card = DataBaseForTimeTable.cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(dayId)).findFirst().get();
                                 Period period = DataBaseForTimeTable.periods.stream().filter(i -> i.getName().equals(card.getPeriod())).findFirst().get();
                                 for (String s : card.getClassroomIds()) {
-                                    ClassRoom room = DataBaseForTimeTable.classRooms.stream().filter(i -> i.getId().equals(s)).findFirst().get();
-                                    show.setRoom(room.getName());
-                                    break;
+                                    Optional<ClassRoom> roomOptional = DataBaseForTimeTable.classRooms.stream().filter(i -> i.getId().equals(s)).findFirst();
+                                    if (roomOptional.isPresent()) {
+                                        ClassRoom room = roomOptional.get();
+                                        show.setRoom(room.getName());
+                                        break;
+                                    }
                                 }
 //                                LessonXml lessonXml = DataBaseForTimeTable.lessons.stream().filter(i -> i.getId().equals(card.getLessonId())).findFirst().get();
                                 List<String> classIds = xml.getClassIds();

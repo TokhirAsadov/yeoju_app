@@ -7,6 +7,7 @@ public interface TeacherStatisticsOfWeekday {
     String getFullName();
     String getRoom();
     Date getTime();
+    Integer getWeek();
     Integer getWeekday();
     Integer getSection();
 }

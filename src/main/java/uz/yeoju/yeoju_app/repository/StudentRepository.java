@@ -172,8 +172,8 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     List<FacultyStatisticsWithSchoolCode> getSchoolStatistics(@Param("level") Integer level,@Param("eduType") String eduType,@Param("dateFrom")LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
 
 
-    @Query(value = "select s.id,s.nameEn as schoolName, s.code as schoolCode,:level as level, :weekOrMonth as weekOrMonth from School s order by s.code",nativeQuery = true)
-    List<FacultyStatisticsWithWeekOrMonth> getSchoolStatisticsByWeekOrMonth(@Param("level") Integer level,@Param("weekOrMonth") Integer weekOrMonth);
+    @Query(value = "select :eduType as eduType, s.id,s.nameEn as schoolName, s.code as schoolCode,:level as level, :weekOrMonth as weekOrMonth from School s order by s.code",nativeQuery = true)
+    List<FacultyStatisticsWithWeekOrMonth> getSchoolStatisticsByWeekOrMonth(@Param("level") Integer level,@Param("weekOrMonth") Integer weekOrMonth,@Param("eduType") String eduType);
 
 
 //
@@ -360,7 +360,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             @Param("facultyName") String facultyName
     );
 
-    @Query(value = "select u.fullName,u.RFID from users u\n" +
+    @Query(value = "select u.id,u.firstName,u.lastName, u.middleName,u.fullName,u.email,u.RFID, u.login, u.passportNum as passport from users u\n" +
             "join Student s on u.id = s.user_id\n" +
             "join groups g on g.id = s.group_id\n" +
             "where g.name =:groupName",nativeQuery = true)
@@ -461,11 +461,11 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "            (\n" +
             "                select  al.card_no as cardNo\n" +
             "                from acc_monitor_log al\n" +
-            "                 join users u\n" +
-            "                      on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "                 join users_Role ur\n" +
-            "                      on u.id = ur.users_id\n" +
-            "                 join Role R2 on ur.roles_id = R2.id\n" +
+            "                         join users u\n" +
+            "                              on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "                         join users_Role ur\n" +
+            "                              on u.id = ur.users_id\n" +
+            "                         join Role R2 on ur.roles_id = R2.id\n" +
             "                where al.time between dateadd(d,:weekOrMonth,convert(DATE,GETDATE())) and dateadd(d,1,convert(DATE,GETDATE())) and R2.roleName='ROLE_STUDENT'\n" +
             "                group by al.card_no\n" +
             "            ) as card\n" +
@@ -474,15 +474,17 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "                join Student S on u.id = S.user_id\n" +
             "                join groups g on g.id = S.group_id\n" +
             "                join Faculty F on F.id = g.faculty_id\n" +
-            "        where g.level=:level and F.schoolCode=:schoolCode\n" +
+            "                join EducationType E on g.educationType_id = E.id\n" +
+            "        where g.level=:level and F.schoolCode=:schoolCode and E.name=:eduType\n" +
             "        group by F.name\n" +
             "    ) as f1\n" +
             "        join (\n" +
             "        select F.name, count(S.id) as count from Student S\n" +
-            "                         join groups g on S.group_id = g.id\n" +
-            "                         join Faculty F on F.id = g.faculty_id\n" +
-            "        where g.level=:level and F.schoolCode=:schoolCode \n" +
+            "                                                     join groups g on S.group_id = g.id\n" +
+            "                                                     join Faculty F on F.id = g.faculty_id\n" +
+            "                                            join EducationType ET on g.educationType_id = ET.id\n" +
+            "        where g.level=:level and F.schoolCode=:schoolCode and ET.name=:eduType\n" +
             "        group by F.name\n" +
             "    ) as f2 on f2.name = f1.name",nativeQuery = true)
-    List<FacultyStatistic> studentFaculty123231213ByWeekOrMonthBySchoolCode123(@Param("schoolCode") Integer schoolCode, @Param("level") Integer level, @Param("weekOrMonth") Integer weekOrMonth);
+    List<FacultyStatistic> studentFaculty123231213ByWeekOrMonthBySchoolCode123(@Param("schoolCode") Integer schoolCode, @Param("level") Integer level, @Param("weekOrMonth") Integer weekOrMonth,@Param("eduType") String eduType);
 }

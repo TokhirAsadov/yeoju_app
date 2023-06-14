@@ -1670,9 +1670,9 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                00,\n" +
             "                0)\n" +
             "        when :section=3 then DATETIMEFROMPARTS(\n" +
-            "                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
-            "                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
-            "                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-:weekday, getdate()),0)),\n" +
+            "                DATEPART( YEAR, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( MONTH, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
+            "                DATEPART( DAY, DATEADD( DAY, + (:weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week-1,CAST('1/1/' + cast(:year as varchar) AS Date))))),\n" +
             "                10,\n" +
             "                50,\n" +
             "                00,\n" +

@@ -342,8 +342,14 @@ public class StudentService implements StudentImplService<StudentDto> {
             if (ascAndDescDate != null) {
                 ascAndDescDateDtos.add(
                         new StudentFullNameAndAscAndDescDateDto(
-                                id,
+                                rfid.getId(),
                                 rfid.getFullName(),
+                                rfid.getFirstName(),
+                                rfid.getLastName(),
+                                rfid.getMiddleName(),
+                                rfid.getEmail(),
+                                rfid.getPassport(),
+                                rfid.getLogin(),
                                 rfid.getRFID(),
                                 ascAndDescDate.getTimeAsc(),
                                 ascAndDescDate.getTimeDesc()
@@ -353,8 +359,14 @@ public class StudentService implements StudentImplService<StudentDto> {
             else {
                 ascAndDescDateDtos.add(
                         new StudentFullNameAndAscAndDescDateDto(
-                                id,
+                                rfid.getId(),
                                 rfid.getFullName(),
+                                rfid.getFirstName(),
+                                rfid.getLastName(),
+                                rfid.getMiddleName(),
+                                rfid.getEmail(),
+                                rfid.getPassport(),
+                                rfid.getLogin(),
                                 rfid.getRFID()
                         )
                 );
@@ -376,8 +388,14 @@ public class StudentService implements StudentImplService<StudentDto> {
             if (ascAndDescDate != null) {
                 ascAndDescDateDtos.add(
                         new StudentFullNameAndAscAndDescDateDto(
-                                id,
+                                rfid.getId(),
                                 rfid.getFullName(),
+                                rfid.getFirstName(),
+                                rfid.getLastName(),
+                                rfid.getMiddleName(),
+                                rfid.getEmail(),
+                                rfid.getPassport(),
+                                rfid.getLogin(),
                                 rfid.getRFID(),
                                 ascAndDescDate.getTimeAsc(),
                                 ascAndDescDate.getTimeDesc()
@@ -387,8 +405,14 @@ public class StudentService implements StudentImplService<StudentDto> {
             else {
                 ascAndDescDateDtos.add(
                         new StudentFullNameAndAscAndDescDateDto(
-                                id,
+                                rfid.getId(),
                                 rfid.getFullName(),
+                                rfid.getFirstName(),
+                                rfid.getLastName(),
+                                rfid.getMiddleName(),
+                                rfid.getEmail(),
+                                rfid.getPassport(),
+                                rfid.getLogin(),
                                 rfid.getRFID()
                         )
                 );
@@ -446,12 +470,12 @@ public class StudentService implements StudentImplService<StudentDto> {
         return new ApiResponse(true, "send", statistics);
     }
 
-    public ApiResponse getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(Integer level, Integer weekOrMonth) {
+    public ApiResponse getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(Integer level, Integer weekOrMonth,String eduType) {
         long start = System.currentTimeMillis();
         System.out.println(level);
         System.out.println("Kirdi methodga");
 //        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(level, weekOrMonth);
-        List<FacultyStatisticsWithWeekOrMonth> list2 = studentRepository.getSchoolStatisticsByWeekOrMonth(level, weekOrMonth);
+        List<FacultyStatisticsWithWeekOrMonth> list2 = studentRepository.getSchoolStatisticsByWeekOrMonth(level, weekOrMonth,eduType);
 
 //        System.out.println("DB dan keldi: " + (System.currentTimeMillis() - start));
 //
