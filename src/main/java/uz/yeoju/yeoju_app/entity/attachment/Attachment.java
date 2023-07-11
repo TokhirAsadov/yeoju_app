@@ -23,12 +23,21 @@ public class Attachment extends AbsEntity {
     private String contentType;
 
     private String fileName;
+    private String url;
 
     public Attachment(String originalName, Long size, String contentType) {
         this.originalName = originalName;
         this.size = size;
         this.contentType = contentType;
     }
+
+    public Attachment(String originalName, Long size, String contentType, String fileName) {
+        this.originalName = originalName;
+        this.size = size;
+        this.contentType = contentType;
+        this.fileName = fileName;
+    }
+
     // Mabodo, file system ga saqlamoqchi bo'lsak kerak bo'ladi, ikkita bir xil nomlik
     // file ni bir biridan farqlash uchun:
     // private String userPositionName;
