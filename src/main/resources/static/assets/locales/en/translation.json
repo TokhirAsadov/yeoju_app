@@ -13,11 +13,12 @@
   "rektor_dean_many_nb": "Attendance of students",
   "rektor_sidebar_student": "Students",
   "rektor_sidebar_teacher": "Teachers",
-  "rektor_sidebar_staff": "Staffs",
-  "rektor_sidebar_dekans": "Dekans",
+  "rektor_sidebar_staff": "Staff",
+  "rektor_sidebar_personnel": "Personnel",
   "rektor_sidebar_rahbariyat": "Rahbariyat",
   "rektor_sidebar_user_service": "User Service",
   "rektor_sidebar_statistics": "Statistics",
+  "rektor_sidebar_statisticsall": "Statistics",
   "rektor_sidebar_floor": "Statistics of Today",
   "rektor_sidebar_groups": "Statistics of Groups",
   "rektor_sidebar_teachersWeek": "Statistics of Kafedra Teachers",
@@ -33,6 +34,7 @@
   "dekan_sidebar_studentAdd": "Student Settings",
   "dekan_sidebar_groupsSettings": "Groups Settings",
   "dekan_sidebar_staff": "Staffs",
+  "dekan_sidebar_results": "Subjects results",
 
   "bulim_sidebar_staffs": "Staffs",
 
@@ -44,10 +46,13 @@
   "kafedra_sidebar_roles": "Roles of User",
   "kafedra_sidebar_teachers_menu": "Change User",
   "kafedra_sidebar_week": "Statistics of weekly",
+  "kafedra_sidebar_groupsSubject": "Connect to Groups",
+  "kafedra_sidebar_subjects": "Subjects",
 
 
 
   "student_sidebar_settings": "Settings",
+  "student_sidebar_service": " Student service",
   "student_sidebar_menu": "Menu",
   "student_sidebar_lesson": "Lessons",
   "student_sidebar_time_table": "Time Table",
@@ -78,6 +83,7 @@
 
   "trainingdivision_sidebar_dashboard": "Dashboard",
   "trainingdivision_sidebar_report": "Report of Day",
+  "trainingdivision_sidebar_timetable": "Time table",
   "trainingdivision_sidebar_groups": "Groups",
   "trainingdivision_sidebar_roomstimetable": "Rooms",
   "trainingdivision_sidebar_teachertimetable": "Teacher",

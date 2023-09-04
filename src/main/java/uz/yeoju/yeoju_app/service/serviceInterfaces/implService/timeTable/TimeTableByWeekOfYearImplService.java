@@ -17,6 +17,7 @@ import uz.yeoju.yeoju_app.payload.resDto.dekan.dashboard.StudentStatisticsWithWe
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.Table;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherData;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherStatisticsOfWeekday;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherStatisticsOfWeekday2;
 import uz.yeoju.yeoju_app.repository.DekanRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
@@ -53,6 +54,21 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
     public static final List<GroupXml> groups = new ArrayList<>();
     public static final List<LessonXml> lessons = new ArrayList<>();
     public static final List<Card> cards = new ArrayList<>();
+
+
+    //for medical
+    public static final List<Period> periodsMed = new ArrayList<>();
+    public static final List<DaysDef> daysDefsMed = new ArrayList<>();
+    public static final List<WeeksDef> weeksDefsMed = new ArrayList<>();
+    public static final List<TermsDef> termsDefsMed = new ArrayList<>();
+    public static final List<Subject> subjectsMed = new ArrayList<>();
+    public static final List<Teacher> teachersMed = new ArrayList<>();
+    public static final List<ClassRoom> classRoomsMed = new ArrayList<>();
+    public static final List<Grade> gradesMed = new ArrayList<>();
+    public static final List<uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class> classesMed = new ArrayList<>();
+    public static final List<GroupXml> groupsMed = new ArrayList<>();
+    public static final List<LessonXml> lessonsMed = new ArrayList<>();
+    public static final List<Card> cardsMed = new ArrayList<>();
 
 
 
@@ -99,6 +115,27 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
         rootNode.getChild("groups").getChildren("group").forEach(TimeTableByWeekOfYearImplService::readGroup);
         rootNode.getChild("lessons").getChildren("lesson").forEach(TimeTableByWeekOfYearImplService::readLesson);
         rootNode.getChild("cards").getChildren("card").forEach(TimeTableByWeekOfYearImplService::readCard);
+    }
+
+    @Override
+    public void getTimeTableByWeekMed(Integer year, Integer week) {
+        clearTimeTableMed();
+
+        String xmlFile = year+"/"+week+"med.xml";
+        Document document = getSAXParsedDocument(xmlFile);
+        Element rootNode = document.getRootElement();
+        rootNode.getChild("periods").getChildren("period").forEach(TimeTableByWeekOfYearImplService::readPeriodMed);
+        rootNode.getChild("daysdefs").getChildren("daysdef").forEach(TimeTableByWeekOfYearImplService::readDaysDefMed);
+        rootNode.getChild("weeksdefs").getChildren("weeksdef").forEach(TimeTableByWeekOfYearImplService::readWeeksDefMed);
+        rootNode.getChild("termsdefs").getChildren("termsdef").forEach(TimeTableByWeekOfYearImplService::readTermsDefsMed);
+        rootNode.getChild("subjects").getChildren("subject").forEach(TimeTableByWeekOfYearImplService::readSubjectMed);
+        rootNode.getChild("teachers").getChildren("teacher").forEach(TimeTableByWeekOfYearImplService::readTeacherMed);
+        rootNode.getChild("classrooms").getChildren("classroom").forEach(TimeTableByWeekOfYearImplService::readClassroomMed);
+        rootNode.getChild("grades").getChildren("grade").forEach(TimeTableByWeekOfYearImplService::readGradeMed);
+        rootNode.getChild("classes").getChildren("class").forEach(TimeTableByWeekOfYearImplService::readClassMed);
+        rootNode.getChild("groups").getChildren("group").forEach(TimeTableByWeekOfYearImplService::readGroupMed);
+        rootNode.getChild("lessons").getChildren("lesson").forEach(TimeTableByWeekOfYearImplService::readLessonMed);
+        rootNode.getChild("cards").getChildren("card").forEach(TimeTableByWeekOfYearImplService::readCardMed);
     }
 
     @Override
@@ -1185,6 +1222,7 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
     public ApiResponse getTeacherTimeTable(User user,Integer week,Integer year){
 
         getTimeTableByWeek(year,week);
+
         System.out.println(user+" ----------------- user");
         System.out.println("================================= +++++++++++++++++++++++");
         System.out.println("------------------- "+daysDefs.toString()+" ----------------");
@@ -1194,6 +1232,7 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                 .collect(Collectors.toSet()).stream().map(i-> i.getDays().get(0)).collect(Collectors.toList());
         Collections.sort(daysList, Collections.reverseOrder());
         List<Table> tables = new ArrayList<>();
+
         for (String s : daysList) {
             Set<String> lessonsIds = cards.stream().filter(item -> item.getDays().contains(s)).map(Card::getLessonId).collect(Collectors.toSet());
             Set<String> teachersIds = new HashSet<>();
@@ -1203,7 +1242,7 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
             }
             Set<Teacher> teachers1 = new HashSet<>();
             for (String id : teachersIds) {
-                Optional<Teacher> first = teachers.stream().filter(item -> item.getId().equals(id) && item.getEmail().equals(user.getPassportNum()) ).findFirst();
+                Optional<Teacher> first = teachers.stream().filter(item -> item.getId().equals(id) && item.getEmail().equalsIgnoreCase(user.getPassportNum()) ).findFirst();
                 first.ifPresent(teachers1::add);
             }
             List<TeacherData> teacherData = new ArrayList<>();
@@ -1268,6 +1307,87 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                 }
             }
         }
+
+        getTimeTableByWeekMed(year,week);
+        List<String> daysListMed = daysDefsMed
+                .stream().filter(item -> !item.getName().equalsIgnoreCase("В любой день") && !item.getName().equalsIgnoreCase("Каждый день"))
+                .collect(Collectors.toSet()).stream().map(i-> i.getDays().get(0)).collect(Collectors.toList());
+        Collections.sort(daysListMed, Collections.reverseOrder());
+        for (String s : daysListMed) {
+            Set<String> lessonsIds = cardsMed.stream().filter(item -> item.getDays().contains(s)).map(Card::getLessonId).collect(Collectors.toSet());
+            Set<String> teachersIds = new HashSet<>();
+            for (String id : lessonsIds) {
+                LessonXml lessonXml = lessonsMed.stream().filter(item -> item.getId().equals(id)).findFirst().get();
+                teachersIds.addAll(lessonXml.getTeacherIds());
+            }
+            Set<Teacher> teachers1 = new HashSet<>();
+            for (String id : teachersIds) {
+                Optional<Teacher> first = teachersMed.stream().filter(item -> item.getId().equals(id) && item.getEmail().equalsIgnoreCase(user.getPassportNum()) ).findFirst();
+                first.ifPresent(teachers1::add);
+            }
+            List<TeacherData> teacherData = new ArrayList<>();
+
+            System.out.println("teachers1 -> "+ teachers1);
+            for (Teacher teacher : teachers1) {
+                TeacherData teacherData1 = userRepository.getTeachersForRemember3(teacher.getEmail());
+                if (teacherData1!=null) {
+                    teacherData.add(teacherData1);
+                    List<Show> shows = new ArrayList<>();
+                    for (String id : lessonsIds) {
+                        List<LessonXml> lessonXmls = lessonsMed.stream().filter(item -> item.getId().equals(id) && item.getTeacherIds().contains(teacher.getId())).collect(Collectors.toList());
+                        if (lessonXmls.size()!=0) {
+                            //                        lists.add(lessonXmls);
+                            for (LessonXml xml : lessonXmls) {
+                                List<Card> collect = cardsMed.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(s)).collect(Collectors.toList());
+//                                Card card = cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(s)).findFirst().get();
+
+                                for (Card card : collect) {
+                                    Show show = new Show();
+
+                                    Period period = periodsMed.stream().filter(i -> i.getName().equals(card.getPeriod())).findFirst().get();
+                                    for (String s2 : card.getClassroomIds()) {
+                                        ClassRoom room = classRoomsMed.stream().filter(i -> i.getId().equals(s2)).findFirst().get();
+                                        show.setRoom(room.getName());
+                                        break;
+                                    }
+
+                                    show.setLessonName(subjectsMed.stream().filter(i->i.getId().equals(xml.getSubjectId())).findFirst().get().getName());
+                                    show.setHourNumber(period.getPeriod());
+                                    show.setPeriodStartAndEndTime(period.getStartTime()+"-"+period.getEndTime());
+
+                                    List<String> classIds = xml.getClassIds();
+                                    List<String> stringList = new ArrayList<>();
+
+                                    for (String classId : classIds) {
+                                        Class aClass = classesMed.stream().filter(i -> i.getId().equals(classId)).findFirst().get();
+                                        stringList.add(aClass.getName());
+                                    }
+
+                                    show.setGroups(stringList);
+
+
+                                    show.setDaysName(
+                                            daysDefsMed.
+                                                    stream().filter(item -> item.getDays().contains(s))
+                                                    .findFirst().get().getShortName()
+                                    );
+                                    System.out.println(show.toString()+" <- show "+s);
+
+                                    shows.add(show);
+
+                                }
+
+
+
+
+                            }
+                        }
+                    }
+                    tables.add(new Table(teacherData1,shows));
+                }
+            }
+        }
+
         return new ApiResponse(false,"ishlayapdi ok",tables);
     }
 
@@ -1464,7 +1584,7 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
     public ApiResponseTwoObj getTimeTableByAllRoomAndWeek(User user,String building, Integer weekday, Integer week, Integer year,Boolean t) {
         getTimeTableByWeek(year,week);
 
-        Set<List<TeacherStatisticsOfWeekday>> listsFather = new HashSet<>();
+        Set<List<TeacherStatisticsOfWeekday2>> listsFather = new HashSet<>();
         Set<Set<Show>> showSetFather = new HashSet<>();
 //        return new ApiResponseTwoObj(true,"123456",classRooms.stream().filter(i-> i.getName().startsWith(building)).collect(Collectors.toSet()));
 
@@ -1499,89 +1619,89 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
             showWeekNumberFields.setGet11(showSet.stream().filter(item -> item.getHourNumber() == 11).collect(Collectors.toList()));
             showWeekNumberFields.setGet12(showSet.stream().filter(item -> item.getHourNumber() == 12).collect(Collectors.toList()));
 
-            List<TeacherStatisticsOfWeekday> lists = new ArrayList<>();
+            List<TeacherStatisticsOfWeekday2> lists = new ArrayList<>();
 
             showWeekNumberFields.getGet1().forEach(i -> {
                 for (Teacher teacher : i.getTeachers()) {
                     System.out.println(i.getRoom()+" <-------------------------------------------");
-                    List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
+                    List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
                     lists.addAll(statisticsOfWeekdayList);
                 }
             });
             showWeekNumberFields.getGet2().forEach(i -> {
                 for (Teacher teacher : i.getTeachers()) {
                     System.out.println(i.getRoom()+" <-------------------------------------------");
-                    List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
+                    List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
                     lists.addAll(statisticsOfWeekdayList);
                 }
             });
             showWeekNumberFields.getGet3().forEach(i -> {
                 for (Teacher teacher : i.getTeachers()) {
                     System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4)+" <-------------------------------------------");
-                    List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
+                    List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
                     lists.addAll(statisticsOfWeekdayList);
                 }
             });
             showWeekNumberFields.getGet4().forEach(i -> {
                 for (Teacher teacher : i.getTeachers()) {
                     System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4)+" <-------------------------------------------");
-                    List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
+                    List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
                     lists.addAll(statisticsOfWeekdayList);
                 }
             });
             showWeekNumberFields.getGet5().forEach(i -> {
                 for (Teacher teacher : i.getTeachers()) {
                     System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4)+" <-------------------------------------------");
-                    List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
+                    List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
                     lists.addAll(statisticsOfWeekdayList);
                 }
             });
             showWeekNumberFields.getGet6().forEach(i -> {
                 for (Teacher teacher : i.getTeachers()) {
                     System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4)+" <-------------------------------------------");
-                    List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
+                    List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
                     lists.addAll(statisticsOfWeekdayList);
                 }
             });
             showWeekNumberFields.getGet7().forEach(i -> {
                 for (Teacher teacher : i.getTeachers()) {
                     System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4)+" <-------------------------------------------");
-                    List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
+                    List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
                     lists.addAll(statisticsOfWeekdayList);
                 }
             });
             showWeekNumberFields.getGet8().forEach(i -> {
                 for (Teacher teacher : i.getTeachers()) {
                     System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4)+" <-------------------------------------------");
-                    List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
+                    List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
                     lists.addAll(statisticsOfWeekdayList);
                 }
             });
             showWeekNumberFields.getGet9().forEach(i -> {
                 for (Teacher teacher : i.getTeachers()) {
                     System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4)+" <-------------------------------------------");
-                    List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
+                    List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
                     lists.addAll(statisticsOfWeekdayList);
                 }
             });
             showWeekNumberFields.getGet10().forEach(i -> {
                 for (Teacher teacher : i.getTeachers()) {
                     System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4)+" <-------------------------------------------");
-                    List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
+                    List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
                     lists.addAll(statisticsOfWeekdayList);
                 }
             });
             showWeekNumberFields.getGet11().forEach(i -> {
                 for (Teacher teacher : i.getTeachers()) {
                     System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4)+" <-------------------------------------------");
-                    List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
+                    List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%":i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
                     lists.addAll(statisticsOfWeekdayList);
                 }
             });
             showWeekNumberFields.getGet12().forEach(i -> {
                 for (Teacher teacher : i.getTeachers()) {
                     System.out.println(i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4)+" <-------------------------------------------");
-                    List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek(teacher.getEmail(), i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
+                    List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), i.getRoom().length()==7 ? i.getRoom() : i.getRoom().substring(0,i.getRoom().indexOf("-")+4), i.getDayNumber(),week,year, i.getHourNumber());
                     lists.addAll(statisticsOfWeekdayList);
                 }
             });
@@ -1951,11 +2071,41 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
         lessons.clear();
         cards.clear();
     }
+    public void clearTimeTableMed(){
+        periodsMed.clear();
+        daysDefsMed.clear();
+        weeksDefsMed.clear();
+        termsDefsMed.clear();
+        subjectsMed.clear();
+        teachersMed.clear();
+        classRoomsMed.clear();
+        classesMed.clear();
+        groupsMed.clear();
+        lessonsMed.clear();
+        cardsMed.clear();
+    }
 
     //====================================  Period  ==========================================================
     public static void readPeriod(Element employeeNode)
     {
         periods.add(
+                new Period(
+                        Integer.valueOf(employeeNode.getAttributeValue("short")),
+                        Integer.valueOf(employeeNode.getAttributeValue("short")),
+                        Integer.valueOf(employeeNode.getAttributeValue("period")),
+                        employeeNode.getAttributeValue("starttime"),
+                        employeeNode.getAttributeValue("endtime")
+                )
+        );
+
+        //Country
+//        System.out.println("country : " + employeeNode.getChild("country").getText());
+//        /**Read Department Content*/
+//        employeeNode.getChildren("department").forEach( HowToGetItemFromXmlApplication::readDepartmentNode );
+    }
+    public static void readPeriodMed(Element employeeNode)
+    {
+        periodsMed.add(
                 new Period(
                         Integer.valueOf(employeeNode.getAttributeValue("short")),
                         Integer.valueOf(employeeNode.getAttributeValue("short")),
@@ -1984,12 +2134,39 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                 )
         );
     }
+
+    public static void readDaysDefMed(Element employeeNode)
+    {
+        String days = employeeNode.getAttributeValue("days");
+        List<String> array = array(days);
+        daysDefsMed.add(
+                new DaysDef(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        array
+                )
+        );
+    }
     //====================================  WeeksDef  ==========================================================
     public static void readWeeksDef(Element employeeNode)
     {
         String days = employeeNode.getAttributeValue("weeks");
         List<String> array = array(days);
         weeksDefs.add(
+                new WeeksDef(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        array
+                )
+        );
+    }
+    public static void readWeeksDefMed(Element employeeNode)
+    {
+        String days = employeeNode.getAttributeValue("weeks");
+        List<String> array = array(days);
+        weeksDefsMed.add(
                 new WeeksDef(
                         employeeNode.getAttributeValue("id"),
                         employeeNode.getAttributeValue("name"),
@@ -2012,10 +2189,35 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                 )
         );
     }
+    public static void readTermsDefsMed(Element employeeNode)
+    {
+        String days = employeeNode.getAttributeValue("terms");
+        List<String> array = array(days);
+        termsDefsMed.add(
+                new TermsDef(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        array
+                )
+        );
+    }
     //====================================  Subject  ==========================================================
     public static void readSubject(Element employeeNode)
     {
         subjects.add(
+                new Subject(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+
+    }
+    public static void readSubjectMed(Element employeeNode)
+    {
+        subjectsMed.add(
                 new Subject(
                         employeeNode.getAttributeValue("id"),
                         employeeNode.getAttributeValue("name"),
@@ -2042,6 +2244,22 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                 )
         );
     }
+    public static void readTeacherMed(Element employeeNode)
+    {
+        teachersMed.add(
+                new Teacher(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("firstname"),
+                        employeeNode.getAttributeValue("lastname"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("gender"),
+                        employeeNode.getAttributeValue("email"),
+                        employeeNode.getAttributeValue("mobile"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
     //====================================  Classrooms  ==========================================================
     public static void readClassroom(Element employeeNode)
     {
@@ -2054,10 +2272,31 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                 )
         );
     }
+    public static void readClassroomMed(Element employeeNode)
+    {
+        classRoomsMed.add(
+                new ClassRoom(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
     //====================================  Grade  ==========================================================
     public static void readGrade(Element employeeNode)
     {
         grades.add(
+                new Grade(
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        Integer.valueOf(employeeNode.getAttributeValue("grade"))
+                )
+        );
+    }
+    public static void readGradeMed(Element employeeNode)
+    {
+        gradesMed.add(
                 new Grade(
                         employeeNode.getAttributeValue("name"),
                         employeeNode.getAttributeValue("short"),
@@ -2080,10 +2319,37 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                 )
         );
     }
+    public static void readClassMed(Element employeeNode)
+    {
+        classesMed.add(
+                new uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("teacherid"),
+                        array(employeeNode.getAttributeValue("classroomids")),
+                        employeeNode.getAttributeValue("grade"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
     //====================================  Group  ==========================================================
     public static void readGroup(Element employeeNode)
     {
         groups.add(
+                new GroupXml(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("classid"),
+                        array(employeeNode.getAttributeValue("studentids")),
+                        employeeNode.getAttributeValue("entireclass"),
+                        employeeNode.getAttributeValue("divisiontag")
+                )
+        );
+    }
+    public static void readGroupMed(Element employeeNode)
+    {
+        groupsMed.add(
                 new GroupXml(
                         employeeNode.getAttributeValue("id"),
                         employeeNode.getAttributeValue("name"),
@@ -2115,10 +2381,43 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                 )
         );
     }
+    public static void readLessonMed(Element employeeNode)
+    {
+        lessonsMed.add(
+                new LessonXml(
+                        employeeNode.getAttributeValue("id"),
+                        array(employeeNode.getAttributeValue("classids")),
+                        employeeNode.getAttributeValue("subjectid"),
+                        employeeNode.getAttributeValue("periodspercard"),
+                        employeeNode.getAttributeValue("periodsperweek"),
+                        array(employeeNode.getAttributeValue("teacherids")),
+                        array(employeeNode.getAttributeValue("groupids")),
+                        employeeNode.getAttributeValue("seminargroup"),
+                        employeeNode.getAttributeValue("termsdefid"),
+                        employeeNode.getAttributeValue("weeksdefid"),
+                        employeeNode.getAttributeValue("daysdefid"),
+                        employeeNode.getAttributeValue("capacity"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
     //====================================  Cards  ==========================================================
     public static void readCard(Element employeeNode)
     {
         cards.add(
+                new Card(
+                        employeeNode.getAttributeValue("lessonid"),
+                        array(employeeNode.getAttributeValue("classroomids")),
+                        Integer.valueOf(employeeNode.getAttributeValue("period")),
+                        array(employeeNode.getAttributeValue("weeks")),
+                        array(employeeNode.getAttributeValue("terms")),
+                        array(employeeNode.getAttributeValue("days"))
+                )
+        );
+    }
+    public static void readCardMed(Element employeeNode)
+    {
+        cardsMed.add(
                 new Card(
                         employeeNode.getAttributeValue("lessonid"),
                         array(employeeNode.getAttributeValue("classroomids")),

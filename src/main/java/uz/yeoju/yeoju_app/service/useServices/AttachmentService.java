@@ -10,18 +10,28 @@ import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.attachment.Attachment;
 import uz.yeoju.yeoju_app.entity.attachment.AttachmentContent;
 import uz.yeoju.yeoju_app.entity.attachment.UserPhoto;
+import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
+import uz.yeoju.yeoju_app.entity.educationYear.WeekEduType;
+import uz.yeoju.yeoju_app.entity.educationYear.WeekOfEducationYear;
+import uz.yeoju.yeoju_app.entity.educationYear.WeekType;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.repository.AttachmentContentRepo;
 import uz.yeoju.yeoju_app.repository.AttachmentRepo;
 import uz.yeoju.yeoju_app.repository.UserPhotoRepo;
 import uz.yeoju.yeoju_app.repository.UserRepository;
+import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
+import uz.yeoju.yeoju_app.repository.educationYear.WeekOfEducationYearRepository;
+import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTableDB.TimeTableDBService;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class AttachmentService {
@@ -33,10 +43,19 @@ public class AttachmentService {
     AttachmentContentRepo attachmentContentRepo;
 
     @Autowired
+    TimeTableDBService timeTableDBService;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private UserPhotoRepo userPhotoRepo;
+
+    @Autowired
+    private EducationYearRepository educationYearRepository;
+
+    @Autowired
+    private WeekOfEducationYearRepository weekOfEducationYearRepository;
 
     public ApiResponse uploadFileOrFilesToDatabase(MultipartHttpServletRequest request) throws IOException {
 
@@ -146,4 +165,103 @@ public class AttachmentService {
         }
         return new ApiResponse(false, "Attachment not found!");
     }
+
+
+
+
+    public ApiResponse saveToFileSystem(MultipartHttpServletRequest request, String educationYearId, String filename, String year,Integer weekNumber, WeekEduType eduType, WeekType weekType, Date startWeek, Date endWeek) throws IOException {
+
+
+        boolean existEducationYear = educationYearRepository.existsById(educationYearId);
+
+        if (existEducationYear) {
+
+            Path folder = Paths.get(year);
+
+            if (Files.exists(folder)) {
+                // file exist
+                System.out.println("File exists");
+            }
+
+            if (Files.notExists(folder)) {
+                // file is not exist
+                System.out.println("file is not exist");
+                File f = new File(year);
+                f.mkdir();
+            }
+
+
+            Path path = Paths.get(year + "\\" + filename + ".xml");
+            if (Files.exists(path)) {
+                System.out.println(filename + " already exists");
+                return new ApiResponse(false, filename + " already exists");
+            } else {
+                Iterator<String> fileNames = request.getFileNames();
+                List<String> fileIds = new ArrayList<>();
+                while (fileNames.hasNext()) {
+                    MultipartFile file = request.getFile(fileNames.next());
+                    if (file != null) {
+
+//                        EducationYear educationYear = educationYearRepository.getById(educationYearId);
+//                        Boolean existsSort = weekOfEducationYearRepository.existsBySortNumberAndYear(Integer.valueOf(filename), Integer.valueOf(year));
+//                        Boolean existsWeek = weekOfEducationYearRepository.existsByWeekNumberAndYear(weekNumber, Integer.valueOf(year));
+//                        if (existsSort){
+//                            return new ApiResponse(false, "Already exists week of year number : "+Integer.valueOf(filename) +" at "+year);
+//                        }
+//                        if (existsWeek){
+//                            return new ApiResponse(false, "Already exists week of education year : "+weekNumber +" at "+year);
+//                        }
+//
+//                        WeekOfEducationYear weekOfEducationYear = new WeekOfEducationYear();
+//                        weekOfEducationYear.setYear(Integer.valueOf(year));
+//                        weekOfEducationYear.setWeekNumber(weekNumber);
+//                        weekOfEducationYear.setSortNumber(Integer.valueOf(filename));
+//                        weekOfEducationYear.setStart(startWeek);
+//                        weekOfEducationYear.setEnd(endWeek);
+//                        weekOfEducationYear.setType(weekType);
+//                        weekOfEducationYear.setEduType(eduType);
+//                        weekOfEducationYearRepository.saveAndFlush(weekOfEducationYear);
+//
+//                        educationYear.getWeeks().add(weekOfEducationYear);
+//                        educationYear.setWeeks(educationYear.getWeeks());
+//                        educationYearRepository.save(educationYear);
+//
+//                        //todo----------------------------------------------------- Inshaalla, I would done tomorrow ------------------------------------------------
+//
+//                        Attachment attechment = new Attachment();
+//                        attechment.setOriginalName(file.getOriginalFilename());
+//                        attechment.setContentType(file.getContentType());
+//                        attechment.setSize(file.getSize());
+////                attechment = attachmentRepo.save(attechment);
+//                        String[] split = file.getOriginalFilename().split("\\.");
+//                        String name = UUID.randomUUID() + "." + split[split.length - 1];
+//                        attechment.setFileName(filename+"-week "+name);
+//
+//                        System.out.println("Congratulation, " + filename + " - time table of week saved successfully");
+                        Files.copy(file.getInputStream(), path);
+//                        attechment.setUrl(path.toString());
+//                        fileIds.add(attechment.getId());
+
+                        ApiResponseTwoObj apiResponseTwoObj = timeTableDBService.generateNewTimeTableToDB(educationYearId,Integer.valueOf(year), Integer.valueOf(filename));
+
+
+//                Path path = Paths.get(year+"\\"+filename+"-"+ name);
+//                Path path = Paths.get("D:\\Teaching\\BootcampGroups\\B5\\FROM_GIT_LAB\\app-online-test\\app-online-test-server\\src\\main\\resources\\files\\" + name);
+//                Files.copy(file.getInputStream(), path);//use
+//                attechment.setUrl(path.toString());// use
+//                attachmentRepo.save(attechment); use
+//                fileIds.add(attechment.getId());// use
+                    }
+                }
+                return new ApiResponse(true, "Congratulation, " + filename + " - time table of week saved successfully", fileIds);
+            }
+        }
+        else {
+            return new ApiResponse(false, "Not fount education year with : "+educationYearId);
+        }
+
+    }
+
+
+
 }

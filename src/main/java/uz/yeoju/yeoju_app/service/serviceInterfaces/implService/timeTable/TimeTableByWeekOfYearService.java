@@ -8,6 +8,7 @@ public interface TimeTableByWeekOfYearService {
 
     void getTimeTableByWeek(Integer week);
     void getTimeTableByWeek(Integer year,Integer week);
+    void getTimeTableByWeekMed(Integer year,Integer week);
 
     ApiResponseTwoObj getStatisticsForDeanDashboard(String educationYearId,String eduType,String eduTypeId,String facultyId,String facultyShortName);
 

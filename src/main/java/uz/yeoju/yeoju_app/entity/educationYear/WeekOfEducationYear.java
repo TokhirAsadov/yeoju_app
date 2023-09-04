@@ -27,5 +27,6 @@ public class WeekOfEducationYear extends AbsEntity {
     private WeekEduType eduType;
 
     private Integer course;
+    private Integer year;
 
 }

@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.Lesson;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetLessonsByKafedraOwnerId;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSaveItem;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface LessonRepository extends JpaRepository<Lesson, String> {
 
     @Query(value = "select name from Lesson order by name asc ",nativeQuery = true)
     List<String> getLessonNames();
+
+    @Query(value = "select l.id as subjectId,l.name as subjectName,l.kafedra_id as kafedraId from Lesson l join Kafedra K on l.kafedra_id = K.id where K.owner_id=?1 group by l.id, l.name, l.kafedra_id order by l.name",nativeQuery = true)
+    List<GetLessonsByKafedraOwnerId> getAllLessonByKaferaOwnerId(String id);
 }

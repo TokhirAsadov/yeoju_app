@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.yeoju.yeoju_app.entity.kafedra.Kafedra;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Column;
@@ -18,8 +19,8 @@ public class Lesson extends AbsEntity {
 
     @Column(unique = true)
     private String name;
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private Kafedra kafedra;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Kafedra kafedra;
 
 //todo -----------------  dekanatlar uchun fakulty(yunalishlarni quwiw kk)  -------------
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -35,6 +36,13 @@ public class Lesson extends AbsEntity {
         this.name = name;
 //        this.kafedra = kafedra;
 //        this.faculty = faculty;
+        this.active = active;
+    }
+
+    public Lesson(String id, String name, Kafedra kafedra, boolean active) {
+        super(id);
+        this.name = name;
+        this.kafedra = kafedra;
         this.active = active;
     }
 }

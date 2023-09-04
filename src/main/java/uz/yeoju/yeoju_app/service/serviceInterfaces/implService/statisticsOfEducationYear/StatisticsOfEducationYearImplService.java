@@ -9,6 +9,7 @@ import uz.yeoju.yeoju_app.entity.Student;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.educationYear.WeekEduType;
+import uz.yeoju.yeoju_app.entity.educationYear.WeekOfEducationYear;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.educationYear.LessonData;
@@ -16,6 +17,7 @@ import uz.yeoju.yeoju_app.payload.educationYear.LessonsOneGroup;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable;
+import uz.yeoju.yeoju_app.payload.resDto.educationYear.WeekOfEducationYearResDto;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.Table;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherData;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherStatisticsOfWeekday;
@@ -184,12 +186,26 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                                                 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
                                                 if (day <= (dayOfWeek - 1)) {
-                                                    Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(student.getUser().getId(), room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+                                                    Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(
+                                                            student.getUser().getId(),
+                                                            room.getName(),
+                                                            Integer.valueOf(year),
+                                                            week.getSortNumber(),
+                                                            day,
+                                                            section
+                                                    );
                                                     statisticsAll.add(weekdayList);
                                                     lessonDataList.add(new LessonData(week.getStart(),subject.getName(), section, day, week.getSortNumber()));
                                                 }
                                             } else {
-                                                Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(student.getUser().getId(), room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+                                                Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(
+                                                        student.getUser().getId(),
+                                                        room.getName(),
+                                                        Integer.valueOf(year),
+                                                        week.getSortNumber(),
+                                                        day,
+                                                        section
+                                                );
                                                 statisticsAll.add(weekdayList);
                                                 lessonDataList.add(new LessonData(week.getStart(), subject.getName(), section, day, week.getSortNumber()));
                                             }
@@ -499,195 +515,384 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
 
     @Override
     public ApiResponseTwoObj getStatisticsOneGroup(String educationYearId, String groupName, String studentId) {
-        String id = DataBaseForTimeTable.classes.stream().filter(item -> Objects.equals(item.getName(), groupName)).findFirst().get().getId();
-        List<LessonXml> lessonXmlList = DataBaseForTimeTable.lessons.stream().filter(item -> item.getClassIds().contains(id)).collect(Collectors.toList());
-        Set<String> lessons1 = new HashSet<>();
-        for (LessonXml lessonXml : lessonXmlList) {
-            String name = DataBaseForTimeTable.subjects.stream().filter(item -> Objects.equals(item.getId(), lessonXml.getSubjectId())).findFirst().get().getName();
-            lessons1.add(name);
-        }
+        if (DataBaseForTimeTable.classes.stream().filter(item -> Objects.equals(item.getName(), groupName)).findFirst().isPresent()) {
+            String id = DataBaseForTimeTable.classes.stream().filter(item -> Objects.equals(item.getName(), groupName)).findFirst().get().getId();
+            List<LessonXml> lessonXmlList = DataBaseForTimeTable.lessons.stream().filter(item -> item.getClassIds().contains(id)).collect(Collectors.toList());
+            Set<String> lessons1 = new HashSet<>();
+            for (LessonXml lessonXml : lessonXmlList) {
+                String name = DataBaseForTimeTable.subjects.stream().filter(item -> Objects.equals(item.getId(), lessonXml.getSubjectId())).findFirst().get().getName();
+                lessons1.add(name);
+            }
 
-        Optional<EducationYear> yearOptional = educationYearRepository.findById(educationYearId);
-        if(yearOptional.isPresent()){
-            List<LessonsOneGroup> lessonsOneGroups = new ArrayList<>();
-            EducationYear educationYear = yearOptional.get();
+            Optional<EducationYear> yearOptional = educationYearRepository.findById(educationYearId);
+            if(yearOptional.isPresent()){
+                List<LessonsOneGroup> lessonsOneGroups = new ArrayList<>();
+                EducationYear educationYear = yearOptional.get();
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
-            List<String> years = new ArrayList<>();
-
-
-
-            lessons1.forEach(subjectName ->{
-
-                Set<Set<TeacherStatisticsOfWeekday>> statisticsAll = new HashSet<>();
-                Set<LessonData> lessonDataList = new HashSet<>();
-                Set<String> teacherNames = new HashSet<>();
-
-
-                educationYear.getWeeks().forEach(week -> {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+                List<String> years = new ArrayList<>();
 
 
 
-                    String year = simpleDateFormat.format(week.getStart()).toUpperCase();
-                    years.add(year);
-                    years.add(week.getSortNumber().toString());
+                lessons1.forEach(subjectName ->{
 
-                    // 1. o`quv yilidan hafta bo`yicha cash database yasadim
-                    getTimeTableByWeek(Integer.valueOf(year),week.getSortNumber());
+                    Set<Set<TeacherStatisticsOfWeekday>> statisticsAll = new HashSet<>();
+                    Set<LessonData> lessonDataList = new HashSet<>();
+                    Set<String> teacherNames = new HashSet<>();
 
-                    System.out.println(subjects.toString()+"========================== 1.");
 
-                    // 2.
+                    educationYear.getWeeks().forEach(week -> {
 
 
 
-                    Optional<Subject> subjectOptional = subjects.stream().filter(subject -> Objects.equals(subject.getName(), subjectName)).findFirst();
-                    if (subjectOptional.isPresent()) {
-                        // 2.1 subjects dan subjectName orqali subjectni oldim
-                        Subject subject = subjectOptional.get();
+                        String year = simpleDateFormat.format(week.getStart()).toUpperCase();
+                        years.add(year);
+                        years.add(week.getSortNumber().toString());
 
-                        System.out.println(subject.toString()+"========================== 2.1");
+                        // 1. o`quv yilidan hafta bo`yicha cash database yasadim
+                        getTimeTableByWeek(Integer.valueOf(year),week.getSortNumber());
 
-                        Optional<Class> classOptional = classes.stream().filter(item -> Objects.equals(item.getName(), groupName)).findFirst();
-                        if (classOptional.isPresent()) {
-                            // 2.2 classes dan guruhni oldim
-                            Class group = classOptional.get();
+                        System.out.println(subjects.toString()+"========================== 1.");
 
-                            System.out.println(group.toString()+"========================== 2.2");
-
-                            // 2.3 lessons dan filter qilib classids.contains(_) and subjectId(_)
-                            Set<LessonXml> lessonXmlSet = lessons.stream().filter(lessonXml -> Objects.equals(lessonXml.getSubjectId(), subject.getId()) && lessonXml.getClassIds().contains(group.getId())).collect(Collectors.toSet());
-
-                            System.out.println(lessonXmlSet.toString()+"========================== 2.3");
-
-                            lessonXmlSet.forEach(lessonXml -> {
-
-                                lessonXml.getTeacherIds().forEach(tIds -> {
-                                    Optional<Teacher> teacherOptional = teachers.stream().filter(teacher -> Objects.equals(teacher.getId(), tIds)).findFirst();
-                                    if (teacherOptional.isPresent()) {
-                                        Teacher teacher = teacherOptional.get();
-                                        teacherNames.add(teacher.getLastName()+" "+teacher.getFirstName());
-                                    }
-                                });
+                        // 2.
 
 
-                                // 3. cards dan lessonid bo`yicha filterda cardid(_) bo`yicha oldik
-                                Set<Card> cardSet = cards.stream().filter(card -> Objects.equals(card.getLessonId(), lessonXml.getId())).collect(Collectors.toSet());
 
-                                System.out.println(cardSet.toString()+"========================== 3.");
+                        Optional<Subject> subjectOptional = subjects.stream().filter(subject -> Objects.equals(subject.getName(), subjectName)).findFirst();
+                        if (subjectOptional.isPresent()) {
+                            // 2.1 subjects dan subjectName orqali subjectni oldim
+                            Subject subject = subjectOptional.get();
 
-                                cardSet.forEach(card -> {
-                                    // 4.1 card dan classroomIds dan xonaning id sini oldik
-                                    String classroomId = card.getClassroomIds().get(0);
+                            System.out.println(subject.toString()+"========================== 2.1");
 
-                                    System.out.println(classroomId.toString()+"========================== 4.1");
+                            Optional<Class> classOptional = classes.stream().filter(item -> Objects.equals(item.getName(), groupName)).findFirst();
+                            if (classOptional.isPresent()) {
+                                // 2.2 classes dan guruhni oldim
+                                Class group = classOptional.get();
 
-                                    if (classroomId!=null) {
-                                        Optional<ClassRoom> roomOptional = classRooms.stream().filter(classRoom -> Objects.equals(classRoom.getId(), classroomId)).findFirst();
+                                System.out.println(group.toString()+"========================== 2.2");
+
+                                // 2.3 lessons dan filter qilib classids.contains(_) and subjectId(_)
+                                Set<LessonXml> lessonXmlSet = lessons.stream().filter(lessonXml -> Objects.equals(lessonXml.getSubjectId(), subject.getId()) && lessonXml.getClassIds().contains(group.getId())).collect(Collectors.toSet());
+
+                                System.out.println(lessonXmlSet.toString()+"========================== 2.3");
+
+                                lessonXmlSet.forEach(lessonXml -> {
+
+                                    lessonXml.getTeacherIds().forEach(tIds -> {
+                                        Optional<Teacher> teacherOptional = teachers.stream().filter(teacher -> Objects.equals(teacher.getId(), tIds)).findFirst();
+                                        if (teacherOptional.isPresent()) {
+                                            Teacher teacher = teacherOptional.get();
+                                            teacherNames.add(teacher.getLastName()+" "+teacher.getFirstName());
+                                        }
+                                    });
 
 
-                                        if (roomOptional.isPresent()) {
-                                            // 4.2 card dan xonani oldik
-                                            ClassRoom room = roomOptional.get();
+                                    // 3. cards dan lessonid bo`yicha filterda cardid(_) bo`yicha oldik
+                                    Set<Card> cardSet = cards.stream().filter(card -> Objects.equals(card.getLessonId(), lessonXml.getId())).collect(Collectors.toSet());
 
-                                            System.out.println(room.toString()+"========================== 4.2");
+                                    System.out.println(cardSet.toString()+"========================== 3.");
 
-                                            int day = 0;
-                                            // 4.3
-                                            for (DaysDef daysDef : daysDefs) {
-                                                if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                                    if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
-                                                        day=1;
-                                                    if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
-                                                        day=2;
-                                                    if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
-                                                        day=3;
-                                                    if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
-                                                        day=4;
-                                                    if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
-                                                        day=5;
-                                                    if (daysDef.getDays().get(0).equals("000001"))
-                                                        day=6;
-                                                    break;
+                                    cardSet.forEach(card -> {
+                                        // 4.1 card dan classroomIds dan xonaning id sini oldik
+                                        String classroomId = card.getClassroomIds().get(0);
+
+                                        System.out.println(classroomId.toString()+"========================== 4.1");
+
+                                        if (classroomId!=null) {
+                                            Optional<ClassRoom> roomOptional = classRooms.stream().filter(classRoom -> Objects.equals(classRoom.getId(), classroomId)).findFirst();
+
+
+                                            if (roomOptional.isPresent()) {
+                                                // 4.2 card dan xonani oldik
+                                                ClassRoom room = roomOptional.get();
+
+                                                System.out.println(room.toString()+"========================== 4.2");
+
+                                                int day = 0;
+                                                // 4.3
+                                                for (DaysDef daysDef : daysDefs) {
+                                                    if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
+                                                        if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                                            day=1;
+                                                        if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                                            day=2;
+                                                        if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                                            day=3;
+                                                        if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                                            day=4;
+                                                        if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                                            day=5;
+                                                        if (daysDef.getDays().get(0).equals("000001"))
+                                                            day=6;
+                                                        break;
+                                                    }
                                                 }
-                                            }
-                                            // 4.4 card dan period bo`yicha darsning nechanchi parada(section da)ligini oldik
-                                            Integer section = card.getPeriod();
+                                                // 4.4 card dan period bo`yicha darsning nechanchi parada(section da)ligini oldik
+                                                Integer section = card.getPeriod();
 
-                                            //todo===========================    MY FUNCTION    ============================ --------------------------------------------------
+                                                //todo===========================    MY FUNCTION    ============================ --------------------------------------------------
 
-                                            String w = new SimpleDateFormat("w").format(new Date());
-
+                                                String w = new SimpleDateFormat("w").format(new Date());
 
 
-                                            if (Integer.valueOf(w).equals(week.getSortNumber())) {
 
-                                                Calendar cal = Calendar.getInstance();
-                                                cal.setTimeInMillis(System.currentTimeMillis());
-                                                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                                                if (Integer.valueOf(w).equals(week.getSortNumber())) {
 
-                                                if (day<=(dayOfWeek-1)) {
+                                                    Calendar cal = Calendar.getInstance();
+                                                    cal.setTimeInMillis(System.currentTimeMillis());
+                                                    int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+
+                                                    if (day<=(dayOfWeek-1)) {
+                                                        Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+                                                        statisticsAll.add(weekdayList);
+                                                        lessonDataList.add(new LessonData(week.getStart(),subjectName,section,day,week.getSortNumber()));
+                                                    }
+                                                }
+                                                else {
                                                     Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
                                                     statisticsAll.add(weekdayList);
                                                     lessonDataList.add(new LessonData(week.getStart(),subjectName,section,day,week.getSortNumber()));
                                                 }
-                                            }
-                                            else {
-                                                Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
-                                                statisticsAll.add(weekdayList);
-                                                lessonDataList.add(new LessonData(week.getStart(),subjectName,section,day,week.getSortNumber()));
-                                            }
 
 
 
 //                                        List<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
 //                                        statisticsAll.add(weekdayList);
+                                            }
                                         }
-                                    }
+                                    });
                                 });
-                            });
+
+
+                            }
 
 
                         }
 
 
-                    }
+
+                    });
 
 
 
+
+
+                    lessonsOneGroups.add(new LessonsOneGroup(
+                            subjectName,
+                            teacherNames,
+                            statisticsAll,
+                            lessonDataList
+                    ));
                 });
 
 
 
 
 
-                lessonsOneGroups.add(new LessonsOneGroup(
-                        subjectName,
-                        teacherNames,
-                        statisticsAll,
-                        lessonDataList
-                ));
-            });
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(System.currentTimeMillis());
+                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
 
-
-
-
-            Calendar cal = Calendar.getInstance();
-            cal.setTimeInMillis(System.currentTimeMillis());
-            int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-
-
-            return new ApiResponseTwoObj(true,"years: "+years+" ---- week: "+new SimpleDateFormat("w").format(new Date())+" ---- day: "+ new SimpleDateFormat("d").format(new Date())+" - "+dayOfWeek,lessonsOneGroups);
+                return new ApiResponseTwoObj(true,"years: "+years+" ---- week: "+new SimpleDateFormat("w").format(new Date())+" ---- day: "+ new SimpleDateFormat("d").format(new Date())+" - "+dayOfWeek,lessonsOneGroups);
+            }
+            else {
+                return new ApiResponseTwoObj(false,"not fount by id -> "+educationYearId);
+            }
         }
         else {
-            return new ApiResponseTwoObj(false,"not fount by id -> "+educationYearId);
+            WeekOfEducationYearResDto week1 = educationYearRepository.getWeekOfEducationLast(groupName);
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+            String year1 = simpleDateFormat.format(week1.getStart()).toUpperCase();
+            getTimeTableByWeek(Integer.valueOf(year1), week1.getSortNumber());
+
+            String id = classes.stream().filter(item -> Objects.equals(item.getName(), groupName)).findFirst().get().getId();
+            List<LessonXml> lessonXmlList = lessons.stream().filter(item -> item.getClassIds().contains(id)).collect(Collectors.toList());
+            Set<String> lessons1 = new HashSet<>();
+            for (LessonXml lessonXml : lessonXmlList) {
+                String name = subjects.stream().filter(item -> Objects.equals(item.getId(), lessonXml.getSubjectId())).findFirst().get().getName();
+                lessons1.add(name);
+            }
+
+            Optional<EducationYear> yearOptional = educationYearRepository.findById(educationYearId);
+            if(yearOptional.isPresent()){
+                List<LessonsOneGroup> lessonsOneGroups = new ArrayList<>();
+                EducationYear educationYear = yearOptional.get();
+
+                List<String> years = new ArrayList<>();
+
+
+
+                lessons1.forEach(subjectName ->{
+
+                    Set<Set<TeacherStatisticsOfWeekday>> statisticsAll = new HashSet<>();
+                    Set<LessonData> lessonDataList = new HashSet<>();
+                    Set<String> teacherNames = new HashSet<>();
+
+
+                    educationYear.getWeeks().forEach(week -> {
+
+
+
+                        String year = simpleDateFormat.format(week.getStart()).toUpperCase();
+                        years.add(year);
+                        years.add(week.getSortNumber().toString());
+
+                        // 1. o`quv yilidan hafta bo`yicha cash database yasadim
+                        getTimeTableByWeek(Integer.valueOf(year),week.getSortNumber());
+
+                        System.out.println(subjects.toString()+"========================== 1.");
+
+                        // 2.
+
+
+
+                        Optional<Subject> subjectOptional = subjects.stream().filter(subject -> Objects.equals(subject.getName(), subjectName)).findFirst();
+                        if (subjectOptional.isPresent()) {
+                            // 2.1 subjects dan subjectName orqali subjectni oldim
+                            Subject subject = subjectOptional.get();
+
+                            System.out.println(subject.toString()+"========================== 2.1");
+
+                            Optional<Class> classOptional = classes.stream().filter(item -> Objects.equals(item.getName(), groupName)).findFirst();
+                            if (classOptional.isPresent()) {
+                                // 2.2 classes dan guruhni oldim
+                                Class group = classOptional.get();
+
+                                System.out.println(group.toString()+"========================== 2.2");
+
+                                // 2.3 lessons dan filter qilib classids.contains(_) and subjectId(_)
+                                Set<LessonXml> lessonXmlSet = lessons.stream().filter(lessonXml -> Objects.equals(lessonXml.getSubjectId(), subject.getId()) && lessonXml.getClassIds().contains(group.getId())).collect(Collectors.toSet());
+
+                                System.out.println(lessonXmlSet.toString()+"========================== 2.3");
+
+                                lessonXmlSet.forEach(lessonXml -> {
+
+                                    lessonXml.getTeacherIds().forEach(tIds -> {
+                                        Optional<Teacher> teacherOptional = teachers.stream().filter(teacher -> Objects.equals(teacher.getId(), tIds)).findFirst();
+                                        if (teacherOptional.isPresent()) {
+                                            Teacher teacher = teacherOptional.get();
+                                            teacherNames.add(teacher.getLastName()+" "+teacher.getFirstName());
+                                        }
+                                    });
+
+
+                                    // 3. cards dan lessonid bo`yicha filterda cardid(_) bo`yicha oldik
+                                    Set<Card> cardSet = cards.stream().filter(card -> Objects.equals(card.getLessonId(), lessonXml.getId())).collect(Collectors.toSet());
+
+                                    System.out.println(cardSet.toString()+"========================== 3.");
+
+                                    cardSet.forEach(card -> {
+                                        // 4.1 card dan classroomIds dan xonaning id sini oldik
+                                        String classroomId = card.getClassroomIds().get(0);
+
+                                        System.out.println(classroomId.toString()+"========================== 4.1");
+
+                                        if (classroomId!=null) {
+                                            Optional<ClassRoom> roomOptional = classRooms.stream().filter(classRoom -> Objects.equals(classRoom.getId(), classroomId)).findFirst();
+
+
+                                            if (roomOptional.isPresent()) {
+                                                // 4.2 card dan xonani oldik
+                                                ClassRoom room = roomOptional.get();
+
+                                                System.out.println(room.toString()+"========================== 4.2");
+
+                                                int day = 0;
+                                                // 4.3
+                                                for (DaysDef daysDef : daysDefs) {
+                                                    if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
+                                                        if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                                            day=1;
+                                                        if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                                            day=2;
+                                                        if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                                            day=3;
+                                                        if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                                            day=4;
+                                                        if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                                            day=5;
+                                                        if (daysDef.getDays().get(0).equals("000001"))
+                                                            day=6;
+                                                        break;
+                                                    }
+                                                }
+                                                // 4.4 card dan period bo`yicha darsning nechanchi parada(section da)ligini oldik
+                                                Integer section = card.getPeriod();
+
+                                                //todo===========================    MY FUNCTION    ============================ --------------------------------------------------
+
+                                                String w = new SimpleDateFormat("w").format(new Date());
+
+
+
+                                                if (Integer.valueOf(w).equals(week.getSortNumber())) {
+
+                                                    Calendar cal = Calendar.getInstance();
+                                                    cal.setTimeInMillis(System.currentTimeMillis());
+                                                    int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+
+                                                    if (day<=(dayOfWeek-1)) {
+                                                        Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+                                                        statisticsAll.add(weekdayList);
+                                                        lessonDataList.add(new LessonData(week.getStart(),subjectName,section,day,week.getSortNumber()));
+                                                    }
+                                                }
+                                                else {
+                                                    Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+                                                    statisticsAll.add(weekdayList);
+                                                    lessonDataList.add(new LessonData(week.getStart(),subjectName,section,day,week.getSortNumber()));
+                                                }
+
+
+
+//                                        List<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+//                                        statisticsAll.add(weekdayList);
+                                            }
+                                        }
+                                    });
+                                });
+
+
+                            }
+
+
+                        }
+
+
+
+                    });
+
+
+
+
+
+                    lessonsOneGroups.add(new LessonsOneGroup(
+                            subjectName,
+                            teacherNames,
+                            statisticsAll,
+                            lessonDataList
+                    ));
+                });
+
+
+
+
+
+                Calendar cal = Calendar.getInstance();
+                cal.setTimeInMillis(System.currentTimeMillis());
+                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+
+
+                return new ApiResponseTwoObj(true,"years: "+years+" ---- week: "+new SimpleDateFormat("w").format(new Date())+" ---- day: "+ new SimpleDateFormat("d").format(new Date())+" - "+dayOfWeek,lessonsOneGroups);
+            }
+            else {
+                return new ApiResponseTwoObj(false,"not fount by id -> "+educationYearId);
+            }
+
         }
-
-
-
-
-
 
     }
 

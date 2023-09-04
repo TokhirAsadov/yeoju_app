@@ -27,4 +27,12 @@ public interface GroupRepository extends JpaRepository<Group,String> {
 
    @Query(value = "select g.id,g.name from groups g join Student S on g.id = S.group_id where S.user_id=:id",nativeQuery = true)
    GroupForStudent getGroupNameByUserId(@Param("id") String id);
+
+   @Query(value = "select u.id as deanId from groups g\n" +
+           "    join Student s on g.id = s.group_id\n" +
+           "    join Faculty f on f.id=g.faculty_id\n" +
+           "    join Dekanat_Faculty df on f.id=df.faculties_id\n" +
+           "join Dekanat D on g.educationType_id = D.eduType_id and D.id = df.Dekanat_id\n" +
+           "join users u on D.owner_id = u.id where s.user_id=?1",nativeQuery = true)
+   String getDeanId(String studentId);
 }

@@ -29,6 +29,8 @@ public class Student extends AbsEntity {
     private String description;
     private Timestamp enrollmentYear;// uqishga kirgan yili
     private String citizenship;//fuqaroligi
+    private String rektororder;
+    private String lengthOfStudying;
 
     public Student(User user, Group group, String passportSerial, Timestamp bornYear, String description, Timestamp enrollmentYear, String citizenship) {
         this.user = user;

@@ -306,6 +306,56 @@ public class StudentService implements StudentImplService<StudentDto> {
         }
     }
 
+    @Transactional
+    public ApiResponse savingRektororders(MultipartHttpServletRequest request) throws IOException {
+        System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return readDataFromExcel2(file);
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public ApiResponse readDataFromExcel2(MultipartFile file) {
+        System.out.println(" ----------------------------- 3 3 3 ------------------------ --");
+        try {
+            Workbook workbook = getWorkBook(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            rows.next();
+            while (rows.hasNext()){
+                Row row = rows.next();
+
+                System.out.println(row.getCell(0).getStringCellValue());
+                System.out.println(row.getCell(2).getStringCellValue());
+
+                User userByRFID = userRepository.getUserByLoginOrEmailOrRFID(row.getCell(0).getStringCellValue(),row.getCell(0).getStringCellValue(),row.getCell(0).getStringCellValue());
+
+                if (userByRFID !=null) {
+
+                    Student studentByUserId1 = studentRepository.findStudentByUserId(userByRFID.getId());
+                    if (studentByUserId1!=null) {
+//                        studentByUserId1.setRektororder(row.getCell(2).getStringCellValue());
+                        studentByUserId1.setLengthOfStudying(row.getCell(6).getStringCellValue());
+                        studentRepository.save(studentByUserId1);
+                    }
+
+                }
+
+
+            }
+
+
+            return new ApiResponse(true,"saved students");
+        }catch (Exception e){
+            return new ApiResponse(false,"error saved students");
+        }
+    }
+
 
     private Workbook getWorkBook(MultipartFile file) {
         Workbook workbook = null;

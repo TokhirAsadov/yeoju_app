@@ -3,8 +3,11 @@ package uz.yeoju.yeoju_app.service.useServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Lesson;
+import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.kafedra.Kafedra;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.LessonDto;
+import uz.yeoju.yeoju_app.payload.LessonNewDto;
 import uz.yeoju.yeoju_app.repository.LessonRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.LessonImplService;
 
@@ -48,13 +51,89 @@ public class LessonService implements LessonImplService<LessonDto> {
         return new ApiResponse(true, "Fount lesson by id", lesson);
     }
 
-    @Override
+    @Deprecated
     public ApiResponse saveOrUpdate(LessonDto dto) {
         if (dto.getId()==null){
             return save(dto);
         }
         else {
             return update(dto);
+        }
+    }
+
+
+    public ApiResponse getAllLessonByKaferaOwnerId(User user) {
+        return new ApiResponse(true, "all lesson by kafedra owner id",lessonRepository.getAllLessonByKaferaOwnerId(user.getId()));
+    }
+
+    public ApiResponse saveOrUpdate(User user,LessonNewDto dto) {
+        if (dto.getId()==null){
+            return save(dto);
+        }
+        else {
+            return update(dto);
+        }
+    }
+
+    public ApiResponse save(LessonNewDto dto){
+        if (!lessonRepository.existsLessonByName(dto.getName())){
+            Lesson lesson = generateLesson(dto);
+            lessonRepository.saveAndFlush(lesson);
+            return new ApiResponse(true,"new lesson saved successfully!...");
+        }
+        else {
+            return new ApiResponse(
+                    false,
+                    "error! not saved lesson! Please, enter other lesson "+dto.getName()+"!.."
+            );
+        }
+    }
+    public ApiResponse update(LessonNewDto dto){
+        Optional<Lesson> optional = lessonRepository.findById(dto.getId());
+        if (optional.isPresent()){
+            Lesson lesson = optional.get();
+            Lesson lessonByName = lessonRepository.getLessonByName(dto.getName());
+            if (lessonByName !=null) {
+                if (
+                        Objects.equals(lessonByName.getId(), lesson.getId())
+                                ||
+                                !lessonRepository.existsLessonByName(dto.getName())
+                ) {
+                    lesson.setName(dto.getName());
+//                    lesson.setKafedra(kafedraService.generateKafedra(dto.getKafedraDto()));
+//                    lesson.setFaculty(positionService.generatePosition(dto.getFacultyDto()));
+                    lesson.setActive(dto.isActive());
+                    lessonRepository.save(lesson);
+                    return new ApiResponse(true, "lesson updated successfully!..");
+                } else {
+                    return new ApiResponse(
+                            false,
+                            "error! not update lesson! Please, enter other lesson "+dto.getName()+"!.."
+                    );
+                }
+            }
+            else {
+                if (!lessonRepository.existsLessonByName(dto.getName())){
+                    lesson.setName(dto.getName());
+//                    lesson.setKafedra(kafedraService.generateKafedra(dto.getKafedraDto()));
+//                    lesson.setFaculty(positionService.generatePosition(dto.getFacultyDto()));
+                    lesson.setActive(dto.isActive());
+                    lessonRepository.save(lesson);
+                    return new ApiResponse(true,"lesson updated successfully!..");
+                }
+                else {
+                    return new ApiResponse(
+                            false,
+                            "error! not update lesson! Please, enter other lesson "+dto.getName()+"!.."
+                    );
+                }
+            }
+        }
+        else{
+            return new ApiResponse(
+                    false,
+                    "error... not fount lesson"
+            );
         }
     }
 
@@ -130,6 +209,15 @@ public class LessonService implements LessonImplService<LessonDto> {
                 dto.isActive()
         );
     }
+    public Lesson generateLesson(LessonNewDto dto) {
+        return new Lesson(
+                dto.getId(),
+                dto.getName(),
+                (Kafedra)kafedraService.findById(dto.getKafedraId()).getObj(),
+//                positionService.generatePosition(dto.getFacultyDto()),
+                dto.isActive()
+        );
+    }
     public LessonDto generateLessonDto(Lesson lesson) {
         return new LessonDto(
                 lesson.getId(),
@@ -149,6 +237,16 @@ public class LessonService implements LessonImplService<LessonDto> {
         }
         else {
             return new ApiResponse(false,"error... not fount lesson!");
+        }
+    }
+
+    public ApiResponse checkLessonNameAlreadyExists(String subjectName) {
+        boolean existsLessonByName = lessonRepository.existsLessonByName(subjectName);
+        if(existsLessonByName){
+            return new ApiResponse(true,subjectName+" - subject already exists");
+        }
+        else {
+            return new ApiResponse(false,subjectName+" - subject doesn't exist");
         }
     }
 }

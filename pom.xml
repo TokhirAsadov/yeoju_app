@@ -35,6 +35,14 @@
 <!--			<artifactId>hibernate-types-52</artifactId>-->
 <!--			<version>${hibernate-types.version}</version>-->
 <!--		</dependency>-->
+
+<!--		for sms error -->
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.23.1-GA</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>

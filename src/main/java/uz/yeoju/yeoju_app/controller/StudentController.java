@@ -29,6 +29,15 @@ public class StudentController {
 
 
 
+    @PostMapping("/uploadRektorOrder")
+    public HttpEntity<?> uploadRektorOrder(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        System.out.println(" ----------------------------- 1 1 1 ------------------------ --");
+        ApiResponse apiResponse = studentService.savingRektororders(request);
+//        ApiResponse apiResponse = new ApiResponse(true,"keldi");
+        System.out.println(" ----------------------------- ------------------------ --");
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
     @PostMapping("/uploadStudent")
     public HttpEntity<?> uploadPhotoForUser(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
         System.out.println(" ----------------------------- 1 1 1 ------------------------ --");

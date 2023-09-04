@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.educationYear.WeekOfEducationYear;
 import uz.yeoju.yeoju_app.payload.educationYear.EducationYearsForSelected;
 import uz.yeoju.yeoju_app.payload.educationYear.WeekRestDtoForDean;
+import uz.yeoju.yeoju_app.payload.resDto.educationYear.WeekOfEducationYearResDto;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherStatisticsOfWeekday;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface EducationYearRepository extends JpaRepository<EducationYear,Str
     List<EducationYearsForSelected> getGroupsByFacultyId(String id);
 
 
-    @Query(value = "select u.id,u.fullName,al.time, :week as week, :weekday as weekday,  :section as section, ad.door_name as room\n" +
+    @Query(value = "select al.time, :week as week, :weekday as weekday,  :section as section\n" +
             "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
             "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "where al.time between\n" +
@@ -226,11 +227,62 @@ public interface EducationYearRepository extends JpaRepository<EducationYear,Str
             "        ELSE 0\n" +
             "        END\n" +
             "  and ad.door_name LIKE :room and u.id=:userId",nativeQuery = true)
-    Set<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByUserId(@Param("userId") String userId, @Param("room") String room, @Param("year") Integer year,@Param("week") Integer week, @Param("weekday") Integer weekday, @Param("section") Integer section);
+    Set<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByUserId(
+            @Param("userId") String userId,
+            @Param("room") String room,
+            @Param("year") Integer year,
+            @Param("week") Integer week,
+            @Param("weekday") Integer weekday,
+            @Param("section") Integer section
+    );
+
+    @Query(value = "SELECT\n" +
+            "        al.time,\n" +
+            "        :week AS week,\n" +
+            "        :weekday AS weekday,\n" +
+            "        :section AS section\n" +
+            "    FROM\n" +
+            "        acc_monitor_log al\n" +
+            "    JOIN acc_door ad ON ad.device_id = al.device_id\n" +
+            "    JOIN users u ON CAST(u.RFID AS VARCHAR) = CAST(al.card_no AS VARCHAR) COLLATE Chinese_PRC_CI_AS\n" +
+            "    WHERE\n" +
+            "        al.time BETWEEN CAST(DATEADD(DAY, (:weekday - 1), DATEADD(WK, :week - 1, DATEFROMPARTS(:year, 1, 1))) AS DATETIME) + \n" +
+            "                        DATEADD(HOUR, 8 + (:section - 1), CAST('1900-01-01' AS DATETIME)) AND\n" +
+            "                        CAST(DATEADD(DAY, (:weekday - 1), DATEADD(WK, :week - 1, DATEFROMPARTS(:year, 1, 1))) AS DATETIME) +\n" +
+            "                        DATEADD(HOUR, 9 + (:section - 1), CAST('1900-01-01' AS DATETIME))                        \n" +
+            "        AND ad.door_name LIKE :room\n" +
+            "        AND u.id = :userId",nativeQuery = true)
+    Set<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByUserId2(
+            @Param("userId") String userId,
+            @Param("room") String room,
+            @Param("year") Integer year,
+            @Param("week") Integer week,
+            @Param("weekday") Integer weekday,
+            @Param("section") Integer section
+    );
+
+
+    @Query(value = "select [dbo].[GetMonitorLogData](:week,:weekday,:section,:year,:room,:userId)",nativeQuery = true)
+    Set<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByUserId3(
+            @Param("userId") String userId,
+            @Param("room") String room,
+            @Param("year") Integer year,
+            @Param("week") Integer week,
+            @Param("weekday") Integer weekday,
+            @Param("section") Integer section
+    );
 
     @Query(value = "select id,name from EducationYear order by createdAt desc",nativeQuery = true)
     Set<EducationYearsForSelected> getEducationYearsForSelected();
 
     @Query(value = "select w.id,w.start,w.sortNumber,w.course,w.eduType from WeekOfEducationYear w join EducationYear_WeekOfEducationYear EYWOEY on w.id = EYWOEY.weeks_id where EYWOEY.EducationYear_id=?1 and w.eduType =?2",nativeQuery = true)
     Set<WeekRestDtoForDean> getWeeksByEduIdAndEduType(String educationYearId, String eduType);
+
+    @Query(value = "select Top 1 WOEY.* from EducationYear ey join EducationYear_WeekOfEducationYear e_w on ey.id = e_w.EducationYear_id\n" +
+            "join WeekOfEducationYear WOEY on e_w.weeks_id = WOEY.id\n" +
+            "join groups g on g.level = WOEY.course\n" +
+            "join EducationType ET on g.educationType_id = ET.id\n" +
+            "where WOEY.eduType like ET.name and g.name=?1\n" +
+            "order by WOEY.sortNumber desc",nativeQuery = true)
+    WeekOfEducationYearResDto getWeekOfEducationLast(String groupName);
 }

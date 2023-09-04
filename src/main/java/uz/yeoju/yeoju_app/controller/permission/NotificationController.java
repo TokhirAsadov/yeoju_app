@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.permissionPost.PNotification;
+import uz.yeoju.yeoju_app.payload.resDto.notification.NotificationResDto;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.notification.PNotificationService;
 
 import java.util.List;
@@ -23,5 +24,9 @@ public class NotificationController {
     @GetMapping("/stream")
     public Flux<ServerSentEvent<List<PNotification>>> streamNotificationForAdmin(@RequestParam(required = false,name="userId") String userId) {
         return notificationService.getNotificationsForAdmin(userId);
+    }
+    @GetMapping("/stream2")
+    public Flux<ServerSentEvent<List<NotificationResDto>>> streamNotificationForAdmin2(@RequestParam(required = false,name="userId") String userId) {
+        return notificationService.getNotificationsForAdmin2(userId);
     }
 }

@@ -728,7 +728,7 @@ public class UserService implements UserImplService<UserDto> {
             }
             Set<Teacher> teachers = new HashSet<>();
             for (String id : teachersIds) {
-                Optional<Teacher> first = DataBaseForTimeTable.teachers.stream().filter(item -> item.getId().equals(id) && item.getEmail().equals(user.getPassportNum()) ).findFirst();
+                Optional<Teacher> first = DataBaseForTimeTable.teachers.stream().filter(item -> item.getId().equals(id) && item.getEmail().equalsIgnoreCase(user.getPassportNum()) ).findFirst();
                 first.ifPresent(teachers::add);
             }
             List<TeacherData> teacherData = new ArrayList<>();

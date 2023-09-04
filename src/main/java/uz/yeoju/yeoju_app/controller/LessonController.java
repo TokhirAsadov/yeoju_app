@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.LessonDto;
+import uz.yeoju.yeoju_app.payload.LessonNewDto;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.LessonService;
 
 import java.util.List;
@@ -30,6 +33,26 @@ public class LessonController {
     public HttpEntity<?> getLessonById(@PathVariable String id)
     {
         return ResponseEntity.ok(lessonService.findById(id));
+    }
+
+    @GetMapping("/checkLessonNameAlreadyExists")
+    public HttpEntity<?> checkLessonNameAlreadyExists(@CurrentUser User user,@RequestParam("subjectName") String subjectName)
+    {
+        return ResponseEntity.ok(lessonService.checkLessonNameAlreadyExists(subjectName));
+    }
+
+    @GetMapping("/getAllLessonByKaferaOwnerId")
+    public HttpEntity<?> getLessonById(@CurrentUser User user)
+    {
+        return ResponseEntity.ok(lessonService.getAllLessonByKaferaOwnerId(user));
+    }
+    @PostMapping("/createLessonV2")
+    public HttpEntity<?> createNewLesson(@CurrentUser User user, @RequestBody LessonNewDto dto){
+        return ResponseEntity.status(201).body(lessonService.saveOrUpdate(user,dto));
+    }
+    @PutMapping("/updateLessonV2")
+    public HttpEntity<?> updateNewLesson(@CurrentUser User user,@RequestBody LessonNewDto dto){
+        return ResponseEntity.status(202).body(lessonService.saveOrUpdate(user,dto));
     }
 
     @PostMapping("/createLesson")

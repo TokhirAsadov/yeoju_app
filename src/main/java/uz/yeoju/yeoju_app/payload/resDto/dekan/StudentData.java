@@ -30,5 +30,6 @@ public interface StudentData {
     @Value("#{@studentResultRepository.getStudentResultsByUserId(target.id)}")
     List<StudentResults> getResults();
 
-
+    @Value("#{@groupRepository.getDeanId(target.id)}")
+    String getDeanId();
 }
