@@ -29,6 +29,10 @@ public class GroupService implements GroupImplService<GroupDto> {
     public final EducationFormRepository eduFormRepo;
     public final EducationTypeRepository eduTypeRepo;
 
+    public ApiResponse getStudentsOfGroupWithTodayStatisticsAndScoreForJournal(String educationYearId,String groupName){
+        return new ApiResponse(true,"students",groupRepository.getStudentsOfGroupWithTodayStatisticsAndScoreForJournal(educationYearId,groupName));
+    }
+
 
     public ApiResponse getGroupsAndLessonsOfWeek(){
 

@@ -7,8 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanSave;
 import uz.yeoju.yeoju_app.payload.dekanat.StudentChangeDto;
+import uz.yeoju.yeoju_app.payload.kafedra.ChangeKafedraNameDto;
 import uz.yeoju.yeoju_app.payload.kafedra.KafedraMudiriSaving;
 import uz.yeoju.yeoju_app.payload.kafedra.TeacherEditDto;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
@@ -35,6 +37,11 @@ public class KafedraMudiriController {
     @PostMapping("/changeTeacher")
     public HttpEntity<?> changeStudent(@RequestBody TeacherEditDto dto){
         return ResponseEntity.status(201).body(service.changeTeacher(dto));
+    }
+    @PutMapping("/changeNameOfKafedra")
+    public HttpEntity<?> changeNameOfKafedra(@RequestBody ChangeKafedraNameDto dto){
+        ApiResponse response = service.changeNameOfKafedra(dto);
+        return ResponseEntity.status(response.isSuccess() ? 202 : 403).body(response);
     }
 
     @GetMapping("/positionEdit")

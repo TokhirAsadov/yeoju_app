@@ -11,6 +11,7 @@ import uz.yeoju.yeoju_app.entity.kafedra.Kafedra;
 import uz.yeoju.yeoju_app.entity.kafedra.KafedraMudiri;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanSave;
+import uz.yeoju.yeoju_app.payload.kafedra.ChangeKafedraNameDto;
 import uz.yeoju.yeoju_app.payload.kafedra.KafedraMudiriSaving;
 import uz.yeoju.yeoju_app.payload.kafedra.TeacherEditDto;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra31;
@@ -57,6 +58,39 @@ public class KafedraMudiriImplService implements KafedraMudiriService{
 
 
         return new ApiResponse(true,"dashboard", kafedraMudirRepository.getTeachersStatisticsForKafedraDashboard(kafedraId));
+    }
+
+    @Override
+    public ApiResponse changeNameOfKafedra(ChangeKafedraNameDto dto) {
+        boolean b = kafedraRepository.existsKafedraByNameEn(dto.name);
+        Optional<Kafedra> optionalKafedra = kafedraRepository.findById(dto.id);
+        if (b) {
+            if (optionalKafedra.isPresent()) {
+                Kafedra kafedra = optionalKafedra.get();
+                Kafedra kafedraByNameEn = kafedraRepository.getKafedraByNameEn(dto.getName());
+                if (kafedraByNameEn!=null){
+                    if (Objects.equals(kafedra.getId(), kafedraByNameEn.getId())) {
+                        return new ApiResponse(false,"O`zgartirish kiritilmadi.");
+                    }
+                    else {
+                        return new ApiResponse(false,"Already exists kafedra by name :"+dto.getName());
+                    }
+                }
+
+            }
+            return new ApiResponse(false,"Already exists kafedra by name :"+dto.getName());
+        }
+        else {
+            if (optionalKafedra.isPresent()){
+                Kafedra kafedra = optionalKafedra.get();
+                kafedra.setNameEn(dto.getName());
+                kafedraRepository.save(kafedra);
+                return new ApiResponse(true,"Name of Kafedra was changed successful :"+dto.getName());
+            }
+            else {
+                return new ApiResponse(false,"Not fount kafedra by id :"+dto.getId());
+            }
+        }
     }
 
     @Override

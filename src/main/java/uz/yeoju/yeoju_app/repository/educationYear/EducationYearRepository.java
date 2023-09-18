@@ -10,6 +10,7 @@ import uz.yeoju.yeoju_app.payload.educationYear.WeekRestDtoForDean;
 import uz.yeoju.yeoju_app.payload.resDto.educationYear.WeekOfEducationYearResDto;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherStatisticsOfWeekday;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -285,4 +286,13 @@ public interface EducationYearRepository extends JpaRepository<EducationYear,Str
             "where WOEY.eduType like ET.name and g.name=?1\n" +
             "order by WOEY.sortNumber desc",nativeQuery = true)
     WeekOfEducationYearResDto getWeekOfEducationLast(String groupName);
+
+    @Query(value = "select Top 1 al.time as cardNo\n" +
+            "         from acc_monitor_log al\n" +
+            "         join users u\n" +
+            "              on cast(u.RFID as varchar) =\n" +
+            "                 cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "         \n" +
+            "where u.id=?1 and al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)",nativeQuery = true)
+    Date getTimesForRoomStatisticsByUserIdTime(String id);
 }

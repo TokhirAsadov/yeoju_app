@@ -21,6 +21,15 @@ public class GroupController {
     public final GroupService groupService;
 
 
+    @GetMapping("/getStudentsOfGroupWithTodayStatisticsAndScoreForJournal/{educationYearId}")
+    public HttpEntity<?> getStudentsOfGroupWithTodayStatisticsAndScoreForJournal(
+            @CurrentUser User user,
+            @PathVariable("educationYearId") String educationYearId,
+            @RequestParam("groupName") String groupName
+    ){
+        return ResponseEntity.ok(groupService.getStudentsOfGroupWithTodayStatisticsAndScoreForJournal(educationYearId,groupName));
+    }
+
     @GetMapping("/getGroupsAndLessonsOfWeek")
     public HttpEntity<?> getGroupsAndLessonsOfWeek(@CurrentUser User user){
         return ResponseEntity.ok(groupService.getGroupsAndLessonsOfWeek());

@@ -155,6 +155,7 @@ public class TimeTableDBImplService implements TimeTableDBService {
             lessons.stream().filter(l->l.getTeacherIds().contains(t.getId())).collect(Collectors.toSet()).forEach(l-> {
 
                 TeacherConnectSubject teacherConnectSubject = new TeacherConnectSubject();
+
                 Optional<User> optionalUser = userRepository.findUserByPassportNum(t.getEmail());
                 if (optionalUser.isPresent()) {
                     User user = optionalUser.get();
@@ -269,14 +270,20 @@ public class TimeTableDBImplService implements TimeTableDBService {
             }
             lessonDB.setTeachers(users);
             Set<Group> groupSet = new HashSet<>();
-            lesson.getClassIds().forEach(classId -> {
-                Class aClass = classes.stream().filter(c -> c.getId().equals(classId)).findFirst().get();
+            System.out.println(lesson+"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            System.out.println(lesson.getClassIds().isEmpty()+"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            if (lesson.getClassIds().get(0).length()!=0) {
+                lesson.getClassIds().forEach(classId -> {
+                    System.out.println(classes.stream().filter(c -> c.getId().equals(classId)).findFirst()+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                    Class aClass = classes.stream().filter(c -> c.getId().equals(classId)).findFirst().get();
 //                    boolean existsGroupByName = groupRepository.existsGroupByName(aClass.getName());
-                Group groupByName = groupRepository.findGroupByName(aClass.getName());
-                if(groupByName != null) {
-                    groupSet.add(groupByName);
-                }
-            });
+                    Group groupByName = groupRepository.findGroupByName(aClass.getName());
+                    if(groupByName != null) {
+                        groupSet.add(groupByName);
+                    }
+                });
+            }
+
 
 
             lessonDB.setGroups(groupSet);
@@ -294,8 +301,14 @@ public class TimeTableDBImplService implements TimeTableDBService {
                 Period period = periods.stream().filter(p-> p.getName().equals(card.getPeriod())).findFirst().get();
                 cardDB.setBetweenDuringDate(period.getStartTime()+" - "+period.getEndTime());
                 cardDB.setPeriod(period.getPeriod());
-                ClassRoom room = classRooms.stream().filter(classRoom -> classRoom.getId().equals(card.getClassroomIds().get(0))).findFirst().get();
-                cardDB.setClassroom(room.getName());
+                System.out.println(card+"-----------------------------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.println(card.getClassroomIds().get(0).length()+"-----------------------------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.println(card.getClassroomIds().size()+"-----------------------------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.println(card.getClassroomIds().isEmpty()+"-----------------------------------------------------------------------------------------------------------------------------------------------------------");
+                if(card.getClassroomIds().get(0).length()!=0){
+                    ClassRoom room = classRooms.stream().filter(classRoom -> classRoom.getId().equals(card.getClassroomIds().get(0))).findFirst().get();
+                    cardDB.setClassroom(room.getName());
+                }
                 for (DaysDef daysDef : daysDefs) {
                     if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
                         if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))

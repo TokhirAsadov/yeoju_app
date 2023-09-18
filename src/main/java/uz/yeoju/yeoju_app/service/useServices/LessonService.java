@@ -62,8 +62,14 @@ public class LessonService implements LessonImplService<LessonDto> {
     }
 
 
-    public ApiResponse getAllLessonByKaferaOwnerId(User user) {
+    public ApiResponse getAllLessonByKaferaOwner(User user) {
         return new ApiResponse(true, "all lesson by kafedra owner id",lessonRepository.getAllLessonByKaferaOwnerId(user.getId()));
+    }
+    public ApiResponse getAllLessonByKaferaOwnerId(String ownerId) {
+        return new ApiResponse(true, "all lesson by kafedra owner id",lessonRepository.getAllLessonByKaferaOwnerId(ownerId));
+    }
+    public ApiResponse getAllLessonByKaferaId(String kafedraId) {
+        return new ApiResponse(true, "all lesson by kafedra owner id",lessonRepository.getSubjectsByKafedraId(kafedraId));
     }
 
     public ApiResponse saveOrUpdate(User user,LessonNewDto dto) {

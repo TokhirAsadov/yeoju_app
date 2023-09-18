@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.kafedra;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanSave;
+import uz.yeoju.yeoju_app.payload.kafedra.ChangeKafedraNameDto;
 import uz.yeoju.yeoju_app.payload.kafedra.KafedraMudiriSaving;
 import uz.yeoju.yeoju_app.payload.kafedra.TeacherEditDto;
 
@@ -34,4 +35,6 @@ public interface KafedraMudiriService {
     ApiResponse changeRolesTeachers();
 
     ApiResponse getTeachersStatisticsForKafedraDashboard(String kafedraId);
+
+    ApiResponse changeNameOfKafedra(ChangeKafedraNameDto dto);
 }

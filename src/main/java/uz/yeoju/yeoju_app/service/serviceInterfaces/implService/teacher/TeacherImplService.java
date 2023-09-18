@@ -73,12 +73,12 @@ public class TeacherImplService implements TeacherService{
         user.setAccountNonLocked(true);
         user.setAccountNonExpired(true);
         user.setCredentialsNonExpired(true);
-        if (user.getUserId()!=null) {
-            user.setLogin(user.getUserId());
-        }
-        else {
-            user.setLogin(user.getRFID());
-        }
+//        if (user.getUserId()!=null) {
+//            user.setLogin(user.getUserId());
+//        }
+//        else {
+//            user.setLogin(user.getRFID());
+//        }
         user.setPassword(passwordEncoder.encode("root123"));
 
 //todo--------------------------------------------

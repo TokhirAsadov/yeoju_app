@@ -13,6 +13,9 @@ public interface LessonRepository extends JpaRepository<Lesson, String> {
     Lesson getLessonByName(String name);
     boolean existsLessonByName(String name);
 
+    @Query(value = "select l.id as subjectId,l.name as subjectName,l.kafedra_id as kafedraId from Lesson l where l.kafedra_id =?1 order by l.name",nativeQuery = true)
+    List<GetLessonsByKafedraOwnerId> getSubjectsByKafedraId(String kafedraId);
+
     @Query(value = "select id as value, name as label from Lesson order by name",nativeQuery = true)
     List<UserForTeacherSaveItem> getSubjectsForTeacherSaving();
 
@@ -22,7 +25,13 @@ public interface LessonRepository extends JpaRepository<Lesson, String> {
 
     @Query(value = "select name from Lesson order by name asc ",nativeQuery = true)
     List<String> getLessonNames();
+    @Query(value = "select l.name  from Lesson l join Kafedra K on l.kafedra_id = K.id where K.owner_id=?1 group by l.name order by l.name",nativeQuery = true)
+    List<String> getLessonNames(String id);
 
     @Query(value = "select l.id as subjectId,l.name as subjectName,l.kafedra_id as kafedraId from Lesson l join Kafedra K on l.kafedra_id = K.id where K.owner_id=?1 group by l.id, l.name, l.kafedra_id order by l.name",nativeQuery = true)
     List<GetLessonsByKafedraOwnerId> getAllLessonByKaferaOwnerId(String id);
+    @Query(value = "select l.id as value ,l.name as label,l.kafedra_id as kafedraId from Lesson l join Kafedra K on l.kafedra_id = K.id where K.owner_id=?1 group by l.id, l.name, l.kafedra_id order by l.name",nativeQuery = true)
+    List<UserForTeacherSaveItem> getAllLessonByKaferaOwnerId2(String id);
+
+
 }

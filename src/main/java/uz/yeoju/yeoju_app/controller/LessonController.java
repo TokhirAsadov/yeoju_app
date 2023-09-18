@@ -41,10 +41,21 @@ public class LessonController {
         return ResponseEntity.ok(lessonService.checkLessonNameAlreadyExists(subjectName));
     }
 
-    @GetMapping("/getAllLessonByKaferaOwnerId")
-    public HttpEntity<?> getLessonById(@CurrentUser User user)
+    //-------------------------------------- get lessons -----------------------------------
+    @GetMapping("/getAllLessonByKafedraOwner")
+    public HttpEntity<?> getLessonByOwner(@CurrentUser User user)
     {
-        return ResponseEntity.ok(lessonService.getAllLessonByKaferaOwnerId(user));
+        return ResponseEntity.ok(lessonService.getAllLessonByKaferaOwner(user));
+    }
+    @GetMapping("/getAllLessonByKafedraOwnerId/{ownerId}")
+    public HttpEntity<?> getLessonByOwnerId(@CurrentUser User user,@PathVariable("ownerId") String ownerId)
+    {
+        return ResponseEntity.ok(lessonService.getAllLessonByKaferaOwnerId(ownerId));
+    }
+    @GetMapping("/getAllLessonByKafedraId/{kafedraId}")
+    public HttpEntity<?> getLessonByKafedraId(@CurrentUser User user,@PathVariable("kafedraId") String kafedraId)
+    {
+        return ResponseEntity.ok(lessonService.getAllLessonByKaferaId(kafedraId));
     }
     @PostMapping("/createLessonV2")
     public HttpEntity<?> createNewLesson(@CurrentUser User user, @RequestBody LessonNewDto dto){

@@ -77,4 +77,47 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
             return new ApiResponse(false,"not found student by id: " + dto.getStudentId());
         }
     }
+
+    @Override
+    public ApiResponse updateGrade(User user, CreateGradeOfStudentByTeacher dto) {
+        Optional<GradeOfStudentByTeacher> optional = gradeRepository.findById(dto.getId());
+        if (optional.isPresent()) {
+            Optional<User> userOptional = userRepository.findById(dto.getStudentId());
+            if (userOptional.isPresent()) {
+                Optional<EducationYear> educationYearOptional = educationYearRepository.findById(dto.getEducationYearId());
+                if (educationYearOptional.isPresent()) {
+                    Optional<Lesson> lessonOptional = lessonRepository.findById(dto.getSubjectId());
+                    if (lessonOptional.isPresent()) {
+                        GradeOfStudentByTeacher gradeOfStudent = optional.get();
+                        gradeOfStudent.setGrade(dto.getGrade());
+                        gradeOfStudent.setTime(dto.getTime());
+                        gradeOfStudent.setDescription(dto.getDescription());
+                        gradeRepository.save(gradeOfStudent);
+                        return new ApiResponse(true, "updated successfully");
+                    } else {
+                        return new ApiResponse(false, "not found subject by id: " + dto.getSubjectId());
+                    }
+                } else {
+                    return new ApiResponse(false, "not found education year by id: " + dto.getEducationYearId());
+                }
+            } else {
+                return new ApiResponse(false, "not found student by id: " + dto.getStudentId());
+            }
+        }
+        else {
+            return new ApiResponse(false, "not found grade by id: " + dto.getId());
+        }
+    }
+
+    @Override
+    public ApiResponse delete(User user, String id) {
+        Optional<GradeOfStudentByTeacher> optional = gradeRepository.findByIdAndCreatedBy(id, user.getId());
+        if (optional.isPresent()) {
+            gradeRepository.deleteById(id);
+            return new ApiResponse(true,"Grade was deleted successfully");
+        }
+        else {
+            return new ApiResponse(false,"Not Found grade");
+        }
+    }
 }

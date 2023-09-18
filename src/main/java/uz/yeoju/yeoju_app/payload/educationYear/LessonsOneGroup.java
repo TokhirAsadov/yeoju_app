@@ -16,11 +16,13 @@ public class LessonsOneGroup {
     private Object statistics;
     private Object lessons;
     private String student;
+    private String login;
 
-    public LessonsOneGroup(Object statistics, Object lessons, String student) {
+    public LessonsOneGroup(Object statistics, Object lessons, String student,String login) {
         this.statistics = statistics;
         this.lessons = lessons;
         this.student = student;
+        this.login = login;
     }
 
     public LessonsOneGroup(String lessonName, Set<String> teachers, Object statistics, Object lessons) {

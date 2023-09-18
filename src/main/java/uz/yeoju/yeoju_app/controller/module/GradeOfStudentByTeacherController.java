@@ -48,4 +48,14 @@ public class GradeOfStudentByTeacherController {
         ApiResponse apiResponse = service.createGrade(user, dto);
         return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 401).body(apiResponse);
     }
+    @PutMapping("/update")
+    public HttpEntity<?> update(@CurrentUser User user, @RequestBody CreateGradeOfStudentByTeacher dto){
+        ApiResponse apiResponse = service.updateGrade(user, dto);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 202 : 401).body(apiResponse);
+    }
+    @DeleteMapping("/delete/{id}")
+    public HttpEntity<?> delete(@CurrentUser User user, @PathVariable("id") String id){
+        ApiResponse apiResponse = service.delete(user, id);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 204 : 401).body(apiResponse);
+    }
 }

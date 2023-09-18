@@ -10,6 +10,8 @@ public interface GradeOfStudentByTeacherService {
     ApiResponse getAvgGradesOfStudent(String teacherId,String studentId,String educationYearId, String subjectId);
     ApiResponse getAllMiddleGradesOfGroup(String educationYearId, String groupId);
     ApiResponse createGrade(User user, CreateGradeOfStudentByTeacher dto);
+    ApiResponse updateGrade(User user, CreateGradeOfStudentByTeacher dto);
 
 
+    ApiResponse delete(User user, String id);
 }

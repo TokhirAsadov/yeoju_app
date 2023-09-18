@@ -229,14 +229,16 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                     lessonsOneGroups.add(new LessonsOneGroup(
                             statisticsAll,
                             lessonDataList,
-                            student.getUser().getFullName()
+                            student.getUser().getFullName(),
+                            student.getUser().getLogin()
                     ));
                 }
                 else {
                     lessonsOneGroups.add(new LessonsOneGroup(
                             statisticsAll,
                             lessonDataList,
-                            student.getUser().getLastName()+" "+student.getUser().getFirstName()+" "+student.getUser().getMiddleName()
+                            student.getUser().getLastName()+" "+student.getUser().getFirstName()+" "+student.getUser().getMiddleName(),
+                            student.getUser().getLogin()
                     ));
                 }
 
@@ -376,7 +378,8 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                     lessonsOneGroups.add(new LessonsOneGroup(
                             statisticsAll,
                             lessonDataList,
-                            student.getUser().getLastName()+" "+student.getUser().getFirstName()+" "+student.getUser().getMiddleName()
+                            student.getUser().getLastName()+" "+student.getUser().getFirstName()+" "+student.getUser().getMiddleName(),
+                            student.getUser().getLogin()
                     ));
 
                 }

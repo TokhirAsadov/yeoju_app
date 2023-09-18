@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.aa4793b2.css",
-    "main.js": "/static/js/main.dd397372.js",
+    "main.js": "/static/js/main.bf22af4e.js",
     "static/media/marketing.png": "/static/media/marketing.a0b05dc967cfc2611f17.png",
     "static/media/Mechatronics.png": "/static/media/Mechatronics.528cf5870ad7190a0f5f.png",
     "static/media/Maktabgachata’lim.png": "/static/media/Maktabgachata’lim.6d4d6c8d7d969d369982.png",
@@ -311,10 +311,10 @@
     "static/media/de.svg": "/static/media/de.6435bf24d148ca7248e7.svg",
     "static/media/bd.svg": "/static/media/bd.0ad8c443ef4d47ea0497.svg",
     "main.aa4793b2.css.map": "/static/css/main.aa4793b2.css.map",
-    "main.dd397372.js.map": "/static/js/main.dd397372.js.map"
+    "main.bf22af4e.js.map": "/static/js/main.bf22af4e.js.map"
   },
   "entrypoints": [
     "static/css/main.aa4793b2.css",
-    "static/js/main.dd397372.js"
+    "static/js/main.bf22af4e.js"
   ]
 }

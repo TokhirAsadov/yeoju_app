@@ -6,7 +6,9 @@ import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentGroupField;
 import uz.yeoju.yeoju_app.payload.resDto.group.GroupForStudent;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.journal.StudentsOfGroupWithTodayStatisticsAndScore;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -35,4 +37,12 @@ public interface GroupRepository extends JpaRepository<Group,String> {
            "join Dekanat D on g.educationType_id = D.eduType_id and D.id = df.Dekanat_id\n" +
            "join users u on D.owner_id = u.id where s.user_id=?1",nativeQuery = true)
    String getDeanId(String studentId);
+
+
+   @Query(value = "select ?1 as educationYearId, u.id,u.firstName,u.lastName,u.middleName,u.fullName,u.passportNum as passport,u.RFID,u.login from Student s \n" +
+           "    join groups g on s.group_id = g.id join users u on s.user_id = u.id where g.name=?2 order by u.fullName",nativeQuery = true)
+   Set<StudentsOfGroupWithTodayStatisticsAndScore> getStudentsOfGroupWithTodayStatisticsAndScoreForJournal(String educationYearId,String groupName);
+   @Query(value = "select  TOP 1 al.time from acc_monitor_log al\n" +
+           "where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and al.card_no=?1 order by al.time",nativeQuery = true)
+   Date getFirstOfEntering(String rfid);
 }

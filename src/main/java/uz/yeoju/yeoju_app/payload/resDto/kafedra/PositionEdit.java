@@ -16,6 +16,6 @@ public interface PositionEdit {
     @Value("#{@positionRepository.getPositionsForTeacherSaving2(target.id)}")
     List<UserForTeacherSaveItem> getPositions();
 
-    @Value("#{@lessonRepository.getLessonNames()}")
+    @Value("#{@lessonRepository.getLessonNames(target.id)}")
     List<String> getSubjects();
 }

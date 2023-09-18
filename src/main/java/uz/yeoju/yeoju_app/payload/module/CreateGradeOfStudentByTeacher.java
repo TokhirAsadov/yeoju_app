@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateGradeOfStudentByTeacher {
+    private String id;
     private Integer grade;
     private Timestamp time;
     private String description;
