@@ -1,5 +1,7 @@
 package uz.yeoju.yeoju_app.payload.resDto.student;
 
+import uz.yeoju.yeoju_app.entity.enums.TeachStatus;
+
 public interface StudentWithRFID {
 
     String getId();
@@ -11,5 +13,6 @@ public interface StudentWithRFID {
     String getLastName();
     String getMiddleName();
     String getEmail();
+    TeachStatus getStatus();
 
 }

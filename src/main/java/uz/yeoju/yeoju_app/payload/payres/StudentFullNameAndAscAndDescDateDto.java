@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.payload.payres;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.yeoju.yeoju_app.entity.enums.TeachStatus;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ public class StudentFullNameAndAscAndDescDateDto {
     private String passport;
     private String userId;
     private String cardNo;
+    private TeachStatus status;
     private Date dateAsc;
     private Date dateDesc;
 
@@ -30,7 +32,7 @@ public class StudentFullNameAndAscAndDescDateDto {
         this.cardNo = cardNo;
     }
 
-    public StudentFullNameAndAscAndDescDateDto(String id, String fullName, String firstName, String lastName, String middleName, String email, String passport, String userId, String cardNo) {
+    public StudentFullNameAndAscAndDescDateDto(String id, String fullName, String firstName, String lastName, String middleName, String email, String passport, String userId, String cardNo,TeachStatus status) {
         this.id = id;
         this.fullName = fullName;
         this.firstName = firstName;
@@ -40,5 +42,6 @@ public class StudentFullNameAndAscAndDescDateDto {
         this.passport = passport;
         this.userId = userId;
         this.cardNo = cardNo;
+        this.status = status;
     }
 }

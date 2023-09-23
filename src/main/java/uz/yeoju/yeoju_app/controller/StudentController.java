@@ -62,9 +62,9 @@ public class StudentController {
     @GetMapping("/changeGroupOfStudent/{userId}")
     public HttpEntity<?> changeGroupOfStudent(
             @PathVariable("userId") String userId,
-            @RequestParam("groupId") String groupId
+            @RequestParam("groupName") String groupName
     ){
-        return ResponseEntity.ok(studentService.changeGroupOfStudent(userId, groupId));
+        return ResponseEntity.ok(studentService.changeGroupOfStudent(userId, groupName));
     }
     @GetMapping("/changeTeachStatusOfStudent/{userId}")
     public HttpEntity<?> changeTeachStatusOfStudent(

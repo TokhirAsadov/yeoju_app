@@ -360,7 +360,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             @Param("facultyName") String facultyName
     );
 
-    @Query(value = "select u.id,u.firstName,u.lastName, u.middleName,u.fullName,u.email,u.RFID, u.login, u.passportNum as passport from users u\n" +
+    @Query(value = "select s.teachStatus as status, u.id,u.firstName,u.lastName, u.middleName,u.fullName,u.email,u.RFID, u.login, u.passportNum as passport from users u\n" +
             "join Student s on u.id = s.user_id\n" +
             "join groups g on g.id = s.group_id\n" +
             "where g.name =:groupName",nativeQuery = true)

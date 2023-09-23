@@ -403,6 +403,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 rfid.getPassport(),
                                 rfid.getLogin(),
                                 rfid.getRFID(),
+                                rfid.getStatus(),
                                 ascAndDescDate.getTimeAsc(),
                                 ascAndDescDate.getTimeDesc()
                         )
@@ -419,7 +420,8 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 rfid.getEmail(),
                                 rfid.getPassport(),
                                 rfid.getLogin(),
-                                rfid.getRFID()
+                                rfid.getRFID(),
+                                rfid.getStatus()
                         )
                 );
             }
@@ -449,6 +451,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 rfid.getPassport(),
                                 rfid.getLogin(),
                                 rfid.getRFID(),
+                                rfid.getStatus(),
                                 ascAndDescDate.getTimeAsc(),
                                 ascAndDescDate.getTimeDesc()
                         )
@@ -465,7 +468,8 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 rfid.getEmail(),
                                 rfid.getPassport(),
                                 rfid.getLogin(),
-                                rfid.getRFID()
+                                rfid.getRFID(),
+                                rfid.getStatus()
                         )
                 );
             }
@@ -1028,16 +1032,16 @@ public class StudentService implements StudentImplService<StudentDto> {
         }
     }
 
-    public ApiResponse changeGroupOfStudent(String userId, String groupId) {
+    public ApiResponse changeGroupOfStudent(String userId, String groupName) {
         Student studentByUserId = studentRepository.findStudentByUserId(userId);
-        Optional<Group> groupOptional = groupRepository.findById(groupId);
-        if (groupOptional.isPresent()){
-            studentByUserId.setGroup(groupOptional.get());
+        Group groupByName = groupRepository.findGroupByName(groupName);
+        if (groupByName!=null){
+            studentByUserId.setGroup(groupByName);
             studentRepository.save(studentByUserId);
             return new ApiResponse(true,"changed group successfully");
         }
         else {
-            return new ApiResponse(false,"not found group by: "+groupId);
+            return new ApiResponse(false,"not found group by: "+groupName);
         }
     }
 
