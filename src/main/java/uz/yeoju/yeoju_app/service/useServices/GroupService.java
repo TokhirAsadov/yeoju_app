@@ -433,6 +433,39 @@ public class GroupService implements GroupImplService<GroupDto> {
     }
 
 
+    public ApiResponse getGroupsForKafedraMudiri( String lang, String eduType, Integer level) {
+        if (level !=null && eduType !=null && lang !=null){
+            return new ApiResponse(true,"groups for kafedra mudiri",groupRepository.getGroupsForKafedraMudiriWithLangAndEduTypeAndLevel(lang,eduType,level));
+        }
+        else if (level !=null && eduType !=null){
+            return new ApiResponse(true,"groups for kafedra mudiri",groupRepository.getGroupsForKafedraMudiriWithEduTypeAndLevel(eduType,level));
+        }
+        else if (level !=null && lang !=null){
+            return new ApiResponse(true,"groups for kafedra mudiri",groupRepository.getGroupsForKafedraMudiriWithLangAndLevel(lang,level));
+        }
+        else if (level !=null){
+            return new ApiResponse(true,"groups for kafedra mudiri",groupRepository.getGroupsForKafedraMudiriWithLevel(level));
+        }
+        else if (eduType !=null && lang !=null){
+            return new ApiResponse(true,"groups for kafedra mudiri",groupRepository.getGroupsForKafedraMudiriWithLangAndEduType(lang,eduType));
+        }
+        else if (eduType !=null){
+            return new ApiResponse(true,"groups for kafedra mudiri",groupRepository.getGroupsForKafedraMudiriWithEduType(eduType));
+        }
+        else if (lang !=null){
+            return new ApiResponse(true,"groups for kafedra mudiri",groupRepository.getGroupsForKafedraMudiriWithLang(lang));
+        }
+        return new ApiResponse(false,"empty any fields");
+    }
 
+    public ApiResponse changeGroupsLevel() {
+        List<Group> groupList = groupRepository.findAll();
 
+        groupList.forEach(group -> {
+            group.setLevel(group.getLevel()+1);
+            groupRepository.save(group);
+        });
+
+        return new ApiResponse(true,"change levels successfully");
+    }
 }

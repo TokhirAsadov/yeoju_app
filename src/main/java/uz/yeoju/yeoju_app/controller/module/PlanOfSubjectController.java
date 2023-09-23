@@ -17,6 +17,11 @@ public class PlanOfSubjectController {
     @Autowired
     private  PlanOfSubjectService service;
 
+    @GetMapping("/getTeacherWIthSubjectForPlan")
+    public HttpEntity<?> getTeacherWIthSubjectForPlan(@CurrentUser User user){
+        return ResponseEntity.ok(service.getTeacherWIthSubjectForPlan(user.getId()));
+    }
+
     @GetMapping("/getPlansForTeacherSciences")
     public HttpEntity<?> getPlansForTeacherSciences(@CurrentUser User user,
                                                     @RequestParam("educationYearId") String educationYearId,
@@ -48,6 +53,12 @@ public class PlanOfSubjectController {
         //System.out.println(user.toString()+"------------------------111111111111111111111111-----------------");
         System.out.println(dto.toString()+"------------------------111111111111111111111111-----------------");
         return ResponseEntity.ok(service.createPlan(user,dto));
+    }
+    @PostMapping("/createdPlanByKafedraMudiri")
+    public HttpEntity<?> createdPlanByKafedraMudiri(@CurrentUser User user, @RequestBody CreatePlanOfStudent dto ){
+        //System.out.println(user.toString()+"------------------------111111111111111111111111-----------------");
+        System.out.println(dto.toString()+"------------------------111111111111111111111111-----------------");
+        return ResponseEntity.ok(service.createPlanByKafedraMudiri(user,dto));
     }
 
 

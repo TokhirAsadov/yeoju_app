@@ -6,7 +6,9 @@ import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentGroupField;
 import uz.yeoju.yeoju_app.payload.resDto.group.GroupForStudent;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetGroupsDataForKafedraMudiri;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.journal.StudentsOfGroupWithTodayStatisticsAndScore;
+import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSaveItem;
 
 import java.util.Date;
 import java.util.List;
@@ -45,4 +47,36 @@ public interface GroupRepository extends JpaRepository<Group,String> {
    @Query(value = "select  TOP 1 al.time from acc_monitor_log al\n" +
            "where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and al.card_no=?1 order by al.time",nativeQuery = true)
    Date getFirstOfEntering(String rfid);
+
+
+   @Query(value = "select g.id as id,g.name as groupName from groups g \n" +
+           "    join EducationLanguage el on g.educationLanguage_id = el.id\n" +
+           "    join EducationType ET on g.educationType_id = ET.id\n" +
+           "where el.name=?1 and ET.name=?2 and g.level=?3 group by g.id, g.name order by g.name",nativeQuery = true)
+   Set<GetGroupsDataForKafedraMudiri> getGroupsForKafedraMudiriWithLangAndEduTypeAndLevel(String lang, String eduType, Integer level);
+
+   @Query(value = "select g.id as id,g.name as groupName from groups g \n" +
+           "    join EducationType ET on g.educationType_id = ET.id\n" +
+           "where ET.name=?1 and g.level=?2 group by g.id, g.name order by g.name",nativeQuery = true)
+   Set<GetGroupsDataForKafedraMudiri> getGroupsForKafedraMudiriWithEduTypeAndLevel( String eduType, Integer level);
+   @Query(value = "select g.id as id,g.name as groupName from groups g \n" +
+           "    join EducationLanguage el on g.educationLanguage_id = el.id\n" +
+           "where el.name=?1 and g.level=?2 group by g.id, g.name order by g.name",nativeQuery = true)
+   Set<GetGroupsDataForKafedraMudiri> getGroupsForKafedraMudiriWithLangAndLevel(String lang, Integer level);
+   @Query(value = "select g.id as id,g.name as groupName from groups g \n" +
+           "where g.level=?1 group by g.id, g.name order by g.name",nativeQuery = true)
+   Set<GetGroupsDataForKafedraMudiri> getGroupsForKafedraMudiriWithLevel(Integer level);
+   @Query(value = "select g.id as id,g.name as groupName from groups g \n" +
+           "    join EducationLanguage el on g.educationLanguage_id = el.id\n" +
+           "    join EducationType ET on g.educationType_id = ET.id\n" +
+           "where el.name=?1 and ET.name=?2 group by g.id, g.name order by g.name",nativeQuery = true)
+   Set<GetGroupsDataForKafedraMudiri> getGroupsForKafedraMudiriWithLangAndEduType(String lang, String eduType);
+   @Query(value = "select g.id as id,g.name as groupName from groups g \n" +
+           "    join EducationType ET on g.educationType_id = ET.id\n" +
+           "where ET.name=?1 group by g.id, g.name order by g.name",nativeQuery = true)
+   Set<GetGroupsDataForKafedraMudiri> getGroupsForKafedraMudiriWithEduType(String eduType);
+   @Query(value = "select g.id as id,g.name as groupName from groups g \n" +
+           "    join EducationLanguage el on g.educationLanguage_id = el.id\n" +
+           "where el.name=?1 group by g.id, g.name order by g.name",nativeQuery = true)
+   Set<GetGroupsDataForKafedraMudiri> getGroupsForKafedraMudiriWithLang(String lang);
 }

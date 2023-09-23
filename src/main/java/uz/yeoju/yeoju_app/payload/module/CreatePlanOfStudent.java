@@ -15,6 +15,7 @@ public class CreatePlanOfStudent {
     public String educationYearId;
     public String eduType;
     public String eduLang;
+    public String teacherId;
     public String subjectId;
     public Integer level;
     public List<String> groupsIds;

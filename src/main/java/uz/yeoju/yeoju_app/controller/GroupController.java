@@ -21,6 +21,22 @@ public class GroupController {
     public final GroupService groupService;
 
 
+    @GetMapping("/changeGroupsLevel")
+    public HttpEntity<?> changeGroupsLevel(){
+        return ResponseEntity.ok(groupService.changeGroupsLevel());
+    }
+
+    @GetMapping("/getGroupsForKafedraMudiri")
+    public HttpEntity<?> getGroupsForKafedraMudiri(
+            @CurrentUser User user,
+            @RequestParam(name = "lang",required = false) String lang,
+            @RequestParam(name = "eduType",required = false) String eduType,
+            @RequestParam(name = "level",required = false) Integer level
+    ){
+        return ResponseEntity.ok(groupService.getGroupsForKafedraMudiri(lang,eduType,level));
+    }
+
+
     @GetMapping("/getStudentsOfGroupWithTodayStatisticsAndScoreForJournal/{educationYearId}")
     public HttpEntity<?> getStudentsOfGroupWithTodayStatisticsAndScoreForJournal(
             @CurrentUser User user,

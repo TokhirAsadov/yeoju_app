@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.enums.TeachStatus;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.StudentDto;
 import uz.yeoju.yeoju_app.repository.StudentRepository;
@@ -38,6 +40,16 @@ public class StudentController {
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
+    @Transactional
+    @PostMapping("/uploadStudentsFromDean")
+    public HttpEntity<?> uploadStudentsFromDean(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        System.out.println(" ----------------------------- 1 1 1 ------------------------ --");
+        ApiResponse apiResponse = studentService.uploadStudentsFromDean(request);
+//        ApiResponse apiResponse = new ApiResponse(true,"keldi");
+        System.out.println(" ----------------------------- ------------------------ --");
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
     @PostMapping("/uploadStudent")
     public HttpEntity<?> uploadPhotoForUser(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
         System.out.println(" ----------------------------- 1 1 1 ------------------------ --");
@@ -45,6 +57,21 @@ public class StudentController {
 //        ApiResponse apiResponse = new ApiResponse(true,"keldi");
         System.out.println(" ----------------------------- ------------------------ --");
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+    @GetMapping("/changeGroupOfStudent/{userId}")
+    public HttpEntity<?> changeGroupOfStudent(
+            @PathVariable("userId") String userId,
+            @RequestParam("groupId") String groupId
+    ){
+        return ResponseEntity.ok(studentService.changeGroupOfStudent(userId, groupId));
+    }
+    @GetMapping("/changeTeachStatusOfStudent/{userId}")
+    public HttpEntity<?> changeTeachStatusOfStudent(
+            @PathVariable("userId") String userId,
+            @RequestParam("teachStatus") TeachStatus teachStatus
+            ){
+        return ResponseEntity.ok(studentService.changeTeachStatusOfStudent(userId, teachStatus));
     }
 
     @GetMapping("/getStudentWithRFIDForToday/{groupName}")

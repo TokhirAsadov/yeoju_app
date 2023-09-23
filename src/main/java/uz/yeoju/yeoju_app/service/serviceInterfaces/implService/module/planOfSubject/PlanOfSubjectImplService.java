@@ -10,10 +10,7 @@ import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.CreatePlanOfStudent;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetExistsPlans;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetPlansForTeacherSciences;
-import uz.yeoju.yeoju_app.repository.EducationLanRepository;
-import uz.yeoju.yeoju_app.repository.EducationTypeRepository;
-import uz.yeoju.yeoju_app.repository.GroupRepository;
-import uz.yeoju.yeoju_app.repository.LessonRepository;
+import uz.yeoju.yeoju_app.repository.*;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 import uz.yeoju.yeoju_app.repository.module.PlanOfSubjectRepository;
 
@@ -31,6 +28,7 @@ public class PlanOfSubjectImplService implements PlanOfSubjectService{
     private final EducationTypeRepository educationTypeRepository;
     private final GroupRepository groupRepository;
     private final LessonRepository lessonRepository;
+    private final UserRepository userRepository;
 
     @Override
     public ApiResponseTwoObj getPlansForTeacherSciences(String teacherId, String educationId, String subjectId, Integer groupLevel) {
@@ -66,6 +64,40 @@ public class PlanOfSubjectImplService implements PlanOfSubjectService{
 
         PlanOfSubject plan = new PlanOfSubject(
                 user,
+                educationYear,
+                lesson,
+                ids,
+                educationTypeByName,
+                educationLanguageByName,
+                dto.getLevel()
+        );
+
+        planRepository.save(plan);
+
+
+        return new ApiResponse(true,"create plan successfully");
+    }
+    @Override
+    public ApiResponse createPlanByKafedraMudiri(User user, CreatePlanOfStudent dto) {
+
+        System.out.println(dto.toString()+"-------------------------- 000000000000000000000--------------------------");
+
+        EducationLanguage educationLanguageByName = educationLanRepository.getEducationLanguageByName(dto.getEduLang());
+        EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
+        Lesson lesson = lessonRepository.getById(dto.getSubjectId());
+        EducationYear educationYear = educationYearRepository.getById(dto.getEducationYearId());
+        List<Group> groupList = groupRepository.findAllById(dto.getGroupsIds());
+        Optional<User> optionalUser = userRepository.findById(dto.getTeacherId());
+
+
+
+        Set<Group> ids = new HashSet<>(groupList);
+
+        System.out.println(ids+" -----------------set------------------------");
+
+
+        PlanOfSubject plan = new PlanOfSubject(
+                optionalUser.get(),
                 educationYear,
                 lesson,
                 ids,
@@ -118,5 +150,10 @@ public class PlanOfSubjectImplService implements PlanOfSubjectService{
         else {
             return new ApiResponse(false,"not found plan by id: "+dto.getId());
         }
+    }
+
+    @Override
+    public ApiResponse getTeacherWIthSubjectForPlan(String id) {
+        return new ApiResponse(true,"teacher with subjects",planRepository.getTeacherWIthSubjectForPlan(id));
     }
 }
