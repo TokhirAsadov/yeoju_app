@@ -32,7 +32,7 @@ public class WeekOfYearController {
     }
 
     @PostMapping("/save")
-    public HttpEntity<?> save(@org.springframework.web.bind.annotation.RequestBody WeekOfYearDto dto){
+    public HttpEntity<?> save(@RequestBody WeekOfYearDto dto){
         System.out.println(dto);
         ApiResponse response = weekService.saveOrUpdate(dto);
         return ResponseEntity.status(response.isSuccess() ? 201:402).body(response);
