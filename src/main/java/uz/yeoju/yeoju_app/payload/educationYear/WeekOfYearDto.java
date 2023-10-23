@@ -15,6 +15,8 @@ public class WeekOfYearDto {
     private Date start;
     private Date end;
     private String type;
+    private String eduType;
+    private Integer year;
     private Integer sortNumber;
     private Integer weekNumber;
 }
