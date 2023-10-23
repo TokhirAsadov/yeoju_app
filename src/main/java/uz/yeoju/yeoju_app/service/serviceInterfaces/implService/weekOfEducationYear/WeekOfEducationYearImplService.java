@@ -2,12 +2,14 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.weekOfEducation
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.yeoju.yeoju_app.entity.educationYear.WeekEduType;
 import uz.yeoju.yeoju_app.entity.educationYear.WeekOfEducationYear;
 import uz.yeoju.yeoju_app.entity.educationYear.WeekType;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.educationYear.WeekOfYearDto;
 import uz.yeoju.yeoju_app.repository.educationYear.WeekOfEducationYearRepository;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -18,7 +20,7 @@ public class WeekOfEducationYearImplService implements WeekOfEducationYearServic
 
     @Override
     public ApiResponse findAll() {
-        return new ApiResponse(true,"all weeks", weekRepository.findAll());
+        return new ApiResponse(true,"all weeks", weekRepository.findAllByCreatedAt());
     }
 
     @Override
@@ -57,6 +59,8 @@ public class WeekOfEducationYearImplService implements WeekOfEducationYearServic
             WeekOfEducationYear week = new WeekOfEducationYear();
             week.setStart(dto.getStart());
             week.setEnd(dto.getEnd());
+            week.setYear(dto.getYear());
+            week.setEduType(Enum.valueOf(WeekEduType.class,dto.getEduType()));
             week.setSortNumber(dto.getSortNumber());
             week.setWeekNumber(dto.getWeekNumber());
             week.setType(WeekType.valueOf(dto.getType()));
