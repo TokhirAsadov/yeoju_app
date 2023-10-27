@@ -1,0 +1,23 @@
+package uz.yeoju.yeoju_app.payload.resDto.timeTableDB;
+
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.Set;
+
+public interface StatisticsOfGroupForTeacherForTodayWithMax {
+    String getEducationId();
+    String getSubjectId();
+    String getGroupId();
+    String getTeacherId();
+
+    String getYear();
+    Integer getWeek();
+    Integer getDay();
+
+    @Value("#{@gradeOfStudentByTeacherRepository.getMaxStep(target.educationId,target.subjectId,target.groupId)}")
+    Long getMaxStep();
+
+    @Value("#{@groupConnectSubjectRepository.getStatisticsOfGroupForTeacher(target.educationId,target.groupId,target.subjectId,target.teacherId,target.year,target.week,target.day)}")
+    Set<StatisticsOfGroupForTeacherForToday> getStudents();
+
+}
