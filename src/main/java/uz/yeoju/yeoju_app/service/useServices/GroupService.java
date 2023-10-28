@@ -29,6 +29,10 @@ public class GroupService implements GroupImplService<GroupDto> {
     public final EducationFormRepository eduFormRepo;
     public final EducationTypeRepository eduTypeRepo;
 
+    public ApiResponse getStudentStatisticsForDeanOneWeek(String groupId,String educationYearId,Integer weekday,Integer week,Integer year){
+        return new ApiResponse(true,"students",groupRepository.getStudentStatisticsForDeanOneWeek(groupId, educationYearId, weekday, week, year));
+    }
+
     public ApiResponse getStudentsOfGroupWithTodayStatisticsAndScoreForJournal(String educationYearId,String groupName){
         return new ApiResponse(true,"students",groupRepository.getStudentsOfGroupWithTodayStatisticsAndScoreForJournal(educationYearId,groupName));
     }
@@ -212,10 +216,18 @@ public class GroupService implements GroupImplService<GroupDto> {
             return new ApiResponse(true,"new group saved successfully!...");
         }
         else {
-            return new ApiResponse(
-                    false,
-                    "error! did not saveOrUpdate group! Please, enter other group userPositionName!"
-            );
+            Group groupByName = groupRepository.findGroupByName(dto.getName());
+            if (!groupByName.getActive()) {
+                groupByName.setActive(true);
+                groupRepository.saveAndFlush(groupByName);
+                return new ApiResponse(true, dto.getName()+" old group was been active successfully!...");
+            }
+            else {
+                return new ApiResponse(
+                        false,
+                        "error! did not saveOrUpdate group! Please, enter other group userPositionName!"
+                );
+            }
         }
     }
 
@@ -467,5 +479,18 @@ public class GroupService implements GroupImplService<GroupDto> {
         });
 
         return new ApiResponse(true,"change levels successfully");
+    }
+
+    public ApiResponse changeActiveOfGroup(String groupId) {
+        Optional<Group> optionalGroup = groupRepository.findById(groupId);
+        if (optionalGroup.isPresent()) {
+            Group group = optionalGroup.get();
+            group.setActive(false);
+            groupRepository.save(group);
+            return new ApiResponse(true,"deleted group successfully");
+        }
+        else {
+            return new ApiResponse(false,"not found group by id : "+groupId);
+        }
     }
 }
