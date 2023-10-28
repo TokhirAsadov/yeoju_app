@@ -21,6 +21,27 @@ public class GroupController {
     public final GroupService groupService;
 
 
+    @GetMapping("/getStudentStatisticsForDeanOneWeek/{groupId}")
+    public HttpEntity<?> getStudentStatisticsForDeanOneWeek(
+//            @CurrentUser User user,
+            @PathVariable("groupId") String groupId,
+            @RequestParam("educationYearId") String educationYearId,
+            @RequestParam("weekday") Integer weekday,
+            @RequestParam("week") Integer week,
+            @RequestParam("year") Integer year
+
+    ){
+        ApiResponse response = groupService.getStudentStatisticsForDeanOneWeek(groupId,educationYearId,weekday,week,year);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
+    }
+
+    @GetMapping("/changeActiveOfGroup/{groupId}")
+    public HttpEntity<?> changeActiveOfGroup(@CurrentUser User user,@PathVariable("groupId") String groupId){
+        ApiResponse response = groupService.changeActiveOfGroup(groupId);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
+    }
+
+
     @GetMapping("/changeGroupsLevel")
     public HttpEntity<?> changeGroupsLevel(){
         return ResponseEntity.ok(groupService.changeGroupsLevel());
