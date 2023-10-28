@@ -8,6 +8,8 @@ import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentGroupField;
 import uz.yeoju.yeoju_app.payload.resDto.group.GroupForStudent;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetGroupsDataForKafedraMudiri;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.journal.StudentsOfGroupWithTodayStatisticsAndScore;
+import uz.yeoju.yeoju_app.payload.resDto.student.GetStudentStatisticsForDeanOneWeek;
+import uz.yeoju.yeoju_app.payload.resDto.student.GetStudentStatisticsForDeanOneWeekSection;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSaveItem;
 
 import java.util.Date;
@@ -21,6 +23,22 @@ public interface GroupRepository extends JpaRepository<Group,String> {
    List<Group> findGroupsByFacultyId(String faculty_id);
 
 
+   @Query(value = "select g.id as groupId,u.id as studentId,u.fullName,?2 as educationYearId,?3 as weekday,?4 as week, ?5 as year from groups g \n" +
+           "join Student S on g.id = S.group_id\n" +
+           "join users u on S.user_id = u.id\n" +
+           "where g.id=?1",nativeQuery = true)
+   Set<GetStudentStatisticsForDeanOneWeek> getStudentStatisticsForDeanOneWeek(String groupId,String educationYearId,Integer weekday,Integer week,Integer year);
+
+   @Query(value = "select ?6 as studentId, c.betweenDuringDate, c.classroom as room,c.day as weekday,c.period as section,l.name as lesson,w.weekNumber,w.sortNumber as week,w.year from CardDB c\n" +
+           "    join WeekOfEducationYear w on c.weekOfEducationYear_id = w.id\n" +
+           "    join EducationYear_WeekOfEducationYear ew on w.id = ew.weeks_id\n" +
+           "    join LessonDB LD on c.lesson_id = LD.id\n" +
+           "    join LessonDB_groups LDg on LD.id = LDg.LessonDB_id\n" +
+           "    join Lesson l on LD.subject_id = l.id\n" +
+           "where ew.EducationYear_id=?1 and LDg.groups_id=?2 and c.day=?3 and w.sortNumber=?4 and w.year=?5",nativeQuery = true)
+   Set<GetStudentStatisticsForDeanOneWeekSection> getStudentStatisticsForDeanOneWeekSection(String educationYearId,String groupId,Integer weekday,Integer week,Integer year,String studentId);
+
+
    @Query(value = "select g.id,g.level,g.name,F.name as facultyName,et.name as educationTypeName from Student s\n" +
            "join groups g on g.id = s.group_id\n" +
            "join Faculty F on F.id = g.faculty_id\n" +
@@ -32,6 +50,9 @@ public interface GroupRepository extends JpaRepository<Group,String> {
    @Query(value = "select g.id,g.name from groups g join Student S on g.id = S.group_id where S.user_id=:id",nativeQuery = true)
    GroupForStudent getGroupNameByUserId(@Param("id") String id);
 
+   @Query(value = "select g.id,g.name from groups g where g.id=:id",nativeQuery = true)
+   GroupForStudent getGroupNameByGroupId(@Param("id") String id);
+
    @Query(value = "select u.id as deanId from groups g\n" +
            "    join Student s on g.id = s.group_id\n" +
            "    join Faculty f on f.id=g.faculty_id\n" +
@@ -42,7 +63,7 @@ public interface GroupRepository extends JpaRepository<Group,String> {
 
 
    @Query(value = "select ?1 as educationYearId, u.id,u.firstName,u.lastName,u.middleName,u.fullName,u.passportNum as passport,u.RFID,u.login from Student s \n" +
-           "    join groups g on s.group_id = g.id join users u on s.user_id = u.id where g.name=?2 order by u.fullName",nativeQuery = true)
+           "    join groups g on s.group_id = g.id join users u on s.user_id = u.id where g.name=?2 and s.teachStatus='TEACHING' order by u.fullName",nativeQuery = true)
    Set<StudentsOfGroupWithTodayStatisticsAndScore> getStudentsOfGroupWithTodayStatisticsAndScoreForJournal(String educationYearId,String groupName);
    @Query(value = "select  TOP 1 al.time from acc_monitor_log al\n" +
            "where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and al.card_no=?1 order by al.time",nativeQuery = true)
