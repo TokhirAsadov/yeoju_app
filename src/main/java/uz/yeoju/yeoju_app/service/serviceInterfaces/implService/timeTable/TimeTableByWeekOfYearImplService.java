@@ -1286,182 +1286,362 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
             List<TeacherStatisticsOfWeekday> lists = new ArrayList<>();
 
 
-            if (s) {
+            if(year ==2023 && week<44){
+                if (s) {
 
-                showWeekNumberFields.getGet1().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet2().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet3().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet4().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet5().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet6().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet7().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet8().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet9().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet10().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet11().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet12().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
+                    showWeekNumberFields.getGet1().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet2().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet3().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet4().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet5().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet6().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet7().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet8().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet9().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet10().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet11().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet12().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeek(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
 
-                return  new ApiResponseTwoObj(true, "Time Table of Week", showWeekNumberFields,lists);
+                    return  new ApiResponseTwoObj(true, "Time Table of Week", showWeekNumberFields,lists);
+                }
+                else {
+
+                    showWeekNumberFields.getGet1().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet2().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet3().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet4().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet5().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet6().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet7().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet8().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet9().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet10().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet11().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet12().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    return new ApiResponseTwoObj(true, "Time Table of Week2", showWeekNumberFields,lists);
+                }
             }
             else {
+                if (s) {
+                    showWeekNumberFields.getGet1().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeekLogin(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet2().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeekLogin(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet3().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeekLogin(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet4().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeekLogin(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet5().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeekLogin(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet6().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeekLogin(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet7().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeekLogin(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet8().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeekLogin(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet9().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeekLogin(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet10().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeekLogin(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet11().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeekLogin(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet12().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportAndWeekLogin(teacher.getEmail(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
 
-                showWeekNumberFields.getGet1().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet2().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet3().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet4().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet5().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet6().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet7().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet8().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet9().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet10().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet11().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet12().forEach(i -> {
-                    teacherList.addAll(i.getTeachers());
-                    for (Teacher teacher : i.getTeachers()) {
-                        List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                return new ApiResponseTwoObj(true, "Time Table of Week2", showWeekNumberFields,lists);
+                    return  new ApiResponseTwoObj(true, "Time Table of Week", showWeekNumberFields,lists);
+                }
+                else {
+
+                    showWeekNumberFields.getGet1().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet2().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet3().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet4().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet5().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet6().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet7().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet8().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet9().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet10().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet11().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet12().forEach(i -> {
+                        teacherList.addAll(i.getTeachers());
+                        for (Teacher teacher : i.getTeachers()) {
+                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(user.getId(), i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    return new ApiResponseTwoObj(true, "Time Table of Week2", showWeekNumberFields,lists);
+                }
             }
 
 
