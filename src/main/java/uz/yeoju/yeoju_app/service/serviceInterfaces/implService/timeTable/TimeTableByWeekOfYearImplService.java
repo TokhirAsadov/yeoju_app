@@ -2693,9 +2693,6 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
 
     @Override
     public ApiResponseTwoObj getTimeTableByAllRoomAndWeek(User user,String building, Integer weekday, Integer week, Integer year,Boolean t) {
-        System.out.println("-------------------------------------------------------------------------------"+building);
-        System.out.println("-------------------------------------------------------------------------------"+!building.startsWith("M"));
-
         Set<List<TeacherStatisticsOfWeekday2>> listsFather = new HashSet<>();
         Set<Set<Show>> showSetFather = new HashSet<>();
 
@@ -2703,23 +2700,11 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
 
             getTimeTableByWeek(year, week);
 
-
-//        return new ApiResponseTwoObj(true,"123456",classRooms.stream().filter(i-> i.getName().startsWith(building)).collect(Collectors.toSet()));
-
             classRooms.stream().filter(i -> i.getName().startsWith(building)).sorted(Comparator.comparing(ClassRoom::getName)).collect(Collectors.toCollection(LinkedHashSet::new)).forEach(classRoom -> {
 
-//            Optional<ClassRoom> first = classRooms.stream().filter(i -> i.getName().equals(room)).findFirst();
-//            ClassRoom classRoom = first.get();
-
                 Set<Card> cardSet = cards.stream().filter(i -> i.getClassroomIds().contains(classRoom.getId())).collect(Collectors.toSet());
-                Set<Show> shows = t ? timeTable(cardSet) : timeTable2(cardSet);
+                Set<Show> shows = t ? timeTable(cardSet) : timeTable2(cardSet,year,week);
 
-                System.out.println(cardSet + " cardSet");
-
-                System.out.println(classRoom + "<------ classRoom----------------------------------------------------------");
-                System.out.println(building + "<------ building----------------------------------------------------------");
-                System.out.println(weekday + "<----------------------------------------------------------------");
-                System.out.println(shows + "<----------------------------------------------------------------");
                 Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber().equals(weekday)).collect(Collectors.toSet());
 
                 ShowWeekNumberFields showWeekNumberFields = new ShowWeekNumberFields();
@@ -2739,90 +2724,178 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
 
                 List<TeacherStatisticsOfWeekday2> lists = new ArrayList<>();
 
-                showWeekNumberFields.getGet1().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(i.getRoom() + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet2().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(i.getRoom() + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet3().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet4().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet5().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet6().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet7().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet8().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet9().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet10().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet11().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet12().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
+                if(year ==2023 && week<44){
+                    showWeekNumberFields.getGet1().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom() + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet2().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom() + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet3().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet4().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet5().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet6().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet7().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet8().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet9().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet10().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet11().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet12().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                }
+                else {
+                    showWeekNumberFields.getGet1().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom() + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet2().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom() + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet3().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet4().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet5().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet6().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet7().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet8().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet9().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet10().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet11().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet12().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                }
 
                 listsFather.add(lists);
                 showSetFather.add(showSet);
@@ -2836,7 +2909,7 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
 //            ClassRoom classRoom = first.get();
 
                 Set<Card> cardSet = cardsMed.stream().filter(i -> i.getClassroomIds().contains(classRoom.getId())).collect(Collectors.toSet());
-                Set<Show> shows = t ? timeTableMed(cardSet) : timeTable2Med(cardSet);
+                Set<Show> shows = t ? timeTableMed(cardSet) : timeTable2Med(cardSet,year,week);
 
 
                 Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber().equals(weekday)).collect(Collectors.toSet());
@@ -2858,90 +2931,178 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
 
                 List<TeacherStatisticsOfWeekday2> lists = new ArrayList<>();
 
-                showWeekNumberFields.getGet1().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(i.getRoom() + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet2().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(i.getRoom() + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet3().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet4().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet5().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet6().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet7().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet8().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet9().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet10().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet11().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet12().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
+                if(year ==2023 && week<44){
+                    showWeekNumberFields.getGet1().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom() + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet2().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom() + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet3().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet4().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet5().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet6().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet7().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet8().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet9().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet10().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet11().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet12().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                }
+                else {
+                    showWeekNumberFields.getGet1().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom() + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet2().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom() + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet3().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet4().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet5().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet6().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet7().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet8().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet9().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet10().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet11().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet12().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                }
 
                 listsFather.add(lists);
                 showSetFather.add(showSet);
@@ -2957,7 +3118,7 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
 //            ClassRoom classRoom = first.get();
 
                 Set<Card> cardSet = cardsMed.stream().filter(i -> i.getClassroomIds().contains(classRoom.getId())).collect(Collectors.toSet());
-                Set<Show> shows = t ? timeTableMed(cardSet) : timeTable2Med(cardSet);
+                Set<Show> shows = t ? timeTableMed(cardSet) : timeTable2Med(cardSet,year,week);
 
 
                 Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber().equals(weekday)).collect(Collectors.toSet());
@@ -2979,90 +3140,179 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
 
                 List<TeacherStatisticsOfWeekday2> lists = new ArrayList<>();
 
-                showWeekNumberFields.getGet1().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(i.getRoom() + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet2().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(i.getRoom() + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet3().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet4().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet5().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet6().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet7().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet8().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet9().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet10().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet11().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
-                showWeekNumberFields.getGet12().forEach(i -> {
-                    for (Teacher teacher : i.getTeachers()) {
-                        System.out.println(i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
-                        List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
-                        lists.addAll(statisticsOfWeekdayList);
-                    }
-                });
+                if(year ==2023 && week<44){
+                    showWeekNumberFields.getGet1().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom() + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet2().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom() + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet3().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet4().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet5().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet6().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet7().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet8().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet9().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet10().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet11().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet12().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2(teacher.getEmail(), i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                }
+                else {
+                    showWeekNumberFields.getGet1().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom() + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet2().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom() + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet3().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet4().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet5().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet6().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet7().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet8().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet9().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet10().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet11().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), Objects.equals(i.getRoom(), "A-612") ? "A-612%" : i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                    showWeekNumberFields.getGet12().forEach(i -> {
+                        for (Teacher teacher : i.getTeachers()) {
+                            System.out.println(i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4) + " <-------------------------------------------");
+                            List<TeacherStatisticsOfWeekday2> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByPassportByWeek2Login(teacher.getEmail(), i.getRoom().length() == 7 ? i.getRoom() : i.getRoom().substring(0, i.getRoom().indexOf("-") + 4), i.getDayNumber(), week, year, i.getHourNumber());
+                            lists.addAll(statisticsOfWeekdayList);
+                        }
+                    });
+                }
+
 
                 listsFather.add(lists);
                 showSetFather.add(showSet);
@@ -3088,7 +3338,7 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
 //            ClassRoom classRoom = first.get();
 
             Set<Card> cardSet = cards.stream().filter(i -> i.getClassroomIds().contains(classRoom.getId())).collect(Collectors.toSet());
-            Set<Show> shows = t ? timeTable(cardSet) : timeTable2(cardSet);
+            Set<Show> shows = t ? timeTable(cardSet) : timeTable2(cardSet,year,week);
 
 
             Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber().equals(weekday)).collect(Collectors.toSet());
@@ -3414,7 +3664,7 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
         return shows;
     }
 
-    public Set<Show> timeTable2(Set<Card> cardSet){
+    public Set<Show> timeTable2(Set<Card> cardSet,Integer year,Integer week){
         Set<Show> shows= new HashSet<>();
         for (Card card : cardSet) {// jadvalning bitta kuni
             for (LessonXml lesson : lessons) {// dars
@@ -3472,7 +3722,14 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                                     }
                                 }
                             }
-                            if (teachers2 !=null && teachers2.size() > 0) show.setKafedraId(userRepository.getKafedraIdByUserPassport(teachers2.get(0).getEmail()));
+                            if (teachers2 !=null && teachers2.size() > 0) {
+                                if(year ==2023 && week<44){
+                                    show.setKafedraId(userRepository.getKafedraIdByUserPassport(teachers2.get(0).getEmail()));
+                                }
+                                else {
+                                    show.setKafedraId(userRepository.getKafedraIdByUserPassportLogin(teachers2.get(0).getEmail()));
+                                }
+                            }
                             show.setTeachers(teachers2);
                             show.setTeacherName(teachers1);
                             shows.add(show);
@@ -3486,7 +3743,7 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
         }
         return shows;
     }
-    public Set<Show> timeTable2Med(Set<Card> cardSet){
+    public Set<Show> timeTable2Med(Set<Card> cardSet,Integer year,Integer week){
         Set<Show> shows= new HashSet<>();
         for (Card card : cardSet) {// jadvalning bitta kuni
             for (LessonXml lesson : lessonsMed) {// dars
@@ -3544,7 +3801,14 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                                     }
                                 }
                             }
-                            if (teachers2 !=null && teachers2.size() > 0) show.setKafedraId(userRepository.getKafedraIdByUserPassport(teachers2.get(0).getEmail()));
+                            if (teachers2 !=null && teachers2.size() > 0) {
+                                if(year ==2023 && week<44){
+                                    show.setKafedraId(userRepository.getKafedraIdByUserPassport(teachers2.get(0).getEmail()));
+                                }
+                                else {
+                                    show.setKafedraId(userRepository.getKafedraIdByUserPassportLogin(teachers2.get(0).getEmail()));
+                                }
+                            }
                             show.setTeachers(teachers2);
                             show.setTeacherName(teachers1);
                             shows.add(show);
