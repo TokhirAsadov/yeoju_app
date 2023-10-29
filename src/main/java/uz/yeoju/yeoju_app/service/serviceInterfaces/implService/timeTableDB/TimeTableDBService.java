@@ -14,7 +14,6 @@ public interface TimeTableDBService {
 
     ApiResponseTwoObj getStatisticsForDeanDashboard(String educationYearId,String eduType,String eduTypeId,String facultyId,String facultyShortName);
 
-    ApiResponseTwoObj getStudentTimeTableAPIByWeekOfYear(User user, String groupName, Integer week, Integer day, Boolean s);
     ApiResponseTwoObj getStudentTimeTableAPIByWeekOfYear(User user, String groupName,Integer year, Integer week, Integer day, Boolean s);
     ApiResponseTwoObj getStudentTimeTableAPIByWeekOfYear(String userId, String groupName,Integer year, Integer week, Integer day, Boolean s);
     ApiResponseTwoObj getTimesForRoomStatisticsByUserIdAndWeek(User user, String groupName, Integer year,Integer week, Integer day, Boolean s);
