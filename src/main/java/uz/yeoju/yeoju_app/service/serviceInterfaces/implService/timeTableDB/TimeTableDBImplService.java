@@ -1797,81 +1797,163 @@ public class TimeTableDBImplService implements TimeTableDBService {
                 .collect(Collectors.toSet()).stream().map(i-> i.getDays().get(0)).collect(Collectors.toList());
         Collections.sort(daysList, Collections.reverseOrder());
         List<Table> tables = new ArrayList<>();
-        for (String s : daysList) {
-            Set<String> lessonsIds = cards.stream().filter(item -> item.getDays().contains(s)).map(Card::getLessonId).collect(Collectors.toSet());
-            Set<String> teachersIds = new HashSet<>();
-            for (String id : lessonsIds) {
-                LessonXml lessonXml = lessons.stream().filter(item -> item.getId().equals(id)).findFirst().get();
-                teachersIds.addAll(lessonXml.getTeacherIds());
-            }
-            Set<Teacher> teachers1 = new HashSet<>();
-            for (String id : teachersIds) {
-                Optional<Teacher> first = teachers.stream().filter(item -> item.getId().equals(id) && item.getEmail().equals(user.getPassportNum()) ).findFirst();
-                first.ifPresent(teachers1::add);
-            }
-            List<TeacherData> teacherData = new ArrayList<>();
 
-            System.out.println("teachers1 -> "+ teachers1);
-            for (Teacher teacher : teachers1) {
-                TeacherData teacherData1 = userRepository.getTeachersForRemember3(teacher.getEmail());
-                if (teacherData1!=null) {
-                    teacherData.add(teacherData1);
-                    List<Show> shows = new ArrayList<>();
-                    for (String id : lessonsIds) {
-                        List<LessonXml> lessonXmls = lessons.stream().filter(item -> item.getId().equals(id) && item.getTeacherIds().contains(teacher.getId())).collect(Collectors.toList());
-                        if (lessonXmls.size()!=0) {
-                            //                        lists.add(lessonXmls);
-                            for (LessonXml xml : lessonXmls) {
-                                List<Card> collect = cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(s)).collect(Collectors.toList());
+        if(year ==2023 && week<44){
+            for (String s : daysList) {
+                Set<String> lessonsIds = cards.stream().filter(item -> item.getDays().contains(s)).map(Card::getLessonId).collect(Collectors.toSet());
+                Set<String> teachersIds = new HashSet<>();
+                for (String id : lessonsIds) {
+                    LessonXml lessonXml = lessons.stream().filter(item -> item.getId().equals(id)).findFirst().get();
+                    teachersIds.addAll(lessonXml.getTeacherIds());
+                }
+                Set<Teacher> teachers1 = new HashSet<>();
+                for (String id : teachersIds) {
+                    Optional<Teacher> first = teachers.stream().filter(item -> item.getId().equals(id) && item.getEmail().equals(user.getPassportNum()) ).findFirst();
+                    first.ifPresent(teachers1::add);
+                }
+                List<TeacherData> teacherData = new ArrayList<>();
+
+                System.out.println("teachers1 -> "+ teachers1);
+                for (Teacher teacher : teachers1) {
+                    TeacherData teacherData1 = userRepository.getTeachersForRemember3(teacher.getEmail());
+                    if (teacherData1!=null) {
+                        teacherData.add(teacherData1);
+                        List<Show> shows = new ArrayList<>();
+                        for (String id : lessonsIds) {
+                            List<LessonXml> lessonXmls = lessons.stream().filter(item -> item.getId().equals(id) && item.getTeacherIds().contains(teacher.getId())).collect(Collectors.toList());
+                            if (lessonXmls.size()!=0) {
+                                //                        lists.add(lessonXmls);
+                                for (LessonXml xml : lessonXmls) {
+                                    List<Card> collect = cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(s)).collect(Collectors.toList());
 //                                Card card = cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(s)).findFirst().get();
 
-                                for (Card card : collect) {
-                                    Show show = new Show();
+                                    for (Card card : collect) {
+                                        Show show = new Show();
 
-                                    Period period = periods.stream().filter(i -> i.getName().equals(card.getPeriod())).findFirst().get();
-                                    for (String s2 : card.getClassroomIds()) {
-                                        ClassRoom room = classRooms.stream().filter(i -> i.getId().equals(s2)).findFirst().get();
-                                        show.setRoom(room.getName());
-                                        break;
+                                        Period period = periods.stream().filter(i -> i.getName().equals(card.getPeriod())).findFirst().get();
+                                        for (String s2 : card.getClassroomIds()) {
+                                            ClassRoom room = classRooms.stream().filter(i -> i.getId().equals(s2)).findFirst().get();
+                                            show.setRoom(room.getName());
+                                            break;
+                                        }
+
+                                        show.setLessonName(subjects.stream().filter(i->i.getId().equals(xml.getSubjectId())).findFirst().get().getName());
+                                        show.setHourNumber(period.getPeriod());
+                                        show.setPeriodStartAndEndTime(period.getStartTime()+"-"+period.getEndTime());
+
+                                        List<String> classIds = xml.getClassIds();
+                                        List<String> stringList = new ArrayList<>();
+
+                                        for (String classId : classIds) {
+                                            Class aClass = classes.stream().filter(i -> i.getId().equals(classId)).findFirst().get();
+                                            stringList.add(aClass.getName());
+                                        }
+
+                                        show.setGroups(stringList);
+
+
+                                        show.setDaysName(
+                                                daysDefs.
+                                                        stream().filter(item -> item.getDays().contains(s))
+                                                        .findFirst().get().getShortName()
+                                        );
+                                        System.out.println(show.toString()+" <- show "+s);
+
+                                        shows.add(show);
+
                                     }
 
-                                    show.setLessonName(subjects.stream().filter(i->i.getId().equals(xml.getSubjectId())).findFirst().get().getName());
-                                    show.setHourNumber(period.getPeriod());
-                                    show.setPeriodStartAndEndTime(period.getStartTime()+"-"+period.getEndTime());
-
-                                    List<String> classIds = xml.getClassIds();
-                                    List<String> stringList = new ArrayList<>();
-
-                                    for (String classId : classIds) {
-                                        Class aClass = classes.stream().filter(i -> i.getId().equals(classId)).findFirst().get();
-                                        stringList.add(aClass.getName());
-                                    }
-
-                                    show.setGroups(stringList);
 
 
-                                    show.setDaysName(
-                                            daysDefs.
-                                                    stream().filter(item -> item.getDays().contains(s))
-                                                    .findFirst().get().getShortName()
-                                    );
-                                    System.out.println(show.toString()+" <- show "+s);
-
-                                    shows.add(show);
 
                                 }
-
-
-
-
                             }
                         }
+                        tables.add(new Table(teacherData1,shows));
                     }
-                    tables.add(new Table(teacherData1,shows));
                 }
             }
+            return new ApiResponse(false,"ishlayapdi ok",tables);
         }
-        return new ApiResponse(false,"ishlayapdi ok",tables);
+        else {
+            for (String s : daysList) {
+                Set<String> lessonsIds = cards.stream().filter(item -> item.getDays().contains(s)).map(Card::getLessonId).collect(Collectors.toSet());
+                Set<String> teachersIds = new HashSet<>();
+                for (String id : lessonsIds) {
+                    LessonXml lessonXml = lessons.stream().filter(item -> item.getId().equals(id)).findFirst().get();
+                    teachersIds.addAll(lessonXml.getTeacherIds());
+                }
+                Set<Teacher> teachers1 = new HashSet<>();
+                for (String id : teachersIds) {
+                    Optional<Teacher> first = teachers.stream().filter(item -> item.getId().equals(id) && item.getEmail().equals(user.getLogin()) ).findFirst();
+                    first.ifPresent(teachers1::add);
+                }
+                List<TeacherData> teacherData = new ArrayList<>();
+
+                System.out.println("teachers1 -> "+ teachers1);
+                for (Teacher teacher : teachers1) {
+                    TeacherData teacherData1 = userRepository.getTeachersForRemember3Login(teacher.getEmail());
+                    if (teacherData1!=null) {
+                        teacherData.add(teacherData1);
+                        List<Show> shows = new ArrayList<>();
+                        for (String id : lessonsIds) {
+                            List<LessonXml> lessonXmls = lessons.stream().filter(item -> item.getId().equals(id) && item.getTeacherIds().contains(teacher.getId())).collect(Collectors.toList());
+                            if (lessonXmls.size()!=0) {
+                                //                        lists.add(lessonXmls);
+                                for (LessonXml xml : lessonXmls) {
+                                    List<Card> collect = cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(s)).collect(Collectors.toList());
+//                                Card card = cards.stream().filter(i -> i.getLessonId().equals(xml.getId()) && i.getDays().contains(s)).findFirst().get();
+
+                                    for (Card card : collect) {
+                                        Show show = new Show();
+
+                                        Period period = periods.stream().filter(i -> i.getName().equals(card.getPeriod())).findFirst().get();
+                                        for (String s2 : card.getClassroomIds()) {
+                                            ClassRoom room = classRooms.stream().filter(i -> i.getId().equals(s2)).findFirst().get();
+                                            show.setRoom(room.getName());
+                                            break;
+                                        }
+
+                                        show.setLessonName(subjects.stream().filter(i->i.getId().equals(xml.getSubjectId())).findFirst().get().getName());
+                                        show.setHourNumber(period.getPeriod());
+                                        show.setPeriodStartAndEndTime(period.getStartTime()+"-"+period.getEndTime());
+
+                                        List<String> classIds = xml.getClassIds();
+                                        List<String> stringList = new ArrayList<>();
+
+                                        for (String classId : classIds) {
+                                            Class aClass = classes.stream().filter(i -> i.getId().equals(classId)).findFirst().get();
+                                            stringList.add(aClass.getName());
+                                        }
+
+                                        show.setGroups(stringList);
+
+
+                                        show.setDaysName(
+                                                daysDefs.
+                                                        stream().filter(item -> item.getDays().contains(s))
+                                                        .findFirst().get().getShortName()
+                                        );
+                                        System.out.println(show.toString()+" <- show "+s);
+
+                                        shows.add(show);
+
+                                    }
+
+
+
+
+                                }
+                            }
+                        }
+                        tables.add(new Table(teacherData1,shows));
+                    }
+                }
+            }
+            return new ApiResponse(false,"ishlayapdi ok",tables);
+        }
+
+
     }
 
     @Override
