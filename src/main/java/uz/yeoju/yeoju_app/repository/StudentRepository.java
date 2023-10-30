@@ -19,6 +19,25 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     Student findStudentByUserId(String user_id);
     Student findStudentByUserLogin(String user_login);
 
+    @Query(value = "select \n" +
+            "    u.id,\n" +
+            "    u.fullName,\n" +
+            "    u.firstName,\n" +
+            "    u.lastName,\n" +
+            "    u.middleName,\n" +
+            "    u.login,\n" +
+            "    u.passportNum as passport,\n" +
+            "    u.RFID,\n" +
+            "    s.teachStatus,\n" +
+            "    s.rektororder,\n" +
+            "    g.name as groupName\n" +
+            "\n" +
+            "    from Student s\n" +
+            "    join users u on s.user_id = u.id\n" +
+            "    join groups g on s.group_id = g.id\n" +
+            "    where s.teachStatus=?1 and g.faculty_id=?2",nativeQuery = true)
+    Set<StudentDataForTeachStatus> getStudentDataForTeachStatus2(String status,String facultyId);
+
 
     @Query(value = "select\n" +
             "\n" +
