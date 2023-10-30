@@ -10,12 +10,11 @@ import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.enums.PPostStatus;
 import uz.yeoju.yeoju_app.entity.permissionPost.PNotification;
 import uz.yeoju.yeoju_app.entity.permissionPost.PReference;
-import uz.yeoju.yeoju_app.entity.permissionPost.PermissionPost;
 import uz.yeoju.yeoju_app.entity.permissionPost.TypeOfReference;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.educationYear.EducationYearsForSelected;
 import uz.yeoju.yeoju_app.payload.permissionDto.ChangeStatusDto;
 import uz.yeoju.yeoju_app.payload.permissionDto.CreateReferenceDto;
-import uz.yeoju.yeoju_app.payload.permissionDto.PPermissionDto;
 import uz.yeoju.yeoju_app.payload.permissionDto.PReferenceDto;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
@@ -24,10 +23,9 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.notification.PNo
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
 import java.time.Duration;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +54,15 @@ public class ReferenceImplService implements ReferenceService{
 
     @Override
     public List<PReferenceDto> getAllByIdForDean(String userId) {
-        return referenceRepository.findAllByDeanIdOrderByCreatedAtDesc(userId).stream().map(this::generateDto).collect(Collectors.toList());
+        return referenceRepository.findAllByDeanIdAndStatusOrderByCreatedAtDesc(userId,PPostStatus.AT_PROCESS).stream().map(this::generateDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PReferenceDto> getHistoryForDean(String userId) {
+        return Stream.of(
+                referenceRepository.findAllByDeanIdAndStatusOrderByCreatedAtDesc(userId,PPostStatus.CONFIRM).stream().map(this::generateDto).collect(Collectors.toList()),
+                referenceRepository.findAllByDeanIdAndStatusOrderByCreatedAtDesc(userId,PPostStatus.REJECT).stream().map(this::generateDto).collect(Collectors.toList())
+        ).flatMap(Collection::stream).collect(Collectors.toList());
     }
 
     @Override
@@ -77,6 +83,13 @@ public class ReferenceImplService implements ReferenceService{
                             .userTo(dean).build());
 
                     PReference reference = new PReference();
+                    Long maxNumeration = referenceRepository.getMaxNumeration();
+                    if (maxNumeration==null) {
+                        reference.setNumeration(1L);
+                    }
+                    else {
+                        reference.setNumeration(maxNumeration+1);
+                    }
                     reference.setStudent(user);
                     reference.setDean(dean);
                     reference.setStatus(PPostStatus.AT_PROCESS);
@@ -103,6 +116,15 @@ public class ReferenceImplService implements ReferenceService{
     public ApiResponse changeStatusOfReference(User user, ChangeStatusDto dto) {
         PReference referenceById = getReferenceById(dto.getId());
         referenceById.setStatus(dto.getStatus());
+        if (dto.getStatus().equals(PPostStatus.CONFIRM)) {
+            Long maxQueue = referenceRepository.getMaxQueue();
+            if (maxQueue==null) {
+                referenceById.setQueue(1L);
+            }
+            else {
+                referenceById.setQueue(maxQueue+1);
+            }
+        }
 
         Optional<User> userOptional = userRepository.findById(referenceById.getCreatedBy());
         notificationService.save(PNotification.builder()
@@ -130,9 +152,28 @@ public class ReferenceImplService implements ReferenceService{
         return new ApiResponse(true,"all types of reference", TypeOfReference.values());
     }
 
+    @Override
+    public ApiResponse checkPreference(String studentId) {
+        EducationYearsForSelected educationYearsForSelected = educationYearRepository.getEducationYearsForSelected2();
+        Boolean bool = referenceRepository.existsPReferenceByStudentIdAndEducationYearIdAndStatus(studentId, educationYearsForSelected.getId(),PPostStatus.CONFIRM);
+        Boolean bool2 = referenceRepository.existsPReferenceByStudentIdAndEducationYearIdAndStatus(studentId, educationYearsForSelected.getId(),PPostStatus.AT_PROCESS);
+
+        if (bool){
+            return new ApiResponse(!bool,"Siz bu o`quv yili uchun boshqa ma'lumotnoma olishingiz mumkin emas.");
+        }
+        else if (bool2){
+            return new ApiResponse(!bool2,"Siz so`rov jo`natgansiz. Iltimos dekanatning javobini kuting");
+        }
+        else {
+            return new ApiResponse(!bool,"Biroz kuting.");
+        }
+    }
+
     public PReferenceDto generateDto(PReference reference){
         return new PReferenceDto(
                 reference.getId(),
+                reference.getQueue(),
+                reference.getNumeration(),
                 reference.getCreatedAt(),
                 reference.getUpdatedAt(),
                 reference.getCreatedBy(),
