@@ -16,4 +16,7 @@ public interface PReferenceRepository extends JpaRepository<PReference,String> {
     List<PReference> findAllByDeanIdAndStatusOrderByCreatedAtDesc(String dean_id, PPostStatus status);
     @Query(value = "select max(queue) from PReference",nativeQuery = true)
     Long getMaxQueue();
+
+    @Query(value = "select max(numeration) from PReference",nativeQuery = true)
+    Long getMaxNumeration();
 }
