@@ -5,16 +5,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.entity.Student;
+import uz.yeoju.yeoju_app.entity.enums.TeachStatus;
+import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentDataForTeachStatus;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.dashboard.StudentEduLangFormType;
 import uz.yeoju.yeoju_app.payload.resDto.student.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface StudentRepository extends JpaRepository<Student, String> {
     Student findStudentByUserId(String user_id);
     Student findStudentByUserLogin(String user_login);
+
+
 
     @Query(value = "select  COUNT(al.card_no) as count\n" +
             "from acc_monitor_log al\n" +
@@ -52,7 +57,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "\n" +
             ") as f\n" +
             "union\n" +
-            "select count(s.id) from Student s join AddressUser a on s.user_id = a.user_id",nativeQuery = true)
+            "select count(s.id) from Student s join AddressUser a on s.user_id = a.user_id and s.teachStatus='TEACHING'",nativeQuery = true)
     List<Integer> getStudentComeCount();
 
     @Query(value = "select * from groups g\n" +
@@ -363,7 +368,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     @Query(value = "select s.teachStatus as status, u.id,u.firstName,u.lastName, u.middleName,u.fullName,u.email,u.RFID, u.login, u.passportNum as passport from users u\n" +
             "join Student s on u.id = s.user_id\n" +
             "join groups g on g.id = s.group_id\n" +
-            "where g.name =:groupName",nativeQuery = true)
+            "where g.name =:groupName and (s.teachStatus ='TEACHING' or s.teachStatus is null )",nativeQuery = true)
     List<StudentWithRFID> getStudentWithRFID(@Param("groupName") String groupName);
 
     @Query(value = "select t1.cardNo,t1.timeAsc,t2.timeDesc from (\n" +
@@ -487,4 +492,28 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "        group by F.name\n" +
             "    ) as f2 on f2.name = f1.name",nativeQuery = true)
     List<FacultyStatistic> studentFaculty123231213ByWeekOrMonthBySchoolCode123(@Param("schoolCode") Integer schoolCode, @Param("level") Integer level, @Param("weekOrMonth") Integer weekOrMonth,@Param("eduType") String eduType);
+
+    @Query(value = "select p.id,p.queue,p.numeration, p.updatedAt as time,u.fullName,u.passportNum as passport, F.name as direction , g.level as grade , el.name as eduLang, et.name as eduType,s.lengthOfStudying,s.rektororder,u2.fullName as dean from users u join Student s on u.id = s.user_id\n" +
+            "                       join groups g on s.group_id = g.id\n" +
+            "                       join EducationType et on g.educationType_id = et.id\n" +
+            "                       join EducationLanguage el on g.educationLanguage_id = el.id\n" +
+            "                       join PReference p on u.id = p.student_id\n" +
+            "                       join Faculty F on g.faculty_id = F.id\n" +
+            "                       join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
+            "               join Dekanat D on DF.Dekanat_id = D.id\n" +
+            "               join users u2 on D.owner_id=u2.id\n" +
+            "where p.id=?1 and p.status='CONFIRM'",nativeQuery = true)
+    GetDataForStudentReference getDataForStudentReference(String studentId);
+
+//    @Query(value = "select u.id, u.fullName,u.passportNum as passport, F.name as direction , g.level as grade , el.name as eduLang, et.name as eduType,s.lengthOfStudying,s.rektororder,u2.fullName as dean from users u join Student s on u.id = s.user_id\n" +
+//            "    join groups g on s.group_id = g.id\n" +
+//            "    join EducationType et on g.educationType_id = et.id\n" +
+//            "    join EducationLanguage el on g.educationLanguage_id = el.id\n" +
+//            "    join Faculty F on g.faculty_id = F.id\n" +
+//            "join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
+//            "join Dekanat D on DF.Dekanat_id = D.id\n" +
+//            "join users u2 on D.owner_id=u2.id\n" +
+//            "\n" +
+//            "where u.id=?1",nativeQuery = true)
+//    GetDataForStudentReference getDataForStudentReference(String studentId);
 }
