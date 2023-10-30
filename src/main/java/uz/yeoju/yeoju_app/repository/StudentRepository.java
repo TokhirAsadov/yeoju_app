@@ -20,6 +20,30 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     Student findStudentByUserLogin(String user_login);
 
 
+    @Query(value = "select\n" +
+            "\n" +
+            "    u.id,\n" +
+            "    u.fullName,\n" +
+            "    u.firstName,\n" +
+            "    u.lastName,\n" +
+            "    u.middleName,\n" +
+            "    u.login,\n" +
+            "    u.passportNum,\n" +
+            "    u.RFID,\n" +
+            "    s.teachStatus,\n" +
+            "    s.rektororder,\n" +
+            "    g.name as groupName,\n" +
+            "    f.name as facultyName\n" +
+            "\n" +
+            "    from Student s\n" +
+            "                  join users u on s.user_id = u.id\n" +
+            "                  join groups g on s.group_id = g.id\n" +
+            "         join Faculty F on g.faculty_id = F.id\n" +
+            "    join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
+            "    join Dekanat D on DF.Dekanat_id = D.id\n" +
+            "where s.teachStatus!='TEACHING' and s.teachStatus is not null and D.owner_id=?1",nativeQuery = true)
+    Set<StudentDataForTeachStatus> getStudentDataForTeachStatusAllByDekanatOwnerId(String ownerId);
+
 
     @Query(value = "select  COUNT(al.card_no) as count\n" +
             "from acc_monitor_log al\n" +
