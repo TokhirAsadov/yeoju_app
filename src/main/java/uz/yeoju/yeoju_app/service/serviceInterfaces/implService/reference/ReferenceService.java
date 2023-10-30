@@ -18,9 +18,11 @@ public interface ReferenceService {
     List<PReferenceDto> getAll();
     List<PReferenceDto> getAllById(String userId);
     List<PReferenceDto> getAllByIdForDean(String userId);
+    List<PReferenceDto> getHistoryForDean(String userId);
     ApiResponse create(User user, CreateReferenceDto dto);
     ApiResponse changeStatusOfReference(User user, ChangeStatusDto dto);
     Flux<ServerSentEvent<List<PReferenceDto>>> streamReferences(String userId,Boolean bool);
 
     ApiResponse getTypesOfReference();
+    ApiResponse checkPreference(String studentId);
 }
