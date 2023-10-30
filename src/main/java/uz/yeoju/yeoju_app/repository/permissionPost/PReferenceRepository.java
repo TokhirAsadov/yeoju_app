@@ -13,4 +13,5 @@ public interface PReferenceRepository extends JpaRepository<PReference,String> {
     List<PReference> findAllByOrderByCreatedAtDesc();
     List<PReference> findAllByCreatedByOrderByCreatedAtDesc(String createdBy);
     List<PReference> findAllByDeanIdOrderByCreatedAtDesc(String dean_id);
+    List<PReference> findAllByDeanIdAndStatusOrderByCreatedAtDesc(String dean_id, PPostStatus status);
 }
