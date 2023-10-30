@@ -1060,5 +1060,9 @@ public class StudentService implements StudentImplService<StudentDto> {
         return new ApiResponse(true,"deleted student successfully");
     }
 
+    public ApiResponse getDataForStudentReference(User user, String studentId) {
+        return new ApiResponse(true,"data for reference",studentRepository.getDataForStudentReference(studentId));
+    }
+
 
 }
