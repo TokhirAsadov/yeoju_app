@@ -13,6 +13,8 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class PReferenceDto {
     private String id;
+    private Long queue;
+    private Long numeration;
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private String createdBy;
