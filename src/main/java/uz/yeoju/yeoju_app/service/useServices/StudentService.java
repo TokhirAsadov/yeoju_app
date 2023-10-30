@@ -1064,5 +1064,8 @@ public class StudentService implements StudentImplService<StudentDto> {
         return new ApiResponse(true,"data for reference",studentRepository.getDataForStudentReference(studentId));
     }
 
+    public ApiResponse getDataForStudentReference2( String studentId) {
+        return new ApiResponse(true,"data for reference",studentRepository.getDataForStudentReference(studentId));
+    }
 
 }
