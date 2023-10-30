@@ -890,12 +890,12 @@ public class StudentService implements StudentImplService<StudentDto> {
                 Row row = rows.next();
 
                 System.out.println(row.getCell(0).getStringCellValue()+" FIO");
-                System.out.println((int)row.getCell(1).getNumericCellValue()+" order");
+                System.out.println(row.getCell(1).getStringCellValue()+" order");
                 System.out.println(row.getCell(2).getStringCellValue()+" group");
                 System.out.println(row.getCell(3).getStringCellValue()+" sex");
                 System.out.println(row.getCell(4).getStringCellValue()+" ID");
                 System.out.println(row.getCell(5).getStringCellValue()+" Passport");
-                System.out.println(row.getCell(6).getStringCellValue()+" RFID");
+//                System.out.println(row.getCell(6).getStringCellValue()+" RFID");
 //                System.out.println(row.getCell(7).getStringCellValue());
 //                System.out.println(row.getCell(8).getStringCellValue());
 //                System.out.println(row.getCell(9).getStringCellValue());
@@ -909,6 +909,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                             Optional<Role> optionalRole = roleRepository.findRoleByRoleName("ROLE_STUDENT");
                             Role role = optionalRole.get();
                             studentByUserId.setGroup(groupByName);
+                            studentByUserId.setTeachStatus(TeachStatus.TEACHING);
                             studentByUserId.setRektororder(row.getCell(1).getStringCellValue());
                             studentRepository.save(studentByUserId);
                             userByLogin.setPassportNum(row.getCell(5).getStringCellValue());
@@ -929,6 +930,7 @@ public class StudentService implements StudentImplService<StudentDto> {
 
                             Student student = new Student();
                             student.setUser(userByLogin);
+                            student.setTeachStatus(TeachStatus.TEACHING);
                             student.setGroup(groupByName);
                             student.setRektororder(row.getCell(1).getStringCellValue());
                             studentRepository.save(student);
@@ -942,85 +944,85 @@ public class StudentService implements StudentImplService<StudentDto> {
                         return new ApiResponse(false,"error.. not found group by:"+row.getCell(2).getStringCellValue());
                     }
                 }
-                else {
-                    Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
-                    if (groupByName!=null){
-
-                        User userByRFID = userRepository.findUserByRFID(row.getCell(6).getStringCellValue());
-                        if (userByRFID==null) {
-                            User user = new User();
-                            if (row.getCell(3).getStringCellValue().equalsIgnoreCase("male")){
-                                Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
-                                user.setGander(ganderByGandername);
-                            }
-                            else {
-                                Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.FEMALE);
-                                user.setGander(ganderByGandername);
-                            }
-                            user.setFullName(row.getCell(0).getStringCellValue());
-                            user.setLogin(row.getCell(4).getStringCellValue());
-                            user.setPassportNum(row.getCell(5).getStringCellValue());
-                            user.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
-                            user.setRFID(row.getCell(6).getStringCellValue());
-                            Optional<Role> optionalRole = roleRepository.findRoleByRoleName("ROLE_STUDENT");
-                            Role role = optionalRole.get();
-                            Set<Role> roles = new HashSet<Role>();
-                            roles.add(role);
-                            user.setRoles(roles);
-                            userRepository.saveAndFlush(user);
-
-                            USERINFO userinfo = new USERINFO();
-                            userinfo.setName(row.getCell(0).getStringCellValue());
-                            userinfo.setCardNo(row.getCell(6).getStringCellValue());
-                            Long badgenumber = userInfoRepo.getBadgenumber();
-                            userinfo.setBadgenumber(badgenumber+1);
-                            userInfoRepo.save(userinfo);
-
-                            Student student = new Student();
-                            student.setUser(user);
-                            student.setGroup(groupByName);
-                            student.setRektororder(row.getCell(1).getStringCellValue());
-                            studentRepository.save(student);
-                        }
-                        else {
-                            Student studentByUserId = studentRepository.findStudentByUserId(userByRFID.getId());
-                            if (studentByUserId != null){
-                                Optional<Role> optionalRole = roleRepository.findRoleByRoleName("ROLE_STUDENT");
-                                Role role = optionalRole.get();
-                                studentByUserId.setGroup(groupByName);
-                                studentByUserId.setRektororder(row.getCell(1).getStringCellValue());
-                                studentRepository.save(studentByUserId);
-                                userByRFID.setPassportNum(row.getCell(5).getStringCellValue());
-                                Set<Role> roles = new HashSet<Role>();
-                                roles.add(role);
-                                userByRFID.setRoles(roles);
-                                userRepository.save(userByRFID);
-                            }
-                            else {
-
-                                Optional<Role> optionalRole = roleRepository.findRoleByRoleName("ROLE_STUDENT");
-                                Role role = optionalRole.get();
-                                userByRFID.setPassportNum(row.getCell(5).getStringCellValue());
-                                Set<Role> roles = new HashSet<Role>();
-                                roles.add(role);
-                                userByRFID.setRoles(roles);
-                                userRepository.save(userByRFID);
-
-                                Student student = new Student();
-                                student.setUser(userByRFID);
-                                student.setGroup(groupByName);
-                                student.setRektororder(row.getCell(1).getStringCellValue());
-                                studentRepository.save(student);
-
-                            }
-                        }
-
-
-                    }//todo---------------------
-                    else {
-                        return new ApiResponse(false,"error.. not found group by:"+row.getCell(2).getStringCellValue());
-                    }
-                }
+//                else {
+//                    Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
+//                    if (groupByName!=null){
+//
+//                        User userByRFID = userRepository.findUserByRFID(row.getCell(6).getStringCellValue());
+//                        if (userByRFID==null) {
+//                            User user = new User();
+//                            if (row.getCell(3).getStringCellValue().equalsIgnoreCase("male")){
+//                                Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+//                                user.setGander(ganderByGandername);
+//                            }
+//                            else {
+//                                Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.FEMALE);
+//                                user.setGander(ganderByGandername);
+//                            }
+//                            user.setFullName(row.getCell(0).getStringCellValue());
+//                            user.setLogin(row.getCell(4).getStringCellValue());
+//                            user.setPassportNum(row.getCell(5).getStringCellValue());
+//                            user.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
+//                            user.setRFID(row.getCell(6).getStringCellValue());
+//                            Optional<Role> optionalRole = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+//                            Role role = optionalRole.get();
+//                            Set<Role> roles = new HashSet<Role>();
+//                            roles.add(role);
+//                            user.setRoles(roles);
+//                            userRepository.saveAndFlush(user);
+//
+//                            USERINFO userinfo = new USERINFO();
+//                            userinfo.setName(row.getCell(0).getStringCellValue());
+//                            userinfo.setCardNo(row.getCell(6).getStringCellValue());
+//                            Long badgenumber = userInfoRepo.getBadgenumber();
+//                            userinfo.setBadgenumber(badgenumber+1);
+//                            userInfoRepo.save(userinfo);
+//
+//                            Student student = new Student();
+//                            student.setUser(user);
+//                            student.setGroup(groupByName);
+//                            student.setRektororder(row.getCell(1).getStringCellValue());
+//                            studentRepository.save(student);
+//                        }
+//                        else {
+//                            Student studentByUserId = studentRepository.findStudentByUserId(userByRFID.getId());
+//                            if (studentByUserId != null){
+//                                Optional<Role> optionalRole = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+//                                Role role = optionalRole.get();
+//                                studentByUserId.setGroup(groupByName);
+//                                studentByUserId.setRektororder(row.getCell(1).getStringCellValue());
+//                                studentRepository.save(studentByUserId);
+//                                userByRFID.setPassportNum(row.getCell(5).getStringCellValue());
+//                                Set<Role> roles = new HashSet<Role>();
+//                                roles.add(role);
+//                                userByRFID.setRoles(roles);
+//                                userRepository.save(userByRFID);
+//                            }
+//                            else {
+//
+//                                Optional<Role> optionalRole = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+//                                Role role = optionalRole.get();
+//                                userByRFID.setPassportNum(row.getCell(5).getStringCellValue());
+//                                Set<Role> roles = new HashSet<Role>();
+//                                roles.add(role);
+//                                userByRFID.setRoles(roles);
+//                                userRepository.save(userByRFID);
+//
+//                                Student student = new Student();
+//                                student.setUser(userByRFID);
+//                                student.setGroup(groupByName);
+//                                student.setRektororder(row.getCell(1).getStringCellValue());
+//                                studentRepository.save(student);
+//
+//                            }
+//                        }
+//
+//
+//                    }//todo---------------------
+//                    else {
+//                        return new ApiResponse(false,"error.. not found group by:"+row.getCell(2).getStringCellValue());
+//                    }
+//                }
 
 
             }
@@ -1051,4 +1053,12 @@ public class StudentService implements StudentImplService<StudentDto> {
         studentRepository.save(studentByUserId);
         return new ApiResponse(true,"changed teach status successfully");
     }
+
+    public ApiResponse changeActiveOfStudent(String userId) {
+        Student studentByUserId = studentRepository.findStudentByUserId(userId);
+        studentRepository.deleteById(studentByUserId.getId());
+        return new ApiResponse(true,"deleted student successfully");
+    }
+
+
 }
