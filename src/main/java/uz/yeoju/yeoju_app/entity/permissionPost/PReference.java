@@ -18,8 +18,8 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PReference extends AbsEntity {
-    private Long queue;
-    private Long numeration;
+    private Long queue;// dekanat tasdiqlaganlarining tartibi
+    private Long numeration;// jami jo`natilgan arizalarning raqami
     @ManyToOne
     private User student;
     @ManyToOne
