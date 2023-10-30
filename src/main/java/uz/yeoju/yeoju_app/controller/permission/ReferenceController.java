@@ -30,7 +30,10 @@ public class ReferenceController {
         return service.streamReferences(userId,bool);
     }
 
-
+    @GetMapping("/checkPreference")
+    public HttpEntity<?> checkPreference(@RequestParam(name="studentId") String studentId) {
+        return ResponseEntity.ok(service.checkPreference(studentId));
+    }
     @GetMapping("/getHistory")
     public HttpEntity<?> getHistoryForDean(@RequestParam(name="userId") String userId) {
         return ResponseEntity.ok(service.getHistoryForDean(userId));
