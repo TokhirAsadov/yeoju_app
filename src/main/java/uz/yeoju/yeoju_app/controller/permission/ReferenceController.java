@@ -30,6 +30,12 @@ public class ReferenceController {
         return service.streamReferences(userId,bool);
     }
 
+
+    @GetMapping("/getHistory")
+    public HttpEntity<?> getHistoryForDean(@RequestParam(name="userId") String userId) {
+        return ResponseEntity.ok(service.getHistoryForDean(userId));
+    }
+
     @PostMapping("/create")
     public HttpEntity<?> createPost(@CurrentUser User user, @RequestBody CreateReferenceDto dto) {
         ApiResponse response = service.create(user, dto);
