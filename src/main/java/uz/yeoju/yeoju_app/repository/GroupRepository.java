@@ -23,7 +23,7 @@ public interface GroupRepository extends JpaRepository<Group,String> {
    List<Group> findGroupsByFacultyId(String faculty_id);
 
 
-   @Query(value = "select g.id as groupId,u.id as studentId,u.fullName,?2 as educationYearId,?3 as weekday,?4 as week, ?5 as year from groups g \n" +
+   @Query(value = "select u.rfid, g.id as groupId,u.id as studentId,u.fullName,?2 as educationYearId,?3 as weekday,?4 as week, ?5 as year from groups g \n" +
            "join Student S on g.id = S.group_id\n" +
            "join users u on S.user_id = u.id\n" +
            "where g.id=?1",nativeQuery = true)
