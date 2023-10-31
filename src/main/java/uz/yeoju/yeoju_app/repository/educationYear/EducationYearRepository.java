@@ -276,6 +276,9 @@ public interface EducationYearRepository extends JpaRepository<EducationYear,Str
     @Query(value = "select id,name from EducationYear order by createdAt desc",nativeQuery = true)
     Set<EducationYearsForSelected> getEducationYearsForSelected();
 
+    @Query(value = "select Top 1 id,name from EducationYear order by createdAt desc",nativeQuery = true)
+    EducationYearsForSelected getEducationYearsForSelected2();
+
     @Query(value = "select w.id,w.start,w.sortNumber,w.course,w.eduType from WeekOfEducationYear w join EducationYear_WeekOfEducationYear EYWOEY on w.id = EYWOEY.weeks_id where EYWOEY.EducationYear_id=?1 and w.eduType =?2",nativeQuery = true)
     Set<WeekRestDtoForDean> getWeeksByEduIdAndEduType(String educationYearId, String eduType);
 
