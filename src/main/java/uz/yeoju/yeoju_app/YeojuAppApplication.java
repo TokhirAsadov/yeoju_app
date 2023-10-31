@@ -4,6 +4,9 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable;
@@ -16,6 +19,17 @@ import static uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForT
 
 @SpringBootApplication
 public class YeojuAppApplication {
+
+	@Bean
+	public WebClient webClient() {
+		return WebClient.create("http://localhost:6060/api/v1/desktop");
+//		return WebClient.create("http://172.16.7.237:6060/api/v1/desktop");
+	}
+
+	@Bean
+	public RestTemplate getRestTemplate(){
+		return new RestTemplate();
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(YeojuAppApplication.class, args);
