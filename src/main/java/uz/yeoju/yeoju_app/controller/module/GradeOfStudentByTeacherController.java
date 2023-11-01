@@ -29,9 +29,10 @@ public class GradeOfStudentByTeacherController {
     public HttpEntity<?> getMiddleGrade(@CurrentUser User user,
                                             @PathVariable("educationYearId") String educationYearId,
                                             @RequestParam("studentId") String studentId,
-                                            @RequestParam("subjectId") String subjectId
+                                            @RequestParam("subjectId") String subjectId,
+                                            @RequestParam("groupId") String groupId
     ){
-        return ResponseEntity.ok(service.getAvgGradesOfStudent(user.getId(),studentId,educationYearId,subjectId));
+        return ResponseEntity.ok(service.getAvgGradesOfStudent(user.getId(),studentId,educationYearId,subjectId,groupId));
     }
 
     @GetMapping("/getGradesOfStudent/{educationYearId}")
