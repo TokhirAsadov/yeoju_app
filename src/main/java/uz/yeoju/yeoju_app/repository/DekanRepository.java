@@ -71,7 +71,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "                   join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
             "                   join Dekanat D on DF.Dekanat_id = D.id\n" +
             "                   join Dekan D2 on D.id = D2.dekanat_id\n" +
-            "           where D2.user_id=:id and g.educationType_id=D2.educationType_id\n" +
+            "           where D2.user_id=:id and g.educationType_id=D2.educationType_id and g.active=1 \n" +
             "           group by g.name, g.level\n" +
             "       ) as g1\n" +
             "         right join (select g.name,g.level,count(s.id) as allCount from Student s\n" +
@@ -79,7 +79,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "                    join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
             "                    join Dekanat D on DF.Dekanat_id = D.id\n" +
             "                    join Dekan D2 on D.id = D2.dekanat_id\n" +
-            "                     where D2.user_id=:id and g.educationType_id=D2.educationType_id\n" +
+            "                     where D2.user_id=:id and g.educationType_id=D2.educationType_id and g.active=1 \n" +
             "                     group by g.name, g.level) as g2 on g2.name = g1.name order by g1.level,g1.name",nativeQuery = true)
     List<CourseStatistics> getCourseStatisticsForDekan(
             @Param("id") String facultyId,
@@ -140,7 +140,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "               join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
             "               join Dekanat D on DF.Dekanat_id = D.id\n" +
             "               join Dekan D2 on D.id = D2.dekanat_id\n" +
-            "       where D2.user_id=:id and g.educationType_id=D2.educationType_id\n" +
+            "       where D2.user_id=:id and g.educationType_id=D2.educationType_id and g.active=1 \n" +
             "       group by g.name, g.level\n" +
             "   ) as g1\n" +
             "     right join (\n" +
@@ -150,7 +150,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "   join Dekanat_Faculty DF on F.id = DF.faculties_id\n" +
             "   join Dekanat D on DF.Dekanat_id = D.id\n" +
             "   join Dekan D2 on D.id = D2.dekanat_id\n" +
-            "    where D2.user_id=:id and g.educationType_id=D2.educationType_id\n" +
+            "    where D2.user_id=:id and g.educationType_id=D2.educationType_id and g.active=1 \n" +
             "    group by g.name, g.level) as g2 on g2.name = g1.name order by g1.level,g1.name",nativeQuery = true)
     List<DekanGroupsStatistic> getGroupsStatisticForDekan(
             @Param("id") String dekanId,
@@ -196,7 +196,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "join Dekanat_Faculty d_f on d_f.faculties_id = g.faculty_id\n" +
             "join Dekanat D2 on d_f.Dekanat_id = D2.id\n" +
             "join Dekan D on D2.id = D.dekanat_id\n" +
-            "where D.user_id=:id and g.educationType_id=D.educationType_id order by g.name asc",nativeQuery = true)
+            "where D.user_id=:id and g.educationType_id=D.educationType_id and g.active=1  order by g.name asc",nativeQuery = true)
     List<GroupsDatas> getGroupsNamesForDekanByFacultyId(@Param("id") String id);
 
     @Query(value = "select g.id,g.level,g.name as name, el.name as language,et.name as type,ef.name as form,f.shortName as faculty from groups g\n" +
@@ -207,7 +207,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "join Dekanat_Faculty d_f on d_f.faculties_id = g.faculty_id\n" +
             "join Dekanat D2 on d_f.Dekanat_id = D2.id\n" +
             "join Dekan D on D2.id = D.dekanat_id\n" +
-            "where D.user_id=:id and f.id=:facultyId and g.educationType_id=D.educationType_id order by g.name asc",nativeQuery = true)
+            "where D.user_id=:id and f.id=:facultyId and g.educationType_id=D.educationType_id and g.active=1 order by g.name asc",nativeQuery = true)
     List<GroupsDatas> getGroupsNamesForDekanByFacultyId(@Param("id") String id,@Param("facultyId") String facultyId);
 
 
@@ -216,14 +216,14 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "    left join EducationType et on g.educationType_id = et.id\n" +
             "    left join EducationForm ef on g.educationForm_id = ef.id\n" +
             "    join Faculty f on g.faculty_id = f.id\n" +
-            "where g.faculty_id=?1 and g.level=?2 and et.name=?3  order by g.name asc",nativeQuery = true)
+            "where g.faculty_id=?1 and g.level=?2 and et.name=?3 and g.active=1  order by g.name asc",nativeQuery = true)
     List<GroupsDatas> getGroupsNamesByFacultyIdAndLevelAndEduType(String facultyId, Integer course, String eduType);
 
     @Query(value = "select g.name from groups g\n" +
             "join Dekanat_Faculty DF on Df.faculties_id=g.faculty_id\n" +
             "join Dekanat D on DF.Dekanat_id = D.id\n" +
             "join Dekan d2 on D.id = d2.dekanat_id\n" +
-            "where (g.level=:level and d2.user_id=:userId and g.educationType_id=d2.educationType_id) order by g.name asc ",nativeQuery = true)
+            "where (g.level=:level and d2.user_id=:userId and g.educationType_id=d2.educationType_id and g.active=1) order by g.name asc ",nativeQuery = true)
     List<String> getGroupsNamesForDekanByDekanIdAndLevel(@Param("userId") String userId,@Param("level") Integer level);
 
 //    @Query(value = "select g.name from groups g\n" +
@@ -249,7 +249,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "join Dekanat_Faculty d_f on d_f.faculties_id = g.faculty_id\n" +
             "    join Dekanat D2 on d_f.Dekanat_id = D2.id\n" +
             "join Dekan D on D2.id = D.dekanat_id\n" +
-            "where D.user_id=:userId and g.educationType_id=D.educationType_id order by g.name asc ",nativeQuery = true)
+            "where D.user_id=:userId and g.educationType_id=D.educationType_id and g.active=1 order by g.name asc ",nativeQuery = true)
     List<String> getGroupsNamesForDekanByDekanId(@Param("userId") String userId);
 
     @Query(value = "select u.id as id,u.fullName as fullName from Student s\n" +
@@ -281,7 +281,7 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
     @Query(value = "select u.id from Student s\n" +
             "join users u on s.user_id = u.id\n" +
             "join groups g on s.group_id = g.id\n" +
-            "where g.faculty_id=:id",nativeQuery = true)
+            "where g.faculty_id=:id and s.teachStatus='TEACHING' ",nativeQuery = true)
     List<AllStudentsOfFaculty> getAllStudentsOfFaculty(@Param("id") String id);
 
     @Query(value = "select :id as id",nativeQuery = true)
@@ -340,12 +340,12 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "            from acc_monitor_log al\n" +
             "                     join users u  on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "                     join Student s on u.id = s.user_id join groups g on g.id = s.group_id\n" +
-            "            where al.time between :start and DATEADD(d, 1, :start) and g.faculty_id=:facultyId and g.educationType_id=:eduTypeId\n" +
+            "            where al.time between :start and DATEADD(d, 1, :start) and g.faculty_id=:facultyId and g.educationType_id=:eduTypeId and s.teachStatus='TEACHING' \n" +
             "       ) as t1\n" +
             "     right join (\n" +
             "        select  u.id,u.fullName,g.name as groupName,u.RFID as cardNo,g.level from users u join Student s on u.id = s.user_id\n" +
             "            join groups g on g.id = s.group_id\n" +
-            "        where g.faculty_id=:facultyId and g.educationType_id=:eduTypeId\n" +
+            "        where g.faculty_id=:facultyId and g.educationType_id=:eduTypeId and s.teachStatus='TEACHING' \n" +
             "    ) as t2 on cast(t1.cardNo as varchar) = cast(t2.cardNo as varchar) COLLATE Chinese_PRC_CI_AS where t1.cardNo is null",nativeQuery = true)
     Set<StudentDataByWeekDay> getStudentDataByWeekDay(@Param("start") Date start,@Param("facultyId") String facultyId,@Param("eduTypeId") String eduTypeId);
 
@@ -354,12 +354,12 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "    from acc_monitor_log al\n" +
             "             join users u  on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS \n" +
             "             join Student s on u.id = s.user_id join groups g on g.id = s.group_id \n" +
-            "    where al.time between :start and DATEADD(d, 1, :start) and g.name IN (SELECT value FROM STRING_SPLIT(:groupsArr,',')) \n" +
+            "    where al.time between :start and DATEADD(d, 1, :start) and g.name IN (SELECT value FROM STRING_SPLIT(:groupsArr,',')) and s.teachStatus='TEACHING'  \n" +
             ") as t1\n" +
             "right join (\n" +
             "    select  u.id,u.fullName,g.name as groupName,u.RFID as cardNo,g.level from users u join Student s on u.id = s.user_id \n" +
             "                                                                                      join groups g on g.id = s.group_id \n" +
-            "    where g.name IN (SELECT value FROM STRING_SPLIT(:groupsArr,',')) \n" +
+            "    where g.name IN (SELECT value FROM STRING_SPLIT(:groupsArr,',')) and s.teachStatus='TEACHING' \n" +
             ") as t2 on cast(t1.cardNo as varchar) = cast(t2.cardNo as varchar) COLLATE Chinese_PRC_CI_AS where t1.cardNo is null",nativeQuery = true)
     Set<StudentDataByWeekDay> getStudentDataByWeekDay(@Param("start") Date start,  @Param("groupsArr") String groupsArr);
 }
