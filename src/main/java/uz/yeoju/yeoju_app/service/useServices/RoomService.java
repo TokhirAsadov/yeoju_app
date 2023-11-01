@@ -78,7 +78,38 @@ public class RoomService implements RoomImplService<RoomDto> {
     }
 
 
+    @Transactional
+    public Object sendMultipartDataOtherServer(MultipartHttpServletRequest request) throws IOException {
+        System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return senderFile(file);
+            }
+        }
+        return null;
+    }
 
+    public Object senderFile(MultipartFile multipartFile){
+        MultipartBodyBuilder builder = new MultipartBodyBuilder();
+        builder.part("file", multipartFile.getResource());
+
+        return webClient.post()
+                .uri("/result/importStudentsResults")
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(BodyInserters.fromMultipartData(builder.build()))
+                .retrieve()
+                .bodyToMono(byte[].class)
+                .block();
+//                .exchangeToMono(response -> {
+//                    if (response.statusCode().equals(HttpStatus.OK)) {
+//                        return response.bodyToMono(HttpStatus.class).thenReturn(response.statusCode());
+//                    } else {
+//                        throw new ServiceException("Error uploading file");
+//                    }
+//                });
+    }
 
 
 
