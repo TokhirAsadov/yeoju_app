@@ -42,6 +42,19 @@ public class RoomService implements RoomImplService<RoomDto> {
 //    }
 
 
+    public Object getDataFromOther() {
+        return webClient
+                .get()
+                .uri("/role/findAllRoles")
+                .retrieve()
+                .bodyToMono(Object.class)
+                .block(REQUEST_TIMEOUT);
+    }
+
+
+
+
+
     public ApiResponse getRoomsForSelect(){
         return new ApiResponse(true,"rooms",roomRepository.getRoomsForSelect());
     }
