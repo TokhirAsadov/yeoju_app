@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 public interface GetDataForStudentReference {
     String getId();
     Timestamp getTime();
+    Long getQueue();
+    Long getNumeration();
     String getFullName();
     String getPassport();
     String getDirection();
