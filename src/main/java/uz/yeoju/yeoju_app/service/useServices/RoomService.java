@@ -52,6 +52,36 @@ public class RoomService implements RoomImplService<RoomDto> {
     }
 
 
+    public Object createRoleWebClient(RoleWebClient newRole) {
+        System.out.println(newRole+"---------------------------------------------------------------------------------------------------------------");
+        System.out.println(BodyInserters.fromValue(newRole)+"---------------------------------------------------------------------------------------------------------------");
+
+        return webClient.post()
+                .uri("/role/createRole")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+//                .bodyValue(BodyInserters.fromValue(newRole))
+                .body(Mono.just(newRole), RoleWebClient.class)
+                .retrieve()
+                .onStatus(HttpStatus::is4xxClientError, response -> {
+                    //logError("Client error occurred");
+                    return Mono.error(new WebClientResponseException
+                            (response.statusCode().value(), "Bad Request", null, null, null));
+                })
+                .onStatus(HttpStatus::is5xxServerError, response -> {
+                    //logError("Server error occurred");
+                    return Mono.error(new WebClientResponseException
+                            (response.statusCode().value(), "Server Error", null, null, null));
+                })
+                .toEntity(RoleWebClient.class)
+                .block(REQUEST_TIMEOUT);
+    }
+
+
+
+
+
+
 
 
 
