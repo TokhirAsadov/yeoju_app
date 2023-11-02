@@ -31,6 +31,12 @@ public class StudentController {
 
 
 
+
+    @GetMapping("/getAllStudentDataForDean")
+    public HttpEntity<?> getStudentDataForDean(@CurrentUser User user){
+        return ResponseEntity.ok(studentRepository.getStudentDataForTeachStatusAllByDekanatOwnerId(user.getId()));
+    }
+
     @PostMapping("/uploadRektorOrder")
     public HttpEntity<?> uploadRektorOrder(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
         System.out.println(" ----------------------------- 1 1 1 ------------------------ --");
