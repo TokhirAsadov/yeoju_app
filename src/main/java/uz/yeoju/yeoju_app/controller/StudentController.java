@@ -32,6 +32,11 @@ public class StudentController {
 
 
 
+    @GetMapping("/getStudentDataForTeachStatusAll")
+    public HttpEntity<?> getStudentDataForTeachStatusAll(){
+        return ResponseEntity.ok(studentRepository.getStudentDataForTeachStatusAll());
+    }
+
     @GetMapping("/getStudentDataForTeachStatusAllByFacultyId")
     public HttpEntity<?> getStudentDataForTeachStatusAllByFacultyId( @RequestParam("facultyId") String facultyId){
         return ResponseEntity.ok(studentRepository.getStudentDataForTeachStatusAllByFacultyId(facultyId));
