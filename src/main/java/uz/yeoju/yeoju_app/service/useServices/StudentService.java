@@ -160,12 +160,16 @@ public class StudentService implements StudentImplService<StudentDto> {
 
                             studentByUserId.setUser(userByRFID);
                             studentByUserId.setGroup(save1);
+                            studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                            studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
 
                             Student save = studentRepository.save(studentByUserId);
                         }
                         else {
                             Student student = new Student();
                             student.setUser(userByRFID);
+                            student.setTeachStatus(TeachStatus.TEACHING);
+                            student.setRektororder(row.getCell(6).getStringCellValue());
                             student.setGroup(save1);
                             Student save = studentRepository.save(student);
                         }
@@ -209,12 +213,16 @@ public class StudentService implements StudentImplService<StudentDto> {
 
                             studentByUserId.setUser(save1);
                             studentByUserId.setGroup(groupByName);
+                            studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                            studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
 
                             Student save = studentRepository.save(studentByUserId);
                         }
                         else {
                             Student student = new Student();
                             student.setUser(userByRFID);
+                            student.setTeachStatus(TeachStatus.TEACHING);
+                            student.setRektororder(row.getCell(6).getStringCellValue());
                             student.setGroup(groupByName);
                             Student save = studentRepository.save(student);
                         }
@@ -275,6 +283,8 @@ public class StudentService implements StudentImplService<StudentDto> {
 
 
                         Student student = new Student();
+                        student.setTeachStatus(TeachStatus.TEACHING);
+                        student.setRektororder(row.getCell(6).getStringCellValue());
                         student.setUser(user);
                         student.setGroup(save1);
                         Student save = studentRepository.save(student);
@@ -289,6 +299,8 @@ public class StudentService implements StudentImplService<StudentDto> {
 
                         // student
                         Student student = new Student();
+                        student.setTeachStatus(TeachStatus.TEACHING);
+                        student.setRektororder(row.getCell(6).getStringCellValue());
                         student.setUser(user);
                         student.setGroup(groupByName);
                         Student save = studentRepository.save(student);
