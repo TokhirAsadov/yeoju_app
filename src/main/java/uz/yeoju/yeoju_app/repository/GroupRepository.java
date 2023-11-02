@@ -10,7 +10,6 @@ import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetGroupsDataForKafedraMudiri;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.journal.StudentsOfGroupWithTodayStatisticsAndScore;
 import uz.yeoju.yeoju_app.payload.resDto.student.GetStudentStatisticsForDeanOneWeek;
 import uz.yeoju.yeoju_app.payload.resDto.student.GetStudentStatisticsForDeanOneWeekSection;
-import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSaveItem;
 
 import java.util.Date;
 import java.util.List;
