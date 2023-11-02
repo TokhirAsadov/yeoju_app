@@ -34,7 +34,7 @@ public interface GroupRepository extends JpaRepository<Group,String> {
            "    join LessonDB LD on c.lesson_id = LD.id\n" +
            "    join LessonDB_groups LDg on LD.id = LDg.LessonDB_id\n" +
            "    join Lesson l on LD.subject_id = l.id\n" +
-           "where ew.EducationYear_id=?1 and LDg.groups_id=?2 and c.day=?3 and w.sortNumber=?4 and w.year=?5 group by c.period, c.betweenDuringDate, c.classroom, c.day, ?6, l.name, w.weekNumber, w.sortNumber, w.year",nativeQuery = true)
+           "where ew.EducationYear_id=?1 and LDg.groups_id=?2 and c.day=?3 and w.sortNumber=?4 and w.year=?5 group by c.period, c.betweenDuringDate, c.classroom, c.day, l.name, w.weekNumber, w.sortNumber, w.year",nativeQuery = true)
    Set<GetStudentStatisticsForDeanOneWeekSection> getStudentStatisticsForDeanOneWeekSection(String educationYearId,String groupId,Integer weekday,Integer week,Integer year,String studentId);
 
 
