@@ -21,7 +21,10 @@ public class RoomController {
     public final RoomService roomService;
 
 
-
+    @PostMapping("/sendMultipartDataOtherServer")
+    public HttpEntity<?> sendMultipartDataOtherServer(MultipartHttpServletRequest request) throws IOException {
+        return ResponseEntity.ok(roomService.sendMultipartDataOtherServer(request));
+    }
 
     @PostMapping("/createEmployee")
     public HttpEntity<?> createEmployee(@RequestBody RoleWebClient newClient){
