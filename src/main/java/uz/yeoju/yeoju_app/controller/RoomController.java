@@ -4,11 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import uz.yeoju.yeoju_app.entity.RoleWebClient;
 import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.payload.EducationLanguageDto;
 import uz.yeoju.yeoju_app.payload.admin.RoomDto;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.RoomService;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/room")
@@ -16,6 +19,13 @@ import uz.yeoju.yeoju_app.service.useServices.RoomService;
 public class RoomController {
 
     public final RoomService roomService;
+
+
+
+    @GetMapping("/getDataFromOther")
+    public HttpEntity<?> getDataFromOther(@RequestParam("page") Integer page,@RequestParam("size") Integer size){
+        return ResponseEntity.ok(roomService.getDataFromOther(page,size));
+    }
 
     @GetMapping("/getRoomsForSelect")
     public HttpEntity<?> getRoomsForSelect(@CurrentUser User user){
