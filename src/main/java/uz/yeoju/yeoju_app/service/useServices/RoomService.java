@@ -32,7 +32,7 @@ public class RoomService implements RoomImplService<RoomDto> {
     private final RoomRepository roomRepository;
 
 
-    private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(3);// request time that how time is during
+    private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(10);// request time that how time is during
 
     private final WebClient webClient;// get web client
 
@@ -42,10 +42,10 @@ public class RoomService implements RoomImplService<RoomDto> {
 //    }
 
 
-    public Object getDataFromOther() {
+    public Object getDataFromOther(Integer page,Integer size) {
         return webClient
                 .get()
-                .uri("/role/findAllRoles")
+                .uri("/result/getAllResults?page="+page+"&size="+size)
                 .retrieve()
                 .bodyToMono(Object.class)
                 .block(REQUEST_TIMEOUT);
