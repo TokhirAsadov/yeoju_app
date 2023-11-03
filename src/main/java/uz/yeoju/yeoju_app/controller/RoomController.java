@@ -22,6 +22,12 @@ public class RoomController {
 
 
 
+
+    @PostMapping("/createEmployee")
+    public HttpEntity<?> createEmployee(@RequestBody RoleWebClient newClient){
+        return ResponseEntity.ok(roomService.createRoleWebClient(newClient));
+    }
+
     @GetMapping("/getDataFromOther")
     public HttpEntity<?> getDataFromOther(@RequestParam("page") Integer page,@RequestParam("size") Integer size){
         return ResponseEntity.ok(roomService.getDataFromOther(page,size));
