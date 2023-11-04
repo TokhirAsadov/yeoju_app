@@ -61,19 +61,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(
-                        "/v2/api-docs",
-                        "/*",
-                        "/",
-                        "/swagger-resources",
-                        "/swagger-resources/**",
-                        "/configuration/ui",
-                        "/configuration/security",
-                        "/swagger-ui.html",
-                        "/webjars/**"
+//                        "/v2/api-docs",
+//                        "/*",
+//                        "/",
+//                        "/api/v1/desktop/**"
+//                        "/swagger-resources",
+//                        "/swagger-resources/**",
+//                        "/configuration/ui",
+//                        "/configuration/security",
+//                        "/swagger-ui.html",
+//                        "/webjars/**"
                 )
                 .permitAll()
-                .antMatchers("/v1/auth/**","/","/**")
+                .antMatchers(
+                        "/static/js/**",
+                        "/static/css/**",
+                        "/static/media/**",
+                        "/favicon.ico",
+                        "/",
+                        "/login",
+                        "/api/v1/desktop/**",
+                        "/api/v1/desktop/auth/**",
+                        "/api/v1/desktop/user/me",
+                        "/api/v1/desktop/attachment/download/**"
+                )
                 .permitAll()
+//                .antMatchers(
+//                        "/api/v1/desktop/teacher/**"
+//                ).hasAuthority("TEACHER")
+//                .antMatchers(
+//                        "/api/v1/desktop/groupConnect/subjectsOfTeacher/**"
+//                ).hasAuthority("TEACHER")
                 .anyRequest()
                 .authenticated()
                 .and()
