@@ -811,6 +811,18 @@ public class TimeTableDBImplService implements TimeTableDBService {
                 )
         );
     }
+
+    public static void readClassroomMed(Element employeeNode)
+    {
+        classRoomsMed.add(
+                new ClassRoom(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
     //====================================  Grade  ==========================================================
     public static void readGrade(Element employeeNode)
     {
