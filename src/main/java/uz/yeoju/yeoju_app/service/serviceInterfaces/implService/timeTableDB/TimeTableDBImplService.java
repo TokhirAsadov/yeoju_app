@@ -93,6 +93,20 @@ public class TimeTableDBImplService implements TimeTableDBService {
 
 
 
+    //for medical
+    public static final List<Period> periodsMed = new ArrayList<>();
+    public static final List<DaysDef> daysDefsMed = new ArrayList<>();
+    public static final List<WeeksDef> weeksDefsMed = new ArrayList<>();
+    public static final List<TermsDef> termsDefsMed = new ArrayList<>();
+    public static final List<Subject> subjectsMed = new ArrayList<>();
+    public static final List<Teacher> teachersMed = new ArrayList<>();
+    public static final List<ClassRoom> classRoomsMed = new ArrayList<>();
+    public static final List<Grade> gradesMed = new ArrayList<>();
+    public static final List<uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class> classesMed = new ArrayList<>();
+    public static final List<GroupXml> groupsMed = new ArrayList<>();
+    public static final List<LessonXml> lessonsMed = new ArrayList<>();
+    public static final List<Card> cardsMed = new ArrayList<>();
+
     @Override
     public void getTimeTableByWeek(Integer year, Integer week) {
         clearTimeTable();
@@ -625,6 +639,8 @@ public class TimeTableDBImplService implements TimeTableDBService {
 //        /**Read Department Content*/
 //        employeeNode.getChildren("department").forEach( HowToGetItemFromXmlApplication::readDepartmentNode );
     }
+
+
     //====================================  DaysDef  ==========================================================
     public static void readDaysDef(Element employeeNode)
     {
