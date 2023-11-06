@@ -93,29 +93,6 @@ public class TimeTableDBImplService implements TimeTableDBService {
 
 
 
-
-    @Override
-    public void getTimeTableByWeek(Integer week) {
-
-        clearTimeTable();
-
-        String xmlFile = week+".xml";
-        Document document = getSAXParsedDocument(xmlFile);
-        Element rootNode = document.getRootElement();
-        rootNode.getChild("periods").getChildren("period").forEach(TimeTableDBImplService::readPeriod);
-        rootNode.getChild("daysdefs").getChildren("daysdef").forEach(TimeTableDBImplService::readDaysDef);
-        rootNode.getChild("weeksdefs").getChildren("weeksdef").forEach(TimeTableDBImplService::readWeeksDef);
-        rootNode.getChild("termsdefs").getChildren("termsdef").forEach(TimeTableDBImplService::readTermsDefs);
-        rootNode.getChild("subjects").getChildren("subject").forEach(TimeTableDBImplService::readSubject);
-        rootNode.getChild("teachers").getChildren("teacher").forEach(TimeTableDBImplService::readTeacher);
-        rootNode.getChild("classrooms").getChildren("classroom").forEach(TimeTableDBImplService::readClassroom);
-        rootNode.getChild("grades").getChildren("grade").forEach(TimeTableDBImplService::readGrade);
-        rootNode.getChild("classes").getChildren("class").forEach(TimeTableDBImplService::readClass);
-        rootNode.getChild("groups").getChildren("group").forEach(TimeTableDBImplService::readGroup);
-        rootNode.getChild("lessons").getChildren("lesson").forEach(TimeTableDBImplService::readLesson);
-        rootNode.getChild("cards").getChildren("card").forEach(TimeTableDBImplService::readCard);
-    }
-
     @Override
     public void getTimeTableByWeek(Integer year, Integer week) {
         clearTimeTable();
@@ -183,8 +160,12 @@ public class TimeTableDBImplService implements TimeTableDBService {
                 }
                 else {
                     Optional<User> optionalUser = userRepository.findUserByLogin(t.getShortName());
-                    if (optionalUser.isPresent()) {
-                        User user = optionalUser.get();
+
+//                    if (optionalUser.isPresent()) {
+                    try {
+                        User user = optionalUser.orElseThrow(()-> new Exception(t.getShortName()+" not found teacher by id: "+t.getShortName()+"."));
+
+//                    User user = optionalUser.get();
                         teacherConnectSubject.setUser(user);
                         Subject subject = subjects.stream().filter(s -> s.getId().equals(l.getSubjectId())).findFirst().get();
                         Lesson lessonByName = lessonRepository.getLessonByName(subject.getName());
@@ -203,10 +184,15 @@ public class TimeTableDBImplService implements TimeTableDBService {
                         optionalWeekOfEducationYear.ifPresent(teacherConnectSubject::setWeeks);
 
                         teacherConnectSubjectRepository.save(teacherConnectSubject);
+
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
                     }
-                    else {
-                        System.out.println(t.getShortName());
-                    }
+//                    }
+//                    else {
+//                        System.out.println(t.getShortName());
+//                        throw new Exception(t.getShortName()+" not found teacher by id: "+t.getShortName());
+//                    }
                 }
             });
         });
@@ -308,11 +294,8 @@ public class TimeTableDBImplService implements TimeTableDBService {
             }
             lessonDB.setTeachers(users);
             Set<Group> groupSet = new HashSet<>();
-            System.out.println(lesson+"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            System.out.println(lesson.getClassIds().isEmpty()+"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             if (lesson.getClassIds().get(0).length()!=0) {
                 lesson.getClassIds().forEach(classId -> {
-                    System.out.println(classes.stream().filter(c -> c.getId().equals(classId)).findFirst()+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                     Class aClass = classes.stream().filter(c -> c.getId().equals(classId)).findFirst().get();
 //                    boolean existsGroupByName = groupRepository.existsGroupByName(aClass.getName());
                     Group groupByName = groupRepository.findGroupByName(aClass.getName());
