@@ -396,7 +396,245 @@ public class TimeTableDBImplService implements TimeTableDBService {
 
     @Override
     public ApiResponseTwoObj generateNewTimeTableToDBMed(String educationYearId, Integer year, Integer week) {
-        return null;
+
+        getTimeTableByWeekMed(year, week);
+
+        // create subjects from .xml to database
+        subjectsMed.forEach(s -> {
+            boolean existsLessonByName = lessonRepository.existsLessonByName(s.getName());
+            if (!existsLessonByName) {
+                Lesson lesson = new Lesson(s.getName());
+                lessonRepository.save(lesson);
+            }
+        });
+
+        teachersMed.forEach(t -> {
+            lessonsMed.stream().filter(l->l.getTeacherIds().contains(t.getId())).collect(Collectors.toSet()).forEach(l-> {
+                TeacherConnectSubject teacherConnectSubject = new TeacherConnectSubject();
+                if(year ==2023 && week<44){
+                    Optional<User> optionalUser = userRepository.findUserByPassportNum(t.getEmail());
+                    if (optionalUser.isPresent()) {
+                        User user = optionalUser.get();
+                        teacherConnectSubject.setUser(user);
+                        Subject subject = subjectsMed.stream().filter(s -> s.getId().equals(l.getSubjectId())).findFirst().get();
+                        Lesson lessonByName = lessonRepository.getLessonByName(subject.getName());
+                        teacherConnectSubject.setLesson(lessonByName);
+
+                        Set<Group> groupSet = new HashSet<>();
+                        l.getClassIds().forEach(i -> {
+                            Class aClass = classesMed.stream().filter(c -> c.getId().equals(i)).findFirst().get();
+                            Group groupByName = groupRepository.findGroupByName(aClass.getName());
+                            if (groupByName != null) {
+                                groupSet.add(groupByName);
+                            }
+                        });
+                        teacherConnectSubject.setGroups(groupSet);
+                        Optional<WeekOfEducationYear> optionalWeekOfEducationYear = weekOfEducationYearRepository.findWeekOfEducationBySortNumberAndYear(week, year);
+                        optionalWeekOfEducationYear.ifPresent(teacherConnectSubject::setWeeks);
+
+                        teacherConnectSubjectRepository.save(teacherConnectSubject);
+                    }
+                    else {
+                        System.out.println(t.getEmail());
+                    }
+                }
+                else {
+                    Optional<User> optionalUser = userRepository.findUserByLogin(t.getShortName());
+
+//                    if (optionalUser.isPresent()) {
+                    try {
+                        User user = optionalUser.orElseThrow(()-> new Exception(t.getShortName()+" not found teacher by id: "+t.getShortName()+"."));
+
+//                    User user = optionalUser.get();
+                        teacherConnectSubject.setUser(user);
+                        Subject subject = subjectsMed.stream().filter(s -> s.getId().equals(l.getSubjectId())).findFirst().get();
+                        Lesson lessonByName = lessonRepository.getLessonByName(subject.getName());
+                        teacherConnectSubject.setLesson(lessonByName);
+
+                        Set<Group> groupSet = new HashSet<>();
+                        l.getClassIds().forEach(i -> {
+                            Class aClass = classesMed.stream().filter(c -> c.getId().equals(i)).findFirst().get();
+                            Group groupByName = groupRepository.findGroupByName(aClass.getName());
+                            if (groupByName != null) {
+                                groupSet.add(groupByName);
+                            }
+                        });
+                        teacherConnectSubject.setGroups(groupSet);
+                        Optional<WeekOfEducationYear> optionalWeekOfEducationYear = weekOfEducationYearRepository.findWeekOfEducationBySortNumberAndYear(week, year);
+                        optionalWeekOfEducationYear.ifPresent(teacherConnectSubject::setWeeks);
+
+                        teacherConnectSubjectRepository.save(teacherConnectSubject);
+
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+//                    }
+//                    else {
+//                        System.out.println(t.getShortName());
+//                        throw new Exception(t.getShortName()+" not found teacher by id: "+t.getShortName());
+//                    }
+                }
+            });
+        });
+
+
+        classesMed.forEach(group ->{
+            Group groupByName = groupRepository.findGroupByName(group.getName());
+            if (groupByName != null){
+                Boolean existsGroupConnectSubjectByGroupIdAndEducationYearId = groupConnectSubjectRepository.existsGroupConnectSubjectByGroupIdAndEducationYearId(groupByName.getId(), educationYearId);
+                if (existsGroupConnectSubjectByGroupIdAndEducationYearId){
+                    Optional<GroupConnectSubject> optional = groupConnectSubjectRepository.findGroupConnectSubjectByGroupIdAndEducationYearId(groupByName.getId(), educationYearId);
+                    if (optional.isPresent()) {
+                        GroupConnectSubject groupConnectSubject = optional.get();
+                        Set<String> ids = new HashSet<String>();
+                        lessonsMed.stream().filter(l -> l.getClassIds().contains(group.getId())).collect(Collectors.toSet()).forEach(l->ids.add(l.getSubjectId()));
+                        Set<Lesson> lessonSet = new HashSet<Lesson>(groupConnectSubject.getLessons());
+                        ids.forEach(i -> {
+                            Subject ss = subjectsMed.stream().filter(s -> s.getId().equals(i)).findFirst().get();
+                            Lesson lessonByName = lessonRepository.getLessonByName(ss.getName());
+                            lessonSet.add(lessonByName);
+                        });
+                        groupConnectSubject.setLessons(lessonSet);
+                        groupConnectSubjectRepository.save(groupConnectSubject);
+                    }
+                    else {
+                        Optional<EducationYear> yearOptional = educationYearRepository.findById(educationYearId);
+                        if (yearOptional.isPresent()) {
+                            EducationYear educationYear = yearOptional.get();
+                            GroupConnectSubject groupConnectSubject = new GroupConnectSubject();
+                            groupConnectSubject.setEducationYear(educationYear);
+                            groupConnectSubject.setGroup(groupByName);
+                            Set<String> ids = new HashSet<String>();
+                            lessonsMed.stream().filter(l -> l.getClassIds().contains(group.getId())).collect(Collectors.toSet()).forEach(l->ids.add(l.getSubjectId()));
+                            Set<Lesson> lessonSet = new HashSet<Lesson>();
+                            ids.forEach(i -> {
+                                Subject ss = subjectsMed.stream().filter(s -> s.getId().equals(i)).findFirst().get();
+                                Lesson lessonByName = lessonRepository.getLessonByName(ss.getName());
+                                lessonSet.add(lessonByName);
+                            });
+                            groupConnectSubject.setLessons(lessonSet);
+                            groupConnectSubjectRepository.save(groupConnectSubject);
+                        }
+                    }
+                }
+                else {
+                    Optional<EducationYear> yearOptional = educationYearRepository.findById(educationYearId);
+                    if (yearOptional.isPresent()) {
+                        EducationYear educationYear = yearOptional.get();
+                        GroupConnectSubject groupConnectSubject = new GroupConnectSubject();
+                        groupConnectSubject.setEducationYear(educationYear);
+                        groupConnectSubject.setGroup(groupByName);
+                        Set<String> ids = new HashSet<String>();
+                        lessonsMed.stream().filter(l -> l.getClassIds().contains(group.getId())).collect(Collectors.toSet()).forEach(l->ids.add(l.getSubjectId()));
+                        Set<Lesson> lessonSet = new HashSet<Lesson>();
+                        ids.forEach(i -> {
+                            Subject ss = subjectsMed.stream().filter(s -> s.getId().equals(i)).findFirst().get();
+                            Lesson lessonByName = lessonRepository.getLessonByName(ss.getName());
+                            lessonSet.add(lessonByName);
+                        });
+                        groupConnectSubject.setLessons(lessonSet);
+                        groupConnectSubjectRepository.save(groupConnectSubject);
+                    }
+                }
+            }
+        });
+
+        // create LessonDB from .xml to database
+        lessonsMed.forEach(lesson -> {
+
+            LessonDB lessonDB = new LessonDB();
+
+            Subject subject = subjectsMed.stream().filter(s -> s.getId().equals(lesson.getSubjectId())).findFirst().get();
+            Lesson lessonByName = lessonRepository.getLessonByName(subject.getName());
+            lessonDB.setSubject(lessonByName);
+            Set<User> users = new HashSet<>();
+            for (String teacherId : lesson.getTeacherIds()) {
+                for (Teacher teacher : teachersMed) {
+                    if (teacher.getId().equals(teacherId)){
+
+                        if(year ==2023 && week<44){
+                            Optional<User> optionalUser = userRepository.findUserByPassportNum(teacher.getEmail());
+                            if (optionalUser.isPresent()) {
+                                User user = optionalUser.get();
+                                users.add(user);
+                            }
+                            break;
+                        }
+                        else {
+                            Optional<User> optionalUser = userRepository.findUserByLogin(teacher.getShortName());
+                            if (optionalUser.isPresent()) {
+                                User user = optionalUser.get();
+                                users.add(user);
+                            }
+                            break;
+                        }
+
+                    }
+                }
+            }
+            lessonDB.setTeachers(users);
+            Set<Group> groupSet = new HashSet<>();
+            if (lesson.getClassIds().get(0).length()!=0) {
+                lesson.getClassIds().forEach(classId -> {
+                    Class aClass = classesMed.stream().filter(c -> c.getId().equals(classId)).findFirst().get();
+//                    boolean existsGroupByName = groupRepository.existsGroupByName(aClass.getName());
+                    Group groupByName = groupRepository.findGroupByName(aClass.getName());
+                    if(groupByName != null) {
+                        groupSet.add(groupByName);
+                    }
+                });
+            }
+
+
+
+            lessonDB.setGroups(groupSet);
+            Optional<WeekOfEducationYear> optionalWeekOfEducationYear = weekOfEducationYearRepository.findWeekOfEducationBySortNumberAndYear(week, year);
+            optionalWeekOfEducationYear.ifPresent(lessonDB::setWeekOfEducationYear);
+            lessonDBRepository.saveAndFlush(lessonDB);
+            WeekOfEducationYear weekOfEducationYear = optionalWeekOfEducationYear.get();
+
+            Set<Card> cardSet = cardsMed.stream().filter(card -> card.getLessonId().equals(lesson.getId())).collect(Collectors.toSet());
+            cardSet.forEach(card -> {
+
+                CardDB cardDB = new CardDB();
+                cardDB.setLesson(lessonDB);
+                cardDB.setWeekOfEducationYear(weekOfEducationYear);
+                Period period = periodsMed.stream().filter(p-> p.getName().equals(card.getPeriod())).findFirst().get();
+                cardDB.setBetweenDuringDate(period.getStartTime()+" - "+period.getEndTime());
+                cardDB.setPeriod(period.getPeriod());
+                System.out.println(card+"-----------------------------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.println(card.getClassroomIds().get(0).length()+"-----------------------------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.println(card.getClassroomIds().size()+"-----------------------------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.println(card.getClassroomIds().isEmpty()+"-----------------------------------------------------------------------------------------------------------------------------------------------------------");
+                if(card.getClassroomIds().get(0).length()!=0){
+                    ClassRoom room = classRoomsMed.stream().filter(classRoom -> classRoom.getId().equals(card.getClassroomIds().get(0))).findFirst().get();
+                    cardDB.setClassroom(room.getName());
+                }
+                for (DaysDef daysDef : daysDefsMed) {
+                    if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
+                        if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                            cardDB.setDay(1);
+                        if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                            cardDB.setDay(2);
+                        if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                            cardDB.setDay(3);
+                        if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                            cardDB.setDay(4);
+                        if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                            cardDB.setDay(5);
+                        if (daysDef.getDays().get(0).equals("000001"))
+                            cardDB.setDay(6);
+                        cardDB.setDayName(daysDef.getName()+"-"+daysDef.getShortName());
+                        break;
+                    }
+                }
+                cardDBRepository.save(cardDB);
+
+            });
+
+        });
+
+        return new ApiResponseTwoObj(true,"success message");
     }
 
 
