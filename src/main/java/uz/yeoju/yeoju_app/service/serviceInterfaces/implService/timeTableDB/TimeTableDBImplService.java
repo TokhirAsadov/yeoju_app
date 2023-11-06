@@ -890,7 +890,19 @@ public class TimeTableDBImplService implements TimeTableDBService {
         );
     }
 
-    
+    public static void readGroupMed(Element employeeNode)
+    {
+        groupsMed.add(
+                new GroupXml(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("classid"),
+                        array(employeeNode.getAttributeValue("studentids")),
+                        employeeNode.getAttributeValue("entireclass"),
+                        employeeNode.getAttributeValue("divisiontag")
+                )
+        );
+    }
     //====================================  Lesson  ==========================================================
     public static void readLesson(Element employeeNode)
     {
