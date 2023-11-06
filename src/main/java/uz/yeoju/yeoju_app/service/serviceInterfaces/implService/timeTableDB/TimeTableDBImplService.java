@@ -834,6 +834,17 @@ public class TimeTableDBImplService implements TimeTableDBService {
                 )
         );
     }
+
+    public static void readGradeMed(Element employeeNode)
+    {
+        gradesMed.add(
+                new Grade(
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        Integer.valueOf(employeeNode.getAttributeValue("grade"))
+                )
+        );
+    }
     //====================================  Class  ==========================================================
     public static void readClass(Element employeeNode)
     {
