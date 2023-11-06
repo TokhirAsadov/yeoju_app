@@ -34,6 +34,7 @@ import uz.yeoju.yeoju_app.repository.timetableDB.CardDBRepository;
 import uz.yeoju.yeoju_app.repository.timetableDB.GroupConnectSubjectRepository;
 import uz.yeoju.yeoju_app.repository.timetableDB.LessonDBRepository;
 import uz.yeoju.yeoju_app.repository.timetableDB.TeacherConnectSubjectRepository;
+import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable.TimeTableByWeekOfYearImplService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -130,7 +131,23 @@ public class TimeTableDBImplService implements TimeTableDBService {
 
     @Override
     public void getTimeTableByWeekMed(Integer year, Integer week) {
+        clearTimeTableMed();
 
+        String xmlFile = year+"/"+week+"med.xml";
+        Document document = getSAXParsedDocument(xmlFile);
+        Element rootNode = document.getRootElement();
+        rootNode.getChild("periods").getChildren("period").forEach(TimeTableByWeekOfYearImplService::readPeriodMed);
+        rootNode.getChild("daysdefs").getChildren("daysdef").forEach(TimeTableByWeekOfYearImplService::readDaysDefMed);
+        rootNode.getChild("weeksdefs").getChildren("weeksdef").forEach(TimeTableByWeekOfYearImplService::readWeeksDefMed);
+        rootNode.getChild("termsdefs").getChildren("termsdef").forEach(TimeTableByWeekOfYearImplService::readTermsDefsMed);
+        rootNode.getChild("subjects").getChildren("subject").forEach(TimeTableByWeekOfYearImplService::readSubjectMed);
+        rootNode.getChild("teachers").getChildren("teacher").forEach(TimeTableByWeekOfYearImplService::readTeacherMed);
+        rootNode.getChild("classrooms").getChildren("classroom").forEach(TimeTableByWeekOfYearImplService::readClassroomMed);
+        rootNode.getChild("grades").getChildren("grade").forEach(TimeTableByWeekOfYearImplService::readGradeMed);
+        rootNode.getChild("classes").getChildren("class").forEach(TimeTableByWeekOfYearImplService::readClassMed);
+        rootNode.getChild("groups").getChildren("group").forEach(TimeTableByWeekOfYearImplService::readGroupMed);
+        rootNode.getChild("lessons").getChildren("lesson").forEach(TimeTableByWeekOfYearImplService::readLessonMed);
+        rootNode.getChild("cards").getChildren("card").forEach(TimeTableByWeekOfYearImplService::readCardMed);
     }
 
     @Override
