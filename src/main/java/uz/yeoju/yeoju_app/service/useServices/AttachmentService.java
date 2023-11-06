@@ -169,7 +169,7 @@ public class AttachmentService {
 
 
 
-    public ApiResponse saveToFileSystem(MultipartHttpServletRequest request, String educationYearId, String filename, String year,Integer weekNumber, WeekEduType eduType, WeekType weekType, Date startWeek, Date endWeek) throws IOException {
+    public ApiResponse saveToFileSystem(MultipartHttpServletRequest request, String educationYearId, String filename, String year,Integer weekNumber, WeekEduType eduType, WeekType weekType,WeekType defaultOrMed, Date startWeek, Date endWeek) throws IOException {
 
 
         boolean existEducationYear = educationYearRepository.existsById(educationYearId);
@@ -190,11 +190,10 @@ public class AttachmentService {
                 f.mkdir();
             }
 
-
-            Path path = Paths.get(year + "\\" + filename + ".xml");
+            Path path = defaultOrMed.equals(WeekType.DEFAULT) ? Paths.get(year + "\\" + filename + ".xml"): Paths.get(year + "\\" + filename + "med.xml");
             if (Files.exists(path)) {
-                System.out.println(filename + " already exists");
-                return new ApiResponse(false, filename + " already exists");
+                System.out.println(defaultOrMed.equals(WeekType.DEFAULT) ? filename + " already exists":filename + "med already exists");
+                return defaultOrMed.equals(WeekType.DEFAULT) ? new ApiResponse(false, filename + " already exists"):new ApiResponse(false, filename + "med already exists");
             } else {
                 Iterator<String> fileNames = request.getFileNames();
                 List<String> fileIds = new ArrayList<>();
@@ -202,55 +201,50 @@ public class AttachmentService {
                     MultipartFile file = request.getFile(fileNames.next());
                     if (file != null) {
 
-//                        EducationYear educationYear = educationYearRepository.getById(educationYearId);
-//                        Boolean existsSort = weekOfEducationYearRepository.existsBySortNumberAndYear(Integer.valueOf(filename), Integer.valueOf(year));
-//                        Boolean existsWeek = weekOfEducationYearRepository.existsByWeekNumberAndYear(weekNumber, Integer.valueOf(year));
-//                        if (existsSort){
-//                            return new ApiResponse(false, "Already exists week of year number : "+Integer.valueOf(filename) +" at "+year);
-//                        }
-//                        if (existsWeek){
-//                            return new ApiResponse(false, "Already exists week of education year : "+weekNumber +" at "+year);
-//                        }
-//
-//                        WeekOfEducationYear weekOfEducationYear = new WeekOfEducationYear();
-//                        weekOfEducationYear.setYear(Integer.valueOf(year));
-//                        weekOfEducationYear.setWeekNumber(weekNumber);
-//                        weekOfEducationYear.setSortNumber(Integer.valueOf(filename));
-//                        weekOfEducationYear.setStart(startWeek);
-//                        weekOfEducationYear.setEnd(endWeek);
-//                        weekOfEducationYear.setType(weekType);
-//                        weekOfEducationYear.setEduType(eduType);
-//                        weekOfEducationYearRepository.saveAndFlush(weekOfEducationYear);
-//
-//                        educationYear.getWeeks().add(weekOfEducationYear);
-//                        educationYear.setWeeks(educationYear.getWeeks());
-//                        educationYearRepository.save(educationYear);
-//
-//                        //todo----------------------------------------------------- Inshaalla, I would done tomorrow ------------------------------------------------
-//
-//                        Attachment attechment = new Attachment();
-//                        attechment.setOriginalName(file.getOriginalFilename());
-//                        attechment.setContentType(file.getContentType());
-//                        attechment.setSize(file.getSize());
-////                attechment = attachmentRepo.save(attechment);
-//                        String[] split = file.getOriginalFilename().split("\\.");
-//                        String name = UUID.randomUUID() + "." + split[split.length - 1];
-//                        attechment.setFileName(filename+"-week "+name);
-//
-//                        System.out.println("Congratulation, " + filename + " - time table of week saved successfully");
+                        if (defaultOrMed.equals(WeekType.DEFAULT)){
+                            EducationYear educationYear = educationYearRepository.getById(educationYearId);
+                            Boolean existsSort = weekOfEducationYearRepository.existsBySortNumberAndYear(Integer.valueOf(filename), Integer.valueOf(year));
+                            Boolean existsWeek = weekOfEducationYearRepository.existsByWeekNumberAndYear(weekNumber, Integer.valueOf(year));
+                            if (existsSort){
+                                return new ApiResponse(false, "Already exists week of year number : "+Integer.valueOf(filename) +" at "+year);
+                            }
+                            if (existsWeek){
+                                return new ApiResponse(false, "Already exists week of education year : "+weekNumber +" at "+year);
+                            }
+
+                            WeekOfEducationYear weekOfEducationYear = new WeekOfEducationYear();
+                            weekOfEducationYear.setYear(Integer.valueOf(year));
+                            weekOfEducationYear.setWeekNumber(weekNumber);
+                            weekOfEducationYear.setSortNumber(Integer.valueOf(filename));
+                            weekOfEducationYear.setStart(startWeek);
+                            weekOfEducationYear.setEnd(endWeek);
+                            weekOfEducationYear.setType(weekType);
+                            weekOfEducationYear.setEduType(eduType);
+                            weekOfEducationYearRepository.saveAndFlush(weekOfEducationYear);
+
+                            educationYear.getWeeks().add(weekOfEducationYear);
+                            educationYear.setWeeks(educationYear.getWeeks());
+                            educationYearRepository.save(educationYear);
+                        }
+                        else {
+                            EducationYear educationYear = educationYearRepository.getById(educationYearId);
+                            Boolean existsSort = weekOfEducationYearRepository.existsBySortNumberAndYear(Integer.valueOf(filename), Integer.valueOf(year));
+                            Boolean existsWeek = weekOfEducationYearRepository.existsByWeekNumberAndYear(weekNumber, Integer.valueOf(year));
+                            if (!existsSort){
+                                return new ApiResponse(false, "Error.. Default file was not uploaded. Please, Upload DEFAULT file!. with: "+Integer.valueOf(filename) +" at "+year);
+                            }
+                            if (!existsWeek){
+                                return new ApiResponse(false, "Error.. Default file was not uploaded. Please, Upload DEFAULT file!. with: "+weekNumber +" at "+year);
+                            }
+
+
+                        }
+
+
                         Files.copy(file.getInputStream(), path);
-//                        attechment.setUrl(path.toString());
-//                        fileIds.add(attechment.getId());
 
                         ApiResponseTwoObj apiResponseTwoObj = timeTableDBService.generateNewTimeTableToDB(educationYearId,Integer.valueOf(year), Integer.valueOf(filename));
 
-
-//                Path path = Paths.get(year+"\\"+filename+"-"+ name);
-//                Path path = Paths.get("D:\\Teaching\\BootcampGroups\\B5\\FROM_GIT_LAB\\app-online-test\\app-online-test-server\\src\\main\\resources\\files\\" + name);
-//                Files.copy(file.getInputStream(), path);//use
-//                attechment.setUrl(path.toString());// use
-//                attachmentRepo.save(attechment); use
-//                fileIds.add(attechment.getId());// use
                     }
                 }
                 return new ApiResponse(true, "Congratulation, " + filename + " - time table of week saved successfully", fileIds);
