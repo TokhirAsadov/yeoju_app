@@ -10,6 +10,7 @@ public interface TimeTableDBService {
     void getTimeTableByWeekMed(Integer year,Integer week);
 
     ApiResponseTwoObj generateNewTimeTableToDB(String educationYearId,Integer year,Integer week);
+    ApiResponseTwoObj generateNewTimeTableToDBMed(String educationYearId,Integer year,Integer week);
 
 
 
