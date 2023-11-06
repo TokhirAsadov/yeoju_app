@@ -860,6 +860,21 @@ public class TimeTableDBImplService implements TimeTableDBService {
                 )
         );
     }
+
+    public static void readClassMed(Element employeeNode)
+    {
+        classesMed.add(
+                new uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("teacherid"),
+                        array(employeeNode.getAttributeValue("classroomids")),
+                        employeeNode.getAttributeValue("grade"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
     //====================================  Group  ==========================================================
     public static void readGroup(Element employeeNode)
     {
@@ -874,6 +889,8 @@ public class TimeTableDBImplService implements TimeTableDBService {
                 )
         );
     }
+
+    
     //====================================  Lesson  ==========================================================
     public static void readLesson(Element employeeNode)
     {
