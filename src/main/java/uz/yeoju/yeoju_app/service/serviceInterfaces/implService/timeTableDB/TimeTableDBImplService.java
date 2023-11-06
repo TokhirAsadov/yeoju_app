@@ -394,6 +394,10 @@ public class TimeTableDBImplService implements TimeTableDBService {
         return new ApiResponseTwoObj(true,"success message");
     }
 
+    @Override
+    public ApiResponseTwoObj generateNewTimeTableToDBMed(String educationYearId, Integer year, Integer week) {
+        return null;
+    }
 
 
     public List<Show> timeTable(String groupName){
