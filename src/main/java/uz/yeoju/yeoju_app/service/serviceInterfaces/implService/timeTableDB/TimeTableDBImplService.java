@@ -640,7 +640,23 @@ public class TimeTableDBImplService implements TimeTableDBService {
 //        employeeNode.getChildren("department").forEach( HowToGetItemFromXmlApplication::readDepartmentNode );
     }
 
+    public static void readPeriodMed(Element employeeNode)
+    {
+        periodsMed.add(
+                new Period(
+                        Integer.valueOf(employeeNode.getAttributeValue("short")),
+                        Integer.valueOf(employeeNode.getAttributeValue("short")),
+                        Integer.valueOf(employeeNode.getAttributeValue("period")),
+                        employeeNode.getAttributeValue("starttime"),
+                        employeeNode.getAttributeValue("endtime")
+                )
+        );
 
+        //Country
+//        System.out.println("country : " + employeeNode.getChild("country").getText());
+//        /**Read Department Content*/
+//        employeeNode.getChildren("department").forEach( HowToGetItemFromXmlApplication::readDepartmentNode );
+    }
     //====================================  DaysDef  ==========================================================
     public static void readDaysDef(Element employeeNode)
     {
