@@ -699,6 +699,20 @@ public class TimeTableDBImplService implements TimeTableDBService {
                 )
         );
     }
+
+    public static void readWeeksDefMed(Element employeeNode)
+    {
+        String days = employeeNode.getAttributeValue("weeks");
+        List<String> array = array(days);
+        weeksDefsMed.add(
+                new WeeksDef(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        array
+                )
+        );
+    }
     //====================================  TermsDefs  ==========================================================
     public static void readTermsDefs(Element employeeNode)
     {
