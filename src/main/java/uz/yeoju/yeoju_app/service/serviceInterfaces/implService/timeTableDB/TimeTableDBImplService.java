@@ -924,6 +924,27 @@ public class TimeTableDBImplService implements TimeTableDBService {
                 )
         );
     }
+
+    public static void readLessonMed(Element employeeNode)
+    {
+        lessonsMed.add(
+                new LessonXml(
+                        employeeNode.getAttributeValue("id"),
+                        array(employeeNode.getAttributeValue("classids")),
+                        employeeNode.getAttributeValue("subjectid"),
+                        employeeNode.getAttributeValue("periodspercard"),
+                        employeeNode.getAttributeValue("periodsperweek"),
+                        array(employeeNode.getAttributeValue("teacherids")),
+                        array(employeeNode.getAttributeValue("groupids")),
+                        employeeNode.getAttributeValue("seminargroup"),
+                        employeeNode.getAttributeValue("termsdefid"),
+                        employeeNode.getAttributeValue("weeksdefid"),
+                        employeeNode.getAttributeValue("daysdefid"),
+                        employeeNode.getAttributeValue("capacity"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
     //====================================  Cards  ==========================================================
     public static void readCard(Element employeeNode)
     {
@@ -938,6 +959,8 @@ public class TimeTableDBImplService implements TimeTableDBService {
                 )
         );
     }
+
+    
     public static List<String> array(String str){
         boolean has = true;
         List<String> arr = new ArrayList<>();
