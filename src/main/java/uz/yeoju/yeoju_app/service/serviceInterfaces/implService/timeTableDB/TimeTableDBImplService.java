@@ -727,6 +727,19 @@ public class TimeTableDBImplService implements TimeTableDBService {
                 )
         );
     }
+    public static void readTermsDefsMed(Element employeeNode)
+    {
+        String days = employeeNode.getAttributeValue("terms");
+        List<String> array = array(days);
+        termsDefsMed.add(
+                new TermsDef(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        array
+                )
+        );
+    }
     //====================================  Subject  ==========================================================
     public static void readSubject(Element employeeNode)
     {
