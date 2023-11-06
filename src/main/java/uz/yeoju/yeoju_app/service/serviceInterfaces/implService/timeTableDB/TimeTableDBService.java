@@ -6,7 +6,6 @@ import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 
 public interface TimeTableDBService {
 
-    void getTimeTableByWeek(Integer week);
     void getTimeTableByWeek(Integer year,Integer week);
 
     ApiResponseTwoObj generateNewTimeTableToDB(String educationYearId,Integer year,Integer week);
