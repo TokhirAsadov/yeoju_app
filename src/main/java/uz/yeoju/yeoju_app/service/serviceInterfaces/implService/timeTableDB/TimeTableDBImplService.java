@@ -115,6 +115,11 @@ public class TimeTableDBImplService implements TimeTableDBService {
     }
 
     @Override
+    public void getTimeTableByWeekMed(Integer year, Integer week) {
+
+    }
+
+    @Override
     @Transactional
     public ApiResponseTwoObj generateNewTimeTableToDB(String educationYearId,Integer year, Integer week) {
         getTimeTableByWeek(year, week);
