@@ -621,6 +621,20 @@ public class TimeTableDBImplService implements TimeTableDBService {
         cards.clear();
     }
 
+    public void clearTimeTableMed(){
+        periodsMed.clear();
+        daysDefsMed.clear();
+        weeksDefsMed.clear();
+        termsDefsMed.clear();
+        subjectsMed.clear();
+        teachersMed.clear();
+        classRoomsMed.clear();
+        classesMed.clear();
+        groupsMed.clear();
+        lessonsMed.clear();
+        cardsMed.clear();
+    }
+
     //====================================  Period  ==========================================================
     public static void readPeriod(Element employeeNode)
     {
