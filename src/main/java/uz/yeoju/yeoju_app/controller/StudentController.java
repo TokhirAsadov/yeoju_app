@@ -33,6 +33,12 @@ public class StudentController {
 
 
 
+
+    @GetMapping("/getStudentDataForTeachStatus")
+    public HttpEntity<?> getStudentDataForTeachStatus(@RequestParam("teachStatus") String status){
+        return ResponseEntity.ok(studentRepository.getStudentDataForTeachStatus(status));
+    }
+
     @GetMapping("/getStudentDataForTeachStatusAndFacultyId")
     public HttpEntity<?> getStudentDataForTeachStatusAndFacultyId(@RequestParam("teachStatus") String status, @RequestParam("facultyId") String facultyId){
 
