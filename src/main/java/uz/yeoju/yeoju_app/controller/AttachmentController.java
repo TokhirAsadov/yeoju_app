@@ -15,7 +15,6 @@ import uz.yeoju.yeoju_app.service.useServices.AttachmentService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @RestController
@@ -70,6 +69,7 @@ public class AttachmentController {
             @RequestParam("weekNumber") Integer weekNumber,
             @RequestParam("eduType") WeekEduType eduType,
             @RequestParam("weekType") WeekType weekType,
+            @RequestParam("defaultOrMed") WeekType defaultOrMed,
             @RequestParam("startWeek")  @DateTimeFormat(pattern = "dd.MM.yyyy") Date startWeek,
             @RequestParam("endWeek")  @DateTimeFormat(pattern = "dd.MM.yyyy") Date endWeek
             ) throws IOException {
@@ -84,7 +84,7 @@ public class AttachmentController {
         System.out.println(startWeek);
         System.out.println(endWeek);
 
-        ApiResponse apiResponse = attachmentService.saveToFileSystem(request,educationYearId,filename,year,weekNumber,eduType,weekType,startWeek,endWeek);
+        ApiResponse apiResponse = attachmentService.saveToFileSystem(request,educationYearId,filename,year,weekNumber,eduType,weekType,defaultOrMed,startWeek,endWeek);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
