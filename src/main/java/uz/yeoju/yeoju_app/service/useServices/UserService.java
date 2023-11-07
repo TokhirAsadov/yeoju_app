@@ -1149,7 +1149,19 @@ public class UserService implements UserImplService<UserDto> {
                 )
         );
     }
-
+    public static void readCardMed(Element employeeNode)
+    {
+        cardsMed.add(
+                new Card(
+                        employeeNode.getAttributeValue("lessonid"),
+                        array(employeeNode.getAttributeValue("classroomids")),
+                        Integer.valueOf(employeeNode.getAttributeValue("period")),
+                        array(employeeNode.getAttributeValue("weeks")),
+                        array(employeeNode.getAttributeValue("terms")),
+                        array(employeeNode.getAttributeValue("days"))
+                )
+        );
+    }
 
 
     public static List<String> array(String str){
