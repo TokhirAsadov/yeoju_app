@@ -1128,4 +1128,30 @@ public class UserService implements UserImplService<UserDto> {
         ids.forEach(userRepository::deleteById);
         return new ApiResponse(true,"deleted users");
     }
+
+
+
+
+
+
+
+
+    public static List<String> array(String str){
+        boolean has = true;
+        List<String> arr = new ArrayList<>();
+
+        while (has){
+            int index = str.indexOf(',');
+            if (index == -1) {
+                arr.add(str);
+                has = false;
+            }
+            else {
+                arr.add(str.substring(0,index));
+                str = str.substring(index+1);
+            }
+        }
+
+        return arr;
+    }
 }
