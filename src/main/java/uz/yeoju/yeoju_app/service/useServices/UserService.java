@@ -65,6 +65,28 @@ public class UserService implements UserImplService<UserDto> {
 
 
 
+
+    public static final List<Period> periods = new ArrayList<>();
+    public static final List<DaysDef> daysDefs = new ArrayList<>();
+    public static final List<WeeksDef> weeksDefs = new ArrayList<>();
+    public static final List<TermsDef> termsDefs = new ArrayList<>();
+    public static final List<Subject> subjects = new ArrayList<>();
+    public static final List<Teacher> teachers = new ArrayList<>();
+    public static final List<ClassRoom> classRooms = new ArrayList<>();
+    public static final List<Grade> grades = new ArrayList<>();
+    public static final List<Class> classes = new ArrayList<>();
+    public static final List<GroupXml> groups = new ArrayList<>();
+    public static final List<LessonXml> lessons = new ArrayList<>();
+    public static final List<Card> cards = new ArrayList<>();
+
+
+
+
+
+
+
+
+
     public ResToken login(SignInDto signInDto){
         Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(
                 signInDto.getLogin(),
@@ -525,6 +547,7 @@ public class UserService implements UserImplService<UserDto> {
         List<TeacherData> teacherData = new ArrayList<>();
         for (Teacher teacher : teachers) {
             TeacherData teacherData1 = userRepository.getTeachersForRemember(teacher.getEmail(),kafedraId);
+//            TeacherData teacherData1 = userRepository.getTeachersForRememberLogin(teacher.getEmail(),kafedraId);
             if (teacherData1!=null) teacherData.add(teacherData1);
         }
 
@@ -560,6 +583,7 @@ public class UserService implements UserImplService<UserDto> {
         for (Teacher teacher : teachers) {
 //            TeacherData teacherData1 = userRepository.getTeachersForRemember(teacher.getEmail(),kafedraMudiriId);
             TeacherData teacherData1 = userRepository.getTeachersForRememberWithKafedraMudiriId(teacher.getEmail(), kafedraMudiriId);
+//            TeacherData teacherData1 = userRepository.getTeachersForRememberWithKafedraMudiriId(teacher.getEmail(), kafedraMudiriId);
 
 
             if (teacherData1!=null) {
@@ -653,7 +677,7 @@ public class UserService implements UserImplService<UserDto> {
         for (Teacher teacher : teachers) {
 //            TeacherData teacherData1 = userRepository.getTeachersForRemember(teacher.getEmail(),kafedraId);
             TeacherData teacherData1 = userRepository.getTeachersForRememberWithKafedraId(teacher.getEmail(),kafedraId);
-
+//TeacherData teacherData1 = userRepository.getTeachersForRememberWithKafedraIdLogin(teacher.getEmail(),kafedraId);
 
             if (teacherData1!=null) {
                 teacherData.add(teacherData1);
