@@ -30,7 +30,10 @@ public class StudentController {
     public final StudentRepository studentRepository;
 
 
-
+    @GetMapping("/getDataForStudentReference/{referenceId}")
+    public HttpEntity<?> getDataForStudentReference(@CurrentUser User user,@PathVariable("referenceId") String referenceId){
+        return ResponseEntity.ok(studentService.getDataForStudentReference(user,referenceId));
+    }
 
     @GetMapping("/getDataForStudentReference2/{referenceId}")
     public HttpEntity<?> getDataForStudentReference2(@PathVariable("referenceId") String referenceId){
