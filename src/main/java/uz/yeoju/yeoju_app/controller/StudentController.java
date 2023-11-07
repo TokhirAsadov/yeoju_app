@@ -32,6 +32,11 @@ public class StudentController {
 
 
 
+    @GetMapping("/changeActiveOfStudent/{userId}")
+    public HttpEntity<?> changeActiveOfStudent(@CurrentUser User user,@PathVariable("userId") String userId){
+        ApiResponse response = studentService.changeActiveOfStudent(userId);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
+    }
 
 
     @GetMapping("/getStudentDataForTeachStatus")
