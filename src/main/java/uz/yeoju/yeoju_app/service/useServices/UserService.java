@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jdom2.Element;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -1133,6 +1134,21 @@ public class UserService implements UserImplService<UserDto> {
 
 
 
+
+    //====================================  Cards  ==========================================================
+    public static void readCard(Element employeeNode)
+    {
+        cards.add(
+                new Card(
+                        employeeNode.getAttributeValue("lessonid"),
+                        array(employeeNode.getAttributeValue("classroomids")),
+                        Integer.valueOf(employeeNode.getAttributeValue("period")),
+                        array(employeeNode.getAttributeValue("weeks")),
+                        array(employeeNode.getAttributeValue("terms")),
+                        array(employeeNode.getAttributeValue("days"))
+                )
+        );
+    }
 
 
 
