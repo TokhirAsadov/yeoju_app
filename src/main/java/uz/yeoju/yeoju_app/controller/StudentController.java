@@ -32,6 +32,12 @@ public class StudentController {
 
 
 
+    @GetMapping("/getDataForStudentReference2/{referenceId}")
+    public HttpEntity<?> getDataForStudentReference2(@PathVariable("referenceId") String referenceId){
+        return ResponseEntity.ok(studentService.getDataForStudentReference2(referenceId));
+    }
+
+
     @GetMapping("/changeActiveOfStudent/{userId}")
     public HttpEntity<?> changeActiveOfStudent(@CurrentUser User user,@PathVariable("userId") String userId){
         ApiResponse response = studentService.changeActiveOfStudent(userId);
