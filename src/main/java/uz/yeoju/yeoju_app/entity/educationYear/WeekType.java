@@ -1,6 +1,8 @@
 package uz.yeoju.yeoju_app.entity.educationYear;
 
-public enum WeekType {
+    public enum WeekType {
+    MED,
+    DEFAULT,
     ORIENTATION_WEEK,
     THEORETICAL_EDUCATION,
     FINAL_EXAMS,
