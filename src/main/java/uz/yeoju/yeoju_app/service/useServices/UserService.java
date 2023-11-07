@@ -80,7 +80,19 @@ public class UserService implements UserImplService<UserDto> {
     public static final List<Card> cards = new ArrayList<>();
 
 
-
+    //for medical
+    public static final List<Period> periodsMed = new ArrayList<>();
+    public static final List<DaysDef> daysDefsMed = new ArrayList<>();
+    public static final List<WeeksDef> weeksDefsMed = new ArrayList<>();
+    public static final List<TermsDef> termsDefsMed = new ArrayList<>();
+    public static final List<Subject> subjectsMed = new ArrayList<>();
+    public static final List<Teacher> teachersMed = new ArrayList<>();
+    public static final List<ClassRoom> classRoomsMed = new ArrayList<>();
+    public static final List<Grade> gradesMed = new ArrayList<>();
+    public static final List<uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class> classesMed = new ArrayList<>();
+    public static final List<GroupXml> groupsMed = new ArrayList<>();
+    public static final List<LessonXml> lessonsMed = new ArrayList<>();
+    public static final List<Card> cardsMed = new ArrayList<>();
 
 
 
