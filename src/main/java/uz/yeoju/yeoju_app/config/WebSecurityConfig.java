@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(
+//                .antMatchers(
 //                        "/v2/api-docs",
 //                        "/*",
 //                        "/",
@@ -71,8 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                        "/configuration/security",
 //                        "/swagger-ui.html",
 //                        "/webjars/**"
-                )
-                .permitAll()
+//                )
+//                .permitAll()
                 .antMatchers(
                         "/static/js/**",
                         "/static/css/**",
@@ -84,12 +84,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/v1/desktop/**",
                         "/api/v1/desktop/auth/**",
                         "/api/v1/desktop/user/me",
-                        "/api/v1/desktop/attachment/download/**"
+                        "/api/v1/desktop/attachment/download/**",
+                        "/admin/**",
+                        "/super/**",
+                        "/rektor/**",
+                        "/dekan/**",
+                        "/boshqarma/**",
+                        "/deputydean/**",
+                        "/student/**",
+                        "/uquv/**",
+                        "/bulim/**",
+                        "/staff/**",
+                        "/teacher/**",
+                        "/file/services/reference/**",
+                        "/kafedra/**"
                 )
                 .permitAll()
 //                .antMatchers(
-//                        "/api/v1/desktop/teacher/**"
+//                        "/teacher/**"
 //                ).hasAuthority("TEACHER")
+//                .antMatchers(
+//                        "/kafedra/**"
+//                ).hasAuthority("KAFEDRA")
 //                .antMatchers(
 //                        "/api/v1/desktop/groupConnect/subjectsOfTeacher/**"
 //                ).hasAuthority("TEACHER")
