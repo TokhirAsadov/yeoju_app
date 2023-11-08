@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.uquvbulim.dataOfLastActiveRepository.DataOfLastActiveService;
 
 @RestController
@@ -17,19 +19,19 @@ public class DataOfLastActiveController {
 
     @PreAuthorize("hasRole('ROLE_DEKAN')")
     @GetMapping("/findAll")
-    public HttpEntity<?> findAll() {
+    public HttpEntity<?> findAll(@CurrentUser User user) {
         return ResponseEntity.ok(service.findAll());
     }
 
     @PreAuthorize("hasRole('ROLE_MONITORING')")
     @GetMapping("/findByCreatorId/{findByCreatorId}")
-    public HttpEntity<?> findByCreatorId(@PathVariable("findByCreatorId") String findByCreatorId) {
+    public HttpEntity<?> findByCreatorId(@CurrentUser User user,@PathVariable("findByCreatorId") String findByCreatorId) {
         return ResponseEntity.ok(service.findByCreatorId(findByCreatorId));
     }
 
     @PreAuthorize("hasRole('ROLE_DEKAN')")
     @PostMapping("/create/{passage}")
-    public HttpEntity<?> create(@PathVariable("passage") String passage) {
+    public HttpEntity<?> create(@CurrentUser User user,@PathVariable("passage") String passage) {
         ApiResponse response = service.create(passage);
         return ResponseEntity.status(response.isSuccess() ? 201 : 401).body(response);
     }
