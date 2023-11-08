@@ -23,5 +23,9 @@ public class DataOfLastActiveController {
         return ResponseEntity.ok(service.findAll());
     }
 
-
+    @PreAuthorize("hasRole('ROLE_MONITORING')")
+    @GetMapping("/findByCreatorId/{findByCreatorId}")
+    public HttpEntity<?> findByCreatorId(@PathVariable("findByCreatorId") String findByCreatorId) {
+        return ResponseEntity.ok(service.findByCreatorId(findByCreatorId));
+    }
 }
