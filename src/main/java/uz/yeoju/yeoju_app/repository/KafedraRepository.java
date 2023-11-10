@@ -158,19 +158,19 @@ public interface KafedraRepository extends JpaRepository<Kafedra, String> {
     List<UserForTeacherSaveItem> getKafedraForTeacherSaving();
 
     @Query(value = "select u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,:date as date from Student s\n" +
-            "   join users u on s.user_id = u.id where s.group_id=:id",nativeQuery = true)
+            "   join users u on s.user_id = u.id where s.group_id=:id and s.teachStatus='TEACHING'",nativeQuery = true)
     List<GetTeachersForDekan31> getMonthlyStudentsOfGroupForDean31(@Param("id") String id, @Param("date") Date date);
 
     @Query(value = "select u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,:date as date from Student s\n" +
-            "   join users u on s.user_id = u.id where s.group_id=:id",nativeQuery = true)
+            "   join users u on s.user_id = u.id where s.group_id=:id  and s.teachStatus='TEACHING'",nativeQuery = true)
     List<GetTeachersForDekan30> getMonthlyStudentsOfGroupForDean30(@Param("id") String id, @Param("date") Date date);
 
     @Query(value = "select u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,:date as date from Student s\n" +
-            "   join users u on s.user_id = u.id where s.group_id=:id",nativeQuery = true)
+            "   join users u on s.user_id = u.id where s.group_id=:id and s.teachStatus='TEACHING'",nativeQuery = true)
     List<GetTeachersForDekan29> getMonthlyStudentsOfGroupForDean29(@Param("id") String id, @Param("date") Date date);
 
     @Query(value = "select u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,:date as date from Student s\n" +
-            "   join users u on s.user_id = u.id where s.group_id=:id",nativeQuery = true)
+            "   join users u on s.user_id = u.id where s.group_id=:id and s.teachStatus='TEACHING'",nativeQuery = true)
     List<GetTeachersForDekan28> getMonthlyStudentsOfGroupForDean28(@Param("id") String id, @Param("date") Date date);
 
     //**
@@ -241,13 +241,16 @@ public interface KafedraRepository extends JpaRepository<Kafedra, String> {
             "       + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME)) as date from users where id=:id",nativeQuery = true)
     GetDate31 getDate31(@Param("date") Date date, @Param("id") String id);
 
-    @Query(value = "select id, :date as date from users where id=:id",nativeQuery = true)
+    @Query(value = "select id,  dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "       + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME)) as date from users where id=:id",nativeQuery = true)
     GetDate30 getDate30(@Param("date") Date date, @Param("id") String id);
 
-    @Query(value = "select id, :date as date from users where id=:id",nativeQuery = true)
+    @Query(value = "select id,  dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "       + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME)) as date from users where id=:id",nativeQuery = true)
     GetDate29 getDate29(@Param("date") Date date, @Param("id") String id);
 
-    @Query(value = "select id, :date as date from users where id=:id",nativeQuery = true)
+    @Query(value = "select id,  dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "       + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME)) as date from users where id=:id",nativeQuery = true)
     GetDate28 getDate28(@Param("date") Date date, @Param("id") String id);
 
 
