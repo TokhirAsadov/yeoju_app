@@ -187,17 +187,26 @@ public class ExceptionHelper {
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
-    @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<ApiResult<ErrorData>> handleException(Exception ex) {
-        log.error("EXCEPTION_HELPER:", ex);
-        ex.printStackTrace();
-        return new ResponseEntity<>(
-                ApiResult.error(
-                        MessageService.getMessage("ERROR_IN_SERVER"),
-                        Rest.SERVER_ERROR),
-                HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(value = {UserNotFoundException.class})
+//    public ResponseEntity<ApiResult<ErrorData>> handleException(UserNotFoundException ex) {
+//        log.error("EXCEPTION_HELPER:", ex);
+//        ex.printStackTrace();
+//        return new ResponseEntity<>(
+//                ApiResult.error(ex.getMessage(),401),
+//                HttpStatus.NOT_FOUND);
+//    }
+//
+//
+//    @ExceptionHandler(value = {Exception.class})
+//    public ResponseEntity<ApiResult<ErrorData>> handleException(Exception ex) {
+//        log.error("EXCEPTION_HELPER:", ex);
+//        ex.printStackTrace();
+//        return new ResponseEntity<>(
+//                ApiResult.error(
+//                        MessageService.getMessage("ERROR_IN_SERVER"),
+//                        Rest.SERVER_ERROR),
+//                HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @ExceptionHandler(value = {AsyncRequestTimeoutException.class})
     public ResponseEntity<ApiResult<ErrorData>> handleException(AsyncRequestTimeoutException ex) {
