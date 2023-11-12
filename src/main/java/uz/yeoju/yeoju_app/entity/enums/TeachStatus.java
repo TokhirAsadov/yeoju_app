@@ -4,5 +4,7 @@ public enum TeachStatus {
     TEACHING,
     FINISHED,
     ACADEMIC_VACATION,
+    ACADEMIC_DEBTOR,
+    TRANSFER,
     EXPELLED_FROM_UNIVERSITY
 }
