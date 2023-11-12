@@ -91,6 +91,8 @@ public interface GroupConnectSubjectRepository extends JpaRepository<GroupConnec
             "    where s.group_id=?2",nativeQuery = true)
     Set<StatisticsOfGroupForTeacherForToday> getStatisticsOfGroupForTeacher(String educationId, String groupId, String subjectId, String teacherId, String year, Integer week, Integer day);
 
+
+
     @Query(value = "select\n" +
             "    ?1 as educationId,\n" +
             "    ?2 as groupId,\n" +
@@ -106,6 +108,15 @@ public interface GroupConnectSubjectRepository extends JpaRepository<GroupConnec
             "    join Student s on u.id = s.user_id\n" +
             "    where s.group_id=?2",nativeQuery = true)
     Set<StatisticsOfGroupForTeacher> getStatisticsOfGroupForTeacher(String educationId, String groupId, String subjectId, String teacherId);
+
+    @Query(value = "select\n" +
+            "    ?1 as educationId,\n" +
+            "    ?2 as groupId,\n" +
+            "    ?3 as subjectId,\n" +
+            "    ?4 as teacherId ",nativeQuery = true)
+    Set<StatisticsOfGroupForTeacherForTodayWithMax2> getStatisticsOfGroupForTeacherWithMax(String educationId, String groupId, String subjectId, String teacherId);
+
+
 
     @Query(value = "select\n" +
             "    ?1 as educationId,\n" +
