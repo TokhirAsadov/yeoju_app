@@ -153,7 +153,7 @@ public class PlanOfSubjectImplService implements PlanOfSubjectService{
     }
 
     @Override
-    public ApiResponse getTeacherWIthSubjectForPlan(String id) {
-        return new ApiResponse(true,"teacher with subjects",planRepository.getTeacherWIthSubjectForPlan(id));
+    public ApiResponse getTeacherWIthSubjectForPlan(String id,String educationYearId) {
+        return new ApiResponse(true,"teacher with subjects",planRepository.getTeacherWIthSubjectForPlan(id,educationYearId));
     }
 }
