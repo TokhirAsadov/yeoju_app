@@ -17,9 +17,9 @@ public class PlanOfSubjectController {
     @Autowired
     private  PlanOfSubjectService service;
 
-    @GetMapping("/getTeacherWIthSubjectForPlan")
-    public HttpEntity<?> getTeacherWIthSubjectForPlan(@CurrentUser User user){
-        return ResponseEntity.ok(service.getTeacherWIthSubjectForPlan(user.getId()));
+    @GetMapping("/getTeacherWIthSubjectForPlan/{educationYearId}")
+    public HttpEntity<?> getTeacherWIthSubjectForPlan(@CurrentUser User user,@PathVariable("educationYearId") String educationYearId){
+        return ResponseEntity.ok(service.getTeacherWIthSubjectForPlan(user.getId(),educationYearId));
     }
 
     @GetMapping("/getPlansForTeacherSciences")
