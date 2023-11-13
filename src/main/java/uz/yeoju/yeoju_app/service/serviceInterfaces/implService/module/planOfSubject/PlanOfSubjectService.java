@@ -16,5 +16,5 @@ public interface PlanOfSubjectService {
 
     ApiResponse updatePlan(User user, CreatePlanOfStudent dto);
 
-     ApiResponse getTeacherWIthSubjectForPlan(String id);
+     ApiResponse getTeacherWIthSubjectForPlan(String id,String educationYearId);
 }
