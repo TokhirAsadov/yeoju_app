@@ -15,11 +15,11 @@ public interface PlanOfSubjectRepository extends JpaRepository<PlanOfSubject,Str
     Set<PlanOfSubject> getPlanOfSubjectsByUserIdAndEducationYearIdAndSubjectIdAndLevel(String user_id, String educationYear_id, String subject_id, Integer level);
 
 
-    @Query(value = "select u.id,u.fullName,u.firstName,u.lastName,u.middleName from users u\n" +
+    @Query(value = "select ?2 as educationYearId, u.id,u.fullName,u.firstName,u.lastName,u.middleName from users u\n" +
             "    join Teacher T on u.id = T.user_id\n" +
             "    join Kafedra K on T.kafedra_id = K.id\n" +
             "    where K.owner_id=?1",nativeQuery = true)
-    Set<GetTeacherWIthSubjectForPlan> getTeacherWIthSubjectForPlan(String id);
+    Set<GetTeacherWIthSubjectForPlan> getTeacherWIthSubjectForPlan(String id,String educationYearId);
 
     @Query(value = "select L.id,L.name from PlanOfSubject p join Lesson L on p.subject_id = L.id where p.user_id=?1 group by L.id, L.name",nativeQuery = true)
     Set<GetSubjectsForTeacherWithSubjectForPlan> getSubjectsForTeacherWithSubjectForPlan(String id);
