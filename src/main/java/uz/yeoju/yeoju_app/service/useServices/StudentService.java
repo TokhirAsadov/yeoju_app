@@ -31,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.io.FilenameUtils;
+import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.uquvbulim.dataOfLastActiveRepository.DataOfLastActiveService;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +52,7 @@ public class StudentService implements StudentImplService<StudentDto> {
     public final EducationLanRepository eduLanRepo;
     public final EducationFormRepository eduFormRepo;
     public final EducationTypeRepository eduTypeRepo;
+    public final DataOfLastActiveService dataOfLastActiveService;
 
 
     @Transactional
@@ -898,7 +900,9 @@ public class StudentService implements StudentImplService<StudentDto> {
             Sheet sheet = workbook.getSheetAt(0);
             Iterator<Row> rows = sheet.iterator();
             rows.next();
+            long step = 1;
             while (rows.hasNext()){
+                step++;
                 Row row = rows.next();
 
                 System.out.println(row.getCell(0).getStringCellValue()+" FIO");
@@ -1039,7 +1043,7 @@ public class StudentService implements StudentImplService<StudentDto> {
 
             }
 
-
+            ApiResponse response = dataOfLastActiveService.create(step + " ta student ma'lumotlari yangilandi.");
             return new ApiResponse(true,"saved students");
         }catch (Exception e){
             return new ApiResponse(false,"error saved students");
