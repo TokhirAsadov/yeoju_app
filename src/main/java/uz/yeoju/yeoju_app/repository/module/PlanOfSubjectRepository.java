@@ -24,6 +24,11 @@ public interface PlanOfSubjectRepository extends JpaRepository<PlanOfSubject,Str
     @Query(value = "select L.id,L.name from PlanOfSubject p join Lesson L on p.subject_id = L.id where p.user_id=?1 group by L.id, L.name",nativeQuery = true)
     Set<GetSubjectsForTeacherWithSubjectForPlan> getSubjectsForTeacherWithSubjectForPlan(String id);
 
+
+    @Query(value = "select L.id,L.name from PlanOfSubject p join Lesson L on p.subject_id = L.id where p.user_id=?1 and p.educationYear_id=?2 group by L.id, L.name",nativeQuery = true)
+    Set<GetSubjectsForTeacherWithSubjectForPlan> getSubjectsForTeacherWithSubjectForPlan(String id,String educationYearId);
+
+
     @Query(value = "select ps.id,L.id as lessonId,L.name as lessonName,ET.name as eduType,EL.name as eduLang,ps.level from PlanOfSubject ps join Lesson L on ps.subject_id = L.id join EducationType ET on ps.educationType_id = ET.id join EducationLanguage EL on ps.educationLanguage_id = EL.id\n" +
             "where ps.user_id=?1 and ps.educationYear_id=?2 and ps.subject_id=?3 and ps.level=?4",nativeQuery = true)
     Set<GetExistsPlans> getExistsPlans(String userId,String educationYearId,String subjectId,Integer level);
