@@ -75,14 +75,14 @@ public class KafedraMudiriController {
     public HttpEntity<?> getStatistics(@CurrentUser User user,@RequestParam("userId") String userId,@RequestParam("date")
     @DateTimeFormat(pattern = "yyyy.MM.dd") Date date)
     {
-        return ResponseEntity.ok(service.getStatistics(user,userId,date));
+        return ResponseEntity.ok(service.getStatistics(user,userId,date)/*new ApiResponse(false,"texnik iwlar olib borilyapdi")*/);
     }
 
     @GetMapping("/getStatisticssForRektor")
     public HttpEntity<?> getStatisticssForRektor(@CurrentUser User user,@RequestParam("kafedraId") String kafedraId,@RequestParam("date")
     @DateTimeFormat(pattern = "yyyy.MM.dd") Date date)
     {
-        return ResponseEntity.ok(service.getStatisticsForRektor(kafedraId,date));
+        return ResponseEntity.ok(service.getStatisticsForRektor(kafedraId,date)/*new ApiResponse(false,"texnik iwlar olib borilyapdi")*/);
     }
 
     @DeleteMapping("/deletedTeacherWithUserId/{id}")
