@@ -53,7 +53,7 @@ public class StaffController {
     {
         if (sectionId!=null) {
             System.out.println(sectionId+" <- 666666");
-            return ResponseEntity.ok(service.getStatisticsForRektor(sectionId, date));
+            return ResponseEntity.ok(service.getStatisticsForRektor(sectionId, date)/*new ApiResponse(false,"texnik iwlar olib borilyapdi")*/);
         }
         else {
 
