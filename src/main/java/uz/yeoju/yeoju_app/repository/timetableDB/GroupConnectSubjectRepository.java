@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import uz.yeoju.yeoju_app.entity.timetableDB.GroupConnectSubject;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetLessonForGroup;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetLinesForStudent;
+import uz.yeoju.yeoju_app.payload.resDto.module.student.GetStudentGradesByLessons;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.*;
 
 import java.util.Optional;
@@ -23,6 +24,11 @@ public interface GroupConnectSubjectRepository extends JpaRepository<GroupConnec
             "        join TeacherConnectSubject_groups TCSg on tcs.id = TCSg.TeacherConnectSubject_id join WeekOfEducationYear WOEY on tcs.weeks_id = WOEY.id join EducationYear_WeekOfEducationYear EYWOEY on WOEY.id = EYWOEY.weeks_id join groups g on TCSg.groups_id = g.id join users u on tcs.user_id = u.id join Lesson l on tcs.lesson_id = l.id\n" +
             "where EYWOEY.EducationYear_id=?1 and g.name=?2 GROUP BY u.id, u.firstName,u.lastName,u.middleName,u.fullName, l.id, l.name",nativeQuery = true)
     Set<GetLessonForGroup> getLessonForGroupByEducationYearIdAndGroupName(String eduYearId,String groupName);
+
+    @Query(value = "select ?1 as educationYearId,g.id as groupId,?3 as studentId,u.id as teacherId,u.firstName,u.lastName,u.middleName, u.fullName,l.id as lessonId, l.name as lessonName from TeacherConnectSubject tcs\n" +
+            "        join TeacherConnectSubject_groups TCSg on tcs.id = TCSg.TeacherConnectSubject_id join WeekOfEducationYear WOEY on tcs.weeks_id = WOEY.id join EducationYear_WeekOfEducationYear EYWOEY on WOEY.id = EYWOEY.weeks_id join groups g on TCSg.groups_id = g.id join users u on tcs.user_id = u.id join Lesson l on tcs.lesson_id = l.id\n" +
+            "where EYWOEY.EducationYear_id=?1 and g.name=?2 GROUP BY u.id, u.firstName,u.lastName,u.middleName,u.fullName, l.id, l.name,g.id ",nativeQuery = true)
+    Set<GetStudentGradesByLessons> getLessonForGroupByEducationYearIdAndGroupNameForGetGrades(String eduYearId, String groupName, String studentId);
 
     @Query(value = "select ?3 as studentId, c.classroom as room,c.day,c.period as section,g.name as groupName ,w.year,w.sortNumber as week,l.name as subject from CardDB c\n" +
             "      join LessonDB ld on c.lesson_id = ld.id join Lesson l on ld.subject_id = l.id join LessonDB_groups LDg on ld.id = LDg.LessonDB_id join groups g on LDg.groups_id = g.id join WeekOfEducationYear w on c.weekOfEducationYear_id = w.id join EducationYear_WeekOfEducationYear EYWOEY on w.id = EYWOEY.weeks_id\n" +
