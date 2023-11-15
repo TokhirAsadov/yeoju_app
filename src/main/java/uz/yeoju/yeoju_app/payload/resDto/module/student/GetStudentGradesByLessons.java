@@ -15,5 +15,10 @@ public interface GetStudentGradesByLessons {
     String getMiddleName();
     String getFullName();
 
-
+    @Value("#{@gradeOfStudentByTeacherRepository.getMaxStep(target.educationYearId,target.lessonId,target.groupId)}")
+    Long getMaxStep();
+    @Value("#{@gradeOfStudentByTeacherRepository.getSumGrade(target.teacherId,target.studentId,target.educationYearId,target.lessonId)}")
+    Double getSumGrade();
+    @Value("#{@gradeOfStudentByTeacherRepository.getTodayGrade(target.teacherId,target.studentId,target.educationYearId,target.lessonId)}")
+    Double getTodayGrade();
 }
