@@ -38,6 +38,14 @@ public class GroupConnectSubjectController {
         return ResponseEntity.ok(groupConnectSubjectRepository.getLessonForGroupByEducationYearIdAndGroupName(educationYearId, groupName));
     }
 
+    @GetMapping("/getGradesByLesson/{educationYearId}/{studentId}")
+    public HttpEntity<?> getGradesByLesson(
+            @PathVariable("educationYearId") String educationYearId,
+            @PathVariable("studentId") String studentId,
+            @RequestParam("groupName") String groupName
+    ){
+        return ResponseEntity.ok(groupConnectSubjectRepository.getLessonForGroupByEducationYearIdAndGroupNameForGetGrades(educationYearId, groupName,studentId));
+    }
 
 
     @GetMapping("/subjectsWithStatistics/{studentId}")
@@ -87,6 +95,9 @@ public class GroupConnectSubjectController {
 //        return Flux.just(groupConnectSubjectService.getStatisticsOfGroupForTeacher(educationId,groupId,subjectId));
 //        return ResponseEntity.ok(groupConnectSubjectService.getStatisticsOfGroupForTeacher(educationId,groupId,subjectId));
     }
+
+
+
     @GetMapping("/getStatisticsOfGroupForTeacher/{educationId}/{groupId}")
     public Flux<?> getSubjectsOfTeacher(
             @CurrentUser User user,
@@ -94,7 +105,7 @@ public class GroupConnectSubjectController {
             @PathVariable(name = "groupId") String groupId,
             @RequestParam(name = "subjectId") String subjectId
     ){
-        return Flux.just(groupConnectSubjectRepository.getStatisticsOfGroupForTeacher(educationId, groupId, subjectId,user.getId()));
+        return Flux.just(groupConnectSubjectRepository.getStatisticsOfGroupForTeacherWithMax(educationId, groupId, subjectId,user.getId()));
 //        return Flux.just(groupConnectSubjectService.getStatisticsOfGroupForTeacher(educationId,groupId,subjectId));
 //        return ResponseEntity.ok(groupConnectSubjectService.getStatisticsOfGroupForTeacher(educationId,groupId,subjectId));
     }
