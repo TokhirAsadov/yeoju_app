@@ -6,13 +6,14 @@ import uz.yeoju.yeoju_app.payload.resDto.attachment.UserPhotoRes;
 import java.util.Set;
 
 public interface GetTeacherWIthSubjectForPlan {
-    public String getId();
-    public String getFullName();
-    public String getFirstName();
-    public String getLastName();
-    public String getMiddleName();
+    String getId();
+    String getEducationYearId();
+    String getFullName();
+    String getFirstName();
+    String getLastName();
+    String getMiddleName();
 
-    @Value("#{@planOfSubjectRepository.getSubjectsForTeacherWithSubjectForPlan(target.id)}")
+    @Value("#{@planOfSubjectRepository.getSubjectsForTeacherWithSubjectForPlan(target.id,target.educationYearId)}")
     Set<GetSubjectsForTeacherWithSubjectForPlan> getSubjects();
 
     @Value("#{@userPhotoRepo.getUserPhotoRes(target.id)}")
