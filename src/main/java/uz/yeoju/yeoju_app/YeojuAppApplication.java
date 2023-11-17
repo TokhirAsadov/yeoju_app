@@ -26,10 +26,10 @@ public class YeojuAppApplication {
 //		return WebClient.create("http://172.16.7.237:6060/api/v1/desktop");
 	}
 
-	@Bean
-	public RestTemplate getRestTemplate(){
-		return new RestTemplate();
-	}
+//	@Bean
+//	public RestTemplate getRestTemplate(){
+//		return new RestTemplate();
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(YeojuAppApplication.class, args);
