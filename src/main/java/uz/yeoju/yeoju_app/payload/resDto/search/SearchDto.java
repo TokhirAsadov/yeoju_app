@@ -6,4 +6,5 @@ public interface SearchDto {
     String getLogin();
     String getPassport();
     String getRoleName();
+    Boolean getAccountNonLocked();
 }
