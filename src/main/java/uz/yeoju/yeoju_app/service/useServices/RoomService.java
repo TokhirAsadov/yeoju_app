@@ -45,6 +45,20 @@ public class RoomService implements RoomImplService<RoomDto> {
 //    }
 
 
+    public Object getUserFromOther(SignInDto sign) {
+
+        //todo-----------   GET TOKEN FROM WEB CLIENT ------------
+        ResToken resToken = getResToken(sign);
+
+        assert resToken != null;
+        return webClient
+                .get()
+                .uri("/user/findAllUsers")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + resToken.getAccessToken())
+                .retrieve()
+                .bodyToMono(Object.class)
+                .block(REQUEST_TIMEOUT);
+    }
 
 
     public ResToken getResToken(SignInDto sign) {
