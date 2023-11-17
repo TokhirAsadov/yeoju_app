@@ -1,9 +1,10 @@
 package uz.yeoju.yeoju_app.service.useServices;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.service.spi.ServiceException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,8 @@ import reactor.core.publisher.Mono;
 import uz.yeoju.yeoju_app.entity.RoleWebClient;
 import uz.yeoju.yeoju_app.entity.admin.Room;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.ResToken;
+import uz.yeoju.yeoju_app.payload.SignInDto;
 import uz.yeoju.yeoju_app.payload.admin.RoomDto;
 import uz.yeoju.yeoju_app.repository.RoomRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.RoomImplService;
@@ -42,6 +45,33 @@ public class RoomService implements RoomImplService<RoomDto> {
 //    }
 
 
+
+
+    public ResToken getResToken(SignInDto sign) {
+        //todo-----------   GET TOKEN FROM WEB CLIENT ------------
+        ResponseEntity<ResToken> resTokenResponse = webClient.post()
+                .uri("/auth/login")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(sign), SignInDto.class)
+                .retrieve()
+                .onStatus(HttpStatus::is4xxClientError, response -> {
+                    //logError("Client error occurred");
+                    return Mono.error(new WebClientResponseException
+                            (response.statusCode().value(), "Bad Request", null, null, null));
+                })
+                .onStatus(HttpStatus::is5xxServerError, response -> {
+                    //logError("Server error occurred");
+                    return Mono.error(new WebClientResponseException
+                            (response.statusCode().value(), "Server Error", null, null, null));
+                })
+                .toEntity(ResToken.class)
+                .block(REQUEST_TIMEOUT);
+        System.out.println(resTokenResponse.getBody()+"----------------------------------------- RES TOKEN");
+
+        return resTokenResponse.getBody();
+    }
+
     public Object getDataFromOther(Integer page,Integer size) {
         return webClient
                 .get()
@@ -56,8 +86,10 @@ public class RoomService implements RoomImplService<RoomDto> {
         System.out.println(newRole+"---------------------------------------------------------------------------------------------------------------");
         System.out.println(BodyInserters.fromValue(newRole)+"---------------------------------------------------------------------------------------------------------------");
 
+        ResToken resToken = getResToken(new SignInDto("admin123","admin!@#"));
         return webClient.post()
                 .uri("/role/createRole")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + resToken.getAccessToken())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
 //                .bodyValue(BodyInserters.fromValue(newRole))
@@ -94,9 +126,10 @@ public class RoomService implements RoomImplService<RoomDto> {
     public Object senderFile(MultipartFile multipartFile){
         MultipartBodyBuilder builder = new MultipartBodyBuilder();
         builder.part("file", multipartFile.getResource());
-
+        ResToken resToken = getResToken(new SignInDto("kiut123","kiut123"));
         return webClient.post()
                 .uri("/result/importStudentsResults")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + resToken.getAccessToken())
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(BodyInserters.fromMultipartData(builder.build()))
                 .retrieve()
