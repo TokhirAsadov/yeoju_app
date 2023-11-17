@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.entity.RoleWebClient;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.payload.SignInDto;
 import uz.yeoju.yeoju_app.payload.admin.RoomDto;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.RoomService;
@@ -19,6 +20,11 @@ import java.io.IOException;
 public class RoomController {
 
     public final RoomService roomService;
+
+    @GetMapping("/getUserFromOther")
+    public HttpEntity<?> getUserFromOther(){
+        return ResponseEntity.ok(roomService.getUserFromOther(new SignInDto("kiut123","kiut123")));
+    }
 
 
     @PostMapping("/sendMultipartDataOtherServer")
