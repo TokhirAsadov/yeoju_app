@@ -254,8 +254,8 @@ public class UserController {
     }
 
     @GetMapping("/notification")
-    public HttpEntity<?> getNotification(@CurrentUser User user){
-        return ResponseEntity.ok(userService.getNotification(user.getId()));
+    public HttpEntity<?> getNotification(@CurrentUser User user, @RequestParam("week") Integer week,@RequestParam("year") Integer year){
+        return ResponseEntity.ok(userService.getNotification(user.getId(),week,year));
     }
 //    @GetMapping("/notification")
 //    public HttpEntity<?> getNotification(@RequestParam("kafedraId") String kafedraId){
