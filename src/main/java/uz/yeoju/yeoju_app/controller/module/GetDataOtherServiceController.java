@@ -22,4 +22,9 @@ public class GetDataOtherServiceController {
         ApiResponse response = otherService.getStudentsResults(studentId);
         return ResponseEntity.status(response.isSuccess() ? 200:409).body(response);
     }
+    @GetMapping("/studentsFails/{studentId}")
+    public HttpEntity<?> getStudentFails(@PathVariable("studentId") String studentId){
+        ApiResponse response = otherService.getStudentFails(studentId);
+        return ResponseEntity.status(response.isSuccess() ? 200:409).body(response);
+    }
 }
