@@ -7,4 +7,6 @@ import uz.yeoju.yeoju_app.payload.SignInDto;
 public interface GetDataOtherService {
     ApiResponse getStudentsResults(String studentId);
     ResToken getResToken(SignInDto sign);
+
+    ApiResponse getStudentFails(String studentId);
 }
