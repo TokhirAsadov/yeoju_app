@@ -1,6 +1,7 @@
 package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.getDataOtherService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,22 +9,40 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ResToken;
 import uz.yeoju.yeoju_app.payload.SignInDto;
+import uz.yeoju.yeoju_app.repository.UserRepository;
 
 import java.time.Duration;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class GetDataOtherImplService implements GetDataOtherService{
+    private final UserRepository userRepository;
     private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(10);// request time that how time is during
 
     private final WebClient webClient;// get web client
 
     @Override
     public ApiResponse getStudentsResults(String studentId) {
-        return null;
+        Optional<User> optionalUser = userRepository.findById(studentId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return new ApiResponse(true, "results student id: "+user.getLogin(),
+                    webClient
+                            .get()
+                            .uri("/result/findByStudentId/"+user.getLogin())
+                            .retrieve()
+                            .bodyToMono(Object.class)
+                            .block(REQUEST_TIMEOUT)
+            );
+        }
+        else {
+            return new ApiResponse(false,"student not found by id: "+studentId);
+        }
     }
 
     @Override
