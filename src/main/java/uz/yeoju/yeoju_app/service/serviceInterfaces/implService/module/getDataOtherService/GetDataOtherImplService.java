@@ -69,4 +69,9 @@ public class GetDataOtherImplService implements GetDataOtherService{
 
         return resTokenResponse.getBody();
     }
+
+    @Override
+    public ApiResponse getStudentFails(String studentId) {
+        return null;
+    }
 }
