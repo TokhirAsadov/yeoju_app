@@ -91,6 +91,20 @@ public class GetDataOtherImplService implements GetDataOtherService{
 
     @Override
     public ApiResponse getStudentGPA(String studentId) {
-        return null;
+        Optional<User> optionalUser = userRepository.findById(studentId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return new ApiResponse(true, "GPA student id: "+user.getLogin(),
+                    webClient
+                            .get()
+                            .uri("/abitur/getAbitursByStudentId/"+user.getLogin())
+                            .retrieve()
+                            .bodyToMono(Object.class)
+                            .block(REQUEST_TIMEOUT)
+            );
+        }
+        else {
+            return new ApiResponse(false,"student not found by id: "+studentId);
+        }
     }
 }
