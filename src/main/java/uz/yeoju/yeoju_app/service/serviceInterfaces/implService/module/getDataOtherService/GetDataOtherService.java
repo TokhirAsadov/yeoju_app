@@ -9,4 +9,6 @@ public interface GetDataOtherService {
     ResToken getResToken(SignInDto sign);
 
     ApiResponse getStudentFails(String studentId);
+
+    ApiResponse getStudentGPA(String studentId);
 }
