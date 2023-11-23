@@ -88,4 +88,9 @@ public class GetDataOtherImplService implements GetDataOtherService{
             return new ApiResponse(false,"student not found by id: "+studentId);
         }
     }
+
+    @Override
+    public ApiResponse getStudentGPA(String studentId) {
+        return null;
+    }
 }
