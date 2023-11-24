@@ -204,7 +204,51 @@ public class WorkOtherImplService implements WorkOtherService{
 
     @Override
     public Object createOrUpdateGPA(GpaDto dto) {
-        return null;
+        ResToken resToken = getResToken(new SignInDto("kiut123", "kiut123"));
+        if (dto.getId() == null) {
+            return webClient.post()
+                    .uri("/gpa/save")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + resToken.getAccessToken())
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+//                .bodyValue(BodyInserters.fromValue(newRole))
+                    .body(Mono.just(dto), GpaDto.class)
+                    .retrieve()
+                    .onStatus(HttpStatus::is4xxClientError, response -> {
+                        //logError("Client error occurred");
+                        return Mono.error(new WebClientResponseException
+                                (response.statusCode().value(), "Bad Request", null, null, null));
+                    })
+                    .onStatus(HttpStatus::is5xxServerError, response -> {
+                        //logError("Server error occurred");
+                        return Mono.error(new WebClientResponseException
+                                (response.statusCode().value(), "Server Error", null, null, null));
+                    })
+                    .toEntity(ApiResponse.class)
+                    .block(REQUEST_TIMEOUT);
+        }
+        else {
+            return webClient.put()
+                    .uri("/gpa/update")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + resToken.getAccessToken())
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+//                .bodyValue(BodyInserters.fromValue(newRole))
+                    .body(Mono.just(dto), GpaDto.class)
+                    .retrieve()
+                    .onStatus(HttpStatus::is4xxClientError, response -> {
+                        //logError("Client error occurred");
+                        return Mono.error(new WebClientResponseException
+                                (response.statusCode().value(), "Bad Request", null, null, null));
+                    })
+                    .onStatus(HttpStatus::is5xxServerError, response -> {
+                        //logError("Server error occurred");
+                        return Mono.error(new WebClientResponseException
+                                (response.statusCode().value(), "Server Error", null, null, null));
+                    })
+                    .toEntity(ApiResponse.class)
+                    .block(REQUEST_TIMEOUT);
+        }
     }
 
 }
