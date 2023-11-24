@@ -10,5 +10,5 @@ public interface WorkOtherService {
     ResToken getResToken(SignInDto sign);
     Object getDataFromOther(String url,Integer page,Integer size);
     Object createOrUpdateResult(ResultDto dto);
-
+    Object createOrUpdateFail(ResultDto dto);
 }
