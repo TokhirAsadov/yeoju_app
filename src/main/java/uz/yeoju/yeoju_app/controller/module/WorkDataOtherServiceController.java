@@ -26,6 +26,11 @@ public class WorkDataOtherServiceController {
         return ResponseEntity.ok(service.getDataFromOther("/failtable/getAllFails",page,size));
     }
 
+    @GetMapping("/getGPAs")
+    public HttpEntity<?> getGPAs(@RequestParam("page") Integer page,@RequestParam("size") Integer size) throws IOException {
+        return ResponseEntity.ok(service.getDataFromOther("/gpa/getAllGPAs",page,size));
+    }
+
     @PostMapping("/saveResult")
     public HttpEntity<?> saveResult(MultipartHttpServletRequest request) throws IOException {
         return ResponseEntity.ok(service.sendMultipartDataOtherServer(request,"/result/importStudentsResults"));
