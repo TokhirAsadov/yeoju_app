@@ -29,24 +29,24 @@ public class WorkOtherImplService implements WorkOtherService{
     private final WebClient webClient;// get web client
 
     @Override
-    public Object sendMultipartDataOtherServer(MultipartHttpServletRequest request) {
+    public Object sendMultipartDataOtherServer(MultipartHttpServletRequest request,String url) {
         System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
         Iterator<String> fileNames = request.getFileNames();
         while (fileNames.hasNext()) {
             MultipartFile file = request.getFile(fileNames.next());
             if (file != null) {
-                return senderFile(file);
+                return senderFile(file,url);
             }
         }
         return null;
     }
 
-    public Object senderFile(MultipartFile multipartFile){
+    public Object senderFile(MultipartFile multipartFile,String url){
         MultipartBodyBuilder builder = new MultipartBodyBuilder();
         builder.part("file", multipartFile.getResource());
         ResToken resToken = getResToken(new SignInDto("kiut123","kiut123"));
         return webClient.post()
-                .uri("/result/importStudentsResults")
+                .uri(url)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + resToken.getAccessToken())
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(BodyInserters.fromMultipartData(builder.build()))
