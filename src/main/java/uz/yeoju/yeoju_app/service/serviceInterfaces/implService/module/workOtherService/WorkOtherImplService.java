@@ -88,7 +88,14 @@ public class WorkOtherImplService implements WorkOtherService{
     }
 
     @Override
-    public Object getDataFromOther(Integer page, Integer size) {
-        return null;
+    public Object getDataFromOther(String url,Integer page, Integer size) {
+        ResToken resToken = getResToken(new SignInDto("kiut123","kiut123"));
+        return webClient
+                .get()
+                .uri(url+"?page="+page+"&size="+size)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + resToken.getAccessToken())
+                .retrieve()
+                .bodyToMono(Object.class)
+                .block(REQUEST_TIMEOUT);
     }
 }
