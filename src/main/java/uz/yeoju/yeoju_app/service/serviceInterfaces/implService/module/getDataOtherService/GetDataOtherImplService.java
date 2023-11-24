@@ -97,7 +97,7 @@ public class GetDataOtherImplService implements GetDataOtherService{
             return new ApiResponse(true, "GPA student id: "+user.getLogin(),
                     webClient
                             .get()
-                            .uri("/abitur/getAbitursByStudentId/"+user.getLogin())
+                            .uri("/gpa/getGPAsByStudentId/"+user.getLogin())
                             .retrieve()
                             .bodyToMono(Object.class)
                             .block(REQUEST_TIMEOUT)
