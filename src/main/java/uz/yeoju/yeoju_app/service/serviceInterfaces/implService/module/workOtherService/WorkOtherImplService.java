@@ -18,6 +18,7 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ResToken;
 import uz.yeoju.yeoju_app.payload.SignInDto;
 import uz.yeoju.yeoju_app.payload.otherServiceDtos.FailTableDto;
+import uz.yeoju.yeoju_app.payload.otherServiceDtos.GpaDto;
 import uz.yeoju.yeoju_app.payload.otherServiceDtos.ResultDto;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 
@@ -199,6 +200,11 @@ public class WorkOtherImplService implements WorkOtherService{
                     .toEntity(ApiResponse.class)
                     .block(REQUEST_TIMEOUT);
         }
+    }
+
+    @Override
+    public Object createOrUpdateGPA(GpaDto dto) {
+        return null;
     }
 
 }
