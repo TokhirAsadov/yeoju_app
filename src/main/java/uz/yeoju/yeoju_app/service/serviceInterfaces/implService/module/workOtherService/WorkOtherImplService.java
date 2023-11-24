@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
@@ -21,6 +22,12 @@ public class WorkOtherImplService implements WorkOtherService{
     private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(10);// request time that how time is during
 
     private final WebClient webClient;// get web client
+
+    @Override
+    public Object sendMultipartDataOtherServer(MultipartHttpServletRequest request) {
+
+        return null;
+    }
 
     @Override
     public ResToken getResToken(SignInDto sign) {
