@@ -56,6 +56,10 @@ public class WorkDataOtherServiceController {
     public HttpEntity<?> saveSingleGPA(@RequestBody GpaDto dto) throws IOException {
         return ResponseEntity.ok(service.createOrUpdateGPA(dto));
     }
+    @PutMapping("/updateSingleGPA")
+    public HttpEntity<?> updateSingleGPA(@RequestBody GpaDto dto) throws IOException {
+        return ResponseEntity.ok(service.createOrUpdateGPA(dto));
+    }
 
     @PostMapping("/saveResult")
     public HttpEntity<?> saveResult(MultipartHttpServletRequest request) throws IOException {
