@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import uz.yeoju.yeoju_app.payload.ResToken;
 import uz.yeoju.yeoju_app.payload.SignInDto;
+import uz.yeoju.yeoju_app.payload.otherServiceDtos.ResultDto;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 
 import java.time.Duration;
@@ -97,5 +98,10 @@ public class WorkOtherImplService implements WorkOtherService{
                 .retrieve()
                 .bodyToMono(Object.class)
                 .block(REQUEST_TIMEOUT);
+    }
+
+    @Override
+    public Object createResult(ResultDto dto) {
+        return null;
     }
 }
