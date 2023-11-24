@@ -46,6 +46,10 @@ public class WorkDataOtherServiceController {
     public HttpEntity<?> saveSingleFail(@RequestBody FailTableDto dto) throws IOException {
         return ResponseEntity.ok(service.createOrUpdateFail(dto));
     }
+    @PutMapping("/updateSingleFail")
+    public HttpEntity<?> updateSingleFail(@RequestBody FailTableDto dto) throws IOException {
+        return ResponseEntity.ok(service.createOrUpdateFail(dto));
+    }
 
     @PostMapping("/saveResult")
     public HttpEntity<?> saveResult(MultipartHttpServletRequest request) throws IOException {
