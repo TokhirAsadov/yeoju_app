@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
+import uz.yeoju.yeoju_app.payload.otherServiceDtos.FailTableDto;
 import uz.yeoju.yeoju_app.payload.otherServiceDtos.ResultDto;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.workOtherService.WorkOtherService;
 
@@ -39,6 +40,11 @@ public class WorkDataOtherServiceController {
     @PutMapping("/updateSingleResult")
     public HttpEntity<?> updateSingleResult(@RequestBody ResultDto dto) throws IOException {
         return ResponseEntity.ok(service.createOrUpdateResult(dto));
+    }
+
+    @PostMapping("/saveSingleFail")
+    public HttpEntity<?> saveSingleFail(@RequestBody FailTableDto dto) throws IOException {
+        return ResponseEntity.ok(service.createOrUpdateFail(dto));
     }
 
     @PostMapping("/saveResult")
