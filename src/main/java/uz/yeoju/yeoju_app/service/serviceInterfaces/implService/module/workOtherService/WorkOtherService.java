@@ -6,6 +6,6 @@ import uz.yeoju.yeoju_app.payload.ResToken;
 import uz.yeoju.yeoju_app.payload.SignInDto;
 
 public interface WorkOtherService {
-    Object sendMultipartDataOtherServer(MultipartHttpServletRequest request);
+    Object sendMultipartDataOtherServer(MultipartHttpServletRequest request,String url);
     ResToken getResToken(SignInDto sign);
 }
