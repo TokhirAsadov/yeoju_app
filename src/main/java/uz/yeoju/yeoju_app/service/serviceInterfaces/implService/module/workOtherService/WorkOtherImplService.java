@@ -17,6 +17,7 @@ import uz.yeoju.yeoju_app.entity.RoleWebClient;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ResToken;
 import uz.yeoju.yeoju_app.payload.SignInDto;
+import uz.yeoju.yeoju_app.payload.otherServiceDtos.FailTableDto;
 import uz.yeoju.yeoju_app.payload.otherServiceDtos.ResultDto;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 
@@ -135,6 +136,55 @@ public class WorkOtherImplService implements WorkOtherService{
                     .contentType(MediaType.APPLICATION_JSON)
 //                .bodyValue(BodyInserters.fromValue(newRole))
                     .body(Mono.just(dto), ResultDto.class)
+                    .retrieve()
+                    .onStatus(HttpStatus::is4xxClientError, response -> {
+                        //logError("Client error occurred");
+                        return Mono.error(new WebClientResponseException
+                                (response.statusCode().value(), "Bad Request", null, null, null));
+                    })
+                    .onStatus(HttpStatus::is5xxServerError, response -> {
+                        //logError("Server error occurred");
+                        return Mono.error(new WebClientResponseException
+                                (response.statusCode().value(), "Server Error", null, null, null));
+                    })
+                    .toEntity(ApiResponse.class)
+                    .block(REQUEST_TIMEOUT);
+        }
+    }
+
+    @Override
+    public Object createOrUpdateFail(FailTableDto dto) {
+        ResToken resToken = getResToken(new SignInDto("kiut123", "kiut123"));
+        if (dto.getId() == null) {
+            return webClient.post()
+                    .uri("/failtable/save")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + resToken.getAccessToken())
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+//                .bodyValue(BodyInserters.fromValue(newRole))
+                    .body(Mono.just(dto), FailTableDto.class)
+                    .retrieve()
+                    .onStatus(HttpStatus::is4xxClientError, response -> {
+                        //logError("Client error occurred");
+                        return Mono.error(new WebClientResponseException
+                                (response.statusCode().value(), "Bad Request", null, null, null));
+                    })
+                    .onStatus(HttpStatus::is5xxServerError, response -> {
+                        //logError("Server error occurred");
+                        return Mono.error(new WebClientResponseException
+                                (response.statusCode().value(), "Server Error", null, null, null));
+                    })
+                    .toEntity(ApiResponse.class)
+                    .block(REQUEST_TIMEOUT);
+        }
+        else {
+            return webClient.put()
+                    .uri("/failtable/update")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + resToken.getAccessToken())
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+//                .bodyValue(BodyInserters.fromValue(newRole))
+                    .body(Mono.just(dto), FailTableDto.class)
                     .retrieve()
                     .onStatus(HttpStatus::is4xxClientError, response -> {
                         //logError("Client error occurred");
