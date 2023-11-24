@@ -33,12 +33,12 @@ public class WorkDataOtherServiceController {
     }
     @PostMapping("/saveSingleResult")
     public HttpEntity<?> saveSingleResult(@RequestBody ResultDto dto) throws IOException {
-        return ResponseEntity.ok(service.createResult(dto));
+        return ResponseEntity.ok(service.createOrUpdateResult(dto));
     }
 
     @PutMapping("/updateSingleResult")
     public HttpEntity<?> updateSingleResult(@RequestBody ResultDto dto) throws IOException {
-        return ResponseEntity.ok(service.createResult(dto));
+        return ResponseEntity.ok(service.createOrUpdateResult(dto));
     }
 
     @PostMapping("/saveResult")
