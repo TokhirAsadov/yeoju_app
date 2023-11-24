@@ -103,7 +103,7 @@ public class WorkOtherImplService implements WorkOtherService{
     }
 
     @Override
-    public Object createResult(ResultDto dto) {
+    public Object createOrUpdateResult(ResultDto dto) {
         ResToken resToken = getResToken(new SignInDto("kiut123", "kiut123"));
         if (dto.getId() == null) {
             return webClient.post()
