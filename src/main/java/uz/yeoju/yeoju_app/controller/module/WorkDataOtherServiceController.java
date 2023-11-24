@@ -36,6 +36,11 @@ public class WorkDataOtherServiceController {
         return ResponseEntity.ok(service.createResult(dto));
     }
 
+    @PutMapping("/updateSingleResult")
+    public HttpEntity<?> updateSingleResult(@RequestBody ResultDto dto) throws IOException {
+        return ResponseEntity.ok(service.createResult(dto));
+    }
+
     @PostMapping("/saveResult")
     public HttpEntity<?> saveResult(MultipartHttpServletRequest request) throws IOException {
         return ResponseEntity.ok(service.sendMultipartDataOtherServer(request,"/result/importStudentsResults"));
