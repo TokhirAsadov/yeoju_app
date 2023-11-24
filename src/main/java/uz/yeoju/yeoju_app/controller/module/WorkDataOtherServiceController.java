@@ -26,4 +26,8 @@ public class WorkDataOtherServiceController {
     public HttpEntity<?> saveFails(MultipartHttpServletRequest request) throws IOException {
         return ResponseEntity.ok(service.sendMultipartDataOtherServer(request,"/failtable/importStudentsFails"));
     }
+    @PostMapping("/saveGPA")
+    public HttpEntity<?> saveGPA(MultipartHttpServletRequest request) throws IOException {
+        return ResponseEntity.ok(service.sendMultipartDataOtherServer(request,"/gpa/importStudentsGPAs"));
+    }
 }
