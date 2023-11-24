@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
+import uz.yeoju.yeoju_app.payload.otherServiceDtos.ResultDto;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.workOtherService.WorkOtherService;
 
 import java.io.IOException;
@@ -29,6 +30,10 @@ public class WorkDataOtherServiceController {
     @GetMapping("/getGPAs")
     public HttpEntity<?> getGPAs(@RequestParam("page") Integer page,@RequestParam("size") Integer size) throws IOException {
         return ResponseEntity.ok(service.getDataFromOther("/gpa/getAllGPAs",page,size));
+    }
+    @PostMapping("/saveSingleResult")
+    public HttpEntity<?> saveSingleResult(@RequestBody ResultDto dto) throws IOException {
+        return ResponseEntity.ok(service.createResult(dto));
     }
 
     @PostMapping("/saveResult")
