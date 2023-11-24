@@ -3,8 +3,8 @@ server:
 spring:
   servlet:
     multipart:
-      max-file-size: 25MB
-      max-request-size: 25MB
+      max-file-size: 205MB
+      max-request-size: 205MB
   jpa:
     generate-ddl: true
     show-sql: true
@@ -16,6 +16,7 @@ spring:
     properties:
       hibernate:
         globally_quoted_identifiers: true
+        current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
   jjwt:
     secretKey: yeojuSecretKeyAT
     expiredDate: 86400000

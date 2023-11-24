@@ -201,49 +201,49 @@ public class AttachmentService {
                     MultipartFile file = request.getFile(fileNames.next());
                     if (file != null) {
 
-                        if (defaultOrMed.equals(WeekType.DEFAULT)){
-                            EducationYear educationYear = educationYearRepository.getById(educationYearId);
-                            Boolean existsSort = weekOfEducationYearRepository.existsBySortNumberAndYear(Integer.valueOf(filename), Integer.valueOf(year));
-                            Boolean existsWeek = weekOfEducationYearRepository.existsByWeekNumberAndYear(weekNumber, Integer.valueOf(year));
-                            if (existsSort){
-                                return new ApiResponse(false, "Already exists week of year number : "+Integer.valueOf(filename) +" at "+year);
-                            }
-                            if (existsWeek){
-                                return new ApiResponse(false, "Already exists week of education year : "+weekNumber +" at "+year);
-                            }
-
-                            WeekOfEducationYear weekOfEducationYear = new WeekOfEducationYear();
-                            weekOfEducationYear.setYear(Integer.valueOf(year));
-                            weekOfEducationYear.setWeekNumber(weekNumber);
-                            weekOfEducationYear.setSortNumber(Integer.valueOf(filename));
-                            weekOfEducationYear.setStart(startWeek);
-                            weekOfEducationYear.setEnd(endWeek);
-                            weekOfEducationYear.setType(weekType);
-                            weekOfEducationYear.setEduType(eduType);
-                            weekOfEducationYearRepository.saveAndFlush(weekOfEducationYear);
-
-                            educationYear.getWeeks().add(weekOfEducationYear);
-                            educationYear.setWeeks(educationYear.getWeeks());
-                            educationYearRepository.save(educationYear);
-                        }
-                        else {
-                            EducationYear educationYear = educationYearRepository.getById(educationYearId);
-                            Boolean existsSort = weekOfEducationYearRepository.existsBySortNumberAndYear(Integer.valueOf(filename), Integer.valueOf(year));
-                            Boolean existsWeek = weekOfEducationYearRepository.existsByWeekNumberAndYear(weekNumber, Integer.valueOf(year));
-                            if (!existsSort){
-                                return new ApiResponse(false, "Error.. Default file was not uploaded. Please, Upload DEFAULT file!. with: "+Integer.valueOf(filename) +" at "+year);
-                            }
-                            if (!existsWeek){
-                                return new ApiResponse(false, "Error.. Default file was not uploaded. Please, Upload DEFAULT file!. with: "+weekNumber +" at "+year);
-                            }
-
-
-                        }
+//                        if (defaultOrMed.equals(WeekType.DEFAULT)){
+//                            EducationYear educationYear = educationYearRepository.getById(educationYearId);
+//                            Boolean existsSort = weekOfEducationYearRepository.existsBySortNumberAndYear(Integer.valueOf(filename), Integer.valueOf(year));
+//                            Boolean existsWeek = weekOfEducationYearRepository.existsByWeekNumberAndYear(weekNumber, Integer.valueOf(year));
+//                            if (existsSort){
+//                                return new ApiResponse(false, "Already exists week of year number : "+Integer.valueOf(filename) +" at "+year);
+//                            }
+//                            if (existsWeek){
+//                                return new ApiResponse(false, "Already exists week of education year : "+weekNumber +" at "+year);
+//                            }
+//
+////                            WeekOfEducationYear weekOfEducationYear = new WeekOfEducationYear();
+////                            weekOfEducationYear.setYear(Integer.valueOf(year));
+////                            weekOfEducationYear.setWeekNumber(weekNumber);
+////                            weekOfEducationYear.setSortNumber(Integer.valueOf(filename));
+////                            weekOfEducationYear.setStart(startWeek);
+////                            weekOfEducationYear.setEnd(endWeek);
+////                            weekOfEducationYear.setType(weekType);
+////                            weekOfEducationYear.setEduType(eduType);
+////                            weekOfEducationYearRepository.saveAndFlush(weekOfEducationYear);
+////
+////                            educationYear.getWeeks().add(weekOfEducationYear);
+////                            educationYear.setWeeks(educationYear.getWeeks());
+////                            educationYearRepository.save(educationYear);
+//                        }
+//                        else {
+//                            EducationYear educationYear = educationYearRepository.getById(educationYearId);
+//                            Boolean existsSort = weekOfEducationYearRepository.existsBySortNumberAndYear(Integer.valueOf(filename), Integer.valueOf(year));
+//                            Boolean existsWeek = weekOfEducationYearRepository.existsByWeekNumberAndYear(weekNumber, Integer.valueOf(year));
+//                            if (!existsSort){
+//                                return new ApiResponse(false, "Error.. Default file was not uploaded. Please, Upload DEFAULT file!. with: "+Integer.valueOf(filename) +" at "+year);
+//                            }
+//                            if (!existsWeek){
+//                                return new ApiResponse(false, "Error.. Default file was not uploaded. Please, Upload DEFAULT file!. with: "+weekNumber +" at "+year);
+//                            }
+//
+//
+//                        }
 
 
                         Files.copy(file.getInputStream(), path);
 
-                        ApiResponseTwoObj apiResponseTwoObj = timeTableDBService.generateNewTimeTableToDB(educationYearId,Integer.valueOf(year), Integer.valueOf(filename));
+                        ApiResponseTwoObj apiResponseTwoObj = defaultOrMed.equals(WeekType.DEFAULT) ? timeTableDBService.generateNewTimeTableToDB(educationYearId,Integer.valueOf(year), Integer.valueOf(filename)) : timeTableDBService.generateNewTimeTableToDBMed(educationYearId,Integer.valueOf(year), Integer.valueOf(filename));
 
                     }
                 }
