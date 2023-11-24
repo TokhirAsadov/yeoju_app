@@ -18,6 +18,7 @@ import uz.yeoju.yeoju_app.payload.SignInDto;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 
 import java.time.Duration;
+import java.util.Iterator;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +30,14 @@ public class WorkOtherImplService implements WorkOtherService{
 
     @Override
     public Object sendMultipartDataOtherServer(MultipartHttpServletRequest request) {
-
+        System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return senderFile(file);
+            }
+        }
         return null;
     }
 
