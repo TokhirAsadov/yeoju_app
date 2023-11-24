@@ -14,6 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import uz.yeoju.yeoju_app.entity.RoleWebClient;
+import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ResToken;
 import uz.yeoju.yeoju_app.payload.SignInDto;
 import uz.yeoju.yeoju_app.payload.otherServiceDtos.ResultDto;
@@ -103,27 +104,51 @@ public class WorkOtherImplService implements WorkOtherService{
 
     @Override
     public Object createResult(ResultDto dto) {
-        ResToken resToken = getResToken(new SignInDto("kiut123","kiut123"));
-        return webClient.post()
-                .uri("/result/save")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + resToken.getAccessToken())
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
+        ResToken resToken = getResToken(new SignInDto("kiut123", "kiut123"));
+        if (dto.getId() == null) {
+            return webClient.post()
+                    .uri("/result/save")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + resToken.getAccessToken())
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
 //                .bodyValue(BodyInserters.fromValue(newRole))
-                .body(Mono.just(dto), ResultDto.class)
-                .retrieve()
-                .onStatus(HttpStatus::is4xxClientError, response -> {
-                    //logError("Client error occurred");
-                    return Mono.error(new WebClientResponseException
-                            (response.statusCode().value(), "Bad Request", null, null, null));
-                })
-                .onStatus(HttpStatus::is5xxServerError, response -> {
-                    //logError("Server error occurred");
-                    return Mono.error(new WebClientResponseException
-                            (response.statusCode().value(), "Server Error", null, null, null));
-                })
-                .toEntity(RoleWebClient.class)
-                .block(REQUEST_TIMEOUT);
+                    .body(Mono.just(dto), ResultDto.class)
+                    .retrieve()
+                    .onStatus(HttpStatus::is4xxClientError, response -> {
+                        //logError("Client error occurred");
+                        return Mono.error(new WebClientResponseException
+                                (response.statusCode().value(), "Bad Request", null, null, null));
+                    })
+                    .onStatus(HttpStatus::is5xxServerError, response -> {
+                        //logError("Server error occurred");
+                        return Mono.error(new WebClientResponseException
+                                (response.statusCode().value(), "Server Error", null, null, null));
+                    })
+                    .toEntity(ApiResponse.class)
+                    .block(REQUEST_TIMEOUT);
+        }
+        else {
+            return webClient.put()
+                    .uri("/result/update")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + resToken.getAccessToken())
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+//                .bodyValue(BodyInserters.fromValue(newRole))
+                    .body(Mono.just(dto), ResultDto.class)
+                    .retrieve()
+                    .onStatus(HttpStatus::is4xxClientError, response -> {
+                        //logError("Client error occurred");
+                        return Mono.error(new WebClientResponseException
+                                (response.statusCode().value(), "Bad Request", null, null, null));
+                    })
+                    .onStatus(HttpStatus::is5xxServerError, response -> {
+                        //logError("Server error occurred");
+                        return Mono.error(new WebClientResponseException
+                                (response.statusCode().value(), "Server Error", null, null, null));
+                    })
+                    .toEntity(ApiResponse.class)
+                    .block(REQUEST_TIMEOUT);
+        }
     }
 
 }
