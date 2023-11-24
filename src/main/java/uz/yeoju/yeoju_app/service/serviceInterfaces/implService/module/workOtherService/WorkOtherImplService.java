@@ -86,4 +86,9 @@ public class WorkOtherImplService implements WorkOtherService{
 
         return resTokenResponse.getBody();
     }
+
+    @Override
+    public Object getDataFromOther(Integer page, Integer size) {
+        return null;
+    }
 }
