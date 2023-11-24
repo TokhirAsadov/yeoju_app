@@ -8,4 +8,5 @@ import uz.yeoju.yeoju_app.payload.SignInDto;
 public interface WorkOtherService {
     Object sendMultipartDataOtherServer(MultipartHttpServletRequest request,String url);
     ResToken getResToken(SignInDto sign);
+    Object getDataFromOther(Integer page,Integer size);
 }
