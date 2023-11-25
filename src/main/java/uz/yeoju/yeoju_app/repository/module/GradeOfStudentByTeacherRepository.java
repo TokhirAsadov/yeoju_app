@@ -20,6 +20,11 @@ public interface GradeOfStudentByTeacherRepository extends JpaRepository<GradeOf
             "                      ) as newvalue",nativeQuery = true)
     Long getMaxStep(String educationYearId,String subjectId,String groupId);
 
+    @Query(value = "select sum(grade) as middle from GradeOfStudentByTeacher where createdBy=?1 and student_id=?2 and educationYear_id=?3 and lesson_id=?4\n" +
+            "group by createdBy,student_id,educationYear_id,lesson_id",nativeQuery = true)
+    Double getSumGrade(String teacherId, String studentId, String educationYearId,String lessonId);
+
+
     Optional<GradeOfStudentByTeacher> findByIdAndCreatedBy(String id, String createdBy);
     @Query(value = "select id,grade,time,description from GradeOfStudentByTeacher where createdBy=?1 and student_id=?2 and educationYear_id=?3 and lesson_id=?4 order by createdAt",nativeQuery = true)
     Set<GetGradesOfStudent> getGradesOfStudentByTeacherIdAndStudentIdAndEducationYearIdAndLessonId(String teacherId, String studentId, String educationYearId, String lessonId);
