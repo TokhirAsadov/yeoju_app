@@ -11,6 +11,15 @@ import java.util.Set;
 
 public interface GradeOfStudentByTeacherRepository extends JpaRepository<GradeOfStudentByTeacher,String> {
 
+
+    @Query(value = "select MAX(step) from (\n" +
+            "                          select count(gs.id) as step,u.id,s.group_id from GradeOfStudentByTeacher gs\n" +
+            "                           join users u on gs.student_id = u.id\n" +
+            "                           join Student S on u.id = S.user_id\n" +
+            "                          where gs.educationYear_id=?1 and gs.lesson_id=?2 and s.group_id=?3 group by s.group_id,u.id\n" +
+            "                      ) as newvalue",nativeQuery = true)
+    Long getMaxStep(String educationYearId,String subjectId,String groupId);
+
     Optional<GradeOfStudentByTeacher> findByIdAndCreatedBy(String id, String createdBy);
     @Query(value = "select id,grade,time,description from GradeOfStudentByTeacher where createdBy=?1 and student_id=?2 and educationYear_id=?3 and lesson_id=?4 order by createdAt",nativeQuery = true)
     Set<GetGradesOfStudent> getGradesOfStudentByTeacherIdAndStudentIdAndEducationYearIdAndLessonId(String teacherId, String studentId, String educationYearId, String lessonId);
