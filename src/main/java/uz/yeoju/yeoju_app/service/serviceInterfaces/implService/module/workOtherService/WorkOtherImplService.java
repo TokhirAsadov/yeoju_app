@@ -251,9 +251,4 @@ public class WorkOtherImplService implements WorkOtherService{
         }
     }
 
-    @Override
-    public Object getDataByStudentId(String studentId) {
-        return null;
-    }
-
 }

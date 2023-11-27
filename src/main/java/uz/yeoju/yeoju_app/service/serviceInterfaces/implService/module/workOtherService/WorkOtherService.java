@@ -14,6 +14,4 @@ public interface WorkOtherService {
     Object createOrUpdateResult(ResultDto dto);
     Object createOrUpdateFail(FailTableDto dto);
     Object createOrUpdateGPA(GpaDto dto);
-
-    Object getDataByStudentId(String studentId);
 }
