@@ -30,10 +30,6 @@ public class GetDataOtherServiceController {
     }
 
 
-    @GetMapping("/getDataByStudentId/{studentId}")
-    public HttpEntity<?> getDataByStudentId(@PathVariable("studentId") String studentId){
-        return ResponseEntity.ok(otherService.getDataByStudentId(studentId));
-    }
     @GetMapping("/studentsFails/{studentId}")
     public HttpEntity<?> getStudentFails(@PathVariable("studentId") String studentId){
         ApiResponse response = otherService.getStudentFails(studentId);
@@ -53,5 +49,14 @@ public class GetDataOtherServiceController {
     public HttpEntity<?> getStudentGPA2(@PathVariable("login") String login){
         ApiResponse response = otherService.getStudentGPA2(login);
         return ResponseEntity.status(response.isSuccess() ? 200:409).body(response);
+    }
+
+    @GetMapping("/getDataByStudentId/{studentId}")
+    public HttpEntity<?> getDataByStudentId(@PathVariable("studentId") String studentId){
+        return ResponseEntity.ok(otherService.getDataByStudentId(studentId));
+    }
+    @GetMapping("/getDataByStudentId2/{login}")
+    public HttpEntity<?> getDataByStudentId2(@PathVariable("login") String login){
+        return ResponseEntity.ok(otherService.getDataByStudentId2(login));
     }
 }
