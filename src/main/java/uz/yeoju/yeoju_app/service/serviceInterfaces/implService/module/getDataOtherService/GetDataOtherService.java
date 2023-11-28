@@ -14,4 +14,6 @@ public interface GetDataOtherService {
     Object getDataByStudentId(String studentId);
 
     ApiResponse getStudentsResults2(String login);
+
+    ApiResponse getStudentFails2(String login);
 }
