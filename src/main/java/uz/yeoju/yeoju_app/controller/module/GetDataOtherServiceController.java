@@ -49,4 +49,9 @@ public class GetDataOtherServiceController {
         ApiResponse response = otherService.getStudentGPA(studentId);
         return ResponseEntity.status(response.isSuccess() ? 200:409).body(response);
     }
+    @GetMapping("/studentsGPA2/{login}")
+    public HttpEntity<?> getStudentGPA2(@PathVariable("login") String login){
+        ApiResponse response = otherService.getStudentGPA2(login);
+        return ResponseEntity.status(response.isSuccess() ? 200:409).body(response);
+    }
 }
