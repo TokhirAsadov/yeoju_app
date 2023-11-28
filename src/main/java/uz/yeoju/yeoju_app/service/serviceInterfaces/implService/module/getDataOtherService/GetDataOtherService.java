@@ -12,4 +12,6 @@ public interface GetDataOtherService {
 
     ApiResponse getStudentGPA(String studentId);
     Object getDataByStudentId(String studentId);
+
+    ApiResponse getStudentsResults2(String login);
 }
