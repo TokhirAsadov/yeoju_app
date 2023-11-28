@@ -17,7 +17,13 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.uquvbulim.dataOf
 public class DataOfLastActiveController {
     private final DataOfLastActiveService service;
 
-    @PreAuthorize("hasRole('ROLE_DEKAN')")
+    @PreAuthorize("hasRole('ROLE_MONITORING')")
+    @GetMapping("/getAssistants")
+    public HttpEntity<?> getAssistents(@CurrentUser User user) {
+        return ResponseEntity.ok(service.getAssistants());
+    }
+
+    @PreAuthorize("hasRole('ROLE_DEKAN') or hasRole('ROLE_MONITORING')")
     @GetMapping("/findAll")
     public HttpEntity<?> findAll(@CurrentUser User user) {
         return ResponseEntity.ok(service.findAll());
