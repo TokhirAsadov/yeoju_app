@@ -27,4 +27,9 @@ public class DataOfLastActiveImplService implements DataOfLastActiveService {
         repository.save(new DataOfLastActive(passage));
         return new ApiResponse(true,"saved successfully.");
     }
+
+    @Override
+    public ApiResponse getAssistants() {
+        return null;
+    }
 }
