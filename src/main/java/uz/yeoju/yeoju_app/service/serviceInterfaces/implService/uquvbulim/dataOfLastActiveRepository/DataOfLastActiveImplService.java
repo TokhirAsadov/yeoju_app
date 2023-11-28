@@ -64,4 +64,26 @@ public class DataOfLastActiveImplService implements DataOfLastActiveService {
             return new ApiResponse(false,"user was not found by id: "+assistant.getUserId());
         }
     }
+
+    @Override
+    public ApiResponse deleteAssistant(String assistantId) {
+        Optional<User> optionalUser = userRepository.findById(assistantId);
+        if (optionalUser.isPresent()){
+            Optional<Role> optionalRole = roleRepository.findRoleByRoleName("ROLE_MONITORING_ASSISTANT");
+            if (optionalRole.isPresent()) {
+                User user = optionalUser.get();
+                Set<Role> roles = user.getRoles();
+                roles.remove(optionalRole.get());
+                user.setRoles(roles);
+                userRepository.save(user);
+                return new ApiResponse(true,"Assistant was deleted successful");
+            }
+            else {
+                return new ApiResponse(false,"role was not found by name: ROLE_MONITORING_ASSISTANT");
+            }
+        }
+        else {
+            return new ApiResponse(false,"user was not found by id: "+assistantId);
+        }
+    }
 }
