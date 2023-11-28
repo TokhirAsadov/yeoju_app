@@ -11,4 +11,6 @@ public interface DataOfLastActiveService {
     ApiResponse getAssistants();
 
     ApiResponse createAssistant(CreateAssistant assistant);
+
+    ApiResponse deleteAssistant(String assistantId);
 }
