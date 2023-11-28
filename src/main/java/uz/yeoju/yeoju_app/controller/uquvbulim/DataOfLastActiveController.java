@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.uquvbulimi.CreateAssistant;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.uquvbulim.dataOfLastActiveRepository.DataOfLastActiveService;
 
@@ -39,6 +40,12 @@ public class DataOfLastActiveController {
     @PostMapping("/create/{passage}")
     public HttpEntity<?> create(@CurrentUser User user,@PathVariable("passage") String passage) {
         ApiResponse response = service.create(passage);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 401).body(response);
+    }
+    @PreAuthorize("hasRole('ROLE_MONITORING')")
+    @PostMapping("/createAssistant")
+    public HttpEntity<?> createAssistant(@CurrentUser User user,@RequestBody() CreateAssistant assistant) {
+        ApiResponse response = service.createAssistant(assistant);
         return ResponseEntity.status(response.isSuccess() ? 201 : 401).body(response);
     }
 }
