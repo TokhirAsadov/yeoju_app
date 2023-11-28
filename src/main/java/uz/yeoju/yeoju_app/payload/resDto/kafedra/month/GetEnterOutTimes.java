@@ -6,5 +6,5 @@ public interface GetEnterOutTimes {
     String getCardNo();
     Date getTimeAsc();
     Date getTimeDesc();
-    Date getTime();
+//    Date getTime();
 }
