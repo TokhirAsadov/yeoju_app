@@ -23,6 +23,12 @@ public class GetDataOtherServiceController {
         return ResponseEntity.status(response.isSuccess() ? 200:409).body(response);
     }
 
+    @GetMapping("/studentsResults2/{login}")
+    public HttpEntity<?> getStudentResults2(@PathVariable("login") String login){
+        ApiResponse response = otherService.getStudentsResults2(login);
+        return ResponseEntity.status(response.isSuccess() ? 200:409).body(response);
+    }
+
 
     @GetMapping("/getDataByStudentId/{studentId}")
     public HttpEntity<?> getDataByStudentId(@PathVariable("studentId") String studentId){
