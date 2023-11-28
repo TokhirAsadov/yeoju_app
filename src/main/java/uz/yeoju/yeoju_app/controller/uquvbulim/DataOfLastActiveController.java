@@ -48,4 +48,10 @@ public class DataOfLastActiveController {
         ApiResponse response = service.createAssistant(assistant);
         return ResponseEntity.status(response.isSuccess() ? 201 : 401).body(response);
     }
+    @PreAuthorize("hasRole('ROLE_MONITORING')")
+    @DeleteMapping("/deleteAssistant/{assistantId}")
+    public HttpEntity<?> deleteAssistant(@CurrentUser User user,@PathVariable("assistantId") String assistantId) {
+        ApiResponse response = service.deleteAssistant(assistantId);
+        return ResponseEntity.status(response.isSuccess() ? 204 : 401).body(response);
+    }
 }
