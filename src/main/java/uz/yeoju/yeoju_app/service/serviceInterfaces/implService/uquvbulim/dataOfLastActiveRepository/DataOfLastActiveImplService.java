@@ -30,6 +30,6 @@ public class DataOfLastActiveImplService implements DataOfLastActiveService {
 
     @Override
     public ApiResponse getAssistants() {
-        return null;
+        return new ApiResponse(true,"all assistants",repository.getAssistants());
     }
 }
