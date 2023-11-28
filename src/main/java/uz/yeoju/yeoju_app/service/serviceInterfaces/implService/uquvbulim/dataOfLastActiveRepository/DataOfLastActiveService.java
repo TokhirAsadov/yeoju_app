@@ -6,4 +6,6 @@ public interface DataOfLastActiveService {
     ApiResponse findAll();
     ApiResponse findByCreatorId(String id);
     ApiResponse create(String passage);
+
+    ApiResponse getAssistants();
 }
