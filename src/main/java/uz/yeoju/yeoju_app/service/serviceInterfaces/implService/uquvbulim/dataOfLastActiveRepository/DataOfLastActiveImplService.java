@@ -2,16 +2,25 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.uquvbulim.dataO
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.yeoju.yeoju_app.entity.Role;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.uquvbulim.DataOfLastActive;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.uquvbulimi.CreateAssistant;
+import uz.yeoju.yeoju_app.repository.RoleRepository;
+import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.uquvbulimi.DataOfLastActiveRepository;
+
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class DataOfLastActiveImplService implements DataOfLastActiveService {
 
     private final DataOfLastActiveRepository repository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public ApiResponse findAll() {
@@ -36,6 +45,23 @@ public class DataOfLastActiveImplService implements DataOfLastActiveService {
 
     @Override
     public ApiResponse createAssistant(CreateAssistant assistant) {
-        return null;
+        Optional<User> optionalUser = userRepository.findById(assistant.getUserId());
+        if (optionalUser.isPresent()){
+            Optional<Role> optionalRole = roleRepository.findRoleByRoleName(assistant.getRoleName());
+            if (optionalRole.isPresent()) {
+                User user = optionalUser.get();
+                Set<Role> roles = user.getRoles();
+                roles.add(optionalRole.get());
+                user.setRoles(roles);
+                userRepository.save(user);
+                return new ApiResponse(true,"Assistant was added successful");
+            }
+            else {
+                return new ApiResponse(false,"role was not found by name: "+assistant.getRoleName());
+            }
+        }
+        else {
+            return new ApiResponse(false,"user was not found by id: "+assistant.getUserId());
+        }
     }
 }
