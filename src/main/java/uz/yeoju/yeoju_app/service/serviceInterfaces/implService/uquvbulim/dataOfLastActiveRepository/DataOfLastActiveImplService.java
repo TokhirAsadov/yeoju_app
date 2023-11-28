@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.uquvbulim.DataOfLastActive;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.uquvbulimi.CreateAssistant;
 import uz.yeoju.yeoju_app.repository.uquvbulimi.DataOfLastActiveRepository;
 
 @Service
@@ -31,5 +32,10 @@ public class DataOfLastActiveImplService implements DataOfLastActiveService {
     @Override
     public ApiResponse getAssistants() {
         return new ApiResponse(true,"all assistants",repository.getAssistants());
+    }
+
+    @Override
+    public ApiResponse createAssistant(CreateAssistant assistant) {
+        return null;
     }
 }
