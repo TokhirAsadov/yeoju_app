@@ -110,7 +110,7 @@ public class GetDataOtherImplService implements GetDataOtherService{
 
     @Override
     public Object getDataByStudentId(String studentId) {
-        Optional<User> optionalUser = userRepository.findUserByLogin(studentId);
+        Optional<User> optionalUser = userRepository.findById(studentId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             return new ApiResponse(true, "fails student id: "+user.getLogin(),
@@ -125,5 +125,10 @@ public class GetDataOtherImplService implements GetDataOtherService{
         else {
             return new ApiResponse(false,"student not found by id: "+studentId);
         }
+    }
+
+    @Override
+    public ApiResponse getStudentsResults2(String login) {
+        return null;
     }
 }
