@@ -221,4 +221,9 @@ public class GetDataOtherImplService implements GetDataOtherService{
             return new ApiResponse(false,"student not found by id: "+login);
         }
     }
+
+    @Override
+    public ApiResponse getStudentsFinals2(String login) {
+        return null;
+    }
 }
