@@ -109,6 +109,11 @@ public class GetDataOtherImplService implements GetDataOtherService{
     }
 
     @Override
+    public ApiResponse getStudentsFinals(String studentId) {
+        return null;
+    }
+
+    @Override
     public Object getDataByStudentId(String studentId) {
         Optional<User> optionalUser = userRepository.findById(studentId);
         if (optionalUser.isPresent()) {
