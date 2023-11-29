@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.payload.otherServiceDtos.FailTableDto;
+import uz.yeoju.yeoju_app.payload.otherServiceDtos.FinalDto;
 import uz.yeoju.yeoju_app.payload.otherServiceDtos.GpaDto;
 import uz.yeoju.yeoju_app.payload.otherServiceDtos.ResultDto;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.workOtherService.WorkOtherService;
@@ -64,6 +65,11 @@ public class WorkDataOtherServiceController {
     @PutMapping("/updateSingleGPA")
     public HttpEntity<?> updateSingleGPA(@RequestBody GpaDto dto) throws IOException {
         return ResponseEntity.ok(service.createOrUpdateGPA(dto));
+    }
+
+    @PostMapping("/saveSingleFinal")
+    public HttpEntity<?> saveSingleFinal(@RequestBody FinalDto dto) throws IOException {
+        return ResponseEntity.ok(service.createOrUpdateFinal(dto));
     }
     @PostMapping("/saveFinal")
     public HttpEntity<?> saveFinal(MultipartHttpServletRequest request) throws IOException {
