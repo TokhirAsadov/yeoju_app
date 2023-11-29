@@ -19,6 +19,11 @@ import java.io.IOException;
 public class WorkDataOtherServiceController {
     private final WorkOtherService service;
 
+    @GetMapping("/getFinals")
+    public HttpEntity<?> getFinals(@RequestParam("page") Integer page,@RequestParam("size") Integer size) throws IOException {
+        return ResponseEntity.ok(service.getDataFromOther("/final/getAllFinals",page,size));
+    }
+
     @GetMapping("/getResults")
     public HttpEntity<?> getResults(@RequestParam("page") Integer page,@RequestParam("size") Integer size) throws IOException {
         return ResponseEntity.ok(service.getDataFromOther("/result/getAllResults",page,size));
