@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.payload.ResToken;
 import uz.yeoju.yeoju_app.payload.SignInDto;
 import uz.yeoju.yeoju_app.payload.otherServiceDtos.FailTableDto;
+import uz.yeoju.yeoju_app.payload.otherServiceDtos.FinalDto;
 import uz.yeoju.yeoju_app.payload.otherServiceDtos.GpaDto;
 import uz.yeoju.yeoju_app.payload.otherServiceDtos.ResultDto;
 
@@ -14,5 +15,5 @@ public interface WorkOtherService {
     Object createOrUpdateResult(ResultDto dto);
     Object createOrUpdateFail(FailTableDto dto);
     Object createOrUpdateGPA(GpaDto dto);
-    Object createOrUpdateFinal(ResultDto dto);
+    Object createOrUpdateFinal(FinalDto dto);
 }
