@@ -71,6 +71,10 @@ public class WorkDataOtherServiceController {
     public HttpEntity<?> saveSingleFinal(@RequestBody FinalDto dto) throws IOException {
         return ResponseEntity.ok(service.createOrUpdateFinal(dto));
     }
+    @PutMapping("/updateSingleFinal")
+    public HttpEntity<?> updateSingleFinal(@RequestBody FinalDto dto) throws IOException {
+        return ResponseEntity.ok(service.createOrUpdateFinal(dto));
+    }
     @PostMapping("/saveFinal")
     public HttpEntity<?> saveFinal(MultipartHttpServletRequest request) throws IOException {
         return ResponseEntity.ok(service.sendMultipartDataOtherServer(request,"/final/importStudentsFinals"));
