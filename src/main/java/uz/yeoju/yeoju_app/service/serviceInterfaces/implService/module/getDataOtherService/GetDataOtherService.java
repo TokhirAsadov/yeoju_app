@@ -20,4 +20,5 @@ public interface GetDataOtherService {
     ApiResponse getStudentFails2(String login);
 
     ApiResponse getStudentGPA2(String login);
+    ApiResponse getStudentsFinals2(String login);
 }
