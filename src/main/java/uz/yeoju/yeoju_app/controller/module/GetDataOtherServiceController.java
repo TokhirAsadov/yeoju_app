@@ -17,6 +17,12 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.getDataOt
 public class GetDataOtherServiceController {
     private final GetDataOtherService otherService;
 
+    @GetMapping("/studentsFinals/{studentId}")
+    public HttpEntity<?> getStudentFinals(@PathVariable("studentId") String studentId){
+        ApiResponse response = otherService.getStudentsFinals(studentId);
+        return ResponseEntity.status(response.isSuccess() ? 200:409).body(response);
+    }
+
     @GetMapping("/studentsResults/{studentId}")
     public HttpEntity<?> getStudentResults(@PathVariable("studentId") String studentId){
         ApiResponse response = otherService.getStudentsResults(studentId);
