@@ -53,7 +53,26 @@ public class WorkOtherImplService implements WorkOtherService{
         return null;
     }
 
-
+    public Object senderFile2(MultipartFile multipartFile,String url){
+        MultipartBodyBuilder builder = new MultipartBodyBuilder();
+        builder.part("file", multipartFile.getResource());
+        ResToken resToken = getResToken(new SignInDto("kiut123","kiut123"));
+        return webClient.put()
+                .uri(url)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + resToken.getAccessToken())
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(BodyInserters.fromMultipartData(builder.build()))
+                .retrieve()
+                .bodyToMono(byte[].class)
+                .block();
+//                .exchangeToMono(response -> {
+//                    if (response.statusCode().equals(HttpStatus.OK)) {
+//                        return response.bodyToMono(HttpStatus.class).thenReturn(response.statusCode());
+//                    } else {
+//                        throw new ServiceException("Error uploading file");
+//                    }
+//                });
+    }
 
     public Object senderFile(MultipartFile multipartFile,String url){
         MultipartBodyBuilder builder = new MultipartBodyBuilder();
