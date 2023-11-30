@@ -101,5 +101,8 @@ public class WorkDataOtherServiceController {
     public HttpEntity<?> updateFails(MultipartHttpServletRequest request) throws IOException {
         return ResponseEntity.ok(service.sendMultipartDataOtherServer2(request,"/failtable/updateStudentsFails"));
     }
-
+    @PutMapping("/updateGPA")
+    public HttpEntity<?> updateGPA(MultipartHttpServletRequest request) throws IOException {
+        return ResponseEntity.ok(service.sendMultipartDataOtherServer2(request,"/gpa/updateStudentsGPAs"));
+    }
 }
