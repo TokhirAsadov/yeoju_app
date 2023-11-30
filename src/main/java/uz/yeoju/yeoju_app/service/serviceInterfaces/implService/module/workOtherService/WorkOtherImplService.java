@@ -49,7 +49,14 @@ public class WorkOtherImplService implements WorkOtherService{
 
     @Override
     public Object sendMultipartDataOtherServer2(MultipartHttpServletRequest request, String url) {
-
+        System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return senderFile2(file,url);
+            }
+        }
         return null;
     }
 
