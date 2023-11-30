@@ -47,6 +47,14 @@ public class WorkOtherImplService implements WorkOtherService{
         return null;
     }
 
+    @Override
+    public Object sendMultipartDataOtherServer2(MultipartHttpServletRequest request, String url) {
+
+        return null;
+    }
+
+
+
     public Object senderFile(MultipartFile multipartFile,String url){
         MultipartBodyBuilder builder = new MultipartBodyBuilder();
         builder.part("file", multipartFile.getResource());
