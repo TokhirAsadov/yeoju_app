@@ -10,6 +10,7 @@ import uz.yeoju.yeoju_app.payload.otherServiceDtos.ResultDto;
 
 public interface WorkOtherService {
     Object sendMultipartDataOtherServer(MultipartHttpServletRequest request,String url);
+    Object sendMultipartDataOtherServer2(MultipartHttpServletRequest request,String url);
     ResToken getResToken(SignInDto sign);
     Object getDataFromOther(String url,Integer page,Integer size);
     Object createOrUpdateResult(ResultDto dto);
