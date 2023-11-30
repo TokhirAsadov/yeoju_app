@@ -92,4 +92,10 @@ public class WorkDataOtherServiceController {
     public HttpEntity<?> saveGPA(MultipartHttpServletRequest request) throws IOException {
         return ResponseEntity.ok(service.sendMultipartDataOtherServer(request,"/gpa/importStudentsGPAs"));
     }
+
+    @PutMapping("/updateResult")
+    public HttpEntity<?> updateResult(MultipartHttpServletRequest request) throws IOException {
+        return ResponseEntity.ok(service.sendMultipartDataOtherServer2(request,"/result/updateStudentsResults"));
+    }
+
 }
