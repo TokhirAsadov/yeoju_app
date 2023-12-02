@@ -35,6 +35,11 @@ public class NotificationOuterImplService implements NotificationOuterService{
     }
 
     @Override
+    public ApiResponse getStudentNotifications(String studentId) {
+        return null;
+    }
+
+    @Override
     public ApiResponse createAndUpdate(NotificationOuterCreateDto dto) {
         if (dto.getId()==null){
             return save(dto);
