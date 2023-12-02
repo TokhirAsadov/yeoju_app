@@ -36,7 +36,7 @@ public class NotificationOuterImplService implements NotificationOuterService{
 
     @Override
     public ApiResponse getStudentNotifications(String studentId) {
-        return null;
+        return new ApiResponse(true,"student notifications",notificationRepository.getStudentNotificationOuters(studentId));
     }
 
     @Override
