@@ -15,6 +15,11 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.notificationOute
 public class NotificationOuterController {
     private final NotificationOuterService service;
 
+    @GetMapping("/getStudentOuterNotifications/{studentId}")
+    public HttpEntity<?> getStudentOuterNotifications(@PathVariable("studentId") String studentId) {
+        return ResponseEntity.ok(service.getStudentNotifications(studentId));
+    }
+
     @PostMapping("/save")
     public HttpEntity<?> save(@RequestBody NotificationOuterCreateDto dto){
         ApiResponse response = service.createAndUpdate(dto);
