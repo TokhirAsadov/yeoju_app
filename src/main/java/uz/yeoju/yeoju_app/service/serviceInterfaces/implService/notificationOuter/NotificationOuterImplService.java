@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.notificationOut
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.dekanat.NotificationOuterCreateDto;
 import uz.yeoju.yeoju_app.repository.NotificationOuterRepository;
 
 @Service
@@ -13,5 +14,10 @@ public class NotificationOuterImplService implements NotificationOuterService{
     @Override
     public ApiResponse findAllNotifications() {
         return new ApiResponse(true,"all notifications",repository.findAll());
+    }
+
+    @Override
+    public ApiResponse createAndUpdate(NotificationOuterCreateDto dto) {
+        return null;
     }
 }
