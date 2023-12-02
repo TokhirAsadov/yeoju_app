@@ -20,5 +20,9 @@ public class NotificationOuterController {
         ApiResponse response = service.createAndUpdate(dto);
         return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
     }
-
+    @PutMapping("/update")
+    public HttpEntity<?> update(@RequestBody NotificationOuterCreateDto dto){
+        ApiResponse response = service.createAndUpdate(dto);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
+    }
 }
