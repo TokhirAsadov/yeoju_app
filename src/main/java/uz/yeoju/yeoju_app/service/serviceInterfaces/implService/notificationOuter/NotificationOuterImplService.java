@@ -39,7 +39,46 @@ public class NotificationOuterImplService implements NotificationOuterService{
         if (dto.getId()==null){
             return save(dto);
         }
-        return null;
+        else {
+            return update(dto);
+        }
+    }
+
+    public ApiResponse update(NotificationOuterCreateDto dto){
+        Optional<NotificationOuter> outerOptional = notificationRepository.findById(dto.getId());
+        if (outerOptional.isPresent()){
+            Optional<Dekanat> optionalDekanat = dekanatRepository.findById(dto.getDekanatId());
+            if (optionalDekanat.isPresent()){
+                Optional<EducationYear> optionalEducationYear = educationYearRepository.findById(dto.getEducationId());
+                if (optionalEducationYear.isPresent()){
+                    Dekanat dekanat = optionalDekanat.get();
+                    EducationYear educationYear = optionalEducationYear.get();
+                    List<Faculty> faculties = facultyRepository.findAllById(dto.facultiesId);
+                    List<Group> groups = groupRepository.findAllById(dto.getGroupsId());
+
+                    NotificationOuter notificationOuter = outerOptional.get();
+                    notificationOuter.setDekanat(dekanat);
+                    notificationOuter.setEducationYear(educationYear);
+                    notificationOuter.setFaculties(new HashSet<>(faculties));
+                    notificationOuter.setGroups(new HashSet<>(groups));
+                    notificationOuter.setCourse(dto.getCourse());
+                    notificationOuter.setFromDate(dto.getFromDate());
+                    notificationOuter.setToDate(dto.getToDate());
+                    notificationRepository.save(notificationOuter);
+                    return new ApiResponse(true,"notification was updated successful");
+                }
+                else {
+                    return new ApiResponse(false,"education year was not found by id: " + dto.getEducationId());
+                }
+            }
+            else {
+                return new ApiResponse(false,"dekanat was not found by id: " + dto.getDekanatId());
+            }
+        }
+        else {
+            return new ApiResponse(false,"notification was not found by id: " + dto.getId());
+        }
+
     }
 
     public ApiResponse save(NotificationOuterCreateDto dto){
