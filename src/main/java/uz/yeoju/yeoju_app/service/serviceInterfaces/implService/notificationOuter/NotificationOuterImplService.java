@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.entity.dekanat.Dekanat;
 import uz.yeoju.yeoju_app.entity.dekanat.NotificationOuter;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.dekanat.GetNotificationOuterDto;
 import uz.yeoju.yeoju_app.payload.dekanat.NotificationOuterCreateDto;
 import uz.yeoju.yeoju_app.repository.DekanatRepository;
 import uz.yeoju.yeoju_app.repository.FacultyRepository;
@@ -114,5 +115,18 @@ public class NotificationOuterImplService implements NotificationOuterService{
         else {
             return new ApiResponse(false,"dekanat was not found by id: " + dto.getDekanatId());
         }
+    }
+
+    public GetNotificationOuterDto generateDto(NotificationOuter notification){
+        return new GetNotificationOuterDto(
+            notification.getId(),
+            notification.getDekanat().getName(),
+            notification.getEducationYear().getName(),
+            notification.getCourse(),
+            notification.getFromDate(),
+            notification.getToDate(),
+            notification.getFaculties().stream().map(Faculty::getName).collect(Collectors.toSet()),
+            notification.getGroups().stream().map(Group::getName).collect(Collectors.toSet())
+        );
     }
 }
