@@ -93,7 +93,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
     @Query(value = "\n" +
             "select t1.cardNo,t1.timeAsc,t2.timeDesc" +
             " from (\n" +
-            "select  Top 1 al.card_no as cardNo, al.time as timeAsc\n" +
+            "select  Top 1 u.RFID as cardNo, al.time as timeAsc\n" +
             "from acc_monitor_log al\n" +
             "         join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "where al.time \n" +
@@ -107,7 +107,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
             "order by al.time asc) as t1\n" +
             "join \n" +
             "    (\n" +
-            "select  Top 1 al.card_no, al.time as timeDesc\n" +
+            "select  Top 1 u.RFID as cardNo, al.time as timeDesc\n" +
             "from acc_monitor_log al join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "where al.time\n" +
             "      between\n" +
@@ -118,7 +118,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
             "              + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + :day AS DATETIME))\n" +
             "    and u.id=:id\n" +
             "order by al.time desc\n" +
-            ") as t2 on t1.cardNo = t2.card_no\n",nativeQuery = true)
+            ") as t2 on t1.cardNo = t2.cardNo\n",nativeQuery = true)
     GetEnterOutTimes getEnterOutTimes(@Param("id") String id, @Param("date") Date date, @Param("day") String day);
 
 
