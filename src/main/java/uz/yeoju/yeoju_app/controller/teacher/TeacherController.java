@@ -6,7 +6,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.teacher.TeacherSaveDto;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.teacher.TeacherService;
 
 import java.util.Calendar;
@@ -18,6 +20,17 @@ public class TeacherController {
 
     @Autowired
     private TeacherService teacherService;
+
+    @GetMapping("/getDataForTeacherDocumentPDF/{educationYearId}")
+    public HttpEntity<?> getDataForTeacherDocumentPDF(
+            @CurrentUser User user,
+            @PathVariable("educationYearId") String educationYearId,
+            @RequestParam("subjectId") String subjectId,
+            @RequestParam("groupId") String groupId
+            ){
+        teacherService.getDataForTeacherDocumentPDF(user,educationYearId,subjectId,groupId);
+        return ResponseEntity.ok(teacherService.findAll());
+    }
 
     @PostMapping("/date")
     public void date(@RequestParam("date")
