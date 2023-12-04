@@ -125,7 +125,7 @@ public class NotificationOuterImplService implements NotificationOuterService{
             notification.getCourse(),
             notification.getFromDate(),
             notification.getToDate(),
-            notification.getFaculties().stream().map(Faculty::getName).collect(Collectors.toSet()),
+            notification.getFaculties().stream().map(Faculty::getShortName).collect(Collectors.toSet()),
             notification.getGroups().stream().map(Group::getName).collect(Collectors.toSet())
         );
     }
