@@ -21,6 +21,13 @@ public class GroupController {
     public final GroupService groupService;
 
 
+
+    @GetMapping("/getGroupsByFacultiesIds")
+    public HttpEntity<?> getGroupsByFacultiesIds(@CurrentUser User user,@RequestParam("educationType") String educationType,@RequestParam("course") Integer course,@RequestParam("facultiesIds") List<String> facultiesIds){
+        ApiResponse response = groupService.getGroupsByFacultiesIds(facultiesIds,course,educationType);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
+    }
+
     @GetMapping("/getStudentStatisticsForDeanOneWeek/{groupId}")
     public HttpEntity<?> getStudentStatisticsForDeanOneWeek(
 //            @CurrentUser User user,
