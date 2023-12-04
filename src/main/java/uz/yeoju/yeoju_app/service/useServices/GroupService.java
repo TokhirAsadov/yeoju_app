@@ -9,6 +9,7 @@ import uz.yeoju.yeoju_app.payload.dekanat.DekanGroupUpdateDto;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable;
+import uz.yeoju.yeoju_app.payload.resDto.group.GroupForStudent;
 import uz.yeoju.yeoju_app.payload.uquvbulimi.GroupAndLessonsOfWeek;
 import uz.yeoju.yeoju_app.payload.uquvbulimi.LessonDataForWeek;
 import uz.yeoju.yeoju_app.repository.*;
@@ -492,5 +493,15 @@ public class GroupService implements GroupImplService<GroupDto> {
         else {
             return new ApiResponse(false,"not found group by id : "+groupId);
         }
+    }
+
+    public ApiResponse getGroupsByFacultiesIds(List<String> facultiesIds,Integer course,String educationType) {
+
+        Set<GroupForStudent> groups = new HashSet<>();
+        facultiesIds.forEach(facultiesId -> {
+            Set<GroupForStudent> groupsByFacultiesIds = groupRepository.getGroupsByFacultiesIds(educationType, course, facultiesId);
+            groups.addAll(groupsByFacultiesIds);
+        });
+        return new ApiResponse(true,"groups",groups);
     }
 }
