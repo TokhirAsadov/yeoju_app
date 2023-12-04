@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.module.GradeOfStudentByTeacher;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.CreateGradeOfStudentByTeacher;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetGradesOfStudent;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetStudentDataForMiddleGrade;
@@ -34,8 +35,8 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
     }
 
     @Override
-    public ApiResponse getAvgGradesOfStudent(String teacherId, String studentId, String educationYearId, String subjectId) {
-        return new ApiResponse(true,"svg Grades of students",gradeRepository.getMiddleGrade(teacherId, studentId, educationYearId, subjectId));
+    public ApiResponseTwoObj getAvgGradesOfStudent(String teacherId, String studentId, String educationYearId, String subjectId, String groupId) {
+        return new ApiResponseTwoObj(true,"svg Grades of students",gradeRepository.getSumGrade(teacherId, studentId, educationYearId, subjectId),gradeRepository.getMaxStep(educationYearId, subjectId, groupId));
     }
 
     @Override
