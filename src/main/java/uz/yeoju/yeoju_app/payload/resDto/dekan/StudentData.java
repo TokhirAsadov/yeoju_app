@@ -15,6 +15,9 @@ public interface StudentData {
     String getPassportNum();
     String getEmail();
     String getRFID();
+    String getTeachStatus();
+    String getLengthOfStudying();
+    String getRektororder();
 
 
 
