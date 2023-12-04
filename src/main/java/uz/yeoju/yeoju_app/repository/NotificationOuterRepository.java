@@ -9,7 +9,7 @@ import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.GetStudentNotificationOut
 import java.util.Set;
 
 public interface NotificationOuterRepository extends JpaRepository<NotificationOuter,String> {
-    @Query(value = "select n.id,ey.name as educationYear, n.fromDate,n.toDate from NotificationOuter n \n" +
+    @Query(value = "select n.id,ey.name as educationYear, n.fromDate,n.toDate,n.updatedAt from NotificationOuter n \n" +
             "join EducationYear ey on ey.id = n.educationYear_id\n" +
             "join NotificationOuter_groups NOg on n.id = NOg.NotificationOuter_id\n" +
             "join groups g on NOg.groups_id = g.id\n" +
