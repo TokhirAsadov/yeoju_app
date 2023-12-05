@@ -77,5 +77,11 @@ public class PermissionForTeacherGradingController {
         return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
     }
 
+    @PutMapping("/updatePermissionForTeacherGrading")
+    public HttpEntity<?> updatePermissionForTeacherGrading(@CurrentUser User user, @RequestBody CreatePermissionForTeacherGradingDto dto){
+        ApiResponse response = service.createOrUpdatePermissionsForTeacherGrading(user,dto);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
+    }
+
 
 }
