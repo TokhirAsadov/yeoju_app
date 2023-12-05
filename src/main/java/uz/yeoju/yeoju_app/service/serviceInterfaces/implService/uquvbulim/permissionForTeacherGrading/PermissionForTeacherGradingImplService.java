@@ -80,6 +80,11 @@ public class PermissionForTeacherGradingImplService implements PermissionForTeac
         return new ApiResponse(true,"history of permission for teacher grading",history);
     }
 
+    @Override
+    public ApiResponse getConfirmPermission(User user, String educationYearId, String teacherId, String subjectId, String groupId) {
+        return new ApiResponse(true,"your permissions",permissionRepository.getConfirmPermission(educationYearId,teacherId,subjectId,groupId));
+    }
+
 
 
 
