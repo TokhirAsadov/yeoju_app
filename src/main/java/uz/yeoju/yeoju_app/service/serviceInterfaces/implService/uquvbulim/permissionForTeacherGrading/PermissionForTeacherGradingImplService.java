@@ -48,6 +48,12 @@ public class PermissionForTeacherGradingImplService implements PermissionForTeac
         return new ApiResponse(true,"all permissions by status and education year",all);
     }
 
+    @Override
+    public ApiResponse findById(String id) {
+        Optional<PermissionForTeacherGrading> optional = permissionRepository.findById(id);
+        return optional.map(permissionForTeacherGrading -> new ApiResponse(true, "permission was found by id", permissionForTeacherGrading)).orElseGet(() -> new ApiResponse(false, "not found permission by id: " + id));
+    }
+
 
 
 }
