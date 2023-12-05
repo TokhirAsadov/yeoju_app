@@ -39,6 +39,15 @@ public class PermissionForTeacherGradingImplService implements PermissionForTeac
     public ApiResponse findAllPermissionsForTeacherGrading() {
         return new ApiResponse(true,"find all permissions",permissionRepository.findAll());
     }
+    @Override
+    public ApiResponse findAllPermissionsForTeacherGradingByEducationYearIdAndStatus(String educationYearId, PPostStatus status) {
+
+        System.out.println(educationYearId);
+        System.out.println(status);
+        List<PermissionForTeacherGradingResDto> all = permissionRepository.findAllByStatusAndEducationYearIdOrderByCreatedAt(educationYearId,status.name());
+        return new ApiResponse(true,"all permissions by status and education year",all);
+    }
+
 
 
 }
