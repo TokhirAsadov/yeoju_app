@@ -8,10 +8,7 @@ import uz.yeoju.yeoju_app.entity.Lesson;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import uz.yeoju.yeoju_app.entity.temp.AbsLongEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
@@ -19,11 +16,12 @@ import javax.persistence.OneToOne;
 @Entity
 public class SubjectCredit extends AbsLongEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
+    @JoinColumn(name = "lesson_id")
     private Lesson lesson;
     private String credit;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Group group;
     private String year;
     private String semester;
