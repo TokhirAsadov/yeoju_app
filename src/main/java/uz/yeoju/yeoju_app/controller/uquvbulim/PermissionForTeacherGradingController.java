@@ -34,6 +34,11 @@ public class PermissionForTeacherGradingController {
         return ResponseEntity.ok(service.findAllPermissionsForTeacherGradingByEducationYearIdAndStatus(educationYearId,pPostStatus));
     }
 
+    @GetMapping("/getHistory")
+    public HttpEntity<?> getHistory(){
+        return ResponseEntity.ok(service.getHistory());
+    }
+
 
 
 }
