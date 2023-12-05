@@ -14,6 +14,7 @@ import uz.yeoju.yeoju_app.entity.timetableDB.CardDB;
 import uz.yeoju.yeoju_app.entity.timetableDB.GroupConnectSubject;
 import uz.yeoju.yeoju_app.entity.timetableDB.LessonDB;
 import uz.yeoju.yeoju_app.entity.timetableDB.TeacherConnectSubject;
+import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.educationYear.GroupsLessonCount;
@@ -136,18 +137,18 @@ public class TimeTableDBImplService implements TimeTableDBService {
         String xmlFile = year+"/"+week+"med.xml";
         Document document = getSAXParsedDocument(xmlFile);
         Element rootNode = document.getRootElement();
-        rootNode.getChild("periods").getChildren("period").forEach(TimeTableByWeekOfYearImplService::readPeriodMed);
-        rootNode.getChild("daysdefs").getChildren("daysdef").forEach(TimeTableByWeekOfYearImplService::readDaysDefMed);
-        rootNode.getChild("weeksdefs").getChildren("weeksdef").forEach(TimeTableByWeekOfYearImplService::readWeeksDefMed);
-        rootNode.getChild("termsdefs").getChildren("termsdef").forEach(TimeTableByWeekOfYearImplService::readTermsDefsMed);
-        rootNode.getChild("subjects").getChildren("subject").forEach(TimeTableByWeekOfYearImplService::readSubjectMed);
-        rootNode.getChild("teachers").getChildren("teacher").forEach(TimeTableByWeekOfYearImplService::readTeacherMed);
-        rootNode.getChild("classrooms").getChildren("classroom").forEach(TimeTableByWeekOfYearImplService::readClassroomMed);
-        rootNode.getChild("grades").getChildren("grade").forEach(TimeTableByWeekOfYearImplService::readGradeMed);
-        rootNode.getChild("classes").getChildren("class").forEach(TimeTableByWeekOfYearImplService::readClassMed);
-        rootNode.getChild("groups").getChildren("group").forEach(TimeTableByWeekOfYearImplService::readGroupMed);
-        rootNode.getChild("lessons").getChildren("lesson").forEach(TimeTableByWeekOfYearImplService::readLessonMed);
-        rootNode.getChild("cards").getChildren("card").forEach(TimeTableByWeekOfYearImplService::readCardMed);
+        rootNode.getChild("periods").getChildren("period").forEach(TimeTableDBImplService::readPeriodMed);
+        rootNode.getChild("daysdefs").getChildren("daysdef").forEach(TimeTableDBImplService::readDaysDefMed);
+        rootNode.getChild("weeksdefs").getChildren("weeksdef").forEach(TimeTableDBImplService::readWeeksDefMed);
+        rootNode.getChild("termsdefs").getChildren("termsdef").forEach(TimeTableDBImplService::readTermsDefsMed);
+        rootNode.getChild("subjects").getChildren("subject").forEach(TimeTableDBImplService::readSubjectMed);
+        rootNode.getChild("teachers").getChildren("teacher").forEach(TimeTableDBImplService::readTeacherMed);
+        rootNode.getChild("classrooms").getChildren("classroom").forEach(TimeTableDBImplService::readClassroomMed);
+        rootNode.getChild("grades").getChildren("grade").forEach(TimeTableDBImplService::readGradeMed);
+        rootNode.getChild("classes").getChildren("class").forEach(TimeTableDBImplService::readClassMed);
+        rootNode.getChild("groups").getChildren("group").forEach(TimeTableDBImplService::readGroupMed);
+        rootNode.getChild("lessons").getChildren("lesson").forEach(TimeTableDBImplService::readLessonMed);
+        rootNode.getChild("cards").getChildren("card").forEach(TimeTableDBImplService::readCardMed);
     }
 
     @Override
@@ -199,9 +200,9 @@ public class TimeTableDBImplService implements TimeTableDBService {
 
 //                    if (optionalUser.isPresent()) {
                     try {
-                        User user = optionalUser.orElseThrow(()-> new Exception(t.getShortName()+" not found teacher by id: "+t.getShortName()+"."));
+                        User user = optionalUser.orElseThrow(()-> new UserNotFoundException(t.getName()+" not found teacher by id: "+t.getShortName()+"."));
 
-//                    User user = optionalUser.get();
+//                        User user = optionalUser.get();
                         teacherConnectSubject.setUser(user);
                         Subject subject = subjects.stream().filter(s -> s.getId().equals(l.getSubjectId())).findFirst().get();
                         Lesson lessonByName = lessonRepository.getLessonByName(subject.getName());
@@ -443,27 +444,30 @@ public class TimeTableDBImplService implements TimeTableDBService {
 
 //                    if (optionalUser.isPresent()) {
                     try {
-                        User user = optionalUser.orElseThrow(()-> new Exception(t.getShortName()+" not found teacher by id: "+t.getShortName()+"."));
+                        User user = optionalUser.orElseThrow(()-> new UserNotFoundException(t.getName()+" not found teacher by id: "+t.getShortName()+"."));
+//                        if (optionalUser.isPresent()) {
+//
+//                            User user = optionalUser.get();
 
-//                    User user = optionalUser.get();
-                        teacherConnectSubject.setUser(user);
-                        Subject subject = subjectsMed.stream().filter(s -> s.getId().equals(l.getSubjectId())).findFirst().get();
-                        Lesson lessonByName = lessonRepository.getLessonByName(subject.getName());
-                        teacherConnectSubject.setLesson(lessonByName);
+                            teacherConnectSubject.setUser(user);
+                            Subject subject = subjectsMed.stream().filter(s -> s.getId().equals(l.getSubjectId())).findFirst().get();
+                            Lesson lessonByName = lessonRepository.getLessonByName(subject.getName());
+                            teacherConnectSubject.setLesson(lessonByName);
 
-                        Set<Group> groupSet = new HashSet<>();
-                        l.getClassIds().forEach(i -> {
-                            Class aClass = classesMed.stream().filter(c -> c.getId().equals(i)).findFirst().get();
-                            Group groupByName = groupRepository.findGroupByName(aClass.getName());
-                            if (groupByName != null) {
-                                groupSet.add(groupByName);
-                            }
-                        });
-                        teacherConnectSubject.setGroups(groupSet);
-                        Optional<WeekOfEducationYear> optionalWeekOfEducationYear = weekOfEducationYearRepository.findWeekOfEducationBySortNumberAndYear(week, year);
-                        optionalWeekOfEducationYear.ifPresent(teacherConnectSubject::setWeeks);
+                            Set<Group> groupSet = new HashSet<>();
+                            l.getClassIds().forEach(i -> {
+                                Class aClass = classesMed.stream().filter(c -> c.getId().equals(i)).findFirst().get();
+                                Group groupByName = groupRepository.findGroupByName(aClass.getName());
+                                if (groupByName != null) {
+                                    groupSet.add(groupByName);
+                                }
+                            });
+                            teacherConnectSubject.setGroups(groupSet);
+                            Optional<WeekOfEducationYear> optionalWeekOfEducationYear = weekOfEducationYearRepository.findWeekOfEducationBySortNumberAndYear(week, year);
+                            optionalWeekOfEducationYear.ifPresent(teacherConnectSubject::setWeeks);
 
-                        teacherConnectSubjectRepository.save(teacherConnectSubject);
+                            teacherConnectSubjectRepository.save(teacherConnectSubject);
+//                        }
 
                     } catch (Exception e) {
                         throw new RuntimeException(e);

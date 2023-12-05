@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.entity.enums.Gandername;
 import uz.yeoju.yeoju_app.entity.enums.TeachStatus;
+import uz.yeoju.yeoju_app.entity.uquvbulim.DataOfLastActive;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.GroupDto;
@@ -23,6 +24,7 @@ import uz.yeoju.yeoju_app.payload.payres.FacultyStatisticDto;
 import uz.yeoju.yeoju_app.payload.payres.StudentFullNameAndAscAndDescDateDto;
 import uz.yeoju.yeoju_app.payload.resDto.student.*;
 import uz.yeoju.yeoju_app.repository.*;
+import uz.yeoju.yeoju_app.repository.uquvbulimi.DataOfLastActiveRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.StudentImplService;
 
 import java.io.IOException;
@@ -53,6 +55,7 @@ public class StudentService implements StudentImplService<StudentDto> {
     public final EducationFormRepository eduFormRepo;
     public final EducationTypeRepository eduTypeRepo;
     public final DataOfLastActiveService dataOfLastActiveService;
+    public final DataOfLastActiveRepository dataOfLastActiveRepository;
 
 
     @Transactional
@@ -77,6 +80,7 @@ public class StudentService implements StudentImplService<StudentDto> {
             Sheet sheet = workbook.getSheetAt(0);
             Iterator<Row> rows = sheet.iterator();
             rows.next();
+            int count = 0;
             while (rows.hasNext()){
                 Row row = rows.next();
 
@@ -85,65 +89,79 @@ public class StudentService implements StudentImplService<StudentDto> {
                 System.out.println(row.getCell(2).getStringCellValue());
                 System.out.println(row.getCell(3).getStringCellValue());
                 System.out.println(row.getCell(4).getStringCellValue());
+                System.out.println(row.getCell(4)!=null && !Objects.equals(row.getCell(4).getStringCellValue(), ""));
                 System.out.println(row.getCell(5).getStringCellValue());
-//                System.out.println(row.getCell(6).getStringCellValue());
-//                System.out.println(row.getCell(7).getStringCellValue());
+                System.out.println(row.getCell(6).getStringCellValue());
+                System.out.println(row.getCell(7).getStringCellValue());
 //                System.out.println(row.getCell(8).getStringCellValue());
 //                System.out.println(row.getCell(9).getStringCellValue());
 
-                User userByRFID = userRepository.findUserByRFID(row.getCell(3).getStringCellValue());
+                if (row.getCell(4)!=null && !Objects.equals(row.getCell(4).getStringCellValue(), "")) {
+                    User userByRFID = userRepository.findUserByRFID(row.getCell(4).getStringCellValue());
 
-                if (userByRFID !=null) {
-
-//                    Student studentByUserId1 = studentRepository.findStudentByUserId(userByRFID.getId());
-
-//                    if (studentByUserId1==null){
-
-                    if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
-                        Group group = new Group();
-                        group.setName(row.getCell(2).getStringCellValue());
-                        group.setLevel((int) row.getCell(1).getNumericCellValue());
-
-                        if (group.getName().charAt(group.getName().length() - 1) == 'U')
-                            group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
-                        if (group.getName().charAt(group.getName().length() - 1) == 'R')
-                            group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
-                        if (group.getName().charAt(group.getName().length() - 1) == 'E')
-                            group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
-
-                        if (group.getName().indexOf('-') == 3) {
-                            group.setEducationType(eduTypeRepo.findEducationTypeByName("KUNDUZGI").get());
-                        } else {
-                            if (group.getName().charAt(3) == 'P')
-                                group.setEducationType(eduTypeRepo.findEducationTypeByName("SIRTQI").get());
-                            else group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
+                    if (userByRFID !=null) {
+                        USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(row.getCell(4).getStringCellValue());
+                        if (userinfoByCardNoForSaving1!=null) {
+//                            userinfoByCardNoForSaving1.setCardNo(row.getCell(4).getStringCellValue());
+                            userinfoByCardNoForSaving1.setLastname(row.getCell(0).getStringCellValue());
+                            userinfoByCardNoForSaving1.setName(row.getCell(0).getStringCellValue());
+                            userInfoRepo.save(userinfoByCardNoForSaving1);
+                        }
+                        else {
+                            /**============== save user info ==============**/
+                            USERINFO userinfo = new USERINFO();
+                            userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+                            userinfo.setCardNo(row.getCell(4).getStringCellValue());
+                            userinfo.setLastname(row.getCell(0).getStringCellValue());
+                            userinfo.setName(row.getCell(0).getStringCellValue());
+                            userInfoRepo.save(userinfo);    // save userinfo
                         }
 
+                        if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
+                            Group group = new Group();
+                            group.setName(row.getCell(2).getStringCellValue());
+                            group.setLevel((int) row.getCell(1).getNumericCellValue());
+
+                            if (group.getName().charAt(group.getName().length() - 1) == 'U')
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                            if (group.getName().charAt(group.getName().length() - 1) == 'R')
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                            if (group.getName().charAt(group.getName().length() - 1) == 'E')
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+
+                            if (group.getName().indexOf('-') == 3) {
+                                group.setEducationType(eduTypeRepo.findEducationTypeByName("KUNDUZGI").get());
+                            } else {
+                                if (group.getName().charAt(3) == 'P')
+                                    group.setEducationType(eduTypeRepo.findEducationTypeByName("SIRTQI").get());
+                                else group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
+                            }
 
 
-                        Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
 
-                        System.out.println(row.getCell(2).getStringCellValue().substring(0, 2)+" <------------------------------");
-                        System.out.println(row.getCell(2).getStringCellValue().substring(0, 3)+" <------------------------------");
-                        System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
-                        group.setFaculty(facultyOptional.get());
+                            Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
 
-                        Group save1 = groupRepository.save(group);
+                            System.out.println(row.getCell(2).getStringCellValue().substring(0, 2)+" <------------------------------");
+                            System.out.println(row.getCell(2).getStringCellValue().substring(0, 3)+" <------------------------------");
+                            System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
+                            group.setFaculty(facultyOptional.get());
 
-                        userByRFID.setEnabled(true);
-                        userByRFID.setAccountNonExpired(true);
-                        userByRFID.setAccountNonLocked(true);
-                        userByRFID.setCredentialsNonExpired(true);
+                            Group save1 = groupRepository.save(group);
 
-                        userByRFID.setRFID(row.getCell(3).getStringCellValue());
-                        userByRFID.setFullName(row.getCell(0).getStringCellValue());
-                        userByRFID.setLogin(row.getCell(4).getStringCellValue());
-                        userByRFID.setPassportNum(row.getCell(5).getStringCellValue());
-                        userByRFID.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
-                        Set<Role> userRoles = new HashSet<>();
-                        Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
-                        roleOptional.ifPresent(userRoles::add);
-                        userByRFID.setRoles(userRoles);
+                            userByRFID.setEnabled(true);
+                            userByRFID.setAccountNonExpired(true);
+                            userByRFID.setAccountNonLocked(true);
+                            userByRFID.setCredentialsNonExpired(true);
+
+                            userByRFID.setRFID(row.getCell(4).getStringCellValue());
+                            userByRFID.setFullName(row.getCell(0).getStringCellValue());
+                            userByRFID.setLogin(row.getCell(3).getStringCellValue());
+                            userByRFID.setPassportNum(row.getCell(5).getStringCellValue());
+                            userByRFID.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
+                            Set<Role> userRoles = new HashSet<>();
+                            Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                            roleOptional.ifPresent(userRoles::add);
+                            userByRFID.setRoles(userRoles);
 //                        userByRFID.setNationality(row.getCell(9).getStringCellValue());
 //                        if (row.getCell(4).getStringCellValue()=="MALE"){
 //                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
@@ -154,98 +172,119 @@ public class StudentService implements StudentImplService<StudentDto> {
 //                            userByRFID.setGander(ganderByGandername);
 //                        }
 
-                        userRepository.save(userByRFID);
+                            userRepository.save(userByRFID);
+                            count++;
 
-                        //todo-----------
-                        if (studentRepository.existsStudentByUserId(userByRFID.getId())) {
-                            Student studentByUserId = studentRepository.findStudentByUserId(userByRFID.getId());
+                            //todo-----------
+                            if (studentRepository.existsStudentByUserId(userByRFID.getId())) {
+                                Student studentByUserId = studentRepository.findStudentByUserId(userByRFID.getId());
 
-                            studentByUserId.setUser(userByRFID);
-                            studentByUserId.setGroup(save1);
-                            studentByUserId.setTeachStatus(TeachStatus.TEACHING);
-                            studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
+                                studentByUserId.setUser(userByRFID);
+                                studentByUserId.setGroup(save1);
+                                studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                                studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
 
-                            Student save = studentRepository.save(studentByUserId);
+                                Student save = studentRepository.save(studentByUserId);
+                            }
+                            else {
+                                Student student = new Student();
+                                student.setUser(userByRFID);
+                                student.setTeachStatus(TeachStatus.TEACHING);
+                                student.setRektororder(row.getCell(6).getStringCellValue());
+                                student.setGroup(save1);
+                                Student save = studentRepository.save(student);
+                            }
+
+
                         }
                         else {
-                            Student student = new Student();
-                            student.setUser(userByRFID);
-                            student.setTeachStatus(TeachStatus.TEACHING);
-                            student.setRektororder(row.getCell(6).getStringCellValue());
-                            student.setGroup(save1);
-                            Student save = studentRepository.save(student);
+                            userByRFID.setEnabled(true);
+                            userByRFID.setAccountNonExpired(true);
+                            userByRFID.setAccountNonLocked(true);
+                            userByRFID.setCredentialsNonExpired(true);
+                            userByRFID.setRFID(row.getCell(4).getStringCellValue());
+                            userByRFID.setFullName(row.getCell(0).getStringCellValue());
+                            userByRFID.setLogin(row.getCell(3).getStringCellValue());
+                            userByRFID.setPassportNum(row.getCell(5).getStringCellValue());
+                            userByRFID.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
+                            Set<Role> userRoles = new HashSet<>();
+                            Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                            roleOptional.ifPresent(userRoles::add);
+                            userByRFID.setRoles(userRoles);
+//                        userByRFID.setNationality(row.getCell(9).getStringCellValue());
+//                        if (row.getCell(4).getStringCellValue()=="MALE"){
+//                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+//                            userByRFID.setGander(ganderByGandername);
+//                        }
+//                        else {
+//                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+//                            userByRFID.setGander(ganderByGandername);
+//                        }
+
+                            User save1 = userRepository.save(userByRFID);
+                            count++;
+
+                            // group
+                            Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
+                            groupByName.setLevel((int) row.getCell(1).getNumericCellValue());
+                            groupRepository.save(groupByName);
+
+                            // student
+                            if (studentRepository.existsStudentByUserId(save1.getId())) {
+                                Student studentByUserId = studentRepository.findStudentByUserId(save1.getId());
+
+                                studentByUserId.setUser(save1);
+                                studentByUserId.setGroup(groupByName);
+                                studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                                studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
+
+                                Student save = studentRepository.save(studentByUserId);
+                            }
+                            else {
+                                Student student = new Student();
+                                student.setUser(userByRFID);
+                                student.setTeachStatus(TeachStatus.TEACHING);
+                                student.setRektororder(row.getCell(6).getStringCellValue());
+                                student.setGroup(groupByName);
+                                Student save = studentRepository.save(student);
+                            }
+
                         }
-
-
                     }
                     else {
-                        userByRFID.setEnabled(true);
-                        userByRFID.setAccountNonExpired(true);
-                        userByRFID.setAccountNonLocked(true);
-                        userByRFID.setCredentialsNonExpired(true);
-                        userByRFID.setRFID(row.getCell(3).getStringCellValue());
-                        userByRFID.setFullName(row.getCell(0).getStringCellValue());
-                        userByRFID.setLogin(row.getCell(4).getStringCellValue());
-                        userByRFID.setPassportNum(row.getCell(5).getStringCellValue());
-                        userByRFID.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
-                        Set<Role> userRoles = new HashSet<>();
-                        Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
-                        roleOptional.ifPresent(userRoles::add);
-                        userByRFID.setRoles(userRoles);
-//                        userByRFID.setNationality(row.getCell(9).getStringCellValue());
-//                        if (row.getCell(4).getStringCellValue()=="MALE"){
-//                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
-//                            userByRFID.setGander(ganderByGandername);
-//                        }
-//                        else {
-//                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
-//                            userByRFID.setGander(ganderByGandername);
-//                        }
-
-                        User save1 = userRepository.save(userByRFID);
-
-                        // group
-                        Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
-                        groupByName.setLevel((int) row.getCell(1).getNumericCellValue());
-                        groupRepository.save(groupByName);
-
-                        // student
-                        if (studentRepository.existsStudentByUserId(save1.getId())) {
-                            Student studentByUserId = studentRepository.findStudentByUserId(save1.getId());
-
-                            studentByUserId.setUser(save1);
-                            studentByUserId.setGroup(groupByName);
-                            studentByUserId.setTeachStatus(TeachStatus.TEACHING);
-                            studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
-
-                            Student save = studentRepository.save(studentByUserId);
+                        USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(row.getCell(4).getStringCellValue());
+                        if (userinfoByCardNoForSaving1!=null) {
+//                            userinfoByCardNoForSaving1.setCardNo(row.getCell(4).getStringCellValue());
+                            userinfoByCardNoForSaving1.setLastname(row.getCell(0).getStringCellValue());
+                            userinfoByCardNoForSaving1.setName(row.getCell(0).getStringCellValue());
+                            userInfoRepo.save(userinfoByCardNoForSaving1);
                         }
                         else {
-                            Student student = new Student();
-                            student.setUser(userByRFID);
-                            student.setTeachStatus(TeachStatus.TEACHING);
-                            student.setRektororder(row.getCell(6).getStringCellValue());
-                            student.setGroup(groupByName);
-                            Student save = studentRepository.save(student);
+                            /**============== save user info ==============**/
+                            USERINFO userinfo = new USERINFO();
+                            userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
+                            userinfo.setCardNo(row.getCell(4).getStringCellValue());
+                            userinfo.setLastname(row.getCell(0).getStringCellValue());
+                            userinfo.setName(row.getCell(0).getStringCellValue());
+                            userInfoRepo.save(userinfo);    // save userinfo
                         }
 
-                    }
-                }
-                else {
-                    User user = new User();
-                    user.setEnabled(true);
-                    user.setAccountNonExpired(true);
-                    user.setAccountNonLocked(true);
-                    user.setCredentialsNonExpired(true);
-                    user.setRFID(row.getCell(3).getStringCellValue());
-                    user.setFullName(row.getCell(0).getStringCellValue());
-                    user.setLogin(row.getCell(4).getStringCellValue());
-                    user.setPassportNum(row.getCell(5).getStringCellValue());
-                    user.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
-                    Set<Role> userRoles = new HashSet<>();
-                    Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
-                    roleOptional.ifPresent(userRoles::add);
-                    user.setRoles(userRoles);
+                        Optional<User> optionalUserByLogin = userRepository.findUserByLogin(row.getCell(3).getStringCellValue());
+                        if (optionalUserByLogin.isPresent()) {
+                            User user = optionalUserByLogin.get();
+                            user.setEnabled(true);
+                            user.setAccountNonExpired(true);
+                            user.setAccountNonLocked(true);
+                            user.setCredentialsNonExpired(true);
+                            user.setRFID(row.getCell(4).getStringCellValue());
+                            user.setFullName(row.getCell(0).getStringCellValue());
+                            user.setLogin(row.getCell(3).getStringCellValue());
+                            user.setPassportNum(row.getCell(5).getStringCellValue());
+                            user.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
+                            Set<Role> userRoles = new HashSet<>();
+                            Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                            roleOptional.ifPresent(userRoles::add);
+                            user.setRoles(userRoles);
 //                    user.setNationality(row.getCell(9).getStringCellValue());
 //                    if (row.getCell(4).getStringCellValue()=="MALE"){
 //                        Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
@@ -255,59 +294,404 @@ public class StudentService implements StudentImplService<StudentDto> {
 //                        Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
 //                        user.setGander(ganderByGandername);
 //                    }
-                    userRepository.saveAndFlush(user);
+                            userRepository.saveAndFlush(user);
+                            count++;
 
 
-                    if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
-                        Group group = new Group();
-                        group.setName(row.getCell(2).getStringCellValue());
-                        group.setLevel((int) row.getCell(1).getNumericCellValue());
+                            if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
+                                Group group = new Group();
+                                group.setName(row.getCell(2).getStringCellValue());
+                                group.setLevel((int) row.getCell(1).getNumericCellValue());
 
-                        if (group.getName().charAt(group.getName().length() - 1) == 'U')
-                            group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
-                        if (group.getName().charAt(group.getName().length() - 1) == 'R')
-                            group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
-                        if (group.getName().charAt(group.getName().length() - 1) == 'E')
-                            group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+                                if (group.getName().charAt(group.getName().length() - 1) == 'U')
+                                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                                if (group.getName().charAt(group.getName().length() - 1) == 'R')
+                                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                                if (group.getName().charAt(group.getName().length() - 1) == 'E')
+                                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
 
-                        if (group.getName().indexOf('-') == 3) {
-                            group.setEducationType(eduTypeRepo.findEducationTypeByName("KUNDUZGI").get());
-                        } else {
-                            if (group.getName().charAt(3) == 'P')
-                                group.setEducationType(eduTypeRepo.findEducationTypeByName("SIRTQI").get());
-                            else group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
+                                if (group.getName().indexOf('-') == 3) {
+                                    group.setEducationType(eduTypeRepo.findEducationTypeByName("KUNDUZGI").get());
+                                } else {
+                                    if (group.getName().charAt(3) == 'P')
+                                        group.setEducationType(eduTypeRepo.findEducationTypeByName("SIRTQI").get());
+                                    else group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
+                                }
+
+                                Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
+                                group.setFaculty(facultyOptional.get());
+                                System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
+                                Group save1 = groupRepository.save(group);
+
+
+                                if (studentRepository.existsStudentByUserId(user.getId())) {
+                                    Student studentByUserId = studentRepository.findStudentByUserId(user.getId());
+
+                                    studentByUserId.setUser(user);
+                                    studentByUserId.setGroup(save1);
+                                    studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                                    studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
+
+                                    Student save = studentRepository.save(studentByUserId);
+                                }
+                                else {
+                                    Student student = new Student();
+                                    student.setUser(user);
+                                    student.setTeachStatus(TeachStatus.TEACHING);
+                                    student.setRektororder(row.getCell(6).getStringCellValue());
+                                    student.setGroup(save1);
+                                    Student save = studentRepository.save(student);
+                                }
+
+                            }
+                            else {
+
+                                // group
+                                Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
+                                groupByName.setLevel((int) row.getCell(1).getNumericCellValue());
+                                groupRepository.save(groupByName);
+
+                                // student
+                                if (studentRepository.existsStudentByUserId(user.getId())) {
+                                    Student studentByUserId = studentRepository.findStudentByUserId(user.getId());
+
+                                    studentByUserId.setUser(user);
+                                    studentByUserId.setGroup(groupByName);
+                                    studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                                    studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
+
+                                    Student save = studentRepository.save(studentByUserId);
+                                }
+                                else {
+                                    Student student = new Student();
+                                    student.setUser(user);
+                                    student.setTeachStatus(TeachStatus.TEACHING);
+                                    student.setRektororder(row.getCell(6).getStringCellValue());
+                                    student.setGroup(groupByName);
+                                    Student save = studentRepository.save(student);
+                                }
+
+                            }
+                        }
+                        else {
+                            User user = new User();
+                            user.setEnabled(true);
+                            user.setAccountNonExpired(true);
+                            user.setAccountNonLocked(true);
+                            user.setCredentialsNonExpired(true);
+                            user.setRFID(row.getCell(4).getStringCellValue());
+                            user.setFullName(row.getCell(0).getStringCellValue());
+                            user.setLogin(row.getCell(3).getStringCellValue());
+                            user.setPassportNum(row.getCell(5).getStringCellValue());
+                            user.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
+                            Set<Role> userRoles = new HashSet<>();
+                            Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                            roleOptional.ifPresent(userRoles::add);
+                            user.setRoles(userRoles);
+//                    user.setNationality(row.getCell(9).getStringCellValue());
+//                    if (row.getCell(4).getStringCellValue()=="MALE"){
+//                        Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+//                        user.setGander(ganderByGandername);
+//                    }
+//                    else {
+//                        Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+//                        user.setGander(ganderByGandername);
+//                    }
+                            userRepository.saveAndFlush(user);
+                            count++;
+
+
+                            if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
+                                Group group = new Group();
+                                group.setName(row.getCell(2).getStringCellValue());
+                                group.setLevel((int) row.getCell(1).getNumericCellValue());
+
+                                if (group.getName().charAt(group.getName().length() - 1) == 'U')
+                                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                                if (group.getName().charAt(group.getName().length() - 1) == 'R')
+                                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                                if (group.getName().charAt(group.getName().length() - 1) == 'E')
+                                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+
+                                if (group.getName().indexOf('-') == 3) {
+                                    group.setEducationType(eduTypeRepo.findEducationTypeByName("KUNDUZGI").get());
+                                } else {
+                                    if (group.getName().charAt(3) == 'P')
+                                        group.setEducationType(eduTypeRepo.findEducationTypeByName("SIRTQI").get());
+                                    else group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
+                                }
+
+                                Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
+                                group.setFaculty(facultyOptional.get());
+                                System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
+                                Group save1 = groupRepository.save(group);
+
+
+                                if (studentRepository.existsStudentByUserId(user.getId())) {
+                                    Student studentByUserId = studentRepository.findStudentByUserId(user.getId());
+
+                                    studentByUserId.setUser(user);
+                                    studentByUserId.setGroup(save1);
+                                    studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                                    studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
+
+                                    Student save = studentRepository.save(studentByUserId);
+                                }
+                                else {
+                                    Student student = new Student();
+                                    student.setUser(user);
+                                    student.setTeachStatus(TeachStatus.TEACHING);
+                                    student.setRektororder(row.getCell(6).getStringCellValue());
+                                    student.setGroup(save1);
+                                    Student save = studentRepository.save(student);
+                                }
+
+                            }
+                            else {
+
+                                // group
+                                Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
+                                groupByName.setLevel((int) row.getCell(1).getNumericCellValue());
+                                groupRepository.save(groupByName);
+
+                                // student
+                                if (studentRepository.existsStudentByUserId(user.getId())) {
+                                    Student studentByUserId = studentRepository.findStudentByUserId(user.getId());
+
+                                    studentByUserId.setUser(user);
+                                    studentByUserId.setGroup(groupByName);
+                                    studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                                    studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
+
+                                    Student save = studentRepository.save(studentByUserId);
+                                }
+                                else {
+                                    Student student = new Student();
+                                    student.setUser(user);
+                                    student.setTeachStatus(TeachStatus.TEACHING);
+                                    student.setRektororder(row.getCell(6).getStringCellValue());
+                                    student.setGroup(groupByName);
+                                    Student save = studentRepository.save(student);
+                                }
+
+                            }
                         }
 
-                        Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
-                        group.setFaculty(facultyOptional.get());
-                        System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
-                        Group save1 = groupRepository.save(group);
 
 
-                        Student student = new Student();
-                        student.setTeachStatus(TeachStatus.TEACHING);
-                        student.setRektororder(row.getCell(6).getStringCellValue());
-                        student.setUser(user);
-                        student.setGroup(save1);
-                        Student save = studentRepository.save(student);
+                    }
+                }
+                else {
 
+
+                    Optional<User> optionalUserByLogin = userRepository.findUserByLogin(row.getCell(3).getStringCellValue());
+                    if (optionalUserByLogin.isPresent()) {
+                        User user = optionalUserByLogin.get();
+                        user.setEnabled(true);
+                        user.setAccountNonExpired(true);
+                        user.setAccountNonLocked(true);
+                        user.setCredentialsNonExpired(true);
+//                    user.setRFID(row.getCell(4).getStringCellValue());
+                        user.setFullName(row.getCell(0).getStringCellValue());
+                        user.setLogin(row.getCell(3).getStringCellValue());
+                        user.setPassportNum(row.getCell(5).getStringCellValue());
+                        user.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
+                        Set<Role> userRoles = new HashSet<>();
+                        Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                        roleOptional.ifPresent(userRoles::add);
+                        user.setRoles(userRoles);
+
+                        System.out.println("-------> "+user);
+
+                        userRepository.saveAndFlush(user);
+                        count++;
+
+                        System.out.println("-------> "+2);
+                        if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
+                            System.out.println("-------> "+3);
+                            Group group = new Group();
+                            group.setName(row.getCell(2).getStringCellValue());
+                            group.setLevel((int) row.getCell(1).getNumericCellValue());
+
+                            if (group.getName().charAt(group.getName().length() - 1) == 'U')
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                            if (group.getName().charAt(group.getName().length() - 1) == 'R')
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                            if (group.getName().charAt(group.getName().length() - 1) == 'E')
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+
+                            if (group.getName().indexOf('-') == 3) {
+                                group.setEducationType(eduTypeRepo.findEducationTypeByName("KUNDUZGI").get());
+                            } else {
+                                if (group.getName().charAt(3) == 'P')
+                                    group.setEducationType(eduTypeRepo.findEducationTypeByName("SIRTQI").get());
+                                else group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
+                            }
+
+                            Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
+                            group.setFaculty(facultyOptional.get());
+                            System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
+                            Group save1 = groupRepository.save(group);
+
+
+                            if (studentRepository.existsStudentByUserId(user.getId())) {
+                                Student studentByUserId = studentRepository.findStudentByUserId(user.getId());
+
+                                studentByUserId.setUser(user);
+                                studentByUserId.setGroup(save1);
+                                studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                                studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
+
+                                Student save = studentRepository.save(studentByUserId);
+                                System.out.println("-------> save1"+save);
+                            }
+                            else {
+                                Student student = new Student();
+                                student.setUser(user);
+                                student.setTeachStatus(TeachStatus.TEACHING);
+                                student.setRektororder(row.getCell(6).getStringCellValue());
+                                student.setGroup(save1);
+                                Student save = studentRepository.save(student);
+                            System.out.println("-------> save1"+save);
+                            }
+                        }
+                        else {
+
+                            // group
+                            Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
+                            groupByName.setLevel((int) row.getCell(1).getNumericCellValue());
+                            groupRepository.save(groupByName);
+
+                            // student
+                            if (studentRepository.existsStudentByUserId(user.getId())) {
+                                Student studentByUserId = studentRepository.findStudentByUserId(user.getId());
+
+                                studentByUserId.setUser(user);
+                                studentByUserId.setGroup(groupByName);
+                                studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                                studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
+
+                                Student save = studentRepository.save(studentByUserId);
+                                System.out.println("-------> save2"+save);
+                            }
+                            else {
+                                Student student = new Student();
+                                student.setUser(user);
+                                student.setTeachStatus(TeachStatus.TEACHING);
+                                student.setRektororder(row.getCell(6).getStringCellValue());
+                                student.setGroup(groupByName);
+                                Student save = studentRepository.save(student);
+                            System.out.println("-------> save2"+save);
+                            }
+                        }
                     }
                     else {
+                        System.out.println("-------> new user");
+                        User user = new User();
+                        user.setEnabled(true);
+                        user.setAccountNonExpired(true);
+                        user.setAccountNonLocked(true);
+                        user.setCredentialsNonExpired(true);
+//                    user.setRFID(row.getCell(4).getStringCellValue());
+                        user.setFullName(row.getCell(0).getStringCellValue());
+                        user.setLogin(row.getCell(3).getStringCellValue());
+                        user.setPassportNum(row.getCell(5).getStringCellValue());
+                        user.setPassword(passwordEncoder.encode(row.getCell(5).getStringCellValue()));
+                        Set<Role> userRoles = new HashSet<>();
+                        Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                        roleOptional.ifPresent(userRoles::add);
+                        user.setRoles(userRoles);
+//                    user.setNationality(row.getCell(9).getStringCellValue());
+//                    if (row.getCell(4).getStringCellValue()=="MALE"){
+//                        Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+//                        user.setGander(ganderByGandername);
+//                    }
+//                    else {
+//                        Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+//                        user.setGander(ganderByGandername);
+//                    }
+                        userRepository.saveAndFlush(user);
+                        System.out.println("-------> save1"+user);
+                        count++;
 
-                        // group
-                        Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
-                        groupByName.setLevel((int) row.getCell(1).getNumericCellValue());
-                        groupRepository.save(groupByName);
 
-                        // student
-                        Student student = new Student();
-                        student.setTeachStatus(TeachStatus.TEACHING);
-                        student.setRektororder(row.getCell(6).getStringCellValue());
-                        student.setUser(user);
-                        student.setGroup(groupByName);
-                        Student save = studentRepository.save(student);
+                        if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
+                            Group group = new Group();
+                            group.setName(row.getCell(2).getStringCellValue());
+                            group.setLevel((int) row.getCell(1).getNumericCellValue());
 
+                            if (group.getName().charAt(group.getName().length() - 1) == 'U')
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                            if (group.getName().charAt(group.getName().length() - 1) == 'R')
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                            if (group.getName().charAt(group.getName().length() - 1) == 'E')
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+
+                            if (group.getName().indexOf('-') == 3) {
+                                group.setEducationType(eduTypeRepo.findEducationTypeByName("KUNDUZGI").get());
+                            } else {
+                                if (group.getName().charAt(3) == 'P')
+                                    group.setEducationType(eduTypeRepo.findEducationTypeByName("SIRTQI").get());
+                                else group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
+                            }
+
+                            Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
+                            group.setFaculty(facultyOptional.get());
+                            System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
+                            Group save1 = groupRepository.save(group);
+
+
+                            if (studentRepository.existsStudentByUserId(user.getId())) {
+                                Student studentByUserId = studentRepository.findStudentByUserId(user.getId());
+
+                                studentByUserId.setUser(user);
+                                studentByUserId.setGroup(save1);
+                                studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                                studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
+
+                                Student save = studentRepository.save(studentByUserId);
+                            }
+                            else {
+                                Student student = new Student();
+                                student.setUser(user);
+                                student.setTeachStatus(TeachStatus.TEACHING);
+                                student.setRektororder(row.getCell(6).getStringCellValue());
+                                student.setGroup(save1);
+                                Student save = studentRepository.save(student);
+                            }
+
+                        }
+                        else {
+
+                            // group
+                            Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
+                            groupByName.setLevel((int) row.getCell(1).getNumericCellValue());
+                            groupRepository.save(groupByName);
+
+                            // student
+                            if (studentRepository.existsStudentByUserId(user.getId())) {
+                                Student studentByUserId = studentRepository.findStudentByUserId(user.getId());
+
+                                studentByUserId.setUser(user);
+                                studentByUserId.setGroup(groupByName);
+                                studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                                studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
+
+                                Student save = studentRepository.save(studentByUserId);
+                            }
+                            else {
+                                Student student = new Student();
+                                student.setUser(user);
+                                student.setTeachStatus(TeachStatus.TEACHING);
+                                student.setRektororder(row.getCell(6).getStringCellValue());
+                                student.setGroup(groupByName);
+                                Student save = studentRepository.save(student);
+                            }
+
+                        }
                     }
+
+
 
 
                 }
@@ -315,7 +699,7 @@ public class StudentService implements StudentImplService<StudentDto> {
 
             }
 
-
+            dataOfLastActiveRepository.save(new DataOfLastActive(count+" ta student ma'lumoti yangilandi!."));
             return new ApiResponse(true,"saved students");
         }catch (Exception e){
             return new ApiResponse(false,"error saved students");

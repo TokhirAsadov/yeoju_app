@@ -154,6 +154,14 @@ public class TeacherImplService implements TeacherService{
         return null;
     }
 
+    @Override
+    public ApiResponse getDataForTeacherDocumentPDF(User user, String educationYearId, String subjectId, String groupId) {
+
+
+
+        return null;
+    }
+
 
     @Transactional
     public ApiResponse readDataFromExcel(MultipartFile file) {

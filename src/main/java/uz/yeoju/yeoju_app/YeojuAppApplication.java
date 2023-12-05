@@ -22,8 +22,8 @@ public class YeojuAppApplication {
 
 	@Bean
 	public WebClient webClient() {
-		return WebClient.create("http://localhost:6060/api/v1/desktop");
-//		return WebClient.create("http://172.16.7.237:6060/api/v1/desktop");
+//		return WebClient.create("http://localhost:6060/api/v1/desktop");
+		return WebClient.create("http://172.16.7.237:6060/api/v1/desktop");
 	}
 
 //	@Bean

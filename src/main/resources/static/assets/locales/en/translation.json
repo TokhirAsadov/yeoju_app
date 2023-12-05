@@ -38,6 +38,7 @@
   "dekan_sidebar_results": "Subjects results",
   "dekan_sidebar_statement": "Statement",
   "dekan_sidebar_arxiv": "Archive",
+  "dekan_sidebar_notice": "Notice",
 
   "bulim_sidebar_staffs": "Staffs",
 
@@ -56,7 +57,7 @@
 
   "student_sidebar_settings": "Settings",
   "student_sidebar_service": " Student service",
-  "student_sidebar_menu": "Menu",
+  "student_sidebar_menu": "Dashboard",
   "student_sidebar_lesson": "Subjects",
   "student_sidebar_time_table": "Schedule",
   "student_sidebar_statistics": "Statistics",
@@ -95,7 +96,9 @@
   "trainingdivision_sidebar_teachertimetable": "Teacher",
   "trainingdivision_sidebar_dean": "Deans",
   "trainingdivision_sidebar_change_log": "Change log access",
-  "trainingdivision_sidebar_rating_students": "Results",
+  "trainingdivision_sidebar_rating_students": "Rating",
+  "trainingdivision_sidebar_assistant": "Assistant",
+  "trainingdivision_sidebar_students": "Students",
 
   "admin_sidebar_menu": "Menu",
   "admin_sidebar_user": "User",

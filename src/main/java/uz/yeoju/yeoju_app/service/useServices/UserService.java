@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.jdom2.Document;
 import org.jdom2.Element;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,12 +37,16 @@ import uz.yeoju.yeoju_app.payload.superAdmin.StudentSaveDto;
 import uz.yeoju.yeoju_app.repository.*;
 import uz.yeoju.yeoju_app.secret.JwtProvider;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.UserImplService;
+import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable.TimeTableByWeekOfYearImplService;
+import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable.TimeTableByWeekOfYearService;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable.getSAXParsedDocument;
 
 @Service
 @RequiredArgsConstructor
@@ -98,6 +103,48 @@ public class UserService implements UserImplService<UserDto> {
 
 
 
+
+
+    public void getTimeTableByWeek(Integer year, Integer week) {
+        clearTimeTable();
+
+        String xmlFile = year+"/"+week+".xml";
+        Document document = getSAXParsedDocument(xmlFile);
+        Element rootNode = document.getRootElement();
+        rootNode.getChild("periods").getChildren("period").forEach(UserService::readPeriod);
+        rootNode.getChild("daysdefs").getChildren("daysdef").forEach(UserService::readDaysDef);
+        rootNode.getChild("weeksdefs").getChildren("weeksdef").forEach(UserService::readWeeksDef);
+        rootNode.getChild("termsdefs").getChildren("termsdef").forEach(UserService::readTermsDefs);
+        rootNode.getChild("subjects").getChildren("subject").forEach(UserService::readSubject);
+        rootNode.getChild("teachers").getChildren("teacher").forEach(UserService::readTeacher);
+        rootNode.getChild("classrooms").getChildren("classroom").forEach(UserService::readClassroom);
+        rootNode.getChild("grades").getChildren("grade").forEach(UserService::readGrade);
+        rootNode.getChild("classes").getChildren("class").forEach(UserService::readClass);
+        rootNode.getChild("groups").getChildren("group").forEach(UserService::readGroup);
+        rootNode.getChild("lessons").getChildren("lesson").forEach(UserService::readLesson);
+        rootNode.getChild("cards").getChildren("card").forEach(UserService::readCard);
+    }
+
+
+    public void getTimeTableByWeekMed(Integer year, Integer week) {
+        clearTimeTableMed();
+
+        String xmlFile = year+"/"+week+"med.xml";
+        Document document = getSAXParsedDocument(xmlFile);
+        Element rootNode = document.getRootElement();
+        rootNode.getChild("periods").getChildren("period").forEach(UserService::readPeriodMed);
+        rootNode.getChild("daysdefs").getChildren("daysdef").forEach(UserService::readDaysDefMed);
+        rootNode.getChild("weeksdefs").getChildren("weeksdef").forEach(UserService::readWeeksDefMed);
+        rootNode.getChild("termsdefs").getChildren("termsdef").forEach(UserService::readTermsDefsMed);
+        rootNode.getChild("subjects").getChildren("subject").forEach(UserService::readSubjectMed);
+        rootNode.getChild("teachers").getChildren("teacher").forEach(UserService::readTeacherMed);
+        rootNode.getChild("classrooms").getChildren("classroom").forEach(UserService::readClassroomMed);
+        rootNode.getChild("grades").getChildren("grade").forEach(UserService::readGradeMed);
+        rootNode.getChild("classes").getChildren("class").forEach(UserService::readClassMed);
+        rootNode.getChild("groups").getChildren("group").forEach(UserService::readGroupMed);
+        rootNode.getChild("lessons").getChildren("lesson").forEach(UserService::readLessonMed);
+        rootNode.getChild("cards").getChildren("card").forEach(UserService::readCardMed);
+    }
 
 
     public ResToken login(SignInDto signInDto){
@@ -532,34 +579,69 @@ public class UserService implements UserImplService<UserDto> {
     }
 
 
-    public ApiResponse getNotification(String kafedraId) {
+    public ApiResponse getNotification(String kafedraId,Integer week,Integer year) {
 
 //        LocalDate localDate= LocalDate.of(2023,1,31);
+        getTimeTableByWeek(year,week);
+        getTimeTableByWeekMed(year,week);
+
         LocalDate localDate= LocalDate.now();
         Locale spanishLocale=new Locale("ru", "RU");
         String day = localDate.format(DateTimeFormatter.ofPattern("EEEE",spanishLocale));
 
-        String dayId = DataBaseForTimeTable.daysDefs.stream().filter(item -> item.getName().equalsIgnoreCase(day)).findFirst().get().getDays().get(0);
+        System.out.println(day);
 
-        Set<String> lessonsIds = DataBaseForTimeTable.cards.stream().filter(item -> item.getDays().contains(dayId)).map(Card::getLessonId).collect(Collectors.toSet());
+        System.out.println(daysDefs.stream().filter(item -> item.getName().equalsIgnoreCase(day)).findFirst());
+        System.out.println(daysDefs);
+
+        String dayId = daysDefs.stream().filter(item -> item.getName().equalsIgnoreCase(day)).findFirst().get().getDays().get(0);
+
+        Set<String> lessonsIds = cards.stream().filter(item -> item.getDays().contains(dayId)).map(Card::getLessonId).collect(Collectors.toSet());
 
         Set<String> teachersIds = new HashSet<>();
 
         for (String id : lessonsIds) {
-            LessonXml lessonXml = DataBaseForTimeTable.lessons.stream().filter(item -> item.getId().equals(id)).findFirst().get();
+            LessonXml lessonXml = lessons.stream().filter(item -> item.getId().equals(id)).findFirst().get();
             teachersIds.addAll(lessonXml.getTeacherIds());
         }
 
 
-        Set<Teacher> teachers = new HashSet<>();
+        Set<Teacher> teachers1 = new HashSet<>();
         for (String id : teachersIds) {
-            Optional<Teacher> first = DataBaseForTimeTable.teachers.stream().filter(item -> item.getId().equals(id)).findFirst();
-            first.ifPresent(teachers::add);
+            Optional<Teacher> first = teachers.stream().filter(item -> item.getId().equals(id)).findFirst();
+            first.ifPresent(teachers1::add);
         }
 
         List<TeacherData> teacherData = new ArrayList<>();
-        for (Teacher teacher : teachers) {
-            TeacherData teacherData1 = userRepository.getTeachersForRemember(teacher.getEmail(),kafedraId);
+        for (Teacher teacher : teachers1) {
+            TeacherData teacherData1 = userRepository.getTeachersForRemember(teacher.getShortName(),kafedraId);
+//            TeacherData teacherData1 = userRepository.getTeachersForRememberLogin(teacher.getEmail(),kafedraId);
+            if (teacherData1!=null) teacherData.add(teacherData1);
+        }
+
+        //--------------------------- med ------------------------
+
+
+        String dayIdMed = daysDefsMed.stream().filter(item -> item.getName().equalsIgnoreCase(day)).findFirst().get().getDays().get(0);
+
+        Set<String> lessonsIdsMed = cardsMed.stream().filter(item -> item.getDays().contains(dayIdMed)).map(Card::getLessonId).collect(Collectors.toSet());
+
+        Set<String> teachersIdsMed = new HashSet<>();
+
+        for (String id : lessonsIdsMed) {
+            LessonXml lessonXml = lessonsMed.stream().filter(item -> item.getId().equals(id)).findFirst().get();
+            teachersIdsMed.addAll(lessonXml.getTeacherIds());
+        }
+
+
+        Set<Teacher> teachersMed2 = new HashSet<>();
+        for (String id : teachersIdsMed) {
+            Optional<Teacher> first = teachersMed.stream().filter(item -> item.getId().equals(id)).findFirst();
+            first.ifPresent(teachersMed2::add);
+        }
+
+        for (Teacher teacher : teachersMed2) {
+            TeacherData teacherData1 = userRepository.getTeachersForRemember(teacher.getShortName(),kafedraId);
 //            TeacherData teacherData1 = userRepository.getTeachersForRememberLogin(teacher.getEmail(),kafedraId);
             if (teacherData1!=null) teacherData.add(teacherData1);
         }
@@ -1129,12 +1211,361 @@ public class UserService implements UserImplService<UserDto> {
         ids.forEach(userRepository::deleteById);
         return new ApiResponse(true,"deleted users");
     }
+    //====================================  clear  ==========================================================
+    public void clearTimeTable(){
+        periods.clear();
+        daysDefs.clear();
+        weeksDefs.clear();
+        termsDefs.clear();
+        subjects.clear();
+        teachers.clear();
+        classRooms.clear();
+        classes.clear();
+        groups.clear();
+        lessons.clear();
+        cards.clear();
+    }
+
+    public void clearTimeTableMed(){
+        periodsMed.clear();
+        daysDefsMed.clear();
+        weeksDefsMed.clear();
+        termsDefsMed.clear();
+        subjectsMed.clear();
+        teachersMed.clear();
+        classRoomsMed.clear();
+        classesMed.clear();
+        groupsMed.clear();
+        lessonsMed.clear();
+        cardsMed.clear();
+    }
 
 
 
+    //====================================  Period  ==========================================================
+    public static void readPeriod(Element employeeNode)
+    {
+        periods.add(
+                new Period(
+                        Integer.valueOf(employeeNode.getAttributeValue("short")),
+                        Integer.valueOf(employeeNode.getAttributeValue("short")),
+                        Integer.valueOf(employeeNode.getAttributeValue("period")),
+                        employeeNode.getAttributeValue("starttime"),
+                        employeeNode.getAttributeValue("endtime")
+                )
+        );
 
+        //Country
+//        System.out.println("country : " + employeeNode.getChild("country").getText());
+//        /**Read Department Content*/
+//        employeeNode.getChildren("department").forEach( HowToGetItemFromXmlApplication::readDepartmentNode );
+    }
 
+    public static void readPeriodMed(Element employeeNode)
+    {
+        periodsMed.add(
+                new Period(
+                        Integer.valueOf(employeeNode.getAttributeValue("short")),
+                        Integer.valueOf(employeeNode.getAttributeValue("short")),
+                        Integer.valueOf(employeeNode.getAttributeValue("period")),
+                        employeeNode.getAttributeValue("starttime"),
+                        employeeNode.getAttributeValue("endtime")
+                )
+        );
 
+        //Country
+//        System.out.println("country : " + employeeNode.getChild("country").getText());
+//        /**Read Department Content*/
+//        employeeNode.getChildren("department").forEach( HowToGetItemFromXmlApplication::readDepartmentNode );
+    }
+    //====================================  DaysDef  ==========================================================
+    public static void readDaysDef(Element employeeNode)
+    {
+        String days = employeeNode.getAttributeValue("days");
+        List<String> array = array(days);
+        daysDefs.add(
+                new DaysDef(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        array
+                )
+        );
+    }
+
+    public static void readDaysDefMed(Element employeeNode)
+    {
+        String days = employeeNode.getAttributeValue("days");
+        List<String> array = array(days);
+        daysDefsMed.add(
+                new DaysDef(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        array
+                )
+        );
+    }
+    //====================================  WeeksDef  ==========================================================
+    public static void readWeeksDef(Element employeeNode)
+    {
+        String days = employeeNode.getAttributeValue("weeks");
+        List<String> array = array(days);
+        weeksDefs.add(
+                new WeeksDef(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        array
+                )
+        );
+    }
+
+    public static void readWeeksDefMed(Element employeeNode)
+    {
+        String days = employeeNode.getAttributeValue("weeks");
+        List<String> array = array(days);
+        weeksDefsMed.add(
+                new WeeksDef(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        array
+                )
+        );
+    }
+    //====================================  TermsDefs  ==========================================================
+    public static void readTermsDefs(Element employeeNode)
+    {
+        String days = employeeNode.getAttributeValue("terms");
+        List<String> array = array(days);
+        termsDefs.add(
+                new TermsDef(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        array
+                )
+        );
+    }
+    public static void readTermsDefsMed(Element employeeNode)
+    {
+        String days = employeeNode.getAttributeValue("terms");
+        List<String> array = array(days);
+        termsDefsMed.add(
+                new TermsDef(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        array
+                )
+        );
+    }
+    //====================================  Subject  ==========================================================
+    public static void readSubject(Element employeeNode)
+    {
+        subjects.add(
+                new Subject(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+
+    }
+    public static void readSubjectMed(Element employeeNode)
+    {
+        subjectsMed.add(
+                new Subject(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+
+    }
+    //====================================  Teacher  ==========================================================
+    public static void readTeacher(Element employeeNode)
+    {
+        teachers.add(
+                new Teacher(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("firstname"),
+                        employeeNode.getAttributeValue("lastname"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("gender"),
+                        employeeNode.getAttributeValue("email"),
+                        employeeNode.getAttributeValue("mobile"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
+
+    public static void readTeacherMed(Element employeeNode)
+    {
+        teachersMed.add(
+                new Teacher(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("firstname"),
+                        employeeNode.getAttributeValue("lastname"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("gender"),
+                        employeeNode.getAttributeValue("email"),
+                        employeeNode.getAttributeValue("mobile"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
+    //====================================  Classrooms  ==========================================================
+    public static void readClassroom(Element employeeNode)
+    {
+        classRooms.add(
+                new ClassRoom(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
+
+    public static void readClassroomMed(Element employeeNode)
+    {
+        classRoomsMed.add(
+                new ClassRoom(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
+    //====================================  Grade  ==========================================================
+    public static void readGrade(Element employeeNode)
+    {
+        grades.add(
+                new Grade(
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        Integer.valueOf(employeeNode.getAttributeValue("grade"))
+                )
+        );
+    }
+
+    public static void readGradeMed(Element employeeNode)
+    {
+        gradesMed.add(
+                new Grade(
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        Integer.valueOf(employeeNode.getAttributeValue("grade"))
+                )
+        );
+    }
+    //====================================  Class  ==========================================================
+    public static void readClass(Element employeeNode)
+    {
+        classes.add(
+                new Class(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("teacherid"),
+                        array(employeeNode.getAttributeValue("classroomids")),
+                        employeeNode.getAttributeValue("grade"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
+
+    public static void readClassMed(Element employeeNode)
+    {
+        classesMed.add(
+                new uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("short"),
+                        employeeNode.getAttributeValue("teacherid"),
+                        array(employeeNode.getAttributeValue("classroomids")),
+                        employeeNode.getAttributeValue("grade"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
+    //====================================  Group  ==========================================================
+    public static void readGroup(Element employeeNode)
+    {
+        groups.add(
+                new GroupXml(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("classid"),
+                        array(employeeNode.getAttributeValue("studentids")),
+                        employeeNode.getAttributeValue("entireclass"),
+                        employeeNode.getAttributeValue("divisiontag")
+                )
+        );
+    }
+
+    public static void readGroupMed(Element employeeNode)
+    {
+        groupsMed.add(
+                new GroupXml(
+                        employeeNode.getAttributeValue("id"),
+                        employeeNode.getAttributeValue("name"),
+                        employeeNode.getAttributeValue("classid"),
+                        array(employeeNode.getAttributeValue("studentids")),
+                        employeeNode.getAttributeValue("entireclass"),
+                        employeeNode.getAttributeValue("divisiontag")
+                )
+        );
+    }
+    //====================================  Lesson  ==========================================================
+    public static void readLesson(Element employeeNode)
+    {
+        lessons.add(
+                new LessonXml(
+                        employeeNode.getAttributeValue("id"),
+                        array(employeeNode.getAttributeValue("classids")),
+                        employeeNode.getAttributeValue("subjectid"),
+                        employeeNode.getAttributeValue("periodspercard"),
+                        employeeNode.getAttributeValue("periodsperweek"),
+                        array(employeeNode.getAttributeValue("teacherids")),
+                        array(employeeNode.getAttributeValue("groupids")),
+                        employeeNode.getAttributeValue("seminargroup"),
+                        employeeNode.getAttributeValue("termsdefid"),
+                        employeeNode.getAttributeValue("weeksdefid"),
+                        employeeNode.getAttributeValue("daysdefid"),
+                        employeeNode.getAttributeValue("capacity"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
+
+    public static void readLessonMed(Element employeeNode)
+    {
+        lessonsMed.add(
+                new LessonXml(
+                        employeeNode.getAttributeValue("id"),
+                        array(employeeNode.getAttributeValue("classids")),
+                        employeeNode.getAttributeValue("subjectid"),
+                        employeeNode.getAttributeValue("periodspercard"),
+                        employeeNode.getAttributeValue("periodsperweek"),
+                        array(employeeNode.getAttributeValue("teacherids")),
+                        array(employeeNode.getAttributeValue("groupids")),
+                        employeeNode.getAttributeValue("seminargroup"),
+                        employeeNode.getAttributeValue("termsdefid"),
+                        employeeNode.getAttributeValue("weeksdefid"),
+                        employeeNode.getAttributeValue("daysdefid"),
+                        employeeNode.getAttributeValue("capacity"),
+                        employeeNode.getAttributeValue("partner_id")
+                )
+        );
+    }
     //====================================  Cards  ==========================================================
     public static void readCard(Element employeeNode)
     {
@@ -1149,6 +1580,7 @@ public class UserService implements UserImplService<UserDto> {
                 )
         );
     }
+
     public static void readCardMed(Element employeeNode)
     {
         cardsMed.add(
@@ -1162,8 +1594,6 @@ public class UserService implements UserImplService<UserDto> {
                 )
         );
     }
-
-
     public static List<String> array(String str){
         boolean has = true;
         List<String> arr = new ArrayList<>();
@@ -1182,4 +1612,5 @@ public class UserService implements UserImplService<UserDto> {
 
         return arr;
     }
+
 }

@@ -342,13 +342,16 @@ public class KafedraMudiriImplService implements KafedraMudiriService{
 //        System.out.println(date+" /// ");
 
         if (maxDay==31){
+            System.out.println(maxDay+"-------------------------------- max day");
             return new ApiResponse(true,"<???",kafedraRepository.getDate31(date,userId));
         }
         else if (maxDay==30){
             return new ApiResponse(true,"<???",kafedraRepository.getDate30(date,userId));
         }else if (maxDay==29){
+            System.out.println(maxDay+"-------------------------------- max day");
             return new ApiResponse(true,"<???",kafedraRepository.getDate29(date,userId));
         }else {
+            System.out.println(maxDay+"-------------------------------- max day");
             return new ApiResponse(true,"<???",kafedraRepository.getDate28(date,userId));
         }
 
