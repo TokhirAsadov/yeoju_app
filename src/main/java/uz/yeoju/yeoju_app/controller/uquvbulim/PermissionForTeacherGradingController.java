@@ -65,6 +65,12 @@ public class PermissionForTeacherGradingController {
     }
 
 
+    @GetMapping("/findById/{id}")
+    public HttpEntity<?> findById(@PathVariable("id") String id){
+        ApiResponse response = service.findById(id);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
+    }
+
 
 
 }
