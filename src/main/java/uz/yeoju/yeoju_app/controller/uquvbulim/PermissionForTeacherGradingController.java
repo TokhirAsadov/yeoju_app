@@ -71,6 +71,11 @@ public class PermissionForTeacherGradingController {
         return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
     }
 
+    @PostMapping("/createPermissionForTeacherGrading")
+    public HttpEntity<?> createPermissionForTeacherGrading(@CurrentUser User user, @RequestBody CreatePermissionForTeacherGradingDto dto){
+        ApiResponse response = service.createOrUpdatePermissionsForTeacherGrading(user,dto);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
+    }
 
 
 }
