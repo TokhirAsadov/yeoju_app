@@ -17,6 +17,7 @@ public interface PermissionForTeacherGradingService {
     ApiResponse getHistory();
 
     ApiResponse getConfirmPermission(User user, String educationYearId, String teacherId, String subjectId, String groupId);
+    ApiResponse checkExistsPermission(User user, String educationYearId, String teacherId, String subjectId, String groupId,PPostStatus status);
 
 
 }
