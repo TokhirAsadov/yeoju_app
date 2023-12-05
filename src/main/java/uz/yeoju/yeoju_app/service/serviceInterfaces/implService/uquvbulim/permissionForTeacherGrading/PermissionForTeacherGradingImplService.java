@@ -54,6 +54,130 @@ public class PermissionForTeacherGradingImplService implements PermissionForTeac
         return optional.map(permissionForTeacherGrading -> new ApiResponse(true, "permission was found by id", permissionForTeacherGrading)).orElseGet(() -> new ApiResponse(false, "not found permission by id: " + id));
     }
 
+    @Override
+    public ApiResponse createOrUpdatePermissionsForTeacherGrading(User user,CreatePermissionForTeacherGradingDto dto) {
+        if (dto.getId()==null) {
+            return save(user,dto);
+        }
+        else {
+            return update(user,dto);
+        }
+    }
 
+    private ApiResponse update(User user,CreatePermissionForTeacherGradingDto dto) {
+        Optional<PermissionForTeacherGrading> optional = permissionRepository.findById(dto.getId());
+        if (optional.isPresent()) {
+            PermissionForTeacherGrading permission = optional.get();
+            Optional<User> optionalUser = userRepository.findById(dto.getTeacherId());
+            if (optionalUser.isPresent()) {
+                User teacher = optionalUser.get();
+                permission.setStatus(dto.getStatus());
+                permission.setDeadline(dto.getDeadline());
+
+
+
+                if (user.getFullName() == null) {
+                    notificationService.save(PNotification.builder()
+                            .delivered(false)
+                            .content("Your request was "+dto.getStatus().name() + " by " + user.getFirstName().charAt(0)+"."+user.getLastName())
+                            .type(dto.getStatus())
+                            .userFrom(user)
+                            .userTo(teacher).build());
+                }
+                else {
+                    notificationService.save(PNotification.builder()
+                            .delivered(false)
+                            .content("Your request was "+dto.getStatus().name() + " by " + user.getFullName())
+                            .type(dto.getStatus())
+                            .userFrom(user)
+                            .userTo(teacher).build());
+                }
+
+
+                permissionRepository.save(permission);
+                return new ApiResponse(true, "permission was updated successfully");
+            }
+            else {
+                return new ApiResponse(false,"not found teacher by id: ",dto.getTeacherId());
+            }
+        }
+        else {
+            return new ApiResponse(false,"permission not found by id: "+dto.getId());
+        }
+    }
+
+    private ApiResponse save(User user,CreatePermissionForTeacherGradingDto dto) {
+        Optional<User> optionalUser = userRepository.findById(dto.getTeacherId());
+        if (optionalUser.isPresent()) {
+            User teacher = optionalUser.get();
+
+            Optional<Group> groupOptional = groupRepository.findById(dto.getGroupId());
+            if(groupOptional.isPresent()) {
+                Optional<Lesson> lessonOptional = subjectRepository.findById(dto.getSubjectId());
+                if (lessonOptional.isPresent()) {
+
+                    Optional<EducationYear> educationYearOptional = educationYearRepository.findById(dto.getEducationYearId());
+                    if (educationYearOptional.isPresent()) {
+
+                        Group group = groupOptional.get();
+                        Lesson lesson = lessonOptional.get();
+                        EducationYear educationYear = educationYearOptional.get();
+
+                        PermissionForTeacherGrading permission = new PermissionForTeacherGrading();
+                        permission.setTeacher(teacher);
+                        permission.setGroup(group);
+                        permission.setSubject(lesson);
+                        permission.setEducationYear(educationYear);
+                        permission.setStatus(PPostStatus.AT_PROCESS);
+
+                        String uquvBulimBoshligiId = permissionRepository.getUquvBulimBoshligi();
+                        Optional<User> userOptional = userRepository.findById(uquvBulimBoshligiId);
+                        if (userOptional.isPresent()) {
+                            User uquvBulimBoshligi = userOptional.get();
+                            if (user.getFullName() == null) {
+                                notificationService.save(PNotification.builder()
+                                        .delivered(false)
+                                        .content("new permission from " + user.getFirstName().charAt(0)+"."+user.getLastName()+". (S)He is asking for permission to change rated of "+group.getName())
+                                        .type(PPostStatus.COMMENT)
+                                        .userFrom(user)
+                                        .userTo(uquvBulimBoshligi).build());
+                            }
+                            else {
+                                notificationService.save(PNotification.builder()
+                                        .delivered(false)
+                                        .content("new permission from " +user.getFullName()+". (S)He is asking for permission to change rated of "+group.getName())
+                                        .type(PPostStatus.COMMENT)
+                                        .userFrom(user)
+                                        .userTo(uquvBulimBoshligi).build());
+                            }
+
+
+
+                            permissionRepository.save(permission);
+                            return new ApiResponse(true,"permission was created successfully");
+                        }
+                        else {
+                            return new ApiResponse(false,"not found uquv bulimi boshlig`i");
+                        }
+
+
+                    }
+                    else {
+                        return new ApiResponse(false,"not found education year by id: ",dto.getEducationYearId());
+                    }
+                }
+                else {
+                    return new ApiResponse(false,"not found subject by id: ",dto.getSubjectId());
+                }
+            }
+            else {
+                return new ApiResponse(false,"not found group by id: ",dto.getGroupId());
+            }
+
+        }
+        else {
+            return new ApiResponse(false,"not found teacher by id: ",dto.getTeacherId());
+        }
+    }
 
 }
