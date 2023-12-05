@@ -85,7 +85,11 @@ public class PermissionForTeacherGradingImplService implements PermissionForTeac
         return new ApiResponse(true,"your permissions",permissionRepository.getConfirmPermission(educationYearId,teacherId,subjectId,groupId));
     }
 
-
+    @Override
+    public ApiResponse checkExistsPermission(User user, String educationYearId, String teacherId, String subjectId, String groupId, PPostStatus status) {
+        Boolean bool = permissionRepository.existsPermissionForTeacherGradingByTeacherIdAndEducationYearIdAndSubjectIdAndGroupIdAndStatus(teacherId, educationYearId, subjectId, groupId, status);
+        return new ApiResponse(bool,bool ? "already exists":"not found");
+    }
 
 
     private ApiResponse update(User user,CreatePermissionForTeacherGradingDto dto) {
