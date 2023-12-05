@@ -9,5 +9,6 @@ import java.util.Set;
 
 public interface PermissionForTeacherGradingService {
     ApiResponse findAllPermissionsForTeacherGrading();
+    ApiResponse findAllPermissionsForTeacherGradingByEducationYearIdAndStatus(String educationYearId, PPostStatus status);
 
 }
