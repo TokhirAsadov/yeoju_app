@@ -39,6 +39,18 @@ public class PermissionForTeacherGradingController {
         return ResponseEntity.ok(service.getHistory());
     }
 
+    @GetMapping("/getConfirmPermission/{educationYearId}")
+    public HttpEntity<?> getConfirmPermission(
+            @CurrentUser User user,
+            @PathVariable("educationYearId") String educationYearId,
+            @RequestParam("teacherId") String teacherId,
+            @RequestParam("subjectId") String subjectId,
+            @RequestParam("groupId") String groupId
+    ){
+
+        return ResponseEntity.ok(service.getConfirmPermission(user, educationYearId,teacherId, subjectId, groupId));
+    }
+
 
 
 }
