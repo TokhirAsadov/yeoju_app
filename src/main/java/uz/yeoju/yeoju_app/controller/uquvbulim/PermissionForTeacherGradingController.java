@@ -51,6 +51,20 @@ public class PermissionForTeacherGradingController {
         return ResponseEntity.ok(service.getConfirmPermission(user, educationYearId,teacherId, subjectId, groupId));
     }
 
+    @GetMapping("/checkExistsPermission/{educationYearId}")
+    public HttpEntity<?> getConfirmPermission(
+            @CurrentUser User user,
+            @PathVariable("educationYearId") String educationYearId,
+            @RequestParam("teacherId") String teacherId,
+            @RequestParam("subjectId") String subjectId,
+            @RequestParam("groupId") String groupId,
+            @RequestParam("status") String status
+
+    ){
+        return ResponseEntity.ok(service.checkExistsPermission(user, educationYearId,teacherId,subjectId,groupId,PPostStatus.valueOf(status)));
+    }
+
+
 
 
 }
