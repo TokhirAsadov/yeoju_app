@@ -11,6 +11,8 @@ public interface PermissionForTeacherGradingService {
     ApiResponse findAllPermissionsForTeacherGrading();
     ApiResponse findAllPermissionsForTeacherGradingByEducationYearIdAndStatus(String educationYearId, PPostStatus status);
     ApiResponse findById(String id);
+    ApiResponse createOrUpdatePermissionsForTeacherGrading(User user,CreatePermissionForTeacherGradingDto dto);
+
 
 
 }
