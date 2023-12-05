@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                .antMatchers(
+                .antMatchers(
 //                        "/v2/api-docs",
 //                        "/*",
 //                        "/",
@@ -71,8 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                        "/configuration/security",
 //                        "/swagger-ui.html",
 //                        "/webjars/**"
-//                )
-//                .permitAll()
+                )
+                .permitAll()
                 .antMatchers(
                         "/static/js/**",
                         "/static/css/**",
@@ -80,6 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/assets/**",
                         "/favicon.ico",
                         "/",
+//                        "/**",
                         "/login",
                         "/api/v1/desktop/**",
                         "/api/v1/desktop/auth/**",
@@ -97,6 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/staff/**",
                         "/teacher/**",
                         "/file/services/reference/**",
+                        "/file/services/notice/**",
                         "/kafedra/**"
                 )
                 .permitAll()
