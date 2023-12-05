@@ -25,5 +25,15 @@ public class PermissionForTeacherGradingController {
         return ResponseEntity.ok(service.findAllPermissionsForTeacherGrading());
     }
 
-   
+    @GetMapping("/findAllPermissionsForTeacherGradingByEducationYearIdAndStatus/{educationYearId}")
+    public HttpEntity<?> findAllPermissionsForTeacherGradingByEducationYearIdAndStatus(
+            @PathVariable("educationYearId") String educationYearId,
+            @RequestParam("status") String status
+    ){
+        PPostStatus pPostStatus = PPostStatus.valueOf(status);
+        return ResponseEntity.ok(service.findAllPermissionsForTeacherGradingByEducationYearIdAndStatus(educationYearId,pPostStatus));
+    }
+
+
+
 }
