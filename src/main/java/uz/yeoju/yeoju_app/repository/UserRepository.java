@@ -122,7 +122,9 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     User getUserByPassportNum(String passportNum);
 
-    @Query(value = "select id,login,fullName,bornYear,citizenship,nationality,passportNum from users where id=:userId",nativeQuery = true)
+    @Query(value = "select u.id,u.login,u.fullName,u.bornYear,u.citizenship,u.nationality,u.passportNum,s.rektororder,s.lengthOfStudying,s.teachStatus from users u\n" +
+            "join Student S on u.id = S.user_id\n" +
+            "where u.id=:userId",nativeQuery = true)
     StudentData getStudentDataByUserId(@Param("userId") String userId);
 
 
@@ -179,14 +181,14 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                             on u.id = ur.users_id\n" +
             "                        join (select id from Role where roleName = 'ROLE_TEACHER') as role\n" +
             "                             on ur.roles_id = role.id\n" +
-            "               where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and u.passportNum=:pass\n" +
+            "               where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and u.login=:pass\n" +
             "              ) as card\n" +
             "                  join users u on cast(card.cardNo as varchar) =\n" +
             "                                  cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "                  join Teacher t on u.id = t.user_id\n" +
             "                  join Kafedra K on t.kafedra_id = K.id\n" +
             "                  join KafedraMudiri KM on K.id = KM.kafedra_id\n" +
-            "          where KM.user_id=:kafedraId and u.passportNum=:pass\n" +
+            "          where KM.user_id=:kafedraId and u.login=:pass\n" +
             "          group by t.kafedra_id,t.user_id\n" +
             "      ) as f1\n" +
             "          right join (\n" +
@@ -194,7 +196,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "   join users u2 on t.user_id = u2.id\n" +
             "   join Kafedra K on t.kafedra_id = K.id\n" +
             "   join KafedraMudiri KM on K.id = KM.kafedra_id\n" +
-            "    where KM.user_id=:kafedraId and u2.passportNum=:pass\n" +
+            "    where KM.user_id=:kafedraId and u2.login=:pass\n" +
             "    group by t.kafedra_id,t.user_id,u2.fullName, t.user_id, t.kafedra_id, u2.email, u2.RFID, u2.login, u2.passportNum\n" +
             ") as f2 on f2.user_id = f1.user_id where f1.user_id is null",nativeQuery = true)
     TeacherData getTeachersForRemember(@Param("pass") String pass,@Param("kafedraId") String kafedraId);
@@ -650,9 +652,9 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query(value = "select  :userId as id, ad.door_name as room\n" +
             "from acc_monitor_log al\n" +
-            "         join acc_door ad on ad.device_id=al.device_id\n" +
+            "         join acc_door ad on ad.device_id=al.device_id and ad.door_no=al.event_point_id\n" +
             "         join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and u.id=:userId\n" +
+            "where ad.door_no=al.event_point_id and al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and u.id=:userId\n" +
             "group by u.id, ad.door_name",nativeQuery = true)
     List<RoomsForStatistics> getRoomsForStatistics(@Param("userId") String userId);
 
@@ -660,9 +662,9 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query(value = "select  :userId as id, ad.door_name as room,:year as year ,:week as week,:weekday as weekday\n" +
             "from acc_monitor_log al\n" +
-            "         join acc_door ad on ad.device_id=al.device_id\n" +
+            "         join acc_door ad on ad.device_id=al.device_id and ad.door_no=al.event_point_id\n" +
             "         join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "where al.time between\n" +
+            "where ad.door_no=al.event_point_id and al.time between\n" +
             "    DATEADD(\n" +
             "            DAY,\n" +
             "            + (:weekday-1),\n" +
@@ -674,7 +676,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "            DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week- 1,CAST('1/1/' + cast(:year as varchar) AS Date)))\n" +
             "        )\n" +
             "    and u.id=:userId\n" +
-            "group by u.id, ad.door_name",nativeQuery = true)
+            "group by u.id, ad.door_name,ad.door_no",nativeQuery = true)
     List<RoomsForStatistics2> getRoomsForStatistics(@Param("userId") String userId,@Param("year") Integer year, @Param("week") Integer week,@Param("weekday")Integer weekday);
 
 
@@ -1513,7 +1515,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                           )  THEN 12\n" +
             "           ELSE 0\n" +
             "           END as section\n" +
-            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id and ad.door_no=al.event_point_id\n" +
             "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "where al.time between\n" +
             "\n" +
@@ -1528,7 +1530,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "            DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(:year as varchar) AS Date))+2,DATEADD(WK,:week- 1,CAST('1/1/' + cast(:year as varchar) AS Date)))\n" +
             "        )\n" +
             "\n" +
-            "    and ad.door_name=:room and u.id=:userId",nativeQuery = true)
+            "    and ad.door_name=:room and u.id=:userId and ad.door_no=al.event_point_id",nativeQuery = true)
     List<TimesForRoom> getTimesForRoomStatisticsByWeek(@Param("userId") String userId, @Param("room") String room,@Param("week") Integer week,@Param("year") Integer year,@Param("weekday") Integer weekday);
 
 
