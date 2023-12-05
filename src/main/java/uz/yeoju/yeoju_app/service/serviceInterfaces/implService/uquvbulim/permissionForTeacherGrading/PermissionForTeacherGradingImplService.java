@@ -74,6 +74,12 @@ public class PermissionForTeacherGradingImplService implements PermissionForTeac
         return responses;
     }
 
+    @Override
+    public ApiResponse getHistory() {
+        List<PermissionForTeacherGradingResDto> history = permissionRepository.getHistory();
+        return new ApiResponse(true,"history of permission for teacher grading",history);
+    }
+
 
 
 
