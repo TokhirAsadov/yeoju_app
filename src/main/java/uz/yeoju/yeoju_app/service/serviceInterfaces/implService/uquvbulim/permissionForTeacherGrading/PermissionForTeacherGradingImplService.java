@@ -64,6 +64,19 @@ public class PermissionForTeacherGradingImplService implements PermissionForTeac
         }
     }
 
+    @Override
+    public Set<ApiResponse> changePermissionStatus(User user, Set<CreatePermissionForTeacherGradingDto> dtoSet) {
+        Set<ApiResponse> responses = new HashSet<>();
+        dtoSet.forEach(dto -> {
+            ApiResponse update = update(user, dto);
+            responses.add(update);
+        });
+        return responses;
+    }
+
+
+
+
     private ApiResponse update(User user,CreatePermissionForTeacherGradingDto dto) {
         Optional<PermissionForTeacherGrading> optional = permissionRepository.findById(dto.getId());
         if (optional.isPresent()) {
