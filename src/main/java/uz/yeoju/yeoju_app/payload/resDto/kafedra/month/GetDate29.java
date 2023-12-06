@@ -9,91 +9,91 @@ public interface GetDate29 {
     String getId();
     Date getDate();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/01')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/01')}")
     GetEnterOutTimes get1();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/02')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/02')}")
     GetEnterOutTimes get2();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/03')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/03')}")
     GetEnterOutTimes get3();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/04')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/04')}")
     GetEnterOutTimes get4();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/05')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/05')}")
     GetEnterOutTimes get5();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/06')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/06')}")
     GetEnterOutTimes get6();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/07')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/07')}")
     GetEnterOutTimes get7();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/08')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/08')}")
     GetEnterOutTimes get8();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/09')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/09')}")
     GetEnterOutTimes get9();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/10')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/10')}")
     GetEnterOutTimes get10();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/11')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/11')}")
     GetEnterOutTimes get11();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/12')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/12')}")
     GetEnterOutTimes get12();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/13')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/13')}")
     GetEnterOutTimes get13();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/14')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/14')}")
     GetEnterOutTimes get14();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/15')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/15')}")
     GetEnterOutTimes get15();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/16')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/16')}")
     GetEnterOutTimes get16();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/17')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/17')}")
     GetEnterOutTimes get17();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/18')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/18')}")
     GetEnterOutTimes get18();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/19')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/19')}")
     GetEnterOutTimes get19();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/20')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/20')}")
     GetEnterOutTimes get20();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/21')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/21')}")
     GetEnterOutTimes get21();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/22')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/22')}")
     GetEnterOutTimes get22();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/23')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/23')}")
     GetEnterOutTimes get23();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/24')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/24')}")
     GetEnterOutTimes get24();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/25')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/25')}")
     GetEnterOutTimes get25();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/26')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/26')}")
     GetEnterOutTimes get26();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/27')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/27')}")
     GetEnterOutTimes get27();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/28')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/28')}")
     GetEnterOutTimes get28();
 
-    @Value("#{@teacherRepository.getEnterOutTimes(target.id,target.date,'/29')}")
+    @Value("#{@teacherRepository.getEnterOutTimesNEW(target.id,target.date,'/29')}")
     GetEnterOutTimes get29();
 
 }
