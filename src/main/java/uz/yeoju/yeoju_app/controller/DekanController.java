@@ -26,6 +26,7 @@ import uz.yeoju.yeoju_app.service.useServices.FacultyService;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -159,10 +160,10 @@ public class DekanController {
 
     @GetMapping("/get")
     public HttpEntity<?> get(@CurrentUser User user,
-                             @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
-                             @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime
+                             @RequestParam("startTime") @DateTimeFormat(pattern = "yyyy.MM.dd HH:mm") Date startTime,
+                             @RequestParam("endTime")@DateTimeFormat(pattern = "yyyy.MM.dd HH:mm") Date endTime
     ) {
-        return ResponseEntity.ok(dekanRepository.getCourseStatisticsForDekan(user.getId(),startTime,endTime));
+        return ResponseEntity.ok(dekanRepository.getCourseStatisticsForDekanNEW(user.getId(),startTime,endTime));
     }
     @GetMapping("/getGroupStatistics")///dekan/getGroupsNamesForDekanByFacultyId
     public HttpEntity<?> getGroupStatistics(@CurrentUser User user,
