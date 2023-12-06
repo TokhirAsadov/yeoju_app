@@ -162,7 +162,8 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
     );
 
 
-
+    @Query(value = "select * from dbo.GetGroupsStatisticForDekan(?1,?2,?3) ORDER BY level, name",nativeQuery = true)
+    List<DekanGroupsStatistic> getGroupsStatisticForDekanNEW(String dekanId, Date dateFrom,Date dateTo);
 
 
 //    @Query(value = "select g1.level,g1.name, g1.comeCount,g2.allCount from (\n" +
