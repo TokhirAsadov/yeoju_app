@@ -87,6 +87,9 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             @Param("dateTo") LocalDateTime dateTo
     );
 
+    @Query(value = "select * from dbo.GetCourseStatisticsForDekan(?1,?2,?3) ORDER BY level, name",nativeQuery = true)
+    List<CourseStatistics> getCourseStatisticsForDekanNEW(String dekanId,Date dateFrom,Date dateTo);
+
 
 //    @Query(value = "select countCome.level,countCome.comeCount,allUser.allCount from\n" +
 //            "(select g.level,count(user_id) as comeCount from\n" +
@@ -157,6 +160,9 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             @Param("dateFrom") LocalDateTime dateFrom,
             @Param("dateTo") LocalDateTime dateTo
     );
+
+
+
 
 
 //    @Query(value = "select g1.level,g1.name, g1.comeCount,g2.allCount from (\n" +
