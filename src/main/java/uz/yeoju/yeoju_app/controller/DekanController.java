@@ -167,11 +167,13 @@ public class DekanController {
     }
     @GetMapping("/getGroupStatistics")///dekan/getGroupsNamesForDekanByFacultyId
     public HttpEntity<?> getGroupStatistics(@CurrentUser User user,
-                             @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
-                             @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime
+                                            @RequestParam("startTime") @DateTimeFormat(pattern = "yyyy.MM.dd HH:mm") Date startTime,
+                                            @RequestParam("endTime")@DateTimeFormat(pattern = "yyyy.MM.dd HH:mm") Date endTime
     ) {
-
-        return ResponseEntity.ok(dekanRepository.getGroupsStatisticForDekan(user.getId(),startTime,endTime));
+        System.out.println(user.getId());
+        System.out.println(startTime);
+        System.out.println(endTime);
+        return ResponseEntity.ok(dekanRepository.getGroupsStatisticForDekanNEW(user.getId(),startTime,endTime));
     }
 
 //    @GetMapping("/change")
