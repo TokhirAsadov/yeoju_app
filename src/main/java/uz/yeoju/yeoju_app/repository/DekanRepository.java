@@ -369,4 +369,10 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "    where g.name IN (SELECT value FROM STRING_SPLIT(:groupsArr,',')) and s.teachStatus='TEACHING' \n" +
             ") as t2 on cast(t1.cardNo as varchar) = cast(t2.cardNo as varchar) COLLATE Chinese_PRC_CI_AS where t1.cardNo is null",nativeQuery = true)
     Set<StudentDataByWeekDay> getStudentDataByWeekDay(@Param("start") Date start,  @Param("groupsArr") String groupsArr);
+
+
+    @Query(value = "select * from dbo.GetStudentDataByWeekDay(?1,?2)",nativeQuery = true)
+    Set<StudentDataByWeekDay> getStudentDataByWeekDayNEW(Date start, String groupsArr);
+
+
 }
