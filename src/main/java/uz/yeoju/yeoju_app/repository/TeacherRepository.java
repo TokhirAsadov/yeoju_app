@@ -122,6 +122,11 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
     GetEnterOutTimes getEnterOutTimes(@Param("id") String id, @Param("date") Date date, @Param("day") String day);
 
 
+    @Query(value = "SELECT *\n" +
+            "FROM dbo.GetCardTimeInfo(?2, ?3, ?1)",nativeQuery = true)
+    GetEnterOutTimes getEnterOutTimesNEW( String id,  Date date,String day);
+
+
     @Query(value = "select t1.cardNo,t1.timeAsc,t2.timeDesc, dateadd(d,:day-1, getdate()) as time\n" +
             "from (\n" +
             "         select  Top 1 al.card_no as cardNo, al.time as timeAsc\n" +
