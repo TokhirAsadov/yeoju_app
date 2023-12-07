@@ -11,6 +11,6 @@ public interface StudentStatisticsEachOneDay {
     String getEduTypeId();
     String getGroupsArr();
 
-    @Value("#{@dekanRepository.getStudentDataByWeekDay(target.time,target.groupsArr)}")
+    @Value("#{@dekanRepository.getStudentDataByWeekDayNEW(target.time,target.groupsArr)}")
     Set<StudentDataByWeekDay> getStatistics();
 }
