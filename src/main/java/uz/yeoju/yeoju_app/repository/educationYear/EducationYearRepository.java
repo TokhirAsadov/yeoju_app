@@ -310,5 +310,6 @@ public interface EducationYearRepository extends JpaRepository<EducationYear,Str
             "where u.id=?1 and al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)",nativeQuery = true)
     Date getTimesForRoomStatisticsByUserIdTime(String id);
 
-
+    @Query(value = "select * from dbo.GetTimesForRoomStatisticsByUserIdTime(?1)",nativeQuery = true)
+    Date getTimesForRoomStatisticsByUserIdTimeNEW(String id);
 }
