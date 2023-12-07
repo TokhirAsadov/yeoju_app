@@ -17,9 +17,9 @@ public interface StudentSubjectsByEduYearIdAndGroupAndStudentId {
     Integer getDay();
     Integer getSection();
 
-    @Value("#{@educationYearRepository.getTimesForRoomStatisticsByUserIdTime(target.studentId)}")
+    @Value("#{@educationYearRepository.getTimesForRoomStatisticsByUserIdTimeNEW(target.studentId)}")
     Date getTime();
 
-    @Value("#{@educationYearRepository.getTimesForRoomStatisticsByUserId(target.studentId,target.room,target.year,target.week,target.day,target.section)}")
+    @Value("#{@educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(target.studentId,target.room,target.year,target.week,target.day,target.section)}")
     Set<TeacherStatisticsOfWeekday> getStatistics();
 }
