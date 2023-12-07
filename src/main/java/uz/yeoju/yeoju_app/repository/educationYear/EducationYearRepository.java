@@ -237,6 +237,17 @@ public interface EducationYearRepository extends JpaRepository<EducationYear,Str
             @Param("section") Integer section
     );
 
+
+    @Query(value = "select * from dbo.GetTimesForRoomStatisticsByUserId(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
+    Set<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByUserIdNEW(
+            String userId,
+            String room,
+            Integer year,
+            Integer week,
+            Integer weekday,
+            Integer section
+    );
+
     @Query(value = "SELECT\n" +
             "        al.time,\n" +
             "        :week AS week,\n" +
@@ -298,4 +309,6 @@ public interface EducationYearRepository extends JpaRepository<EducationYear,Str
             "         \n" +
             "where u.id=?1 and al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)",nativeQuery = true)
     Date getTimesForRoomStatisticsByUserIdTime(String id);
+
+
 }
