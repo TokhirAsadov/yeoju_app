@@ -39,6 +39,9 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     boolean existsUserByLoginOrEmailOrRFID(String login, String email, String RFID);
 
+    @Query(value = "select TOP 1 login from users where passportNum=?1",nativeQuery = true)
+    String getLoginByPassport(String passport);
+
     @Query(value = "select :id as id",nativeQuery = true)
     SectionStaff31 getSectionStaffsDataForRektorBySectionId31(@Param("id") String id);
 
