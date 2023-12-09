@@ -86,6 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/v1/desktop/auth/**",
                         "/api/v1/desktop/user/me",
                         "/api/v1/desktop/attachment/download/**",
+                        "/api/v1/desktop/user/getLoginByPassport/**",
                         "/admin/**",
                         "/super/**",
                         "/rektor/**",
