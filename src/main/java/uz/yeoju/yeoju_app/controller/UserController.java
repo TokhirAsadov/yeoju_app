@@ -42,6 +42,11 @@ public class UserController {
     public final UserRepository userRepository;
     public final PasswordEncoder passwordEncoder;
 
+    @GetMapping("/getLoginByPassport/{passport}")
+    public HttpEntity<?> getLoginByPassport(@PathVariable("passport") String passport){
+        return ResponseEntity.ok(userRepository.getLoginByPassport(passport));
+    }
+
     @GetMapping("/getUserCheckRoomStatistics")
     public HttpEntity<?> getUserCheckRoomStatistics(@CurrentUser User user){
 //        Calendar c = Calendar.getInstance();
