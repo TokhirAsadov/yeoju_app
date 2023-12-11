@@ -17,6 +17,7 @@ public interface TimeTableByWeekOfYearService {
     ApiResponseTwoObj getStudentTimeTableAPIByWeekOfYear(String userId, String groupName,Integer year, Integer week, Integer day, Boolean s);
     ApiResponseTwoObj getTimesForRoomStatisticsByUserIdAndWeek(User user, String groupName, Integer year,Integer week, Integer day, Boolean s);
     ApiResponse getTeacherTimeTable(User user,Integer week,Integer year);
+    ApiResponse getTeacherTimeTableToday(User user,Integer week,Integer year);
     ApiResponseTwoObj getTeacherTimeTableAndStatisticsForKafedra(User user,String kafedraId,Integer year,Integer month, Integer day,Integer week, Integer weekday);
 
     ApiResponseTwoObj getTimeTableByRoomAndWeek(User user, String room, Integer weekday, Integer week, Integer year);
