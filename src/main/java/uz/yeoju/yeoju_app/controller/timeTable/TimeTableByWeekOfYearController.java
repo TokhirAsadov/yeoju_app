@@ -87,6 +87,18 @@ public class TimeTableByWeekOfYearController {
         }
     }
 
+
+    @GetMapping("/getTeacherTimeTableToday")
+    public HttpEntity<?>oneDayForTeacher(@CurrentUser User user,@RequestParam(name = "t",required = false) String teacherId, @RequestParam("week") Integer week,@RequestParam("year") Integer year){
+        if (teacherId==null) {
+            return ResponseEntity.ok(service.getTeacherTimeTableToday(user,week,year));
+        }
+        else {
+            Optional<User> userOptional = userRepository.findById(teacherId);
+            return userOptional.map(value -> ResponseEntity.ok(service.getTeacherTimeTableToday(value,week,year))).orElseGet(() -> ResponseEntity.ok(new ApiResponse(false, "error... not fount user...")));
+        }
+    }
+
     @GetMapping("/getTimeTableByRoom")
     public HttpEntity<?> getTimeTableByRoom(@CurrentUser User user,
                                             @RequestParam("r") String room,
