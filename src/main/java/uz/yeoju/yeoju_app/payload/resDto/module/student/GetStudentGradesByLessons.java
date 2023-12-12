@@ -1,6 +1,9 @@
 package uz.yeoju.yeoju_app.payload.resDto.module.student;
 
 import org.springframework.beans.factory.annotation.Value;
+import uz.yeoju.yeoju_app.payload.resDto.module.GetGradesOfStudent;
+
+import java.util.Set;
 
 public interface GetStudentGradesByLessons {
     String getStudentId();
@@ -21,4 +24,7 @@ public interface GetStudentGradesByLessons {
     Double getSumGrade();
     @Value("#{@gradeOfStudentByTeacherRepository.getTodayGrade(target.teacherId,target.studentId,target.educationYearId,target.lessonId)}")
     Double getTodayGrade();
+
+    @Value("#{@gradeOfStudentByTeacherRepository.getGradesOfStudentByTeacherIdAndStudentIdAndEducationYearIdAndLessonId(target.teacherId,target.studentId,target.educationYearId,target.lessonId)}")
+    Set<GetGradesOfStudent> getGrades();
 }
