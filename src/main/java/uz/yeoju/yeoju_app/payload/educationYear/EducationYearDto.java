@@ -16,4 +16,11 @@ public class EducationYearDto {
     private Date start;
     private Date end;
     private Set<String> weeksIds;
+
+    public EducationYearDto(String id, String name, Date start, Date end) {
+        this.id = id;
+        this.name = name;
+        this.start = start;
+        this.end = end;
+    }
 }
