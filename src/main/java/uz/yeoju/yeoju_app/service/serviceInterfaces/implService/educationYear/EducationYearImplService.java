@@ -71,9 +71,11 @@ public class EducationYearImplService implements EducationYearService{
                     educationYear.setName(dto.getName());
                     educationYear.setStart(dto.getStart());
                     educationYear.setEnd(dto.getEnd());
-                    educationYear.setWeeks(
-                          new HashSet<>(weekOfEducationYearRepository.findAllById(dto.getWeeksIds()))
-                    );
+                    if (dto.getWeeksIds()!=null && !dto.getWeeksIds().isEmpty()) {
+                        educationYear.setWeeks(
+                                new HashSet<>(weekOfEducationYearRepository.findAllById(dto.getWeeksIds()))
+                        );
+                    }
                     educationYearRepository.save(educationYear);
                     return new ApiResponse(true,"updated successfully.");
                 }
@@ -85,9 +87,11 @@ public class EducationYearImplService implements EducationYearService{
                 educationYear.setName(dto.getName());
                 educationYear.setStart(dto.getStart());
                 educationYear.setEnd(dto.getEnd());
-                educationYear.setWeeks(
-                        new HashSet<>(weekOfEducationYearRepository.findAllById(dto.getWeeksIds()))
-                );
+                if (dto.getWeeksIds()!=null && !dto.getWeeksIds().isEmpty()) {
+                    educationYear.setWeeks(
+                            new HashSet<>(weekOfEducationYearRepository.findAllById(dto.getWeeksIds()))
+                    );
+                }
                 educationYearRepository.save(educationYear);
                 return new ApiResponse(true,"updated successfully.");
             }
@@ -104,9 +108,12 @@ public class EducationYearImplService implements EducationYearService{
             educationYear.setName(dto.getName());
             educationYear.setStart(dto.getStart());
             educationYear.setEnd(dto.getEnd());
-            educationYear.setWeeks(
-                    new HashSet<>(weekOfEducationYearRepository.findAllById(dto.getWeeksIds()))
-            );
+            if (dto.getWeeksIds()!=null && !dto.getWeeksIds().isEmpty()) {
+                educationYear.setWeeks(
+                        new HashSet<>(weekOfEducationYearRepository.findAllById(dto.getWeeksIds()))
+                );
+            }
+
             educationYearRepository.save(educationYear);
             return new ApiResponse(true,"saved successfully.");
         }
