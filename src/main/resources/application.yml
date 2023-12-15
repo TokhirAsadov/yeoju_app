@@ -27,6 +27,8 @@ spring:
     url: jdbc:sqlserver://172.16.7.130:1433;databaseName=ZKAccess
     username: sa
     password: Pa$$w0rd2020
+#    hikari:
+#      maximum-pool-size: 200
   #    url: jdbc:sqlserver://localhost:1433;databaseName=TEST_ZKA
   #    username: root
   #    password: root123
