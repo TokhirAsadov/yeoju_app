@@ -186,7 +186,7 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                                                 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
                                                 if (day <= (dayOfWeek - 1)) {
-                                                    Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(
+                                                    Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(
                                                             student.getUser().getId(),
                                                             room.getName(),
                                                             Integer.valueOf(year),
@@ -198,7 +198,7 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                                                     lessonDataList.add(new LessonData(week.getStart(),subject.getName(), section, day, week.getSortNumber()));
                                                 }
                                             } else {
-                                                Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(
+                                                Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(
                                                         student.getUser().getId(),
                                                         room.getName(),
                                                         Integer.valueOf(year),
@@ -350,20 +350,20 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                                                 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
                                                 if (day<=(dayOfWeek-1)) {
-                                                    Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(student.getUser().getId(), room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+                                                    Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(student.getUser().getId(), room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
                                                     statisticsAll.add(weekdayList);
                                                     lessonDataList.add(new LessonData(week.getStart(),lessonName,section,day,week.getSortNumber()));
                                                 }
                                             }
                                             else {
-                                                Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(student.getUser().getId(), room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+                                                Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(student.getUser().getId(), room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
                                                 statisticsAll.add(weekdayList);
                                                 lessonDataList.add(new LessonData(week.getStart(),lessonName,section,day,week.getSortNumber()));
                                             }
 
 
 
-//                                        List<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+//                                        List<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
 //                                        statisticsAll.add(weekdayList);
                                         }
                                     }
@@ -647,20 +647,20 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                                                     int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
                                                     if (day<=(dayOfWeek-1)) {
-                                                        Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+                                                        Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
                                                         statisticsAll.add(weekdayList);
                                                         lessonDataList.add(new LessonData(week.getStart(),subjectName,section,day,week.getSortNumber()));
                                                     }
                                                 }
                                                 else {
-                                                    Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+                                                    Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
                                                     statisticsAll.add(weekdayList);
                                                     lessonDataList.add(new LessonData(week.getStart(),subjectName,section,day,week.getSortNumber()));
                                                 }
 
 
 
-//                                        List<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+//                                        List<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
 //                                        statisticsAll.add(weekdayList);
                                             }
                                         }
@@ -838,13 +838,13 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                                                     int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
                                                     if (day<=(dayOfWeek-1)) {
-                                                        Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+                                                        Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
                                                         statisticsAll.add(weekdayList);
                                                         lessonDataList.add(new LessonData(week.getStart(),subjectName,section,day,week.getSortNumber()));
                                                     }
                                                 }
                                                 else {
-                                                    Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+                                                    Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
                                                     statisticsAll.add(weekdayList);
                                                     lessonDataList.add(new LessonData(week.getStart(),subjectName,section,day,week.getSortNumber()));
                                                 }
@@ -998,12 +998,12 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                                             int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 
                                             if (day<=(dayOfWeek-1)) {
-                                                Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+                                                Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
                                                 statisticsAll.add(weekdayList);
                                             }
                                         }
                                         else {
-                                            Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserId(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
+                                            Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(studentId, room.getName(), Integer.valueOf(year), week.getSortNumber(), day, section);
                                             statisticsAll.add(weekdayList);
                                         }
 
