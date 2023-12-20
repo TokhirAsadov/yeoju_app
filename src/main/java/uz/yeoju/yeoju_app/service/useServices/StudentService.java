@@ -119,6 +119,7 @@ public class StudentService implements StudentImplService<StudentDto> {
 
                         if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
                             Group group = new Group();
+                            group.setActive(true);
                             group.setName(row.getCell(2).getStringCellValue());
                             group.setLevel((int) row.getCell(1).getNumericCellValue());
 
@@ -300,6 +301,7 @@ public class StudentService implements StudentImplService<StudentDto> {
 
                             if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
                                 Group group = new Group();
+                                group.setActive(true);
                                 group.setName(row.getCell(2).getStringCellValue());
                                 group.setLevel((int) row.getCell(1).getNumericCellValue());
 
@@ -403,6 +405,7 @@ public class StudentService implements StudentImplService<StudentDto> {
 
                             if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
                                 Group group = new Group();
+                                group.setActive(true);
                                 group.setName(row.getCell(2).getStringCellValue());
                                 group.setLevel((int) row.getCell(1).getNumericCellValue());
 
@@ -510,6 +513,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                         if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
                             System.out.println("-------> "+3);
                             Group group = new Group();
+                            group.setActive(true);
                             group.setName(row.getCell(2).getStringCellValue());
                             group.setLevel((int) row.getCell(1).getNumericCellValue());
 
@@ -617,6 +621,7 @@ public class StudentService implements StudentImplService<StudentDto> {
 
                         if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
                             Group group = new Group();
+                            group.setActive(true);
                             group.setName(row.getCell(2).getStringCellValue());
                             group.setLevel((int) row.getCell(1).getNumericCellValue());
 
