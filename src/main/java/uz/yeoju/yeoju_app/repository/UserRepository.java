@@ -37,6 +37,9 @@ public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findUserByLogin(String login);
     User findUserByRFID(String RFID);
 
+    @Query(value = "select count(login) from users where login=?1 group by login",nativeQuery = true)
+    Integer getCountByLogin(String login);
+
     boolean existsUserByLoginOrEmailOrRFID(String login, String email, String RFID);
 
     @Query(value = "select TOP 1 login from users where passportNum=?1",nativeQuery = true)
