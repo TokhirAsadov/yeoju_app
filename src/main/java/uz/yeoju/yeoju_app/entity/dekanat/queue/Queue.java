@@ -4,6 +4,9 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -11,12 +14,12 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Entity
 public class Queue extends AbsEntity {
 
-    private String number;
+    private Long number;
 
-    @Builder.Default
+    @Enumerated(EnumType.STRING)
     private QueueStatusEnum status = QueueStatusEnum.RUNNABLE;
 
     private Timestamp startedAt;
@@ -27,4 +30,7 @@ public class Queue extends AbsEntity {
 
     private Timestamp finishedAt;
 
+    public Queue(Long number) {
+        this.number = number;
+    }
 }
