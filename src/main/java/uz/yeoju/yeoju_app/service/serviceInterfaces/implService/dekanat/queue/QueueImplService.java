@@ -2,8 +2,14 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.dekanat.queue;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.yeoju.yeoju_app.entity.dekanat.queue.Queue;
+import uz.yeoju.yeoju_app.entity.dekanat.queue.QueueStatusEnum;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.dekanat.queue.QueueStatusChangerDto;
 import uz.yeoju.yeoju_app.repository.QueueRepository;
+
+import java.sql.Timestamp;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -12,7 +18,11 @@ public class QueueImplService implements QueueService{
 
 
     @Override
-    public ApiResponse findAllQueue() {
-        return null;
+    public ApiResponse findAllQueueOfToday() {
+        return new ApiResponse(true,"All queues of Today",queueRepository.getAllQueuesOfTodayForDean());
     }
+
+
+
+
 }
