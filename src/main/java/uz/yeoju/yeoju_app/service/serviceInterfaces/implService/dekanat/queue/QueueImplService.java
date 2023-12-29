@@ -34,6 +34,23 @@ public class QueueImplService implements QueueService{
     }
 
 
+    @Override
+    public ApiResponse createQueue(String userId) {
+        Boolean existQueueForToday = queueRepository.existQueueForToday(userId);
+        if (!existQueueForToday) {
+            Integer maxQueueOfToday = queueRepository.getMaxQueueOfToday();
+            if (maxQueueOfToday == null || maxQueueOfToday == 0) {
+                queueRepository.save(new Queue(1L));
+                return new ApiResponse(true, "Queue was created successfully!. Your queue is 1");
+            } else {
+                queueRepository.save(new Queue(maxQueueOfToday + 1L));
+                return new ApiResponse(true, "Queue was created successfully!. Your queue is " + (maxQueueOfToday + 1L));
+            }
+        }
+        else {
+            return new ApiResponse(false, "You already have a queue!. Please, wait...");
+        }
+    }
 
 
 }
