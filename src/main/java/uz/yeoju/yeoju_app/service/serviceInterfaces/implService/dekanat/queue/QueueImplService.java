@@ -22,6 +22,12 @@ public class QueueImplService implements QueueService{
         return new ApiResponse(true,"All queues of Today",queueRepository.getAllQueuesOfTodayForDean());
     }
 
+    @Override
+    public ApiResponse getQueueForStudent(String userId) {
+        return new ApiResponse(true,"Your all queues",queueRepository.findAllByCreatedByOrderByCreatedAtDesc(userId));
+    }
+
+
 
 
 
