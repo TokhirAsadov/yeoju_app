@@ -28,6 +28,11 @@ public class QueueImplService implements QueueService{
     }
 
 
+    @Override
+    public ApiResponse getQueueForDeanByStatus(QueueStatusEnum statusEnum) {
+        return new ApiResponse(true,"Queues by status "+statusEnum.name(),queueRepository.findAllByStatusOrderByCalledAt(statusEnum));
+    }
+
 
 
 
