@@ -10,6 +10,6 @@ public interface QueueService {
 
     ApiResponse getQueueForDeanByStatus(QueueStatusEnum statusEnum);
     ApiResponse createQueue(String userId);
-
+    ApiResponse queueStatusChanger(QueueStatusChangerDto dto);
 
 }
