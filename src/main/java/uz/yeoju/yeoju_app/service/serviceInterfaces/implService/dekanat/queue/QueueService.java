@@ -9,5 +9,7 @@ public interface QueueService {
     ApiResponse getQueueForStudent(String userId);
 
     ApiResponse getQueueForDeanByStatus(QueueStatusEnum statusEnum);
+    ApiResponse createQueue(String userId);
+
 
 }
