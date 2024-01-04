@@ -8,5 +8,6 @@ public interface QueueService {
     ApiResponse findAllQueueOfToday();
     ApiResponse getQueueForStudent(String userId);
 
+    ApiResponse getQueueForDeanByStatus(QueueStatusEnum statusEnum);
 
 }
