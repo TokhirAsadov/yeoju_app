@@ -6,5 +6,7 @@ import uz.yeoju.yeoju_app.payload.dekanat.queue.QueueStatusChangerDto;
 
 public interface QueueService {
     ApiResponse findAllQueueOfToday();
+    ApiResponse getQueueForStudent(String userId);
+
 
 }
