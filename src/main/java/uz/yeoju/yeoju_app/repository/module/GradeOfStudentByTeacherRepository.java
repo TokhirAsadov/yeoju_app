@@ -26,7 +26,7 @@ public interface GradeOfStudentByTeacherRepository extends JpaRepository<GradeOf
 
 
     Optional<GradeOfStudentByTeacher> findByIdAndCreatedBy(String id, String createdBy);
-    @Query(value = "select id,grade,time,description from GradeOfStudentByTeacher where createdBy=?1 and student_id=?2 and educationYear_id=?3 and lesson_id=?4 order by createdAt",nativeQuery = true)
+    @Query(value = "select id,grade,time,description,createdAt from GradeOfStudentByTeacher where createdBy=?1 and student_id=?2 and educationYear_id=?3 and lesson_id=?4 order by createdAt",nativeQuery = true)
     Set<GetGradesOfStudent> getGradesOfStudentByTeacherIdAndStudentIdAndEducationYearIdAndLessonId(String teacherId, String studentId, String educationYearId, String lessonId);
 
     @Query(value = "select avg(grade) as middle from GradeOfStudentByTeacher where createdBy=?1 and student_id=?2 and educationYear_id=?3 and lesson_id=?4\n" +
