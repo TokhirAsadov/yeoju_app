@@ -12,6 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class GetNotificationOuterDto {
     public String id;
+    public Long queue;
     public String dekanat;
     public String educationYear;
     public Integer course;
