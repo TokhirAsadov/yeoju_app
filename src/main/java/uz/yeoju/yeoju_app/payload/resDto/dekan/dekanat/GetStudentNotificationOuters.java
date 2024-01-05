@@ -5,8 +5,14 @@ import java.util.Date;
 
 public interface GetStudentNotificationOuters {
     String getId();
+    String getFullName();
+    String getGroupName();
+    String getDirection();
+    Integer getLevel();
+    Long getQueue();
+    Long getStudentQueue();
     String getEducationYear();
     Date getFromDate();
     Date getToDate();
-    Timestamp getUpdatedAt();
+    Timestamp getCreatedAt();
 }
