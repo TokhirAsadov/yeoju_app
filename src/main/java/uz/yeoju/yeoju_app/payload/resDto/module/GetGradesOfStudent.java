@@ -6,5 +6,6 @@ public interface GetGradesOfStudent {
     String getId();
     Integer getGrade();
     Timestamp getTime();
+    Timestamp getCreatedAt();
     String getDescription();
 }
