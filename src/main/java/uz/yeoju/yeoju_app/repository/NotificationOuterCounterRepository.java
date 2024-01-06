@@ -13,5 +13,7 @@ public interface NotificationOuterCounterRepository extends JpaRepository<Notifi
     @Query(value = "select max(queue) from NotificationOuterCounter",nativeQuery = true)
     Long maxQueue();
 
+    Boolean existsByUserIdAndNotificationOuterId(String user_id, String notificationOuter_id);
+
 
 }
