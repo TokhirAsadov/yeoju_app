@@ -15,9 +15,9 @@ public interface GetStudentStatisticsForDeanOneWeek {
     Integer getYear();
     String getRfid();
 
-    @Value("#{@groupRepository.getStudentStatisticsForDeanOneWeekSection(target.educationYearId, target.groupId, target.weekday, target.week, target.year,target.studentId)}")
+    @Value("#{@groupRepository.getStudentStatisticsForDeanOneWeekSectionNEW(target.educationYearId, target.groupId, target.year, target.week,target.weekday, target.studentId)}")
     Set<GetStudentStatisticsForDeanOneWeekSection> getSubjects();
 
-    @Value("#{@groupRepository.getFirstOfEntering(target.rfid)}")
+    @Value("#{@groupRepository.getFirstOfEnteringNEW(target.rfid)}")
     Date getEntering();
 }
