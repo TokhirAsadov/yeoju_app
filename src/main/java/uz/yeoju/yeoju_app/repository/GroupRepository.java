@@ -38,6 +38,9 @@ public interface GroupRepository extends JpaRepository<Group,String> {
    Set<GetStudentStatisticsForDeanOneWeekSection> getStudentStatisticsForDeanOneWeekSection(String educationYearId,String groupId,Integer weekday,Integer week,Integer year,String studentId);
 
 
+   @Query(value = "select * from dbo.GetStudentStatisticsForDeanOneWeekSection(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
+   Set<GetStudentStatisticsForDeanOneWeekSection> getStudentStatisticsForDeanOneWeekSectionNEW(String educationYearId,String groupId,Integer year,Integer week,Integer weekday,String studentId);
+
    @Query(value = "select g.id,g.level,g.name,F.name as facultyName,et.name as educationTypeName from Student s\n" +
            "join groups g on g.id = s.group_id\n" +
            "join Faculty F on F.id = g.faculty_id\n" +
