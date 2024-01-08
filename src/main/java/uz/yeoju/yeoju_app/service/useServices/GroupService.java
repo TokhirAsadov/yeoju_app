@@ -31,7 +31,7 @@ public class GroupService implements GroupImplService<GroupDto> {
     public final EducationTypeRepository eduTypeRepo;
 
     public ApiResponse getStudentStatisticsForDeanOneWeek(String groupId,String educationYearId,Integer weekday,Integer week,Integer year){
-        return new ApiResponse(true,"students",groupRepository.getStudentStatisticsForDeanOneWeek(groupId, educationYearId, weekday, week, year));
+        return new ApiResponse(true,"students",groupRepository.getStudentStatisticsForDeanOneWeekNEW(educationYearId,groupId,year, week,weekday ));
     }
 
     public ApiResponse getStudentsOfGroupWithTodayStatisticsAndScoreForJournal(String educationYearId,String groupName){
