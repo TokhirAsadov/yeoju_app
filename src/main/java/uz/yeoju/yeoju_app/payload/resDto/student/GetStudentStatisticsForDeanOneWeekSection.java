@@ -16,6 +16,6 @@ public interface GetStudentStatisticsForDeanOneWeekSection {
     Integer getWeek();
     Integer getYear();
 
-    @Value("#{@userRepository.getTimesForRoomStatisticsByUserIdAndWeek(target.studentId,target.room,target.weekday,target.week,target.year,target.section)}")
+    @Value("#{@userRepository.getTimesForRoomStatisticsByUserIdAndWeekNEW(target.studentId,target.room,target.year,target.week,target.weekday,target.section)}")
     List<TeacherStatisticsOfWeekday> getStatistics();
 }
