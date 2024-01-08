@@ -78,6 +78,9 @@ public interface GroupRepository extends JpaRepository<Group,String> {
    Date getFirstOfEntering(String rfid);
 
 
+   @Query(value = "select dbo.GetFirstOfEntering(?1)",nativeQuery = true)
+   Date getFirstOfEnteringNEW(String rfid);
+
    @Query(value = "select g.id as id,g.name as groupName from groups g \n" +
            "    join EducationLanguage el on g.educationLanguage_id = el.id\n" +
            "    join EducationType ET on g.educationType_id = ET.id\n" +
