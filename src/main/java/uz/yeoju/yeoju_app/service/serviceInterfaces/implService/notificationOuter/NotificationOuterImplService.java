@@ -4,16 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Faculty;
 import uz.yeoju.yeoju_app.entity.Group;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.dekanat.Dekanat;
 import uz.yeoju.yeoju_app.entity.dekanat.NotificationOuter;
+import uz.yeoju.yeoju_app.entity.dekanat.NotificationOuterCounter;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.dekanat.GetNotificationOuterDto;
 import uz.yeoju.yeoju_app.payload.dekanat.NotificationOuterCreateDto;
-import uz.yeoju.yeoju_app.repository.DekanatRepository;
-import uz.yeoju.yeoju_app.repository.FacultyRepository;
-import uz.yeoju.yeoju_app.repository.GroupRepository;
-import uz.yeoju.yeoju_app.repository.NotificationOuterRepository;
+import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.GetStudentNotificationOuters;
+import uz.yeoju.yeoju_app.repository.*;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 
 import java.util.HashSet;
@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class NotificationOuterImplService implements NotificationOuterService{
     private final NotificationOuterRepository notificationRepository;
+    private final NotificationOuterCounterRepository notificationOuterCounterRepository;
+    private final UserRepository userRepository;
     private final DekanatRepository dekanatRepository;
     private final EducationYearRepository educationYearRepository;
     private final FacultyRepository facultyRepository;
@@ -35,9 +37,48 @@ public class NotificationOuterImplService implements NotificationOuterService{
         return new ApiResponse(true,"all notifications", notificationRepository.findAll().stream().map(this::generateDto).collect(Collectors.toSet()));
     }
 
+
     @Override
     public ApiResponse getStudentNotifications(String studentId) {
-        return new ApiResponse(true,"student notifications",notificationRepository.getStudentNotificationOuters(studentId));
+
+        for (GetStudentNotificationOuters outer : notificationRepository.getStudentNotificationOuters(studentId)) {
+            Boolean exists = notificationOuterCounterRepository.existsByUserIdAndNotificationOuterId(studentId, outer.getId());
+            if (!exists) {
+                Optional<User> userOptional = userRepository.findById(studentId);
+                if (userOptional.isPresent()){
+                    Optional<NotificationOuter> outerOptional = notificationRepository.findById(outer.getId());
+                    if (outerOptional.isPresent()){
+                        User user = userOptional.get();
+                        NotificationOuter notificationOuter = outerOptional.get();
+                        Long aLong = notificationOuterCounterRepository.maxQueue();
+                        if (aLong==null || aLong<1) {
+                            notificationOuterCounterRepository.save(new NotificationOuterCounter(
+                                    1L,
+                                    user,
+                                    notificationOuter
+                            ));
+                        }
+                        else {
+                            notificationOuterCounterRepository.save(new NotificationOuterCounter(
+                                    aLong+1L,
+                                    user,
+                                    notificationOuter
+                            ));
+                        }
+
+                    }
+                    else {
+                        return new ApiResponse(false,"notification was not found by id: " + outer.getId());
+                    }
+                }
+                else {
+                    return new ApiResponse(false,"student not found by id: " + studentId);
+                }
+            }
+        }
+
+
+        return new ApiResponse(true,"student notifications",notificationRepository.getStudentNotificationOuters2(studentId));
     }
 
     @Override
@@ -98,6 +139,7 @@ public class NotificationOuterImplService implements NotificationOuterService{
                 List<Group> groups = groupRepository.findAllById(dto.getGroupsId());
 
                 NotificationOuter notificationOuter = new NotificationOuter();
+                notificationOuter.setQueue(notificationRepository.maxQueue()+1L);
                 notificationOuter.setDekanat(dekanat);
                 notificationOuter.setEducationYear(educationYear);
                 notificationOuter.setFaculties(new HashSet<>(faculties));
@@ -120,6 +162,7 @@ public class NotificationOuterImplService implements NotificationOuterService{
     public GetNotificationOuterDto generateDto(NotificationOuter notification){
         return new GetNotificationOuterDto(
             notification.getId(),
+            notification.getQueue(),
             notification.getDekanat().getName(),
             notification.getEducationYear().getName(),
             notification.getCourse(),
