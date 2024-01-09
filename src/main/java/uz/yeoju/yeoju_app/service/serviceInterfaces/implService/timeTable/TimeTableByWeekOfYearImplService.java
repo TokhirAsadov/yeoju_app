@@ -2740,10 +2740,10 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
             Set<Show> showsMed = cardSetMed != null ? timeTableMed(cardSetMed) : null;
 
 
-            Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber().equals(weekday)).collect(Collectors.toSet());
+            Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber()==weekday).collect(Collectors.toSet());
 
             //med
-            Set<Show> showSetMed = showsMed != null ? showsMed.stream().filter(i -> i.getDayNumber().equals(weekday)).collect(Collectors.toSet()) : new HashSet<>();
+            Set<Show> showSetMed = showsMed != null ? showsMed.stream().filter(i -> i.getDayNumber()==weekday).collect(Collectors.toSet()) : new HashSet<>();
 
             System.out.println(showsMed + " +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
@@ -3017,7 +3017,7 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
             Set<Card> cardSet = cardsMed.stream().filter(i -> i.getClassroomIds().contains(classRoom.getId())).collect(Collectors.toSet());
             Set<Show> shows = timeTableMed(cardSet);
 
-            Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber().equals(weekday)).collect(Collectors.toSet());
+            Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber()==weekday).collect(Collectors.toSet());
 
             ShowWeekNumberFields showWeekNumberFields = new ShowWeekNumberFields();
 
@@ -3203,13 +3203,23 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
             getTimeTableByWeek(year, week);
 
             classRooms.stream().filter(i -> i.getName().startsWith(building)).sorted(Comparator.comparing(ClassRoom::getName)).collect(Collectors.toCollection(LinkedHashSet::new)).forEach(classRoom -> {
-
                 Set<Card> cardSet = cards.stream().filter(i -> i.getClassroomIds().contains(classRoom.getId())).collect(Collectors.toSet());
                 Set<Show> shows = t ? timeTable(cardSet) : timeTable2(cardSet,year,week);
 
-                Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber().equals(weekday)).collect(Collectors.toSet());
+//                System.out.println(shows+"hello--------------------------------2------");
+//                System.out.println(weekday+"hello--------------------------------3------");
+//                shows.forEach(s -> {
+//                    if (s.getDayNumber()==weekday) {
+//                        System.out.println(s);
+//                    }
+//                });
+                Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber()==weekday).collect(Collectors.toSet());
+//                System.out.println(shows.stream().filter(i -> i.getDayNumber()==weekday).collect(Collectors.toSet())+"--------------333---------hello---------------------------------");
+                System.out.println("hello--------------------------------2------");
 
                 ShowWeekNumberFields showWeekNumberFields = new ShowWeekNumberFields();
+
+                System.out.println("hello--------------------------------------");
 
                 showWeekNumberFields.setGet1(showSet.stream().filter(item -> item.getHourNumber() == 1).collect(Collectors.toList()));
                 showWeekNumberFields.setGet2(showSet.stream().filter(item -> item.getHourNumber() == 2).collect(Collectors.toList()));
@@ -3414,7 +3424,7 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                 Set<Show> shows = t ? timeTableMed(cardSet) : timeTable2Med(cardSet,year,week);
 
 
-                Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber().equals(weekday)).collect(Collectors.toSet());
+                Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber()==weekday).collect(Collectors.toSet());
 
                 ShowWeekNumberFields showWeekNumberFields = new ShowWeekNumberFields();
 
@@ -3623,7 +3633,7 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                 Set<Show> shows = t ? timeTableMed(cardSet) : timeTable2Med(cardSet,year,week);
 
 
-                Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber().equals(weekday)).collect(Collectors.toSet());
+                Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber()==weekday).collect(Collectors.toSet());
 
                 ShowWeekNumberFields showWeekNumberFields = new ShowWeekNumberFields();
 
@@ -3837,7 +3847,7 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
             Set<Show> shows = t ? timeTable(cardSet) : timeTable2(cardSet,year,week);
 
 
-            Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber().equals(weekday)).collect(Collectors.toSet());
+            Set<Show> showSet = shows.stream().filter(i -> i.getDayNumber()==weekday).collect(Collectors.toSet());
 
             ShowWeekNumberFields showWeekNumberFields = new ShowWeekNumberFields();
 
