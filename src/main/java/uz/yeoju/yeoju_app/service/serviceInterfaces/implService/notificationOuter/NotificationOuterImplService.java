@@ -37,6 +37,10 @@ public class NotificationOuterImplService implements NotificationOuterService{
         return new ApiResponse(true,"all notifications", notificationRepository.findAll().stream().map(this::generateDto).collect(Collectors.toSet()));
     }
 
+    @Override
+    public ApiResponse getAllCounters() {
+        return new ApiResponse(true,"all counters",notificationOuterCounterRepository.getAllCounters());
+    }
 
     @Override
     public ApiResponse getStudentNotifications(String studentId) {
