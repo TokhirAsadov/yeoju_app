@@ -5,6 +5,7 @@ import uz.yeoju.yeoju_app.payload.dekanat.NotificationOuterCreateDto;
 
 public interface NotificationOuterService {
     ApiResponse findAllNotifications();
+    ApiResponse getAllCounters();
     ApiResponse getStudentNotifications(String studentId);
     ApiResponse createAndUpdate(NotificationOuterCreateDto dto);
 }
