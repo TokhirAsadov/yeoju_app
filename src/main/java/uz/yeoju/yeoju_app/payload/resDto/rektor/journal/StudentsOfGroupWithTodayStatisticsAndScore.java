@@ -16,6 +16,6 @@ public interface StudentsOfGroupWithTodayStatisticsAndScore {
 
     String getEducationYearId(); // for to get score
 
-    @Value("#{@groupRepository.getFirstOfEntering(target.rfid)}")
+    @Value("#{@groupRepository.getFirstOfEnteringNEW(target.rfid)}")
     Date getEntering();
 }
