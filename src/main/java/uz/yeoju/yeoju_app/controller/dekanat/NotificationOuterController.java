@@ -20,6 +20,11 @@ public class NotificationOuterController {
         return ResponseEntity.ok(service.findAllNotifications());
     }
 
+    @GetMapping("/getAllCounters")
+    public HttpEntity<?> getAllCounters() {
+        return ResponseEntity.ok(service.getAllCounters());
+    }
+
     @GetMapping("/getStudentOuterNotifications/{studentId}")
     public HttpEntity<?> getStudentOuterNotifications(@PathVariable("studentId") String studentId) {
         return ResponseEntity.ok(service.getStudentNotifications(studentId));
