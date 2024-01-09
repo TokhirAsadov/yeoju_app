@@ -19,6 +19,8 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 public class NotificationOuter extends AbsEntity {// sirtqi talimda uqiyatgan talabalar uchun xabarnoma talabaning ish joyi uchun
+
+    private Long queue;
     @ManyToOne
     private Dekanat dekanat;
 
