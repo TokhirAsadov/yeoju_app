@@ -13,7 +13,7 @@
   </periods>
   <daysdefs options="canadd,export:silent" columns="id,days,name,short">
 	<daysdef id="49527A823F1AA927" name="Понедельник" short="Пн" days="100000"/>
-	<daysdef id="8CBACCD1146C7D9F" name="Вторникs" short="Вт" days="010000"/>
+	<daysdef id="8CBACCD1146C7D9F" name="Вторник" short="Вт" days="010000"/>
 	<daysdef id="16F0C73A6575E5D1" name="Среда" short="Ср" days="001000"/>
 	<daysdef id="26C24C17FB1106C7" name="Четверг" short="Чт" days="000100"/>
 	<daysdef id="BAF24719D79F8F76" name="Пятница" short="Пт" days="000010"/>
