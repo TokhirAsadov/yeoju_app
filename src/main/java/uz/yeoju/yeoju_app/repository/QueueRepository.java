@@ -22,5 +22,6 @@ public interface QueueRepository extends JpaRepository<Queue,String> {
     @Query(value = "select dbo.GetMaxQueueOfToday()",nativeQuery = true)
     Integer getMaxQueueOfToday();
 
-
+    @Query(value = "select * from dbo.getAllQueuesOfTodayForDean()",nativeQuery = true)
+    Set<GetQueueRestDto> getAllQueuesOfTodayForDean();
 }
