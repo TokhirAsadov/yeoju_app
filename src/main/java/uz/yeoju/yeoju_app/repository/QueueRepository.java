@@ -14,4 +14,7 @@ public interface QueueRepository extends JpaRepository<Queue,String> {
     Set<Queue> findAllByCreatedByOrderByCreatedAtDesc(String createdBy);
 
 
+    Set<Queue> findAllByStatusOrderByCalledAt(QueueStatusEnum status);
+
+
 }
