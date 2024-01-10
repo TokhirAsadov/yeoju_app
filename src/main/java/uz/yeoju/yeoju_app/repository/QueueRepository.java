@@ -16,5 +16,8 @@ public interface QueueRepository extends JpaRepository<Queue,String> {
 
     Set<Queue> findAllByStatusOrderByCalledAt(QueueStatusEnum status);
 
+    @Query(value = "select dbo.existQueueForToday(?1)",nativeQuery = true)
+    Boolean existQueueForToday(String studentId);
+
 
 }
