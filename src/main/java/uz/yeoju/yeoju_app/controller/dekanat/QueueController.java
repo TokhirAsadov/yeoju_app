@@ -23,5 +23,10 @@ public class QueueController {
         return ResponseEntity.ok(queueService.findAllQueueOfToday());
     }
 
+    @GetMapping("/getAllStudentQueues/{studentId}")
+    public HttpEntity<?> getAllStudentQueues(@CurrentUser User user, @PathVariable String studentId){
+        return ResponseEntity.ok(queueService.getQueueForStudent(studentId));
+    }
+
 
 }
