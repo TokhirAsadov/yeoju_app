@@ -133,6 +133,9 @@ public interface UserRepository extends JpaRepository<User, String> {
             "where u.id=:userId",nativeQuery = true)
     StudentData getStudentDataByUserId(@Param("userId") String userId);
 
+    @Query(value = "select * from dbo.getStudentsData(?1)",nativeQuery = true)
+    StudentData getStudentDataByUserIdNEW(String userId);
+
 
     @Query(value = "select u.id,u.login,u.fullName,u.bornYear,u.citizenship,u.nationality,u.passportNum,u.email, t.workerStatus  from users u join Teacher t on u.id = t.user_id where u.id=:userId",nativeQuery = true)
     TeacherData getTeacherDataByUserId(@Param("userId") String userId);
@@ -3191,6 +3194,8 @@ public interface UserRepository extends JpaRepository<User, String> {
     List<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByUserIdAndWeek(@Param("userId") String userId, @Param("room") String room, @Param("weekday") Integer weekday,@Param("week") Integer week,@Param("year") Integer year, @Param("section") Integer section);
 
 
+    @Query(value = "select * from dbo.GetTimesForRoomStatisticsByUserIdAndWeek(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
+    List<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByUserIdAndWeekNEW( String userId,  String room, Integer year,Integer week, Integer weekday,   Integer section);
     @Query(value = "select u.id,u.fullName,al.time, :weekday as weekday,  :section as section\n" +
             "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
             "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
