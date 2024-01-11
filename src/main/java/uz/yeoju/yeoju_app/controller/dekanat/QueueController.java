@@ -34,5 +34,11 @@ public class QueueController {
         return ResponseEntity.status(response.isSuccess() ? 201 : 403).body(response);
     }
 
+    @PutMapping("/changeQueue")
+    public HttpEntity<?> changeQueue(@CurrentUser User user,@RequestBody QueueStatusChangerDto dto){
+        ApiResponse response = queueService.queueStatusChanger(dto);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 403).body(response);
+    }
+
 
 }
