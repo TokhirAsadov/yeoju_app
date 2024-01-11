@@ -40,5 +40,8 @@ public class QueueController {
         return ResponseEntity.status(response.isSuccess() ? 201 : 403).body(response);
     }
 
-
+    @GetMapping("/getQueueForDeanByStatus/{status}")
+    public HttpEntity<?> getQueueForDeanByStatus(@CurrentUser User user, @PathVariable QueueStatusEnum status){
+        return ResponseEntity.ok(queueService.getQueueForDeanByStatus(status));
+    }
 }
