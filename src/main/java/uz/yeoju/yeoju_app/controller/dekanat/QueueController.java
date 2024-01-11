@@ -28,5 +28,11 @@ public class QueueController {
         return ResponseEntity.ok(queueService.getQueueForStudent(studentId));
     }
 
+    @PostMapping("/createQueue")
+    public HttpEntity<?> createQueue(@CurrentUser User user){
+        ApiResponse response = queueService.createQueue(user.getId());
+        return ResponseEntity.status(response.isSuccess() ? 201 : 403).body(response);
+    }
+
 
 }
