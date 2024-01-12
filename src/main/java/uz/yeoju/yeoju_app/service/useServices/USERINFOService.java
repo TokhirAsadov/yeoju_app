@@ -180,62 +180,67 @@ USERINFOService implements USERINFOImplService<USERINFO> {
             while (rows.hasNext()){
                 Row row = rows.next();
 
-//                System.out.println(row.getCell(0).getStringCellValue());
-////                System.out.println( (long)row.getCell(1).getNumericCellValue());
-//                System.out.println(row.getCell(2).getStringCellValue());
+                System.out.println(row.getCell(0).getStringCellValue());
+//                System.out.println( (long)row.getCell(1).getNumericCellValue());
+                System.out.println(row.getCell(2).getStringCellValue());
 //                System.out.println(row.getCell(3).getNumericCellValue());
-//                System.out.println(row.getCell(4).getStringCellValue());
-//                System.out.println(row.getCell(5).getStringCellValue());
-//                System.out.println(row.getCell(6).getStringCellValue());
+                System.out.println(row.getCell(4).getStringCellValue());
+                System.out.println(row.getCell(5).getStringCellValue());
+                System.out.println(row.getCell(6).getNumericCellValue());
+                System.out.println(row.getCell(7).getStringCellValue());
 
 //                Long badgenumber = userInfoRepo.getBadgenumber();
 //
-                USERINFO byCardNo = userInfoRepo.getUSERINFOByCardNoForSaving(row.getCell(3).getStringCellValue());
+                Integer count = userRepository.getCountByLogin(row.getCell(1).getStringCellValue());
+                System.out.println(count+" <------------------------------------------- count");
+                if (count==null || count<=1) {
+                    Optional<User> optionalUser = userRepository.findUserByLogin(row.getCell(1).getStringCellValue());
+                    if (!optionalUser.isPresent()) {
 
-                if (byCardNo==null){
-                    USERINFO userinfo = new USERINFO();
-                    userinfo.setBadgenumber((long) row.getCell(3).getNumericCellValue());
-                    userinfo.setName(row.getCell(1).getStringCellValue());
-                    userinfo.setLastname(row.getCell(0).getStringCellValue());
-                    userinfo.setCardNo(row.getCell(5).getStringCellValue());
-                    System.out.println(userinfo.toString());
-                    userInfoRepo.save(userinfo);
-                    //todo---------------------
+                        USERINFO byCardNo = userInfoRepo.getUSERINFOByCardNoForSaving(row.getCell(2).getStringCellValue());
+                        if (byCardNo == null) {
+                            USERINFO userinfo = new USERINFO();
+                            Long badgenumber = userInfoRepo.getBadgenumber();
+                            userinfo.setBadgenumber(badgenumber + 1);
+                            userinfo.setName(row.getCell(0).getStringCellValue());
+                            userinfo.setLastname(row.getCell(0).getStringCellValue());
+                            userinfo.setCardNo(row.getCell(2).getStringCellValue());
+                            System.out.println(userinfo.toString());
+                            userInfoRepo.save(userinfo);
+                        }
 
-
-                    User userByRFID = userRepository.findUserByRFID(row.getCell(5).getStringCellValue());
-                    if (userByRFID==null){
                         User user = new User();
 
-                        user.setFullName(row.getCell(0).getStringCellValue()+" "+ row.getCell(1).getStringCellValue()+" "+row.getCell(2).getStringCellValue());
+                        user.setFullName(row.getCell(0).getStringCellValue());
 
-                        user.setLogin(row.getCell(4).getStringCellValue());
-                        user.setRFID(row.getCell(5).getStringCellValue());
-                        user.setPassportNum(row.getCell(6).getStringCellValue());
-                        user.setPassword(passwordEncoder.encode(row.getCell(7).getStringCellValue()));
+                        user.setLogin(row.getCell(1).getStringCellValue());
+                        user.setRFID(row.getCell(2).getStringCellValue());
+                        user.setPassportNum(row.getCell(3).getStringCellValue());
+                        user.setPassword(passwordEncoder.encode(row.getCell(3).getStringCellValue()));
                         user.setAccountNonExpired(true);
                         user.setAccountNonLocked(true);
                         user.setCredentialsNonExpired(true);
                         user.setEnabled(true);
 
-                        Optional<Role> roleOptional = roleRepository.findRoleByRoleName(row.getCell(8).getStringCellValue());
-                        if (roleOptional.isPresent()){
+                        Optional<Role> roleOptional = roleRepository.findRoleByRoleName(row.getCell(4).getStringCellValue());
+                        if (roleOptional.isPresent()) {
                             Role role = roleOptional.get();
-                            if (role.getRoleName().equals("ROLE_STUDENT")){
+                            if (role.getRoleName().equals("ROLE_STUDENT")) {
                                 user.setRoles(new HashSet<>(new SingletonList(role)));
                                 userRepository.saveAndFlush(user);
-                                Group groupByName = groupRepository.findGroupByName(row.getCell(9).getStringCellValue());
-                                if (groupByName!=null){
+                                Group groupByName = groupRepository.findGroupByName(row.getCell(5).getStringCellValue());
+                                if (groupByName != null) {
                                     Student student = new Student();
                                     student.setTeachStatus(TeachStatus.TEACHING);
                                     student.setUser(user);
                                     student.setGroup(groupByName);
+                                    student.setRektororder(row.getCell(7).getStringCellValue());
                                     studentRepository.save(student);
-                                }
-                                else {
+                                } else {
                                     Group group = new Group();
-                                    group.setName(row.getCell(9).getStringCellValue());
-                                    group.setLevel((int) row.getCell(10).getNumericCellValue());
+                                    group.setActive(true);
+                                    group.setName(row.getCell(5).getStringCellValue());
+                                    group.setLevel((int) row.getCell(6).getNumericCellValue());
 
                                     if (group.getName().charAt(group.getName().length() - 1) == 'U')
                                         group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
@@ -249,81 +254,91 @@ USERINFOService implements USERINFOImplService<USERINFO> {
                                     } else {
                                         if (group.getName().charAt(3) == 'P')
                                             group.setEducationType(eduTypeRepo.findEducationTypeByName("SIRTQI").get());
-                                        else group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
+                                        else
+                                            group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
                                     }
 
                                     Student student = new Student();
 
                                     Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(group.getName().substring(0, 3));
 
-                                    if (facultyOptional.isPresent()){
+                                    if (facultyOptional.isPresent()) {
                                         group.setFaculty(facultyOptional.get());
                                         Group save1 = groupRepository.save(group);
                                         student.setTeachStatus(TeachStatus.TEACHING);
                                         student.setUser(user);
                                         student.setGroup(save1);
+                                        student.setRektororder(row.getCell(7).getStringCellValue());
                                         studentRepository.save(student);
-                                    }
-                                    else {
-                                        return new ApiResponse(false,"not fount faculty");
+                                    } else {
+                                        return new ApiResponse(false, "not fount faculty");
                                     }
 
                                 }
-                            }
-                            else {
+                            } else {
                                 user.setRoles(new HashSet<>(new SingletonList(role)));
                             }
 
 
-                        }
-                        else {
+                        } else {
                             user.setRoles(new HashSet<>(new SingletonList(roleRepository.findRoleByRoleName("ROLE_USER").get())));
                         }
                         userRepository.save(user);
                     }
                     else {
-                        userByRFID.setFullName(row.getCell(0).getStringCellValue()+" "+ row.getCell(1).getStringCellValue()+" "+row.getCell(2).getStringCellValue());
+                        USERINFO byCardNo = userInfoRepo.getUSERINFOByCardNoForSaving(row.getCell(3).getStringCellValue());
+                        if (byCardNo == null) {
+                            USERINFO userinfo = new USERINFO();
+                            Long badgenumber = userInfoRepo.getBadgenumber();
+                            userinfo.setBadgenumber(badgenumber + 1);
+                            userinfo.setName(row.getCell(0).getStringCellValue());
+                            userinfo.setLastname(row.getCell(0).getStringCellValue());
+                            userinfo.setCardNo(row.getCell(2).getStringCellValue());
+                            System.out.println(userinfo.toString());
+                            userInfoRepo.save(userinfo);
+                        }
+                        User user = optionalUser.get();
+                        user.setFullName(row.getCell(0).getStringCellValue());
 
-                        userByRFID.setLogin(row.getCell(4).getStringCellValue());
-                        userByRFID.setRFID(row.getCell(5).getStringCellValue());
-                        userByRFID.setPassportNum(row.getCell(6).getStringCellValue());
-                        userByRFID.setPassword(passwordEncoder.encode(row.getCell(7).getStringCellValue()));
-                        userByRFID.setAccountNonExpired(true);
-                        userByRFID.setAccountNonLocked(true);
-                        userByRFID.setCredentialsNonExpired(true);
-                        userByRFID.setEnabled(true);
+                        user.setLogin(row.getCell(1).getStringCellValue());
+                        user.setRFID(row.getCell(2).getStringCellValue());
+                        user.setPassportNum(row.getCell(3).getStringCellValue());
+                        user.setPassword(passwordEncoder.encode(row.getCell(3).getStringCellValue()));
+                        user.setAccountNonExpired(true);
+                        user.setAccountNonLocked(true);
+                        user.setCredentialsNonExpired(true);
+                        user.setEnabled(true);
 
-                        Optional<Role> roleOptional = roleRepository.findRoleByRoleName(row.getCell(8).getStringCellValue());
-                        if (roleOptional.isPresent()){
+                        Optional<Role> roleOptional = roleRepository.findRoleByRoleName(row.getCell(4).getStringCellValue());
+                        if (roleOptional.isPresent()) {
                             Role role = roleOptional.get();
-                            if (role.getRoleName().equals("ROLE_STUDENT")){
-                                userByRFID.setRoles(new HashSet<>(new SingletonList(role)));
-                                userRepository.saveAndFlush(userByRFID);
-                                Group groupByName = groupRepository.findGroupByName(row.getCell(9).getStringCellValue());
-                                if (groupByName!=null){
-                                    Student studentByUserId = studentRepository.findStudentByUserId(userByRFID.getId());
-                                    if (studentByUserId!=null){
+                            if (role.getRoleName().equals("ROLE_STUDENT")) {
+                                user.setRoles(new HashSet<>(new SingletonList(role)));
+                                userRepository.saveAndFlush(user);
+                                Group groupByName = groupRepository.findGroupByName(row.getCell(5).getStringCellValue());
+                                if (groupByName != null) {
+                                    Student studentByUserId = studentRepository.findStudentByUserId(user.getId());
+                                    if (studentByUserId != null) {
                                         studentByUserId.setTeachStatus(TeachStatus.TEACHING);
-                                        studentByUserId.setUser(userByRFID);
+                                        studentByUserId.setUser(user);
                                         studentByUserId.setGroup(groupByName);
-                                        studentByUserId.setRektororder(row.getCell(11).getStringCellValue());
+                                        studentByUserId.setRektororder(row.getCell(7).getStringCellValue());
                                         studentRepository.save(studentByUserId);
-                                    }
-                                    else {
+                                    } else {
                                         Student student = new Student();
                                         student.setTeachStatus(TeachStatus.TEACHING);
-                                        student.setUser(userByRFID);
+                                        student.setUser(user);
                                         student.setGroup(groupByName);
-                                        student.setRektororder(row.getCell(11).getStringCellValue());
+                                        student.setRektororder(row.getCell(7).getStringCellValue());
                                         studentRepository.save(student);
                                     }
 
-                                }
-                                else {
+                                } else {
 
                                     Group group = new Group();
-                                    group.setName(row.getCell(9).getStringCellValue());
-                                    group.setLevel((int) row.getCell(10).getNumericCellValue());
+                                    group.setActive(true);
+                                    group.setName(row.getCell(5).getStringCellValue());
+                                    group.setLevel((int) row.getCell(6).getNumericCellValue());
 
                                     if (group.getName().charAt(group.getName().length() - 1) == 'U')
                                         group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
@@ -337,135 +352,50 @@ USERINFOService implements USERINFOImplService<USERINFO> {
                                     } else {
                                         if (group.getName().charAt(3) == 'P')
                                             group.setEducationType(eduTypeRepo.findEducationTypeByName("SIRTQI").get());
-                                        else group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
+                                        else
+                                            group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
                                     }
 
                                     Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(group.getName().substring(0, 3));
 
-                                    if (facultyOptional.isPresent()){
+                                    if (facultyOptional.isPresent()) {
                                         group.setFaculty(facultyOptional.get());
                                         Group save1 = groupRepository.save(group);
 
 
-                                        Student studentByUserId = studentRepository.findStudentByUserId(userByRFID.getId());
-                                        if (studentByUserId!=null){
+                                        Student studentByUserId = studentRepository.findStudentByUserId(user.getId());
+                                        if (studentByUserId != null) {
                                             studentByUserId.setTeachStatus(TeachStatus.TEACHING);
-                                            studentByUserId.setUser(userByRFID);
+                                            studentByUserId.setUser(user);
                                             studentByUserId.setGroup(save1);
-                                            studentByUserId.setRektororder(row.getCell(11).getStringCellValue());
+                                            studentByUserId.setRektororder(row.getCell(7).getStringCellValue());
                                             studentRepository.save(studentByUserId);
-                                        }
-                                        else {
+                                        } else {
                                             Student student = new Student();
                                             student.setTeachStatus(TeachStatus.TEACHING);
-                                            student.setUser(userByRFID);
+                                            student.setUser(user);
                                             student.setGroup(save1);
-                                            student.setRektororder(row.getCell(11).getStringCellValue());
+                                            student.setRektororder(row.getCell(7).getStringCellValue());
                                             studentRepository.save(student);
                                         }
-                                    }
-                                    else {
-                                        return new ApiResponse(false,"not fount faculty");
+                                    } else {
+                                        return new ApiResponse(false, "not fount faculty");
                                     }
 
                                 }
+                            } else {
+                                user.setRoles(new HashSet<>(new SingletonList(role)));
                             }
-                            else {
-                                userByRFID.setRoles(new HashSet<>(new SingletonList(role)));
-                            }
 
 
-                        }
-                        else {
-                            userByRFID.setRoles(new HashSet<>(new SingletonList(roleRepository.findRoleByRoleName("ROLE_USER").get())));
-                        }
-                        userRepository.save(userByRFID);
-//                        return new ApiResponse(false, row.getCell(5).getStringCellValue() + " <- bunday card_no (rfid) li user mavjud. Boshqa card_no kiriting");
-                    }
-
-
-
-
-
-
-
-                    //todo------------------
-/*
-                    User user = new User();
-                    user.setFullName(row.getCell(0).getStringCellValue()+" "+row.getCell(1).getStringCellValue()+" "+row.getCell(2).getStringCellValue());
-                    user.setLogin(row.getCell(4).getStringCellValue());
-                    user.setRFID(row.getCell(5).getStringCellValue());
-                    user.setPassportNum(row.getCell(6).getStringCellValue());
-                    user.setPassword(passwordEncoder.encode(row.getCell(7).getStringCellValue()));
-                    user.setAccountNonExpired(true);
-                    user.setAccountNonLocked(true);
-                    user.setCredentialsNonExpired(true);
-                    user.setEnabled(true);
-
-                    Optional<Role> roleOptional = roleRepository.findRoleByRoleName(row.getCell(8).getStringCellValue());
-                    if (roleOptional.isPresent()){
-                        user.setRoles(new HashSet<>(new SingletonList(roleOptional.get())));
-                    }
-                    else {
-                        user.setRoles(new HashSet<>(new SingletonList(roleRepository.findRoleByRoleName("ROLE_USER").get())));
-                    }
-                    userRepository.saveOrUpdate(user);*/
-                }
-                else {
-                    byCardNo.setBadgenumber((long) row.getCell(3).getNumericCellValue());
-                    byCardNo.setName(row.getCell(1).getStringCellValue());
-                    byCardNo.setLastname(row.getCell(0).getStringCellValue());
-                    byCardNo.setCardNo(row.getCell(5).getStringCellValue());
-                    System.out.println(byCardNo.toString());
-                    userInfoRepo.save(byCardNo);
-
-                    User userByRFID = userRepository.findUserByRFID(row.getCell(5).getStringCellValue());
-                    if (userByRFID==null){
-                        User user = new User();
-
-                        user.setFullName(row.getCell(0).getStringCellValue()+" "+ row.getCell(1).getStringCellValue()+" "+row.getCell(2).getStringCellValue());
-
-                        user.setLogin(row.getCell(4).getStringCellValue());
-                        user.setRFID(row.getCell(5).getStringCellValue());
-                        user.setPassportNum(row.getCell(6).getStringCellValue());
-                        user.setPassword(passwordEncoder.encode(row.getCell(7).getStringCellValue()));
-                        user.setAccountNonExpired(true);
-                        user.setAccountNonLocked(true);
-                        user.setCredentialsNonExpired(true);
-                        user.setEnabled(true);
-
-                        Optional<Role> roleOptional = roleRepository.findRoleByRoleName(row.getCell(8).getStringCellValue());
-                        if (roleOptional.isPresent()){
-                            user.setRoles(new HashSet<>(new SingletonList(roleOptional.get())));
-                        }
-                        else {
+                        } else {
                             user.setRoles(new HashSet<>(new SingletonList(roleRepository.findRoleByRoleName("ROLE_USER").get())));
                         }
                         userRepository.save(user);
-                    }
-                    else {
-                        userByRFID.setFullName(row.getCell(0).getStringCellValue()+" "+ row.getCell(1).getStringCellValue()+" "+row.getCell(2).getStringCellValue());
-
-                        userByRFID.setLogin(row.getCell(4).getStringCellValue());
-                        userByRFID.setRFID(row.getCell(5).getStringCellValue());
-                        userByRFID.setPassportNum(row.getCell(6).getStringCellValue());
-                        userByRFID.setPassword(passwordEncoder.encode(row.getCell(7).getStringCellValue()));
-                        userByRFID.setAccountNonExpired(true);
-                        userByRFID.setAccountNonLocked(true);
-                        userByRFID.setCredentialsNonExpired(true);
-                        userByRFID.setEnabled(true);
-
-                        Optional<Role> roleOptional = roleRepository.findRoleByRoleName(row.getCell(8).getStringCellValue());
-                        if (roleOptional.isPresent()){
-                            userByRFID.setRoles(new HashSet<>(new SingletonList(roleOptional.get())));
-                        }
-                        else {
-                            userByRFID.setRoles(new HashSet<>(new SingletonList(roleRepository.findRoleByRoleName("ROLE_USER").get())));
-                        }
-                        userRepository.save(userByRFID);
 //                        return new ApiResponse(false, row.getCell(5).getStringCellValue() + " <- bunday card_no (rfid) li user mavjud. Boshqa card_no kiriting");
                     }
                 }
+
             }
             return new ApiResponse(true,"saved users");
         }catch (Exception e){
