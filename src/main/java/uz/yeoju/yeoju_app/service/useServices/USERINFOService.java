@@ -404,6 +404,63 @@ USERINFOService implements USERINFOImplService<USERINFO> {
     }
 
 
+
+
+
+    @Transactional
+    public ApiResponse readDataFromExcelTeachers(MultipartFile file) {
+        System.out.println(" ----------------------------- teacher saving ------------------------ --");
+        try {
+            Workbook workbook = getWorkBook(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            rows.next();
+            while (rows.hasNext()){
+                Row row = rows.next();
+
+                System.out.println(row.getCell(0).getStringCellValue());
+                System.out.println(row.getCell(1).getStringCellValue());
+                System.out.println(row.getCell(2).getNumericCellValue());
+
+                Integer count = userRepository.getCountByLogin(row.getCell(1).getStringCellValue());
+                System.out.println(count+" <------------------------------------------- count");
+                if (count==null || count<=1) {
+                    Optional<User> optionalUser = userRepository.findUserByLogin(row.getCell(1).getStringCellValue());
+                    if (!optionalUser.isPresent()) {
+
+                        USERINFO byCardNo = userInfoRepo.getUSERINFOByCardNoForSaving(row.getCell(2).getStringCellValue());
+                        if (byCardNo == null) {
+                            USERINFO userinfo = new USERINFO();
+                            Long badgenumber = userInfoRepo.getBadgenumber();
+                            userinfo.setBadgenumber(badgenumber + 1);
+                            userinfo.setName(row.getCell(0).getStringCellValue());
+                            userinfo.setLastname(row.getCell(0).getStringCellValue());
+                            userinfo.setCardNo(row.getCell(2).getStringCellValue());
+                            System.out.println(userinfo.toString());
+                            userInfoRepo.save(userinfo);
+                        }
+
+                        User user = new User();
+
+                        user.setFullName(row.getCell(0).getStringCellValue());
+                        user.setLogin(row.getCell(1).getStringCellValue());
+                        user.setRFID(row.getCell(2).getStringCellValue());
+                        user.setPassword(passwordEncoder.encode("root123"));
+                        user.setAccountNonExpired(true);
+                        user.setAccountNonLocked(true);
+                        user.setCredentialsNonExpired(true);
+                        user.setEnabled(true);
+                        user.setRoles(new HashSet<>(new SingletonList(roleRepository.findRoleByRoleName("ROLE_TEACHER").get())));
+                        userRepository.save(user);
+                    }
+                }
+
+            }
+            return new ApiResponse(true,"Teachers data was added successfully");
+        }catch (Exception e){
+            return new ApiResponse(false,"error teachers data was added");
+        }
+    }
     /*@Transactional
     public ApiResponse readDataFromExcel(MultipartFile file) {
         System.out.println(" ----------------------------- 3 3 3 ------------------------ --");
