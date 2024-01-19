@@ -405,7 +405,18 @@ USERINFOService implements USERINFOImplService<USERINFO> {
 
 
 
-
+    @Transactional
+    public ApiResponse savingTeachers(MultipartHttpServletRequest request) throws IOException {
+        System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return readDataFromExcelTeachers(file);
+            }
+        }
+        return null;
+    }
 
     @Transactional
     public ApiResponse readDataFromExcelTeachers(MultipartFile file) {
