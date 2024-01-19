@@ -41,6 +41,14 @@ public class USERINFOController {
         return ResponseEntity.status(201).body(userinfoService.createUserInfo(dto));
     }
 
+    @PostMapping("/uploadUserInfoAndTeacher")
+    public HttpEntity<?> uploadUserInfoAndTeacher(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        System.out.println(" ----------------------------- 1 1 1 ------------------------ --");
+        ApiResponse apiResponse = userinfoService.savingTeachers(request);
+        System.out.println(" ----------------------------- ------------------------ --");
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
 //    @GetMapping("/allByPageable")
 //    public HttpEntity<?> byPageable(
 //            @RequestParam(value = "page",defaultValue = AppConstants.DEFAULT_PAGE_NUMBER)Integer page,
