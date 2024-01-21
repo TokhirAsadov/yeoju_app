@@ -4,6 +4,8 @@ package uz.yeoju.yeoju_app.service.useServices;
 import freemarker.template.Template;
 import lombok.RequiredArgsConstructor;
 import freemarker.template.Configuration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ public class MailService {
 
     public final Configuration configuration;
 
+    @Value("${spring.mail.username}")
+    private String username;
 
     public ApiResponse sendHTML(User user) {
         try {
@@ -38,10 +42,26 @@ public class MailService {
             Template template=configuration.getTemplate("email-template.ftl");
             String html= FreeMarkerTemplateUtils.processTemplateIntoString(template,model);
             helper.setTo(user.getEmail());
-            helper.setFrom("asadovtohir2002@gmail.com","YTIT");
+            helper.setFrom(username,"KIUT");
             helper.setSubject("YTIT");
             helper.setText(html,true);
             sender.send(mimeMessage);
+            return new ApiResponse(true,"Sended");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ApiResponse(false,"Error");
+    }
+
+    public ApiResponse sendMessage(User user) {
+        try {
+            SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+            simpleMailMessage.setFrom(username);
+            simpleMailMessage.setSubject("KIUT");
+            simpleMailMessage.setText("new password");
+            simpleMailMessage.setTo(user.getEmail());
+
+            sender.send(simpleMailMessage);
             return new ApiResponse(true,"Sended");
         }catch (Exception e){
             e.printStackTrace();

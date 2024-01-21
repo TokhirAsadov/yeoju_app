@@ -28,7 +28,7 @@ public class AuthController {
     public HttpEntity<?> email(@PathVariable String email){
         ApiResponse userByEmail = userService.getUserByEmail(email);
         if (userByEmail.isSuccess()){
-            mailService.sendHTML(userService.generateUser((UserDto) userByEmail.getObj()));
+            mailService.sendMessage(userService.generateUser((UserDto) userByEmail.getObj()));
             return ResponseEntity.ok(new ApiResponse(true,"Sending login and password. Check your email!.."));
         }
         return ResponseEntity.ok(userByEmail);

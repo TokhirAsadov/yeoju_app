@@ -431,7 +431,7 @@ USERINFOService implements USERINFOImplService<USERINFO> {
 
                 System.out.println(row.getCell(0).getStringCellValue());
                 System.out.println(row.getCell(1).getStringCellValue());
-                System.out.println(row.getCell(2).getNumericCellValue());
+                System.out.println(row.getCell(2).getStringCellValue());
 
                 Integer count = userRepository.getCountByLogin(row.getCell(1).getStringCellValue());
                 System.out.println(count+" <------------------------------------------- count");

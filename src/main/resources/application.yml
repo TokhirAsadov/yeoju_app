@@ -38,6 +38,16 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: asadovtohir2002@gmail.com
+    password: kmpsrvraanifhapj
+    properties:
+      nail:
+        smtp:
+          auth: true
+          starttls: true
 app:
   sms:
     countPerDay: 3

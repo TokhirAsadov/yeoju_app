@@ -198,11 +198,11 @@ public class TimeTableDBImplService implements TimeTableDBService {
                 else {
                     Optional<User> optionalUser = userRepository.findUserByLogin(t.getShortName());
 
-//                    if (optionalUser.isPresent()) {
+                    if (optionalUser.isPresent()) {
                     try {
-                        User user = optionalUser.orElseThrow(()-> new UserNotFoundException(t.getName()+" not found teacher by id: "+t.getShortName()+"."));
+//                        User user = optionalUser.orElseThrow(()-> new UserNotFoundException(t.getName()+" not found teacher by id: "+t.getShortName()+"."));
 
-//                        User user = optionalUser.get();
+                        User user = optionalUser.get();
                         teacherConnectSubject.setUser(user);
                         Subject subject = subjects.stream().filter(s -> s.getId().equals(l.getSubjectId())).findFirst().get();
                         Lesson lessonByName = lessonRepository.getLessonByName(subject.getName());
@@ -225,11 +225,11 @@ public class TimeTableDBImplService implements TimeTableDBService {
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-//                    }
-//                    else {
-//                        System.out.println(t.getShortName());
+                    }
+                    else {
+                        System.out.println(t.getShortName());
 //                        throw new Exception(t.getShortName()+" not found teacher by id: "+t.getShortName());
-//                    }
+                    }
                 }
             });
         });
