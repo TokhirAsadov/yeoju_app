@@ -14,4 +14,6 @@ public interface TeacherService {
     ApiResponse saveTeacherFromExcel(MultipartHttpServletRequest request);
 
     ApiResponse getDataForTeacherDocumentPDF(User user,String educationYearId,String subjectId,String groupId);
+
+    ApiResponse getDataOfLeaders(String teacherId, String groupName);
 }
