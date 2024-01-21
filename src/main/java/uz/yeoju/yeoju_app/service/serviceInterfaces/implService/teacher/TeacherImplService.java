@@ -162,6 +162,15 @@ public class TeacherImplService implements TeacherService{
         return null;
     }
 
+    @Override
+    public ApiResponse getDataOfLeaders(String teacherId, String groupName) {
+        Optional<User> byId = userRepository.findById(teacherId);
+        if (byId.isPresent()){
+            return new ApiResponse(true,"data of leaders",teacherRepository.getDataOfLeader(teacherId,groupName));
+        }
+        return new ApiResponse(false,"not found user by id: " + teacherId);
+    }
+
 
     @Transactional
     public ApiResponse readDataFromExcel(MultipartFile file) {
