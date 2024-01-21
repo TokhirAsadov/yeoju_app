@@ -21,6 +21,17 @@ public class TeacherController {
     @Autowired
     private TeacherService teacherService;
 
+    @GetMapping("/getDataOfLeaders/{teacherId}/{groupName}")
+    public HttpEntity<?> getDataOfLeaders(
+            @CurrentUser User user,
+            @PathVariable("teacherId") String teacherId,
+            @PathVariable("groupName") String groupName
+
+    ){
+        return ResponseEntity.ok(teacherService.getDataOfLeaders(teacherId,groupName));
+    }
+
+
     @GetMapping("/getDataForTeacherDocumentPDF/{educationYearId}")
     public HttpEntity<?> getDataForTeacherDocumentPDF(
             @CurrentUser User user,
