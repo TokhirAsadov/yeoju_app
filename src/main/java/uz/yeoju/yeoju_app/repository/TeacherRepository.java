@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.payload.resDto.TeacherCountComeAndAll;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.*;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.dashboard.TeacherStatusAndPosition;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.dashboard.TeacherStatusAndPosition2;
+import uz.yeoju.yeoju_app.payload.resDto.uquvbulim.DataOfLeaders;
 import uz.yeoju.yeoju_app.payload.resDto.user.timeTableStatistics.UserCheckRoomStatistics;
 
 import java.util.Date;
@@ -20,6 +21,31 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
     Boolean existsTeacherByUserId(String user_id);
 
     Teacher getTeacherByUserId(String user_id);
+
+    @Query(value = "select TOP 1\n" +
+            "    (\n" +
+            "        select TOP 1 u.fullName from users u\n" +
+            "         join users_Role uR on u.id = uR.users_id\n" +
+            "         join Role r on uR.roles_id = r.id\n" +
+            "        where r.roleName='Boshqarma boshlig`i'\n" +
+            "    ) as headOfAcademicAffair,\n" +
+            "    (\n" +
+            "        select top 1 u2.fullName from users u\n" +
+            "          join Teacher t on u.id = t.user_id\n" +
+            "          join Kafedra k on k.id=t.kafedra_id\n" +
+            "          join KafedraMudiri KM on k.id = KM.kafedra_id\n" +
+            "          join users u2 on KM.user_id=u2.id\n" +
+            "        where u.id=?1\n" +
+            "    )as headOfDepartment,\n" +
+            "    (\n" +
+            "        select top 1 u3.fullName from groups g\n" +
+            "                 join Faculty F on g.faculty_id = F.id\n" +
+            "                 join Dekanat_Faculty df on df.faculties_id=F.id\n" +
+            "                 join Dekanat d on d.id = df.Dekanat_id\n" +
+            "                 join users u3 on d.owner_id=u3.id\n" +
+            "                 where g.name=?2\n" +
+            "        )as courseLeader",nativeQuery = true)
+    DataOfLeaders getDataOfLeader(String teacherId, String groupName);
 
 
     @Query(value = "select f2.kafedra_id as id, f1.count as comeCount,f2.count as allCount from (\n" +
