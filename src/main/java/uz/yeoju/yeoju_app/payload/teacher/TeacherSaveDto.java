@@ -19,4 +19,5 @@ public class TeacherSaveDto {
     private Set<LessonDto> lessonDtos;
     private Integer positionId;
     private WorkerStatus workerStatus;
+    private Float rate;
 }
