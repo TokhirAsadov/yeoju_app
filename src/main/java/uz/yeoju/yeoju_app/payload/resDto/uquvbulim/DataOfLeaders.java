@@ -4,4 +4,6 @@ public interface DataOfLeaders {
     String getHeadOfDepartment();
     String getCourseLeader();
     String getHeadOfAcademicAffair();
+    Integer getCourse();
+    String getDirection();
 }

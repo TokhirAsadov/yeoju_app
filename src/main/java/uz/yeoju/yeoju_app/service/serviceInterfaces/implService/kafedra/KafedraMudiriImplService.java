@@ -212,6 +212,9 @@ public class KafedraMudiriImplService implements KafedraMudiriService{
                         /***    user    ***/
                         teacherByUserId.setUser(user);
 
+                        /***    rate    ***/
+                        teacherByUserId.setRate(dto.getRate());
+
                         teacherRepository.save(teacherByUserId);
 
                         return new ApiResponse(true, "Updated " + user.getFullName() + " successfully!.");
