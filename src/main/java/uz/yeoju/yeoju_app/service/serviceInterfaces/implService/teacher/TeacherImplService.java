@@ -99,6 +99,7 @@ public class TeacherImplService implements TeacherService{
 
         if (!teacherRepository.existsTeacherByUserId(user.getId())) {
             Teacher teacher = new Teacher();
+            teacher.setRate(dto.getRate());
             teacher.setKafedra(kafedraOptional.get());
             teacher.setUser(userOptional.get());
             teacher.setSubjects(lessons);
@@ -111,6 +112,7 @@ public class TeacherImplService implements TeacherService{
         else {
             Teacher teacherByUserId = teacherRepository.getTeacherByUserId(user.getId());
             teacherByUserId.setKafedra(kafedraOptional.get());
+            teacherByUserId.setRate(dto.getRate());
             teacherByUserId.setUser(userOptional.get());
             teacherByUserId.setSubjects(lessons);
             teacherByUserId.setWorkerStatus(dto.getWorkerStatus());
