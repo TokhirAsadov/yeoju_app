@@ -44,7 +44,17 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
             "                 join Dekanat d on d.id = df.Dekanat_id\n" +
             "                 join users u3 on d.owner_id=u3.id\n" +
             "                 where g.name=?2\n" +
-            "        )as courseLeader",nativeQuery = true)
+            "        )as courseLeader,\n" +
+            "    (\n" +
+            "        select top 1 g.level from groups g\n" +
+            "          join Faculty F on g.faculty_id = F.id\n" +
+            "        where g.name=?2\n" +
+            "        ) as course,\n" +
+            "    (\n" +
+            "        select top 1 F.name from groups g\n" +
+            "          join Faculty F on g.faculty_id = F.id\n" +
+            "        where g.name=?2\n" +
+            "        ) as direction",nativeQuery = true)
     DataOfLeaders getDataOfLeader(String teacherId, String groupName);
 
 
