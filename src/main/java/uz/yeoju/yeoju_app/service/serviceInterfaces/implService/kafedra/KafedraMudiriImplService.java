@@ -383,6 +383,11 @@ public class KafedraMudiriImplService implements KafedraMudiriService{
     }
 
     @Override
+    public ApiResponse getStatisticsForTable(String kafedraId, Date date, Set<String> teachersIds) {
+        return null;
+    }
+
+    @Override
     public ApiResponse getStatisticsForRektorTeacherPage(String id) {
 
         int maxDay = Calendar.getInstance().getMaximum(Calendar.DATE);
