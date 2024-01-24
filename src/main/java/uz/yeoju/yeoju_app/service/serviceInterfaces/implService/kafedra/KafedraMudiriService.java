@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.payload.kafedra.KafedraMudiriSaving;
 import uz.yeoju.yeoju_app.payload.kafedra.TeacherEditDto;
 
 import java.util.Date;
+import java.util.Set;
 
 public interface KafedraMudiriService {
 
@@ -23,6 +24,7 @@ public interface KafedraMudiriService {
     ApiResponse getStatisticsForRektorTeacherPage(String id);
 
     ApiResponse getStatisticsForRektor(String kafedraId, Date date);
+    ApiResponse getStatisticsForTable(String kafedraId, Date date, Set<String> teachersIds);
 
     ApiResponse saveKafedra(DekanSave dekanSave);
 
