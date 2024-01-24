@@ -28,4 +28,6 @@ public class Teacher extends AbsEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Lesson> subjects;
 
+    private Float rate;
+
 }
