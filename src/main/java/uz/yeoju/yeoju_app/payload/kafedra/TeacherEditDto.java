@@ -26,6 +26,7 @@ public class TeacherEditDto {
     private String workStatus;
     private List<String> subjects;
 
+    private Float rate;
     public TeacherEditDto(String kafedraId, String fullName, String login, String RFID, String email, String passportNum, String citizenship, String nationality, String position, String workStatus, List<String> subjects) {
         this.kafedraId = kafedraId;
         this.fullName = fullName;
