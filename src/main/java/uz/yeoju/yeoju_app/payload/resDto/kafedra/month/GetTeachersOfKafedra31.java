@@ -14,6 +14,7 @@ public interface GetTeachersOfKafedra31 {
     String getEmail();
     String getCitizenship();//fuqaroligi
     String getNationality();//millati
+    Float getRate();//millati
 
     @Value("#{@userPhotoRepo.getUserPhotoRes(target.id)}")
     UserPhotoRes getPhoto();
