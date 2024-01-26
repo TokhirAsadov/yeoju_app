@@ -384,7 +384,22 @@ public class KafedraMudiriImplService implements KafedraMudiriService{
 
     @Override
     public ApiResponse getStatisticsForTable(String kafedraId, Date date, Set<String> teachersIds) {
-        return null;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int maxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+//        System.out.println(Calendar.getInstance().getMaximum(Calendar.DATE)+"-----------------------------------");
+//        System.out.println(date+" /// ");
+
+        if (maxDay==31){
+            return new ApiResponse(true,"<??? 31",kafedraRepository.getDateForTable31(kafedraId,date,teachersIds));
+        }
+        else if (maxDay==30){
+            return new ApiResponse(true,"<??? 30",kafedraRepository.getDateForTable30(kafedraId,date,teachersIds));
+        }else if (maxDay==29){
+            return new ApiResponse(true,"<??? 29",kafedraRepository.getDateForTable29(kafedraId,date,teachersIds));
+        }else {
+            return new ApiResponse(true,"<??? 28",kafedraRepository.getDateForTable28(kafedraId,date,teachersIds));
+        }
     }
 
     @Override
