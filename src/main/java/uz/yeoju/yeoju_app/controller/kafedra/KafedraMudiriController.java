@@ -19,6 +19,7 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.kafedra.KafedraM
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/kafera-mudiri")
@@ -76,6 +77,20 @@ public class KafedraMudiriController {
     @DateTimeFormat(pattern = "yyyy.MM.dd") Date date)
     {
         return ResponseEntity.ok(service.getStatistics(user,userId,date)/*new ApiResponse(false,"texnik iwlar olib borilyapdi")*/);
+    }
+
+    @GetMapping("/getStatisticsForTable")
+    public HttpEntity<?> getStatisticsForTable(
+            @CurrentUser User user,
+            @RequestParam("kafedraId") String kafedraId,
+            @RequestParam("date") @DateTimeFormat(pattern = "yyyy.MM.dd") Date date,
+            @RequestParam("teachersIds") Set<String> teachersIds
+    )
+    {
+        System.out.println(kafedraId);
+        System.out.println(date);
+        System.out.println(teachersIds);
+        return ResponseEntity.ok(service.getStatisticsForTable(kafedraId,date,teachersIds)/*new ApiResponse(false,"texnik iwlar olib borilyapdi")*/);
     }
 
     @GetMapping("/getStatisticssForRektor")
