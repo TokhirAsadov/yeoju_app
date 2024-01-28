@@ -14,6 +14,7 @@ import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSaveItem;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface KafedraRepository extends JpaRepository<Kafedra, String> {
     Kafedra getKafedraByNameEn(String name);
@@ -217,22 +218,22 @@ public interface KafedraRepository extends JpaRepository<Kafedra, String> {
             "where T.kafedra_id =:id",nativeQuery = true)
     List<GetTeachersOfKafedra28> getTeachersOfKafedraForRektor28(@Param("id") String id);
 
-    @Query(value = "select u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,u.nationality,u.citizenship from Teacher T\n" +
+    @Query(value = "select T.rate,u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,u.nationality,u.citizenship from Teacher T\n" +
             "    join users u on T.user_id = u.id\n" +
             "where T.kafedra_id =:id",nativeQuery = true)
     List<GetTeachersOfKafedra31> getTeachersOfKafedra31(@Param("id") String id);
 
-    @Query(value = "select u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,u.nationality,u.citizenship from Teacher T\n" +
+    @Query(value = "select T.rate,u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,u.nationality,u.citizenship from Teacher T\n" +
             "    join users u on T.user_id = u.id\n" +
             "where T.kafedra_id =:id",nativeQuery = true)
     List<GetTeachersOfKafedra30> getTeachersOfKafedra30(@Param("id") String id);
 
-    @Query(value = "select u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,u.nationality,u.citizenship from Teacher T\n" +
+    @Query(value = "select T.rate,u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,u.nationality,u.citizenship from Teacher T\n" +
             "    join users u on T.user_id = u.id\n" +
             "where T.kafedra_id =:id",nativeQuery = true)
     List<GetTeachersOfKafedra29> getTeachersOfKafedra29(@Param("id") String id);
 
-    @Query(value = "select u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,u.nationality,u.citizenship from Teacher T\n" +
+    @Query(value = "select T.rate,u.fullName,u.id,u.passportNum as passport,u.login,u.RFID,u.email,u.nationality,u.citizenship from Teacher T\n" +
             "    join users u on T.user_id = u.id\n" +
             "where T.kafedra_id =:id",nativeQuery = true)
     List<GetTeachersOfKafedra28> getTeachersOfKafedra28(@Param("id") String id);
@@ -271,7 +272,9 @@ public interface KafedraRepository extends JpaRepository<Kafedra, String> {
     MonthlyTeachersForRektor28 getDateForRektor28(@Param("date") Date date, @Param("id") String id);
 
 
-    @Query(value = "select k.id, k.nameEn as name from Kafedra k join KafedraMudiri km on km.kafedra_id=k.id where km.user_id=:userId",nativeQuery = true)
+
+
+       @Query(value = "select k.id, k.nameEn as name from Kafedra k join KafedraMudiri km on km.kafedra_id=k.id where km.user_id=:userId",nativeQuery = true)
     KafedraResDto getKafedraNameByUserId(@Param("userId") String userId);
 
 
