@@ -443,4 +443,8 @@ public interface KafedraRepository extends JpaRepository<Kafedra, String> {
 
     @Query(value = "select u.id as value,u.fullName as label from Teacher t join users u on u.id=t.user_id where kafedra_id=:kafedraId order by u.fullName",nativeQuery = true)
     List<FacultiesResDto> getTeachersForSelectByKafedraId(@Param("kafedraId") String kafedraId);
+
+    @Query(value = "select u.id as value,u.fullName as label from Teacher t\n" +
+            "    join users u on u.id=t.user_id  join users_Position uP on u.id = uP.users_id join Position P on uP.positions_id = P.id where kafedra_id=:kafedraId and t.workerStatus='ASOSIY' order by  P.degree,u.fullName",nativeQuery = true)
+    List<FacultiesResDto> getTeachersForTableByKafedraId(@Param("kafedraId") String kafedraId);
 }
