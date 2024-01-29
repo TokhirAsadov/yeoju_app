@@ -584,4 +584,8 @@ public class KafedraService implements KafedraImplService<KafedraDto> {
                 kafedra.getPhone()
         );
     }
+
+    public ApiResponse getTeachersForTableByKafedraId(String kafedraId) {
+        return new ApiResponse(true,"all teachers of kafedras",kafedraRepository.getTeachersForTableByKafedraId(kafedraId));
+    }
 }
