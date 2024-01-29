@@ -61,6 +61,10 @@ public class KafedraController {
     public HttpEntity<?> getTeachersForSelectByKafedraId(@CurrentUser User user,@RequestParam(name = "kafedraId") String kafedraId){
         return ResponseEntity.ok(kafedraService.getTeachersForSelectByKafedraId(kafedraId));
     }
+    @GetMapping("/getTeachersForTableByKafedraId")
+    public HttpEntity<?> getTeachersForTableByKafedraId(@CurrentUser User user,@RequestParam(name = "kafedraId") String kafedraId){
+        return ResponseEntity.ok(kafedraService.getTeachersForTableByKafedraId(kafedraId));
+    }
 
     @GetMapping("/getKafedrasForSelect")
     public HttpEntity<?> getKafedrasForSelect(@CurrentUser User user){
