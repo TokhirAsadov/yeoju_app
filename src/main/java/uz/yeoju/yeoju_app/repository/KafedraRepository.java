@@ -290,6 +290,25 @@ public interface KafedraRepository extends JpaRepository<Kafedra, String> {
 
 
 
+    @Query(value = "select\n" +
+            "    u.fullName,\n" +
+            "    u.id,\n" +
+            "    u.passportNum as passport,\n" +
+            "    u.login,\n" +
+            "    u.RFID,\n" +
+            "    u.email,\n" +
+            "    T.rate,\n" +
+            "    dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "        + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME))\n" +
+            "        as date\n" +
+            "from Teacher T\n" +
+            "    join users u on T.user_id = u.id\n" +
+            "where T.kafedra_id =:id and u.id in :teachersIds",nativeQuery = true)
+    List<GetTeachersForDekan30> getDateForTable30(@Param("id") String id, @Param("date") Date date,@Param("teachersIds") Set<String> teachersIds);
+
+
+
+
 
 
 
