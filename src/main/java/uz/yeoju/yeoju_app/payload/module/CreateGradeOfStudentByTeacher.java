@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class CreateGradeOfStudentByTeacher {
     private String id;
-    private Integer grade;
+    private Float grade;
     private Timestamp time;
     private String description;
     private String studentId;
