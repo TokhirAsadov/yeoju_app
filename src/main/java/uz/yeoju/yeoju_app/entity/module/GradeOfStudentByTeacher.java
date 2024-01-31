@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class GradeOfStudentByTeacher extends AbsEntity {
 
-    private Integer grade;
+    private Float grade;
     private Timestamp time;
     private String description;
 
