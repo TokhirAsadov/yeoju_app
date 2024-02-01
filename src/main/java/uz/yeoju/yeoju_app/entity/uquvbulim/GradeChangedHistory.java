@@ -19,10 +19,10 @@ public class GradeChangedHistory extends AbsEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private GradeOfStudentByTeacher grade;
 
-    private Integer oldGrade;
-    private Integer newGrade;
+    private Float oldGrade;
+    private Float newGrade;
 
-    public GradeChangedHistory(String id, GradeOfStudentByTeacher grade, Integer oldGrade, Integer newGrade) {
+    public GradeChangedHistory(String id, GradeOfStudentByTeacher grade, Float oldGrade, Float newGrade) {
         super(id);
         this.grade = grade;
         this.oldGrade = oldGrade;
