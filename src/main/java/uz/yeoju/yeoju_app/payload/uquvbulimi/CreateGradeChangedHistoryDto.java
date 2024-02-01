@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateGradeChangedHistoryDto {
     private String gradeId;
-    private Integer oldGrade;
-    private Integer newGrade;
+    private Float oldGrade;
+    private Float newGrade;
 }
