@@ -120,4 +120,9 @@ public class TableImplService implements TableService{
         }
     }
 
+    @Override
+    public ApiResponse findByKafedraId(String kafedraId) {
+        return new ApiResponse(true,"tables of kafedra",repository.findAllByKafedraIdOrderByCreatedAtDesc(kafedraId));
+    }
+
 }

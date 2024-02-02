@@ -18,11 +18,10 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.LessonDto;
 import uz.yeoju.yeoju_app.payload.teacher.TeacherSaveDto;
 import uz.yeoju.yeoju_app.repository.*;
+import uz.yeoju.yeoju_app.repository.kafedra.KafedraRepository;
 import uz.yeoju.yeoju_app.service.useServices.LessonService;
 
-import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class TeacherImplService implements TeacherService{
