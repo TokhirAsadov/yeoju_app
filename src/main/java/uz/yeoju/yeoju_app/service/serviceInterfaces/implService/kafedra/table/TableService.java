@@ -6,4 +6,5 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 
 public interface TableService {
     ApiResponse saveFileToSystem(User user, MultipartHttpServletRequest request, Integer year, String month,String kafedraId, String id);
+    ApiResponse findByKafedraId(String kafedraId);
 }
