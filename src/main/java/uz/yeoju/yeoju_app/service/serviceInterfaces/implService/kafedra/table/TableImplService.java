@@ -132,6 +132,16 @@ public class TableImplService implements TableService{
         return new ApiResponse(true,"table of kafedra by name",repository.findByFileName(name));
     }
 
+    @Override
+    public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
 
+        TableOfKafedra table = repository.findByFileName(fileName);
+        if (table == null){
+            return null;
+        }
+
+        byte[] images = Files.readAllBytes(new File("tables\\"+table.getYear()+"\\"+table.getMonth()+"\\"+fileName).toPath());
+        return images;
+    }
 
 }
