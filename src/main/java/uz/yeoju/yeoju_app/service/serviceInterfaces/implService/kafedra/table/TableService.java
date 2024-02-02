@@ -12,4 +12,7 @@ public interface TableService {
 
     ApiResponse findByName(String name);
 
+
+    byte[] downloadImageFromFileSystem(String fileName) throws IOException;
+
 }
