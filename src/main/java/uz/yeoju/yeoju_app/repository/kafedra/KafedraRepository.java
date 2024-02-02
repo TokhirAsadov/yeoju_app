@@ -1,4 +1,4 @@
-package uz.yeoju.yeoju_app.repository;
+package uz.yeoju.yeoju_app.repository.kafedra;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
