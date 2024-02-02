@@ -81,6 +81,8 @@ public class TableImplService implements TableService{
                         table.setYear(year);
                         table.setMonth(month);
                         table.setFileName(name);
+                        table.setContentType(file.getContentType());
+                        table.setFileType(substring);
                         Optional<Kafedra> optionalKafedra = kafedraRepository.findById(kafedraId);
                         if (optionalKafedra.isPresent()) {
                             Kafedra kafedra = optionalKafedra.get();
@@ -124,5 +126,12 @@ public class TableImplService implements TableService{
     public ApiResponse findByKafedraId(String kafedraId) {
         return new ApiResponse(true,"tables of kafedra",repository.findAllByKafedraIdOrderByCreatedAtDesc(kafedraId));
     }
+
+    @Override
+    public ApiResponse findByName(String name) {
+        return new ApiResponse(true,"table of kafedra by name",repository.findByFileName(name));
+    }
+
+
 
 }
