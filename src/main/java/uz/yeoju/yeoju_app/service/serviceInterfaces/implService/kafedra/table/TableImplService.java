@@ -140,7 +140,7 @@ public class TableImplService implements TableService{
             return null;
         }
 
-        byte[] images = Files.readAllBytes(new File("tables\\"+table.getYear()+"\\"+table.getMonth()+"\\"+fileName).toPath());
+        byte[] images = Files.readAllBytes(new File("tables\\"+table.getYear()+"\\"+table.getMonth()+"\\"+fileName+table.getFileType()).toPath());
         return images;
     }
 
