@@ -17,6 +17,8 @@ import uz.yeoju.yeoju_app.payload.resDto.kafedra.ComeStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.KafedraResDto;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.NoComeStatistics;
 import uz.yeoju.yeoju_app.repository.*;
+import uz.yeoju.yeoju_app.repository.kafedra.KafedraMudirRepository;
+import uz.yeoju.yeoju_app.repository.kafedra.KafedraRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.KafedraImplService;
 
 import java.util.*;
