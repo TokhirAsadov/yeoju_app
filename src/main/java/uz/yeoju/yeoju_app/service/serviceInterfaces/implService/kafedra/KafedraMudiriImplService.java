@@ -19,6 +19,8 @@ import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra28;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra29;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra30;
 import uz.yeoju.yeoju_app.repository.*;
+import uz.yeoju.yeoju_app.repository.kafedra.KafedraMudirRepository;
+import uz.yeoju.yeoju_app.repository.kafedra.KafedraRepository;
 
 import java.util.*;
 
