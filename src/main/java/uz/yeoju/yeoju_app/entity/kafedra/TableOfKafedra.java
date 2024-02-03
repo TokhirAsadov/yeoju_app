@@ -18,6 +18,7 @@ public class TableOfKafedra extends AbsEntity {
     @ManyToOne
     private Kafedra kafedra;
     private String fileName;
-
+    private String fileType;
+    private String contentType;
 
 }
