@@ -11,6 +11,7 @@ import uz.yeoju.yeoju_app.payload.teacher.TeachersFreeHoursDto;
 import uz.yeoju.yeoju_app.repository.TeachersFreeHoursRepository;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,7 +23,8 @@ public class TeachersFreeHoursImplService implements TeachersFreeHoursService{
 
     @Override
     public ApiResponse getAllHoursByTeacherId(String teacherId) {
-        return null;
+        List<TeachersFreeHours> freeHours = repository.findAllByCreatedByOrderByCreatedAt(teacherId);
+        return new ApiResponse(true,"Teacher's free hours",freeHours);
     }
 
     @Override
