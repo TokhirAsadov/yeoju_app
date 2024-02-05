@@ -83,26 +83,31 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
     public ApiResponse updateGrade(User user, CreateGradeOfStudentByTeacher dto) {
         Optional<GradeOfStudentByTeacher> optional = gradeRepository.findById(dto.getId());
         if (optional.isPresent()) {
-            Optional<User> userOptional = userRepository.findById(dto.getStudentId());
-            if (userOptional.isPresent()) {
-                Optional<EducationYear> educationYearOptional = educationYearRepository.findById(dto.getEducationYearId());
-                if (educationYearOptional.isPresent()) {
-                    Optional<Lesson> lessonOptional = lessonRepository.findById(dto.getSubjectId());
-                    if (lessonOptional.isPresent()) {
-                        GradeOfStudentByTeacher gradeOfStudent = optional.get();
-                        gradeOfStudent.setGrade(dto.getGrade());
-                        gradeOfStudent.setTime(dto.getTime());
-                        gradeOfStudent.setDescription(dto.getDescription());
-                        gradeRepository.save(gradeOfStudent);
-                        return new ApiResponse(true, "updated successfully");
+            GradeOfStudentByTeacher gradeOfStudent = optional.get();
+            if (!gradeRepository.existsByFailGradeId(gradeOfStudent.getId())) {
+                Optional<User> userOptional = userRepository.findById(dto.getStudentId());
+                if (userOptional.isPresent()) {
+                    Optional<EducationYear> educationYearOptional = educationYearRepository.findById(dto.getEducationYearId());
+                    if (educationYearOptional.isPresent()) {
+                        Optional<Lesson> lessonOptional = lessonRepository.findById(dto.getSubjectId());
+                        if (lessonOptional.isPresent()) {
+                            gradeOfStudent.setGrade(dto.getGrade());
+                            gradeOfStudent.setTime(dto.getTime());
+                            gradeOfStudent.setDescription(dto.getDescription());
+                            gradeRepository.save(gradeOfStudent);
+                            return new ApiResponse(true, "updated successfully");
+                        } else {
+                            return new ApiResponse(false, "not found subject by id: " + dto.getSubjectId());
+                        }
                     } else {
-                        return new ApiResponse(false, "not found subject by id: " + dto.getSubjectId());
+                        return new ApiResponse(false, "not found education year by id: " + dto.getEducationYearId());
                     }
                 } else {
-                    return new ApiResponse(false, "not found education year by id: " + dto.getEducationYearId());
+                    return new ApiResponse(false, "not found student by id: " + dto.getStudentId());
                 }
-            } else {
-                return new ApiResponse(false, "not found student by id: " + dto.getStudentId());
+            }
+            else {
+                return new ApiResponse(false, "You cannot update value of grade, because it has some retakes!");
             }
         }
         else {
