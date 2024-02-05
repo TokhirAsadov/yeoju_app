@@ -39,6 +39,36 @@
   "dekan_sidebar_arxiv": "Архив",
   "dekan_sidebar_notice": "Уведомление",
 
+  "bulim_sidebar_staffs": "Сотрудники",
+
+  "kafedra_sidebar_dashboard": "Приборная Доска",
+  "kafedra_sidebar_teachers": "Учителя",
+  "kafedra_sidebar_message": "Сообщения",
+  "kafedra_sidebar_sms_history": "История СМС",
+  "kafedra_sidebar_roles": "Роли пользователя",
+  "kafedra_sidebar_teachers_menu": "Сменить пользователя",
+  "kafedra_sidebar_week": "Статистика еженедельных",
+  "kafedra_sidebar_subjects": "Предметы",
+  "kafedra_sidebar_groupsSubject": "Подключайтесь к группам",
+
+  "student_sidebar_settings": "Настройки",
+  "student_sidebar_service": "Студенческий сервис",
+  "student_sidebar_menu": "Панель",
+  "student_sidebar_lesson": "Предметы",
+  "student_sidebar_time_table": "Расписание",
+  "student_sidebar_statistics": "Статистики",
+  "student_sidebar_sciences": "Мои предметы",
+  "student_sidebar_results": "Результаты",
+  "student_sidebar_retake": "Пересдать",
+  "student_sidebar_finals": "Экзамены",
+
+  "teacher_sidebar_files": "Файлы",
+  "teacher_sidebar_statistics": "Статистики",
+  "teacher_sidebar_kafedra_dashboard": "Сменить пользователя",
+  "teacher_sidebar_journal": "Журнал",
+  "teacher_sidebar_sciences": "Науки",
+
+  "barchart_workers_title": "Рабочий персонал",
 
   "super_admin_sidebar_user": "Пользователь",
   "super_admin_sidebar_teacher": "Учитель",
@@ -53,22 +83,23 @@
 
   "boshqarama_education": "Мониторинг",
 
-  "bulim_sidebar_staffs": "Staffs",
+  "trainingdivision_sidebar_dashboard": "Панель",
+  "trainingdivision_sidebar_report": "Отчет дня",
+  "trainingdivision_sidebar_timetable": "Расписание",
+  "trainingdivision_sidebar_groups": "Группы",
+  "trainingdivision_sidebar_roomstimetable": "Аудитория",
+  "trainingdivision_sidebar_teachertimetable": "Учитель",
+  "trainingdivision_sidebar_dean": "Деканы",
+  "trainingdivision_sidebar_change_log": "Изменить доступ к журналу",
+  "trainingdivision_sidebar_rating_students": "Рейтинг",
+  "trainingdivision_sidebar_assistant": "Ассистент",
+  "trainingdivision_sidebar_students": "Студенты",
 
-  "kafedra_sidebar_dashboard": "Приборная Доска",
-  "kafedra_sidebar_teachers": "Учителя",
-  "kafedra_sidebar_message": "Сообщения",
-  "kafedra_sidebar_sms_history": "История СМС",
-  "kafedra_sidebar_roles": "Роли пользователя",
-  "kafedra_sidebar_teachers_menu": "Сменить пользователя",
-  "kafedra_sidebar_week": "Статистика еженедельных",
-
-
-  "teacher_sidebar_files": "Files",
-  "teacher_sidebar_statistics": "Statistics",
-  "teacher_sidebar_kafedra_dashboard": "Change User",
-
-  "barchart_workers_title": "Рабочий персонал",
+  "admin_sidebar_menu": "Меню",
+  "admin_sidebar_user": "Пользователь",
+  "admin_sidebar_rooms": "Аудитория",
+  "admin_sidebar_device": "Устройство",
+  "admin_sidebar_buildings": "Здание",
 
   "doughnut_chart_labels_data": [
     "не пришел",
