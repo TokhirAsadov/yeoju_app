@@ -13,7 +13,7 @@ import java.util.Set;
 public interface GradeOfStudentByTeacherRepository extends JpaRepository<GradeOfStudentByTeacher,String> {
 
     List<GradeOfStudentByTeacher> findAllByFailGradeIdAndActive(String failGrade_id, Boolean active);
-
+    Boolean existsByFailGradeId(String failGrade_id);
     @Query(value = "select MAX(step) from (\n" +
             "                          select count(gs.id) as step,u.id,s.group_id from GradeOfStudentByTeacher gs\n" +
             "                           join users u on gs.student_id = u.id\n" +
