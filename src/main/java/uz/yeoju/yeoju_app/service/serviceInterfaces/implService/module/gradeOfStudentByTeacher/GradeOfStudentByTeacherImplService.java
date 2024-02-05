@@ -107,7 +107,7 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
                 }
             }
             else {
-                return new ApiResponse(false, "You cannot update value of grade, because it has some retakes!");
+                return new ApiResponse(false, "You can't update the grade value due to existing retakes!");
             }
         }
         else {
@@ -173,8 +173,13 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
     public ApiResponse delete(User user, String id) {
         Optional<GradeOfStudentByTeacher> optional = gradeRepository.findByIdAndCreatedBy(id, user.getId());
         if (optional.isPresent()) {
-            gradeRepository.deleteById(id);
-            return new ApiResponse(true,"Grade was deleted successfully");
+            if (!gradeRepository.existsByFailGradeId(id)) {
+                gradeRepository.deleteById(id);
+                return new ApiResponse(true, "Grade was deleted successfully");
+            }
+            else {
+                return new ApiResponse(true, "You can't delete the grade due to existing retakes which connect that!");
+            }
         }
         else {
             return new ApiResponse(false,"Not Found grade");
