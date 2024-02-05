@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.payload.teacher.TeachersFreeHoursDto;
 public interface TeachersFreeHoursService {
 
     ApiResponse getAllHoursByTeacherId(String teacherId);
+    ApiResponse checkerThatExistsTeachersFreeHours(String educationYearId,String teacherId);
     ApiResponse createNewHour(User user, TeachersFreeHoursDto dto);
     ApiResponse deleteFreeHours(User user, String id);
 }
