@@ -22,5 +22,25 @@ import java.io.IOException;
 public class TableOfKafedraController {
     private final TableService service;
 
+    @GetMapping("/uploadFromSystemUser")
+    public HttpEntity<?> download(
+            @RequestParam("fileName") String fileName
+    ) throws IOException {
+
+        ApiResponse response = service.findByName(fileName);
+        if (response.isSuccess()) {
+            TableOfKafedra table = (TableOfKafedra) response.getObj();
+
+            byte[] imageData=service.downloadImageFromFileSystem(fileName);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.valueOf(table.getContentType()))
+                    .body(imageData);
+        }
+        else {
+            return ResponseEntity.status(403).body(response);
+        }
+
+    }
+
 
 }
