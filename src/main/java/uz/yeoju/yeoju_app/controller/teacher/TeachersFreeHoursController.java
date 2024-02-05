@@ -21,5 +21,10 @@ public class TeachersFreeHoursController {
     public HttpEntity<?> checkerThatExistsTeachersFreeHours(@PathVariable("educationYearId") String educationYearId,@PathVariable("teacherId") String teacherId){
         return ResponseEntity.ok(service.checkerThatExistsTeachersFreeHours(educationYearId,teacherId));
     }
+    @GetMapping("/getAllHoursByTeacherId/{teacherId}")
+    public HttpEntity<?> getAllHoursByTeacherId(@PathVariable("teacherId") String teacherId){
+        return ResponseEntity.ok(service.getAllHoursByTeacherId(teacherId));
+    }
+
 
 }
