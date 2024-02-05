@@ -112,7 +112,56 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
 
     @Override
     public ApiResponse retakeGrade(User user, CreateGradeOfStudentByTeacher dto) {
-        return null;
+        Optional<GradeOfStudentByTeacher> optional = gradeRepository.findById(dto.getFailGradeId());
+        if (optional.isPresent()) {
+            Optional<User> userOptional = userRepository.findById(dto.getStudentId());
+            if (userOptional.isPresent()) {
+                Optional<EducationYear> educationYearOptional = educationYearRepository.findById(dto.getEducationYearId());
+                if (educationYearOptional.isPresent()) {
+                    Optional<Lesson> lessonOptional = lessonRepository.findById(dto.getSubjectId());
+                    if (lessonOptional.isPresent()) {
+                        GradeOfStudentByTeacher failGrade = optional.get();
+                        failGrade.setActive(false);
+                        gradeRepository.save(failGrade);
+
+                        User student = userOptional.get();
+                        EducationYear educationYear = educationYearOptional.get();
+                        Lesson lesson = lessonOptional.get();
+                        GradeOfStudentByTeacher gradeOfStudent = new GradeOfStudentByTeacher();
+                        gradeOfStudent.setFailGrade(failGrade);
+                        gradeOfStudent.setStudent(student);
+                        gradeOfStudent.setEducationYear(educationYear);
+                        gradeOfStudent.setLesson(lesson);
+                        gradeOfStudent.setGrade(dto.getGrade());
+                        gradeOfStudent.setTime(dto.getTime());
+                        gradeOfStudent.setDescription(dto.getDescription());
+                        GradeOfStudentByTeacher save = gradeRepository.save(gradeOfStudent);
+
+                        for (GradeOfStudentByTeacher gradeOfStudentByTeacher : gradeRepository.findAllByFailGradeIdAndActive(failGrade.getId(),true)) {
+                            if (!gradeOfStudentByTeacher.getId().equals(save.getId())) {
+                                gradeOfStudentByTeacher.setActive(false);
+                                gradeRepository.save(gradeOfStudentByTeacher);
+                            }
+                        }
+
+                        return new ApiResponse(true,"retake grade was created successfully");
+                    }
+                    else {
+                        return new ApiResponse(false,"not found subject by id: " + dto.getSubjectId());
+                    }
+                }
+                else {
+                    return new ApiResponse(false,"not found education year by id: " + dto.getEducationYearId());
+                }
+            }
+            else {
+                return new ApiResponse(false,"not found student by id: " + dto.getStudentId());
+            }
+        }
+        else {
+            return new ApiResponse(false,"not found fail grade by id: " + dto.getFailGradeId());
+        }
+
     }
 
     @Override
