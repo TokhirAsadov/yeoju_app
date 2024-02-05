@@ -18,6 +18,9 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class GradeOfStudentByTeacher extends AbsEntity {
 
+    @ManyToOne
+    private GradeOfStudentByTeacher failGrade;
+
     private Float grade;
     private Timestamp time;
     private String description;
