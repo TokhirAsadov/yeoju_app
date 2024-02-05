@@ -31,6 +31,10 @@ public class TeachersFreeHoursController {
         return ResponseEntity.status(response.isSuccess() ? 201:402).body(response);
     }
 
-
+    @DeleteMapping("/delete/{id}")
+    public HttpEntity<?> delete(@CurrentUser User user, @PathVariable("id") String id){
+        ApiResponse response = service.deleteFreeHours(user,id);
+        return ResponseEntity.status(204).body(response);
+    }
 
 }
