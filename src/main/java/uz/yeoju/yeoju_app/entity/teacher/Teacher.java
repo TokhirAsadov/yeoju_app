@@ -1,8 +1,10 @@
-package uz.yeoju.yeoju_app.entity;
+package uz.yeoju.yeoju_app.entity.teacher;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.yeoju.yeoju_app.entity.Lesson;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.enums.WorkerStatus;
 import uz.yeoju.yeoju_app.entity.kafedra.Kafedra;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;

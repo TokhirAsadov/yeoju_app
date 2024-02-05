@@ -3,13 +3,12 @@ package uz.yeoju.yeoju_app.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import uz.yeoju.yeoju_app.entity.Teacher;
+import uz.yeoju.yeoju_app.entity.teacher.Teacher;
 import uz.yeoju.yeoju_app.payload.resDto.TeacherCountComeAndAll;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.*;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.dashboard.TeacherStatusAndPosition;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.dashboard.TeacherStatusAndPosition2;
 import uz.yeoju.yeoju_app.payload.resDto.uquvbulim.DataOfLeaders;
-import uz.yeoju.yeoju_app.payload.resDto.user.timeTableStatistics.UserCheckRoomStatistics;
 
 import java.util.Date;
 import java.util.List;

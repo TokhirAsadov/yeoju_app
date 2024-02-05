@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.entity.kafedra.Kafedra;
+import uz.yeoju.yeoju_app.entity.teacher.Teacher;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.LessonDto;
 import uz.yeoju.yeoju_app.payload.teacher.TeacherSaveDto;

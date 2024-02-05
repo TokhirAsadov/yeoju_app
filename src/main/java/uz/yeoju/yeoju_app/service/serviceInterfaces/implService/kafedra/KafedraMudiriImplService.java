@@ -9,6 +9,7 @@ import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.entity.enums.WorkerStatus;
 import uz.yeoju.yeoju_app.entity.kafedra.Kafedra;
 import uz.yeoju.yeoju_app.entity.kafedra.KafedraMudiri;
+import uz.yeoju.yeoju_app.entity.teacher.Teacher;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanSave;
 import uz.yeoju.yeoju_app.payload.kafedra.ChangeKafedraNameDto;
