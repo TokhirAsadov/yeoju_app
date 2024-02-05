@@ -42,5 +42,11 @@ public class TableOfKafedraController {
 
     }
 
+    @GetMapping("/getTables/{kafedraId}")
+    public HttpEntity<?> getTablesByKafedraId(@CurrentUser User user,@PathVariable("kafedraId") String kafedraId){
+        return ResponseEntity.ok(service.findByKafedraId(kafedraId));
+    }
+
+
 
 }
