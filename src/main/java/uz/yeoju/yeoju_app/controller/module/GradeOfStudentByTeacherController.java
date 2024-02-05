@@ -44,6 +44,12 @@ public class GradeOfStudentByTeacherController {
         return ResponseEntity.ok(service.getGradesOfStudent(user.getId(),studentId,educationYearId,subjectId));
     }
 
+    @PostMapping("/retake")
+    public HttpEntity<?> retake(@CurrentUser User user, @RequestBody CreateGradeOfStudentByTeacher dto){
+        ApiResponse apiResponse = service.retakeGrade(user, dto);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 401).body(apiResponse);
+    }
+
     @PostMapping("/create")
     public HttpEntity<?> create(@CurrentUser User user, @RequestBody CreateGradeOfStudentByTeacher dto){
         ApiResponse apiResponse = service.createGrade(user, dto);
