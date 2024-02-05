@@ -18,6 +18,15 @@ public class CreateGradeOfStudentByTeacher {
     private String subjectId;
     private String educationYearId;
 
+    public CreateGradeOfStudentByTeacher( Float grade, Timestamp time, String description, String studentId, String subjectId, String educationYearId) {
+        this.grade = grade;
+        this.time = time;
+        this.description = description;
+        this.studentId = studentId;
+        this.subjectId = subjectId;
+        this.educationYearId = educationYearId;
+    }
+
     public CreateGradeOfStudentByTeacher(String id, Float grade, Timestamp time, String description, String studentId, String subjectId, String educationYearId) {
         this.id = id;
         this.grade = grade;
