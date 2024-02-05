@@ -13,14 +13,14 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class TeachersFreeDay extends AbsEntity {
+public class TeachersFreeHours extends AbsEntity {
 
     @ManyToOne
     private EducationYear educationYear;
     private String day;
     private String schedule;
 
-    public TeachersFreeDay(String id, EducationYear educationYear, String day, String schedule) {
+    public TeachersFreeHours(String id, EducationYear educationYear, String day, String schedule) {
         super(id);
         this.educationYear = educationYear;
         this.day = day;
