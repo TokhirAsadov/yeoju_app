@@ -178,7 +178,7 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
                 return new ApiResponse(true, "Grade was deleted successfully");
             }
             else {
-                return new ApiResponse(true, "You can't delete the grade due to existing retakes which connect that!");
+                return new ApiResponse(false, "You can't delete the grade due to existing retakes which connect that!");
             }
         }
         else {
