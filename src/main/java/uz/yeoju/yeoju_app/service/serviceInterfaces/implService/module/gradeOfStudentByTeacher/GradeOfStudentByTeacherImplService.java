@@ -111,6 +111,11 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
     }
 
     @Override
+    public ApiResponse retakeGrade(User user, CreateGradeOfStudentByTeacher dto) {
+        return null;
+    }
+
+    @Override
     public ApiResponse delete(User user, String id) {
         Optional<GradeOfStudentByTeacher> optional = gradeRepository.findByIdAndCreatedBy(id, user.getId());
         if (optional.isPresent()) {
