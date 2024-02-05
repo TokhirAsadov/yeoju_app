@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
+import uz.yeoju.yeoju_app.entity.module.GradeOfStudentByTeacher;
 import uz.yeoju.yeoju_app.entity.teacher.TeachersFreeHours;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.teacher.TeachersFreeHoursDto;
@@ -37,6 +38,18 @@ public class TeachersFreeHoursImplService implements TeachersFreeHoursService{
         }
         else {
             return new ApiResponse(false,"education year not found by id: "+dto.getEducationYearId());
+        }
+    }
+
+    @Override
+    public ApiResponse deleteFreeHours(User user, String id) {
+        Optional<TeachersFreeHours> optional = repository.findByIdAndCreatedBy(id, user.getId());
+        if (optional.isPresent()) {
+            repository.deleteById(id);
+            return new ApiResponse(true, "Teacher's free hour was deleted successfully");
+        }
+        else {
+            return new ApiResponse(false,"Not Found teacher's free hour by id: "+id);
         }
     }
 }
