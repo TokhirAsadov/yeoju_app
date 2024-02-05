@@ -25,6 +25,12 @@ public class TeachersFreeHoursController {
     public HttpEntity<?> getAllHoursByTeacherId(@PathVariable("teacherId") String teacherId){
         return ResponseEntity.ok(service.getAllHoursByTeacherId(teacherId));
     }
+    @PostMapping("/createFreeHour")
+    public HttpEntity<?> createFreeHour(@CurrentUser User user, @RequestBody TeachersFreeHoursDto dto){
+        ApiResponse response = service.createNewHour(user, dto);
+        return ResponseEntity.status(response.isSuccess() ? 201:402).body(response);
+    }
+
 
 
 }
