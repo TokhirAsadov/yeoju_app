@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TeachersFreeHoursRepository extends JpaRepository<TeachersFreeHours,String> {
+
+    Boolean existsByEducationYearIdAndCreatedBy(String educationYear_id, String createdBy);
     Optional<TeachersFreeHours> findByIdAndCreatedBy(String id, String createdBy);
 
     List<TeachersFreeHours> findAllByCreatedByOrderByCreatedAt(String createdBy);
