@@ -27,6 +27,10 @@ spring:
     url: jdbc:sqlserver://172.16.7.130:1433;databaseName=ZKAccess
     username: sa
     password: Pa$$w0rd2020
+#    url: jdbc:sqlserver://172.16.1.234:1433;databaseName=ZKAccess --ErpKIUT
+#    username: sa
+#    password: 0806
+
 #    hikari:
 #      maximum-pool-size: 200
   #    url: jdbc:sqlserver://localhost:1433;databaseName=TEST_ZKA
