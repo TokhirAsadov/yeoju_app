@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.teacher.TeachersFreeHours;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.teacher.TeachersFreeHoursDto;
+import uz.yeoju.yeoju_app.repository.GroupRepository;
 import uz.yeoju.yeoju_app.repository.TeachersFreeHoursRepository;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 
@@ -19,6 +20,8 @@ public class TeachersFreeHoursImplService implements TeachersFreeHoursService{
 
     private final TeachersFreeHoursRepository repository;
     private final EducationYearRepository educationYearRepository;
+    private final GroupRepository groupRepository;
+//    private final L educationYearRepository;
 
     @Override
     public ApiResponse getAllHoursByTeacherId(String teacherId) {
@@ -65,5 +68,10 @@ public class TeachersFreeHoursImplService implements TeachersFreeHoursService{
         else {
             return new ApiResponse(false,"Not Found teacher's free hour by id: "+id);
         }
+    }
+
+    @Override
+    public ApiResponse allFreeHoursForGroup(String educationYearId, String groupId) {
+        return null;
     }
 }
