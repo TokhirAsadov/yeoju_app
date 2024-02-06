@@ -11,4 +11,6 @@ public interface TeachersFreeHoursService {
     ApiResponse checkerThatExistsTeachersFreeHours(String educationYearId,String teacherId);
     ApiResponse createNewHour(User user, TeachersFreeHoursDto dto);
     ApiResponse deleteFreeHours(User user, String id);
+
+    ApiResponse allFreeHoursForGroup(String educationYearId, String groupId);
 }
