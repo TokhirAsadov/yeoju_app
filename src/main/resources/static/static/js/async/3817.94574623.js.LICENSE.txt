@@ -1,0 +1,67 @@
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! core-js/modules/es.array.filter.js */
+
+/*! ../userStatistics/UsersMonthStatistics */
+
+/*! core-js/modules/es.array.sort.js */
+
+/*! react */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! moment */
+
+/*! @mui/material/Button */
+
+/*! xlsx */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/Modal */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/es.array.map.js */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! ../../utills/ServiceUrls */
+
+/*! react-icons/fa */
+
+/*! @swc/helpers/_/_sliced_to_array */
+
+/*! @swc/helpers/_/_to_consumable_array */
+
+/*! core-js/modules/es.array.concat.js */
+
+/*! ../userStatistics/UserStatistics */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! core-js/modules/es.array.map.js */
+
+/*! core-js/modules/es.object.to-string.js */
+
+/*! styled-components */
+
+/*! simplebar-react */
+
+/*! @mui/material/Box */
+
+/*! react-icons/ri */
+
+/*! framer-motion */
+
+/*! react-icons/bs */
+
+/*! core-js/modules/esnext.iterator.map.js */
