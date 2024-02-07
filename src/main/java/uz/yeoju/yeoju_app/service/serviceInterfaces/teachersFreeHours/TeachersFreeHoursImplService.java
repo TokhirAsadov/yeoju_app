@@ -72,6 +72,6 @@ public class TeachersFreeHoursImplService implements TeachersFreeHoursService{
 
     @Override
     public ApiResponse allFreeHoursForGroup(String educationYearId, String groupId) {
-        return null;
+        return new ApiResponse(true,"free hours",repository.getFreeHoursWithSubject(groupId, educationYearId));
     }
 }
