@@ -39,4 +39,5 @@ public interface KafedraMudiriService {
     ApiResponse getTeachersStatisticsForKafedraDashboard(String kafedraId);
 
     ApiResponse changeNameOfKafedra(ChangeKafedraNameDto dto);
+    ApiResponse changeRoomOfKafedra(ChangeKafedraNameDto dto);
 }
