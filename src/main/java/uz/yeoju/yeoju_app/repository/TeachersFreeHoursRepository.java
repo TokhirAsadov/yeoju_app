@@ -33,7 +33,7 @@ public interface TeachersFreeHoursRepository extends JpaRepository<TeachersFreeH
             "join TeachersFreeHours TFH on TFH.createdBy=u.id\n" +
             "join Teacher T on u.id = T.user_id\n" +
             "join Kafedra K on T.kafedra_id = K.id\n" +
-            "where TCSg.groups_id=?1 and ey.id=?2 and tcs.lesson_id=?3",nativeQuery = true)
+            "where TCSg.groups_id=?1 and ey.id=?2 and tcs.lesson_id=?3 group by K.room, u.fullName, tfh.schedule,tfh.day",nativeQuery = true)
     Set<GetFreeHours> getFreeHours(String groupId, String educationYearId, String subjectId);
 
 }
