@@ -24,13 +24,15 @@ public interface TeachersFreeHoursRepository extends JpaRepository<TeachersFreeH
             "where gcs.group_id=?1 and gcs.educationYear_id=?2",nativeQuery = true)
     Set<GetFreeHoursWithSubject> getFreeHoursWithSubject(String groupId,String educationYearId);
 
-    @Query(value = "select u.fullName, tfh.schedule,tfh.day from TeacherConnectSubject tcs\n" +
+    @Query(value = "select K.room, u.fullName, tfh.schedule,tfh.day from TeacherConnectSubject tcs\n" +
             "join TeacherConnectSubject_groups TCSg on tcs.id = TCSg.TeacherConnectSubject_id\n" +
             "join WeekOfEducationYear WOEY on tcs.weeks_id = WOEY.id\n" +
             "join EducationYear_WeekOfEducationYear EYWOEY on WOEY.id = EYWOEY.weeks_id\n" +
             "join EducationYear EY on EYWOEY.EducationYear_id = EY.id\n" +
             "join users u on tcs.user_id = u.id\n" +
             "join TeachersFreeHours TFH on TFH.createdBy=u.id\n" +
+            "join Teacher T on u.id = T.user_id\n" +
+            "join Kafedra K on T.kafedra_id = K.id\n" +
             "where TCSg.groups_id=?1 and ey.id=?2 and tcs.lesson_id=?3",nativeQuery = true)
     Set<GetFreeHours> getFreeHours(String groupId, String educationYearId, String subjectId);
 
