@@ -45,6 +45,12 @@ public class KafedraMudiriController {
         return ResponseEntity.status(response.isSuccess() ? 202 : 403).body(response);
     }
 
+    @PutMapping("/changeRoomOfKafedra")
+    public HttpEntity<?> changeRoomOfKafedra(@CurrentUser User user,@RequestBody ChangeKafedraNameDto dto){
+        ApiResponse response = service.changeRoomOfKafedra(dto);
+        return ResponseEntity.status(response.isSuccess() ? 202 : 403).body(response);
+    }
+
     @GetMapping("/positionEdit")
     public HttpEntity<?> positionEdit(@CurrentUser User user,@RequestParam("id") String id){
         return ResponseEntity.ok(service.positionEdit(user.getId(),id));
