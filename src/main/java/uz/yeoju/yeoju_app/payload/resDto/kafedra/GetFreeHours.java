@@ -4,5 +4,4 @@ public interface GetFreeHours {
     String getFullName();
     String getSchedule();
     String getDay();
-    //String
 }
