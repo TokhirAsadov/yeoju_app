@@ -40,7 +40,7 @@ public class KafedraMudiriController {
         return ResponseEntity.status(201).body(service.changeTeacher(dto));
     }
     @PutMapping("/changeNameOfKafedra")
-    public HttpEntity<?> changeNameOfKafedra(@RequestBody ChangeKafedraNameDto dto){
+    public HttpEntity<?> changeNameOfKafedra(@CurrentUser User user,@RequestBody ChangeKafedraNameDto dto){
         ApiResponse response = service.changeNameOfKafedra(dto);
         return ResponseEntity.status(response.isSuccess() ? 202 : 403).body(response);
     }
