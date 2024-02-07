@@ -18,12 +18,12 @@ public class DynamicAttendanceImplService implements DynamicAttendanceService {
     private final UserRepository userRepository;
     @Override
     public ApiResponse createDynamicAttendance(User user, DynamicAttendanceDto dto) {
-        Boolean exists = repository.existsByYearAndWeekAndWeekdayAndSectionAndCreatedByAndStudentId(dto.getYear(), dto.getWeek(), dto.getWeekday(), dto.getSection(), user.getId(),dto.getStudentId());
+        Boolean exists = repository.existsByYearAndWeekAndWeekdayAndSectionAndCreatedByAndStudentIdAndRoom(dto.getYear(), dto.getWeek(), dto.getWeekday(), dto.getSection(), user.getId(),dto.getStudentId(), dto.room);
         if (!exists) {
             Optional<User> optionalUser = userRepository.findById(dto.getStudentId());
             if (optionalUser.isPresent()){
                 repository.save(new DynamicAttendance(
-                        dto.getYear(), dto.getWeek(), dto.getWeekday(), dto.getSection(), dto.getIsCome(), optionalUser.get()
+                        dto.getYear(), dto.getWeek(), dto.getWeekday(), dto.getSection(), dto.getIsCome(), dto.room, optionalUser.get()
                 ));
                 return new ApiResponse(true,"Attendance was created successful!.");
             }

@@ -18,6 +18,7 @@ public class DynamicAttendance extends AbsEntity {
     private Integer weekday;
     private Integer section;
     private Boolean isCome;
+    private String room;
     @ManyToOne
     private User student;
 }

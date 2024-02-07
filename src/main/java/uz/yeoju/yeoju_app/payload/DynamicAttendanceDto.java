@@ -15,13 +15,15 @@ public class DynamicAttendanceDto {
     public Integer section;
     public Boolean isCome;
     public String studentId;
+    public String room;
 
-    public DynamicAttendanceDto(Integer year, Integer week, Integer weekday, Integer section, Boolean isCome, String studentId) {
+    public DynamicAttendanceDto(Integer year, Integer week, Integer weekday, Integer section, Boolean isCome, String studentId, String room) {
         this.year = year;
         this.week = week;
         this.weekday = weekday;
         this.section = section;
         this.isCome = isCome;
         this.studentId = studentId;
+        this.room = room;
     }
 }
