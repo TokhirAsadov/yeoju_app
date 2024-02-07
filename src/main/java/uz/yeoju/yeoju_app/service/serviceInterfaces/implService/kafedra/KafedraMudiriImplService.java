@@ -97,6 +97,18 @@ public class KafedraMudiriImplService implements KafedraMudiriService{
     }
 
     @Override
+    public ApiResponse changeRoomOfKafedra(ChangeKafedraNameDto dto) {
+        Optional<Kafedra> optionalKafedra = kafedraRepository.findById(dto.getId());
+        if (optionalKafedra.isPresent()) {
+            Kafedra kafedra = optionalKafedra.get();
+            kafedra.setRoom(dto.getName());
+            kafedraRepository.save(kafedra);
+            return new ApiResponse(true,"Room of kafedra was changed to: "+dto.getName());
+        }
+        return new ApiResponse(false,"Not found kafedra by id: "+dto.getId());
+    }
+
+    @Override
     public ApiResponse findAll() {
         return new ApiResponse(true,"Barcha mudirlar ro`yxati",kafedraMudirRepository.findAll());
     }
