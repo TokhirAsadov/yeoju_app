@@ -17,7 +17,11 @@ public class DynamicAttendanceController {
 
     public final DynamicAttendanceService service;
 
-
+    @PostMapping("/createDynamicAttendance")
+    public HttpEntity<?> create(@CurrentUser User user, @RequestBody DynamicAttendanceDto dto){
+        ApiResponse response = service.createDynamicAttendance(user, dto);
+        return ResponseEntity.status(response.isSuccess() ? 201:402).body(response);
+    }
 
 
 }
