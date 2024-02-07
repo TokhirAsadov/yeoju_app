@@ -14,6 +14,8 @@
 
 /*! @mui/material/Box */
 
+/*! framer-motion */
+
 /*! @mui/material/Modal */
 
 /*! @swc/helpers/_/_tagged_template_literal */
@@ -23,8 +25,6 @@
 /*! react-redux */
 
 /*! core-js/modules/es.array.push.js */
-
-/*! xlsx */
 
 /*! styled-components */
 
@@ -38,27 +38,25 @@
 
 /*! core-js/modules/esnext.iterator.map.js */
 
+/*! ../../responsiv */
+
 /*! core-js/modules/es.string.iterator.js */
 
 /*! moment */
-
-/*! simplebar-react */
 
 /*! @swc/helpers/_/_sliced_to_array */
 
 /*! react */
 
-/*! react-icons/fa6 */
-
 /*! axios */
 
 /*! core-js/modules/es.regexp.to-string.js */
 
-/*! framer-motion */
-
 /*! core-js/modules/es.array.concat.js */
 
 /*! core-js/modules/es.array.from.js */
+
+/*! xlsx */
 
 /*! ./EnterAndOutTimesOfTeacher */
 
@@ -72,6 +70,6 @@
 
 /*! core-js/modules/esnext.async-iterator.map.js */
 
-/*! @mui/material */
+/*! react-icons/fa6 */
 
-/*! ../../responsiv */
+/*! @mui/material */
