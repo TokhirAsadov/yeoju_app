@@ -17,6 +17,11 @@ public class TeachersFreeHoursController {
     @Autowired
     private TeachersFreeHoursService service;
 
+    @GetMapping("/allFreeHoursForGroup/{educationYearId}/{groupId}")
+    public HttpEntity<?> allFreeHoursForGroup(@PathVariable("educationYearId") String educationYearId,@PathVariable("groupId") String groupId){
+        return ResponseEntity.ok(service.allFreeHoursForGroup(educationYearId,groupId));
+    }
+
     @GetMapping("/checkerThatExistsTeachersFreeHours/{educationYearId}/{teacherId}")
     public HttpEntity<?> checkerThatExistsTeachersFreeHours(@PathVariable("educationYearId") String educationYearId,@PathVariable("teacherId") String teacherId){
         return ResponseEntity.ok(service.checkerThatExistsTeachersFreeHours(educationYearId,teacherId));
