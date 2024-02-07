@@ -12,5 +12,5 @@ public interface GetFreeHoursWithSubject {
     String getEducationYearId();
 
     @Value("#{@teachersFreeHoursRepository.getFreeHours(targit.groupId,target.educationYearId,target.subjectId)}")
-    Set<GetFreeHours> hours();
+    Set<GetFreeHours> getHours();
 }
