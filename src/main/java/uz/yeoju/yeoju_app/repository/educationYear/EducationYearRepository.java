@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.entity.educationYear.WeekOfEducationYear;
 import uz.yeoju.yeoju_app.payload.educationYear.EducationYearsForSelected;
 import uz.yeoju.yeoju_app.payload.educationYear.WeekRestDtoForDean;
 import uz.yeoju.yeoju_app.payload.resDto.educationYear.WeekOfEducationYearResDto;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.StudentsDynamicAttendance;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherStatisticsOfWeekday;
 
 import java.util.Date;
@@ -240,6 +241,16 @@ public interface EducationYearRepository extends JpaRepository<EducationYear,Str
 
     @Query(value = "select * from dbo.GetTimesForRoomStatisticsByUserId(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
     Set<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByUserIdNEW(
+            String userId,
+            String room,
+            Integer year,
+            Integer week,
+            Integer weekday,
+            Integer section
+    );
+
+    @Query(value = "select * from dbo.GetTimesForRoomStatisticsByUserIdUnion(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
+    Set<StudentsDynamicAttendance> getTimesForRoomStatisticsByUserIdUnionNEW(
             String userId,
             String room,
             Integer year,
