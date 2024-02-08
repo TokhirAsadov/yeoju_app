@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
@@ -11,6 +15,9 @@ import java.sql.Timestamp;
 public class CreateGradeOfStudentByTeacher {
     private String id;
     private String failGradeId;
+//    @Size(max=6, message = "Name should have at least two characters")
+    @DecimalMax(value = "6",message = "Maximum grade can be 6.")
+    @DecimalMin(value = "0",message = "Minimum grade can be 0.")
     private Float grade;
     private Timestamp time;
     private String description;
