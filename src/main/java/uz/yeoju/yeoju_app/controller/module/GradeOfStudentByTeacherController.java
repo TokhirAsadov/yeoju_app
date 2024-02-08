@@ -11,6 +11,8 @@ import uz.yeoju.yeoju_app.payload.module.CreateGradeOfStudentByTeacher;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.gradeOfStudentByTeacher.GradeOfStudentByTeacherService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/gradeOfStudentByTeacher")
 @RequiredArgsConstructor
@@ -51,7 +53,7 @@ public class GradeOfStudentByTeacherController {
     }
 
     @PostMapping("/create")
-    public HttpEntity<?> create(@CurrentUser User user, @RequestBody CreateGradeOfStudentByTeacher dto){
+    public HttpEntity<?> create(@CurrentUser User user,@Valid @RequestBody CreateGradeOfStudentByTeacher dto){
         ApiResponse apiResponse = service.createGrade(user, dto);
         return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 401).body(apiResponse);
     }
