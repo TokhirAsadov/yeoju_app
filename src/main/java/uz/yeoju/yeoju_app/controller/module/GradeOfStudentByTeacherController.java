@@ -58,7 +58,7 @@ public class GradeOfStudentByTeacherController {
         return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 401).body(apiResponse);
     }
     @PutMapping("/update")
-    public HttpEntity<?> update(@CurrentUser User user, @RequestBody CreateGradeOfStudentByTeacher dto){
+    public HttpEntity<?> update(@CurrentUser User user,@Valid @RequestBody CreateGradeOfStudentByTeacher dto){
         ApiResponse apiResponse = service.updateGrade(user, dto);
         return ResponseEntity.status(apiResponse.isSuccess() ? 202 : 401).body(apiResponse);
     }
