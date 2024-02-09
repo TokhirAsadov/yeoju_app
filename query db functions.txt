@@ -276,7 +276,8 @@ CREATE FUNCTION dbo.GetTimesForRoomStatisticsByUserIdUnion
                         END
                   and ad.door_name LIKE @room and u.id=@userId
                 union
-                select d.createdAt as time, d.week, d.weekday,  d.section,'DYNAMIC' as type,d.isCome,d.createdBy from DynamicAttendance d
+                select d.createdAt as time, d.week, d.weekday,  d.section,'DYNAMIC' as type,d.isCome,u3.fullName as createdBy from DynamicAttendance d
+                join users u3 on d.createdBy=u3.id
                 where d.room LIKE @room and d.student_id=@userId and d.weekday=@weekday and d.week=@week and d.section=@section and d.year=@year
             );
 
