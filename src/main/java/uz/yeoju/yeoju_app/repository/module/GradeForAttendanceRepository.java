@@ -8,4 +8,7 @@ public interface GradeForAttendanceRepository extends JpaRepository<GradeForAtte
 
     @Query(value = "select dbo.existTeachersLesson(?1,?2,?3,?4)",nativeQuery = true)
     Boolean existTeachersLesson(String teacherId, String groupId,String educationYearId,String lessonId);
+
+    @Query(value = "select dbo.existGradeForAttendance(?1,?2,?3)",nativeQuery = true)
+    Boolean existGradeForAttendance(String groupId,String educationYearId,String lessonId);
 }
