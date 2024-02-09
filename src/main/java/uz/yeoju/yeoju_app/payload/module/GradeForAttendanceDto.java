@@ -16,7 +16,7 @@ public class GradeForAttendanceDto {
     public String lessonId;
     public Set<String> groupsIds;
 
-    public GradeForAttendanceDto(String educationYearId, Float grade, String lessonId, Set<String> groupsIds) {
+    public GradeForAttendanceDto(Float grade,String educationYearId, String lessonId, Set<String> groupsIds) {
         this.grade = grade;
         this.educationYearId = educationYearId;
         this.lessonId = lessonId;
