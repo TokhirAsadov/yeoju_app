@@ -14,10 +14,8 @@ public interface StatisticsOfGroupForTeacherForTodayWithMax {
     Integer getWeek();
     Integer getDay();
 
-    @Value("#{@gradeOfStudentByTeacherRepository.getMaxStep(target.educationId,target.subjectId,target.groupId)}")
-    Long getMaxStep();
-
     @Value("#{@groupConnectSubjectRepository.getStatisticsOfGroupForTeacher(target.educationId,target.groupId,target.subjectId,target.teacherId,target.year,target.week,target.day)}")
     Set<StatisticsOfGroupForTeacherForToday> getStudents();
-
+//    @Value("#{@groupConnectSubjectRepository.getStatisticsOfGroupForTeacher(target.educationId,target.groupId,target.subjectId,target.teacherId)}")
+//    Set<StatisticsOfGroupForTeacher> getStudents();
 }
