@@ -21,11 +21,12 @@ public interface StatisticsOfGroupForTeacherForToday {
     Integer getWeek();
     Integer getDay();
 
+    @Value("#{@gradeForAttendanceRepository.getGradeForAttendance(target.groupId,target.educationId,target.subjectId)}")
+    Float getGradeForAttendance();
+
     @Value("#{@groupConnectSubjectRepository.getSubjectsByEduYearIdAndGroupAndStudentId(target.groupId,target.educationId,target.subjectId,target.studentId,target.year,target.week,target.day)}")
     Set<StudentSubjectsByEduYearIdAndGroupAndStudentId> getSubjects();
 
-    @Value("#{@gradeOfStudentByTeacherRepository.getMiddleGrade(target.teacherId,target.studentId,target.educationId,target.subjectId)}")
-    Double getMiddleGrade();
     @Value("#{@gradeOfStudentByTeacherRepository.getSumGrade(target.teacherId,target.studentId,target.educationId,target.subjectId)}")
     Double getSumGrade();
     @Value("#{@gradeOfStudentByTeacherRepository.getTodayGrade(target.teacherId,target.studentId,target.educationId,target.subjectId)}")
