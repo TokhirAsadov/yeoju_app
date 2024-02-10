@@ -11,4 +11,7 @@ public interface GradeForAttendanceRepository extends JpaRepository<GradeForAtte
 
     @Query(value = "select dbo.existGradeForAttendance(?1,?2,?3)",nativeQuery = true)
     Boolean existGradeForAttendance(String groupId,String educationYearId,String lessonId);
+
+    @Query(value = "select dbo.GetGradeForAttendance(?1,?2,?3)",nativeQuery = true)
+    Float getGradeForAttendance(String groupId,String educationYearId,String lessonId);
 }
