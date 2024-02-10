@@ -1,0 +1,123 @@
+/*! ../timeTable/TeacherTimeTableToday */
+
+/*! react-router-dom */
+
+/*! @swc/helpers/_/_sliced_to_array */
+
+/*! ../../student/menu/RegulationDashboard */
+
+/*! ./ModalForFreeHours */
+
+/*! @mui/material/Typography */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! moment/locale/en-au */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! @mui/material */
+
+/*! @swc/helpers/_/_object_spread */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! styled-components */
+
+/*! react */
+
+/*! moment/moment */
+
+/*! react-icons/fa6 */
+
+/*! react/jsx-runtime */
+
+/*! styled-components */
+
+/*! ../../../responsiv */
+
+/*! @mui/material/Typography */
+
+/*! react-icons/fa */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/es.promise.js */
+
+/*! @mui/material/Button */
+
+/*! react-redux */
+
+/*! core-js/modules/es.array.slice.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! react-icons/io */
+
+/*! @swc/helpers/_/_object_spread */
+
+/*! @swc/helpers/_/_sliced_to_array */
+
+/*! core-js/modules/es.array.map.js */
+
+/*! react-router-dom */
+
+/*! core-js/modules/es.array.from.js */
+
+/*! react-redux */
+
+/*! ../statistics/StatisticsMonthUser */
+
+/*! react */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/es.array.sort.js */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.async-iterator.some.js */
+
+/*! @mui/material/Avatar */
+
+/*! @mui/material/colors */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react */
+
+/*! axios */
+
+/*! ../../../responsiv */
+
+/*! @mui/material/Box */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/esnext.iterator.some.js */
+
+/*! react-icons/hi2 */
+
+/*! core-js/modules/es.array.concat.js */
+
+/*! @mui/material */
+
+/*! react/jsx-runtime */
+
+/*! axios */
+
+/*! core-js/modules/es.string.iterator.js */
+
+/*! core-js/modules/es.object.to-string.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Box */
+
+/*! @mui/material/colors */
+
+/*! react-icons/io */
+
+/*! @swc/helpers/_/_object_spread_props */
