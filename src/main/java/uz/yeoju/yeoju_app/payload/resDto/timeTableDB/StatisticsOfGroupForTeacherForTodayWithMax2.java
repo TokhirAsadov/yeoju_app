@@ -10,9 +10,6 @@ public interface StatisticsOfGroupForTeacherForTodayWithMax2 {
     String getGroupId();
     String getTeacherId();
 
-    @Value("#{@gradeOfStudentByTeacherRepository.getMaxStep(target.educationId,target.subjectId,target.groupId)}")
-    Long getMaxStep();
-
     @Value("#{@groupConnectSubjectRepository.getStatisticsOfGroupForTeacher(target.educationId,target.groupId,target.subjectId,target.teacherId)}")
     Set<StatisticsOfGroupForTeacher> getStudents();
 
