@@ -27,6 +27,9 @@ public interface StatisticsOfGroupForTeacher {
     Set<StudentSubjectsByEduYearIdAndGroupAndStudentId> getSubjects();
 
     default Float getAllGradesForAttendance(){
+        if (this.getGradeForAttendance() == null ||this.getGradeForAttendance()==0){
+            return (float) 0;
+        }
         AtomicInteger counter = new AtomicInteger();
         this.getSubjects().forEach(subject ->{
             if (!subject.getStatistics().isEmpty()) {
