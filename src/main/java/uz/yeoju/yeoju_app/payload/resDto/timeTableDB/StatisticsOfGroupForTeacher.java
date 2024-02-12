@@ -23,6 +23,9 @@ public interface StatisticsOfGroupForTeacher {
     @Value("#{@gradeForAttendanceRepository.getGradeForAttendance(target.groupId,target.educationId,target.subjectId)}")
     Float getGradeForAttendance();
 
+    @Value("#{@gradeForAttendanceRepository.getMaxGradeForAttendance(target.groupId,target.educationId,target.subjectId)}")
+    Float getMaxGradeForAttendance();
+
     @Value("#{@groupConnectSubjectRepository.getSubjectsByEduYearIdAndGroupAndStudentId(target.groupId,target.educationId,target.subjectId,target.studentId)}")
     Set<StudentSubjectsByEduYearIdAndGroupAndStudentId> getSubjects();
 
