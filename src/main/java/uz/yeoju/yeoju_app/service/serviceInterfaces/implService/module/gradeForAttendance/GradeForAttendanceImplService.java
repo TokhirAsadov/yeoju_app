@@ -49,7 +49,7 @@ public class GradeForAttendanceImplService implements GradeForAttendanceService{
                         groups.add(group);
                     }
                 });
-                repository.save(new GradeForAttendance(dto.getGrade(), educationYear,lesson,groups));
+                repository.save(new GradeForAttendance(dto.getGrade(),dto.getCredit(),educationYear,lesson,groups));
                 return new ApiResponse(true,"Grade for attendance of group was created successfully!.");
             }
             else {
