@@ -19,6 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class GradeForAttendance extends AbsEntity {
     private Float grade;
+    private Integer credit;
     @ManyToOne
     private EducationYear educationYear;
     @ManyToOne
