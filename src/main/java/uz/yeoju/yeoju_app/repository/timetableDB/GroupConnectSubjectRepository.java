@@ -34,6 +34,16 @@ public interface GroupConnectSubjectRepository extends JpaRepository<GroupConnec
             "      join LessonDB ld on c.lesson_id = ld.id join Lesson l on ld.subject_id = l.id join LessonDB_groups LDg on ld.id = LDg.LessonDB_id join groups g on LDg.groups_id = g.id join WeekOfEducationYear w on c.weekOfEducationYear_id = w.id join EducationYear_WeekOfEducationYear EYWOEY on w.id = EYWOEY.weeks_id\n" +
             "where g.name=?1 and EYWOEY.EducationYear_id=?2 order by l.name",nativeQuery = true)
     Set<StudentSubjectsByEduYearIdAndGroupAndStudentId> getSubjectsByEduYearIdAndGroupAndStudentId(String groupName,String educationId,String studentId);
+    @Query(value = "select c.classroom as room,c.period as section from CardDB c\n" +
+            "                      join LessonDB ld on c.lesson_id = ld.id\n" +
+            "    join LessonDB_users lu on ld.id = lu.LessonDB_id\n" +
+            "                      join Lesson l on ld.subject_id = l.id\n" +
+            "                      join LessonDB_groups LDg on ld.id = LDg.LessonDB_id\n" +
+            "                      join groups g on LDg.groups_id = g.id\n" +
+            "                      join WeekOfEducationYear w on c.weekOfEducationYear_id = w.id\n" +
+            "                      join EducationYear_WeekOfEducationYear EYWOEY on w.id = EYWOEY.weeks_id\n" +
+            "where g.id=?1 and EYWOEY.EducationYear_id=?2 and l.id=?3 and w.year=?4 and w.sortNumber=?5 and c.day=?6 and lu.teachers_id=?7 order by c.period\n",nativeQuery = true)
+    Set<GetSectionsAndRooms> getSectionsAndRooms(String groupId,String educationId,String subjectId,String year,Integer week, Integer day,String teacherId);
 
 
     @Query(value = "select ?4 as studentId, c.classroom as room,c.day,c.period as section,g.name as groupName ,w.year,w.sortNumber as week,l.name as subject from CardDB c\n" +
