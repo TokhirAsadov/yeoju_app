@@ -8,12 +8,17 @@ CREATE FUNCTION dbo.GetGradeForAttendance(
 AS
 BEGIN
     DECLARE @countStep FLOAT
+    DECLARE @credit int
 
     SET @countStep = (
         select ga.grade from GradeForAttendance ga join GradeForAttendance_groups GFAg on ga.id = GFAg.GradeForAttendance_id
+        where ga.educationYear_id=@educationYearId and ga.lesson_id=@lessonId and GFAg.groups_id=@groupId);
+
+    SET @credit = (
+        select ga.credit from GradeForAttendance ga join GradeForAttendance_groups GFAg on ga.id = GFAg.GradeForAttendance_id
         where ga.educationYear_id=@educationYearId and ga.lesson_id=@lessonId and GFAg.groups_id=@groupId)
 
-    RETURN @countStep;
+    RETURN @countStep * @credit;
 END;
 
 
