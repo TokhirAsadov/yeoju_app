@@ -20,7 +20,8 @@ BEGIN
 
     if @valueOfGradeForAttendance > 0
         SET @maxGradeForAttendance = (select dbo.GetMaxGradeForAttendance(@groupId,@educationYearId,@lessonId));
-        SET @value = 30 - @allGrade - @maxGradeForAttendance - @grade;
+
+    SET @value = 30 - @allGrade - @maxGradeForAttendance - @grade;
 
     IF @value >= 0
         SET @boolReturn = 1;
