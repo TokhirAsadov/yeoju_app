@@ -6,6 +6,9 @@ import uz.yeoju.yeoju_app.entity.module.GradeForAttendance;
 
 public interface GradeForAttendanceRepository extends JpaRepository<GradeForAttendance,String> {
 
+    @Query(value = "select dbo.IsEnableGrade(?1,?2,?3,?4,?5)",nativeQuery = true)
+    Boolean isEnableGrade(String studentId,String groupId,String educationYearId,String lessonId,Float grade);
+
     @Query(value = "select dbo.existTeachersLesson(?1,?2,?3,?4)",nativeQuery = true)
     Boolean existTeachersLesson(String teacherId, String groupId,String educationYearId,String lessonId);
 
