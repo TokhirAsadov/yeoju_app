@@ -21,6 +21,9 @@ public interface StatisticsOfGroupForTeacherForToday {
     Integer getWeek();
     Integer getDay();
 
+    @Value("#{@gradeForAttendanceRepository.getValueOfGradeForAttendance(target.groupId,target.educationId,target.subjectId)}")
+    Float getValueOfGradeForAttendance();
+
     @Value("#{@gradeForAttendanceRepository.getGradeForAttendance(target.groupId,target.educationId,target.subjectId)}")
     Float getGradeForAttendance();
 

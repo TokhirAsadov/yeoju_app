@@ -20,6 +20,9 @@ public interface StatisticsOfGroupForTeacher {
     String getFullName();
     String getUserId(); // login
 
+    @Value("#{@gradeForAttendanceRepository.getValueOfGradeForAttendance(target.groupId,target.educationId,target.subjectId)}")
+    Float getValueOfGradeForAttendance();
+
     @Value("#{@gradeForAttendanceRepository.getGradeForAttendance(target.groupId,target.educationId,target.subjectId)}")
     Float getGradeForAttendance();
 
