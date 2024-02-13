@@ -34,11 +34,11 @@ public interface GradeOfStudentByTeacherRepository extends JpaRepository<GradeOf
             "group by createdBy,student_id,educationYear_id,lesson_id",nativeQuery = true)
     Double getSumGrade(String teacherId, String studentId, String educationYearId, String lessonId);
 
-    @Query(value = "select sum(grade) as middle from GradeOfStudentByTeacher where active=1 and student_id=?1 and educationYear_id=?2 and lesson_id=?3\n" +
+    @Query(value = "select sum(grade) from GradeOfStudentByTeacher where active=1 and student_id=?1 and educationYear_id=?2 and lesson_id=?3\n" +
             "group by student_id,educationYear_id,lesson_id",nativeQuery = true)
     Double getAllSumGrade(String studentId, String educationYearId,String lessonId);
 
-    @Query(value = "select dbo.GetSumOfAllGrades(?1,?2,?3)",nativeQuery = true)
+    @Query(value = "select Top 1 dbo.GetSumOfAllGrades(?1,?2,?3);",nativeQuery = true)
     Float getAllSumGradeNEW(String studentId,String educationYearId,String lessonId);
 
 
