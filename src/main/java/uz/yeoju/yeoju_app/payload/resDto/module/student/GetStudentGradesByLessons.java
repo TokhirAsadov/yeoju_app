@@ -27,6 +27,8 @@ public interface GetStudentGradesByLessons {
     Long getMaxStep();
     @Value("#{@gradeOfStudentByTeacherRepository.getSumGrade(target.teacherId,target.studentId,target.educationYearId,target.lessonId)}")
     Double getSumGrade();
+    @Value("#{@gradeOfStudentByTeacherRepository.getAllSumGrade(target.studentId,target.educationYearId,target.lessonId)}")
+    Double getAllSumGrade();
     @Value("#{@gradeOfStudentByTeacherRepository.getTodayGrade(target.teacherId,target.studentId,target.educationYearId,target.lessonId)}")
     Double getTodayGrade();
 
