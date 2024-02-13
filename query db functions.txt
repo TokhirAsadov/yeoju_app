@@ -1,4 +1,23 @@
 
+CREATE FUNCTION dbo.GetValueOfGradeForAttendance(
+    @groupId varchar(255),
+    @educationYearId varchar(255),
+    @lessonId varchar(255)
+)
+    RETURNS FLOAT
+AS
+BEGIN
+    DECLARE @countStep FLOAT
+
+    SET @countStep = (
+        select ga.grade from GradeForAttendance ga join GradeForAttendance_groups GFAg on ga.id = GFAg.GradeForAttendance_id
+        where ga.educationYear_id=@educationYearId and ga.lesson_id=@lessonId and GFAg.groups_id=@groupId)
+
+    RETURN @countStep;
+END;
+
+
+
 CREATE FUNCTION dbo.GetMaxGradeForAttendance(
     @groupId varchar(255),
     @educationYearId varchar(255),
