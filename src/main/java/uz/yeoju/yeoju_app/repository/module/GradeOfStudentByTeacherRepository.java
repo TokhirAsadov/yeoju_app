@@ -27,7 +27,7 @@ public interface GradeOfStudentByTeacherRepository extends JpaRepository<GradeOf
     Double getSumGrade(String teacherId, String studentId, String educationYearId, String lessonId);
 
     @Query(value = "select sum(grade) as middle from GradeOfStudentByTeacher where active=1 and student_id=?1 and educationYear_id=?2 and lesson_id=?3\n" +
-            "group by createdBy,student_id,educationYear_id,lesson_id",nativeQuery = true)
+            "group by student_id,educationYear_id,lesson_id",nativeQuery = true)
     Double getAllSumGrade(String studentId, String educationYearId,String lessonId);
 
 
