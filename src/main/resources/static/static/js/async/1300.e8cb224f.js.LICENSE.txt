@@ -1,0 +1,117 @@
+/*! ../spinner/Spinner */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! ../../userStatistics/UsersMonthStatistics */
+
+/*! styled-components */
+
+/*! core-js/modules/es.object.to-string.js */
+
+/*! core-js/modules/es.string.starts-with.js */
+
+/*! ../../utills/ServiceUrls */
+
+/*! react-icons/ri */
+
+/*! @mui/material/Box */
+
+/*! @mui/x-data-grid */
+
+/*! @mui/material/Button */
+
+/*! @swc/helpers/_/_object_spread */
+
+/*! react-icons/fa */
+
+/*! @swc/helpers/_/_sliced_to_array */
+
+/*! react-icons/fi */
+
+/*! react-icons/bs */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../../form/SaveStaffForm */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react */
+
+/*! ../../responsiv */
+
+/*! react-icons/fa */
+
+/*! core-js/modules/es.array.reduce.js */
+
+/*! react-router-dom */
+
+/*! @swc/helpers/_/_object_spread_props */
+
+/*! axios */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/es.array.find.js */
+
+/*! framer-motion */
+
+/*! react-redux */
+
+/*! react-redux */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/Modal */
+
+/*! core-js/modules/es.array.concat.js */
+
+/*! styled-components */
+
+/*! ../../userStatistics/UserStatistics */
+
+/*! react */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react/jsx-runtime */
+
+/*! @swc/helpers/_/_object_spread_props */
+
+/*! ../../../responsiv */
+
+/*! @swc/helpers/_/_define_property */
+
+/*! core-js/modules/es.array.map.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! axios */
+
+/*! react-toastify */
+
+/*! ../../spinner/Spinner */
+
+/*! react-select */
+
+/*! moment */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! core-js/modules/es.array.sort.js */
+
+/*! @swc/helpers/_/_object_spread */
+
+/*! @swc/helpers/_/_sliced_to_array */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-select/animated */

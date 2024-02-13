@@ -1,0 +1,35 @@
+/*! @swc/helpers/_/_sliced_to_array */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! ./TeacherTimeTableOfWeek */
+
+/*! react-redux */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! react */
+
+/*! core-js/modules/es.promise.js */
+
+/*! moment */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.iterator.for-each.js */
+
+/*! core-js/modules/esnext.async-iterator.for-each.js */
+
+/*! core-js/modules/es.object.to-string.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! styled-components */
+
+/*! axios */
+
+/*! moment/locale/ru */

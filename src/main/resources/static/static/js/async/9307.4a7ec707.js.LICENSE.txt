@@ -1,0 +1,219 @@
+/*! @swc/helpers/_/_object_spread */
+
+/*! react-icons/fc */
+
+/*! react-icons/ri */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/es.array.find.js */
+
+/*! core-js/modules/es.string.split.js */
+
+/*! ../../spinner/Spinner */
+
+/*! core-js/modules/es.array.concat.js */
+
+/*! ../../redux/actions/rektor/rektor_dashboard_students_action */
+
+/*! core-js/modules/es.array.index-of.js */
+
+/*! core-js/modules/es.regexp.exec.js */
+
+/*! ../hook/useHttp */
+
+/*! ../../responsiv */
+
+/*! react */
+
+/*! ../../redux/actions/rektor/rektor_dashboard_staffs_action */
+
+/*! react-icons/gr */
+
+/*! ../rektor/Bolimtable */
+
+/*! ../spinner/Spinner */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../rektor/dashboard/RektorDashboardChart */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react-icons/fa */
+
+/*! core-js/modules/es.array.unscopables.flat.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.async-iterator.for-each.js */
+
+/*! core-js/modules/es.object.to-string.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! axios */
+
+/*! react-icons/bs */
+
+/*! core-js/modules/es.array.map.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/es.array.concat.js */
+
+/*! styled-components */
+
+/*! @swc/helpers/_/_object_spread_props */
+
+/*! core-js/modules/es.array.map.js */
+
+/*! react-redux */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! styled-components */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/es.array.sort.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! react-apexcharts */
+
+/*! react-icons/fa */
+
+/*! react */
+
+/*! core-js/modules/es.object.to-string.js */
+
+/*! core-js/modules/es.array.flat.js */
+
+/*! @swc/helpers/_/_sliced_to_array */
+
+/*! core-js/modules/es.array.reduce.js */
+
+/*! axios */
+
+/*! @mui/x-data-grid */
+
+/*! react-svg-map */
+
+/*! ../../utills/kuitimgs/assistent1.png */
+
+/*! core-js/modules/es.array.filter.js */
+
+/*! ../rektor/statistics/Statistics */
+
+/*! framer-motion */
+
+/*! ../../utills/kuitimgs/dosent.png */
+
+/*! core-js/modules/es.array.reduce.js */
+
+/*! ../../utills/kuitimgs/uqituvchi.png */
+
+/*! core-js/modules/esnext.iterator.for-each.js */
+
+/*! react-icons/fa */
+
+/*! ../../../responsiv */
+
+/*! core-js/modules/es.object.to-string.js */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! @mui/material/Tooltip */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @swc/helpers/_/_object_spread_props */
+
+/*! @mui/material/Modal */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ./stylemap.css */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @swc/helpers/_/_object_spread */
+
+/*! ../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! styled-components */
+
+/*! core-js/modules/es.array.concat.js */
+
+/*! react */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/es.array.map.js */
+
+/*! @swc/helpers/_/_sliced_to_array */
+
+/*! ../../utills/kuitimgs/professor.png */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/es.array.find.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../../utills/ServiceUrls */
+
+/*! styled-components */
+
+/*! core-js/modules/es.string.starts-with.js */
+
+/*! framer-motion */
+
+/*! react */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../utills/kuitimgs/Katta_uqituvchi.png */
+
+/*! react-icons/gi */
+
+/*! ../../data/data */
+
+/*! ../bulim/dashboard/BulimDashboard */
+
+/*! ../../redux/actions/bulim/bulim_actions */
+
+/*! @swc/helpers/_/_sliced_to_array */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! react-icons/bi */
