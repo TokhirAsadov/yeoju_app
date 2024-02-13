@@ -12,6 +12,9 @@ import java.util.Set;
 
 public interface GradeOfStudentByTeacherRepository extends JpaRepository<GradeOfStudentByTeacher,String> {
 
+    @Query(value = "select dbo.IsEnableGrade(?1,?2,?3,?4,?5)",nativeQuery = true)
+    Boolean isEnableGrade(String studentId,String groupId,String educationYearId,String lessonId,Float grade);
+
     List<GradeOfStudentByTeacher> findAllByFailGradeIdAndActive(String failGrade_id, Boolean active);
     Boolean existsByFailGradeId(String failGrade_id);
     @Query(value = "select MAX(step) from (\n" +
