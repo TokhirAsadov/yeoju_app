@@ -15,6 +15,11 @@ public interface GradeOfStudentByTeacherRepository extends JpaRepository<GradeOf
     @Query(value = "select dbo.IsEnableGrade(?1,?2,?3,?4,?5)",nativeQuery = true)
     Boolean isEnableGrade(String studentId,String groupId,String educationYearId,String lessonId,Float grade);
 
+
+    @Query(value = "select dbo.GetMaxEnableGrade(?1,?2,?3,?4)",nativeQuery = true)
+    Float getMaxEnableGrade(String studentId,String groupId,String educationYearId,String lessonId);
+
+
     List<GradeOfStudentByTeacher> findAllByFailGradeIdAndActive(String failGrade_id, Boolean active);
     Boolean existsByFailGradeId(String failGrade_id);
     @Query(value = "select MAX(step) from (\n" +
