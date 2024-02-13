@@ -1,5 +1,6 @@
 package uz.yeoju.yeoju_app.payload.resDto.timeTableDB;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.StudentsDynamicAttendance;
 
@@ -14,8 +15,11 @@ public interface StatisticsOfGroupForTeacher {
 
     String getTeacherId();
     String getStudentId();
+    @JsonIgnore
     String getFirstName();
+    @JsonIgnore
     String getLastName();
+    @JsonIgnore
     String getMiddleName();
     String getFullName();
     String getUserId(); // login
@@ -52,7 +56,7 @@ public interface StatisticsOfGroupForTeacher {
 //    Double getMiddleGrade();
     @Value("#{@gradeOfStudentByTeacherRepository.getSumGrade(target.teacherId,target.studentId,target.educationId,target.subjectId)}")
     Double getSumGrade();
-    @Value("#{@gradeOfStudentByTeacherRepository.getAllSumGrade(target.studentId,target.educationYearId,target.lessonId)}")
+    @Value("#{@gradeOfStudentByTeacherRepository.getAllSumGrade(target.studentId,target.educationYearId,target.subjectId)}")
     Double getAllSumGrade();
     @Value("#{@gradeOfStudentByTeacherRepository.getTodayGrade(target.teacherId,target.studentId,target.educationId,target.subjectId)}")
     Double getTodayGrade();
