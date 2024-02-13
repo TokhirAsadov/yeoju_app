@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.gradeOfS
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Lesson;
+import uz.yeoju.yeoju_app.entity.Student;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.module.GradeOfStudentByTeacher;
@@ -12,6 +13,7 @@ import uz.yeoju.yeoju_app.payload.module.CreateGradeOfStudentByTeacher;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetGradesOfStudent;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetStudentDataForMiddleGrade;
 import uz.yeoju.yeoju_app.repository.LessonRepository;
+import uz.yeoju.yeoju_app.repository.StudentRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 import uz.yeoju.yeoju_app.repository.module.GradeOfStudentByTeacherRepository;
@@ -26,6 +28,7 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
     private final UserRepository userRepository;
     private final LessonRepository lessonRepository;
     private final EducationYearRepository educationYearRepository;
+    private final StudentRepository studentRepository;
 
 
     @Override
@@ -56,15 +59,23 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
                     User student = userOptional.get();
                     EducationYear educationYear = educationYearOptional.get();
                     Lesson lesson = lessonOptional.get();
-                    GradeOfStudentByTeacher gradeOfStudent = new GradeOfStudentByTeacher();
-                    gradeOfStudent.setStudent(student);
-                    gradeOfStudent.setEducationYear(educationYear);
-                    gradeOfStudent.setLesson(lesson);
-                    gradeOfStudent.setGrade(dto.getGrade());
-                    gradeOfStudent.setTime(dto.getTime());
-                    gradeOfStudent.setDescription(dto.getDescription());
-                    gradeRepository.save(gradeOfStudent);
-                    return new ApiResponse(true,"created successfully");
+                    Student studentByUserId = studentRepository.findStudentByUserId(dto.getStudentId());
+                    Boolean enableGrade = gradeRepository.isEnableGrade(dto.getStudentId(), studentByUserId.getGroup().getId(), dto.getEducationYearId(), dto.getSubjectId(), dto.getGrade());
+                    if (enableGrade){
+                        GradeOfStudentByTeacher gradeOfStudent = new GradeOfStudentByTeacher();
+                        gradeOfStudent.setStudent(student);
+                        gradeOfStudent.setEducationYear(educationYear);
+                        gradeOfStudent.setLesson(lesson);
+                        gradeOfStudent.setGrade(dto.getGrade());
+                        gradeOfStudent.setTime(dto.getTime());
+                        gradeOfStudent.setDescription(dto.getDescription());
+                        gradeRepository.save(gradeOfStudent);
+                        return new ApiResponse(true,"created successfully");
+                    }
+                    else {
+                        Float maxEnableGrade = gradeRepository.getMaxEnableGrade(dto.getStudentId(), studentByUserId.getGroup().getId(), dto.getEducationYearId(), dto.getSubjectId());
+                        return new ApiResponse(false,"Siz bu talabani maksimal "+ maxEnableGrade +" ball bilan baholay olasiz!.");
+                    }
                 }
                 else {
                     return new ApiResponse(false,"not found subject by id: " + dto.getSubjectId());
