@@ -74,7 +74,7 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
                     }
                     else {
                         Float maxEnableGrade = gradeRepository.getMaxEnableGrade(dto.getStudentId(), studentByUserId.getGroup().getId(), dto.getEducationYearId(), dto.getSubjectId());
-                        return new ApiResponse(false,"Siz bu talabani maksimal "+ maxEnableGrade +" ball bilan baholay olasiz!.");
+                        return new ApiResponse(false,"You can only give maximum "+ maxEnableGrade +" ball to that student!.");
                     }
                 }
                 else {
