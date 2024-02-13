@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import java.util.Set;
 
 public interface StatisticsOfGroupForTeacherForToday {
-    @JsonIgnore
+//    @JsonIgnore
     String getEducationId();
 //    @JsonIgnore
     String getSubjectId();
-    @JsonIgnore
+//    @JsonIgnore
     String getGroupId();
 
     String getTeacherId();
