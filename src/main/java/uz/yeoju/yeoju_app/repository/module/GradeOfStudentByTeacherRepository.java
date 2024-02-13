@@ -30,6 +30,9 @@ public interface GradeOfStudentByTeacherRepository extends JpaRepository<GradeOf
             "group by student_id,educationYear_id,lesson_id",nativeQuery = true)
     Double getAllSumGrade(String studentId, String educationYearId,String lessonId);
 
+    @Query(value = "select dbo.GetSumOfAllGrades(?1,?2,?3)",nativeQuery = true)
+    Float getAllSumGradeNEW(String studentId,String educationYearId,String lessonId);
+
 
     Optional<GradeOfStudentByTeacher> findByIdAndCreatedBy(String id, String createdBy);
     @Query(value = "select id,grade,time,description,createdAt from GradeOfStudentByTeacher where failGrade_id is null and createdBy=?1 and student_id=?2 and educationYear_id=?3 and lesson_id=?4 order by createdAt",nativeQuery = true)
