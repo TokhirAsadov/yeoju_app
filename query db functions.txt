@@ -1,4 +1,33 @@
 
+CREATE FUNCTION dbo.IsEnableGrade(
+    @studentId varchar(255),
+    @groupId varchar(255),
+    @educationYearId varchar(255),
+    @lessonId varchar(255),
+    @grade float
+)
+    RETURNS BIT
+AS
+BEGIN
+    DECLARE @boolReturn BIT
+    DECLARE @allGrade FLOAT
+    DECLARE @maxGradeForAttendance FLOAT
+    DECLARE @value FLOAT
+
+    SET @allGrade = (select dbo.GetSumOfAllGrades(@studentId,@educationYearId,@lessonId));
+    SET @maxGradeForAttendance = (select dbo.GetMaxGradeForAttendance(@groupId,@educationYearId,@lessonId));
+    SET @value = 30 - @allGrade - @maxGradeForAttendance - @grade;
+
+    IF @value >= 0
+        SET @boolReturn = 1;
+    ELSE
+        SET @boolReturn = 0;
+
+    RETURN @boolReturn;
+END;
+
+
+
 CREATE FUNCTION dbo.GetSumOfAllGrades(
     @studentId varchar(255),
     @educationYearId varchar(255),
