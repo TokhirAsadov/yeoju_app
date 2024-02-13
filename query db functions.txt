@@ -12,11 +12,15 @@ BEGIN
     DECLARE @boolReturn BIT
     DECLARE @allGrade FLOAT
     DECLARE @maxGradeForAttendance FLOAT
+    DECLARE @valueOfGradeForAttendance FLOAT
     DECLARE @value FLOAT
 
     SET @allGrade = (select dbo.GetSumOfAllGrades(@studentId,@educationYearId,@lessonId));
-    SET @maxGradeForAttendance = (select dbo.GetMaxGradeForAttendance(@groupId,@educationYearId,@lessonId));
-    SET @value = 30 - @allGrade - @maxGradeForAttendance - @grade;
+    SET @valueOfGradeForAttendance = (select dbo.GetMaxGradeForAttendance(@groupId,@educationYearId,@lessonId));
+
+    if @valueOfGradeForAttendance > 0
+        SET @maxGradeForAttendance = (select dbo.GetMaxGradeForAttendance(@groupId,@educationYearId,@lessonId));
+        SET @value = 30 - @allGrade - @maxGradeForAttendance - @grade;
 
     IF @value >= 0
         SET @boolReturn = 1;
