@@ -1,4 +1,21 @@
 
+CREATE FUNCTION dbo.GetSumOfAllGrades(
+    @studentId varchar(255),
+    @educationYearId varchar(255),
+    @lessonId varchar(255)
+)
+    RETURNS FLOAT
+AS
+BEGIN
+    DECLARE @countStep FLOAT
+
+    SET @countStep = (
+        select sum(grade) as middle from GradeOfStudentByTeacher where active=1 and student_id=@studentId and educationYear_id=@educationYearId and lesson_id=@lessonId
+        group by student_id,educationYear_id,lesson_id);
+    RETURN @countStep ;
+END;
+
+
 CREATE FUNCTION dbo.GetValueOfGradeForAttendance(
     @groupId varchar(255),
     @educationYearId varchar(255),
