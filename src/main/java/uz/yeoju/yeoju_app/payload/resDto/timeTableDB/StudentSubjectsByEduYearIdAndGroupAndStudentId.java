@@ -1,9 +1,7 @@
 package uz.yeoju.yeoju_app.payload.resDto.timeTableDB;
 
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Value;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.StudentsDynamicAttendance;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherStatisticsOfWeekday;
 
 import java.util.Date;
 import java.util.Set;
