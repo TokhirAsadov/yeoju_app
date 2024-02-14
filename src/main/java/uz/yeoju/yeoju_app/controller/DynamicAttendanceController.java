@@ -23,5 +23,9 @@ public class DynamicAttendanceController {
         return ResponseEntity.status(response.isSuccess() ? 201:402).body(response);
     }
 
-
+    @PostMapping("/createMultiDynamicAttendance")
+    public HttpEntity<?> createMulti(@CurrentUser User user, @RequestBody MultiDynamicAttendanceDto dto){
+        ApiResponse response = service.createMultiDynamicAttendance(user, dto);
+        return ResponseEntity.status(response.isSuccess() ? 201:402).body(response);
+    }
 }
