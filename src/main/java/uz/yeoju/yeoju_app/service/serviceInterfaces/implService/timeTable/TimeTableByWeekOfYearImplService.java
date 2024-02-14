@@ -13,10 +13,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.dashboard.StudentStatisticsWithWeekOfEduYear;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.Table;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherData;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherStatisticsOfWeekday;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherStatisticsOfWeekday2;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.*;
 import uz.yeoju.yeoju_app.repository.DekanRepository;
 import uz.yeoju.yeoju_app.repository.GroupRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
@@ -1158,92 +1155,70 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                     return  new ApiResponseTwoObj(true, "Time Table of Week", showWeekNumberFields,lists);
                 }
                 else {
+                    List<Set<StudentsDynamicAttendance>> slists = new ArrayList<>();
 
                     showWeekNumberFields.getGet1().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
+
                     });
                     showWeekNumberFields.getGet2().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet3().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet4().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet5().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet6().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet7().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet8().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet9().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet10().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet11().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet12().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
-                    return new ApiResponseTwoObj(true, "Time Table of Week2", showWeekNumberFields,lists);
+                    return new ApiResponseTwoObj(true, "Time Table of Week2", showWeekNumberFields,slists);
                 }
             }
             else {
@@ -1338,91 +1313,70 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                 }
                 else {
 
+                    List<Set<StudentsDynamicAttendance>> slists = new ArrayList<>();
+
                     showWeekNumberFields.getGet1().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
+
                     });
                     showWeekNumberFields.getGet2().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet3().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet4().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet5().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet6().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet7().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet8().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet9().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet10().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet11().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
                     showWeekNumberFields.getGet12().forEach(i -> {
                         teacherList.addAll(i.getTeachers());
-                        for (Teacher teacher : i.getTeachers()) {
-                            List<TeacherStatisticsOfWeekday> statisticsOfWeekdayList = userRepository.getTimesForRoomStatisticsByUserIdAndWeek(userId, i.getRoom(), i.getDayNumber(),week,year, i.getHourNumber());
-                            lists.addAll(statisticsOfWeekdayList);
-                        }
+                        Set<StudentsDynamicAttendance> statisticsOfWeekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(userId, i.getRoom(), year, week, i.getDayNumber(), i.getHourNumber());
+                        slists.add(statisticsOfWeekdayList);
                     });
-                    return new ApiResponseTwoObj(true, "Time Table of Week2", showWeekNumberFields,lists);
+                    return new ApiResponseTwoObj(true, "Time Table of Week2", showWeekNumberFields,slists);
                 }
             }
 
