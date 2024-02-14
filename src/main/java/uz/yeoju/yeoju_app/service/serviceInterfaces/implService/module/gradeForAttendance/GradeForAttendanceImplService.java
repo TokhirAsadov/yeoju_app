@@ -2,6 +2,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.gradeFor
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.entity.Lesson;
 import uz.yeoju.yeoju_app.entity.User;
@@ -30,6 +31,7 @@ public class GradeForAttendanceImplService implements GradeForAttendanceService{
 
 
     @Override
+    @Transactional
     public ApiResponse createGradeForAttendance(User user, GradeForAttendanceDto dto) {
         Optional<EducationYear> optionalEducationYear = educationYearRepository.findById(dto.educationYearId);
         if (optionalEducationYear.isPresent()) {
