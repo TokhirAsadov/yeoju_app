@@ -25,5 +25,19 @@ public interface GetLessonsOfGroupForBall {
     @Value("#{@groupConnectSubjectRepository.getSubjectsByEduYearIdAndGroupAndStudentId(target.groupId,target.educationYearId,target.subjectId,target.studentId)}")
     Set<StudentSubjectsByEduYearIdAndGroupAndStudentId> getSubjects();
 
-
+    default Float getAllGradesForAttendance(){
+        if (this.getGradeForAttendance() == null ||this.getGradeForAttendance()==0){
+            return (float) 0;
+        }
+        AtomicInteger counter = new AtomicInteger();
+        this.getSubjects().forEach(subject ->{
+            if (!subject.getStatistics().isEmpty()) {
+                Set<StudentsDynamicAttendance> dynamic = subject.getStatistics().stream().filter(stats -> stats.getType().equalsIgnoreCase("DYNAMIC") && !stats.getIsCome()).collect(Collectors.toSet());
+                if (dynamic.isEmpty()) {
+                    counter.getAndIncrement();
+                }
+            }
+        });
+        return counter.get()*this.getGradeForAttendance();
+    };
 }
