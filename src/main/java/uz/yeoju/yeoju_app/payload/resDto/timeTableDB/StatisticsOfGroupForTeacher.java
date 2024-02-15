@@ -25,10 +25,10 @@ public interface StatisticsOfGroupForTeacher {
     String getUserId(); // login
 
     @Value("#{@gradeForAttendanceRepository.getValueOfGradeForAttendance(target.groupId,target.educationId,target.subjectId)}")
-    Float getValueOfGradeForAttendance();
-
-    @Value("#{@gradeForAttendanceRepository.getGradeForAttendance(target.groupId,target.educationId,target.subjectId)}")
     Float getGradeForAttendance();
+
+//    @Value("#{@gradeForAttendanceRepository.getGradeForAttendance(target.groupId,target.educationId,target.subjectId)}")
+//    Float getGradeForAttendance();
 
     @Value("#{@gradeForAttendanceRepository.getMaxGradeForAttendance(target.groupId,target.educationId,target.subjectId)}")
     Float getMaxGradeForAttendance();
