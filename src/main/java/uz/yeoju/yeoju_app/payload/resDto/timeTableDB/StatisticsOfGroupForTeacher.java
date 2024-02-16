@@ -36,23 +36,11 @@ public interface StatisticsOfGroupForTeacher {
     @Value("#{@groupConnectSubjectRepository.getSubjectsByEduYearIdAndGroupAndStudentId(target.groupId,target.educationId,target.subjectId,target.studentId)}")
     Set<StudentSubjectsByEduYearIdAndGroupAndStudentId> getSubjects();
 
-    default Float getAllGradesForAttendance(){
-        if (this.getGradeForAttendance() == null ||this.getGradeForAttendance()==0){
-            return (float) 0;
-        }
-        AtomicInteger counter = new AtomicInteger();
-        this.getSubjects().forEach(subject ->{
-            if (!subject.getStatistics().isEmpty()) {
-                Set<StudentsDynamicAttendance> dynamic = subject.getStatistics().stream().filter(stats -> stats.getType().equalsIgnoreCase("DYNAMIC") && !stats.getIsCome()).collect(Collectors.toSet());
-                if (dynamic.isEmpty()) {
-                    counter.getAndIncrement();
-                }
-            }
-        });
-        return counter.get()*this.getGradeForAttendance();
-    };
+    @Value("#{@gradeForAttendanceRepository.getAllGradesForAttendance(target.studentId,target.groupId,target.educationId,target.subjectId)}")
+    Float getAllGradesForAttendance();
 
-//    @Value("#{@gradeOfStudentByTeacherRepository.getMiddleGrade(target.teacherId,target.studentId,target.educationId,target.subjectId)}")
+
+    //    @Value("#{@gradeOfStudentByTeacherRepository.getMiddleGrade(target.teacherId,target.studentId,target.educationId,target.subjectId)}")
 //    Double getMiddleGrade();
     @Value("#{@gradeOfStudentByTeacherRepository.getSumGrade(target.teacherId,target.studentId,target.educationId,target.subjectId)}")
     Double getSumGrade();
