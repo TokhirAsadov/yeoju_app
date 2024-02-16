@@ -20,4 +20,7 @@ public interface GradeForAttendanceRepository extends JpaRepository<GradeForAtte
 
     @Query(value = "select dbo.GetValueOfGradeForAttendance(?1,?2,?3)",nativeQuery = true)
     Float getValueOfGradeForAttendance(String groupId,String educationYearId,String lessonId);
+
+    @Query(value = "select dbo.GetAllGradesForAttendance(?1,?2,?3,?4)",nativeQuery = true)
+    Float getAllGradesForAttendance(String studentId,String groupId,String educationYearId,String lessonId);
 }
