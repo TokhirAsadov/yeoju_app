@@ -2,11 +2,8 @@ package uz.yeoju.yeoju_app.payload.resDto.timeTableDB;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.StudentsDynamicAttendance;
 
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 public interface StatisticsOfGroupForTeacher {
     String getEducationId();
