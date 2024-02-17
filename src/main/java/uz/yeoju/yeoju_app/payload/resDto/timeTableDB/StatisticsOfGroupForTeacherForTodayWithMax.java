@@ -16,6 +16,4 @@ public interface StatisticsOfGroupForTeacherForTodayWithMax {
 
     @Value("#{@groupConnectSubjectRepository.getStatisticsOfGroupForTeacher(target.educationId,target.groupId,target.subjectId,target.teacherId,target.year,target.week,target.day)}")
     Set<StatisticsOfGroupForTeacherForToday> getStudents();
-//    @Value("#{@groupConnectSubjectRepository.getStatisticsOfGroupForTeacher(target.educationId,target.groupId,target.subjectId,target.teacherId)}")
-//    Set<StatisticsOfGroupForTeacher> getStudents();
 }
