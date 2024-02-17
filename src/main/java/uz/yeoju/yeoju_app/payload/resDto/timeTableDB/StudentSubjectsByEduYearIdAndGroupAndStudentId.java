@@ -19,8 +19,6 @@ public interface StudentSubjectsByEduYearIdAndGroupAndStudentId {
     @Value("#{@educationYearRepository.getTimesForRoomStatisticsByUserIdTimeNEW(target.studentId)}")
     Date getTime();
 
-//    @Value("#{@educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(target.studentId,target.room,target.year,target.week,target.day,target.section)}")
-//    Set<TeacherStatisticsOfWeekday> getStatistics();
     @Value("#{@educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(target.studentId,target.room,target.year,target.week,target.day,target.section)}")
     Set<StudentsDynamicAttendance> getStatistics();
 }
