@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import uz.yeoju.yeoju_app.payload.UserDto;
 
-import java.util.List;
 import java.util.Set;
 
 @Data
