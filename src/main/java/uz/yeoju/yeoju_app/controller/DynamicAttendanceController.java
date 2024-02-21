@@ -9,6 +9,8 @@ import uz.yeoju.yeoju_app.payload.*;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.dynamicAttendance.DynamicAttendanceService;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/dynamicAttendance")
@@ -22,7 +24,11 @@ public class DynamicAttendanceController {
         ApiResponse response = service.createDynamicAttendance(user, dto);
         return ResponseEntity.status(response.isSuccess() ? 201:402).body(response);
     }
-
+    @PutMapping("/updateDynamicAttendance")
+    public HttpEntity<?> update(@CurrentUser User user,@Valid @RequestBody DynamicAttendanceDto dto){
+        ApiResponse response = service.createDynamicAttendance(user, dto);
+        return ResponseEntity.status(response.isSuccess() ? 201:402).body(response);
+    }
     @PostMapping("/createMultiDynamicAttendance")
     public HttpEntity<?> createMulti(@CurrentUser User user, @RequestBody MultiDynamicAttendanceDto dto){
         ApiResponse response = service.createMultiDynamicAttendance(user, dto);
