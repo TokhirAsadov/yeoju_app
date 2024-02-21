@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.admin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.entity.address.AddressUser;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
@@ -1210,7 +1211,8 @@ public class AdminImplService implements AdminService{
         }
     }
 
-    private ApiResponse save(ForUserSaveDto dto) {
+    @Transactional
+    public ApiResponse save(ForUserSaveDto dto) {
         USERINFO userinfoByCardNoForSaving = userInfoRepo.getUSERINFOByCardNoForSaving(dto.getRfid());
         if (userinfoByCardNoForSaving==null){
             User userByRFID = userRepository.findUserByRFID(dto.getRfid());
