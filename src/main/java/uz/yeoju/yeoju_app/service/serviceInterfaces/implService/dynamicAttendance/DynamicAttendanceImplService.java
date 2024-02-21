@@ -21,21 +21,44 @@ public class DynamicAttendanceImplService implements DynamicAttendanceService {
     private final UserRepository userRepository;
     @Override
     public ApiResponse createDynamicAttendance(User user, DynamicAttendanceDto dto) {
-        Boolean exists = repository.existsByYearAndWeekAndWeekdayAndSectionAndCreatedByAndStudentIdAndRoom(dto.getYear(), dto.getWeek(), dto.getWeekday(), dto.getSection(), user.getId(),dto.getStudentId(), dto.room);
-        if (!exists) {
-            Optional<User> optionalUser = userRepository.findById(dto.getStudentId());
-            if (optionalUser.isPresent()){
-                repository.save(new DynamicAttendance(
-                        dto.getYear(), dto.getWeek(), dto.getWeekday(), dto.getSection(), dto.getIsCome(), dto.room, optionalUser.get()
-                ));
-                return new ApiResponse(true,"Attendance was created successful!.");
-            }
-            else {
-                return new ApiResponse(false,"Not found student by id: " + dto.getStudentId());
+        if (dto.id==null) {
+            Boolean exists = repository.existsByYearAndWeekAndWeekdayAndSectionAndCreatedByAndStudentIdAndRoom(dto.getYear(), dto.getWeek(), dto.getWeekday(), dto.getSection(), user.getId(), dto.getStudentId(), dto.room);
+            if (!exists) {
+                Optional<User> optionalUser = userRepository.findById(dto.getStudentId());
+                if (optionalUser.isPresent()) {
+                    repository.save(new DynamicAttendance(
+                            dto.getYear(), dto.getWeek(), dto.getWeekday(), dto.getSection(), dto.getIsCome(), dto.room, optionalUser.get()
+                    ));
+                    return new ApiResponse(true, "Attendance was created successful!.");
+                } else {
+                    return new ApiResponse(false, "Not found student by id: " + dto.getStudentId());
+                }
+            } else {
+                return new ApiResponse(false, "Attendance already exists");
             }
         }
         else {
-            return new ApiResponse(false,"Attendance already exists");
+            Optional<DynamicAttendance> optionalDynamicAttendance = repository.findById(dto.id);
+            if (optionalDynamicAttendance.isPresent()) {
+                Optional<User> optionalUser = userRepository.findById(dto.getStudentId());
+                if (optionalUser.isPresent()) {
+                    DynamicAttendance dynamicAttendance = optionalDynamicAttendance.get();
+                    dynamicAttendance.setYear(dto.getYear());
+                    dynamicAttendance.setWeek(dto.getWeek());
+                    dynamicAttendance.setWeekday(dto.getWeekday());
+                    dynamicAttendance.setSection(dto.getSection());
+                    dynamicAttendance.setIsCome(dto.getIsCome());
+                    dynamicAttendance.setRoom(dto.getRoom());
+                    dynamicAttendance.setStudent(optionalUser.get());
+                    repository.save(dynamicAttendance);
+                    return new ApiResponse(true, "Attendance was updated successful!.");
+                } else {
+                    return new ApiResponse(false, "Not found student by id: " + dto.getStudentId());
+                }
+            }
+            else {
+                return new ApiResponse(false, "Attendance not found by id: "+ dto.id);
+            }
         }
 
     }
