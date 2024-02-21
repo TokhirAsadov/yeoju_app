@@ -67,6 +67,9 @@ public interface GroupConnectSubjectRepository extends JpaRepository<GroupConnec
             "where g.id=?1 and EYWOEY.EducationYear_id=?2 and l.id=?3 order by l.name",nativeQuery = true)
     Set<StudentSubjectsByEduYearIdAndGroupAndStudentId> getSubjectsByEduYearIdAndGroupAndStudentId(String groupId,String educationId,String subjectId,String studentId);
 
+    @Query(value = "select * from dbo.GetSubjectsByEduYearIdAndGroupAndStudentId(?1,?2,?3,?4)",nativeQuery = true)
+    Set<StudentSubjectsByEduYearIdAndGroupAndStudentId> getSubjectsByEduYearIdAndGroupAndStudentIdNEW(String studentId,String groupId,String educationId,String subjectId);
+
 
     @Query(value = "select ?3 as studentId, c.classroom as room,c.day,c.period as section,g.name as groupName ,w.year,w.sortNumber as week,l.name as subject from CardDB c\n" +
             "      join LessonDB ld on c.lesson_id = ld.id\n" +
