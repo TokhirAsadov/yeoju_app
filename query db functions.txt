@@ -326,8 +326,231 @@ select dbo.existQueueForToday(?1)
 
 
 
-
 CREATE FUNCTION dbo.GetTimesForRoomStatisticsByUserIdUnion
+(
+    @userId varchar(255),
+    @room varchar(255),
+    @year int,
+    @week int,
+    @weekday int,
+    @section int
+)
+    RETURNS TABLE
+        AS
+        RETURN
+            (
+                select 'id' as id,al.time, @week as week, @weekday as weekday, @section as section,'MACHINE' as type, null as isCome,null as createdBy
+                from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id
+                                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS
+                where al.time between
+                    case
+                        when @section=1 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                8,
+                                00,
+                                00,
+                                0)
+                        when @section=2 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                9,
+                                50,
+                                00,
+                                0)
+                        when @section=3 then DATETIMEFROMPARTS(
+                                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-@weekday, getdate()),0)),
+                                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-@weekday, getdate()),0)),
+                                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-@weekday, getdate()),0)),
+                                10,
+                                50,
+                                00,
+                                0)
+                        when @section=4 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                11,
+                                50,
+                                00,
+                                0)
+                        when @section=5 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                12,
+                                50,
+                                00,
+                                0)
+                        when @section=6 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                13,
+                                50,
+                                00,
+                                0)
+                        when @section=7 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                14,
+                                50,
+                                00,
+                                0)
+                        when @section=8 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                15,
+                                50,
+                                00,
+                                0)
+                        when @section=9 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                16,
+                                50,
+                                00,
+                                0)
+                        when @section=10 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                17,
+                                50,
+                                00,
+                                0)
+                        when @section=11 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                18,
+                                50,
+                                00,
+                                0)
+                        when @section=12 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                19,
+                                50,
+                                00,
+                                0)
+                        ELSE 0
+                        END
+                    and
+                    case
+                        when @section=1 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                9,
+                                54,
+                                00,
+                                0)
+                        when @section=2 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                10,
+                                54,
+                                00,
+                                0)
+                        when @section=3 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                11,
+                                54,
+                                00,
+                                0)
+                        when @section=4 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                12,
+                                54,
+                                00,
+                                0)
+                        when @section=5 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                13,
+                                54,
+                                00,
+                                0)
+                        when @section=6 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                14,
+                                54,
+                                00,
+                                0)
+                        when @section=7 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                15,
+                                54,
+                                00,
+                                0)
+                        when @section=8 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                16,
+                                54,
+                                00,
+                                0)
+                        when @section=9 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                17,
+                                54,
+                                00,
+                                0)
+                        when @section=10 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                18,
+                                54,
+                                00,
+                                0)
+                        when @section=11 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                19,
+                                54,
+                                00,
+                                0)
+                        when @section=12 then DATETIMEFROMPARTS(
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                21,
+                                00,
+                                00,
+                                0)
+                        ELSE 0
+                        END
+                  and ad.door_name LIKE @room and u.id=@userId
+                union
+                select d.id as id, d.createdAt as time, d.week, d.weekday,  d.section,'DYNAMIC' as type,d.isCome,u3.fullName as createdBy from DynamicAttendance d
+                join users u3 on d.createdBy=u3.id
+                where d.room LIKE @room and d.student_id=@userId and d.weekday=@weekday and d.week=@week and d.section=@section and d.year=@year
+            );
+
+
+CREATE FUNCTION dbo.GetTimesForRoomStatisticsByUserIdUnion1
 (
     @userId varchar(255),
     @room varchar(255),
