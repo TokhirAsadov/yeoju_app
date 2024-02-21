@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 
 public interface StudentsDynamicAttendance {
+    String getId();
     String getType();
 //    @JsonIgnore
     String getCreatedBy();
