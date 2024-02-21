@@ -246,8 +246,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>namangan-kiut-erp</finalName> <!--  name of .jar file  -->
-		<finalName>kiut-lms.</finalName> <!--  name of .jar file  -->
+		<finalName>namangan-kiut-lms.</finalName> <!--  name of .jar file  -->
 	</build>
 
 </project>
