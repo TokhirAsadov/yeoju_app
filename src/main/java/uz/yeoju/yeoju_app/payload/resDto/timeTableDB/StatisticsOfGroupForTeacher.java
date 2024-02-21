@@ -30,7 +30,10 @@ public interface StatisticsOfGroupForTeacher {
     @Value("#{@gradeForAttendanceRepository.getMaxGradeForAttendance(target.groupId,target.educationId,target.subjectId)}")
     Float getMaxGradeForAttendance();
 
-    @Value("#{@groupConnectSubjectRepository.getSubjectsByEduYearIdAndGroupAndStudentId(target.groupId,target.educationId,target.subjectId,target.studentId)}")
+//    @Value("#{@groupConnectSubjectRepository.getSubjectsByEduYearIdAndGroupAndStudentId(target.groupId,target.educationId,target.subjectId,target.studentId)}")
+//    Set<StudentSubjectsByEduYearIdAndGroupAndStudentId> getSubjects();
+
+     @Value("#{@groupConnectSubjectRepository.getSubjectsByEduYearIdAndGroupAndStudentIdNEW(target.studentId,target.groupId,target.educationId,target.subjectId)}")
     Set<StudentSubjectsByEduYearIdAndGroupAndStudentId> getSubjects();
 
     @Value("#{@gradeForAttendanceRepository.getAllGradesForAttendance(target.studentId,target.groupId,target.educationId,target.subjectId)}")
