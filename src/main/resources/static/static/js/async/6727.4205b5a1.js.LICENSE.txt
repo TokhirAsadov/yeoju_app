@@ -1,0 +1,51 @@
+/*! ../../form/SaveStaffForm */
+
+/*! @mui/material/Modal */
+
+/*! ../../userStatistics/UsersMonthStatistics */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../userStatistics/UserStatistics */
+
+/*! axios */
+
+/*! react-toastify */
+
+/*! react-redux */
+
+/*! moment */
+
+/*! styled-components */
+
+/*! ../../spinner/Spinner */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Box */
+
+/*! react-icons/ri */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/Button */
+
+/*! react-icons/fa */
+
+/*! @mui/x-data-grid */
+
+/*! react-icons/fi */
+
+/*! react-icons/bs */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! framer-motion */
+
+/*! ../../../responsiv */

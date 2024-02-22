@@ -256,8 +256,29 @@ public class DataLoader implements CommandLineRunner {
 
             /***========================  LAVOZIMLAR -- ROLES  ===========================***/
 
+//            ROLE_ADMIN
+//ROLE_DEKAN
+//ROLE_KAFEDRA
+//ROLE_MONITORING
+//ROLE_MONITORING_ASSISTANT
+//ROLE_REKTOR
+//ROLE_STAFF
+//ROLE_STUDENT
+//ROLE_SUPER_ADMIN
+//ROLE_TEACHER
+//ROLE_USER
+
             //--------Ректор
-            Role role1 = new Role("Rektor");
+            Role role1 = new Role("ROLE_REKTOR",1011);
+
+            Role role70 = new Role("ROLE_DEKAN");
+            Role role71 = new Role("ROLE_KAFEDRA");
+            Role role72 = new Role("ROLE_MONITORING");
+            Role role73 = new Role("ROLE_MONITORING_ASSISTANT");
+            Role role74 = new Role("ROLE_STUDENT");
+            Role role75 = new Role("ROLE_TEACHER");
+            Role role76 = new Role("ROLE_STAFF");
+
             Role role2 = new Role("O`quv ishlari bo`yicha prorektor");
             Role role3 = new Role("Innovatsiya va ilmiy ishlar bo`yicha prorektor");
             Role role4 = new Role("Ta'lim sifati va xalqaro hamkorlik bo`yicha prorektor");
@@ -464,6 +485,15 @@ public class DataLoader implements CommandLineRunner {
             roleRepository.saveAndFlush(role60);
             roleRepository.saveAndFlush(role61);
             roleRepository.saveAndFlush(role62);
+
+
+            roleRepository.saveAndFlush(role70);
+            roleRepository.saveAndFlush(role71);
+            roleRepository.saveAndFlush(role72);
+            roleRepository.saveAndFlush(role73);
+            roleRepository.saveAndFlush(role74);
+            roleRepository.saveAndFlush(role75);
+            roleRepository.saveAndFlush(role76);
 
 
 //            Role user = roleRepository.saveOrUpdate(new Role("Student"));

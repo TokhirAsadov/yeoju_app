@@ -1,0 +1,19 @@
+/*! @mui/x-data-grid */
+
+/*! styled-components */
+
+/*! @mui/material */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/ai */
+
+/*! axios */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/web.dom-collections.iterator.js */

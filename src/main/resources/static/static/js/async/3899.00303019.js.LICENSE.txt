@@ -1,0 +1,31 @@
+/*! ../../student/timeTable/StudentTimeTableOfWeek */
+
+/*! ../../../responsiv */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/InputLabel */
+
+/*! axios */
+
+/*! @mui/material/Autocomplete */
+
+/*! @mui/material/TextField */
+
+/*! @mui/material/Select */
+
+/*! moment */
+
+/*! @mui/material/FormControl */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! styled-components */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/MenuItem */
+
+/*! core-js/modules/web.dom-collections.iterator.js */

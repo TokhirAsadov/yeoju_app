@@ -1,0 +1,151 @@
+/*! ../../../utills/kuitimgs/rocket.png */
+
+/*! ../../../utills/kuitimgs/finance.png */
+
+/*! ../../../utills/kuitimgs/accounting2.png */
+
+/*! styled-components */
+
+/*! ../../../utills/kuitimgs/korean-philology.png */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react/jsx-runtime */
+
+/*! ../../../utills/kuitimgs/Maktabgachata_lim.png */
+
+/*! ../../../utills/kuitimgs/english-education.png */
+
+/*! ../../../utills/kuitimgs/Information_System_Engineering.png */
+
+/*! ../../../utills/kuitimgs/Mechatronics.png */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! @mui/material/Button */
+
+/*! @mui/material/Tooltip */
+
+/*! ../../rektor/student/SchoolTabs */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! moment/moment */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../../utills/kuitimgs/history-book.png */
+
+/*! ../../../utills/kuitimgs/beauty_aesthetics.png */
+
+/*! ../../../utills/kuitimgs/boshlang‘ich-ta’lim.png */
+
+/*! @mui/material/Box */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! xlsx */
+
+/*! ../../../utills/kuitimgs/Elektrotexnika.png */
+
+/*! ../../../responsiv */
+
+/*! ../../../utills/kuitimgs/business_management.png */
+
+/*! @mui/material/Tabs */
+
+/*! ../../../utills/kuitimgs/dentistry.png */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../../utills/kuitimgs/International_Economic_Relations.png */
+
+/*! ../../../utills/kuitimgs/fashion_design.png */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! @mui/material/CircularProgress */
+
+/*! ../../../utills/kuitimgs/marketing.png */
+
+/*! @mui/material/Tab */
+
+/*! @mui/material/Button */
+
+/*! ../../../utills/kuitimgs/ARCHITECTURE.png */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material */
+
+/*! ../../../utills/kuitimgs/general_medicine.png */
+
+/*! ../../../utills/kuitimgs/tourizm.png */
+
+/*! ../../../utills/kuitimgs/banking.png */
+
+/*! react-icons/fa */
+
+/*! styled-components */
+
+/*! ./grouptabs.css */
+
+/*! axios */
+
+/*! react */
+
+/*! ./ExportBtnToExcel */
+
+/*! react/jsx-runtime */
+
+/*! ../../../utills/kuitimgs/TRANSLATION_STUDIES.png */
+
+/*! ../../../utills/kuitimgs/trafic_management.png */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! ../../../utills/kuitimgs/Civil_Engineering.png */
+
+/*! ../../../utills/kuitimgs/lift.png */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../utills/kuitimgs/maxsus-pedagogika.png */
+
+/*! react-toastify */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ../../../responsiv */
+
+/*! ../../../utills/kuitimgs/painting.png */
+
+/*! ../../../utills/kuitimgs/Renewable_Energy2.png */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../../../utills/kuitimgs/electric_car.png */

@@ -1,0 +1,961 @@
+/*! hey-listen */
+
+/*! style-value-types */
+
+/*! ./rgba.mjs */
+
+/*! ../../../animation/utils/is-keyframes-target.mjs */
+
+/*! tslib */
+
+/*! ../../../context/SwitchLayoutGroupContext.mjs */
+
+/*! ../geometry/utils.mjs */
+
+/*! ../../context/SwitchLayoutGroupContext.mjs */
+
+/*! ./transform-origin.mjs */
+
+/*! hey-listen */
+
+/*! ../../projection/styles/scale-correction.mjs */
+
+/*! ../../utils/use-isomorphic-effect.mjs */
+
+/*! react */
+
+/*! ../utils.mjs */
+
+/*! ../dom/value-types/defaults.mjs */
+
+/*! ../styles/scale-correction.mjs */
+
+/*! tslib */
+
+/*! ./utils.mjs */
+
+/*! react */
+
+/*! ./utils/is-svg-component.mjs */
+
+/*! ../value/utils/is-motion-value.mjs */
+
+/*! style-value-types */
+
+/*! ../../../value/utils/is-motion-value.mjs */
+
+/*! ./components/AnimatePresence/index.mjs */
+
+/*! ./utils/build-attrs.mjs */
+
+/*! ../generators/spring.mjs */
+
+/*! react */
+
+/*! framesync */
+
+/*! ../../animation/utils/transitions.mjs */
+
+/*! ./utils/lifecycles.mjs */
+
+/*! ../../utils/is-ref-object.mjs */
+
+/*! ./progress.mjs */
+
+/*! react */
+
+/*! ../../utils/is-numerical-string.mjs */
+
+/*! ./utils/render.mjs */
+
+/*! ../../../projection/styles/scale-border-radius.mjs */
+
+/*! ../../render/utils/variants.mjs */
+
+/*! style-value-types */
+
+/*! ./numbers/units.mjs */
+
+/*! ../../utils/use-force-update.mjs */
+
+/*! ../html/utils/transform.mjs */
+
+/*! tslib */
+
+/*! ../../utils/use-unmount-effect.mjs */
+
+/*! ./utils/scrape-motion-values.mjs */
+
+/*! ./motion-proxy.mjs */
+
+/*! ../../gestures/use-focus-gesture.mjs */
+
+/*! ../../html/config-motion.mjs */
+
+/*! ../events/use-pointer-event.mjs */
+
+/*! ../../utils/interpolate.mjs */
+
+/*! ../../motion/index.mjs */
+
+/*! ./color/hsla.mjs */
+
+/*! ../../utils/subscription-manager.mjs */
+
+/*! ../../projection/node/group.mjs */
+
+/*! react */
+
+/*! ./numbers/index.mjs */
+
+/*! ./color/rgba.mjs */
+
+/*! ./complex/index.mjs */
+
+/*! ./default-transitions.mjs */
+
+/*! ../../html/utils/build-styles.mjs */
+
+/*! ./is-point.mjs */
+
+/*! ../numbers/units.mjs */
+
+/*! ./inc.mjs */
+
+/*! ../utils/subscription-manager.mjs */
+
+/*! framesync */
+
+/*! ../html/visual-element.mjs */
+
+/*! ./variants.mjs */
+
+/*! ../../value/index.mjs */
+
+/*! framesync */
+
+/*! ../geometry/delta-calc.mjs */
+
+/*! ../context/MotionConfigContext.mjs */
+
+/*! ./variants.mjs */
+
+/*! ./utils/is-node-or-child.mjs */
+
+/*! ../../context/LazyContext.mjs */
+
+/*! ./render/dom/motion.mjs */
+
+/*! ./is-keyframes-target.mjs */
+
+/*! react */
+
+/*! ./use-dom-event.mjs */
+
+/*! ./utils/elapsed.mjs */
+
+/*! ../geometry/delta-apply.mjs */
+
+/*! ../PanSession.mjs */
+
+/*! ../geometry/models.mjs */
+
+/*! ./color/index.mjs */
+
+/*! react */
+
+/*! ./utils.mjs */
+
+/*! popmotion */
+
+/*! ./utils/animation-state.mjs */
+
+/*! ./path.mjs */
+
+/*! ./utils/variants.mjs */
+
+/*! tslib */
+
+/*! ../../utils/use-reduced-motion.mjs */
+
+/*! ./utils/lock.mjs */
+
+/*! ../../context/PresenceContext.mjs */
+
+/*! react */
+
+/*! ../geometry/copy.mjs */
+
+/*! ../utils.mjs */
+
+/*! ../utils/interpolate.mjs */
+
+/*! ../events/use-dom-event.mjs */
+
+/*! ../utils.mjs */
+
+/*! popmotion */
+
+/*! ./unit-conversion.mjs */
+
+/*! ./VisualElementDragControls.mjs */
+
+/*! ../utils/setters.mjs */
+
+/*! ./transform.mjs */
+
+/*! ./features/use-projection.mjs */
+
+/*! hey-listen */
+
+/*! ../render/utils/types.mjs */
+
+/*! ./variants.mjs */
+
+/*! ./create-projection-node.mjs */
+
+/*! ../../render/html/utils/transform.mjs */
+
+/*! ./LayoutGroup/index.mjs */
+
+/*! tslib */
+
+/*! ../events/use-pointer-event.mjs */
+
+/*! framesync */
+
+/*! ../render/utils/types.mjs */
+
+/*! ../../utils/shallow-compare.mjs */
+
+/*! ./use-constant.mjs */
+
+/*! ../utils.mjs */
+
+/*! style-value-types */
+
+/*! ../../animation/utils/is-animation-controls.mjs */
+
+/*! ../../html/utils/transform.mjs */
+
+/*! ./utils/build-attrs.mjs */
+
+/*! ../html/visual-element.mjs */
+
+/*! ./mix.mjs */
+
+/*! ./delta-apply.mjs */
+
+/*! style-value-types */
+
+/*! ./PanSession.mjs */
+
+/*! ../../utils/is-ref-object.mjs */
+
+/*! tslib */
+
+/*! ./create-projection-node.mjs */
+
+/*! ./utils.mjs */
+
+/*! ./observers.mjs */
+
+/*! popmotion */
+
+/*! ../geometry/delta-remove.mjs */
+
+/*! style-value-types */
+
+/*! ../../motion/features/gestures.mjs */
+
+/*! react */
+
+/*! ./pipe.mjs */
+
+/*! tslib */
+
+/*! ./utils/distance.mjs */
+
+/*! ./utils/camel-case-attrs.mjs */
+
+/*! ./dimensions.mjs */
+
+/*! ./utils/transitions.mjs */
+
+/*! ./is-animatable.mjs */
+
+/*! hey-listen */
+
+/*! ../../projection/utils/measure.mjs */
+
+/*! ../../../projection/styles/scale-correction.mjs */
+
+/*! ../../render/html/utils/transform.mjs */
+
+/*! react */
+
+/*! tslib */
+
+/*! tslib */
+
+/*! tslib */
+
+/*! tslib */
+
+/*! ../svg/use-props.mjs */
+
+/*! tslib */
+
+/*! ../../animation/utils/transitions.mjs */
+
+/*! ../../events/use-pointer-event.mjs */
+
+/*! ../../../motion/utils/is-forced-motion-value.mjs */
+
+/*! ../utils/find-spring.mjs */
+
+/*! ./easing.mjs */
+
+/*! ../value-types/dimensions.mjs */
+
+/*! ./utils/scrape-motion-values.mjs */
+
+/*! tslib */
+
+/*! tslib */
+
+/*! tslib */
+
+/*! ../../render/utils/types.mjs */
+
+/*! ../../gestures/drag/use-drag.mjs */
+
+/*! ../../value/utils/resolve-motion-value.mjs */
+
+/*! ./utils/clamp.mjs */
+
+/*! ../../../projection/geometry/delta-calc.mjs */
+
+/*! ../geometry/conversion.mjs */
+
+/*! style-value-types */
+
+/*! ../../render/utils/variants.mjs */
+
+/*! ../../../projection/node/create-projection-node.mjs */
+
+/*! ./index.mjs */
+
+/*! hey-listen */
+
+/*! ../../svg/lowercase-elements.mjs */
+
+/*! ./transform.mjs */
+
+/*! react */
+
+/*! ../../animation/utils/is-animation-controls.mjs */
+
+/*! ../../projection/geometry/delta-calc.mjs */
+
+/*! ./index.mjs */
+
+/*! ./test.mjs */
+
+/*! ./utils/build-styles.mjs */
+
+/*! ../../context/PresenceContext.mjs */
+
+/*! ../render/utils/types.mjs */
+
+/*! ./clamp.mjs */
+
+/*! ../../../motion/utils/valid-prop.mjs */
+
+/*! ./utils/render.mjs */
+
+/*! ./utils.mjs */
+
+/*! ./setters.mjs */
+
+/*! ./utils/is-svg-component.mjs */
+
+/*! ../../gestures/use-hover-gesture.mjs */
+
+/*! ./types.mjs */
+
+/*! ../utils/velocity-per-second.mjs */
+
+/*! style-value-types */
+
+/*! ../dom/utils/is-css-variable.mjs */
+
+/*! ../../motion/utils/is-forced-motion-value.mjs */
+
+/*! ./utils/scrape-motion-values.mjs */
+
+/*! tslib */
+
+/*! ../../value/utils/is-motion-value.mjs */
+
+/*! ../value/index.mjs */
+
+/*! ./features/definitions.mjs */
+
+/*! ./test.mjs */
+
+/*! react */
+
+/*! ./is-svg-component.mjs */
+
+/*! tslib */
+
+/*! ../../value/utils/resolve-motion-value.mjs */
+
+/*! ../../events/event-info.mjs */
+
+/*! ../../context/LayoutGroupContext.mjs */
+
+/*! ../../context/PresenceContext.mjs */
+
+/*! popmotion */
+
+/*! tslib */
+
+/*! ../context/MotionContext/index.mjs */
+
+/*! ../utils/each-axis.mjs */
+
+/*! ../../animation/animate.mjs */
+
+/*! tslib */
+
+/*! ./is-point-3d.mjs */
+
+/*! ./rgba.mjs */
+
+/*! ../context/MotionConfigContext.mjs */
+
+/*! ../../utils/use-id.mjs */
+
+/*! ./defaults.mjs */
+
+/*! react */
+
+/*! ../context/LayoutGroupContext.mjs */
+
+/*! hey-listen */
+
+/*! ../../render/utils/animation-state.mjs */
+
+/*! popmotion */
+
+/*! ../projection/node/id.mjs */
+
+/*! ./type-int.mjs */
+
+/*! ./drag/utils/lock.mjs */
+
+/*! ../dom/value-types/find.mjs */
+
+/*! popmotion */
+
+/*! ../../utils/use-constant.mjs */
+
+/*! ../numbers/index.mjs */
+
+/*! ../../dom/value-types/get-as-type.mjs */
+
+/*! ./definitions.mjs */
+
+/*! ./color/hex.mjs */
+
+/*! ./animations/index.mjs */
+
+/*! react */
+
+/*! react */
+
+/*! react */
+
+/*! ./index.mjs */
+
+/*! ../html/use-props.mjs */
+
+/*! ./on-next-frame.mjs */
+
+/*! ./utils/use-visual-element.mjs */
+
+/*! ../dom/utils/camel-to-dash.mjs */
+
+/*! popmotion */
+
+/*! ../events/use-pointer-event.mjs */
+
+/*! ../../../projection/styles/scale-box-shadow.mjs */
+
+/*! ../../../context/LayoutGroupContext.mjs */
+
+/*! style-value-types */
+
+/*! ./is-point.mjs */
+
+/*! ../utils/is-browser.mjs */
+
+/*! ../../projection/node/HTMLProjectionNode.mjs */
+
+/*! tslib */
+
+/*! ../../context/LayoutGroupContext.mjs */
+
+/*! ./pipe.mjs */
+
+/*! tslib */
+
+/*! ../../context/PresenceContext.mjs */
+
+/*! style-value-types */
+
+/*! ../../dom/value-types/number.mjs */
+
+/*! react */
+
+/*! tslib */
+
+/*! popmotion */
+
+/*! ./utils/motion-values.mjs */
+
+/*! ../styles/transform.mjs */
+
+/*! ./mix.mjs */
+
+/*! react */
+
+/*! ../../render/dom/utils/css-variables-conversion.mjs */
+
+/*! react */
+
+/*! ../color/index.mjs */
+
+/*! style-value-types */
+
+/*! ../../../value/utils/is-motion-value.mjs */
+
+/*! tslib */
+
+/*! style-value-types */
+
+/*! react */
+
+/*! framesync */
+
+/*! ./easing/index.mjs */
+
+/*! hey-listen */
+
+/*! popmotion */
+
+/*! ./utils/create-render-state.mjs */
+
+/*! ../events/use-pointer-event.mjs */
+
+/*! ../utils/make-renderless-component.mjs */
+
+/*! tslib */
+
+/*! ./camel-case-attrs.mjs */
+
+/*! ./MeasureLayout.mjs */
+
+/*! style-value-types */
+
+/*! ../../projection/geometry/conversion.mjs */
+
+/*! ./hsla-to-rgba.mjs */
+
+/*! ../../utils/resolve-value.mjs */
+
+/*! ../../render/utils/flat-tree.mjs */
+
+/*! ../utils.mjs */
+
+/*! ./mix-complex.mjs */
+
+/*! ./animation.mjs */
+
+/*! ../../svg/config-motion.mjs */
+
+/*! ../../context/LazyContext.mjs */
+
+/*! ./DocumentProjectionNode.mjs */
+
+/*! ../utils.mjs */
+
+/*! tslib */
+
+/*! ../../projection/utils/each-axis.mjs */
+
+/*! ./mix-color.mjs */
+
+/*! ../../motion/utils/use-visual-state.mjs */
+
+/*! popmotion */
+
+/*! tslib */
+
+/*! ../../context/MotionContext/index.mjs */
+
+/*! ../../context/DeprecatedLayoutGroupContext.mjs */
+
+/*! ../svg/visual-element.mjs */
+
+/*! ../utils/has-transform.mjs */
+
+/*! ./utils.mjs */
+
+/*! ./utils/render.mjs */
+
+/*! ../utils/is-browser.mjs */
+
+/*! tslib */
+
+/*! tslib */
+
+/*! framesync */
+
+/*! ./components/AnimateSharedLayout.mjs */
+
+/*! ./utils/mix.mjs */
+
+/*! tslib */
+
+/*! ./use-is-mounted.mjs */
+
+/*! react */
+
+/*! ./compare-by-depth.mjs */
+
+/*! tslib */
+
+/*! tslib */
+
+/*! ./utils/create-render-state.mjs */
+
+/*! ../../motion/features/drag.mjs */
+
+/*! ../../utils/use-constant.mjs */
+
+/*! ./animations/inertia.mjs */
+
+/*! react */
+
+/*! ../utils/use-constant.mjs */
+
+/*! react */
+
+/*! tslib */
+
+/*! ../dom/value-types/animatable-none.mjs */
+
+/*! ../../events/use-dom-event.mjs */
+
+/*! ../../utils/use-force-update.mjs */
+
+/*! ../../gestures/use-pan-gesture.mjs */
+
+/*! react */
+
+/*! ../../projection/utils/measure.mjs */
+
+/*! ./utils/create-render-state.mjs */
+
+/*! ./utils/event-type.mjs */
+
+/*! react */
+
+/*! ../../value/utils/is-motion-value.mjs */
+
+/*! ../../html/utils/render.mjs */
+
+/*! ../../utils/is-zero-value-string.mjs */
+
+/*! ./hex.mjs */
+
+/*! ../utils/time-conversion.mjs */
+
+/*! ../../easing/index.mjs */
+
+/*! ./create-render-step.mjs */
+
+/*! ./complex/filter.mjs */
+
+/*! tslib */
+
+/*! tslib */
+
+/*! ../value/index.mjs */
+
+/*! ../html/use-props.mjs */
+
+/*! popmotion */
+
+/*! ../../motion/features/layout/index.mjs */
+
+/*! ../dom/utils/parse-dom-variant.mjs */
+
+/*! ../../utils/use-isomorphic-effect.mjs */
+
+/*! ../../context/MotionContext/index.mjs */
+
+/*! ../index.mjs */
+
+/*! react */
+
+/*! ./easing/cubic-bezier.mjs */
+
+/*! style-value-types */
+
+/*! tslib */
+
+/*! style-value-types */
+
+/*! ../generators/decay.mjs */
+
+/*! style-value-types */
+
+/*! react */
+
+/*! hey-listen */
+
+/*! ../value/utils/is-motion-value.mjs */
+
+/*! tslib */
+
+/*! ./utils/create-render-state.mjs */
+
+/*! style-value-types */
+
+/*! ./is-browser.mjs */
+
+/*! ../../gestures/use-tap-gesture.mjs */
+
+/*! ../../animation/utils/transitions.mjs */
+
+/*! ../events/event-info.mjs */
+
+/*! tslib */
+
+/*! ./type-auto.mjs */
+
+/*! ../../utils/array.mjs */
+
+/*! tslib */
+
+/*! ../dom/value-types/defaults.mjs */
+
+/*! ../../utils/use-id.mjs */
+
+/*! ../utils/make-renderless-component.mjs */
+
+/*! tslib */
+
+/*! ../../utils/use-instant-transition-state.mjs */
+
+/*! ../gestures/utils/event-type.mjs */
+
+/*! ../use-render.mjs */
+
+/*! ./utils/build-attrs.mjs */
+
+/*! ../../value/index.mjs */
+
+/*! ./array.mjs */
+
+/*! ./create-visual-element.mjs */
+
+/*! react */
+
+/*! tslib */
+
+/*! ./PresenceChild.mjs */
+
+/*! hey-listen */
+
+/*! ../../animation/utils/is-animation-controls.mjs */
+
+/*! ./features/use-features.mjs */
+
+/*! style-value-types */
+
+/*! tslib */
+
+/*! ../../animation/utils/is-keyframes-target.mjs */
+
+/*! ./utils/detect-animation-from-options.mjs */
+
+/*! react */
+
+/*! style-value-types */
+
+/*! ../../utils/resolve-value.mjs */
+
+/*! ../../dom/utils/is-css-variable.mjs */
+
+/*! ./mix.mjs */
+
+/*! ../../utils/use-constant.mjs */
+
+/*! ./build-transform.mjs */
+
+/*! ../../components/AnimatePresence/use-presence.mjs */
+
+/*! ../numbers/index.mjs */
+
+/*! ./drag/utils/lock.mjs */
+
+/*! ./hsla.mjs */
+
+/*! ../generators/keyframes.mjs */
+
+/*! ../utils/use-unmount-effect.mjs */
+
+/*! ./create-projection-node.mjs */
+
+/*! ../../utils/use-is-mounted.mjs */
+
+/*! ./event-info.mjs */
+
+/*! ../utils/make-renderless-component.mjs */
+
+/*! ./is-motion-value.mjs */
+
+/*! ../numbers/index.mjs */
+
+/*! ../animation/utils/is-keyframes-target.mjs */
+
+/*! ./utils/constraints.mjs */
+
+/*! ../../utils/use-constant.mjs */
+
+/*! ../context/MotionConfigContext.mjs */
+
+/*! ../../dom/utils/camel-to-dash.mjs */
+
+/*! react */
+
+/*! ../../html/utils/create-render-state.mjs */
+
+/*! ./viewport/use-viewport.mjs */
+
+/*! ../../../render/utils/types.mjs */
+
+/*! ./utils/VisualElementHandler.mjs */
+
+/*! ./utils/build-styles.mjs */
+
+/*! ../../utils/time-conversion.mjs */
+
+/*! ./is-browser.mjs */
+
+/*! tslib */
+
+/*! ./utils/event-type.mjs */
+
+/*! react */
+
+/*! ../animation/mix-values.mjs */
+
+/*! ../utils/use-unmount-effect.mjs */
+
+/*! ../../utils/resolve-value.mjs */
+
+/*! ../../motion/features/animations.mjs */
+
+/*! ../../html/utils/scrape-motion-values.mjs */
+
+/*! ./utils/filter-props.mjs */
+
+/*! react */
+
+/*! ../../../components/AnimatePresence/use-presence.mjs */
+
+/*! popmotion */
+
+/*! ./utils/create-config.mjs */
+
+/*! ../index.mjs */
+
+/*! ./utils/progress.mjs */
+
+/*! ../utils.mjs */
+
+/*! ../html/utils/transform.mjs */
+
+/*! hey-listen */
+
+/*! popmotion */
+
+/*! react */
+
+/*! ../utils/has-transform.mjs */
+
+/*! ./index.mjs */
+
+/*! ./mix-color.mjs */
+
+/*! ../../context/PresenceContext.mjs */
+
+/*! ../../utils/subscription-manager.mjs */
+
+/*! framesync */
+
+/*! ./utils/velocity-per-second.mjs */
+
+/*! ./css-variables-conversion.mjs */
+
+/*! ../../render/utils/types.mjs */
+
+/*! ../context/MotionContext/create.mjs */
+
+/*! ../../utils/clamp.mjs */
+
+/*! ./number.mjs */
+
+/*! react */
+
+/*! react */
+
+/*! ./inc.mjs */
+
+/*! ../shared/stack.mjs */
+
+/*! ../utils.mjs */
+
+/*! ../../utils/is-ref-object.mjs */
+
+/*! ./utils/scrape-motion-values.mjs */
+
+/*! ./utils.mjs */
+
+/*! ../../render/dom/value-types/animatable-none.mjs */
+
+/*! ../../projection/geometry/models.mjs */
+
+/*! ../geometry/delta-apply.mjs */
+
+/*! ../../utils/array.mjs */
+
+/*! ./utils/transform.mjs */
+
+/*! ./utils/use-motion-ref.mjs */
+
+/*! ./use-isomorphic-effect.mjs */
+
+/*! react */
+
+/*! framesync */
+
+/*! ./utils/pipe.mjs */
+
+/*! ../../motion/utils/use-visual-state.mjs */
