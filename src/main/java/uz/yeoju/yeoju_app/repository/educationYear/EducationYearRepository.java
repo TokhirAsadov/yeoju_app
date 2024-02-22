@@ -249,7 +249,7 @@ public interface EducationYearRepository extends JpaRepository<EducationYear,Str
             Integer section
     );
 
-    @Query(value = "select * from dbo.GetTimesForRoomStatisticsByUserIdUnion(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
+    @Query(value = "select * from dbo.GetTimesForRoomStatisticsByUserIdUnion2(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
     Set<StudentsDynamicAttendance> getTimesForRoomStatisticsByUserIdUnionNEW(
             String userId,
             String room,
