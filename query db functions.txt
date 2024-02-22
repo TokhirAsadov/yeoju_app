@@ -326,7 +326,7 @@ select dbo.existQueueForToday(?1)
 
 
 
-CREATE FUNCTION dbo.GetTimesForRoomStatisticsByUserIdUnion
+CREATE FUNCTION dbo.GetTimesForRoomStatisticsByUserIdUnion2
 (
     @userId varchar(255),
     @room varchar(255),
@@ -339,7 +339,7 @@ CREATE FUNCTION dbo.GetTimesForRoomStatisticsByUserIdUnion
         AS
         RETURN
             (
-                select 'id' as id,al.time, @week as week, @weekday as weekday, @section as section,'MACHINE' as type, null as isCome,null as createdBy
+                select 'id'+cast(al.id as varchar) as nameId, al.time, @week as week, @weekday as weekday, @section as section,'MACHINE' as type, null as isCome,null as createdBy
                 from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id
                                         join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS
                 where al.time between
@@ -544,7 +544,7 @@ CREATE FUNCTION dbo.GetTimesForRoomStatisticsByUserIdUnion
                         END
                   and ad.door_name LIKE @room and u.id=@userId
                 union
-                select d.id as id, d.createdAt as time, d.week, d.weekday,  d.section,'DYNAMIC' as type,d.isCome,u3.fullName as createdBy from DynamicAttendance d
+                select d.id as nameId,d.createdAt as time, d.week, d.weekday,  d.section,'DYNAMIC' as type,d.isCome,u3.fullName as createdBy from DynamicAttendance d
                 join users u3 on d.createdBy=u3.id
                 where d.room LIKE @room and d.student_id=@userId and d.weekday=@weekday and d.week=@week and d.section=@section and d.year=@year
             );
