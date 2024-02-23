@@ -7,9 +7,9 @@ import uz.yeoju.yeoju_app.entity.educationYear.WeekOfEducationYear;
 import uz.yeoju.yeoju_app.entity.educationYear.WeekType;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.educationYear.WeekOfYearDto;
+import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 import uz.yeoju.yeoju_app.repository.educationYear.WeekOfEducationYearRepository;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -17,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class WeekOfEducationYearImplService implements WeekOfEducationYearService {
     private final WeekOfEducationYearRepository weekRepository;
+    private final EducationYearRepository educationYearRepository;
 
     @Override
     public ApiResponse findAll() {
@@ -35,6 +36,29 @@ public class WeekOfEducationYearImplService implements WeekOfEducationYearServic
         }
         else {
             return update(dto);
+        }
+    }
+
+    @Override
+    public ApiResponse saveV2(WeekOfYearDto dto) {
+        boolean exists = weekRepository.existsByStart(dto.getStart());
+        if (exists){
+            return new ApiResponse(false,"Error.. "+dto.getStart()+" already exists. Enter other start week day.");
+        }
+        else {
+            WeekOfEducationYear week = new WeekOfEducationYear();
+            week.setStart(dto.getStart());
+            week.setEnd(dto.getEnd());
+            week.setYear(dto.getYear());
+            week.setEduType(Enum.valueOf(WeekEduType.class,dto.getEduType()));
+            week.setSortNumber(dto.getSortNumber());
+            week.setWeekNumber(dto.getWeekNumber());
+            week.setType(WeekType.valueOf(dto.getType()));
+            WeekOfEducationYear save = weekRepository.save(week);
+
+            educationYearRepository.findById()
+
+            return new ApiResponse(true,"save week successfully.");
         }
     }
 
