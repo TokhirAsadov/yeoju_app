@@ -2,6 +2,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.weekOfEducation
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.educationYear.WeekEduType;
 import uz.yeoju.yeoju_app.entity.educationYear.WeekOfEducationYear;
 import uz.yeoju.yeoju_app.entity.educationYear.WeekType;
@@ -10,8 +11,10 @@ import uz.yeoju.yeoju_app.payload.educationYear.WeekOfYearDto;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 import uz.yeoju.yeoju_app.repository.educationYear.WeekOfEducationYearRepository;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -41,24 +44,32 @@ public class WeekOfEducationYearImplService implements WeekOfEducationYearServic
 
     @Override
     public ApiResponse saveV2(WeekOfYearDto dto) {
-        boolean exists = weekRepository.existsByStart(dto.getStart());
-        if (exists){
-            return new ApiResponse(false,"Error.. "+dto.getStart()+" already exists. Enter other start week day.");
+        Optional<EducationYear> optionalEducationYear = educationYearRepository.findById(dto.getEducationYearId());
+        if (optionalEducationYear.isPresent()) {
+            boolean exists = weekRepository.existsByStart(dto.getStart());
+            if (exists) {
+                return new ApiResponse(false, "Error.. " + dto.getStart() + " already exists. Enter other start week day.");
+            } else {
+                WeekOfEducationYear week = new WeekOfEducationYear();
+                week.setStart(dto.getStart());
+                week.setEnd(dto.getEnd());
+                week.setYear(dto.getYear());
+                week.setEduType(Enum.valueOf(WeekEduType.class, dto.getEduType()));
+                week.setSortNumber(dto.getSortNumber());
+                week.setWeekNumber(dto.getWeekNumber());
+                week.setType(WeekType.valueOf(dto.getType()));
+                WeekOfEducationYear save = weekRepository.save(week);
+
+                EducationYear educationYear = optionalEducationYear.get();
+                Set<WeekOfEducationYear> educationYearSet = new HashSet<>(educationYear.getWeeks());
+                educationYearSet.add(save);
+                educationYear.setWeeks(educationYearSet);
+                educationYearRepository.save(educationYear);
+                return new ApiResponse(true, "save week successfully.");
+            }
         }
         else {
-            WeekOfEducationYear week = new WeekOfEducationYear();
-            week.setStart(dto.getStart());
-            week.setEnd(dto.getEnd());
-            week.setYear(dto.getYear());
-            week.setEduType(Enum.valueOf(WeekEduType.class,dto.getEduType()));
-            week.setSortNumber(dto.getSortNumber());
-            week.setWeekNumber(dto.getWeekNumber());
-            week.setType(WeekType.valueOf(dto.getType()));
-            WeekOfEducationYear save = weekRepository.save(week);
-
-            educationYearRepository.findById()
-
-            return new ApiResponse(true,"save week successfully.");
+            return new ApiResponse(false, "Error.. Education year was not found by id: "+dto.getEducationYearId());
         }
     }
 
