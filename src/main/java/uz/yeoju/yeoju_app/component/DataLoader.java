@@ -174,14 +174,17 @@ public class DataLoader implements CommandLineRunner {
 
 //        roleRepository.saveOrUpdate(new Role("ROLE_DEKAN"));
 
+//        Role roleA = new Role("ROLE_ADMIN");
+//        roleRepository.saveAndFlush(roleA);
+//
 //        Optional<Role> user = roleRepository.findRoleByRoleName("ROLE_ADMIN");
 //        Role role = user.get();
-//        userRepository.saveOrUpdate(new User(
+//        userRepository.save(new User(
 //                "device admin",
-//                "device admin",
+//                "admin",
 //                passwordEncoder.encode("device"),
 //                "123456798",
-//                "guvalakat1604@gmail.com",
+//                "1604@gmail.com",
 //                ganderRepository.getGanderByGandername(Gandername.MALE),
 //                new HashSet<>(Collections.singletonList(role))
 //        ));
@@ -278,6 +281,7 @@ public class DataLoader implements CommandLineRunner {
             Role role74 = new Role("ROLE_STUDENT");
             Role role75 = new Role("ROLE_TEACHER");
             Role role76 = new Role("ROLE_STAFF");
+            Role role77 = new Role("ROLE_ADMIN");
 
 //            Role role2 = new Role("O`quv ishlari bo`yicha prorektor");
 //            Role role3 = new Role("Innovatsiya va ilmiy ishlar bo`yicha prorektor");
@@ -494,6 +498,7 @@ public class DataLoader implements CommandLineRunner {
             roleRepository.saveAndFlush(role74);
             roleRepository.saveAndFlush(role75);
             roleRepository.saveAndFlush(role76);
+            roleRepository.saveAndFlush(role77);
 
 
 //            Role user = roleRepository.saveOrUpdate(new Role("Student"));
