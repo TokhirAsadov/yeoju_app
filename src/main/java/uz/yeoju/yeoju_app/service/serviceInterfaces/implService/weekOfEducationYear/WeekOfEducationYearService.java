@@ -8,6 +8,7 @@ public interface WeekOfEducationYearService {
     ApiResponse findAll();
     ApiResponse findById(String id);
     ApiResponse saveOrUpdate(WeekOfYearDto dto);
+    ApiResponse saveV2(WeekOfYearDto dto);
 
     ApiResponse deletedById(String id);
 
