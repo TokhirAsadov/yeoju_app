@@ -47,7 +47,7 @@ public class WeekOfYearController {
     @PostMapping("/saveV2")
     public HttpEntity<?> saveV2(@RequestBody WeekOfYearDto dto){
         System.out.println(dto);
-        ApiResponse response = weekService.saveOrUpdate(dto);
+        ApiResponse response = weekService.saveV2(dto);
         return ResponseEntity.status(response.isSuccess() ? 201:402).body(response);
     }
 }
