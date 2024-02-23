@@ -29,9 +29,9 @@ spring:
     password: Pa$$w0rd2020
 
 #    samarqand database
-#    url: jdbc:sqlserver://172.30.7.231:1433;databaseName=ZkT
-#    username: root
-#    password: Pa$$w0rd2023
+#    url: jdbc:sqlserver://172.30.7.130:1433;databaseName=ZKAccess
+#    username: sa
+#    password: Test@123
 
 #    url: jdbc:sqlserver://172.16.1.234:1433;databaseName=ZKAccess --ErpKIUT
 #    username: sa
