@@ -7,6 +7,5 @@ public interface StudentAddress {
     String getArea();
     String getAddress();
 
-    boolean getConstant();
-    boolean getIsCurrent();
+    boolean getIsConstant();
 }

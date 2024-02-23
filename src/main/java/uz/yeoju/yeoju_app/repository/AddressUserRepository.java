@@ -15,10 +15,10 @@ public interface AddressUserRepository extends JpaRepository<AddressUser,String>
 
     Optional<AddressUser> findAddressUserByUserId(String user_id);
 
-    @Query(value = "select Top 1 au.id,au.country,au.region,au.area,au.address,au.constant,au.isCurrent from AddressUser au where (user_id=:userId and constant='true') order by au.createdAt desc",nativeQuery = true)
+    @Query(value = "select Top 1 au.id,au.country,au.region,au.area,au.address,au.isConstant from AddressUser au where (au.user_id=:userId and au.isConstant=1) order by au.createdAt desc",nativeQuery = true)
     StudentAddress getAddressByUserId(@Param("userId") String userId);
 
-    @Query(value = "select Top 1 au.id,au.country,au.region,au.area,au.address,au.constant,au.isCurrent from AddressUser au where (user_id=:userId and isCurrent='true') order by createdAt desc",nativeQuery = true)
+    @Query(value = "select Top 1 au.id,au.country,au.region,au.area,au.address,au.isConstant from AddressUser au where (user_id=:userId and isConstant=0) order by createdAt desc",nativeQuery = true)
     StudentAddress getAddressCurrentByUserId(@Param("userId") String userId);
 
     @Query(value = "select count(u.id) as count,G.gandername as gander from users u join  AddressUser AU on u.id = AU.user_id join Gander G on G.id = u.gander_id where AU.region=:region group by G.gandername,AU.region",nativeQuery = true)
