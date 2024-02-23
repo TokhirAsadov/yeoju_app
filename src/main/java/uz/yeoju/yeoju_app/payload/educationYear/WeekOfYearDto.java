@@ -19,4 +19,5 @@ public class WeekOfYearDto {
     private Integer year;
     private Integer sortNumber;
     private Integer weekNumber;
+    private String educationYearId;
 }
