@@ -5,7 +5,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
-import uz.yeoju.yeoju_app.payload.chat.MessageDto;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.chat.MessageService;
 
 @RestController
