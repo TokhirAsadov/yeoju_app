@@ -1647,3 +1647,83 @@ CREATE FUNCTION dbo.getStudentsData(
         where u.id=@userId
                )
 go
+
+
+CREATE FUNCTION dbo.GetGroupsStatisticForDekan
+(
+    @id varchar(255),
+    @dateFrom datetime,
+    @dateTo datetime
+)
+    RETURNS TABLE
+        AS
+        RETURN
+            (
+                SELECT
+                    g2.level,
+                    g2.name,
+                    g1.comeCount,
+                    g2.allCount
+                FROM
+                    (
+                        -- Subquery for come count
+                        SELECT
+                            g.level,
+                            g.name,
+                            COUNT(card.cardNo) AS comeCount
+                        FROM
+                            (
+                                SELECT
+                                    al.card_no AS cardNo
+                                FROM
+                                    acc_monitor_log al
+                                        JOIN users u ON CAST(u.RFID AS varchar) = CAST(al.card_no AS varchar) COLLATE Chinese_PRC_CI_AS
+                                        JOIN users_Role ur ON u.id = ur.users_id
+                                        JOIN Role R2 ON ur.roles_id = R2.id
+                                WHERE
+                                    al.time BETWEEN @dateFrom AND @dateTo
+                                  AND R2.roleName = 'ROLE_STUDENT'
+                                GROUP BY
+                                    al.card_no
+                            ) AS card
+                                JOIN users u ON CAST(card.cardNo AS varchar) = CAST(u.RFID AS varchar) COLLATE Chinese_PRC_CI_AS
+                                JOIN Student S ON u.id = S.user_id
+                                JOIN groups g ON g.id = S.group_id
+                                JOIN Faculty F ON F.id = g.faculty_id
+                                JOIN Dekanat_Faculty DF ON F.id = DF.faculties_id
+                                JOIN Dekanat D ON DF.Dekanat_id = D.id
+                                JOIN Dekan D2 ON D.id = D2.dekanat_id
+                        WHERE
+                                D2.user_id = @id
+                          AND g.educationType_id = D2.educationType_id
+                          AND g.active = 1
+                        GROUP BY
+                            g.name,
+                            g.level
+                    ) AS g1
+                        RIGHT JOIN
+                    (
+                        -- Subquery for all count
+                        SELECT
+                            g.name AS name,
+                            COUNT(s.id) AS allCount,
+                            g.level AS level
+                        FROM
+                            Student s
+                                JOIN groups g ON s.group_id = g.id
+                                JOIN Faculty F ON F.id = g.faculty_id
+                                JOIN Dekanat_Faculty DF ON F.id = DF.faculties_id
+                                JOIN Dekanat D ON DF.Dekanat_id = D.id
+                                JOIN Dekan D2 ON D.id = D2.dekanat_id
+                        WHERE
+                                D2.user_id = @id
+                          AND g.educationType_id = D2.educationType_id
+                          AND g.active = 1
+                        GROUP BY
+                            g.name,
+                            g.level
+                    ) AS g2 ON g2.name = g1.name
+
+
+)
+go
