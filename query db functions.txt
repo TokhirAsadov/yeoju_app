@@ -1727,3 +1727,58 @@ CREATE FUNCTION dbo.GetGroupsStatisticForDekan
 
 )
 go
+
+
+-- Create a table-valued function
+CREATE FUNCTION dbo.GetCardTimeInfo
+(
+    @date varchar(255),
+    @day varchar(255),
+    @id varchar(255)
+)
+    RETURNS TABLE
+        AS
+        RETURN
+            (
+                SELECT
+                    t1.cardNo,
+                    t1.timeAsc,
+                    t2.timeDesc
+                FROM
+                    (
+                        SELECT TOP 1
+                            u.RFID as cardNo,
+                            al.time as timeAsc
+                        FROM
+                            acc_monitor_log al
+                                JOIN
+                            users u ON CAST(u.RFID as varchar) = CAST(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS
+                        WHERE
+                            al.time BETWEEN
+                                DATEADD(DAY, 0, CAST(CAST(YEAR(@date) AS VARCHAR(4)) + '/' + CAST(MONTH(@date) AS VARCHAR(2)) + @day AS DATETIME))
+                                AND
+                                DATEADD(DAY, 1, CAST(CAST(YEAR(@date) AS VARCHAR(4)) + '/' + CAST(MONTH(@date) AS VARCHAR(2)) + @day AS DATETIME))
+                          AND u.id = @id
+                        ORDER BY
+                            al.time ASC
+                    ) AS t1
+                        JOIN
+                    (
+                        SELECT TOP 1
+                            u.RFID as cardNo,
+                            al.time as timeDesc
+                        FROM
+                            acc_monitor_log al
+                                JOIN
+                            users u ON CAST(u.RFID as varchar) = CAST(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS
+                        WHERE
+                            al.time BETWEEN
+                                DATEADD(DAY, 0, CAST(CAST(YEAR(@date) AS VARCHAR(4)) + '/' + CAST(MONTH(@date) AS VARCHAR(2)) + @day AS DATETIME))
+                                AND
+                                DATEADD(DAY, 1, CAST(CAST(YEAR(@date) AS VARCHAR(4)) + '/' + CAST(MONTH(@date) AS VARCHAR(2)) + @day AS DATETIME))
+                          AND u.id = @id
+                        ORDER BY
+                            al.time DESC
+                    ) AS t2 ON t1.cardNo = t2.cardNo
+            )
+go
