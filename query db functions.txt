@@ -1623,3 +1623,27 @@ CREATE FUNCTION dbo.GetCourseStatisticsForDekan
                     ) AS g2 ON g2.name = g1.name
 
 );
+
+
+CREATE FUNCTION dbo.getStudentsData(
+    @userId varchar(255)
+)
+    RETURNS TABLE
+        AS
+        Return (
+        select
+            u.id,
+            u.login,
+            u.fullName,
+            u.bornYear,
+            u.citizenship,
+            u.nationality,
+            u.passportNum,
+            s.rektororder,
+            s.lengthOfStudying,
+            s.teachStatus
+        from users u
+                 join Student S on u.id = S.user_id
+        where u.id=@userId
+               )
+go
