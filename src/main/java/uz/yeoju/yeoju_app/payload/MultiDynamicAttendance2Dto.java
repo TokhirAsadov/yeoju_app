@@ -13,5 +13,5 @@ public class MultiDynamicAttendance2Dto {
     public Integer year;
     public Integer week;
     public Integer weekday;
-    public Set<ChildOfMultiDynamicAttendance2Dto> attendance;
+    public Set<ChildOfMultiDynamicAttendance2Dto> attendances;
 }
