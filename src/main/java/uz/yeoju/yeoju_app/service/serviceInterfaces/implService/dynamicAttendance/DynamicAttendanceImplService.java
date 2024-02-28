@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.DynamicAttendanceDto;
+import uz.yeoju.yeoju_app.payload.MultiDynamicAttendance2Dto;
 import uz.yeoju.yeoju_app.payload.MultiDynamicAttendanceDto;
 import uz.yeoju.yeoju_app.repository.DynamicAttendanceRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
@@ -85,5 +86,10 @@ public class DynamicAttendanceImplService implements DynamicAttendanceService {
         });
 
         return new ApiResponse(true,"Attendances were created successful!.");
+    }
+
+    @Override
+    public ApiResponse createMultiDynamicAttendance2(User user, MultiDynamicAttendance2Dto dto) {
+        return null;
     }
 }
