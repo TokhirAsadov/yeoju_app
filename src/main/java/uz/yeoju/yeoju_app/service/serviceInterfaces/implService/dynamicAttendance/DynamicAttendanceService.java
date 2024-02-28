@@ -8,4 +8,6 @@ import uz.yeoju.yeoju_app.payload.MultiDynamicAttendanceDto;
 public interface DynamicAttendanceService {
     ApiResponse createDynamicAttendance(User user, DynamicAttendanceDto dto);
     ApiResponse createMultiDynamicAttendance(User user, MultiDynamicAttendanceDto dto);
+
+    ApiResponse createMultiDynamicAttendance2(User user, MultiDynamicAttendanceDto dto);
 }
