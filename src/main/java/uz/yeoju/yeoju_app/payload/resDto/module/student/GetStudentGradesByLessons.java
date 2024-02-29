@@ -31,7 +31,17 @@ public interface GetStudentGradesByLessons {
 
     @Value("#{@gradeForAttendanceRepository.getAllGradesForAttendance(target.studentId,target.groupId,target.educationYearId,target.lessonId)}")
     Float getAllGradesForAttendance();
-
+    default Double getSumGrade(){
+        if(this.getAllGradesForAttendance() == null) {
+            return this.getAllSumGrade();
+        }
+        else if (this.getAllSumGrade()==null){
+            return Double.valueOf(this.getAllGradesForAttendance());
+        }
+        else {
+            return this.getAllSumGrade()+this.getAllGradesForAttendance();
+        }
+    };
 
     @Value("#{@gradeOfStudentByTeacherRepository.getTodayGrade(target.teacherId,target.studentId,target.educationYearId,target.lessonId)}")
     Double getTodayGrade();
