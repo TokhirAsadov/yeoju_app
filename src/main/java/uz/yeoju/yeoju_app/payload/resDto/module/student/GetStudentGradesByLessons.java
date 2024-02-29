@@ -2,7 +2,6 @@ package uz.yeoju.yeoju_app.payload.resDto.module.student;
 
 import org.springframework.beans.factory.annotation.Value;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetFreeHours;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetFreeHoursWithSubject;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetGradesOfStudent;
 
 import java.util.Set;
@@ -26,9 +25,14 @@ public interface GetStudentGradesByLessons {
     @Value("#{@gradeOfStudentByTeacherRepository.getMaxStep(target.educationYearId,target.lessonId,target.groupId)}")
     Long getMaxStep();
     @Value("#{@gradeOfStudentByTeacherRepository.getSumGrade(target.teacherId,target.studentId,target.educationYearId,target.lessonId)}")
-    Double getSumGrade();
+    Double getSumGrade2();
     @Value("#{@gradeOfStudentByTeacherRepository.getAllSumGrade(target.studentId,target.educationYearId,target.lessonId)}")
     Double getAllSumGrade();
+
+    @Value("#{@gradeForAttendanceRepository.getAllGradesForAttendance(target.studentId,target.groupId,target.educationYearId,target.lessonId)}")
+    Float getAllGradesForAttendance();
+
+
     @Value("#{@gradeOfStudentByTeacherRepository.getTodayGrade(target.teacherId,target.studentId,target.educationYearId,target.lessonId)}")
     Double getTodayGrade();
 
