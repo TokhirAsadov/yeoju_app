@@ -281,6 +281,7 @@ public class DataLoader implements CommandLineRunner {
             Role role75 = new Role("ROLE_TEACHER");
             Role role76 = new Role("ROLE_STAFF");
             Role role77 = new Role("ROLE_ADMIN");
+            Role role78 = new Role("ROLE_USER");
 
 //            Role role2 = new Role("O`quv ishlari bo`yicha prorektor");
 //            Role role3 = new Role("Innovatsiya va ilmiy ishlar bo`yicha prorektor");
@@ -498,6 +499,7 @@ public class DataLoader implements CommandLineRunner {
             roleRepository.saveAndFlush(role75);
             roleRepository.saveAndFlush(role76);
             roleRepository.saveAndFlush(role77);
+            roleRepository.saveAndFlush(role78);
 
 
 //            Role user = roleRepository.saveOrUpdate(new Role("Student"));
