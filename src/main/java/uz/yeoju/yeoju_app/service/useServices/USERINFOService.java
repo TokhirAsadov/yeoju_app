@@ -185,9 +185,9 @@ USERINFOService implements USERINFOImplService<USERINFO> {
                 System.out.println(row.getCell(2).getStringCellValue());
 //                System.out.println(row.getCell(3).getNumericCellValue());
                 System.out.println(row.getCell(4).getStringCellValue());
-                System.out.println(row.getCell(5).getStringCellValue());
-                System.out.println(row.getCell(6).getNumericCellValue());
-                System.out.println(row.getCell(7).getStringCellValue());
+//                System.out.println(row.getCell(5).getStringCellValue());
+//                System.out.println(row.getCell(6).getNumericCellValue());
+//                System.out.println(row.getCell(7).getStringCellValue());
 
 //                Long badgenumber = userInfoRepo.getBadgenumber();
 //
@@ -201,7 +201,12 @@ USERINFOService implements USERINFOImplService<USERINFO> {
                         if (byCardNo == null) {
                             USERINFO userinfo = new USERINFO();
                             Long badgenumber = userInfoRepo.getBadgenumber();
-                            userinfo.setBadgenumber(badgenumber + 1);
+                            if (badgenumber==null) {
+                                userinfo.setBadgenumber(1L);
+                            }
+                            else {
+                                userinfo.setBadgenumber(badgenumber + 1);
+                            }
                             userinfo.setName(row.getCell(0).getStringCellValue());
                             userinfo.setLastname(row.getCell(0).getStringCellValue());
                             userinfo.setCardNo(row.getCell(2).getStringCellValue());
@@ -275,7 +280,8 @@ USERINFOService implements USERINFOImplService<USERINFO> {
                                     }
 
                                 }
-                            } else {
+                            }
+                            else {
                                 user.setRoles(new HashSet<>(new SingletonList(role)));
                             }
 
@@ -290,7 +296,12 @@ USERINFOService implements USERINFOImplService<USERINFO> {
                         if (byCardNo == null) {
                             USERINFO userinfo = new USERINFO();
                             Long badgenumber = userInfoRepo.getBadgenumber();
-                            userinfo.setBadgenumber(badgenumber + 1);
+                            if (badgenumber==null) {
+                                userinfo.setBadgenumber(1L);
+                            }
+                            else {
+                                userinfo.setBadgenumber(badgenumber + 1);
+                            }
                             userinfo.setName(row.getCell(0).getStringCellValue());
                             userinfo.setLastname(row.getCell(0).getStringCellValue());
                             userinfo.setCardNo(row.getCell(2).getStringCellValue());
