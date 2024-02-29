@@ -19,9 +19,6 @@ public interface GetLessonsOfGroupForBall {
     @Value("#{@gradeForAttendanceRepository.getValueOfGradeForAttendance(target.groupId,target.educationYearId,target.subjectId)}")
     Float getGradeForAttendance();
 
-    @Value("#{@groupConnectSubjectRepository.getSubjectsByEduYearIdAndGroupAndStudentId(target.groupId,target.educationYearId,target.subjectId,target.studentId)}")
-    Set<StudentSubjectsByEduYearIdAndGroupAndStudentId> getSubjects();
-
     @Value("#{@gradeForAttendanceRepository.getAllGradesForAttendance(target.studentId,target.groupId,target.educationYearId,target.subjectId)}")
     Float getAllGradesForAttendance();
 
