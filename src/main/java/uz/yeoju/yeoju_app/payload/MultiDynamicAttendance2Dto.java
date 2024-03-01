@@ -12,6 +12,6 @@ import java.util.Set;
 public class MultiDynamicAttendance2Dto {
     public Integer year;
     public Integer week;
-    public Integer weekday;
+    public Integer day;
     public Set<ChildOfMultiDynamicAttendance2Dto> attendances;
 }
