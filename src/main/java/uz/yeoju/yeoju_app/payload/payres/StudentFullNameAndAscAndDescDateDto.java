@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.yeoju.yeoju_app.entity.enums.TeachStatus;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -14,6 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class StudentFullNameAndAscAndDescDateDto {
     private String id;
+    private Boolean accountNonLocked;
     private String fullName;
     private String firstName;
     private String lastName;
@@ -26,14 +25,9 @@ public class StudentFullNameAndAscAndDescDateDto {
     private Date dateAsc;
     private Date dateDesc;
 
-    public StudentFullNameAndAscAndDescDateDto(String id, String fullName, String cardNo) {
+    public StudentFullNameAndAscAndDescDateDto(String id,Boolean accountNonLocked, String fullName, String firstName, String lastName, String middleName, String email, String passport, String userId, String cardNo,TeachStatus status) {
         this.id = id;
-        this.fullName = fullName;
-        this.cardNo = cardNo;
-    }
-
-    public StudentFullNameAndAscAndDescDateDto(String id, String fullName, String firstName, String lastName, String middleName, String email, String passport, String userId, String cardNo,TeachStatus status) {
-        this.id = id;
+        this.accountNonLocked = accountNonLocked;
         this.fullName = fullName;
         this.firstName = firstName;
         this.lastName = lastName;
