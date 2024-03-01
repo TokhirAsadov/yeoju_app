@@ -91,12 +91,12 @@ public class DynamicAttendanceImplService implements DynamicAttendanceService {
     @Override
     public ApiResponse createMultiDynamicAttendance2(User user, MultiDynamicAttendance2Dto dto) {
         dto.getAttendances().forEach(attendance ->{
-            Boolean exists = repository.existsByYearAndWeekAndWeekdayAndSectionAndCreatedByAndStudentIdAndRoom(dto.getYear(), dto.getWeek(), dto.getWeekday(), attendance.section, user.getId(), attendance.studentId, attendance.room);
+            Boolean exists = repository.existsByYearAndWeekAndWeekdayAndSectionAndCreatedByAndStudentIdAndRoom(dto.getYear(), dto.getWeek(), dto.getDay(), attendance.section, user.getId(), attendance.studentId, attendance.room);
             if (!exists) {
                 Optional<User> optionalUser = userRepository.findById(attendance.studentId);
                 if (optionalUser.isPresent()){
                     repository.save(new DynamicAttendance(
-                            dto.getYear(), dto.getWeek(), dto.getWeekday(), attendance.section, attendance.isCome, attendance.room, optionalUser.get()
+                            dto.getYear(), dto.getWeek(), dto.getDay(), attendance.section, attendance.isCome, attendance.room, optionalUser.get()
                     ));
                 }
                 else {
