@@ -5,6 +5,7 @@ import uz.yeoju.yeoju_app.entity.enums.TeachStatus;
 public interface StudentWithRFID {
 
     String getId();
+    Boolean getAccountNonLocked();
     String getFullName();
     String getRFID();
     String getLogin();

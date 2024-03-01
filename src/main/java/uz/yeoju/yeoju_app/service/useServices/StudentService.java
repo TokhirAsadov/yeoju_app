@@ -798,6 +798,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                 ascAndDescDateDtos.add(
                         new StudentFullNameAndAscAndDescDateDto(
                                 rfid.getId(),
+                                rfid.getAccountNonLocked(),
                                 rfid.getFullName(),
                                 rfid.getFirstName(),
                                 rfid.getLastName(),
@@ -816,6 +817,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                 ascAndDescDateDtos.add(
                         new StudentFullNameAndAscAndDescDateDto(
                                 rfid.getId(),
+                                rfid.getAccountNonLocked(),
                                 rfid.getFullName(),
                                 rfid.getFirstName(),
                                 rfid.getLastName(),
@@ -846,6 +848,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                 ascAndDescDateDtos.add(
                         new StudentFullNameAndAscAndDescDateDto(
                                 rfid.getId(),
+                                rfid.getAccountNonLocked(),
                                 rfid.getFullName(),
                                 rfid.getFirstName(),
                                 rfid.getLastName(),
@@ -864,6 +867,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                 ascAndDescDateDtos.add(
                         new StudentFullNameAndAscAndDescDateDto(
                                 rfid.getId(),
+                                rfid.getAccountNonLocked(),
                                 rfid.getFullName(),
                                 rfid.getFirstName(),
                                 rfid.getLastName(),
