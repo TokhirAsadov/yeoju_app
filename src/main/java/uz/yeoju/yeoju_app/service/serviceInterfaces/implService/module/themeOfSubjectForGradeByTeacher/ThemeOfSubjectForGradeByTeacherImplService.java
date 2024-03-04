@@ -40,4 +40,9 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
         }
 
     }
+
+    @Override
+    public ApiResponse getThemeByLessonIdAndEducationYearIdAndCreatorId(String lessonId, String educationYearId, String creatorId) {
+        return null;
+    }
 }
