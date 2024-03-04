@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.entity.module.ThemeOfSubjectForGradeByTeacher;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.module.CreateThemeOfSubjectForGradeDto;
+import uz.yeoju.yeoju_app.payload.module.UpdateThemeOfSubjectForGradeDto;
 import uz.yeoju.yeoju_app.repository.LessonRepository;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 import uz.yeoju.yeoju_app.repository.module.ThemeOfSubjectForGradeByTeacherRepository;
@@ -41,6 +42,26 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
             throw new UserNotFoundException("Education year was not found by id: "+dto.educationYearId);
         }
 
+    }
+
+    @Override
+    public ApiResponse updateTheme(UpdateThemeOfSubjectForGradeDto dto) {
+        boolean existsEducationYear = educationYearRepository.existsById(dto.educationYearId);
+        if (existsEducationYear){
+            boolean existsLesson = lessonRepository.existsById(dto.subjectId);
+            if (existsLesson){
+                EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
+                Lesson lesson = lessonRepository.getById(dto.subjectId);
+                repository.save(new ThemeOfSubjectForGradeByTeacher(dto.name, lesson,educationYear));
+                return new ApiResponse(true,"Theme was saved successfully!.");
+            }
+            else {
+                throw new UserNotFoundException("Lesson was not found by id: "+dto.subjectId);
+            }
+        }
+        else {
+            throw new UserNotFoundException("Education year was not found by id: "+dto.educationYearId);
+        }
     }
 
     @Override
