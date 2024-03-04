@@ -12,6 +12,8 @@ import uz.yeoju.yeoju_app.repository.LessonRepository;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 import uz.yeoju.yeoju_app.repository.module.ThemeOfSubjectForGradeByTeacherRepository;
 
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjectForGradeByTeacherService{
@@ -43,6 +45,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
 
     @Override
     public ApiResponse getThemeByLessonIdAndEducationYearIdAndCreatorId(String lessonId, String educationYearId, String creatorId) {
-        return null;
+        Set<ThemeOfSubjectForGradeByTeacher> themes = repository.findAllByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(lessonId, educationYearId, creatorId);
+        return new ApiResponse(true,"All themes",themes);
     }
 }
