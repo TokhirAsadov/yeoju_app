@@ -6,6 +6,6 @@ import uz.yeoju.yeoju_app.entity.module.ThemeOfSubjectForGradeByTeacher;
 import java.util.Set;
 
 public interface ThemeOfSubjectForGradeByTeacherRepository extends JpaRepository<ThemeOfSubjectForGradeByTeacher, String> {
-    Set<ThemeOfSubjectForGradeByTeacher> findAllByLessonIdAndEducationYearIdAndCreatedBy(String lesson_id, String educationYear_id, String createdBy);
+    Set<ThemeOfSubjectForGradeByTeacher> findAllByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(String lesson_id, String educationYear_id, String createdBy);
 
 }
