@@ -7,6 +7,8 @@ import uz.yeoju.yeoju_app.entity.Student;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.module.GradeOfStudentByTeacher;
+import uz.yeoju.yeoju_app.entity.module.ThemeOfSubjectForGradeByTeacher;
+import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.CreateGradeOfStudentByTeacher;
@@ -17,6 +19,7 @@ import uz.yeoju.yeoju_app.repository.StudentRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 import uz.yeoju.yeoju_app.repository.module.GradeOfStudentByTeacherRepository;
+import uz.yeoju.yeoju_app.repository.module.ThemeOfSubjectForGradeByTeacherRepository;
 
 import java.util.Optional;
 import java.util.Set;
@@ -29,6 +32,7 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
     private final LessonRepository lessonRepository;
     private final EducationYearRepository educationYearRepository;
     private final StudentRepository studentRepository;
+    private final ThemeOfSubjectForGradeByTeacherRepository themeRepository;
 
 
     @Override
@@ -56,26 +60,34 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
             if (educationYearOptional.isPresent()) {
                 Optional<Lesson> lessonOptional = lessonRepository.findById(dto.getSubjectId());
                 if (lessonOptional.isPresent()) {
-                    User student = userOptional.get();
-                    EducationYear educationYear = educationYearOptional.get();
-                    Lesson lesson = lessonOptional.get();
-                    Student studentByUserId = studentRepository.findStudentByUserId(dto.getStudentId());
-                    Boolean enableGrade = gradeRepository.isEnableGrade(dto.getStudentId(), studentByUserId.getGroup().getId(), dto.getEducationYearId(), dto.getSubjectId(), dto.getGrade());
-                    if (enableGrade){
-                        GradeOfStudentByTeacher gradeOfStudent = new GradeOfStudentByTeacher();
-                        gradeOfStudent.setStudent(student);
-                        gradeOfStudent.setEducationYear(educationYear);
-                        gradeOfStudent.setLesson(lesson);
-                        gradeOfStudent.setGrade(dto.getGrade());
-                        gradeOfStudent.setTime(dto.getTime());
-                        gradeOfStudent.setDescription(dto.getDescription());
-                        gradeRepository.save(gradeOfStudent);
-                        return new ApiResponse(true,"created successfully");
-                    }
-                    else {
-                        Float maxEnableGrade = gradeRepository.getMaxEnableGrade(dto.getStudentId(), studentByUserId.getGroup().getId(), dto.getEducationYearId(), dto.getSubjectId());
-                        return new ApiResponse(false,"You can only give maximum "+ maxEnableGrade +" ball to that student!.");
-                    }
+//                    Optional<ThemeOfSubjectForGradeByTeacher> themeOptional = themeRepository.findById(dto.getThemeId());
+//                    if (themeOptional.isPresent()) {
+                        User student = userOptional.get();
+                        EducationYear educationYear = educationYearOptional.get();
+                        Lesson lesson = lessonOptional.get();
+//                        ThemeOfSubjectForGradeByTeacher theme = themeOptional.get();
+                        Student studentByUserId = studentRepository.findStudentByUserId(dto.getStudentId());
+                        Boolean enableGrade = gradeRepository.isEnableGrade(dto.getStudentId(), studentByUserId.getGroup().getId(), dto.getEducationYearId(), dto.getSubjectId(), dto.getGrade());
+                        if (enableGrade){
+                            GradeOfStudentByTeacher gradeOfStudent = new GradeOfStudentByTeacher();
+                            gradeOfStudent.setStudent(student);
+                            gradeOfStudent.setEducationYear(educationYear);
+                            gradeOfStudent.setLesson(lesson);
+//                            gradeOfStudent.setTheme(theme);
+                            gradeOfStudent.setGrade(dto.getGrade());
+                            gradeOfStudent.setTime(dto.getTime());
+                            gradeOfStudent.setDescription(dto.getDescription());
+                            gradeRepository.save(gradeOfStudent);
+                            return new ApiResponse(true,"created successfully");
+                        }
+                        else {
+                            Float maxEnableGrade = gradeRepository.getMaxEnableGrade(dto.getStudentId(), studentByUserId.getGroup().getId(), dto.getEducationYearId(), dto.getSubjectId());
+                            return new ApiResponse(false,"You can only give maximum "+ maxEnableGrade +" ball to that student!.");
+                        }
+//                    }
+//                    else {
+//                        throw new UserNotFoundException("Theme was not found by id " + dto.getThemeId());
+//                    }
                 }
                 else {
                     return new ApiResponse(false,"not found subject by id: " + dto.getSubjectId());
@@ -102,11 +114,17 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
                     if (educationYearOptional.isPresent()) {
                         Optional<Lesson> lessonOptional = lessonRepository.findById(dto.getSubjectId());
                         if (lessonOptional.isPresent()) {
-                            gradeOfStudent.setGrade(dto.getGrade());
-                            gradeOfStudent.setTime(dto.getTime());
-                            gradeOfStudent.setDescription(dto.getDescription());
-                            gradeRepository.save(gradeOfStudent);
-                            return new ApiResponse(true, "updated successfully");
+//                            Optional<ThemeOfSubjectForGradeByTeacher> themeOptional = themeRepository.findById(dto.getThemeId());
+//                            if (themeOptional.isPresent()) {
+                                gradeOfStudent.setGrade(dto.getGrade());
+                                gradeOfStudent.setTime(dto.getTime());
+                                gradeOfStudent.setDescription(dto.getDescription());
+                                gradeRepository.save(gradeOfStudent);
+                                return new ApiResponse(true, "updated successfully");
+//                            }
+//                            else {
+//                                throw new UserNotFoundException("Theme was not found by id " + dto.getThemeId());
+//                            }
                         } else {
                             return new ApiResponse(false, "not found subject by id: " + dto.getSubjectId());
                         }

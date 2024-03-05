@@ -22,6 +22,7 @@ public class CreateGradeOfStudentByTeacher {
     private Timestamp time;
     private String description;
     private String studentId;
+    private String themeId;
     private String subjectId;
     private String educationYearId;
 
