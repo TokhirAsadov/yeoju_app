@@ -1,0 +1,69 @@
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-router-dom */
+
+/*! axios */
+
+/*! react-icons/ri */
+
+/*! react-icons/ai */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/IconButton */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! styled-components */
+
+/*! react-icons/bs */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/Box */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ./MessagesTeacherAndStudents */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! styled-components */
+
+/*! react-icons/io5 */
+
+/*! react-icons/fa */
+
+/*! react-redux */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/io */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react-icons/io5 */
+
+/*! @mui/material */
+
+/*! ../../../responsiv */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/Input */
+
+/*! react-icons/bi */

@@ -1,0 +1,56 @@
+/*! core-js/modules/es.array.reduce.js */
+
+/*! rgbcolor */
+
+/*! core-js/modules/es.string.match.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/es.string.starts-with.js */
+
+/*! core-js/modules/es.array.iterator.js */
+
+/*! @babel/runtime/helpers/defineProperty */
+
+/*! core-js/modules/es.string.ends-with.js */
+
+/*! @babel/runtime/helpers/asyncToGenerator */
+
+/*! core-js/modules/es.string.includes.js */
+
+/*! core-js/modules/es.regexp.to-string.js */
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+
+/*! core-js/modules/es.string.replace.js */
+
+/*! svg-pathdata */
+
+/*! core-js/modules/es.array.index-of.js */
+
+/*! core-js/modules/es.string.split.js */
+
+/*! performance-now */
+
+/*! stackblur-canvas */
+
+/*! core-js/modules/es.promise.js */
+
+/*! raf */
+
+/*! core-js/modules/es.array.reverse.js */
+
+/*! core-js/modules/es.string.trim.js */

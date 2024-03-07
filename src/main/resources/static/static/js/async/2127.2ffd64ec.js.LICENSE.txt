@@ -1,0 +1,131 @@
+/*! ./GradeData */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/Button */
+
+/*! ../../../responsiv */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/MenuItem */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! @mui/material/colors */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! @mui/material/Modal */
+
+/*! react-icons/fa6 */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! moment/moment */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! ../../../redux/actions/educationYear/education_year_statistics_actions */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ./FreeTimeTeachersForStudent */
+
+/*! ../../../responsiv */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! react-icons/ri */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Button */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../../redux/actions/educationYear/education_year_actions */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! react-router-dom */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! react */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-redux */
+
+/*! ../../../redux/slice/educationYear/education_year_statistics_slice */
+
+/*! react-icons/fa */
+
+/*! @mui/material/Typography */
+
+/*! @mui/material */
+
+/*! @mui/material/Box */
+
+/*! styled-components */
+
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ./StudentSciencesNb */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material */
+
+/*! styled-components */
+
+/*! ../../../redux/actions/infoStudentForLesson/InfoStudentForLesson_actions */
+
+/*! react-icons/bs */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../../responsiv */
+
+/*! react-icons/fa */
+
+/*! axios */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material */
+
+/*! styled-components */
+
+/*! react */

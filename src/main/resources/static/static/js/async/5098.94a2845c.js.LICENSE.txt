@@ -1,0 +1,33 @@
+/*! styled-components */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! moment/locale/ru */
+
+/*! ../../teacher/timeTable/TeacherTimeTableOfWeek */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! @mui/material/Autocomplete */
+
+/*! @mui/material/TextField */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! axios */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.for-each.js */
+
+/*! ../../../responsiv */
+
+/*! moment */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.async-iterator.for-each.js */

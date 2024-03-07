@@ -1,0 +1,127 @@
+/*! axios */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../../responsiv */
+
+/*! @mui/material */
+
+/*! @mui/material/Modal */
+
+/*! @mui/material/Switch */
+
+/*! @mui/material/FormControlLabel */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! prop-types */
+
+/*! react-icons/bi */
+
+/*! react-icons/ai */
+
+/*! react-icons/io5 */
+
+/*! @mui/material/Box */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-redux */
+
+/*! styled-components */
+
+/*! react-icons/io5 */
+
+/*! react-icons/bs */
+
+/*! @mui/material/Button */
+
+/*! react-icons/md */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react-icons/io5 */
+
+/*! @mui/material/Box */
+
+/*! ../../student/subject/MessagesTeacherAndStudents */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-icons/fi */
+
+/*! @mui/material/Button */
+
+/*! react-toastify */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! react-icons/fa */
+
+/*! react-icons/ri */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-icons/im */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/IconButton */
+
+/*! @mui/material/TextField */
+
+/*! @mui/material/Typography */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/TextField */
+
+/*! @mui/material/Autocomplete */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/io */
+
+/*! styled-components */
+
+/*! @mui/material */
+
+/*! ./ModalUploadFile */
+
+/*! react-router-dom */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material/IconButton */
+
+/*! @mui/material/LinearProgress */
+
+/*! @mui/material/Input */
+
+/*! react-icons/ai */
+
+/*! styled-components */
+
+/*! react */
+
+/*! @mui/material/Switch */
+
+/*! @mui/material/Typography */
+
+/*! axios */
+
+/*! react/jsx-runtime */

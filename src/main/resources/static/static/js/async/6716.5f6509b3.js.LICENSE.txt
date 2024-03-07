@@ -1,0 +1,37 @@
+/*! react-icons/io5 */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-router-dom */
+
+/*! axios */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/bi */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/Button */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! react-icons/fa */
+
+/*! react-icons/ri */
+
+/*! styled-components */
+
+/*! react-icons/ai */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../../responsiv */
+
+/*! react-icons/bs */

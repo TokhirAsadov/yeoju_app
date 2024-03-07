@@ -1,0 +1,27 @@
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-icons/fa */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material */
+
+/*! @mui/x-data-grid */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-redux */
+
+/*! axios */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! styled-components */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */

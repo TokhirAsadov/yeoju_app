@@ -1,0 +1,61 @@
+/*! react */
+
+/*! ../../utills/ServiceUrls */
+
+/*! prop-types */
+
+/*! @mui/material/InputLabel */
+
+/*! ../../redux/actions/educationYear/education_year_actions */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! axios */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/Select */
+
+/*! @mui/material/FormControl */
+
+/*! @mui/material/Skeleton */
+
+/*! @mui/material/Tab */
+
+/*! @mui/material/MenuItem */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! moment/moment */
+
+/*! react-redux */
+
+/*! ../../responsiv */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! styled-components */
+
+/*! core-js/modules/es.array.unscopables.flat.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../utills/images/no-picture.jpg */
+
+/*! ../emptyDataImg/EmptyDataImg */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! @mui/material/Tabs */

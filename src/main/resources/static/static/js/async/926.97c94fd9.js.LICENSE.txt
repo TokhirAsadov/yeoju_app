@@ -1,0 +1,101 @@
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! @mui/material/Typography */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.some.js */
+
+/*! axios */
+
+/*! axios */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/Button */
+
+/*! @mui/material/Box */
+
+/*! @mui/material/colors */
+
+/*! react-icons/io */
+
+/*! react-router-dom */
+
+/*! moment/locale/en-au */
+
+/*! @mui/material */
+
+/*! ../timeTable/TeacherTimeTableToday */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! @mui/material */
+
+/*! ../../student/menu/RegulationDashboard */
+
+/*! moment/moment */
+
+/*! react-icons/fa6 */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! styled-components */
+
+/*! ../../../responsiv */
+
+/*! styled-components */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! react-redux */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material/Typography */
+
+/*! react-icons/fa */
+
+/*! @mui/material/Button */
+
+/*! react-icons/io */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-router-dom */
+
+/*! ../statistics/StatisticsMonthUser */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! @mui/material/Avatar */
+
+/*! @mui/material/colors */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.async-iterator.some.js */
+
+/*! react-redux */
+
+/*! ../../../responsiv */
+
+/*! react-icons/hi2 */
+
+/*! ./ModalForFreeHours */
+
+/*! react */
+
+/*! ../../../utills/ServiceUrls */
