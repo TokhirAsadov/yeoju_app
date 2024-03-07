@@ -1,5 +1,3 @@
-/*! @swc/helpers/_/_tagged_template_literal */
-
 /*! styled-components */
 
 /*! react */
@@ -8,8 +6,10 @@
 
 /*! axios */
 
-/*! react-icons/gr */
-
 /*! ../../../utills/ServiceUrls */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/gr */
 
 /*! react-toastify */
