@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.module.CreateGradesWithThemeDto;
+import uz.yeoju.yeoju_app.payload.module.CreateThemeOfSubjectForGradeDto;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.themeOfSubjectForGradeByTeacher.ThemeOfSubjectForGradeByTeacherService;
 
@@ -26,5 +27,11 @@ public class ThemeOfSubjectForGradeByTeacherController {
     @GetMapping("/getThemes/{lessonId}")
     HttpEntity<?> getThemeByLessonIdAndEducationYearIdAndCreatorId(@CurrentUser User user,@PathVariable("lessonId") String lessonId,@RequestParam("educationYearId") String educationYearId){
         return ResponseEntity.ok(service.getThemeByLessonIdAndEducationYearIdAndCreatorId(lessonId,educationYearId, user.getId()));
+    }
+
+    @PostMapping("/createTheme")
+    HttpEntity<?> createTheme(@CurrentUser User user, @RequestBody CreateThemeOfSubjectForGradeDto dto){
+        ApiResponse themeWithGrade = service.createTheme(user, dto);
+        return ResponseEntity.status(201).body(themeWithGrade);
     }
 }
