@@ -56,6 +56,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
                                         gradeOfStudent.setEducationYear(educationYear);
                                         gradeOfStudent.setLesson(lesson);
                                         gradeOfStudent.setGrade(grade.grade);
+                                        gradeOfStudent.setDescription(theme.getName());
                                         gradeOfStudent.setTime(dto.getTime());
                                         gradeOfStudent.setTheme(theme);
                                         gradeRepository.save(gradeOfStudent);
@@ -107,6 +108,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
                                         gradeOfStudent.setEducationYear(educationYear);
                                         gradeOfStudent.setLesson(lesson);
                                         gradeOfStudent.setGrade(grade.grade);
+                                        gradeOfStudent.setDescription(theme.getName());
                                         gradeOfStudent.setTime(dto.getTime());
                                         gradeOfStudent.setTheme(theme);
                                         gradeRepository.save(gradeOfStudent);
