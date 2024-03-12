@@ -3,10 +3,7 @@ package uz.yeoju.yeoju_app.controller.module;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
@@ -24,5 +21,10 @@ public class ThemeOfSubjectForGradeByTeacherController {
     HttpEntity<?> createThemeWithGrade(@CurrentUser User user, @RequestBody CreateGradesWithThemeDto dto){
         ApiResponse themeWithGrade = service.createThemeWithGrade(user, dto);
         return ResponseEntity.status(201).body(themeWithGrade);
+    }
+
+    @GetMapping("/getThemes/{lessonId}")
+    HttpEntity<?> getThemeByLessonIdAndEducationYearIdAndCreatorId(@CurrentUser User user,@PathVariable("lessonId") String lessonId,@RequestParam("educationYearId") String educationYearId){
+        return ResponseEntity.ok(service.getThemeByLessonIdAndEducationYearIdAndCreatorId(lessonId,educationYearId, user.getId()));
     }
 }
