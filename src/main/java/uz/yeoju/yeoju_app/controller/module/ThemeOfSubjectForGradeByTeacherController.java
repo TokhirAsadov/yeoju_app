@@ -9,8 +9,11 @@ import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.module.CreateGradesWithThemeDto;
 import uz.yeoju.yeoju_app.payload.module.CreateThemeOfSubjectForGradeDto;
+import uz.yeoju.yeoju_app.payload.module.UpdateThemeOfSubjectForGradeDto;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.themeOfSubjectForGradeByTeacher.ThemeOfSubjectForGradeByTeacherService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/themeOfSubjectForGrading")
@@ -30,8 +33,14 @@ public class ThemeOfSubjectForGradeByTeacherController {
     }
 
     @PostMapping("/createTheme")
-    HttpEntity<?> createTheme(@CurrentUser User user, @RequestBody CreateThemeOfSubjectForGradeDto dto){
+    HttpEntity<?> createTheme(@CurrentUser User user, @Valid @RequestBody CreateThemeOfSubjectForGradeDto dto){
         ApiResponse themeWithGrade = service.createTheme(user, dto);
         return ResponseEntity.status(201).body(themeWithGrade);
+    }
+
+    @PutMapping("/updateTheme")
+    HttpEntity<?> updateTheme(@CurrentUser User user, @Valid @RequestBody UpdateThemeOfSubjectForGradeDto dto){
+        ApiResponse themeWithGrade = service.updateTheme(user, dto);
+        return ResponseEntity.status(200).body(themeWithGrade);
     }
 }
