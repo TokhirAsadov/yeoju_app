@@ -132,7 +132,7 @@ public class PlanOfSubjectImplService implements PlanOfSubjectService{
 //            EducationLanguage educationLanguageByName = educationLanRepository.getEducationLanguageByName(dto.getEduLang());
 //            EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
 //            Lesson lesson = lessonRepository.getById(dto.getSubjectId());
-//            EducationYear educationYear = educationYearRepository.getById(dto.getEducationYearId());
+//            EducationYear educationYear = educationYearRepository.getById(dto.getEducationId());
 //            PlanOfSubject plan = new PlanOfSubject(
 //                    user,
 //                    educationYear,

@@ -202,7 +202,7 @@ public class AttachmentService {
                     if (file != null) {
 
 //                        if (defaultOrMed.equals(WeekType.DEFAULT)){
-//                            EducationYear educationYear = educationYearRepository.getById(educationYearId);
+//                            EducationYear educationYear = educationYearRepository.getById(educationId);
 //                            Boolean existsSort = weekOfEducationYearRepository.existsBySortNumberAndYear(Integer.valueOf(filename), Integer.valueOf(year));
 //                            Boolean existsWeek = weekOfEducationYearRepository.existsByWeekNumberAndYear(weekNumber, Integer.valueOf(year));
 //                            if (existsSort){
@@ -227,7 +227,7 @@ public class AttachmentService {
 ////                            educationYearRepository.save(educationYear);
 //                        }
 //                        else {
-//                            EducationYear educationYear = educationYearRepository.getById(educationYearId);
+//                            EducationYear educationYear = educationYearRepository.getById(educationId);
 //                            Boolean existsSort = weekOfEducationYearRepository.existsBySortNumberAndYear(Integer.valueOf(filename), Integer.valueOf(year));
 //                            Boolean existsWeek = weekOfEducationYearRepository.existsByWeekNumberAndYear(weekNumber, Integer.valueOf(year));
 //                            if (!existsSort){
