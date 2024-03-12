@@ -16,6 +16,6 @@ public class CreateGradesWithThemeDto {
     public String themeName;
     public String subjectId;
     public String groupId;
-    public String educationYearId;
+    public String educationId;
     public Set<ChildOfCreateGradesWithThemeDto> grades;
 }
