@@ -6,14 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import uz.yeoju.yeoju_app.entity.DynamicAttendance;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
-import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.payload.DynamicAttendanceDto;
-import uz.yeoju.yeoju_app.payload.MultiDynamicAttendance2Dto;
-import uz.yeoju.yeoju_app.payload.MultiDynamicAttendanceDto;
+import uz.yeoju.yeoju_app.payload.*;
 import uz.yeoju.yeoju_app.repository.DynamicAttendanceRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -109,5 +107,23 @@ public class DynamicAttendanceImplService implements DynamicAttendanceService {
         });
 
         return new ApiResponse(true,"Attendances were created successful!.");
+    }
+
+    @Override
+    public ApiResponse updateMultiDynamicAttendance(User user, Set<UpdateMultiDynamicAttendanceDto> dtos) {
+
+        dtos.forEach(dto -> {
+            Boolean bool = repository.existsByIdAndCreatedBy(dto.id, user.getId());
+            if (bool){
+                DynamicAttendance attendance = repository.getById(dto.id);
+                attendance.setIsCome(dto.isCome);
+                repository.save(attendance);
+            }
+            else {
+                throw new UserNotFoundException("Attendance was not found by id: "+dto.id);
+            }
+        });
+
+        return new ApiResponse(true,"attendances were updated successfully!.");
     }
 }
