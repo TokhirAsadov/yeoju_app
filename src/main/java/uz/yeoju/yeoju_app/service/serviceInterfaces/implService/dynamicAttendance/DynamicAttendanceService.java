@@ -10,5 +10,5 @@ public interface DynamicAttendanceService {
     ApiResponse createMultiDynamicAttendance(User user, MultiDynamicAttendanceDto dto);
 
     ApiResponse createMultiDynamicAttendance2(User user, MultiDynamicAttendance2Dto dto);
-    ApiResponse updateMultiDynamicAttendance2(User user, Set<UpdateMultiDynamicAttendanceDto> dtos);
+    ApiResponse updateMultiDynamicAttendance(User user, Set<UpdateMultiDynamicAttendanceDto> dtos);
 }
