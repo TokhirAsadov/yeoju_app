@@ -31,6 +31,11 @@ public class ThemeOfSubjectForGradeByTeacherController {
     HttpEntity<?> getThemeByLessonIdAndEducationYearIdAndCreatorId(@CurrentUser User user,@PathVariable("lessonId") String lessonId,@RequestParam("educationYearId") String educationYearId){
         return ResponseEntity.ok(service.getThemeByLessonIdAndEducationYearIdAndCreatorId(lessonId,educationYearId, user.getId()));
     }
+    @GetMapping("/getLastThemes/{lessonId}")
+    HttpEntity<?> getFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(@CurrentUser User user,@PathVariable("lessonId") String lessonId,@RequestParam("educationYearId") String educationYearId){
+        return ResponseEntity.ok(service.getFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(lessonId,educationYearId, user.getId()));
+    }
+
 
     @PostMapping("/createTheme")
     HttpEntity<?> createTheme(@CurrentUser User user, @Valid @RequestBody CreateThemeOfSubjectForGradeDto dto){
