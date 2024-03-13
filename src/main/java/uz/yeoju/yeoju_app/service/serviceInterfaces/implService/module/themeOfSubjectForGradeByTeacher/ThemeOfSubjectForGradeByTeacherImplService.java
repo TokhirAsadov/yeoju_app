@@ -207,4 +207,10 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
         Set<ThemeOfSubjectForGradeByTeacher> themes = repository.findAllByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(lessonId, educationYearId, creatorId);
         return new ApiResponse(true,"All themes",themes);
     }
+
+    @Override
+    public ApiResponse getFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(String lessonId, String educationYearId, String creatorId) {
+        ThemeOfSubjectForGradeByTeacher theme = repository.findFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(lessonId, educationYearId, creatorId);
+        return new ApiResponse(true,"last theme is this",theme);
+    }
 }
