@@ -11,4 +11,6 @@ public interface ThemeOfSubjectForGradeByTeacherRepository extends JpaRepository
     Boolean existsByNameAndLessonIdAndEducationYearIdAndCreatedBy(String name, String lesson_id, String educationYear_id, String createdBy);
     Set<ThemeOfSubjectForGradeByTeacher> findAllByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(String lesson_id, String educationYear_id, String createdBy);
 
+    ThemeOfSubjectForGradeByTeacher findFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(String lesson_id, String educationYear_id, String createdBy);
+
 }
