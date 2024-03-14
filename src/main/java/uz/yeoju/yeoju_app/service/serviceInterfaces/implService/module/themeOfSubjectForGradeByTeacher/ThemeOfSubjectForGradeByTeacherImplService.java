@@ -146,7 +146,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
             boolean existsLesson = lessonRepository.existsById(dto.subjectId);
             if (existsLesson){
                 Boolean exists = repository.existsByNameAndLessonIdAndEducationYearIdAndCreatedBy(dto.name, dto.subjectId, dto.educationYearId, user.getId());
-                if (exists){
+                if (!exists){
                     EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
                     Lesson lesson = lessonRepository.getById(dto.subjectId);
                     ThemeOfSubjectForGradeByTeacher theme = new ThemeOfSubjectForGradeByTeacher(dto.name, lesson, educationYear);
