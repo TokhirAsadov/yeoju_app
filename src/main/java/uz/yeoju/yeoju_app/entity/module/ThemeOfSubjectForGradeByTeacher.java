@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.entity.module;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.entity.Lesson;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
@@ -22,6 +23,9 @@ public class ThemeOfSubjectForGradeByTeacher extends AbsEntity {
     private String name;
 
     @ManyToOne
+    private Group group;
+
+    @ManyToOne
     private Lesson lesson;
 
     @ManyToOne
@@ -30,6 +34,14 @@ public class ThemeOfSubjectForGradeByTeacher extends AbsEntity {
     public ThemeOfSubjectForGradeByTeacher(String id, String name, Lesson lesson, EducationYear educationYear) {
         super(id);
         this.name = name;
+        this.lesson = lesson;
+        this.educationYear = educationYear;
+    }
+
+    public ThemeOfSubjectForGradeByTeacher(String id, String name, Group group,Lesson lesson, EducationYear educationYear) {
+        super(id);
+        this.name = name;
+        this.group = group;
         this.lesson = lesson;
         this.educationYear = educationYear;
     }
