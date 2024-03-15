@@ -13,6 +13,7 @@ public class UpdateThemeOfSubjectForGradeDto {
     public String id;
     @Size(min = 3,message = "Mazvu nomining uzunligi kamida 4 bo`lishi kerak.")
     public String name;
+    public String groupId;
     public String subjectId;
     public String educationYearId;
 }
