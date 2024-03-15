@@ -220,14 +220,14 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
     }
 
     @Override
-    public ApiResponse getThemeByLessonIdAndEducationYearIdAndCreatorId(String lessonId, String educationYearId, String creatorId) {
-        Set<ThemeOfSubjectForGradeByTeacher> themes = repository.findAllByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(lessonId, educationYearId, creatorId);
+    public ApiResponse getThemeByLessonIdAndEducationYearIdAndCreatorId(String groupId,String lessonId, String educationYearId, String creatorId) {
+        Set<ThemeOfSubjectForGradeByTeacher> themes = repository.findAllByGroupIdAndLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(groupId,lessonId, educationYearId, creatorId);
         return new ApiResponse(true,"All themes",themes);
     }
 
     @Override
-    public ApiResponse getFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(String lessonId, String educationYearId, String creatorId) {
-        ThemeOfSubjectForGradeByTeacher theme = repository.findFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(lessonId, educationYearId, creatorId);
+    public ApiResponse getFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(String groupId,String lessonId, String educationYearId, String creatorId) {
+        ThemeOfSubjectForGradeByTeacher theme = repository.findFirstByGroupIdAndLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(groupId,lessonId, educationYearId, creatorId);
         return new ApiResponse(true,"last theme is this",theme);
     }
 }
