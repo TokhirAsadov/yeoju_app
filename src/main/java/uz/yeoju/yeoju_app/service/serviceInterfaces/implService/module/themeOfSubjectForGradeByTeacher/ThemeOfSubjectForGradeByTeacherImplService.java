@@ -184,18 +184,26 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
             if (existsLesson){
                 boolean existsById = repository.existsById(dto.id);
                 if (existsById) {
-                    Boolean exists = repository.existsByNameAndLessonIdAndEducationYearIdAndCreatedBy(dto.name, dto.subjectId, dto.educationYearId, user.getId());
-                    if (exists) {
-                        EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
-                        Lesson lesson = lessonRepository.getById(dto.subjectId);
-                        ThemeOfSubjectForGradeByTeacher theme = repository.getById(dto.id);
-                        theme.setLesson(lesson);
-                        theme.setEducationYear(educationYear);
-                        theme.setName(dto.name);
-                        repository.save(theme);
-                        return new ApiResponse(true, "Theme was updated successfully!.");
-                    } else {
-                        throw new UserNotFoundException("Theme already exists by name: " + dto.name);
+                    boolean existsGroup = groupRepository.existsById(dto.groupId);
+                    if (existsGroup) {
+                        Boolean exists = repository.existsByNameAndLessonIdAndEducationYearIdAndCreatedBy(dto.name, dto.subjectId, dto.educationYearId, user.getId());
+                        if (exists) {
+                            EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
+                            Lesson lesson = lessonRepository.getById(dto.subjectId);
+                            Group group = groupRepository.getById(dto.groupId);
+                            ThemeOfSubjectForGradeByTeacher theme = repository.getById(dto.id);
+                            theme.setLesson(lesson);
+                            theme.setGroup(group);
+                            theme.setEducationYear(educationYear);
+                            theme.setName(dto.name);
+                            repository.save(theme);
+                            return new ApiResponse(true, "Theme was updated successfully!.");
+                        } else {
+                            throw new UserNotFoundException("Theme already exists by name: " + dto.name);
+                        }
+                    }
+                    else {
+                        throw new UserNotFoundException("Group was not found by id: " + dto.groupId);
                     }
                 }
                 else {
