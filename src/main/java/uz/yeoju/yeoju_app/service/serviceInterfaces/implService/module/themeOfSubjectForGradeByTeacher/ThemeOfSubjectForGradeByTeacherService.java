@@ -11,7 +11,7 @@ public interface ThemeOfSubjectForGradeByTeacherService {
     ApiResponse createThemeWithGrade(User user,CreateGradesWithThemeDto dto);
     ApiResponse createTheme(User user,CreateThemeOfSubjectForGradeDto dto);
     ApiResponse updateTheme(User user,UpdateThemeOfSubjectForGradeDto dto);
-    ApiResponse getThemeByLessonIdAndEducationYearIdAndCreatorId(String lessonId, String educationYearId, String creatorId);
-    ApiResponse getFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(String lessonId, String educationYearId, String creatorId);
+    ApiResponse getThemeByLessonIdAndEducationYearIdAndCreatorId(String groupId,String lessonId, String educationYearId, String creatorId);
+    ApiResponse getFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(String groupId,String lessonId, String educationYearId, String creatorId);
 
 }
