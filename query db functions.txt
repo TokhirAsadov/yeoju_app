@@ -1,3 +1,20 @@
+CREATE FUNCTION dbo.GetListStudentsForGetGradesByThemeIdAndGroupIdAndSubjectIdAndTeacherIdAndEducationId(
+    @themeId varchar(255),
+    @groupId varchar(255),
+    @lessonId varchar(255),
+    @educationYearId varchar(255),
+    @teacherId varchar(255)
+) RETURNS TABLE
+    AS
+    RETURN
+    (
+    select th.id, th.name, th.group_id as groupId, th.lesson_id as lessonId, th.educationYear_id as educationYearId,th.createdAt, u.id as studentId, u.fullName as studentName from ThemeOfSubjectForGradeByTeacher th
+     join groups g on th.group_id = g.id join Student s on g.id = s.group_id join users u on s.user_id = u.id
+    where th.id=@themeId and th.group_id=@groupId and th.lesson_id=@lessonId and th.createdBy=@teacherId and th.educationYear_id=@educationYearId
+    );
+
+
+
 CREATE FUNCTION dbo.GetListStudentsForGetGradesByGroupIdAndSubjectIdAndTeacherIdAndEducationId(
     @groupId varchar(255),
     @lessonId varchar(255),
