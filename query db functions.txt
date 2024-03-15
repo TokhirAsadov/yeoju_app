@@ -1,3 +1,18 @@
+CREATE FUNCTION dbo.GetThemes(
+    @groupId varchar(255),
+    @lessonId varchar(255),
+    @educationYearId varchar(255),
+    @teacherId varchar(255)
+) RETURNS TABLE
+    AS
+    RETURN
+    (
+    select th.id, th.name, th.group_id as groupId, th.lesson_id as lessonId, th.educationYear_id as educationYearId,th.createdBy,th.createdAt from ThemeOfSubjectForGradeByTeacher th
+    where th.group_id=@groupId and th.lesson_id=@lessonId and th.createdBy=@teacherId and th.educationYear_id=@educationYearId
+    );
+
+
+
 CREATE FUNCTION dbo.GetListStudentsForGetGradesByThemeIdAndGroupIdAndSubjectIdAndTeacherIdAndEducationId(
     @themeId varchar(255),
     @groupId varchar(255),
