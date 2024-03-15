@@ -27,13 +27,13 @@ public class ThemeOfSubjectForGradeByTeacherController {
         return ResponseEntity.status(201).body(themeWithGrade);
     }
 
-    @GetMapping("/getThemes/{lessonId}")
-    HttpEntity<?> getThemeByLessonIdAndEducationYearIdAndCreatorId(@CurrentUser User user,@PathVariable("lessonId") String lessonId,@RequestParam("educationYearId") String educationYearId){
-        return ResponseEntity.ok(service.getThemeByLessonIdAndEducationYearIdAndCreatorId(lessonId,educationYearId, user.getId()));
+    @GetMapping("/getThemes/{lessonId}/{groupId}")
+    HttpEntity<?> getThemeByLessonIdAndEducationYearIdAndCreatorId(@CurrentUser User user,@PathVariable("lessonId") String lessonId,@PathVariable("groupId") String groupId,@RequestParam("educationYearId") String educationYearId){
+        return ResponseEntity.ok(service.getThemeByLessonIdAndEducationYearIdAndCreatorId(groupId,lessonId,educationYearId, user.getId()));
     }
-    @GetMapping("/getLastThemes/{lessonId}")
-    HttpEntity<?> getFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(@CurrentUser User user,@PathVariable("lessonId") String lessonId,@RequestParam("educationYearId") String educationYearId){
-        return ResponseEntity.ok(service.getFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(lessonId,educationYearId, user.getId()));
+    @GetMapping("/getLastThemes/{lessonId}/{groupId}")
+    HttpEntity<?> getFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(@CurrentUser User user,@PathVariable("lessonId") String lessonId,@PathVariable("groupId") String groupId,@RequestParam("educationYearId") String educationYearId){
+        return ResponseEntity.ok(service.getFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(groupId,lessonId,educationYearId, user.getId()));
     }
 
 
