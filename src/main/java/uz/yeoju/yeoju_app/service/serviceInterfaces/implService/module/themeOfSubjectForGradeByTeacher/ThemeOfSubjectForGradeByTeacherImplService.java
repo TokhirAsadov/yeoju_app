@@ -2,6 +2,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.themeOfS
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.entity.Lesson;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
@@ -12,6 +13,7 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.module.CreateGradesWithThemeDto;
 import uz.yeoju.yeoju_app.payload.module.CreateThemeOfSubjectForGradeDto;
 import uz.yeoju.yeoju_app.payload.module.UpdateThemeOfSubjectForGradeDto;
+import uz.yeoju.yeoju_app.repository.GroupRepository;
 import uz.yeoju.yeoju_app.repository.LessonRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
@@ -30,11 +32,12 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
     private final GradeOfStudentByTeacherRepository gradeRepository;
     private final UserRepository userRepository;
     private final LessonRepository lessonRepository;
+    private final GroupRepository groupRepository;
 
     @Override
     public ApiResponse createThemeWithGrade(User user,CreateGradesWithThemeDto dto) {
         if (dto.id == null) {
-            ApiResponse response = createTheme(user, new CreateThemeOfSubjectForGradeDto(dto.themeName, dto.subjectId,dto.educationId));
+            ApiResponse response = createTheme(user, new CreateThemeOfSubjectForGradeDto(dto.themeName, dto.groupId, dto.subjectId,dto.educationId));
             if (response.isSuccess()) {
                 ThemeOfSubjectForGradeByTeacher theme = (ThemeOfSubjectForGradeByTeacher) response.getObj();
                 dto.getGrades().forEach(grade->{
@@ -145,16 +148,22 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
         if (existsEducationYear){
             boolean existsLesson = lessonRepository.existsById(dto.subjectId);
             if (existsLesson){
-                Boolean exists = repository.existsByNameAndLessonIdAndEducationYearIdAndCreatedBy(dto.name, dto.subjectId, dto.educationYearId, user.getId());
-                if (!exists){
-                    EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
-                    Lesson lesson = lessonRepository.getById(dto.subjectId);
-                    ThemeOfSubjectForGradeByTeacher theme = new ThemeOfSubjectForGradeByTeacher(dto.name, lesson, educationYear);
-                    repository.saveAndFlush(theme);
-                    return new ApiResponse(true,"Theme was saved successfully!.",theme);
+                boolean existsGroup = groupRepository.existsById(dto.groupId);
+                if (existsGroup) {
+                    Boolean exists = repository.existsByNameAndLessonIdAndEducationYearIdAndCreatedBy(dto.name, dto.subjectId, dto.educationYearId, user.getId());
+                    if (!exists) {
+                        EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
+                        Lesson lesson = lessonRepository.getById(dto.subjectId);
+                        Group group = groupRepository.getById(dto.groupId);
+                        ThemeOfSubjectForGradeByTeacher theme = new ThemeOfSubjectForGradeByTeacher(dto.name,group, lesson, educationYear);
+                        repository.saveAndFlush(theme);
+                        return new ApiResponse(true, "Theme was saved successfully!.", theme);
+                    } else {
+                        throw new UserNotFoundException("Theme already exists by name: " + dto.name);
+                    }
                 }
                 else {
-                    throw new UserNotFoundException("Theme already exists by name: "+dto.name);
+                    throw new UserNotFoundException("Group was not found by id: "+dto.groupId);
                 }
             }
             else {
