@@ -13,5 +13,6 @@ public interface ThemeOfSubjectForGradeByTeacherService {
     ApiResponse updateTheme(User user,UpdateThemeOfSubjectForGradeDto dto);
     ApiResponse getThemeByLessonIdAndEducationYearIdAndCreatorId(String groupId,String lessonId, String educationYearId, String creatorId);
     ApiResponse getFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(String groupId,String lessonId, String educationYearId, String creatorId);
+    ApiResponse getThemes(String groupId, String lessonId, String educationYearId, String teacherId);
 
 }
