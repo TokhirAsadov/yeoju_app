@@ -110,6 +110,29 @@ public class DynamicAttendanceImplService implements DynamicAttendanceService {
     }
 
     @Override
+    public ApiResponse createMultiDynamicAttendance3(User user, Set<MultiDynamicAttendance3Dto> dtos) {
+        dtos.forEach(dto ->{
+            Boolean exists = repository.existsByYearAndWeekAndWeekdayAndSectionAndCreatedByAndStudentIdAndRoom(dto.getYear(), dto.getWeek(), dto.getWeekday(), dto.getSection(), user.getId(), dto.studentId, dto.room);
+            if (!exists) {
+                Optional<User> optionalUser = userRepository.findById(dto.studentId);
+                if (optionalUser.isPresent()){
+                    repository.save(new DynamicAttendance(
+                            dto.getYear(), dto.getWeek(), dto.getWeekday(), dto.section, dto.isCome, dto.room, optionalUser.get()
+                    ));
+                }
+                else {
+                    throw new UserNotFoundException("Not found student by id: " + dto.studentId);
+                }
+            }
+            else {
+                throw new UserNotFoundException("Attendance already exists");
+            }
+        });
+
+        return new ApiResponse(true,"Attendances were created successful!.");
+    }
+
+    @Override
     public ApiResponse updateMultiDynamicAttendance(User user, Set<UpdateMultiDynamicAttendanceDto> dtos) {
 
         dtos.forEach(dto -> {
