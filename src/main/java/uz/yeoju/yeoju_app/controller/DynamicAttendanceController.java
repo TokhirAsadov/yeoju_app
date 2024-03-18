@@ -42,6 +42,12 @@ public class DynamicAttendanceController {
         return ResponseEntity.status(response.isSuccess() ? 201:402).body(response);
     }
 
+    @PostMapping("/createMultiDynamicAttendance3")
+    public HttpEntity<?> createMulti3(@CurrentUser User user, @RequestBody Set<MultiDynamicAttendance3Dto> dtoes){
+        ApiResponse response = service.createMultiDynamicAttendance3(user, dtoes);
+        return ResponseEntity.status(response.isSuccess() ? 201:402).body(response);
+    }
+
     @PutMapping("/updateMultiDynamicAttendance")
     public HttpEntity<?> updateMultiDynamicAttendance(@CurrentUser User user, @RequestBody Set<UpdateMultiDynamicAttendanceDto> dtos){
         ApiResponse response = service.updateMultiDynamicAttendance(user, dtos);
