@@ -21,6 +21,11 @@ import javax.validation.Valid;
 public class ThemeOfSubjectForGradeByTeacherController {
     private final ThemeOfSubjectForGradeByTeacherService service;
 
+    @GetMapping("/getThemesWithStudentsGrades/{lessonId}/{groupId}")
+    HttpEntity<?> getThemesWithStudentsGrades(@CurrentUser User user,@PathVariable("lessonId") String lessonId,@PathVariable("groupId") String groupId,@RequestParam("educationYearId") String educationYearId){
+        return ResponseEntity.ok(service.getThemes(groupId,lessonId,educationYearId, user.getId()));
+    }
+
     @PostMapping("/createThemeWithGrade")
     HttpEntity<?> createThemeWithGrade(@CurrentUser User user, @RequestBody CreateGradesWithThemeDto dto){
         ApiResponse themeWithGrade = service.createThemeWithGrade(user, dto);
