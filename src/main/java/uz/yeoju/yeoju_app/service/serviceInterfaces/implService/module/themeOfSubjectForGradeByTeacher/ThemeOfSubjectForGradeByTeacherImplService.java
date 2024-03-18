@@ -233,6 +233,6 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
 
     @Override
     public ApiResponse getThemes(String groupId, String lessonId, String educationYearId, String teacherId) {
-        return null;
+        return new ApiResponse(true,"all themes with students' grades",repository.getThemes(groupId,lessonId,educationYearId,teacherId));
     }
 }
