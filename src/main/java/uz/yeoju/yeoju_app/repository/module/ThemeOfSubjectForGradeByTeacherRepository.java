@@ -17,7 +17,8 @@ public interface ThemeOfSubjectForGradeByTeacherRepository extends JpaRepository
 
 
     //@Query(value = "select * from dbo.GetListStudentsForGetGradesByThemeIdAndGroupIdAndSubjectIdAndTeacherIdAndEducationId(?5,?1,?2,?4,?3) order by createdAt",nativeQuery = true)
-
+    @Query(value = "select * from dbo.GetThemes (?1,?2,?3,?4) order by createdAt",nativeQuery = true)
+    Set<GetThemes> getThemes(String groupId, String lessonId, String educationYearId, String teacherId);
 
     @Query(value = "select * from dbo.GetListStudentsForGetGradesByThemeIdAndGroupIdAndSubjectIdAndTeacherIdAndEducationId(?1,?2,?3,?4,?5) order by createdAt",nativeQuery = true)
     Set<GetThemesItems> getThemesItems(String themeId, String groupId, String lessonId, String educationYearId, String teacherId);
