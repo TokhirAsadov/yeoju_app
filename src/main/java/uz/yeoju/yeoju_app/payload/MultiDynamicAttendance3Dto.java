@@ -18,6 +18,11 @@ public class MultiDynamicAttendance3Dto {
     public String studentId;
     public String room;
 
+    public MultiDynamicAttendance3Dto(String id, Boolean isCome) {
+        this.id = id;
+        this.isCome = isCome;
+    }
+
     public MultiDynamicAttendance3Dto(Integer year, Integer week, Integer weekday, Integer section, Boolean isCome, String studentId, String room) {
         this.year = year;
         this.week = week;
