@@ -132,6 +132,11 @@ public class DynamicAttendanceImplService implements DynamicAttendanceService {
         return new ApiResponse(true,"Attendances were created successful!.");
     }
 
+
+    @Override
+    public ApiResponse updateMultiDynamicAttendance3(User user, Set<MultiDynamicAttendance3Dto> dtos) {
+
+    }
     @Override
     public ApiResponse updateMultiDynamicAttendance(User user, Set<UpdateMultiDynamicAttendanceDto> dtos) {
 
