@@ -36,11 +36,11 @@
 
 /*! core-js/modules/es.array.push.js */
 
-/*! styled-components */
+/*! @swc/helpers/_/_tagged_template_literal */
 
-/*! react */
+/*! core-js/modules/es.string.replace.js */
 
-/*! react/jsx-runtime */
+/*! ../../../utills/ServiceUrls */
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
@@ -54,15 +54,11 @@
 
 /*! ../../../responsiv */
 
-/*! core-js/modules/esnext.iterator.map.js */
-
 /*! core-js/modules/esnext.async-iterator.find.js */
 
 /*! core-js/modules/esnext.iterator.map.js */
 
 /*! @mui/material/Button */
-
-/*! core-js/modules/esnext.async-iterator.map.js */
 
 /*! core-js/modules/esnext.iterator.find.js */
 
@@ -92,8 +88,6 @@
 
 /*! @mui/material/Typography */
 
-/*! ../../../utills/ServiceUrls */
-
 /*! styled-components */
 
 /*! react */
@@ -102,11 +96,15 @@
 
 /*! react/jsx-runtime */
 
-/*! @swc/helpers/_/_tagged_template_literal */
+/*! styled-components */
 
 /*! react-redux */
 
 /*! ../../../redux/slice/educationYear/education_year_statistics_slice */
+
+/*! react */
+
+/*! react/jsx-runtime */
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
@@ -124,6 +122,8 @@
 
 /*! react/jsx-runtime */
 
+/*! core-js/modules/esnext.iterator.map.js */
+
 /*! core-js/modules/esnext.async-iterator.map.js */
 
 /*! ./StudentSciencesNb */
@@ -131,5 +131,7 @@
 /*! core-js/modules/esnext.async-iterator.map.js */
 
 /*! @mui/material */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
 
 /*! ../../../redux/actions/infoStudentForLesson/InfoStudentForLesson_actions */
