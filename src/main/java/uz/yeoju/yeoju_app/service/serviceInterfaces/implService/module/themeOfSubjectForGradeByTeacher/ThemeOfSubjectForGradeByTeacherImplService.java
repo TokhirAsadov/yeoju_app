@@ -39,7 +39,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
         if (dto.id == null) {
             ApiResponse response = createTheme(user, new CreateThemeOfSubjectForGradeDto(dto.themeName, dto.maxGrade, dto.groupId, dto.subjectId,dto.educationId));
             if (response.isSuccess()) {
-                ThemeOfSubjectForGradeByTeacher theme = (ThemeOfSubjectForGradeByTeacher) response.getObj();
+                ThemeOfSubjectForGradeByTeacher theme = repository.getById((String) response.getObj());
                 dto.getGrades().forEach(grade->{
                     Boolean exists = gradeRepository.existsByEducationYearIdAndThemeIdAndStudentId(dto.educationId, theme.getId(), grade.studentId);
                     if (!exists) {
@@ -157,7 +157,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
                         Group group = groupRepository.getById(dto.groupId);
                         ThemeOfSubjectForGradeByTeacher theme = new ThemeOfSubjectForGradeByTeacher(dto.name,dto.maxGrade,group, lesson, educationYear);
                         repository.saveAndFlush(theme);
-                        return new ApiResponse(true, "Theme was saved successfully!.", theme);
+                        return new ApiResponse(true, "Theme was saved successfully!.", theme.getId());
                     } else {
                         throw new UserNotFoundException("Theme already exists by name: " + dto.name);
                     }
