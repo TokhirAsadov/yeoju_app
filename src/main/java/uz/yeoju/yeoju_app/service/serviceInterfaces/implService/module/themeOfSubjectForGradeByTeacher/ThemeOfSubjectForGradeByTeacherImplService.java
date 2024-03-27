@@ -37,7 +37,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
     @Override
     public ApiResponse createThemeWithGrade(User user,CreateGradesWithThemeDto dto) {
         if (dto.id == null) {
-            ApiResponse response = createTheme(user, new CreateThemeOfSubjectForGradeDto(dto.themeName, dto.groupId, dto.subjectId,dto.educationId));
+            ApiResponse response = createTheme(user, new CreateThemeOfSubjectForGradeDto(dto.themeName, dto.maxGrade, dto.groupId, dto.subjectId,dto.educationId));
             if (response.isSuccess()) {
                 ThemeOfSubjectForGradeByTeacher theme = (ThemeOfSubjectForGradeByTeacher) response.getObj();
                 dto.getGrades().forEach(grade->{
@@ -155,7 +155,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
                         EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
                         Lesson lesson = lessonRepository.getById(dto.subjectId);
                         Group group = groupRepository.getById(dto.groupId);
-                        ThemeOfSubjectForGradeByTeacher theme = new ThemeOfSubjectForGradeByTeacher(dto.name,group, lesson, educationYear);
+                        ThemeOfSubjectForGradeByTeacher theme = new ThemeOfSubjectForGradeByTeacher(dto.name,dto.maxGrade,group, lesson, educationYear);
                         repository.saveAndFlush(theme);
                         return new ApiResponse(true, "Theme was saved successfully!.", theme);
                     } else {
@@ -196,6 +196,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
                             theme.setGroup(group);
                             theme.setEducationYear(educationYear);
                             theme.setName(dto.name);
+                            theme.setMaxGrade(dto.maxGrade);
                             repository.save(theme);
                             return new ApiResponse(true, "Theme was updated successfully!.");
                         } else {
