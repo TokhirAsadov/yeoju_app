@@ -9,6 +9,7 @@ import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -27,13 +28,13 @@ public class ThemeOfSubjectForGradeByTeacher extends AbsEntity {
     @DecimalMin(value = "0",message = "Minimum grade can be 0.")
     private Double maxGrade;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Group group;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Lesson lesson;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private EducationYear educationYear;
 
     public ThemeOfSubjectForGradeByTeacher(String id, String name, Lesson lesson, EducationYear educationYear) {
