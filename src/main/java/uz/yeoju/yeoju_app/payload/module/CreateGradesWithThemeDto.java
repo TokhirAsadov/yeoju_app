@@ -14,6 +14,7 @@ public class CreateGradesWithThemeDto {
     public String id;
     public Timestamp time;
     public String themeName;
+    public Double maxGrade;
     public String subjectId;
     public String groupId;
     public String educationId;

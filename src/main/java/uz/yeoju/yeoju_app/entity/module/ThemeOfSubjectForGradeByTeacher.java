@@ -21,6 +21,7 @@ public class ThemeOfSubjectForGradeByTeacher extends AbsEntity {
 
     @Size(min = 3,message = "Mazvu nomining uzunligi kamida 4 bo`lishi kerak.")
     private String name;
+    private Double maxGrade;
 
     @ManyToOne
     private Group group;
