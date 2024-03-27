@@ -13,6 +13,7 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.module.CreateGradesWithThemeDto;
 import uz.yeoju.yeoju_app.payload.module.CreateThemeOfSubjectForGradeDto;
 import uz.yeoju.yeoju_app.payload.module.UpdateThemeOfSubjectForGradeDto;
+import uz.yeoju.yeoju_app.payload.resDto.module.GetThemesByQuery;
 import uz.yeoju.yeoju_app.repository.GroupRepository;
 import uz.yeoju.yeoju_app.repository.LessonRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
@@ -222,7 +223,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
 
     @Override
     public ApiResponse getThemeByLessonIdAndEducationYearIdAndCreatorId(String groupId,String lessonId, String educationYearId, String creatorId) {
-        Set<ThemeOfSubjectForGradeByTeacher> themes = repository.findAllByGroupIdAndLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(groupId,lessonId, educationYearId, creatorId);
+        Set<GetThemesByQuery> themes = repository.getThemesByQuery(groupId,lessonId, educationYearId, creatorId);
         return new ApiResponse(true,"All themes",themes);
     }
 
