@@ -8,6 +8,7 @@ import java.util.Set;
 public interface GetThemesItems {
     String getId();
     String getName();
+    Double getMaxGrade();
     String getGroupId();
     String getLessonId();
     String getEducationYearId();
