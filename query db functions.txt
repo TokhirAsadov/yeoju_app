@@ -7,7 +7,7 @@ CREATE FUNCTION dbo.GetThemes(
     AS
     RETURN
     (
-    select th.id, th.name, th.group_id as groupId, th.lesson_id as lessonId, th.educationYear_id as educationYearId,th.createdBy,th.createdAt from ThemeOfSubjectForGradeByTeacher th
+    select th.id, th.name, th.maxGrade, th.group_id as groupId, th.lesson_id as lessonId, th.educationYear_id as educationYearId,th.createdBy,th.createdAt from ThemeOfSubjectForGradeByTeacher th
     where th.group_id=@groupId and th.lesson_id=@lessonId and th.createdBy=@teacherId and th.educationYear_id=@educationYearId
     );
 
