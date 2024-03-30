@@ -60,12 +60,12 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
             if (educationYearOptional.isPresent()) {
                 Optional<Lesson> lessonOptional = lessonRepository.findById(dto.getSubjectId());
                 if (lessonOptional.isPresent()) {
-//                    Optional<ThemeOfSubjectForGradeByTeacher> themeOptional = themeRepository.findById(dto.getThemeId());
-//                    if (themeOptional.isPresent()) {
+                    Optional<ThemeOfSubjectForGradeByTeacher> themeOptional = themeRepository.findById(dto.getThemeId());
+                    if (themeOptional.isPresent()) {
                         User student = userOptional.get();
                         EducationYear educationYear = educationYearOptional.get();
                         Lesson lesson = lessonOptional.get();
-//                        ThemeOfSubjectForGradeByTeacher theme = themeOptional.get();
+                        ThemeOfSubjectForGradeByTeacher theme = themeOptional.get();
                         Student studentByUserId = studentRepository.findStudentByUserId(dto.getStudentId());
                         Boolean enableGrade = gradeRepository.isEnableGrade(dto.getStudentId(), studentByUserId.getGroup().getId(), dto.getEducationYearId(), dto.getSubjectId(), dto.getGrade());
                         if (enableGrade){
@@ -73,7 +73,7 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
                             gradeOfStudent.setStudent(student);
                             gradeOfStudent.setEducationYear(educationYear);
                             gradeOfStudent.setLesson(lesson);
-//                            gradeOfStudent.setTheme(theme);
+                            gradeOfStudent.setTheme(theme);
                             gradeOfStudent.setGrade(dto.getGrade());
                             gradeOfStudent.setTime(dto.getTime());
                             gradeOfStudent.setDescription(dto.getDescription());
@@ -84,10 +84,10 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
                             Float maxEnableGrade = gradeRepository.getMaxEnableGrade(dto.getStudentId(), studentByUserId.getGroup().getId(), dto.getEducationYearId(), dto.getSubjectId());
                             return new ApiResponse(false,"You can only give maximum "+ maxEnableGrade +" ball to that student!.");
                         }
-//                    }
-//                    else {
-//                        throw new UserNotFoundException("Theme was not found by id " + dto.getThemeId());
-//                    }
+                    }
+                    else {
+                        throw new UserNotFoundException("Theme was not found by id " + dto.getThemeId());
+                    }
                 }
                 else {
                     return new ApiResponse(false,"not found subject by id: " + dto.getSubjectId());
@@ -114,17 +114,17 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
                     if (educationYearOptional.isPresent()) {
                         Optional<Lesson> lessonOptional = lessonRepository.findById(dto.getSubjectId());
                         if (lessonOptional.isPresent()) {
-//                            Optional<ThemeOfSubjectForGradeByTeacher> themeOptional = themeRepository.findById(dto.getThemeId());
-//                            if (themeOptional.isPresent()) {
+                            Optional<ThemeOfSubjectForGradeByTeacher> themeOptional = themeRepository.findById(dto.getThemeId());
+                            if (themeOptional.isPresent()) {
                                 gradeOfStudent.setGrade(dto.getGrade());
                                 gradeOfStudent.setTime(dto.getTime());
                                 gradeOfStudent.setDescription(dto.getDescription());
                                 gradeRepository.save(gradeOfStudent);
                                 return new ApiResponse(true, "updated successfully");
-//                            }
-//                            else {
-//                                throw new UserNotFoundException("Theme was not found by id " + dto.getThemeId());
-//                            }
+                            }
+                            else {
+                                throw new UserNotFoundException("Theme was not found by id " + dto.getThemeId());
+                            }
                         } else {
                             return new ApiResponse(false, "not found subject by id: " + dto.getSubjectId());
                         }
@@ -169,6 +169,9 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
                         gradeOfStudent.setGrade(dto.getGrade());
                         gradeOfStudent.setTime(dto.getTime());
                         gradeOfStudent.setDescription(dto.getDescription());
+                        if (failGrade.getTheme()!=null) {
+                            gradeOfStudent.setTheme(failGrade.getTheme());
+                        }
                         GradeOfStudentByTeacher save = gradeRepository.save(gradeOfStudent);
 
                         for (GradeOfStudentByTeacher gradeOfStudentByTeacher : gradeRepository.findAllByFailGradeIdAndActive(failGrade.getId(),true)) {
