@@ -7,6 +7,9 @@ import java.util.Set;
 
 public interface GetGradesOfStudent {
     String getId();
+    String getThemeId();
+    String getTheme();
+    Double getMaxGrade();
     Float getGrade();
     Timestamp getTime();
     Timestamp getCreatedAt();
