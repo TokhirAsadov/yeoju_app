@@ -7,4 +7,5 @@ public interface AdminService {
     ApiResponse saveOrUpdateUser(ForUserSaveDto dto);
     ApiResponse getUserForUpdate(String param);
     ApiResponse getUserForUpdateById(String id);
+    ApiResponse getInformationAboutCountOfUsers();
 }
