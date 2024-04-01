@@ -18,6 +18,11 @@ public class AdminController {
     private final AccDoorRepository accDoorRepository;
     private final AdminService adminService;
 
+    @GetMapping("/getInformationAboutCountOfUsers")
+    public HttpEntity<?> getInformationAboutCountOfUsers(){
+        return ResponseEntity.ok(adminService.getInformationAboutCountOfUsers());
+    }
+
     @GetMapping("/menu")
     public HttpEntity<?> getMonitoring(){
         return ResponseEntity.ok(accDoorRepository.getAccMonitoring());
