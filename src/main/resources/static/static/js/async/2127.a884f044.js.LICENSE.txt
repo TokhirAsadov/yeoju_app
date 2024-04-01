@@ -1,3 +1,5 @@
+/*! core-js/modules/esnext.async-iterator.map.js */
+
 /*! @mui/material/Button */
 
 /*! ../../../responsiv */
@@ -40,11 +42,11 @@
 
 /*! core-js/modules/es.string.replace.js */
 
-/*! ../../../utills/ServiceUrls */
-
 /*! @swc/helpers/_/_tagged_template_literal */
 
 /*! @mui/material/Modal */
+
+/*! ../../../utills/ServiceUrls */
 
 /*! react */
 
@@ -60,11 +62,19 @@
 
 /*! @mui/material/Button */
 
+/*! styled-components */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
 /*! core-js/modules/esnext.iterator.find.js */
 
 /*! ./FreeTimeTeachersForStudent */
 
 /*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
 
 /*! ../../emptyDataImg/EmptyDataImg */
 
@@ -75,6 +85,8 @@
 /*! core-js/modules/es.promise.finally.js */
 
 /*! ../../../redux/actions/educationYear/education_year_actions */
+
+/*! ./ScoreData */
 
 /*! ../../emptyDataImg/EmptyDataImg */
 
@@ -88,6 +100,8 @@
 
 /*! @mui/material/Typography */
 
+/*! @mui/material/Tooltip */
+
 /*! styled-components */
 
 /*! react */
@@ -95,22 +109,22 @@
 /*! react */
 
 /*! react/jsx-runtime */
-
-/*! styled-components */
 
 /*! react-redux */
 
 /*! ../../../redux/slice/educationYear/education_year_statistics_slice */
 
-/*! react */
-
-/*! react/jsx-runtime */
-
 /*! @swc/helpers/_/_tagged_template_literal */
 
+/*! styled-components */
+
+/*! react */
+
 /*! @mui/material */
 
 /*! @mui/material */
+
+/*! react/jsx-runtime */
 
 /*! styled-components */
 
@@ -122,16 +136,14 @@
 
 /*! react/jsx-runtime */
 
-/*! core-js/modules/esnext.iterator.map.js */
-
 /*! core-js/modules/esnext.async-iterator.map.js */
 
 /*! ./StudentSciencesNb */
 
+/*! core-js/modules/esnext.iterator.map.js */
+
 /*! core-js/modules/esnext.async-iterator.map.js */
 
 /*! @mui/material */
-
-/*! core-js/modules/esnext.async-iterator.map.js */
 
 /*! ../../../redux/actions/infoStudentForLesson/InfoStudentForLesson_actions */
