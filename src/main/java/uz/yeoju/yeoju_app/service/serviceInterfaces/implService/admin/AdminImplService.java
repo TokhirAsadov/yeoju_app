@@ -43,6 +43,11 @@ public class AdminImplService implements AdminService{
     }
 
     @Override
+    public ApiResponse getInformationAboutCountOfUsers() {
+        return new ApiResponse(true,"Information of count of users",userInfoRepo.getInformationAboutCountsOfUsers());
+    }
+
+    @Override
     public ApiResponse saveOrUpdateUser(ForUserSaveDto dto) {
         if (dto.getId()==null){
             return save(dto);
