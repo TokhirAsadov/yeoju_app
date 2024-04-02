@@ -153,7 +153,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
             if (existsLesson){
                 boolean existsGroup = groupRepository.existsById(dto.groupId);
                 if (existsGroup) {
-                    Boolean exists = repository.existsByNameAndLessonIdAndEducationYearIdAndCreatedBy(dto.name, dto.subjectId, dto.educationYearId, user.getId());
+                    Boolean exists = repository.existsByNameAndLessonIdAndEducationYearIdAndCreatedByAndGroupId(dto.name, dto.subjectId, dto.educationYearId, user.getId(), dto.groupId);
                     if (!exists) {
                         EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
                         Lesson lesson = lessonRepository.getById(dto.subjectId);
@@ -189,7 +189,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
                 if (existsById) {
                     boolean existsGroup = groupRepository.existsById(dto.groupId);
                     if (existsGroup) {
-                        Boolean exists = repository.existsByNameAndLessonIdAndEducationYearIdAndCreatedBy(dto.name, dto.subjectId, dto.educationYearId, user.getId());
+                        Boolean exists = repository.existsByNameAndLessonIdAndEducationYearIdAndCreatedByAndGroupId(dto.name, dto.subjectId, dto.educationYearId, user.getId(), dto.groupId);
                         if (exists) {
                             EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
                             Lesson lesson = lessonRepository.getById(dto.subjectId);
