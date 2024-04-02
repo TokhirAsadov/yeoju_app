@@ -10,6 +10,7 @@ import uz.yeoju.yeoju_app.entity.module.GradeOfStudentByTeacher;
 import uz.yeoju.yeoju_app.entity.module.ThemeOfSubjectForGradeByTeacher;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.CreateGradesWithThemeDto;
 import uz.yeoju.yeoju_app.payload.module.CreateThemeOfSubjectForGradeDto;
 import uz.yeoju.yeoju_app.payload.module.UpdateThemeOfSubjectForGradeDto;
@@ -236,5 +237,10 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
     @Override
     public ApiResponse getThemes(String groupId, String lessonId, String educationYearId, String teacherId) {
         return new ApiResponse(true,"all themes with students' grades",repository.getThemes(groupId,lessonId,educationYearId,teacherId));
+    }
+
+    @Override
+    public ApiResponseTwoObj getTableOfGroup(String teacherId, String educationYearId, String lessonId, String groupId) {
+        return null;
     }
 }
