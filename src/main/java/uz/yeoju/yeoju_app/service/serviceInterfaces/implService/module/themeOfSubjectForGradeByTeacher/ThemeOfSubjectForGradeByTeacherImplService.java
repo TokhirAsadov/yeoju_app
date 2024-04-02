@@ -14,6 +14,7 @@ import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.CreateGradesWithThemeDto;
 import uz.yeoju.yeoju_app.payload.module.CreateThemeOfSubjectForGradeDto;
 import uz.yeoju.yeoju_app.payload.module.UpdateThemeOfSubjectForGradeDto;
+import uz.yeoju.yeoju_app.payload.resDto.module.GetTableOfGroupWithGrades;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetThemesByQuery;
 import uz.yeoju.yeoju_app.repository.GroupRepository;
 import uz.yeoju.yeoju_app.repository.LessonRepository;
@@ -241,6 +242,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
 
     @Override
     public ApiResponseTwoObj getTableOfGroup(String teacherId, String educationYearId, String lessonId, String groupId) {
-        return null;
+        Set<GetTableOfGroupWithGrades> table = repository.getTableOfGroup(teacherId, educationYearId, lessonId, groupId);
+        return new ApiResponseTwoObj(true,"Students' grades",table);
     }
 }
