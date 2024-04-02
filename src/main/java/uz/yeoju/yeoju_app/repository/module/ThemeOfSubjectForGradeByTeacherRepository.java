@@ -3,9 +3,7 @@ package uz.yeoju.yeoju_app.repository.module;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import uz.yeoju.yeoju_app.entity.module.ThemeOfSubjectForGradeByTeacher;
-import uz.yeoju.yeoju_app.payload.resDto.module.GetThemes;
-import uz.yeoju.yeoju_app.payload.resDto.module.GetThemesByQuery;
-import uz.yeoju.yeoju_app.payload.resDto.module.GetThemesItems;
+import uz.yeoju.yeoju_app.payload.resDto.module.*;
 
 import java.util.Set;
 
@@ -27,4 +25,12 @@ public interface ThemeOfSubjectForGradeByTeacherRepository extends JpaRepository
     @Query(value = "select * from dbo.GetListStudentsForGetGradesByThemeIdAndGroupIdAndSubjectIdAndTeacherIdAndEducationId(?1,?2,?3,?4,?5) order by createdAt",nativeQuery = true)
     Set<GetThemesItems> getThemesItems(String themeId, String groupId, String lessonId, String educationYearId, String teacherId);
 
+    @Query(value = "select id as themeId, name as themeName, maxGrade, createdAt as time, ?1 as teacherId, ?4 as groupId from ThemeOfSubjectForGradeByTeacher where createdBy=?1 and educationYear_id=?2 and lesson_id=?3 and group_id=?4 order by createdAt",nativeQuery = true)
+    Set<GetTableOfGroupWithGrades> getTableOfGroup(String teacherId, String educationYearId, String lessonId, String groupId);
+
+    @Query(value = "select gr.id as gradeId, gr.grade, gr.createdAt as time, gr.student_id as studentId from GradeOfStudentByTeacher gr\n" +
+            "         join users u on gr.student_id = u.id\n" +
+            "         join Student s on u.id = s.user_id\n" +
+            "         where gr.active=1 and gr.theme_id=?1 and gr.createdBy=?2 and gr.educationYear_id=?3 and s.group_id=?4 order by gr.createdAt",nativeQuery = true)
+    Set<GetGradesOfTableOfGroup> getGradesOfTableOfGroup(String themeId, String teacherId, String educationYearId, String groupId);
 }
