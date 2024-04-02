@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
@@ -116,7 +117,7 @@ public class TopicFileOfLineController {
 //    }
 
 
-
+    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/upload/{lineId}/{fileName}")
     public HttpEntity<?> uploadXml(
             MultipartHttpServletRequest request,

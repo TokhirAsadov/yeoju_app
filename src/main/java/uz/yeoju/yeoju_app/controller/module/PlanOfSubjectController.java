@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.controller.module;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
@@ -47,13 +48,14 @@ public class PlanOfSubjectController {
         return ResponseEntity.ok(service.getExistPlans(user.getId(),educationYearId, subjectId, level));
     }
 
-
+    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/createdPlan")
     public HttpEntity<?> createPlan(@CurrentUser User user, @RequestBody CreatePlanOfStudent dto ){
         //System.out.println(user.toString()+"------------------------111111111111111111111111-----------------");
         System.out.println(dto.toString()+"------------------------111111111111111111111111-----------------");
         return ResponseEntity.ok(service.createPlan(user,dto));
     }
+    @PreAuthorize("hasRole('KAFEDRA')")
     @PostMapping("/createdPlanByKafedraMudiri")
     public HttpEntity<?> createdPlanByKafedraMudiri(@CurrentUser User user, @RequestBody CreatePlanOfStudent dto ){
         //System.out.println(user.toString()+"------------------------111111111111111111111111-----------------");
@@ -61,7 +63,7 @@ public class PlanOfSubjectController {
         return ResponseEntity.ok(service.createPlanByKafedraMudiri(user,dto));
     }
 
-
+    @PreAuthorize("hasRole('TEACHER') OR hasRole('KAFEDRA')")
     @PutMapping("/updatedPlan")
     public HttpEntity<?> updatedPlan(@CurrentUser User user, @RequestBody CreatePlanOfStudent dto ){
         //System.out.println(user.toString()+"------------------------111111111111111111111111-----------------");

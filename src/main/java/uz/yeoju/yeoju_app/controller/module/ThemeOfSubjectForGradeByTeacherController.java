@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.controller.module;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
@@ -26,6 +27,7 @@ public class ThemeOfSubjectForGradeByTeacherController {
         return ResponseEntity.ok(service.getThemes(groupId,lessonId,educationYearId, user.getId()));
     }
 
+    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/createThemeWithGrade")
     HttpEntity<?> createThemeWithGrade(@CurrentUser User user, @RequestBody CreateGradesWithThemeDto dto){
         ApiResponse themeWithGrade = service.createThemeWithGrade(user, dto);
@@ -41,13 +43,13 @@ public class ThemeOfSubjectForGradeByTeacherController {
         return ResponseEntity.ok(service.getFirstByLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(groupId,lessonId,educationYearId, user.getId()));
     }
 
-
+    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/createTheme")
     HttpEntity<?> createTheme(@CurrentUser User user, @Valid @RequestBody CreateThemeOfSubjectForGradeDto dto){
         ApiResponse themeWithGrade = service.createTheme(user, dto);
         return ResponseEntity.status(201).body(themeWithGrade);
     }
-
+    @PreAuthorize("hasRole('TEACHER')")
     @PutMapping("/updateTheme")
     HttpEntity<?> updateTheme(@CurrentUser User user, @Valid @RequestBody UpdateThemeOfSubjectForGradeDto dto){
         ApiResponse themeWithGrade = service.updateTheme(user, dto);

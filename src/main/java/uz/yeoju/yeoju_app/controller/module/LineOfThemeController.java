@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.controller.module;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
@@ -28,11 +29,13 @@ public class LineOfThemeController {
         return ResponseEntity.ok(service.getOldThemesForCreateLine(user.getId(), subjectId));
     }
 
+    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/createLineAndTheme")
     public HttpEntity<?> createLineAndTheme(@CurrentUser User user, @RequestBody CreateThemeAndLine dto){
         ApiResponse lineAndTheme = service.createLineAndTheme(dto);
         return ResponseEntity.status(lineAndTheme.isSuccess() ? 202 : 403).body(lineAndTheme);
     }
+    @PreAuthorize("hasRole('TEACHER')")
     @PutMapping("/updateLineAndTheme")
     public HttpEntity<?> updateLineAndTheme(@CurrentUser User user, @RequestBody UpdateThemeAndLine dto){
         ApiResponse lineAndTheme = service.updateLineAndTheme(dto);

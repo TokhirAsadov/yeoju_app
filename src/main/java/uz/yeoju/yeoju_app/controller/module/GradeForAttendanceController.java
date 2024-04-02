@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.controller.module;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
@@ -19,6 +20,7 @@ public class GradeForAttendanceController {
     private final GradeForAttendanceService service;
 
 
+    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/create")
     public HttpEntity<?> create(@CurrentUser User user, @RequestBody GradeForAttendanceDto dto){
         ApiResponse apiResponse = service.createGradeForAttendance(user, dto);
