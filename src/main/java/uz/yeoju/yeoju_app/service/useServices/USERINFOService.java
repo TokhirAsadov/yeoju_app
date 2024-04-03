@@ -656,3 +656,20 @@ USERINFOService implements USERINFOImplService<USERINFO> {
         }
     }*/
 }
+
+//todo ------------------------------           namangan
+//if (group.getName().charAt(group.getName().length() - 2) == 'U')
+//                                        group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+//                                    if (group.getName().charAt(group.getName().length() - 2) == 'R')
+//                                        group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+//                                    if (group.getName().charAt(group.getName().length() - 2) == 'E')
+//                                        group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+//
+//                                    if (group.getName().indexOf('_') == 3) {
+//                                        group.setEducationType(eduTypeRepo.findEducationTypeByName("KUNDUZGI").get());
+//                                    } else {
+//                                        if (group.getName().charAt(3) == 'P')
+//                                            group.setEducationType(eduTypeRepo.findEducationTypeByName("SIRTQI").get());
+//                                        else
+//                                            group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
+//                                    }
