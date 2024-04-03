@@ -26,7 +26,7 @@ public interface ThemeOfSubjectForGradeByTeacherRepository extends JpaRepository
     @Query(value = "select * from dbo.GetListStudentsForGetGradesByThemeIdAndGroupIdAndSubjectIdAndTeacherIdAndEducationId(?1,?2,?3,?4,?5) order by createdAt",nativeQuery = true)
     Set<GetThemesItems> getThemesItems(String themeId, String groupId, String lessonId, String educationYearId, String teacherId);
 
-    @Query(value = "select id as themeId, name as themeName, maxGrade, createdAt as time, ?1 as teacherId, ?4 as groupId from ThemeOfSubjectForGradeByTeacher where createdBy=?1 and educationYear_id=?2 and lesson_id=?3 and group_id=?4 order by createdAt",nativeQuery = true)
+    @Query(value = "select id as themeId, name as themeName, maxGrade, createdAt as time , ?1 as teacherId,?2 as educationYearId, ?4 as groupId from ThemeOfSubjectForGradeByTeacher where createdBy=?1 and educationYear_id=?2 and lesson_id=?3 and group_id=?4 order by createdAt",nativeQuery = true)
     Set<GetTableOfGroupWithGrades> getTableOfGroup(String teacherId, String educationYearId, String lessonId, String groupId);
 
     @Query(value = "select gr.id as gradeId, gr.grade, gr.createdAt as time, gr.student_id as studentId from GradeOfStudentByTeacher gr\n" +
