@@ -171,15 +171,35 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
                         gradeOfStudent.setDescription(dto.getDescription());
                         if (failGrade.getTheme()!=null) {
                             gradeOfStudent.setTheme(failGrade.getTheme());
-                        }
-                        GradeOfStudentByTeacher save = gradeRepository.save(gradeOfStudent);
+                            GradeOfStudentByTeacher save = gradeRepository.save(gradeOfStudent);
 
-                        for (GradeOfStudentByTeacher gradeOfStudentByTeacher : gradeRepository.findAllByFailGradeIdAndActive(failGrade.getId(),true)) {
-                            if (!gradeOfStudentByTeacher.getId().equals(save.getId())) {
-                                gradeOfStudentByTeacher.setActive(false);
-                                gradeRepository.save(gradeOfStudentByTeacher);
+                            for (GradeOfStudentByTeacher gradeOfStudentByTeacher : gradeRepository.findAllByFailGradeIdAndActive(failGrade.getId(),true)) {
+                                if (!gradeOfStudentByTeacher.getId().equals(save.getId())) {
+                                    gradeOfStudentByTeacher.setActive(false);
+                                    gradeRepository.save(gradeOfStudentByTeacher);
+                                }
                             }
                         }
+                        else {
+                            Optional<ThemeOfSubjectForGradeByTeacher> themeOptional = themeRepository.findById(dto.getThemeId());
+                            if (themeOptional.isPresent()) {
+                                gradeOfStudent.setGrade(dto.getGrade());
+                                gradeOfStudent.setTime(dto.getTime());
+                                gradeOfStudent.setDescription(dto.getDescription());
+                                GradeOfStudentByTeacher save = gradeRepository.save(gradeOfStudent);
+
+                                for (GradeOfStudentByTeacher gradeOfStudentByTeacher : gradeRepository.findAllByFailGradeIdAndActive(failGrade.getId(),true)) {
+                                    if (!gradeOfStudentByTeacher.getId().equals(save.getId())) {
+                                        gradeOfStudentByTeacher.setActive(false);
+                                        gradeRepository.save(gradeOfStudentByTeacher);
+                                    }
+                                }
+                            }
+                            else {
+                                throw new UserNotFoundException("Theme was not found by id " + dto.getThemeId());
+                            }
+                        }
+
 
                         return new ApiResponse(true,"retake grade was created successfully");
                     }
