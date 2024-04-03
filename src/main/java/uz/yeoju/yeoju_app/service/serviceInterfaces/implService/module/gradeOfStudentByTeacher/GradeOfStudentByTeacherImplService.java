@@ -116,6 +116,8 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
                         if (lessonOptional.isPresent()) {
                             Optional<ThemeOfSubjectForGradeByTeacher> themeOptional = themeRepository.findById(dto.getThemeId());
                             if (themeOptional.isPresent()) {
+                                ThemeOfSubjectForGradeByTeacher theme = themeOptional.get();
+                                gradeOfStudent.setTheme(theme);
                                 gradeOfStudent.setGrade(dto.getGrade());
                                 gradeOfStudent.setTime(dto.getTime());
                                 gradeOfStudent.setDescription(dto.getDescription());
@@ -183,6 +185,8 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
                         else {
                             Optional<ThemeOfSubjectForGradeByTeacher> themeOptional = themeRepository.findById(dto.getThemeId());
                             if (themeOptional.isPresent()) {
+                                ThemeOfSubjectForGradeByTeacher theme = themeOptional.get();
+                                gradeOfStudent.setTheme(theme);
                                 gradeOfStudent.setGrade(dto.getGrade());
                                 gradeOfStudent.setTime(dto.getTime());
                                 gradeOfStudent.setDescription(dto.getDescription());
