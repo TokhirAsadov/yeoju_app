@@ -2,8 +2,6 @@
 
 /*! @mui/material/Box */
 
-/*! react-icons/fc */
-
 /*! core-js/modules/es.array.push.js */
 
 /*! styled-components */
@@ -16,9 +14,9 @@
 
 /*! core-js/modules/web.dom-collections.iterator.js */
 
-/*! ../../responsiv */
+/*! ../../utills/kuitimgs/Katta_uqituvchi.png */
 
-/*! ../rektor/Bolimtable */
+/*! ../../data/data */
 
 /*! react/jsx-runtime */
 
@@ -30,21 +28,19 @@
 
 /*! core-js/modules/esnext.iterator.map.js */
 
+/*! react-icons/fc */
+
 /*! framer-motion */
 
 /*! core-js/modules/esnext.async-iterator.map.js */
 
-/*! react-icons/bs */
-
 /*! core-js/modules/esnext.async-iterator.find.js */
-
-/*! ../bulim/dashboard/BulimDashboard */
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
-/*! ../../redux/actions/bulim/bulim_actions */
-
 /*! styled-components */
+
+/*! ../../responsiv */
 
 /*! react */
 
@@ -59,6 +55,8 @@
 /*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! core-js/modules/esnext.iterator.find.js */
+
+/*! ../rektor/Bolimtable */
 
 /*! core-js/modules/esnext.iterator.find.js */
 
@@ -82,23 +80,19 @@
 
 /*! framer-motion */
 
+/*! react-icons/bs */
+
 /*! ../../redux/actions/rektor/rektor_dashboard_staffs_action */
 
-/*! react-svg-map */
-
-/*! ../../utills/kuitimgs/assistent1.png */
+/*! ../bulim/dashboard/BulimDashboard */
 
 /*! ../rektor/dashboard/RektorDashboardChart */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
 
-/*! ../rektor/statistics/Statistics */
+/*! react-router-dom */
 
 /*! core-js/modules/esnext.async-iterator.for-each.js */
-
-/*! ../../utills/kuitimgs/dosent.png */
-
-/*! ../../utills/kuitimgs/uqituvchi.png */
 
 /*! ../../../utills/ServiceUrls */
 
@@ -112,29 +106,35 @@
 
 /*! react-icons/fa */
 
-/*! @mui/material/Tooltip */
-
 /*! react-icons/gi */
 
 /*! ../../spinner/Spinner */
 
 /*! core-js/modules/es.array.unscopables.flat.js */
 
+/*! react-svg-map */
+
+/*! ../../utills/kuitimgs/assistent1.png */
+
 /*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../rektor/statistics/Statistics */
 
 /*! ../../../utills/ServiceUrls */
 
 /*! core-js/modules/esnext.iterator.filter.js */
 
+/*! ../../utills/kuitimgs/dosent.png */
+
 /*! core-js/modules/esnext.async-iterator.reduce.js */
 
 /*! core-js/modules/esnext.async-iterator.map.js */
 
+/*! ../../utills/kuitimgs/uqituvchi.png */
+
 /*! ../../../responsiv */
 
 /*! react-icons/ri */
-
-/*! ../../utills/kuitimgs/professor.png */
 
 /*! styled-components */
 
@@ -145,6 +145,8 @@
 /*! ../hook/useHttp */
 
 /*! react */
+
+/*! @mui/material/Tooltip */
 
 /*! ../spinner/Spinner */
 
@@ -160,11 +162,9 @@
 
 /*! core-js/modules/esnext.iterator.for-each.js */
 
-/*! ../../utills/kuitimgs/Katta_uqituvchi.png */
-
-/*! ../../data/data */
-
 /*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! ../../utills/kuitimgs/professor.png */
 
 /*! react-apexcharts */
 
