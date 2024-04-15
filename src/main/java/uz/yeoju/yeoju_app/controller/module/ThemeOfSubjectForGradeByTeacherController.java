@@ -64,4 +64,10 @@ public class ThemeOfSubjectForGradeByTeacherController {
         ApiResponse themeWithGrade = service.updateTheme(user, dto);
         return ResponseEntity.status(200).body(themeWithGrade);
     }
+    @PreAuthorize("hasRole('TEACHER')")
+    @DeleteMapping("/deleteTheme/{themeId}")
+    HttpEntity<?> deleteTheme(@CurrentUser User user, @PathVariable("themeId") String themeId){
+        ApiResponse themeWithGrade = service.deleteTheme(user, themeId);
+        return ResponseEntity.status(204).body(themeWithGrade);
+    }
 }
