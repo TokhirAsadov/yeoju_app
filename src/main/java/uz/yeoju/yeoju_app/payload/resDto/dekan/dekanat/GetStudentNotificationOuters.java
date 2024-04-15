@@ -5,6 +5,7 @@ import java.util.Date;
 
 public interface GetStudentNotificationOuters {
     String getId();
+    String getDynamicSection();
     String getFullName();
     String getGroupName();
     String getDirection();
