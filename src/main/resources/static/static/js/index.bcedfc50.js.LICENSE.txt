@@ -164,6 +164,8 @@
 
 /*! ./slice/kafedra/kafedra_dashboard_statistics_slice */
 
+/*! react/jsx-runtime */
+
 /*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! jwt-decode */
@@ -472,8 +474,6 @@
 
 /*! react-icons/ai */
 
-/*! qrcode.react */
-
 /*! ../../utills/ServiceUrls */
 
 /*! ../../components/student/student_service/QueueDeanForStudent */
@@ -544,6 +544,8 @@
 
 /*! react-icons/md */
 
+/*! @mui/material/CircularProgress */
+
 /*! ../contact/AllContacts */
 
 /*! core-js/modules/web.dom-collections.iterator.js */
@@ -589,8 +591,6 @@
 /*! core-js/modules/esnext.async-iterator.find.js */
 
 /*! ../../components/kafedra/settings/KafedraSettings */
-
-/*! html2pdf.js/src */
 
 /*! react */
 
@@ -654,8 +654,6 @@
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
-/*! moment */
-
 /*! react/jsx-runtime */
 
 /*! ../spinner/Spinner */
@@ -663,8 +661,6 @@
 /*! react/jsx-runtime */
 
 /*! ../components/dekan/groups/DekanGroupsEdit */
-
-/*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! axios */
 
@@ -733,8 +729,6 @@
 /*! react/jsx-runtime */
 
 /*! ../../../utills/pdfFiles/PdfNotice */
-
-/*! react */
 
 /*! react/jsx-runtime */
 
@@ -1060,8 +1054,6 @@
 
 /*! react-icons/ri */
 
-/*! @swc/helpers/_/_tagged_template_literal */
-
 /*! core-js/modules/esnext.async-iterator.map.js */
 
 /*! ../kafedra/teachers/teacherPanel/TeacherPanel */
@@ -1170,8 +1162,6 @@
 
 /*! ./slice/rektor/rektor_dashboard_staffs_slice */
 
-/*! @mui/material/Button */
-
 /*! @swc/helpers/_/_tagged_template_literal */
 
 /*! react */
@@ -1214,8 +1204,6 @@
 
 /*! @mui/material/FormControl */
 
-/*! react-icons/md */
-
 /*! react/jsx-runtime */
 
 /*! ../../emptyDataImg/EmptyDataImg */
@@ -1257,8 +1245,6 @@
 /*! ../../../responsiv */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
-
-/*! styled-components */
 
 /*! ../../components/student/student_service/StudentServiceReference */
 
@@ -1332,8 +1318,6 @@
 
 /*! core-js/modules/esnext.iterator.constructor.js */
 
-/*! ../../utills/images/logo.png */
-
 /*! ./roles/DekanRoleSettings */
 
 /*! styled-components */
@@ -1379,6 +1363,8 @@
 /*! @swc/helpers/_/_tagged_template_literal */
 
 /*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! qrcode.react */
 
 /*! react-icons/bs */
 
@@ -1498,6 +1484,8 @@
 
 /*! ../../components/contact/AllContacts */
 
+/*! html2pdf.js/src */
+
 /*! core-js/modules/esnext.async-iterator.find.js */
 
 /*! react */
@@ -1568,6 +1556,8 @@
 
 /*! ../../redux/slice/teacher/teacher_slice */
 
+/*! moment */
+
 /*! core-js/modules/esnext.async-iterator.filter.js */
 
 /*! ../../utills/ServiceUrls */
@@ -1579,6 +1569,8 @@
 /*! core-js/modules/esnext.async-iterator.filter.js */
 
 /*! ../../../teacher/timeTable/TeacherTimeTableOfWeek */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! styled-components */
 
@@ -1612,8 +1604,6 @@
 
 /*! react */
 
-/*! react/jsx-runtime */
-
 /*! ../../utills/ServiceUrls */
 
 /*! core-js/modules/esnext.async-iterator.find.js */
@@ -1639,6 +1629,8 @@
 /*! ./actions/kafedra/kafedra_time_table_action */
 
 /*! ../utills/ServiceUrls */
+
+/*! react */
 
 /*! react */
 
@@ -1930,6 +1922,8 @@
 
 /*! core-js/modules/es.array.push.js */
 
+/*! @swc/helpers/_/_tagged_template_literal */
+
 /*! ../utills/images/logo_nav.png */
 
 /*! @mui/material/CircularProgress */
@@ -1949,8 +1943,6 @@
 /*! @swc/helpers/_/_tagged_template_literal */
 
 /*! core-js/modules/esnext.async-iterator.map.js */
-
-/*! @mui/material/CircularProgress */
 
 /*! ../../components/kafedra/subjectTeacher/SubjectTheme */
 
@@ -2034,6 +2026,8 @@
 
 /*! react/jsx-runtime */
 
+/*! @mui/material/Button */
+
 /*! core-js/modules/esnext.json.parse.js */
 
 /*! react/jsx-runtime */
@@ -2078,6 +2072,8 @@
 
 /*! ./room/EducationalRooms */
 
+/*! react-icons/md */
+
 /*! ../../../../responsiv */
 
 /*! @mui/material/Modal */
@@ -2121,6 +2117,8 @@
 /*! ../redux/actions/bulim/bulim_second_actions */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! styled-components */
 
 /*! react */
 
@@ -2201,6 +2199,8 @@
 /*! ../../components/teacher/teacherScience/TeacherOneScience */
 
 /*! ../components/dekan/arxiv/ArchiveForDean */
+
+/*! ../../utills/images/logo.png */
 
 /*! core-js/modules/esnext.iterator.filter.js */
 
