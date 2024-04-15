@@ -156,6 +156,11 @@ public class TimeTableDBImplService implements TimeTableDBService {
     public ApiResponseTwoObj generateNewTimeTableToDB(String educationYearId,Integer year, Integer week) {
         getTimeTableByWeek(year, week);
 
+        Boolean b = weekOfEducationYearRepository.existsBySortNumberAndYear(week, year);
+        if (!b){
+            throw new UserNotFoundException("File of "+week+" does not exist!");
+        }
+
         // create subjects from .xml to database
         subjects.forEach(s -> {
             boolean existsLessonByName = lessonRepository.existsLessonByName(s.getName());
@@ -399,6 +404,11 @@ public class TimeTableDBImplService implements TimeTableDBService {
     public ApiResponseTwoObj generateNewTimeTableToDBMed(String educationYearId, Integer year, Integer week) {
 
         getTimeTableByWeekMed(year, week);
+
+        Boolean b = weekOfEducationYearRepository.existsBySortNumberAndYear(week, year);
+        if (!b){
+            throw new UserNotFoundException("File of "+week+" does not exist!");
+        }
 
         // create subjects from .xml to database
         subjectsMed.forEach(s -> {
