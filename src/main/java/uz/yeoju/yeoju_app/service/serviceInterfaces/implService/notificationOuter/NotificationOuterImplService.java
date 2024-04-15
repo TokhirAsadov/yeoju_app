@@ -115,6 +115,7 @@ public class NotificationOuterImplService implements NotificationOuterService{
                     notificationOuter.setCourse(dto.getCourse());
                     notificationOuter.setFromDate(dto.getFromDate());
                     notificationOuter.setToDate(dto.getToDate());
+                    notificationOuter.setDynamicSection(dto.getDynamicSection());
                     notificationRepository.save(notificationOuter);
                     return new ApiResponse(true,"notification was updated successful");
                 }
@@ -151,6 +152,7 @@ public class NotificationOuterImplService implements NotificationOuterService{
                 notificationOuter.setCourse(dto.getCourse());
                 notificationOuter.setFromDate(dto.getFromDate());
                 notificationOuter.setToDate(dto.getToDate());
+                notificationOuter.setDynamicSection(dto.getDynamicSection());
                 notificationRepository.save(notificationOuter);
                 return new ApiResponse(true,"notification was created successful");
             }
@@ -167,6 +169,7 @@ public class NotificationOuterImplService implements NotificationOuterService{
         return new GetNotificationOuterDto(
             notification.getId(),
             notification.getQueue(),
+            notification.getDynamicSection(),
             notification.getDekanat().getName(),
             notification.getEducationYear().getName(),
             notification.getCourse(),
