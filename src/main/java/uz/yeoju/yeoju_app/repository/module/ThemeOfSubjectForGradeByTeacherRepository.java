@@ -34,4 +34,6 @@ public interface ThemeOfSubjectForGradeByTeacherRepository extends JpaRepository
             "         join Student s on u.id = s.user_id\n" +
             "         where gr.active=1 and gr.theme_id=?1 and gr.createdBy=?2 and gr.educationYear_id=?3 and s.group_id=?4 order by gr.createdAt",nativeQuery = true)
     Set<GetGradesOfTableOfGroup> getGradesOfTableOfGroup(String themeId, String teacherId, String educationYearId, String groupId);
+
+    Boolean existsThemeByIdAndCreatedBy(String id, String createdBy);
 }
