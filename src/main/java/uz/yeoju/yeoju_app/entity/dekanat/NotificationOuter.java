@@ -36,6 +36,7 @@ public class NotificationOuter extends AbsEntity {// sirtqi talimda uqiyatgan ta
 
     @ManyToMany
     private Set<Group> groups;
+    private String dynamicSection;
 
     public NotificationOuter(String id, Dekanat dekanat, EducationYear educationYear, Integer course, Date fromDate, Date toDate, Set<Faculty> faculties, Set<Group> groups) {
         super(id);

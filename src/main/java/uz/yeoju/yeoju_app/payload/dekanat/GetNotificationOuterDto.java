@@ -13,6 +13,7 @@ import java.util.Set;
 public class GetNotificationOuterDto {
     public String id;
     public Long queue;
+    public String dynamicSection;
     public String dekanat;
     public String educationYear;
     public Integer course;
