@@ -245,4 +245,21 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
         Set<GetTableOfGroupWithGrades> table = repository.getTableOfGroup(teacherId, educationYearId, lessonId, groupId);
         return new ApiResponseTwoObj(true,"Students' grades",table);
     }
+
+    @Override
+    public ApiResponse deleteTheme(User user, String themeId) {
+        Boolean b = repository.existsThemeByIdAndCreatedBy(themeId, user.getId());
+        if (b) {
+            try {
+                repository.deleteById(themeId);
+            }
+            catch (Exception e) {
+                throw new UserNotFoundException("You cannot delete theme.");
+            }
+            return new ApiResponse(true,"Theme was deleted successfully!");
+        }
+        else {
+            throw new UserNotFoundException("Theme was not found by id: " + themeId+". Or you cannot delete theme.");
+        }
+    }
 }
