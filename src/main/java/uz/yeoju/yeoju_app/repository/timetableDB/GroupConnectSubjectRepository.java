@@ -171,4 +171,14 @@ public interface GroupConnectSubjectRepository extends JpaRepository<GroupConnec
             "    group by l.id, l.name ",nativeQuery = true)
     Set<GetLessonsOfGroupForBall> getLessonsOfGroupForBall(String educationYearId, String groupId, String studentId);
 
+    @Query(value = "select s.user_id as studentId, c.classroom as room,c.day,c.period as section,w.year,w.sortNumber as week from CardDB c\n" +
+            "    join LessonDB ldb on c.lesson_id = ldb.id\n" +
+            "    join LessonDB_groups lg on ldb.id = lg.LessonDB_id\n" +
+            "    join groups g on lg.groups_id = g.id\n" +
+            "    join Student s on g.id = s.group_id\n" +
+            "    join LessonDB_users lu on ldb.id = lu.LessonDB_id\n" +
+            "    join WeekOfEducationYear w on ldb.weekOfEducationYear_id = w.id\n" +
+            "where lu.teachers_id=?1 and ldb.subject_id=?2 and lg.groups_id=?3 and w.year=?4 and w.sortNumber=?5 and c.day=?6",nativeQuery = true)
+    Set<StudentSubjectsByEduYearIdAndGroupAndStudentId2> getStatisticsOfGroupForTeacherByDay(String teacherId,String lessonId,String groupId,Integer year, Integer week,Integer day);
+
 }
