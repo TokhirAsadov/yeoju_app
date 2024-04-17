@@ -14,7 +14,7 @@ public interface NotificationOuterCounterRepository extends JpaRepository<Notifi
     Long maxQueue();
 
     Boolean existsByUserIdAndNotificationOuterId(String user_id, String notificationOuter_id);
-    @Query(value = "select u.fullName,g.name as groupName,g.level,f.name as direction, NOC.id,ey.name as educationYear, n.fromDate,n.toDate,n.createdAt,n.queue,NOC.queue as studentQueue from NotificationOuter n\n" +
+    @Query(value = "select u.fullName,g.name as groupName,g.level,f.name as direction, NOC.id,ey.name as educationYear, n.fromDate,n.toDate,n.createdAt,n.queue,n.dynamicSection,NOC.queue as studentQueue from NotificationOuter n\n" +
             "   join EducationYear ey on ey.id = n.educationYear_id\n" +
             "   join NotificationOuter_groups NOg on n.id = NOg.NotificationOuter_id\n" +
             "   join groups g on NOg.groups_id = g.id\n" +
