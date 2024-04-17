@@ -138,6 +138,26 @@ public class GroupConnectSubjectController {
 //        return ResponseEntity.ok(groupConnectSubjectService.getStatisticsOfGroupForTeacher(educationId,groupId,subjectId));
     }
 
+    @GetMapping("/getStatisticsOfGroupForTeacherByDay/{subjectId}/{groupId}")
+    public Flux<?> getStatisticsOfGroupForTeacherByDay(
+            @CurrentUser User user,
+            @PathVariable(name = "subjectId") String subjectId,
+            @PathVariable(name = "groupId") String groupId,
+            @RequestParam(name = "year") Integer year,
+            @RequestParam(name = "week") Integer week,
+            @RequestParam(name = "day") Integer day
+    ){
+        System.out.println(user.getId());
+        System.out.println(subjectId);
+        System.out.println(groupId);
+        System.out.println(year);
+        System.out.println(week);
+        System.out.println(day);
+        return Flux.just(groupConnectSubjectRepository.getStatisticsOfGroupForTeacherByDay(user.getId(), subjectId, groupId, year, week, day));
+//        return Flux.just(groupConnectSubjectService.getStatisticsOfGroupForTeacher(educationId,groupId,subjectId));
+//        return ResponseEntity.ok(groupConnectSubjectService.getStatisticsOfGroupForTeacher(educationId,groupId,subjectId));
+    }
+
 
 //    @GetMapping(path = "/getStatisticsOfGroupForTeacher2/{educationId}/{groupId}",produces = MediaType.APPLICATION_JSON_VALUE)
 //    public Flux<?> getSubjectsOfTeacher2(
