@@ -18,6 +18,7 @@ import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -93,6 +94,28 @@ public class NotificationOuterImplService implements NotificationOuterService{
         else {
             return update(dto);
         }
+    }
+
+    @Override
+    public ApiResponse delete(User user, String id) {
+        Optional<NotificationOuter> outerOptional = notificationRepository.findById(id);
+        if (outerOptional.isPresent()){
+            NotificationOuter notificationOuter = outerOptional.get();
+            if (Objects.equals(notificationOuter.getCreatedBy(), user.getId())){
+                Boolean b = notificationOuterCounterRepository.existsByUserIdAndNotificationOuterId(user.getId(), notificationOuter.getId());
+                if (!b) {
+                    notificationRepository.deleteById(id);
+                    return new ApiResponse(true,"notification was deleted successfully");
+                }
+                else {
+                    return new ApiResponse(false,"You cannot delete this notification. Because this notification was already used other place.");
+                }
+            }
+            else {
+                return new ApiResponse(false,"You cannot delete any notification.");
+            }
+        }
+        return new ApiResponse(false,"notification was not found by id: " + id);
     }
 
     public ApiResponse update(NotificationOuterCreateDto dto){
