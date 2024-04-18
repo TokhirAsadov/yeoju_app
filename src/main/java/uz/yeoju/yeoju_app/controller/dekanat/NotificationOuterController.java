@@ -44,7 +44,7 @@ public class NotificationOuterController {
         return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
     }
 
-    @PreAuthorize("hasRole('TEACHER')")
+    @PreAuthorize("hasRole('DEKAN')")
     @DeleteMapping("/deleteNO/{id}")
     public HttpEntity<?> delete(@CurrentUser User user, @PathVariable("id") String id){
         ApiResponse delete = service.delete(user, id);
