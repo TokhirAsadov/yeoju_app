@@ -207,8 +207,8 @@ USERINFOService implements USERINFOImplService<USERINFO> {
                             else {
                                 userinfo.setBadgenumber(badgenumber + 1);
                             }
-                            userinfo.setName(row.getCell(0).getStringCellValue());
-                            userinfo.setLastname(row.getCell(0).getStringCellValue());
+//                            userinfo.setName(row.getCell(0).getStringCellValue());
+//                            userinfo.setLastname(row.getCell(0).getStringCellValue());
                             userinfo.setCardNo(row.getCell(2).getStringCellValue());
                             System.out.println(userinfo.toString());
                             userInfoRepo.save(userinfo);
@@ -302,8 +302,8 @@ USERINFOService implements USERINFOImplService<USERINFO> {
                             else {
                                 userinfo.setBadgenumber(badgenumber + 1);
                             }
-                            userinfo.setName(row.getCell(0).getStringCellValue());
-                            userinfo.setLastname(row.getCell(0).getStringCellValue());
+//                            userinfo.setName(row.getCell(0).getStringCellValue());
+//                            userinfo.setLastname(row.getCell(0).getStringCellValue());
                             userinfo.setCardNo(row.getCell(2).getStringCellValue());
                             System.out.println(userinfo.toString());
                             userInfoRepo.save(userinfo);
