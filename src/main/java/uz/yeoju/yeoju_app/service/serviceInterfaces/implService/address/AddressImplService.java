@@ -151,6 +151,18 @@ public class AddressImplService implements AddressService{
     }
 
     @Override
+    public ApiResponse saveFromAttachmentWithLogin(MultipartHttpServletRequest request) {
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return readDataFromExcelWithLogin(file);
+            }
+        }
+        return null;
+    }
+
+    @Override
     public ApiResponse getMapStatistics() {
         return new ApiResponse(true," get Map Statistics ",addressUserRepository.getMapStatistics());
     }
@@ -260,6 +272,48 @@ public class AddressImplService implements AddressService{
         return new ApiResponse(true,"statistics by education type and faculty id",addressUserRepository.getStatisticsByEduTypeAndFacultyId(eduType,facultyId));
     }
 
+    @Transactional
+    public ApiResponse readDataFromExcelWithLogin(MultipartFile file) {
+        try {
+            Workbook workbook = getWorkBook(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            rows.next();
+            System.out.println(rows);
+            System.out.println(rows.hasNext());
+            while (rows.hasNext()){
+                Row row = rows.next();
+//                row.getCell(3).getStringCellValue()
+
+                System.out.println(row.getCell(0).getStringCellValue()+" <- user ID");
+//                System.out.println(row.getCell(0).toString()+" <- user ID");
+                System.out.println(row.getCell(1).getStringCellValue()+" <- region");
+                System.out.println(row.getCell(2).getStringCellValue()+" <- district");
+//                System.out.println(row.getCell(19).getStringCellValue()+" <- ismi");
+
+
+                User user  = userRepository.getUserByLogin(row.getCell(0).getStringCellValue());
+                if (user!=null) {
+                    System.out.println(user + "+ <- user");
+
+                    AddressUser addressUser = new AddressUser();
+                    addressUser.setUser(user);
+                    addressUser.setRegion(row.getCell(1).getStringCellValue());
+                    addressUser.setArea(row.getCell(2).getStringCellValue());
+
+                    System.out.println(addressUser+" <- address");
+
+                    addressUserRepository.save(addressUser);
+
+                }
+
+            }
+
+            return new ApiResponse(true,"Addresses were saved successfully");
+        }catch (Exception e){
+            return new ApiResponse(false,"Error occured while reading data from Excel");
+        }
+    }
 
     @Transactional
     public ApiResponse readDataFromExcel(MultipartFile file) {
