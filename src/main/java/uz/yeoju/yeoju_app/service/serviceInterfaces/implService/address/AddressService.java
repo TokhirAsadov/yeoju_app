@@ -25,6 +25,7 @@ public interface AddressService {
     ApiResponse getVillagesByDistrictId(Long districtId);
 
     ApiResponse saveFromAttachment(MultipartHttpServletRequest request);
+    ApiResponse saveFromAttachmentWithLogin(MultipartHttpServletRequest request);
 
     ApiResponse getMapStatistics();
 
