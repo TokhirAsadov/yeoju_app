@@ -56,7 +56,11 @@ public class AddressController {
     public HttpEntity<?> getVillagesByDistrictId(@PathVariable(name = "districtId") Long districtId){
         return ResponseEntity.ok(addressService.getVillagesByDistrictId(districtId));
     }
-
+    @PostMapping("/uploadAddressWithLogin")//getUserForTeacherSaving
+    public HttpEntity<?> uploadAddressWithLogin(MultipartHttpServletRequest request) throws IOException {
+        ApiResponse apiResponse = addressService.saveFromAttachment(request);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
 
     @PostMapping("/uploadAddress")//getUserForTeacherSaving
     public HttpEntity<?> uploadPhotoForUser(MultipartHttpServletRequest request) throws IOException {
