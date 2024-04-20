@@ -58,7 +58,7 @@ public class AddressController {
     }
     @PostMapping("/uploadAddressWithLogin")//getUserForTeacherSaving
     public HttpEntity<?> uploadAddressWithLogin(MultipartHttpServletRequest request) throws IOException {
-        ApiResponse apiResponse = addressService.saveFromAttachment(request);
+        ApiResponse apiResponse = addressService.saveFromAttachmentWithLogin(request);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
