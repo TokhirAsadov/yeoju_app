@@ -21,6 +21,9 @@ public interface StudentRepository extends JpaRepository<Student, String> {
 
 
 
+    @Query(value = "select * from dbo.GetAllSubjectsByDayAndGroupAndStudentId(?1,?2,?3,?4,?5) order by section;",nativeQuery = true)
+    GetAllSubjectsByDayAndGroupAndStudentId getAllSubjectsByDayAndGroupAndStudentId(String studentId,String groupId,Integer year,Integer week,Integer day);
+
     @Query(value = "select dbo.GetStudentMonitoringByDay(?1,?2,?3,?4,?5);",nativeQuery = true)
     String getStudentMonitoringByDay(String studentId,String groupId,Integer year,Integer week,Integer day);
 
