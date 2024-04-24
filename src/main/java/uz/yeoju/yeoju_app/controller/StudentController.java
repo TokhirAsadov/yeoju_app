@@ -29,6 +29,18 @@ public class StudentController {
     public final StudentService studentService;
     public final StudentRepository studentRepository;
 
+    @GetMapping("/monitoring/{groupId}/{educationYearId}")
+    public HttpEntity<?> getMonitoring(
+            @CurrentUser User user,
+            @PathVariable("groupId") String groupId,
+            @PathVariable("educationYearId") String educationYearId,
+            @RequestParam("year") Integer year,
+            @RequestParam("week") Integer week,
+            @RequestParam("day") Integer day
+    ){
+        return ResponseEntity.ok(studentService.monitoring(user,groupId,educationYearId,year,week,day));
+    }
+
 
     @GetMapping("/getDataForStudentReference/{referenceId}")
     public HttpEntity<?> getDataForStudentReference(@CurrentUser User user,@PathVariable("referenceId") String referenceId){
