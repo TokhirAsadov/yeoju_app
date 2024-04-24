@@ -29,6 +29,16 @@ public class StudentController {
     public final StudentService studentService;
     public final StudentRepository studentRepository;
 
+
+    @GetMapping("/monitoringByEducationYear/{groupId}/{educationYearId}")
+    public HttpEntity<?> getMonitoringEducationYear(
+            @CurrentUser User user,
+            @PathVariable("groupId") String groupId,
+            @PathVariable("educationYearId") String educationYearId
+    ){
+        return ResponseEntity.ok(studentRepository.getStudentMonitoringByEducationYear(user.getId(),groupId,educationYearId));
+    }
+
     @GetMapping("/monitoring/{groupId}/{educationYearId}")
     public HttpEntity<?> getMonitoring(
             @CurrentUser User user,
