@@ -1,0 +1,37 @@
+/*! @mui/material/Autocomplete */
+
+/*! @mui/material/TextField */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! axios */
+
+/*! moment */
+
+/*! moment/locale/ru */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.iterator.for-each.js */
+
+/*! ../../teacher/timeTable/TeacherTimeTableOfWeek */
+
+/*! styled-components */
+
+/*! ../../../responsiv */
+
+/*! react-redux */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.async-iterator.for-each.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react */
+
+/*! react/jsx-runtime */
