@@ -28,10 +28,10 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "    WHERE MONTH(DATEADD(DAY, 1, [Date])) = MONTH(?1)\n" +
             ")\n" +
             "\n" +
-            "SELECT ?2 as studentId,?3 as groupId,DATEPART(YEAR , [Date]) as year,DATEPART(WEEK, [Date]) as week,DAY([Date]) as day,DATEPART(DW,[Date]) as weekDay,[Date]\n" +
+            "SELECT ?2 as studentId,?3 as groupId,DATEPART(YEAR , [Date]) as year,DATEPART(WEEK, [Date]) as week,DAY([Date]) as day,DATEPART(DW,[Date])-1 as weekDay,[Date]\n" +
             "FROM DateList\n" +
             "OPTION (MAXRECURSION 0);",nativeQuery = true)
-    MonitoringByMonth getMonitoringByMonth(String date,String studentId,String groupId);
+    Set<MonitoringByMonth> getMonitoringByMonth(String date,String studentId,String groupId);
 
 
     @Query(value = "select * from dbo.GetAllSubjectsByDayAndGroupAndStudentId(?1,?2,?3,?4,?5) order by section;",nativeQuery = true)
