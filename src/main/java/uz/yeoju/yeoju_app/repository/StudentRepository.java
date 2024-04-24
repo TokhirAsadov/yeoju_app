@@ -20,6 +20,19 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     Student findStudentByUserLogin(String user_login);
 
 
+    @Query(value = "WITH DateList AS (\n" +
+            "    SELECT CAST(?1 AS DATE) AS [Date]\n" +
+            "    UNION ALL\n" +
+            "    SELECT DATEADD(DAY, 1, [Date])\n" +
+            "    FROM DateList\n" +
+            "    WHERE MONTH(DATEADD(DAY, 1, [Date])) = MONTH(?1)\n" +
+            ")\n" +
+            "\n" +
+            "SELECT ?2 as studentId,?3 as groupId,DATEPART(YEAR , [Date]) as year,DATEPART(WEEK, [Date]) as week,DAY([Date]) as day,DATEPART(DW,[Date]) as weekDay,[Date]\n" +
+            "FROM DateList\n" +
+            "OPTION (MAXRECURSION 0);",nativeQuery = true)
+    MonitoringByMonth getMonitoringByMonth(String date,String studentId,String groupId);
+
 
     @Query(value = "select * from dbo.GetAllSubjectsByDayAndGroupAndStudentId(?1,?2,?3,?4,?5) order by section;",nativeQuery = true)
     Set<GetAllSubjectsByDayAndGroupAndStudentId> getAllSubjectsByDayAndGroupAndStudentId(String studentId,String groupId,Integer year,Integer week,Integer day);
