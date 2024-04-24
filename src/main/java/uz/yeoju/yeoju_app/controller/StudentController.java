@@ -1,6 +1,5 @@
 package uz.yeoju.yeoju_app.controller;
 
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
@@ -30,7 +29,14 @@ public class StudentController {
     public final StudentRepository studentRepository;
 
 
-
+    @GetMapping("/monitoringByMonth/{groupId}")
+    public HttpEntity<?> getMonitoringByMonth(
+            @CurrentUser User user,
+            @PathVariable("groupId") String groupId,
+            @RequestParam("month") String month
+    ){
+        return ResponseEntity.ok(studentRepository.getMonitoringByMonth(month,user.getId(),groupId));
+    }
 
     @GetMapping("/monitoringWithTimeTableByDay/{groupId}")
     public HttpEntity<?> getMonitoringWithTimeTableByDay(
