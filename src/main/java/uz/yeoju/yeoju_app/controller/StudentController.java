@@ -30,6 +30,19 @@ public class StudentController {
     public final StudentRepository studentRepository;
 
 
+
+    @GetMapping("/monitoringByDay/{groupId}")
+    public HttpEntity<?> getMonitoringDay(
+            @CurrentUser User user,
+            @PathVariable("groupId") String groupId,
+            @RequestParam("year") Integer year,
+            @RequestParam("week") Integer week,
+            @RequestParam("day") Integer day
+    ){
+        return ResponseEntity.ok(studentRepository.getStudentMonitoringByDay(user.getId(),groupId,year,week,day));
+    }
+
+
     @GetMapping("/monitoringByWeek/{groupId}")
     public HttpEntity<?> getMonitoringWeek(
             @CurrentUser User user,
