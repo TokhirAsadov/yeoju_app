@@ -1,11 +1,14 @@
 package uz.yeoju.yeoju_app.payload.resDto.student;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 
 public interface MonitoringByMonth {
+    @JsonIgnore
     String getStudentId();
+    @JsonIgnore
     String getGroupId();
     Integer getYear();
     Integer getWeek();
