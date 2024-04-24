@@ -19,6 +19,11 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     Student findStudentByUserId(String user_id);
     Student findStudentByUserLogin(String user_login);
 
+
+
+    @Query(value = "select dbo.GetStudentMonitoringByDay(?1,?2,?3,?4,?5);",nativeQuery = true)
+    String getStudentMonitoringByDay(String studentId,String groupId,Integer year,Integer week,Integer day);
+
     @Query(value = "select dbo.GetStudentMonitoringByWeek(?1,?2,?3,?4);",nativeQuery = true)
     String getStudentMonitoringByWeek(String studentId,String groupId,Integer year,Integer week);
 
