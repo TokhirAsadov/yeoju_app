@@ -3,7 +3,6 @@ package uz.yeoju.yeoju_app.payload.resDto.student;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
-import java.util.Set;
 
 public interface MonitoringByMonth {
     String getStudentId();
@@ -17,7 +16,7 @@ public interface MonitoringByMonth {
     @Value("#{@studentRepository.getStudentMonitoringByDay(target.studentId,target.groupId,target.year,target.week,target.weekDay)}")
     String getStudentMonitoringByDay();
 
-    @Value("#{@studentRepository.getAllSubjectsByDayAndGroupAndStudentId(target.studentId,target.groupId,target.year,target.week,target.weekDay)}")
-    Set<GetAllSubjectsByDayAndGroupAndStudentId> getTimeTableOfToday();
+//    @Value("#{@studentRepository.getAllSubjectsByDayAndGroupAndStudentId(target.studentId,target.groupId,target.year,target.week,target.weekDay)}")
+//    Set<GetAllSubjectsByDayAndGroupAndStudentId> getTimeTableOfToday();
 
 }
