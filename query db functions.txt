@@ -1,3 +1,22 @@
+CREATE FUNCTION dbo.GetAllSubjectsByWeekAndGroupAndStudentId(
+    @studentId varchar(255),
+    @groupId varchar(255),
+    @year varchar(255),
+    @week varchar(255)
+) RETURNS TABLE
+    AS
+    RETURN
+    (
+    SELECT c.id, @studentId as studentId, c.classroom as room, c.day, c.period as section, g.name as groupName, w.year, w.sortNumber as week, l.name as subject
+    FROM CardDB c
+             JOIN LessonDB ld on c.lesson_id = ld.id
+             JOIN Lesson l on ld.subject_id = l.id
+             JOIN LessonDB_groups LDg on ld.id = LDg.LessonDB_id
+             JOIN groups g on LDg.groups_id = g.id
+             JOIN WeekOfEducationYear w on c.weekOfEducationYear_id = w.id
+    WHERE g.id = @groupId AND w.year=@year and w.sortNumber=@week
+    )
+go
 CREATE FUNCTION dbo.GetAllSubjectsByEduYearIdAndGroupAndStudentId(
     @studentId varchar(255),
     @groupId varchar(255),
