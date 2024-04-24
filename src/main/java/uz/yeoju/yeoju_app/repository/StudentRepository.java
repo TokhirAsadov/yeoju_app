@@ -22,7 +22,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
 
 
     @Query(value = "select * from dbo.GetAllSubjectsByDayAndGroupAndStudentId(?1,?2,?3,?4,?5) order by section;",nativeQuery = true)
-    GetAllSubjectsByDayAndGroupAndStudentId getAllSubjectsByDayAndGroupAndStudentId(String studentId,String groupId,Integer year,Integer week,Integer day);
+    Set<GetAllSubjectsByDayAndGroupAndStudentId> getAllSubjectsByDayAndGroupAndStudentId(String studentId,String groupId,Integer year,Integer week,Integer day);
 
     @Query(value = "select dbo.GetStudentMonitoringByDay(?1,?2,?3,?4,?5);",nativeQuery = true)
     String getStudentMonitoringByDay(String studentId,String groupId,Integer year,Integer week,Integer day);
@@ -30,7 +30,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     @Query(value = "select dbo.GetStudentMonitoringByWeek(?1,?2,?3,?4);",nativeQuery = true)
     String getStudentMonitoringByWeek(String studentId,String groupId,Integer year,Integer week);
 
-    @Query(value = "select dbo.GetStudentMonitoringByEducationYear(?1,?2,?3);",nativeQuery = true)
+    @Query(value = "select dbo.GetStudentMonitoringByEducationYear(?1,?2,?3)",nativeQuery = true)
     String getStudentMonitoringByEducationYear(String studentId,String groupId,String educationYearId);
 
     @Query(value = "select ?1 as studentId, ?2 as groupId, ?3 as educationYearId,?4 as year,?5 as week,?6 as day",nativeQuery = true)
