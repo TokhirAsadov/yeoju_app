@@ -1,5 +1,109 @@
 
 
+
+CREATE FUNCTION dbo.GetStudentMonitoringByDay(
+    @studentId varchar(255),
+    @groupId varchar(255),
+    @year varchar(255),
+    @week varchar(255),
+    @day varchar(255)
+)
+    RETURNS varchar(255)
+AS
+BEGIN
+    DECLARE @allGrade TABLE (
+                                id varchar(255),
+                                studentId varchar(255),
+                                room varchar(255),
+                                day varchar(255),
+                                section varchar(255),
+                                groupName varchar(255),
+                                [year] varchar(255),
+                                week varchar(255),
+                                subject varchar(255)
+                            );
+
+    DECLARE @counter1 int;
+    DECLARE @allLessonCounts int;
+    DECLARE @Id varchar(255);
+
+    INSERT INTO @allGrade
+    SELECT * from dbo.GetAllSubjectsByDayAndGroupAndStudentId(@studentId,@groupId,@year,@week,@day);
+
+    set @counter1 = (select count(*) from @allGrade);
+    set @allLessonCounts = @counter1;
+
+    Declare @dynamicCounter int = 0;
+    Declare @missCounter int = 0;
+
+    WHILE 0 < @counter1
+        BEGIN
+            Select Top 1 @Id = id From @allGrade;
+
+            Declare @studentId2 varchar(255);
+            DECLARE @room2 varchar(255);
+            DECLARE @year2 int;
+            DECLARE @week2 int;
+            DECLARE @day2 int;
+            DECLARE @section2 int;
+
+            Select Top 1
+                @studentId2=studentId,
+                @room2=room,
+                @year2=year,
+                @week2=week,
+                @day2=day,
+                @section2=section
+            From @allGrade where id=@Id;
+
+            DECLARE @statistics TABLE (
+                                          nameId varchar(255),
+                                          time datetime,
+                                          week int,
+                                          weekday int,
+                                          section int,
+                                          type varchar(255),
+                                          isCome bit,
+                                          createdBy varchar(255)
+                                      );
+
+            INSERT INTO @statistics
+            SELECT * from dbo.GetTimesForRoomStatisticsByUserIdUnion2(@studentId2,@room2,@year2,@week2,@day2,@section2);
+
+            Declare @statisticsCounter int;
+
+            set @statisticsCounter = (select count(*) from @statistics);
+
+            IF (@statisticsCounter>0)
+                begin
+                    Declare @attendanceCounter int = 0;
+                    set @attendanceCounter = (select count(*) from @statistics where type='DYNAMIC' and isCome=0);
+
+                    if (@attendanceCounter=0)
+                        begin
+                            set @dynamicCounter = @dynamicCounter + 1;
+                        end
+                    else
+                        begin
+                            set @missCounter = @missCounter + 1;
+                        end
+                end
+            else
+                begin
+                    set @missCounter = @missCounter + 1;
+                end
+
+
+            DELETE @statistics
+            Delete @allGrade Where id = @Id
+            SET @counter1 =  (select count(*) from @allGrade);
+
+        END;
+
+    RETURN CAST(@allLessonCounts as varchar)+'/'+cast(@dynamicCounter as varchar)+'/'+cast(@missCounter as varchar); -- Return your desired value here
+END
+go
+
 CREATE FUNCTION dbo.GetAllSubjectsByDayAndGroupAndStudentId(
     @studentId varchar(255),
     @groupId varchar(255),
