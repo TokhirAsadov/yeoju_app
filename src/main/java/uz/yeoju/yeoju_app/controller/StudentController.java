@@ -69,7 +69,7 @@ public class StudentController {
             @RequestParam("year") Integer year,
             @RequestParam("week") Integer week
     ){
-        return ResponseEntity.ok(studentRepository.getStudentMonitoringByWeek(user.getId(),groupId,year,week));
+        return ResponseEntity.ok(studentRepository.getMonitoringByWeek(year,week,user.getId(),groupId));
     }
 
 
