@@ -20,6 +20,25 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     Student findStudentByUserLogin(String user_login);
 
 
+
+
+
+    @Query(value = "SELECT\n" +
+            "    ?3 as studentId,?4 as groupId,\n" +
+            "    DATEADD(DAY, number, DATEADD(WEEK, ?2 - 1, DATEADD(YEAR, ?1 - 1900, 0))) AS date,\n" +
+            "    DATEPART(YEAR , DATEADD(DAY, number, DATEADD(WEEK, ?2 - 1, DATEADD(YEAR, ?1 - 1900, 0)))) AS year,\n" +
+            "    DAY(DATEADD(DAY, number, DATEADD(WEEK, ?2 - 1, DATEADD(YEAR, ?1 - 1900, 0)))) AS day,\n" +
+            "    DATEPART(WEEK, DATEADD(DAY, number, DATEADD(WEEK, ?2 - 1, DATEADD(YEAR, ?1 - 1900, 0)))) AS week,\n" +
+            "    DATEPART(WEEKDAY, DATEADD(DAY, number, DATEADD(WEEK, ?2 - 1, DATEADD(YEAR, ?1 - 1900, 0))))-1 AS weekDay\n" +
+            "FROM\n" +
+            "    master..spt_values\n" +
+            "WHERE\n" +
+            "    type = 'P'\n" +
+            "  AND number BETWEEN 0 AND 6\n" +
+            "  AND DATEPART(WEEK, DATEADD(DAY, number, DATEADD(WEEK, ?2 - 1, DATEADD(YEAR, ?1 - 1900, 0)))) = ?2",nativeQuery = true)
+    Set<MonitoringByMonth> getDataOfMonitoringByWeek(Integer year,Integer week,String studentId,String groupId);
+
+
     @Query(value = "WITH DateList AS (\n" +
             "    SELECT CAST(?1 AS DATE) AS [Date]\n" +
             "    UNION ALL\n" +
