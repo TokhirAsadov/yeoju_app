@@ -20,7 +20,8 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     Student findStudentByUserLogin(String user_login);
 
 
-
+    @Query(value = "select ?1 as year,?2 as week,?3 as studentId,?4 as groupId;",nativeQuery = true)
+    MonitoringByWeek getMonitoringByWeek(Integer year,Integer week,String studentId,String groupId);
 
 
     @Query(value = "SELECT\n" +
