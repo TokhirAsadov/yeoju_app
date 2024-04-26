@@ -14,6 +14,10 @@
 
 /*! react/jsx-runtime */
 
+/*! @mui/material/Avatar */
+
+/*! react-icons/fa6 */
+
 /*! @mui/material/Modal */
 
 /*! core-js/modules/web.dom-collections.iterator.js */
@@ -25,8 +29,6 @@
 /*! react-icons/ri */
 
 /*! @swc/helpers/_/_tagged_template_literal */
-
-/*! ../../utills/images/no-picture.jpg */
 
 /*! styled-components */
 
@@ -43,8 +45,6 @@
 /*! moment */
 
 /*! core-js/modules/esnext.async-iterator.map.js */
-
-/*! react-icons/fa6 */
 
 /*! axios */
 
