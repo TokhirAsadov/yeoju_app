@@ -1,5 +1,6 @@
 package uz.yeoju.yeoju_app.payload.resDto.module;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Timestamp;
@@ -13,6 +14,7 @@ public interface GetGradesOfStudent {
     Float getGrade();
     Timestamp getTime();
     Timestamp getCreatedAt();
+    @JsonIgnore
     String getDescription();
 
     @Value("#{@gradeOfStudentByTeacherRepository.getGradesOfStudentByTeacherIdAndStudentIdAndEducationYearIdAndLessonIdRetakes(target.id)}")
