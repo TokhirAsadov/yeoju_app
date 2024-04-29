@@ -2,11 +2,11 @@
 
 /*! @mui/material/Box */
 
-/*! ./slice/rektor/rektor_staffs_slice */
-
 /*! react/jsx-runtime */
 
 /*! react-redux */
+
+/*! core-js/modules/esnext.array.group.js */
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
@@ -22,8 +22,6 @@
 
 /*! react-icons/bi */
 
-/*! ./actions/kafedra/section_actions */
-
 /*! axios */
 
 /*! react-router-dom */
@@ -31,6 +29,8 @@
 /*! @reduxjs/toolkit */
 
 /*! core-js/modules/esnext.iterator.find.js */
+
+/*! ./actions/dekan/dekan_groups_actions */
 
 /*! react/jsx-runtime */
 
@@ -52,9 +52,9 @@
 
 /*! react */
 
-/*! react/jsx-runtime */
-
 /*! ./roles/KafedraRoleSettings */
+
+/*! ./slice/lessonsTeacher/lessons_teacher_slice */
 
 /*! ../../components/spinner/Spinner */
 
@@ -63,6 +63,8 @@
 /*! react-icons/hi */
 
 /*! moment */
+
+/*! @reduxjs/toolkit */
 
 /*! ../../utills/ServiceUrls */
 
@@ -77,6 +79,8 @@
 /*! react/jsx-runtime */
 
 /*! core-js/modules/esnext.json.parse.js */
+
+/*! core-js/modules/es.array.push.js */
 
 /*! @mui/material/Tab */
 
@@ -106,6 +110,8 @@
 
 /*! ../../components/student/menu/StudentMenu */
 
+/*! ./slice/dataForUpdateThemeGrade/dataForUpdateThemeGrade_slice */
+
 /*! react/jsx-runtime */
 
 /*! react/jsx-runtime */
@@ -130,9 +136,9 @@
 
 /*! ./AccordionScienceAttendance */
 
-/*! ./PdfContr */
+/*! @reduxjs/toolkit */
 
-/*! ./slice/questions/questions_slice */
+/*! ./PdfContr */
 
 /*! core-js/modules/es.array.push.js */
 
@@ -156,6 +162,8 @@
 
 /*! core-js/modules/web.dom-collections.iterator.js */
 
+/*! ./actions/rektor/rektor_dashboard_students_action */
+
 /*! core-js/modules/esnext.async-iterator.filter.js */
 
 /*! @mui/material/Tab */
@@ -172,9 +180,13 @@
 
 /*! @mui/material/Modal */
 
+/*! ./actions/bulim/bulim_second_actions */
+
 /*! react-redux */
 
 /*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! core-js/modules/es.promise.finally.js */
 
@@ -184,7 +196,7 @@
 
 /*! ../sidebar/SidebarBtn */
 
-/*! @swc/helpers/_/_tagged_template_literal */
+/*! @reduxjs/toolkit */
 
 /*! ../components/spinner/Spinner */
 
@@ -198,6 +210,8 @@
 
 /*! react-icons/pi */
 
+/*! react/jsx-runtime */
+
 /*! ../../utills/ServiceUrls */
 
 /*! @mui/material/Modal */
@@ -207,6 +221,8 @@
 /*! react-icons/fa6 */
 
 /*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ./slice/teacher/teacher_slice */
 
 /*! ../../slice/kafedra/section_slice */
 
@@ -226,6 +242,8 @@
 
 /*! styled-components */
 
+/*! @reduxjs/toolkit */
+
 /*! styled-components */
 
 /*! react-router-dom */
@@ -233,8 +251,6 @@
 /*! react-icons/ri */
 
 /*! core-js/modules/esnext.async-iterator.map.js */
-
-/*! ../../actions/tableData/table_action */
 
 /*! ../../../../utills/images/no-picture.jpg */
 
@@ -254,17 +270,17 @@
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
+/*! ./slice/educationYear/education_year_statistics_slice */
+
 /*! @swc/helpers/_/_tagged_template_literal */
 
 /*! react-redux */
 
-/*! @reduxjs/toolkit */
+/*! ./slice/rektor/rektor_dashboard_students_slice */
 
 /*! styled-components */
 
-/*! @reduxjs/toolkit */
-
-/*! ./slice/bulim/bulim_second_slice */
+/*! core-js/modules/es.array.push.js */
 
 /*! ../../data/data */
 
@@ -274,11 +290,7 @@
 
 /*! ../../actions/allNbModalForTeacher/allNbModalForTeacher_action */
 
-/*! @reduxjs/toolkit */
-
 /*! ../../utills/ServiceUrls */
-
-/*! @mui/material/Button */
 
 /*! @reduxjs/toolkit */
 
@@ -298,27 +310,15 @@
 
 /*! ./pages/Admin */
 
-/*! ./slice/tableData/tableSlice */
-
-/*! ./actions/dekan/dekan_faculties_for_transfer_student_actions */
-
-/*! ./actions/rektor/rektor_dashboard_staffs_action */
-
 /*! core-js/modules/es.error.cause.js */
 
 /*! core-js/modules/esnext.iterator.filter.js */
 
-/*! ./slice/dekan/bad_and_best */
-
 /*! react-redux */
-
-/*! react-icons/md */
 
 /*! styled-components */
 
 /*! react-redux */
-
-/*! core-js/modules/esnext.iterator.filter.js */
 
 /*! ../components/contact/AllContacts */
 
@@ -374,8 +374,6 @@
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
-/*! styled-components */
-
 /*! ../../components/navbar/NavBarDekan */
 
 /*! @swc/helpers/_/_tagged_template_literal */
@@ -398,8 +396,6 @@
 
 /*! @mui/material/Avatar */
 
-/*! ./slice/rektor/rektor_dashboard_teachers_slice */
-
 /*! axios */
 
 /*! ../../../utills/ServiceUrls */
@@ -416,7 +412,11 @@
 
 /*! core-js/modules/web.dom-collections.iterator.js */
 
+/*! ./actions/bulim/bulim_actions */
+
 /*! ../../../utills/ServiceUrls */
+
+/*! ./actions/kafedra/kafedra_time_table_action */
 
 /*! ./createDekanat/CreateDekanat */
 
@@ -424,11 +424,7 @@
 
 /*! react */
 
-/*! ./slice/multipartScore/multipartScore_slice */
-
 /*! react/jsx-runtime */
-
-/*! ./actions/teacher/teacher_actions */
 
 /*! ../../utills/ServiceUrls */
 
@@ -444,8 +440,6 @@
 
 /*! @reduxjs/toolkit */
 
-/*! @reduxjs/toolkit */
-
 /*! @mui/material/styles */
 
 /*! ../../components/student/results/StudentExamFinal */
@@ -454,13 +448,9 @@
 
 /*! ../../slice/rektor/rektor_staffs_slice */
 
-/*! ./actions/notification/notification_action */
-
 /*! ../Logo */
 
 /*! ../../components/contact/AllContacts */
-
-/*! ../../utills/images/logo.png */
 
 /*! axios */
 
@@ -470,13 +460,11 @@
 
 /*! core-js/modules/esnext.iterator.find.js */
 
-/*! @reduxjs/toolkit */
-
-/*! ./slice/rektor/rektor_dashboard_staffs_slice */
-
 /*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! ../../components/kafedra/week/KafedraWeek */
+
+/*! ./actions/dekanat/dekanat_actions */
 
 /*! ../../../../utills/ServiceUrls */
 
@@ -494,13 +482,15 @@
 
 /*! ../../components/uquvbulimi/groups/EducationalGroups */
 
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ./actions/user/user_actions */
+
 /*! ../../utills/ServiceUrls */
 
 /*! styled-components */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
-
-/*! ./actions/kafedra/kafedra_dashboard_statistics_action */
 
 /*! ../SectionNav */
 
@@ -546,9 +536,7 @@
 
 /*! @mui/material/IconButton */
 
-/*! react-icons/md */
-
-/*! @mui/material/Button */
+/*! ./slice/dekan/dekan_transfer_student_slice */
 
 /*! ../../utills/ServiceUrls */
 
@@ -556,29 +544,29 @@
 
 /*! react-redux */
 
-/*! core-js/modules/esnext.array.group.js */
-
 /*! styled-components */
 
 /*! react-redux */
 
+/*! ./actions/rektor/rektor_staffs_action */
+
 /*! ../../utills/ServiceUrls */
 
-/*! ./actions/dekan/dekan_groups_actions */
+/*! @mui/material/CircularProgress */
 
 /*! ../../../utills/ServiceUrls */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
 
+/*! @reduxjs/toolkit */
+
 /*! react */
 
 /*! core-js/modules/esnext.async-iterator.map.js */
 
-/*! ./slice/lessonsTeacher/lessons_teacher_slice */
+/*! ./actions/educationYear/education_year_actions */
 
 /*! styled-components */
-
-/*! @reduxjs/toolkit */
 
 /*! ../notification/Notificationmenu */
 
@@ -622,8 +610,6 @@
 
 /*! react/jsx-runtime */
 
-/*! ./slice/dataForUpdateThemeGrade/dataForUpdateThemeGrade_slice */
-
 /*! ../utills/ServiceUrls */
 
 /*! axios */
@@ -648,11 +634,9 @@
 
 /*! @mui/material */
 
-/*! @reduxjs/toolkit */
-
 /*! jwt-decode */
 
-/*! core-js/modules/esnext.async-iterator.find.js */
+/*! ./slice/dekan/dekan_groups_slice */
 
 /*! moment/moment */
 
@@ -665,8 +649,6 @@
 /*! core-js/modules/esnext.async-iterator.find.js */
 
 /*! core-js/modules/esnext.async-iterator.map.js */
-
-/*! ./actions/rektor/rektor_dashboard_students_action */
 
 /*! react/jsx-runtime */
 
@@ -684,9 +666,7 @@
 
 /*! ../../redux/actions/teacher/teacher_actions */
 
-/*! ./actions/bulim/bulim_second_actions */
-
-/*! core-js/modules/web.dom-collections.iterator.js */
+/*! ./slice/bulim/bulim_slice */
 
 /*! react/jsx-runtime */
 
@@ -694,15 +674,17 @@
 
 /*! ../../../utills/pdfFiles/PdfNotice */
 
-/*! @reduxjs/toolkit */
-
 /*! @swc/helpers/_/_tagged_template_literal */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
 
 /*! react/jsx-runtime */
 
+/*! ./slice/educationYear/education_year_slice */
+
 /*! core-js/modules/esnext.iterator.map.js */
+
+/*! @reduxjs/toolkit */
 
 /*! styled-components */
 
@@ -720,6 +702,8 @@
 
 /*! core-js/modules/es.error.cause.js */
 
+/*! @mui/material/CircularProgress */
+
 /*! ../components/dekan/kafedra/DekanKafedra */
 
 /*! core-js/modules/esnext.async-iterator.map.js */
@@ -728,7 +712,7 @@
 
 /*! ../../responsiv */
 
-/*! react/jsx-runtime */
+/*! core-js/modules/esnext.async-iterator.filter.js */
 
 /*! react-i18next */
 
@@ -736,11 +720,11 @@
 
 /*! core-js/modules/esnext.async-iterator.find.js */
 
-/*! ./slice/teacher/teacher_slice */
-
 /*! core-js/modules/esnext.iterator.map.js */
 
 /*! react-icons/md */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
 
 /*! react/jsx-runtime */
 
@@ -756,8 +740,6 @@
 
 /*! @reduxjs/toolkit */
 
-/*! @reduxjs/toolkit */
-
 /*! @swc/helpers/_/_tagged_template_literal */
 
 /*! ../../components/rektor/student/talaba/RektorTalabaTable */
@@ -770,17 +752,13 @@
 
 /*! core-js/modules/esnext.iterator.filter.js */
 
-/*! ./slice/educationYear/education_year_statistics_slice */
-
 /*! react */
 
 /*! ../../utills/ServiceUrls */
 
 /*! moment/moment */
 
-/*! core-js/modules/es.array.push.js */
-
-/*! ./slice/rektor/rektor_dashboard_students_slice */
+/*! ./slice/kafedra/section_slice */
 
 /*! react/jsx-runtime */
 
@@ -805,6 +783,8 @@
 /*! ./deans/Deans */
 
 /*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
 
 /*! ./pages/student/Student */
 
@@ -841,6 +821,8 @@
 /*! ./addStudent/AddStudents */
 
 /*! core-js/modules/esnext.iterator.find.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! core-js/modules/esnext.async-iterator.filter.js */
 
@@ -886,19 +868,19 @@
 
 /*! @mui/material/Box */
 
-/*! ./actions/bulim/bulim_actions */
-
-/*! ./actions/kafedra/kafedra_time_table_action */
-
 /*! core-js/modules/esnext.iterator.map.js */
 
 /*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @reduxjs/toolkit */
 
 /*! @mui/icons-material/VisibilityOff */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
 
 /*! core-js/modules/esnext.json.parse.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
 
 /*! js-cookie */
 
@@ -913,6 +895,8 @@
 /*! ./DashBoardLayout */
 
 /*! react-router-dom */
+
+/*! react */
 
 /*! jwt-decode */
 
@@ -938,7 +922,7 @@
 
 /*! ../../redux/slice/user/user_slice */
 
-/*! ./actions/dekanat/dekanat_actions */
+/*! ./actions/infoStudentForLesson/InfoStudentForLesson_actions */
 
 /*! ../../components/emptyDataImg/EmptyDataImg */
 
@@ -954,15 +938,9 @@
 
 /*! core-js/modules/esnext.async-iterator.map.js */
 
-/*! core-js/modules/esnext.async-iterator.map.js */
-
 /*! ../../../responsiv */
 
 /*! ../../components/charts/barchart/GroupStackedBarChart */
-
-/*! core-js/modules/esnext.iterator.constructor.js */
-
-/*! ./actions/user/user_actions */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
 
@@ -977,6 +955,8 @@
 /*! jwt-decode */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
 
 /*! ../kafedra/teachers/teacherPanel/TeacherPanel */
 
@@ -1008,19 +988,21 @@
 
 /*! ../../components/spinner/Spinner */
 
+/*! ./actions/rektor/rektor_teachers_action */
+
 /*! ../utills/images/logo.png */
 
 /*! react-redux */
 
 /*! @mui/material/Button */
 
-/*! ./slice/dekan/dekan_transfer_student_slice */
-
 /*! ./results/FinalsStudent */
 
 /*! react/jsx-runtime */
 
 /*! core-js/modules/esnext.json.parse.js */
+
+/*! ./actions/dekan/badBest_actions */
 
 /*! jwt-decode */
 
@@ -1040,11 +1022,13 @@
 
 /*! ../dekan/arxiv/ArchiveForDean */
 
+/*! ./slice/hourSection/hourSectionSlice */
+
+/*! ./actions/dekan/dekan_transfer_student_actions */
+
 /*! ./App */
 
 /*! ../../components/sidebar/SideBar */
-
-/*! ./actions/rektor/rektor_staffs_action */
 
 /*! react */
 
@@ -1054,11 +1038,7 @@
 
 /*! ../../data/data */
 
-/*! @mui/material/CircularProgress */
-
 /*! styled-components */
-
-/*! @reduxjs/toolkit */
 
 /*! ../../data/data */
 
@@ -1078,13 +1058,15 @@
 
 /*! ../../components/teacher/teacherScience/TeacherOneScience */
 
-/*! ./actions/educationYear/education_year_actions */
+/*! styled-components */
 
 /*! ./pages/rektor/RektorPage */
 
 /*! react-icons/tb */
 
 /*! ../../slice/student/student_slice */
+
+/*! @swc/helpers/_/_tagged_template_literal */
 
 /*! ../responsiv */
 
@@ -1117,6 +1099,8 @@
 /*! @mui/material/Box */
 
 /*! ../../components/teacher/menu/TeacherMenu */
+
+/*! ./slice/student/student_slice */
 
 /*! core-js/modules/web.dom-collections.iterator.js */
 
@@ -1152,9 +1136,13 @@
 
 /*! ../../../../redux/actions/educationYear/education_year_actions */
 
+/*! ./slice/btnvalue */
+
 /*! react */
 
 /*! @mui/material/Typography */
+
+/*! core-js/modules/esnext.iterator.map.js */
 
 /*! react-i18next */
 
@@ -1165,8 +1153,6 @@
 /*! core-js/modules/esnext.iterator.some.js */
 
 /*! ../../components/hook/useHttp */
-
-/*! ./slice/dekan/dekan_groups_slice */
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
@@ -1198,11 +1184,11 @@
 
 /*! react-router-dom */
 
+/*! ./actions/lessonsTeacher/lessons_teacher_actions */
+
 /*! styled-components */
 
 /*! ./pages/boshqarma/BoshqarmaPage */
-
-/*! ./slice/bulim/bulim_slice */
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
@@ -1214,15 +1200,13 @@
 
 /*! react */
 
-/*! ./slice/educationYear/education_year_slice */
+/*! ./slice/rektor/rektor_teachers_slice */
 
 /*! ../navbar/NavBarDekan */
 
 /*! ../../components/charts/barchart/StackedBarChart */
 
-/*! @reduxjs/toolkit */
-
-/*! core-js/modules/es.array.push.js */
+/*! @swc/helpers/_/_tagged_template_literal */
 
 /*! core-js/modules/esnext.async-iterator.map.js */
 
@@ -1234,8 +1218,6 @@
 
 /*! react-router-dom */
 
-/*! @mui/material/CircularProgress */
-
 /*! ../redux/actions/dekan/badBest_actions */
 
 /*! react-router-dom */
@@ -1244,13 +1226,13 @@
 
 /*! @mui/material/Tabs */
 
-/*! core-js/modules/esnext.async-iterator.filter.js */
-
 /*! @mui/material/Accordion */
 
 /*! ./roles/DekanRoleSettings */
 
 /*! styled-components */
+
+/*! ./slice/kafedra/kafedra_dashboard_statistics_slice */
 
 /*! ../components/dekan/studentservice/QueueForDean */
 
@@ -1265,8 +1247,6 @@
 /*! core-js/modules/esnext.iterator.map.js */
 
 /*! styled-components */
-
-/*! core-js/modules/esnext.iterator.constructor.js */
 
 /*! @mui/material/Box */
 
@@ -1297,8 +1277,6 @@
 /*! ../components/dekan/journal/DekanJournal */
 
 /*! core-js/modules/web.dom-collections.iterator.js */
-
-/*! ./slice/kafedra/section_slice */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
 
@@ -1340,7 +1318,11 @@
 
 /*! ../../../utills/ServiceUrls */
 
+/*! @reduxjs/toolkit */
+
 /*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.filter.js */
 
 /*! react/jsx-runtime */
 
@@ -1348,9 +1330,15 @@
 
 /*! core-js/modules/web.dom-collections.iterator.js */
 
+/*! ./middleware/stringMiddleware */
+
+/*! ./slice/allNbModalForTeacher/allNbModalForTeacher_slice */
+
 /*! react */
 
 /*! core-js/modules/esnext.iterator.map.js */
+
+/*! qrcode.react */
 
 /*! ./results/ResultsScoreStudent */
 
@@ -1359,8 +1347,6 @@
 /*! @swc/helpers/_/_tagged_template_literal */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
-
-/*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! ../components/admin/rooms/Rooms */
 
@@ -1402,6 +1388,8 @@
 
 /*! ./components/i18n/i18n.js */
 
+/*! ./actions/rektor/rektor_dashboard_teachers_action */
+
 /*! axios */
 
 /*! react/jsx-runtime */
@@ -1436,6 +1424,8 @@
 
 /*! ../../responsiv */
 
+/*! core-js/modules/esnext.iterator.filter.js */
+
 /*! core-js/modules/esnext.json.parse.js */
 
 /*! @mui/material/InputLabel */
@@ -1462,11 +1452,11 @@
 
 /*! styled-components */
 
-/*! react */
-
 /*! moment */
 
 /*! ../../../utills/ServiceUrls */
+
+/*! html2pdf.js/src */
 
 /*! axios */
 
@@ -1479,6 +1469,8 @@
 /*! core-js/modules/esnext.async-iterator.find.js */
 
 /*! @mui/material */
+
+/*! ./slice/infoStudentForLesson/infoStudentForLesson_slice */
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
@@ -1496,8 +1488,6 @@
 
 /*! @mui/material */
 
-/*! ./actions/infoStudentForLesson/InfoStudentForLesson_actions */
-
 /*! ../../../teacher/timeTable/TeacherTimeTableOfWeek */
 
 /*! styled-components */
@@ -1508,13 +1498,17 @@
 
 /*! react-router-dom */
 
+/*! ./slice/notification/notification_slice */
+
+/*! ../images/logo.png */
+
 /*! @mui/material */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
 
 /*! moment/locale/ru */
 
-/*! core-js/modules/esnext.async-iterator.filter.js */
+/*! styled-components */
 
 /*! core-js/modules/esnext.async-iterator.filter.js */
 
@@ -1544,8 +1538,6 @@
 
 /*! ../redux/actions/kafedra/section_actions */
 
-/*! ./actions/rektor/rektor_teachers_action */
-
 /*! ../../../utills/ServiceUrls */
 
 /*! react */
@@ -1562,11 +1554,15 @@
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
+/*! qrcode.react */
+
 /*! html2pdf.js/src */
 
-/*! ./actions/dekan/badBest_actions */
+/*! moment */
 
 /*! react */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! ../../components/uquvbulimi/results/LayoutRating */
 
@@ -1578,19 +1574,21 @@
 
 /*! ../components/dekan/students/DekanStudents */
 
-/*! ./actions/dekan/dekan_transfer_student_actions */
-
-/*! ./slice/hourSection/hourSectionSlice */
-
 /*! ../navbar/NavBarUser */
 
 /*! ../components/contact/AllContacts */
+
+/*! ./slice/dekan/dekan_faculties_for_transfer_student_slice */
 
 /*! jwt-decode */
 
 /*! react */
 
+/*! ./slice/dekanat/dekanat_slice */
+
 /*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
 
 /*! ../../../utills/ServiceUrls */
 
@@ -1600,15 +1598,13 @@
 
 /*! @mui/material/Tabs */
 
-/*! core-js/modules/esnext.iterator.map.js */
+/*! ./actions/student/student_actions */
 
-/*! styled-components */
+/*! core-js/modules/esnext.iterator.map.js */
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
 /*! ../../components/student/sciences/MySciences */
-
-/*! @swc/helpers/_/_tagged_template_literal */
 
 /*! ../components/dekan/studentservice/DeanStudentServiceReference */
 
@@ -1622,7 +1618,11 @@
 
 /*! ../../components/spinner/Spinner */
 
+/*! core-js/modules/esnext.iterator.filter.js */
+
 /*! ../../../student/timeTable/StudentTimeTableOfWeek */
+
+/*! react */
 
 /*! core-js/modules/esnext.json.parse.js */
 
@@ -1636,7 +1636,7 @@
 
 /*! react-redux */
 
-/*! ./slice/student/student_slice */
+/*! html2pdf.js/src */
 
 /*! ../../redux/actions/educationYear/education_year_actions */
 
@@ -1658,6 +1658,8 @@
 
 /*! core-js/modules/esnext.async-iterator.map.js */
 
+/*! ./slice/kafedra/kafedra_teacher_statistics_slice */
+
 /*! ../../components/teacher/journal/JournalTeacher */
 
 /*! core-js/modules/web.dom-collections.iterator.js */
@@ -1678,7 +1680,7 @@
 
 /*! @mui/material/AccordionDetails */
 
-/*! ./slice/btnvalue */
+/*! moment */
 
 /*! ../../slice/dekanat/dekanat_slice */
 
@@ -1690,7 +1692,7 @@
 
 /*! react-icons/vsc */
 
-/*! core-js/modules/esnext.iterator.map.js */
+/*! ./slice/user/user_slice */
 
 /*! react/jsx-runtime */
 
@@ -1724,8 +1726,6 @@
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
-/*! ./actions/lessonsTeacher/lessons_teacher_actions */
-
 /*! ./components/staff/StaffPage */
 
 /*! core-js/modules/esnext.iterator.map.js */
@@ -1746,6 +1746,8 @@
 
 /*! react/jsx-runtime */
 
+/*! ./slice/attendanceJournal/attendanceJournal_slice */
+
 /*! @mui/material */
 
 /*! ../components/dekan/messages/DekanMessages */
@@ -1758,13 +1760,11 @@
 
 /*! ../../components/student/timeTable/StudentTimeTable */
 
-/*! ./slice/rektor/rektor_teachers_slice */
+/*! ./slice/kafedra/kafedra_time_table_slice */
 
 /*! react/jsx-runtime */
 
 /*! @mui/material/Grid */
-
-/*! @swc/helpers/_/_tagged_template_literal */
 
 /*! ./pages/kafedra/Kafedra */
 
@@ -1814,6 +1814,8 @@
 
 /*! @mui/material/Modal */
 
+/*! ./slice/rektor/rektor_staffs_slice */
+
 /*! ../../../utills/ServiceUrls */
 
 /*! ../../emptyDataImg/EmptyDataImg */
@@ -1824,7 +1826,7 @@
 
 /*! core-js/modules/esnext.json.parse.js */
 
-/*! ./slice/kafedra/kafedra_dashboard_statistics_slice */
+/*! core-js/modules/esnext.async-iterator.find.js */
 
 /*! ../../../../utills/images/no-picture.jpg */
 
@@ -1836,6 +1838,8 @@
 
 /*! @reduxjs/toolkit */
 
+/*! ./actions/kafedra/section_actions */
+
 /*! ../../responsiv */
 
 /*! ../../components/rektor/StudentsStatisticsForRektor */
@@ -1845,6 +1849,8 @@
 /*! core-js/modules/esnext.json.parse.js */
 
 /*! jwt-decode */
+
+/*! react/jsx-runtime */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
 
@@ -1880,19 +1886,11 @@
 
 /*! react-redux */
 
-/*! @reduxjs/toolkit */
-
 /*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! core-js/modules/esnext.iterator.filter.js */
 
-/*! core-js/modules/esnext.iterator.filter.js */
-
 /*! styled-components */
-
-/*! ./middleware/stringMiddleware */
-
-/*! ./slice/allNbModalForTeacher/allNbModalForTeacher_slice */
 
 /*! core-js/modules/esnext.json.parse.js */
 
@@ -1900,11 +1898,11 @@
 
 /*! react-router-dom */
 
-/*! qrcode.react */
-
 /*! ../../utills/pdfFiles/PublicPdf */
 
 /*! styled-components */
+
+/*! ./slice/questions/questions_slice */
 
 /*! core-js/modules/esnext.async-iterator.map.js */
 
@@ -1942,13 +1940,13 @@
 
 /*! core-js/modules/esnext.iterator.map.js */
 
-/*! ./actions/rektor/rektor_dashboard_teachers_action */
-
 /*! core-js/modules/esnext.async-iterator.map.js */
 
 /*! ./staffs/BulimStaffs */
 
 /*! react-redux */
+
+/*! @swc/helpers/_/_tagged_template_literal */
 
 /*! ../spinner/Spinner */
 
@@ -1983,8 +1981,6 @@
 /*! react-router-dom */
 
 /*! react-redux */
-
-/*! core-js/modules/esnext.async-iterator.filter.js */
 
 /*! ./user/CreateUser */
 
@@ -2022,8 +2018,6 @@
 
 /*! styled-components */
 
-/*! html2pdf.js/src */
-
 /*! axios */
 
 /*! @reduxjs/toolkit */
@@ -2048,7 +2042,7 @@
 
 /*! @mui/material/Modal */
 
-/*! ./slice/infoStudentForLesson/infoStudentForLesson_slice */
+/*! ../../actions/tableData/table_action */
 
 /*! react */
 
@@ -2072,13 +2066,15 @@
 
 /*! ../../utills/ServiceUrls */
 
-/*! ./slice/notification/notification_slice */
+/*! @reduxjs/toolkit */
 
 /*! ../../components/student/student_service/StudentServiceReference */
 
 /*! ../../components/teacher/statistics/TeacherStatistics */
 
-/*! ../images/logo.png */
+/*! @reduxjs/toolkit */
+
+/*! ./slice/bulim/bulim_second_slice */
 
 /*! core-js/modules/esnext.json.parse.js */
 
@@ -2090,9 +2086,11 @@
 
 /*! ../redux/actions/student/student_actions */
 
-/*! styled-components */
+/*! @reduxjs/toolkit */
 
 /*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/Button */
 
 /*! @reduxjs/toolkit */
 
@@ -2122,6 +2120,12 @@
 
 /*! core-js/modules/esnext.async-iterator.map.js */
 
+/*! ./actions/dekan/dekan_faculties_for_transfer_student_actions */
+
+/*! ./actions/rektor/rektor_dashboard_staffs_action */
+
+/*! ./slice/tableData/tableSlice */
+
 /*! react-redux */
 
 /*! ../components/admin/building/Buildings */
@@ -2132,19 +2136,17 @@
 
 /*! core-js/modules/esnext.async-iterator.filter.js */
 
+/*! ./slice/dekan/bad_and_best */
+
 /*! react */
+
+/*! react-icons/md */
 
 /*! react/jsx-runtime */
 
-/*! @reduxjs/toolkit */
-
 /*! core-js/modules/web.dom-collections.iterator.js */
 
-/*! qrcode.react */
-
 /*! @swc/helpers/_/_tagged_template_literal */
-
-/*! moment */
 
 /*! ./studentAdd/SuperAdminStudentAddPage */
 
@@ -2156,11 +2158,7 @@
 
 /*! @reduxjs/toolkit */
 
-/*! core-js/modules/esnext.iterator.find.js */
-
 /*! ../../components/sidebar/SideBar */
-
-/*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! @mui/material/InputAdornment */
 
@@ -2178,13 +2176,11 @@
 
 /*! styled-components */
 
-/*! ./slice/dekan/dekan_faculties_for_transfer_student_slice */
-
 /*! ../../responsiv */
 
 /*! @mui/material */
 
-/*! ./slice/dekanat/dekanat_slice */
+/*! styled-components */
 
 /*! react */
 
@@ -2206,13 +2202,13 @@
 
 /*! react */
 
-/*! ./actions/student/student_actions */
-
 /*! ../notification/Notification2 */
 
 /*! ../../../../responsiv */
 
 /*! core-js/modules/esnext.json.parse.js */
+
+/*! ./slice/rektor/rektor_dashboard_teachers_slice */
 
 /*! core-js/modules/esnext.async-iterator.find.js */
 
@@ -2230,11 +2226,7 @@
 
 /*! ../../components/uquvbulimi/room/EducationalRooms */
 
-/*! core-js/modules/esnext.iterator.filter.js */
-
 /*! core-js/modules/es.promise.finally.js */
-
-/*! react */
 
 /*! @mui/material/Select */
 
@@ -2250,17 +2242,19 @@
 
 /*! axios */
 
-/*! html2pdf.js/src */
-
 /*! ../../../../utills/ServiceUrls */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ./slice/multipartScore/multipartScore_slice */
 
 /*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! ./TeacherActions */
+
+/*! ./actions/teacher/teacher_actions */
 
 /*! core-js/modules/esnext.iterator.find.js */
 
@@ -2272,11 +2266,13 @@
 
 /*! ../../utills/images/no-picture.jpg */
 
-/*! ./slice/kafedra/kafedra_teacher_statistics_slice */
+/*! @reduxjs/toolkit */
 
 /*! react-icons/md */
 
-/*! moment */
+/*! ./actions/notification/notification_action */
+
+/*! ../../utills/images/logo.png */
 
 /*! ../../data/data */
 
@@ -2288,11 +2284,13 @@
 
 /*! @mui/material/Avatar */
 
-/*! ./slice/user/user_slice */
-
 /*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! ./teachers/EducationalTeachers */
+
+/*! ./slice/rektor/rektor_dashboard_staffs_slice */
+
+/*! @reduxjs/toolkit */
 
 /*! react */
 
@@ -2328,6 +2326,8 @@
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
+/*! ./actions/kafedra/kafedra_dashboard_statistics_action */
+
 /*! ../../components/contact/AllContacts */
 
 /*! ../../components/kafedra/subjectTeacher/SubjectTheme */
@@ -2335,8 +2335,6 @@
 /*! @mui/material/Skeleton */
 
 /*! react/jsx-runtime */
-
-/*! ./slice/attendanceJournal/attendanceJournal_slice */
 
 /*! @mui/material/MenuItem */
 
@@ -2351,8 +2349,6 @@
 /*! ../redux/actions/dekanat/dekanat_actions */
 
 /*! core-js/modules/esnext.iterator.filter.js */
-
-/*! ./slice/kafedra/kafedra_time_table_slice */
 
 /*! react */
 
@@ -2372,7 +2368,11 @@
 
 /*! core-js/modules/esnext.async-iterator.filter.js */
 
+/*! react-icons/md */
+
 /*! ../../components/teacher/settings/TeacherSettings */
+
+/*! @mui/material/Button */
 
 /*! react-icons/fi */
 
