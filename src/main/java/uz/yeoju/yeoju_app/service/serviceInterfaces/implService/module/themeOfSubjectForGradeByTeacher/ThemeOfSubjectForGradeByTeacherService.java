@@ -19,4 +19,6 @@ public interface ThemeOfSubjectForGradeByTeacherService {
     ApiResponseTwoObj getTableOfGroup(String teacherId, String educationYearId, String lessonId, String groupId);
 
     ApiResponse deleteTheme(User user, String themeId);
+
+    ApiResponse getGradesByThemeId(String themeId);
 }
