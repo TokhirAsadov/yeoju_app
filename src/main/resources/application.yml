@@ -27,8 +27,9 @@ spring:
     url: jdbc:sqlserver://172.16.7.130:1433;databaseName=ZKAccess
     username: sa
     password: Pa$$w0rd2020
-
-#    namangan database
+  main:
+    allow-circular-references: true
+  #    namangan database
 #    url: jdbc:sqlserver://172.50.7.247:1433;databaseName=ZKAccess
 #    username: sa
 #    password: Test@123
