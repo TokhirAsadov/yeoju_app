@@ -14,6 +14,7 @@ import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.CreateGradesWithThemeDto;
 import uz.yeoju.yeoju_app.payload.module.CreateThemeOfSubjectForGradeDto;
 import uz.yeoju.yeoju_app.payload.module.UpdateThemeOfSubjectForGradeDto;
+import uz.yeoju.yeoju_app.payload.resDto.module.GetGradesOfTableOfGroup;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetTableOfGroupWithGrades;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetThemesByQuery;
 import uz.yeoju.yeoju_app.repository.GroupRepository;
@@ -261,5 +262,11 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
         else {
             throw new UserNotFoundException("Theme was not found by id: " + themeId+". Or you cannot delete theme.");
         }
+    }
+
+    @Override
+    public ApiResponse getGradesByThemeId(String themeId) {
+        Set<GetGradesOfTableOfGroup> gradesByThemeId = repository.getGradesByThemeId(themeId);
+        return new ApiResponse(true,"All grades by themeId",gradesByThemeId);
     }
 }
