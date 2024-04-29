@@ -4,6 +4,9 @@ import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.CreateGradeOfStudentByTeacher;
+import uz.yeoju.yeoju_app.payload.module.CreateMultipleGradeOfStudentByTeacher;
+
+import java.util.Set;
 
 
 public interface GradeOfStudentByTeacherService {
@@ -16,4 +19,6 @@ public interface GradeOfStudentByTeacherService {
 
 
     ApiResponse delete(User user, String id);
+
+    ApiResponse multipleUpdate(User user, Set<CreateMultipleGradeOfStudentByTeacher> dto);
 }
