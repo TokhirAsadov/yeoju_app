@@ -12,6 +12,7 @@ import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.CreateGradeOfStudentByTeacher;
+import uz.yeoju.yeoju_app.payload.module.CreateMultipleGradeOfStudentByTeacher;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetGradesOfStudent;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetStudentDataForMiddleGrade;
 import uz.yeoju.yeoju_app.repository.LessonRepository;
@@ -240,5 +241,19 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
         else {
             return new ApiResponse(false,"Not Found grade");
         }
+    }
+
+    @Override
+    public ApiResponse multipleUpdate(User user, Set<CreateMultipleGradeOfStudentByTeacher> dtos) {
+        dtos.forEach(dto -> {
+            Optional<GradeOfStudentByTeacher> optional = gradeRepository.findByIdAndCreatedBy(dto.getId(), user.getId());
+            if (optional.isPresent()){
+                GradeOfStudentByTeacher gradeOfStudentByTeacher = optional.get();
+                gradeOfStudentByTeacher.setGrade(dto.getGrade());
+                gradeRepository.save(gradeOfStudentByTeacher);
+            }
+        });
+
+        return new ApiResponse(true,"Grades were updated successfully");
     }
 }
