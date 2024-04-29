@@ -47,7 +47,7 @@ public interface GradeOfStudentByTeacherRepository extends JpaRepository<GradeOf
     Optional<GradeOfStudentByTeacher> findByIdAndCreatedBy(String id, String createdBy);
     @Query(value = "select g.id,g.grade,g.time,g.description,g.createdAt,th.id as themeId,th.name as theme, th.maxGrade  from GradeOfStudentByTeacher g \n" +
             " left   join ThemeOfSubjectForGradeByTeacher th on g.theme_id = th.id                                           \n" +
-            "where g.failGrade_id is null and g.active=1 and g.createdBy=?1 and g.student_id=?2 and g.educationYear_id=?3 and g.lesson_id=?4 order by g.createdAt",nativeQuery = true)
+            "where g.active=1 and g.createdBy=?1 and g.student_id=?2 and g.educationYear_id=?3 and g.lesson_id=?4 order by g.createdAt",nativeQuery = true)
     Set<GetGradesOfStudent> getGradesOfStudentByTeacherIdAndStudentIdAndEducationYearIdAndLessonId(String teacherId, String studentId, String educationYearId, String lessonId);
 
     @Query(value = "select id,grade,time,description,createdAt from GradeOfStudentByTeacher where failGrade_id=?1 order by createdAt",nativeQuery = true)
