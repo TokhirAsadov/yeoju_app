@@ -18,6 +18,10 @@ public interface ThemeOfSubjectForGradeByTeacherRepository extends JpaRepository
 
     ThemeOfSubjectForGradeByTeacher findFirstByGroupIdAndLessonIdAndEducationYearIdAndCreatedByOrderByCreatedAtDesc(String group_id, String lesson_id, String educationYear_id, String createdBy);
 
+    @Query(value = "select gt.id as gradeId,gt.updatedAt as time,gt.student_id as studentId,gt.grade from ThemeOfSubjectForGradeByTeacher th\n" +
+            "join GradeOfStudentByTeacher gt on th.id = gt.theme_id\n" +
+            "where th.id=?1 and th.active=1",nativeQuery = true)
+    Set<GetGradesOfTableOfGroup> getGradesByThemeId(String themeId);
 
     //@Query(value = "select * from dbo.GetListStudentsForGetGradesByThemeIdAndGroupIdAndSubjectIdAndTeacherIdAndEducationId(?5,?1,?2,?4,?3) order by createdAt",nativeQuery = true)
     @Query(value = "select * from dbo.GetThemes (?1,?2,?3,?4) order by createdAt",nativeQuery = true)
