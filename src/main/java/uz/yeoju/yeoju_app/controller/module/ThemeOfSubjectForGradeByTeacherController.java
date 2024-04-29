@@ -22,6 +22,14 @@ import javax.validation.Valid;
 public class ThemeOfSubjectForGradeByTeacherController {
     private final ThemeOfSubjectForGradeByTeacherService service;
 
+
+    @GetMapping("/getGradesByThemeId/{themeId}")
+    public HttpEntity<?> getTableOfGroup(@CurrentUser User user,
+                                         @PathVariable("themeId") String themeId
+    ){
+        return ResponseEntity.ok(service.getGradesByThemeId(themeId));
+    }
+
     @GetMapping("/getTableOfGroup/{educationYearId}/{lessonId}")
     public HttpEntity<?> getTableOfGroup(@CurrentUser User user,
                                            @PathVariable("educationYearId") String educationYearId,
