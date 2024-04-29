@@ -75,7 +75,7 @@ public class GradeOfStudentByTeacherController {
         return ResponseEntity.status(apiResponse.isSuccess() ? 204 : 401).body(apiResponse);
     }
     @PreAuthorize("hasRole('TEACHER')")
-    @PutMapping("/multipleUpdate")
+    @PutMapping(/**/"/multipleUpdate")
     public HttpEntity<?> multipleUpdate(@CurrentUser User user, @Valid @RequestBody Set<CreateMultipleGradeOfStudentByTeacher> dtos){
         ApiResponse apiResponse = service.multipleUpdate(user, dtos);
         return ResponseEntity.status(apiResponse.isSuccess() ? 202 : 401).body(apiResponse);
