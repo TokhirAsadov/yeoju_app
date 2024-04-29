@@ -9,10 +9,12 @@ import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.module.CreateGradeOfStudentByTeacher;
+import uz.yeoju.yeoju_app.payload.module.CreateMultipleGradeOfStudentByTeacher;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.gradeOfStudentByTeacher.GradeOfStudentByTeacherService;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/gradeOfStudentByTeacher")
@@ -72,4 +74,11 @@ public class GradeOfStudentByTeacherController {
         ApiResponse apiResponse = service.delete(user, id);
         return ResponseEntity.status(apiResponse.isSuccess() ? 204 : 401).body(apiResponse);
     }
+    @PreAuthorize("hasRole('TEACHER')")
+    @PutMapping("/multipleUpdate")
+    public HttpEntity<?> multipleUpdate(@CurrentUser User user, @Valid @RequestBody Set<CreateMultipleGradeOfStudentByTeacher> dtos){
+        ApiResponse apiResponse = service.multipleUpdate(user, dtos);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 202 : 401).body(apiResponse);
+    }
+
 }
