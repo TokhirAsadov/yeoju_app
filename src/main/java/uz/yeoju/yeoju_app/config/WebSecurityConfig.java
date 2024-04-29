@@ -83,6 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/",
 //                        "/**",
                         "/login",
+                        "/api/v1/bot/**",
                         "/api/v1/desktop/**",
                         "/api/v1/desktop/auth/**",
                         "/api/v1/desktop/user/me",
