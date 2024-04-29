@@ -178,7 +178,23 @@
 			<version>3.5.4</version>
 		</dependency>
 
-    </dependencies>
+
+		<dependency>
+			<groupId>com.github.xabgesagtx</groupId>
+			<artifactId>telegram-spring-boot-starter</artifactId>
+			<version>0.19</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.github.xabgesagtx/telegram-spring-boot-starter -->
+<!--		<dependency>-->
+<!--			<groupId>com.github.xabgesagtx</groupId>-->
+<!--			<artifactId>telegram-spring-boot-starter</artifactId>-->
+<!--			<version>0.26</version>-->
+<!--		</dependency>-->
+
+
+
+	</dependencies>
 
 
 	<build>
