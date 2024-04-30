@@ -21,4 +21,6 @@ public interface GradeOfStudentByTeacherService {
     ApiResponse delete(User user, String id);
 
     ApiResponse multipleUpdate(User user, Set<CreateMultipleGradeOfStudentByTeacher> dto);
+
+    ApiResponse getRetakesOfStudent(String failGradeId);
 }
