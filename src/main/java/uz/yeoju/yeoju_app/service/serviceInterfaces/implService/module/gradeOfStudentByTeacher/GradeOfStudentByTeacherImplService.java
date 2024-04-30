@@ -14,6 +14,7 @@ import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.CreateGradeOfStudentByTeacher;
 import uz.yeoju.yeoju_app.payload.module.CreateMultipleGradeOfStudentByTeacher;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetGradesOfStudent;
+import uz.yeoju.yeoju_app.payload.resDto.module.GetGradesOfStudentWithRetake;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetStudentDataForMiddleGrade;
 import uz.yeoju.yeoju_app.repository.LessonRepository;
 import uz.yeoju.yeoju_app.repository.StudentRepository;
@@ -164,8 +165,16 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
                         User student = userOptional.get();
                         EducationYear educationYear = educationYearOptional.get();
                         Lesson lesson = lessonOptional.get();
+
                         GradeOfStudentByTeacher gradeOfStudent = new GradeOfStudentByTeacher();
-                        gradeOfStudent.setFailGrade(failGrade);
+
+                        if (failGrade.getFailGrade()==null) {
+                            gradeOfStudent.setFailGrade(failGrade);
+                        }
+                        else {
+                            gradeOfStudent.setFailGrade(failGrade.getFailGrade());
+                        }
+
                         gradeOfStudent.setStudent(student);
                         gradeOfStudent.setEducationYear(educationYear);
                         gradeOfStudent.setLesson(lesson);
@@ -255,5 +264,11 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
         });
 
         return new ApiResponse(true,"Grades were updated successfully");
+    }
+
+    @Override
+    public ApiResponse getRetakesOfStudent(String failGradeId) {
+        GetGradesOfStudentWithRetake retake = gradeRepository.getGradeOfStudentByTeacherIdAndStudentIdAndEducationYearIdAndLessonIdRetakes(failGradeId);
+        return new ApiResponse(true,"retake grade",retake);
     }
 }
