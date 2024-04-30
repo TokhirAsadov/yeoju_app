@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 public interface GetGradesOfStudent {
     String getId();
+    String getFailGradeId();
     String getThemeId();
     String getTheme();
     Double getMaxGrade();
@@ -17,6 +19,8 @@ public interface GetGradesOfStudent {
     @JsonIgnore
     String getDescription();
 
-    @Value("#{@gradeOfStudentByTeacherRepository.getGradesOfStudentByTeacherIdAndStudentIdAndEducationYearIdAndLessonIdRetakes(target.id)}")
-    Set<GetGradesOfStudent> getRetakes();
+
+    default Set<String> getRetakes(){
+        return new HashSet<>();
+    };
 }
