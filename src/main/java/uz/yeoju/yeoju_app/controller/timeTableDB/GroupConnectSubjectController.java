@@ -96,6 +96,22 @@ public class GroupConnectSubjectController {
 //        return ResponseEntity.ok(groupConnectSubjectService.getStatisticsOfGroupForTeacher(educationId,groupId,subjectId));
     }
 
+
+//    getSubjectsByEduYearIdAndGroupAndStudentIdNEW
+
+    @GetMapping("/getStatisticsOfStudentForTeacher/{educationId}/{groupId}")
+    public Flux<?> getStatisticsOfStudentForTeacher(
+            @CurrentUser User user,
+            @PathVariable(name = "educationId") String educationId,
+            @PathVariable(name = "groupId") String groupId,
+            @RequestParam(name = "subjectId") String subjectId,
+            @RequestParam(name = "studentId") String studentId
+    ){
+        return Flux.just(groupConnectSubjectRepository.getSubjectsByEduYearIdAndGroupAndStudentIdNEW(studentId, groupId,educationId, subjectId));
+//        return Flux.just(groupConnectSubjectService.getStatisticsOfGroupForTeacher(educationId,groupId,subjectId));
+//        return ResponseEntity.ok(groupConnectSubjectService.getStatisticsOfGroupForTeacher(educationId,groupId,subjectId));
+    }
+
     @GetMapping("/getSectionsAndRooms/{educationId}/{groupId}")
     public Flux<?> getSectionsAndRooms(
             @CurrentUser User user,
