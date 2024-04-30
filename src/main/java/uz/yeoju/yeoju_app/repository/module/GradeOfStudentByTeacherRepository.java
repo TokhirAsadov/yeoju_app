@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import uz.yeoju.yeoju_app.entity.module.GradeOfStudentByTeacher;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetGradesOfStudent;
+import uz.yeoju.yeoju_app.payload.resDto.module.GetGradesOfStudentWithRetake;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetStudentDataForMiddleGrade;
 
 import java.util.List;
@@ -45,10 +46,13 @@ public interface GradeOfStudentByTeacherRepository extends JpaRepository<GradeOf
 
 
     Optional<GradeOfStudentByTeacher> findByIdAndCreatedBy(String id, String createdBy);
-    @Query(value = "select g.id,g.grade,g.time,g.description,g.createdAt,th.id as themeId,th.name as theme, th.maxGrade  from GradeOfStudentByTeacher g \n" +
+    @Query(value = "select g.failGrade_id as failGradeId,g.id,g.grade,g.time,g.description,g.createdAt,th.id as themeId,th.name as theme, th.maxGrade  from GradeOfStudentByTeacher g \n" +
             " left   join ThemeOfSubjectForGradeByTeacher th on g.theme_id = th.id                                           \n" +
             "where g.active=1 and g.createdBy=?1 and g.student_id=?2 and g.educationYear_id=?3 and g.lesson_id=?4 order by g.createdAt",nativeQuery = true)
     Set<GetGradesOfStudent> getGradesOfStudentByTeacherIdAndStudentIdAndEducationYearIdAndLessonId(String teacherId, String studentId, String educationYearId, String lessonId);
+
+    @Query(value = "select id,grade,time,description,createdAt from GradeOfStudentByTeacher where id=?1 order by createdAt",nativeQuery = true)
+    GetGradesOfStudentWithRetake getGradeOfStudentByTeacherIdAndStudentIdAndEducationYearIdAndLessonIdRetakes(String failGradeId);
 
     @Query(value = "select id,grade,time,description,createdAt from GradeOfStudentByTeacher where failGrade_id=?1 order by createdAt",nativeQuery = true)
     Set<GetGradesOfStudent> getGradesOfStudentByTeacherIdAndStudentIdAndEducationYearIdAndLessonIdRetakes(String failGradeId);
