@@ -49,6 +49,13 @@ public class GradeOfStudentByTeacherController {
         return ResponseEntity.ok(service.getGradesOfStudent(user.getId(),studentId,educationYearId,subjectId));
     }
 
+    @GetMapping("/getRetakesOfStudent/{failGradeId}")
+    public HttpEntity<?> getRetakesOfStudent(@CurrentUser User user,
+                                            @PathVariable("failGradeId") String failGradeId
+    ){
+        return ResponseEntity.ok(service.getRetakesOfStudent(failGradeId));
+    }
+
     @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/retake")
     public HttpEntity<?> retake(@CurrentUser User user, @RequestBody CreateGradeOfStudentByTeacher dto){
