@@ -18,7 +18,8 @@ public class TgService {
                 case "/start":
                     webhookService.whenStart(update);
                     break;
-
+                default:
+                    System.out.println("no thing");
             }
         }
     }
