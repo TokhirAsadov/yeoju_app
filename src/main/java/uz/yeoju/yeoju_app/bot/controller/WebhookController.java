@@ -15,8 +15,6 @@ import uz.yeoju.yeoju_app.controller.BaseUrl;
 public class WebhookController {
     private final TgService tgService;
 
-    String token = "6334964758:AAFMbGS2Z09IslUf5-yr2yRFFxTN9JXtjDs";
-
     @PostMapping
     public void getRequestsFromClients(@RequestBody Update update){
 //        System.out.println(update);
