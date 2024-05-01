@@ -45,7 +45,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
             if (response.isSuccess()) {
                 ThemeOfSubjectForGradeByTeacher theme = repository.getById((String) response.getObj());
                 dto.getGrades().forEach(grade->{
-                    Boolean exists = gradeRepository.existsByEducationYearIdAndThemeIdAndStudentId(dto.educationId, theme.getId(), grade.studentId);
+                    Boolean exists = gradeRepository.existsByEducationYearIdAndThemeIdAndStudentIdAndActive(dto.educationId, theme.getId(), grade.studentId,true);
                     if (!exists) {
                         Optional<User> userOptional = userRepository.findById(grade.studentId);
                         if (userOptional.isPresent()) {
@@ -97,7 +97,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
             if (existsTheme){
                 ThemeOfSubjectForGradeByTeacher theme = repository.getById(dto.id);
                 dto.getGrades().forEach(grade->{
-                    Boolean exists = gradeRepository.existsByEducationYearIdAndThemeIdAndStudentId(dto.educationId, theme.getId(), grade.studentId);
+                    Boolean exists = gradeRepository.existsByEducationYearIdAndThemeIdAndStudentIdAndActive(dto.educationId, theme.getId(), grade.studentId,true);
                     if (!exists) {
                         Optional<User> userOptional = userRepository.findById(grade.studentId);
                         if (userOptional.isPresent()) {
