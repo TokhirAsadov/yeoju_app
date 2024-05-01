@@ -16,4 +16,9 @@ public class BotAdminController {
     public String sendMessage(@RequestParam String message) {
          return botAdminService.sendMessage(message);
     }
+
+    @GetMapping("/sendPhoto")
+    public String sendPhoto(@RequestParam String fileName, @RequestParam String text) {
+        return botAdminService.sendPhoto(fileName,text);
+    }
 }
