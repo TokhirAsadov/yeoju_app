@@ -13,7 +13,7 @@ import java.util.Set;
 
 public interface GradeOfStudentByTeacherRepository extends JpaRepository<GradeOfStudentByTeacher,String> {
 
-    Boolean existsByEducationYearIdAndThemeIdAndStudentId(String educationYear_id, String theme_id, String student_id);
+    Boolean existsByEducationYearIdAndThemeIdAndStudentIdAndActive(String educationYear_id, String theme_id, String student_id, Boolean active);
 
     @Query(value = "select dbo.IsEnableGrade(?1,?2,?3,?4,?5)",nativeQuery = true)
     Boolean isEnableGrade(String studentId,String groupId,String educationYearId,String lessonId,Float grade);
