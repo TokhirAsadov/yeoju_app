@@ -18,7 +18,7 @@ public class WebhookController {
     String token = "6334964758:AAFMbGS2Z09IslUf5-yr2yRFFxTN9JXtjDs";
 
     @PostMapping
-    public void ketmon(@RequestBody Update update){
+    public void getRequestsFromClients(@RequestBody Update update){
 //        System.out.println(update);
         tgService.updateWait(update);
     }
