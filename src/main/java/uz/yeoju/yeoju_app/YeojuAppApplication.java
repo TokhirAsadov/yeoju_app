@@ -4,6 +4,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -18,6 +19,7 @@ import static uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForT
 
 
 @SpringBootApplication
+@EnableFeignClients
 public class YeojuAppApplication {
 
 	@Bean
