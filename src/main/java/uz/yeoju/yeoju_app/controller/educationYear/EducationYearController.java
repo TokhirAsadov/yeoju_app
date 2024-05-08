@@ -86,6 +86,11 @@ public class EducationYearController {
         return ResponseEntity.ok(educationYearService.educationYearsForSelected());
     }
 
+    @GetMapping("/getSortNumberOfWeek")
+    public HttpEntity<?> getSortNumberOfWeek(){
+        return ResponseEntity.ok(educationYearService.getSortNumberOfWeek());
+    }
+
     @GetMapping("/educationYearsForCRUD")
     public HttpEntity<?> educationYearsForCRUD(){
         return ResponseEntity.ok(educationYearService.educationYearsForCRUD());
