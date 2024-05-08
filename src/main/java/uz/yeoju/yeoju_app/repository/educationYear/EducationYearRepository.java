@@ -299,7 +299,7 @@ public interface EducationYearRepository extends JpaRepository<EducationYear,Str
     @Query(value = "select id,name from EducationYear order by createdAt desc",nativeQuery = true)
     Set<EducationYearsForSelected> getEducationYearsForSelected();
 
-    @Query(value = "select id,name,start,end from EducationYear order by createdAt desc",nativeQuery = true)
+    @Query(value = "select id,name,start,[end] from EducationYear order by createdAt desc",nativeQuery = true)
     Set<EducationYearsForCRUD> getEducationYearsForCRUD();
 
     @Query(value = "select Top 1 id,name from EducationYear order by createdAt desc",nativeQuery = true)
