@@ -15,4 +15,5 @@ public interface EducationYearService {
     ApiResponse deletedById(String id);
 
     ApiResponse educationYearsForSelected();
+    ApiResponse educationYearsForCRUD();
 }
