@@ -86,6 +86,11 @@ public class EducationYearController {
         return ResponseEntity.ok(educationYearService.educationYearsForSelected());
     }
 
+    @GetMapping("/educationYearsForCRUD")
+    public HttpEntity<?> educationYearsForCRUD(){
+        return ResponseEntity.ok(educationYearService.educationYearsForCRUD());
+    }
+
     @GetMapping("/findAll")
     public HttpEntity<?> findAll(){
         return ResponseEntity.ok(educationYearService.findAll());
