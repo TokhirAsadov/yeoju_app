@@ -25,6 +25,9 @@ public interface EducationYearRepository extends JpaRepository<EducationYear,Str
     @Query(value = "select id,name from groups where faculty_id=?1",nativeQuery = true)
     List<EducationYearsForSelected> getGroupsByFacultyId(String id);
 
+    @Query(value = "select Top 1 sortNumber+1 from WeekOfEducationYear order by createdAt",nativeQuery = true)
+    Integer getSortNumberOfWeek();
+
 
     @Query(value = "select al.time, :week as week, :weekday as weekday,  :section as section\n" +
             "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
