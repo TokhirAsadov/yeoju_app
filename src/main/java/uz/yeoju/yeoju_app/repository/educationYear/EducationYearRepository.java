@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.educationYear.WeekOfEducationYear;
+import uz.yeoju.yeoju_app.payload.educationYear.EducationYearsForCRUD;
 import uz.yeoju.yeoju_app.payload.educationYear.EducationYearsForSelected;
 import uz.yeoju.yeoju_app.payload.educationYear.WeekRestDtoForDean;
 import uz.yeoju.yeoju_app.payload.resDto.educationYear.WeekOfEducationYearResDto;
@@ -297,6 +298,9 @@ public interface EducationYearRepository extends JpaRepository<EducationYear,Str
 
     @Query(value = "select id,name from EducationYear order by createdAt desc",nativeQuery = true)
     Set<EducationYearsForSelected> getEducationYearsForSelected();
+
+    @Query(value = "select id,name,start,end from EducationYear order by createdAt desc",nativeQuery = true)
+    Set<EducationYearsForCRUD> getEducationYearsForCRUD();
 
     @Query(value = "select Top 1 id,name from EducationYear order by createdAt desc",nativeQuery = true)
     EducationYearsForSelected getEducationYearsForSelected2();
