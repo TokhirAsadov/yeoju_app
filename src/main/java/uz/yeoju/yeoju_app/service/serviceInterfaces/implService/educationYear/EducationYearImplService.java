@@ -65,6 +65,11 @@ public class EducationYearImplService implements EducationYearService{
         return new ApiResponse(true,"education years for CRUD",educationYearRepository.getEducationYearsForCRUD());
     }
 
+    @Override
+    public ApiResponse getSortNumberOfWeek() {
+        return new ApiResponse(true,"sort number of week",educationYearRepository.getSortNumberOfWeek());
+    }
+
     private ApiResponse update(EducationYearDto dto) {
         Optional<EducationYear> yearOptional = educationYearRepository.findById(dto.getId());
         if (yearOptional.isPresent()){
