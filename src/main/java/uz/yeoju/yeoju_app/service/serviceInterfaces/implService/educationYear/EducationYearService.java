@@ -16,5 +16,5 @@ public interface EducationYearService {
 
     ApiResponse educationYearsForSelected();
     ApiResponse educationYearsForCRUD();
-    ApiResponse getSortNumberOfWeek();
+    ApiResponse getSortNumberOfWeek(String educationYearId);
 }

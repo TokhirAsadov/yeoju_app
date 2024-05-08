@@ -66,8 +66,8 @@ public class EducationYearImplService implements EducationYearService{
     }
 
     @Override
-    public ApiResponse getSortNumberOfWeek() {
-        return new ApiResponse(true,"sort number of week",educationYearRepository.getSortNumberOfWeek());
+    public ApiResponse getSortNumberOfWeek(String educationYearId) {
+        return new ApiResponse(true,"sort number of week",educationYearRepository.getSortNumberOfWeek(educationYearId));
     }
 
     private ApiResponse update(EducationYearDto dto) {
