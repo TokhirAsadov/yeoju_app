@@ -60,6 +60,11 @@ public class EducationYearImplService implements EducationYearService{
         return new ApiResponse(true,"education years for selected",educationYearRepository.getEducationYearsForSelected());
     }
 
+    @Override
+    public ApiResponse educationYearsForCRUD() {
+        return new ApiResponse(true,"education years for CRUD",educationYearRepository.getEducationYearsForCRUD());
+    }
+
     private ApiResponse update(EducationYearDto dto) {
         Optional<EducationYear> yearOptional = educationYearRepository.findById(dto.getId());
         if (yearOptional.isPresent()){
