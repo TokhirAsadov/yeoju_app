@@ -1,0 +1,97 @@
+/*! styled-components */
+
+/*! @mui/material/Box */
+
+/*! ../../form/SaveStaffForm */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ../../utills/ServiceUrls */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/Modal */
+
+/*! ../../userStatistics/UsersMonthStatistics */
+
+/*! ../../responsiv */
+
+/*! react-icons/fa */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react */
+
+/*! ../../userStatistics/UserStatistics */
+
+/*! axios */
+
+/*! react-toastify */
+
+/*! react-redux */
+
+/*! react-router-dom */
+
+/*! moment */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! styled-components */
+
+/*! ../../spinner/Spinner */
+
+/*! react */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react/jsx-runtime */
+
+/*! axios */
+
+/*! react-redux */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Box */
+
+/*! react-icons/ri */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/Button */
+
+/*! react-icons/fa */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! react-select */
+
+/*! @mui/x-data-grid */
+
+/*! react-icons/fi */
+
+/*! react-icons/bs */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! framer-motion */
+
+/*! ../../../responsiv */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-select/animated */
+
+/*! ../spinner/Spinner */
