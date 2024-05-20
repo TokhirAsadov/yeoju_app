@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Vedimost extends AbsEntity {
     private Integer level;
+    private Boolean isClosed;
     @ManyToOne
     private User teacher;
     @ManyToOne
