@@ -11,6 +11,7 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
@@ -19,6 +20,8 @@ import javax.persistence.ManyToOne;
 public class Vedimost extends AbsEntity {
     private Integer level;
     private Boolean isClosed;
+    private Timestamp deadline;
+    private Timestamp timeClose;
     @ManyToOne
     private User teacher;
     @ManyToOne
