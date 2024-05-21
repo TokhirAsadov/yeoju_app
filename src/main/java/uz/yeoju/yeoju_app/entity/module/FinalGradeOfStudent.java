@@ -17,11 +17,13 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 public class FinalGradeOfStudent extends AbsEntity {
     private Float grade;
-//    private Float extraGrade;
+    private Float extraGrade;
     @ManyToOne
     private User student;
     @ManyToOne
     private Lesson lesson;
     @ManyToOne
     private EducationYear educationYear;
+    @ManyToOne
+    private Vedimost vedimost;
 }
