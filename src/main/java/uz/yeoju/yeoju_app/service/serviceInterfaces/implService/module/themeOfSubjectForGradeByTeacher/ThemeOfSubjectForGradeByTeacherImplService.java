@@ -70,7 +70,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
                                     }
                                     else {
                                         Float maxEnableGrade = gradeRepository.getMaxEnableGrade(grade.studentId, dto.groupId, dto.getEducationId(), dto.getSubjectId());
-                                        throw new UserNotFoundException("You can only give maximum "+ maxEnableGrade +" ball to that student!.");
+                                        throw new UserNotFoundException("You can only give maximum "+ maxEnableGrade +" ball to"+student.getFullName()+" that student!.");
                                     }
                                 }
                                 else {
