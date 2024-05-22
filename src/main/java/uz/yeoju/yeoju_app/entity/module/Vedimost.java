@@ -10,6 +10,8 @@ import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import java.sql.Timestamp;
 
@@ -22,6 +24,8 @@ public class Vedimost extends AbsEntity {
     private Boolean isClosed;
     private Timestamp deadline;
     private Timestamp timeClose;
+    @Enumerated(EnumType.STRING)
+    private VedimostCondition condition;
     @ManyToOne
     private User teacher;
     @ManyToOne
