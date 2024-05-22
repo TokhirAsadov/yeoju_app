@@ -70,4 +70,9 @@ public class VedimostImplService implements VedimostService{
     public ApiResponse getVedimostByKafedra(String kafedraId,String educationYearId) {
         return new ApiResponse(true,"All vedimosts",vedimostRepository.getVedimostOfKafedra(kafedraId,educationYearId));
     }
+
+    @Override
+    public ApiResponse getVedimostByTeacherId(String teacherId, String educationYearId) {
+        return null;
+    }
 }
