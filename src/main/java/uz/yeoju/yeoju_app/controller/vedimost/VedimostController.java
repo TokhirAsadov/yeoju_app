@@ -9,8 +9,11 @@ import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.module.VedimostCreaterDto;
+import uz.yeoju.yeoju_app.payload.module.VedimostUpdaterDto;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.vedimost.VedimostService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/vedimost")
@@ -41,10 +44,17 @@ public class VedimostController {
     public HttpEntity<?> getVedimostByKafedra(@CurrentUser User user, @PathVariable String kafedraId,@RequestParam String educationYearId) {
         return ResponseEntity.ok(vedimostService.getVedimostByKafedra(kafedraId,educationYearId));
     }
+    @PreAuthorize("hasAnyRole('KAFEDRA','MONITORING')")
+    @PutMapping("/updateVedimost")
+    public HttpEntity<?> updateVedimost(@CurrentUser User user, @RequestBody @Valid VedimostUpdaterDto dto) {
+        ApiResponse response = vedimostService.updateVedimost(dto);
+        return ResponseEntity.status(response.isSuccess()?201:401).body(response);
+    }
+
 
     @PreAuthorize("hasRole('KAFEDRA') or hasRole('MONITORING')")
     @PostMapping("/createVedimost")
-    public HttpEntity<?> createVedimost(@CurrentUser User user, @RequestBody VedimostCreaterDto dto) {
+    public HttpEntity<?> createVedimost(@CurrentUser User user, @RequestBody @Valid VedimostCreaterDto dto) {
         ApiResponse response = vedimostService.createVedimost(dto);
         return ResponseEntity.status(response.isSuccess()?201:401).body(response);
     }
