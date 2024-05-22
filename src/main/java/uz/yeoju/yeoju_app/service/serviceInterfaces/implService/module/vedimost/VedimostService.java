@@ -17,4 +17,6 @@ public interface VedimostService {
     ApiResponse getAllVedimostByTeacherId(String teacherId);
 
     ApiResponse updateVedimost(VedimostUpdaterDto dto);
+
+    ApiResponse deleteVedimostById(String id);
 }
