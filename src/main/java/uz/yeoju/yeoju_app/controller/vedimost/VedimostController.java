@@ -21,5 +21,10 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.vedimost.
 public class VedimostController {
     private final VedimostService vedimostService;
 
-
+    @PreAuthorize("hasRole('KAFEDRA') or hasRole('MONITORING')")
+    @PostMapping("/createVedimost")
+    public HttpEntity<?> createVedimost(@CurrentUser User user, @RequestBody VedimostCreaterDto dto) {
+        ApiResponse response = vedimostService.createVedimost(dto);
+        return ResponseEntity.status(response.isSuccess()?201:401).body(response);
+    }
 }
