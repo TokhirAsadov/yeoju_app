@@ -8,4 +8,6 @@ public interface VedimostService {
     ApiResponse createVedimost(VedimostCreaterDto dto);
 
     ApiResponse getVedimostByKafedra(String kafedraId,String educationYearId);
+
+    ApiResponse getVedimostByTeacherId(String teacherId, String educationYearId);
 }
