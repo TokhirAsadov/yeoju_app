@@ -21,4 +21,6 @@ public interface VedimostService {
     ApiResponse deleteVedimostById(String id);
 
     ApiResponse getAllVedimostByGroupId(String groupId);
+
+    ApiResponse getVedimostByGroupId(String groupId, String educationYearId);
 }
