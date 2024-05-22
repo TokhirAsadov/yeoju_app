@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.vedimost
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.module.VedimostCreaterDto;
 import uz.yeoju.yeoju_app.repository.module.FinalGradeOfStudentRepository;
 import uz.yeoju.yeoju_app.repository.module.VedimostRepository;
 
@@ -14,6 +15,11 @@ public class VedimostImplService implements VedimostService{
 
     @Override
     public ApiResponse findAllVedimosts() {
+        return null;
+    }
+
+    @Override
+    public ApiResponse createVedimost(VedimostCreaterDto dto) {
         return null;
     }
 }
