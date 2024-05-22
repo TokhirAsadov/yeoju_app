@@ -6,4 +6,6 @@ import uz.yeoju.yeoju_app.payload.module.VedimostCreaterDto;
 public interface VedimostService {
     ApiResponse findAllVedimosts();
     ApiResponse createVedimost(VedimostCreaterDto dto);
+
+    ApiResponse getVedimostByKafedra(String kafedraId);
 }
