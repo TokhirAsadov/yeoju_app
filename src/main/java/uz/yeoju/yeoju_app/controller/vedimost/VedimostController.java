@@ -18,6 +18,12 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.vedimost.
 public class VedimostController {
     private final VedimostService vedimostService;
 
+    @PreAuthorize("hasAnyRole('KAFEDRA','MONITORING','TEACHER')")
+    @GetMapping("/getVedimostByTeacherId/{teacherId}")
+    public HttpEntity<?> getVedimostByTeacherId(@CurrentUser User user, @PathVariable String teacherId,@RequestParam String educationYearId) {
+        return ResponseEntity.ok(vedimostService.getVedimostByTeacherId(teacherId,educationYearId));
+    }
+
     @PreAuthorize("hasRole('KAFEDRA') or hasRole('MONITORING')")
     @GetMapping("/getVedimostByKafedra/{kafedraId}")
     public HttpEntity<?> getVedimostByKafedra(@CurrentUser User user, @PathVariable String kafedraId,@RequestParam String educationYearId) {
