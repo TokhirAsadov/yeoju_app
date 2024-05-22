@@ -21,4 +21,15 @@ public class VedimostCreaterDto {
     public String lessonId;
     public String educationYearId;
     public Set<String> groupsIds;
+
+    public VedimostCreaterDto(Integer level, Timestamp deadline, Timestamp timeClose, VedimostCondition condition, String teacherId, String lessonId, String educationYearId, Set<String> groupsIds) {
+        this.level = level;
+        this.deadline = deadline;
+        this.timeClose = timeClose;
+        this.condition = condition;
+        this.teacherId = teacherId;
+        this.lessonId = lessonId;
+        this.educationYearId = educationYearId;
+        this.groupsIds = groupsIds;
+    }
 }
