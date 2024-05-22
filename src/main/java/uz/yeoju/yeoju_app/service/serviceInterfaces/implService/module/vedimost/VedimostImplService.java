@@ -67,7 +67,7 @@ public class VedimostImplService implements VedimostService{
     }
 
     @Override
-    public ApiResponse getVedimostByKafedra(String kafedraId) {
+    public ApiResponse getVedimostByKafedra(String kafedraId,String educationYearId) {
         return null;
     }
 }
