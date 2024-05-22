@@ -52,10 +52,17 @@ public class VedimostController {
     }
 
 
-    @PreAuthorize("hasRole('KAFEDRA') or hasRole('MONITORING')")
+    @PreAuthorize("hasRole('KAFEDRA')")
     @PostMapping("/createVedimost")
     public HttpEntity<?> createVedimost(@CurrentUser User user, @RequestBody @Valid VedimostCreaterDto dto) {
         ApiResponse response = vedimostService.createVedimost(dto);
+        return ResponseEntity.status(response.isSuccess()?201:401).body(response);
+    }
+
+    @PreAuthorize("hasRole('KAFEDRA')")
+    @DeleteMapping("/deleteVedimost/{id}")
+    public HttpEntity<?> deleteVedimost(@CurrentUser User user, @PathVariable String id) {
+        ApiResponse response = vedimostService.deleteVedimostById(id);
         return ResponseEntity.status(response.isSuccess()?201:401).body(response);
     }
 }
