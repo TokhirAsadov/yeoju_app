@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import uz.yeoju.yeoju_app.entity.module.VedimostCondition;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -19,5 +20,5 @@ public class VedimostCreaterDto {
     public String teacherId;
     public String lessonId;
     public String educationYearId;
-    public String groupId;
+    public Set<String> groupsIds;
 }
