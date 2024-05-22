@@ -159,4 +159,9 @@ public class VedimostImplService implements VedimostService{
             return new ApiResponse(false,"Vedimost not found by id " +id);
         }
     }
+
+    @Override
+    public ApiResponse getAllVedimostByGroupId(String groupId) {
+        return new ApiResponse(true,"All vedimosts of group",vedimostRepository.getAllVedimostByGroupId(groupId));
+    }
 }
