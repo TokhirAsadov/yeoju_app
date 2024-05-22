@@ -15,6 +15,8 @@ import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 import uz.yeoju.yeoju_app.repository.module.FinalGradeOfStudentRepository;
 import uz.yeoju.yeoju_app.repository.module.VedimostRepository;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class VedimostImplService implements VedimostService{
@@ -41,7 +43,7 @@ public class VedimostImplService implements VedimostService{
                     dto.groupsIds.forEach(groupId -> {
                         groupRepository.findById(groupId).ifPresent(group -> {
                             Vedimost vedimost = new Vedimost();
-                            vedimost.setLevel(dto.level);
+                            vedimost.setLevel(group.getLevel());
                             vedimost.setDeadline(dto.deadline);
 //                            vedimost.setTimeClose(dto.timeClose);
                             vedimost.setCondition(VedimostCondition.valueOf(dto.condition));
@@ -92,7 +94,6 @@ public class VedimostImplService implements VedimostService{
         boolean exists = vedimostRepository.existsById(dto.id);
         if (exists) {
             Vedimost vedimost = vedimostRepository.getById(dto.id);
-            vedimost.setLevel(dto.level);
             vedimost.setDeadline(dto.deadline);
 //                            vedimost.setTimeClose(dto.timeClose);
             vedimost.setCondition(VedimostCondition.valueOf(dto.condition));
@@ -118,6 +119,7 @@ public class VedimostImplService implements VedimostService{
             if (!vedimost.getGroup().getId().equals(dto.groupId)) {
                 boolean existsGroup = groupRepository.existsById(dto.groupId);
                 if (existsGroup) {
+                    vedimost.setLevel(Objects.requireNonNull(groupRepository.findById(dto.groupId).orElse(null)).getLevel());
                     vedimost.setGroup(groupRepository.findById(dto.groupId).orElse(null));
                 }
                 else {

@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class VedimostUpdaterDto {
     public String id;
-    public Integer level;
+//    public Integer level;
     public Timestamp deadline;
 //    public Timestamp timeClose;
     public String condition;
@@ -21,8 +21,8 @@ public class VedimostUpdaterDto {
     public String educationYearId;
     public String groupId;
 
-    public VedimostUpdaterDto(Integer level, Timestamp deadline, /*Timestamp timeClose,*/ String condition, String teacherId, String lessonId, String educationYearId, String groupId) {
-        this.level = level;
+    public VedimostUpdaterDto(/*Integer level,*/ Timestamp deadline, /*Timestamp timeClose,*/ String condition, String teacherId, String lessonId, String educationYearId, String groupId) {
+//        this.level = level;
         this.deadline = deadline;
 //        this.timeClose = timeClose;
         this.condition = condition;
