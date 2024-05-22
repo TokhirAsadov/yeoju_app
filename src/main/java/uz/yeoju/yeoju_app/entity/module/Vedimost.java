@@ -21,7 +21,6 @@ import java.sql.Timestamp;
 @Entity
 public class Vedimost extends AbsEntity {
     private Integer level;
-    private Boolean isClosed;
     private Timestamp deadline;
     private Timestamp timeClose;
     @Enumerated(EnumType.STRING)
