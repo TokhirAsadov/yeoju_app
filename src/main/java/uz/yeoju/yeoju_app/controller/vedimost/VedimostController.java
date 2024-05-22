@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
@@ -20,6 +17,12 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.vedimost.
 @RequiredArgsConstructor
 public class VedimostController {
     private final VedimostService vedimostService;
+
+    @PreAuthorize("hasRole('KAFEDRA') or hasRole('MONITORING')")
+    @GetMapping("/getVedimostByKafedra/{kafedraId}")
+    public HttpEntity<?> getVedimostByKafedra(@CurrentUser User user, @PathVariable String kafedraId,@RequestParam String educationYearId) {
+        return ResponseEntity.ok(vedimostService.getVedimostByKafedra(kafedraId,educationYearId));
+    }
 
     @PreAuthorize("hasRole('KAFEDRA') or hasRole('MONITORING')")
     @PostMapping("/createVedimost")
