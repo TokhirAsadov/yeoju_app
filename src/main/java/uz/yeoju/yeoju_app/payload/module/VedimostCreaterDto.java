@@ -1,6 +1,5 @@
 package uz.yeoju.yeoju_app.payload.module;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.yeoju.yeoju_app.entity.module.VedimostCondition;
@@ -9,20 +8,18 @@ import java.sql.Timestamp;
 import java.util.Set;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class VedimostCreaterDto {
-    public String id;
     public Integer level;
     public Timestamp deadline;
     public Timestamp timeClose;
-    public VedimostCondition condition;
+    public String condition;
     public String teacherId;
     public String lessonId;
     public String educationYearId;
     public Set<String> groupsIds;
 
-    public VedimostCreaterDto(Integer level, Timestamp deadline, Timestamp timeClose, VedimostCondition condition, String teacherId, String lessonId, String educationYearId, Set<String> groupsIds) {
+    public VedimostCreaterDto(Integer level, Timestamp deadline, Timestamp timeClose, String condition, String teacherId, String lessonId, String educationYearId, Set<String> groupsIds) {
         this.level = level;
         this.deadline = deadline;
         this.timeClose = timeClose;
