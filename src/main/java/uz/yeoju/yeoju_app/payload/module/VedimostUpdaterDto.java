@@ -14,17 +14,17 @@ public class VedimostUpdaterDto {
     public String id;
     public Integer level;
     public Timestamp deadline;
-    public Timestamp timeClose;
+//    public Timestamp timeClose;
     public String condition;
     public String teacherId;
     public String lessonId;
     public String educationYearId;
     public String groupId;
 
-    public VedimostUpdaterDto(Integer level, Timestamp deadline, Timestamp timeClose, String condition, String teacherId, String lessonId, String educationYearId, String groupId) {
+    public VedimostUpdaterDto(Integer level, Timestamp deadline, /*Timestamp timeClose,*/ String condition, String teacherId, String lessonId, String educationYearId, String groupId) {
         this.level = level;
         this.deadline = deadline;
-        this.timeClose = timeClose;
+//        this.timeClose = timeClose;
         this.condition = condition;
         this.teacherId = teacherId;
         this.lessonId = lessonId;

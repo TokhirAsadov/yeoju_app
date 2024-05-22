@@ -11,17 +11,17 @@ import java.util.Set;
 public class VedimostCreaterDto {
     public Integer level;
     public Timestamp deadline;
-    public Timestamp timeClose;
+//    public Timestamp timeClose;
     public String condition;
     public String teacherId;
     public String lessonId;
     public String educationYearId;
     public Set<String> groupsIds;
 
-    public VedimostCreaterDto(Integer level, Timestamp deadline, Timestamp timeClose, String condition, String teacherId, String lessonId, String educationYearId, Set<String> groupsIds) {
+    public VedimostCreaterDto(Integer level, Timestamp deadline, /*Timestamp timeClose, */String condition, String teacherId, String lessonId, String educationYearId, Set<String> groupsIds) {
         this.level = level;
         this.deadline = deadline;
-        this.timeClose = timeClose;
+//        this.timeClose = timeClose;
         this.condition = condition;
         this.teacherId = teacherId;
         this.lessonId = lessonId;
