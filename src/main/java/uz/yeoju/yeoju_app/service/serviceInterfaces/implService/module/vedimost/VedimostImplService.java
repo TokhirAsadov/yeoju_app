@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.entity.module.VedimostCondition;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.module.VedimostCreaterDto;
+import uz.yeoju.yeoju_app.payload.module.VedimostUpdaterDto;
 import uz.yeoju.yeoju_app.repository.GroupRepository;
 import uz.yeoju.yeoju_app.repository.LessonRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
@@ -84,5 +85,10 @@ public class VedimostImplService implements VedimostService{
     @Override
     public ApiResponse getAllVedimostByTeacherId(String teacherId) {
         return new ApiResponse(true,"All teacher's vedimosts",vedimostRepository.getAllVedimostByTeacherId(teacherId));
+    }
+
+    @Override
+    public ApiResponse updateVedimost(VedimostUpdaterDto dto) {
+        return null;
     }
 }
