@@ -21,6 +21,12 @@ import javax.validation.Valid;
 public class VedimostController {
     private final VedimostService vedimostService;
 
+    @PreAuthorize("hasAnyRole('DEKAN')")
+    @GetMapping("/getAllVedimostByGroupId/{groupId}")
+    public HttpEntity<?> getAllVedimostByGroupId(@CurrentUser User user, @PathVariable String groupId) {
+        return ResponseEntity.ok(vedimostService.getAllVedimostByGroupId(groupId));
+    }
+
     @PreAuthorize("hasAnyRole('KAFEDRA','MONITORING','TEACHER')")
     @GetMapping("/getVedimostByTeacherId/{teacherId}")
     public HttpEntity<?> getVedimostByTeacherId(@CurrentUser User user, @PathVariable String teacherId,@RequestParam String educationYearId) {
