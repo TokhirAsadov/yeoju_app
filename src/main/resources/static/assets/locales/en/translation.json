@@ -54,7 +54,7 @@
   "kafedra_sidebar_week": "Statistics of weekly",
   "kafedra_sidebar_groupsSubject": "Connect to Groups",
   "kafedra_sidebar_subjects": "Subjects",
-
+  "kafedra_sidebar_statement": "Statement",
 
 
   "student_sidebar_settings": "Settings",
@@ -103,6 +103,7 @@
   "trainingdivision_sidebar_students": "Students",
   "trainingdivision_sidebar_teachers": "Teachers",
   "trainingdivision_sidebar_eduYear": "Education years",
+
 
   "admin_sidebar_menu": "Menu",
   "admin_sidebar_user": "User",

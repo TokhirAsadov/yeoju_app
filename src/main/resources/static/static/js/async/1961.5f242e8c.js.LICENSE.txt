@@ -1,11 +1,3 @@
-/*! core-js/modules/esnext.map.reduce.js */
-
-/*! ../../userStatistics/UsersMonthStatistics */
-
-/*! @mui/material/Modal */
-
-/*! @mui/icons-material/CheckBoxOutlineBlank */
-
 /*! react-redux */
 
 /*! @mui/material/Select */
@@ -50,17 +42,15 @@
 
 /*! @mui/material/TextField */
 
-/*! ../../../responsiv */
-
 /*! react-redux */
+
+/*! ../../../responsiv */
 
 /*! core-js/modules/esnext.map.map-keys.js */
 
 /*! @mui/material/Autocomplete */
 
 /*! react/jsx-runtime */
-
-/*! ./utils/createSvgIcon */
 
 /*! ./AddTeacherModal */
 
@@ -74,21 +64,19 @@
 
 /*! core-js/modules/esnext.map.merge.js */
 
-/*! @babel/runtime/helpers/interopRequireDefault */
-
 /*! @mui/material/TextField */
+
+/*! @mui/x-data-grid */
 
 /*! ../../../utills/ServiceUrls */
 
 /*! core-js/modules/esnext.map.includes.js */
 
-/*! @mui/x-data-grid */
-
 /*! @mui/material/Button */
 
-/*! react-icons/ri */
-
 /*! react-icons/fa */
+
+/*! react-icons/ri */
 
 /*! @mui/material/InputLabel */
 
@@ -96,11 +84,9 @@
 
 /*! ./teacherPanel/TeacherPanel */
 
-/*! ./utils/createSvgIcon */
+/*! ../../../redux/slice/kafedra/kafedra_teacher_statistics_slice */
 
 /*! ../../../responsiv */
-
-/*! ../../../redux/slice/kafedra/kafedra_teacher_statistics_slice */
 
 /*! core-js/modules/esnext.map.find.js */
 
@@ -112,11 +98,7 @@
 
 /*! core-js/modules/esnext.async-iterator.map.js */
 
-/*! @babel/runtime/helpers/interopRequireDefault */
-
 /*! core-js/modules/esnext.map.filter.js */
-
-/*! react/jsx-runtime */
 
 /*! core-js/modules/esnext.map.find-key.js */
 
@@ -130,8 +112,6 @@
 
 /*! @mui/material/Checkbox */
 
-/*! ../../userStatistics/UserStatistics */
-
 /*! ../../../utills/ServiceUrls */
 
 /*! axios */
@@ -140,13 +120,13 @@
 
 /*! core-js/modules/esnext.map.map-values.js */
 
-/*! react/jsx-runtime */
+/*! ../../userStatistics/UserStatistics */
+
+/*! @mui/material/Typography */
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
 /*! @mui/icons-material/CheckBox */
-
-/*! @mui/material/Typography */
 
 /*! framer-motion */
 
@@ -161,3 +141,11 @@
 /*! ../../spinner/Spinner */
 
 /*! @mui/material/Checkbox */
+
+/*! core-js/modules/esnext.map.reduce.js */
+
+/*! ../../userStatistics/UsersMonthStatistics */
+
+/*! @mui/material/Modal */
+
+/*! @mui/icons-material/CheckBoxOutlineBlank */

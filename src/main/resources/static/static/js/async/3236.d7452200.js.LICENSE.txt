@@ -1,13 +1,3 @@
-/*! @mui/x-data-grid */
-
-/*! @mui/material/Checkbox */
-
-/*! ./utils/createSvgIcon */
-
-/*! core-js/modules/esnext.async-iterator.every.js */
-
-/*! @babel/runtime/helpers/interopRequireDefault */
-
 /*! @mui/material/Box */
 
 /*! react-icons/ri */
@@ -18,11 +8,9 @@
 
 /*! @mui/icons-material/CheckBoxOutlineBlank */
 
-/*! @mui/material */
-
-/*! ./utils/createSvgIcon */
-
 /*! axios */
+
+/*! @mui/material */
 
 /*! react-toastify */
 
@@ -44,10 +32,6 @@
 
 /*! react-icons/fa */
 
-/*! @babel/runtime/helpers/interopRequireDefault */
-
-/*! react/jsx-runtime */
-
 /*! react */
 
 /*! ../../spinner/Spinner */
@@ -62,9 +46,9 @@
 
 /*! @mui/material/Autocomplete */
 
-/*! @mui/material/TextField */
-
 /*! core-js/modules/esnext.iterator.filter.js */
+
+/*! @mui/material/TextField */
 
 /*! @mui/material/Modal */
 
@@ -72,12 +56,16 @@
 
 /*! core-js/modules/esnext.iterator.find.js */
 
-/*! react/jsx-runtime */
+/*! ../../../utills/ServiceUrls */
 
 /*! @swc/helpers/_/_tagged_template_literal */
-
-/*! ../../../utills/ServiceUrls */
 
 /*! react/jsx-runtime */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! @mui/x-data-grid */
+
+/*! @mui/material/Checkbox */
+
+/*! core-js/modules/esnext.async-iterator.every.js */

@@ -1,34 +1,10 @@
-/*! react-icons/fi */
-
-/*! react-icons/bs */
-
-/*! react-icons/ri */
-
-/*! ../../../responsiv */
-
-/*! core-js/modules/esnext.async-iterator.map.js */
-
-/*! core-js/modules/esnext.iterator.constructor.js */
-
-/*! core-js/modules/esnext.async-iterator.reduce.js */
-
-/*! ./utils/createSvgIcon */
-
-/*! core-js/modules/esnext.iterator.find.js */
-
-/*! core-js/modules/esnext.async-iterator.every.js */
-
 /*! @mui/icons-material/CheckBoxOutlineBlank */
-
-/*! @babel/runtime/helpers/interopRequireDefault */
 
 /*! @mui/material/Box */
 
 /*! styled-components */
 
 /*! @mui/material */
-
-/*! ./utils/createSvgIcon */
 
 /*! axios */
 
@@ -44,11 +20,7 @@
 
 /*! @mui/icons-material/CheckBox */
 
-/*! @babel/runtime/helpers/interopRequireDefault */
-
 /*! core-js/modules/esnext.async-iterator.filter.js */
-
-/*! react/jsx-runtime */
 
 /*! react */
 
@@ -64,11 +36,9 @@
 
 /*! core-js/modules/esnext.iterator.map.js */
 
-/*! framer-motion */
-
 /*! ../../../utills/ServiceUrls */
 
-/*! react/jsx-runtime */
+/*! framer-motion */
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
@@ -81,3 +51,21 @@
 /*! @mui/x-data-grid */
 
 /*! react-icons/fa */
+
+/*! react-icons/fi */
+
+/*! react-icons/bs */
+
+/*! react-icons/ri */
+
+/*! ../../../responsiv */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! core-js/modules/esnext.async-iterator.every.js */
