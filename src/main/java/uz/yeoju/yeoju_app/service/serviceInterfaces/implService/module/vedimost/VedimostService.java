@@ -19,4 +19,6 @@ public interface VedimostService {
     ApiResponse updateVedimost(VedimostUpdaterDto dto);
 
     ApiResponse deleteVedimostById(String id);
+
+    ApiResponse getAllVedimostByGroupId(String groupId);
 }
