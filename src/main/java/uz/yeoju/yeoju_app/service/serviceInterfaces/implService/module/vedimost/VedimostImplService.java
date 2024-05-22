@@ -89,6 +89,56 @@ public class VedimostImplService implements VedimostService{
 
     @Override
     public ApiResponse updateVedimost(VedimostUpdaterDto dto) {
-        return null;
+        boolean exists = vedimostRepository.existsById(dto.id);
+        if (exists) {
+            Vedimost vedimost = vedimostRepository.getById(dto.id);
+            vedimost.setLevel(dto.level);
+            vedimost.setDeadline(dto.deadline);
+//                            vedimost.setTimeClose(dto.timeClose);
+            vedimost.setCondition(VedimostCondition.valueOf(dto.condition));
+
+            if (!vedimost.getTeacher().getId().equals(dto.teacherId)) {
+                boolean existsTeacher = userRepository.existsById(dto.teacherId);
+                if (existsTeacher) {
+                    vedimost.setTeacher(userRepository.findById(dto.teacherId).orElse(null));
+                }
+                else {
+                    throw new UserNotFoundException("Teacher was not found by id " +dto.teacherId);
+                }
+            }
+            if (!vedimost.getLesson().getId().equals(dto.lessonId)) {
+                boolean existsLesson = lessonRepository.existsById(dto.lessonId);
+                if (existsLesson) {
+                    vedimost.setLesson(lessonRepository.findById(dto.lessonId).orElse(null));
+                }
+                else {
+                    throw new UserNotFoundException("Lesson was not found by id " +dto.lessonId);
+                }
+            }
+            if (!vedimost.getGroup().getId().equals(dto.groupId)) {
+                boolean existsGroup = groupRepository.existsById(dto.groupId);
+                if (existsGroup) {
+                    vedimost.setGroup(groupRepository.findById(dto.groupId).orElse(null));
+                }
+                else {
+                    throw new UserNotFoundException("Group was not found by id " +dto.groupId);
+                }
+            }
+            if (!vedimost.getEducationYear().getId().equals(dto.educationYearId)) {
+                boolean existsEducationYear = educationYearRepository.existsById(dto.educationYearId);
+                if (existsEducationYear) {
+                    vedimost.setEducationYear(educationYearRepository.findById(dto.educationYearId).orElse(null));
+                }
+                else {
+                    throw new UserNotFoundException("Education year was not found by id " +dto.educationYearId);
+                }
+            }
+
+            vedimostRepository.save(vedimost);
+            return new ApiResponse(true,"Vedimost updated successfully");
+        }
+        else {
+            return new ApiResponse(false,"Vedimost not found by id " +dto.id);
+        }
     }
 }
