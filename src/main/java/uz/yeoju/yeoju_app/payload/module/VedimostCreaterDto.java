@@ -2,7 +2,6 @@ package uz.yeoju.yeoju_app.payload.module;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.yeoju.yeoju_app.entity.module.VedimostCondition;
 
 import java.sql.Timestamp;
 import java.util.Set;
