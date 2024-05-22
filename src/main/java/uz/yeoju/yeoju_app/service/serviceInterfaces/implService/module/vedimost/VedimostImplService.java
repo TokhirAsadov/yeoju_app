@@ -65,4 +65,9 @@ public class VedimostImplService implements VedimostService{
         }
         return new ApiResponse(true, "Vedimost created successfully");
     }
+
+    @Override
+    public ApiResponse getVedimostByKafedra(String kafedraId) {
+        return null;
+    }
 }
