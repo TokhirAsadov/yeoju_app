@@ -7,5 +7,5 @@ public interface VedimostService {
     ApiResponse findAllVedimosts();
     ApiResponse createVedimost(VedimostCreaterDto dto);
 
-    ApiResponse getVedimostByKafedra(String kafedraId);
+    ApiResponse getVedimostByKafedra(String kafedraId,String educationYearId);
 }
