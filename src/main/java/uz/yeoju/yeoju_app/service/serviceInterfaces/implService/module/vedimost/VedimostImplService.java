@@ -141,4 +141,22 @@ public class VedimostImplService implements VedimostService{
             return new ApiResponse(false,"Vedimost not found by id " +dto.id);
         }
     }
+
+    @Override
+    public ApiResponse deleteVedimostById(String id) {
+        boolean exists = vedimostRepository.existsById(id);
+        if (exists) {
+            try {
+                vedimostRepository.deleteById(id);
+                return new ApiResponse(true,"Vedimost deleted successfully");
+            }
+            catch (Exception e) {
+                throw new UserNotFoundException("Error!. Vedimost was not deleted");
+            }
+
+        }
+        else {
+            return new ApiResponse(false,"Vedimost not found by id " +id);
+        }
+    }
 }
