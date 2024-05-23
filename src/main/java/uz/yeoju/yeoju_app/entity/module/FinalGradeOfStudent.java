@@ -14,8 +14,8 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FinalGradeOfStudent extends AbsEntity {
-    private Float grade;
-    private Float extraGrade;
+    private Double grade;
+    private Double extraGrade;
     @ManyToOne
     private User student;
     @ManyToOne
