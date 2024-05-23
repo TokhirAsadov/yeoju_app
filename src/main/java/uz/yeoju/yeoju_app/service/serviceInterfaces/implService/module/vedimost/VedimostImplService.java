@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.module.VedimostCreaterDto;
 import uz.yeoju.yeoju_app.payload.module.VedimostUpdaterDto;
+import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetVedimostOfKafedra;
 import uz.yeoju.yeoju_app.repository.GroupRepository;
 import uz.yeoju.yeoju_app.repository.LessonRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
@@ -42,16 +43,22 @@ public class VedimostImplService implements VedimostService{
                 if (existsEducationYear) {
                     dto.groupsIds.forEach(groupId -> {
                         groupRepository.findById(groupId).ifPresent(group -> {
-                            Vedimost vedimost = new Vedimost();
-                            vedimost.setLevel(group.getLevel());
-                            vedimost.setDeadline(dto.deadline);
+                            Boolean bool = vedimostRepository.existsVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(dto.teacherId, dto.lessonId, groupId, dto.educationYearId);
+                            if (!bool) {
+                                Vedimost vedimost = new Vedimost();
+                                vedimost.setLevel(group.getLevel());
+                                vedimost.setDeadline(dto.deadline);
 //                            vedimost.setTimeClose(dto.timeClose);
-                            vedimost.setCondition(VedimostCondition.valueOf(dto.condition));
-                            vedimost.setTeacher(userRepository.findById(dto.teacherId).orElse(null));
-                            vedimost.setLesson(lessonRepository.findById(dto.lessonId).orElse(null));
-                            vedimost.setGroup(group);
-                            vedimost.setEducationYear(educationYearRepository.findById(dto.educationYearId).orElse(null));
-                            vedimostRepository.save(vedimost);
+                                vedimost.setCondition(VedimostCondition.valueOf(dto.condition));
+                                vedimost.setTeacher(userRepository.findById(dto.teacherId).orElse(null));
+                                vedimost.setLesson(lessonRepository.findById(dto.lessonId).orElse(null));
+                                vedimost.setGroup(group);
+                                vedimost.setEducationYear(educationYearRepository.findById(dto.educationYearId).orElse(null));
+                                vedimostRepository.save(vedimost);
+                            }
+                            else {
+                                throw new UserNotFoundException(userRepository.findById(dto.teacherId).orElse(null).getFullName()+" ga " +group.getName()+" guruhi uchun "+lessonRepository.findById(dto.lessonId).orElse(null).getName()+" fanidan qaytnoma oldin yaratilgan.");
+                            }
                         });
                     });
                 }
@@ -173,7 +180,14 @@ public class VedimostImplService implements VedimostService{
     }
 
     @Override
-    public ApiResponse checkVedimostExistsForTeacher(String teacherId, String lessonId, String groupId, String educationYearId) {
-        return null;
+    public ApiResponse getVedimostForBeingDone(String teacherId, String lessonId, String groupId, String educationYearId) {
+        Boolean bool1 = vedimostRepository.existsVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(teacherId, lessonId, groupId, educationYearId);
+        if (bool1) {
+            GetVedimostOfKafedra vedimost = vedimostRepository.getVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(teacherId, lessonId, groupId, educationYearId);
+            return new ApiResponse(true,"Vedimost for teacher",vedimost);
+        }
+        else {
+            return new ApiResponse(false,"Qaytnoma topilmadi iltimos kafedra mudiri bilan bog`laning.");
+        }
     }
 }
