@@ -20,4 +20,10 @@ public class FinalGradeOfStudent extends AbsEntity {
     private User student;
     @ManyToOne
     private Vedimost vedimost;
+
+    public FinalGradeOfStudent(Double grade, User student, Vedimost vedimost) {
+        this.grade = grade;
+        this.student = student;
+        this.vedimost = vedimost;
+    }
 }
