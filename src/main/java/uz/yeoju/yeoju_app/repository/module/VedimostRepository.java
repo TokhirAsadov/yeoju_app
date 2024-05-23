@@ -3,11 +3,15 @@ package uz.yeoju.yeoju_app.repository.module;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import uz.yeoju.yeoju_app.entity.module.Vedimost;
+import uz.yeoju.yeoju_app.entity.module.VedimostCondition;
 import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetVedimostOfKafedra;
 
 import java.util.Set;
 
 public interface VedimostRepository extends JpaRepository<Vedimost, String> {
+
+
+    Boolean existsVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(String teacher_id, String lesson_id, String group_id, String educationYear_id);
 
 
     @Query(value = "select \n" +
