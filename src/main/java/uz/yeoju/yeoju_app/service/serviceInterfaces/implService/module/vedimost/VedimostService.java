@@ -23,4 +23,6 @@ public interface VedimostService {
     ApiResponse getAllVedimostByGroupId(String groupId);
 
     ApiResponse getVedimostByGroupId(String groupId, String educationYearId);
+
+    ApiResponse checkVedimostExistsForTeacher(String teacherId, String lessonId, String groupId, String educationYearId);
 }
