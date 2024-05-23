@@ -4,18 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class FinalGradeCreatorDto {
-    public Double grade;
-    public Double extraGrade;
-    public String studentId;
     public String vedimostId;
-
-    public FinalGradeCreatorDto(Double grade, String studentId, String vedimostId) {
-        this.grade = grade;
-        this.studentId = studentId;
-        this.vedimostId = vedimostId;
-    }
+    public Set<FinalGradeCreatorChildDto> data;
 }
