@@ -30,6 +30,7 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +

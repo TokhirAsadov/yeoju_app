@@ -11,6 +11,7 @@ public interface GetVedimostOfKafedraWithFinalGrades {
     Timestamp getDeadline();
     Timestamp getTimeClose();
     String getCondition();
+    String getTeacherId();
     String getTeacher();
     String getLesson();
     String getGroupName();
