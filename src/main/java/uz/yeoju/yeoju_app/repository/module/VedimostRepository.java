@@ -15,7 +15,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
     Boolean existsVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(String teacher_id, String lesson_id, String group_id, String educationYear_id);
     Boolean existsVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearIdAndCondition(String teacher_id, String lesson_id, String group_id, String educationYear_id, VedimostCondition condition);
 
-
+    @Query(value = "select dbo.CheckVedimostDeadlineIsEnable(?1);",nativeQuery = true)
+    Boolean checkVedimostDeadlineIsEnable(String id);
 
     @Query(value = "select \n" +
             "    v.id,\n" +
