@@ -1,6 +1,28 @@
 
 
 
+CREATE FUNCTION dbo.CheckVedimostDeadlineIsEnable(
+    @vedimostId varchar(255)
+)
+    RETURNS BIT
+AS
+BEGIN
+    DECLARE @boolReturn BIT;
+    DECLARE @value int;
+
+    set @value = (select TOP 1 count(v1.id) from ( select * from Vedimost where id=@vedimostId and deadline>getdate()) as v1);
+
+    IF @value > 0
+        SET @boolReturn = 1;
+    ELSE
+        SET @boolReturn = 0;
+
+    RETURN @boolReturn;
+
+END
+go
+
+
 CREATE FUNCTION dbo.GetStudentMonitoringByDay(
     @studentId varchar(255),
     @groupId varchar(255),
