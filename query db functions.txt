@@ -1,6 +1,17 @@
 
 
 
+CREATE FUNCTION dbo.GetAllFinalGradesOfVedimost(
+    @vedimostId varchar(255)
+) RETURNS TABLE
+    AS
+    RETURN
+    (
+    select u.id as studentId,u.fullName as student,f.grade,f.extraGrade from FinalGradeOfStudent f join users u on f.student_id = u.id
+    where f.vedimost_id=@vedimostId
+    )
+go
+
 CREATE FUNCTION dbo.CheckVedimostDeadlineIsEnable(
     @vedimostId varchar(255)
 )
