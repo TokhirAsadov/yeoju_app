@@ -6,4 +6,5 @@ import uz.yeoju.yeoju_app.payload.module.FinalGradeCreatorDto;
 
 public interface FinalGradeOfStudentService {
     ApiResponse createFinalGrades(FinalGradeCreatorDto dto);
+    ApiResponse getGradesWithVedimostByVedimostId(String vedimostId);
 }
