@@ -63,4 +63,9 @@ public class FinalGradeOfStudentImplService implements FinalGradeOfStudentServic
             throw new UserNotFoundException("Vedimost was not found by id " +dto.vedimostId);
         }
     }
+
+    @Override
+    public ApiResponse getGradesWithVedimostByVedimostId(String vedimostId) {
+        return null;
+    }
 }
