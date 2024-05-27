@@ -6,6 +6,7 @@ import uz.yeoju.yeoju_app.entity.module.Vedimost;
 import uz.yeoju.yeoju_app.entity.module.VedimostCondition;
 import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetAllFinalGradesOfVedimost;
 import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetVedimostOfKafedra;
+import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetVedimostOfKafedraWithFinalGrades;
 
 import java.util.Set;
 
@@ -21,6 +22,24 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
 
     @Query(value = "select * from dbo.GetAllFinalGradesOfVedimost(?1) order by student",nativeQuery = true)
     Set<GetAllFinalGradesOfVedimost> getAllFinalGradesOfVedimost(String vedimostId);
+
+
+    @Query(value = "select Top 1 \n" +
+            "    v.id,\n" +
+            "    v.level,\n" +
+            "    v.deadline,\n" +
+            "    v.timeClose,\n" +
+            "    v.condition,\n" +
+            "    u.fullName as teacher,\n" +
+            "    l.name as lesson,\n" +
+            "    g.name as groupName\n" +
+            "    from Vedimost v\n" +
+            "    join users u on v.teacher_id = u.id\n" +
+            "    join Teacher t on t.user_id=v.teacher_id\n" +
+            "    join Lesson l on l.id=v.lesson_id\n" +
+            "    join groups g on v.group_id = g.id\n" +
+            "where v.id=?1",nativeQuery = true)
+    GetVedimostOfKafedraWithFinalGrades getVedimostWithFinalGrades(String vedimostId);
 
     @Query(value = "select \n" +
             "    v.id,\n" +
