@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import uz.yeoju.yeoju_app.entity.module.Vedimost;
 import uz.yeoju.yeoju_app.entity.module.VedimostCondition;
+import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetAllFinalGradesOfVedimost;
 import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetVedimostOfKafedra;
 
 import java.util.Set;
@@ -16,7 +17,10 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
     Boolean existsVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearIdAndCondition(String teacher_id, String lesson_id, String group_id, String educationYear_id, VedimostCondition condition);
 
     @Query(value = "select dbo.CheckVedimostDeadlineIsEnable(?1);",nativeQuery = true)
-    Boolean checkVedimostDeadlineIsEnable(String id);
+    Boolean checkVedimostDeadlineIsEnable(String vedimostId);
+
+    @Query(value = "select * from dbo.GetAllFinalGradesOfVedimost(?1) order by student",nativeQuery = true)
+    Set<GetAllFinalGradesOfVedimost> getAllFinalGradesOfVedimost(String vedimostId);
 
     @Query(value = "select \n" +
             "    v.id,\n" +
