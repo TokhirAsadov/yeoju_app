@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.entity.module.VedimostCondition;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.module.FinalGradeCreatorDto;
+import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetVedimostOfKafedraWithFinalGrades;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.module.FinalGradeOfStudentRepository;
 import uz.yeoju.yeoju_app.repository.module.VedimostRepository;
@@ -66,6 +67,7 @@ public class FinalGradeOfStudentImplService implements FinalGradeOfStudentServic
 
     @Override
     public ApiResponse getGradesWithVedimostByVedimostId(String vedimostId) {
-        return null;
+        GetVedimostOfKafedraWithFinalGrades grades = vedimostRepository.getVedimostWithFinalGrades(vedimostId);
+        return new ApiResponse(true,"grades of vedimost",grades);
     }
 }
