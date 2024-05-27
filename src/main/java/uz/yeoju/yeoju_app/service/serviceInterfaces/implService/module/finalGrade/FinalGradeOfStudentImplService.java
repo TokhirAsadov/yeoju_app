@@ -13,6 +13,7 @@ import uz.yeoju.yeoju_app.repository.module.FinalGradeOfStudentRepository;
 import uz.yeoju.yeoju_app.repository.module.VedimostRepository;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,22 +28,36 @@ public class FinalGradeOfStudentImplService implements FinalGradeOfStudentServic
     public ApiResponse createFinalGrades(FinalGradeCreatorDto dto) {
         boolean exists = vedimostRepository.existsById(dto.vedimostId);
         if (exists) {
-            Vedimost vedimost = vedimostRepository.getById(dto.vedimostId);
-            Set<FinalGradeOfStudent> grades = new HashSet<>();
-            dto.data.forEach(d -> {
-                boolean existsStudent = userRepository.existsById(d.studentId);
-                if (existsStudent) {
-                    grades.add(new FinalGradeOfStudent(Math.round(d.grade * 100) / 100.0, userRepository.findById(d.studentId).get(), vedimost));
+            Boolean bool = vedimostRepository.existsVedimostByIdAndCondition(dto.vedimostId, VedimostCondition.OPEN);
+            if (bool) {
+                Boolean isEnable = vedimostRepository.checkVedimostDeadlineIsEnable(dto.vedimostId);
+                if (isEnable) {
+                    Vedimost vedimost = vedimostRepository.getById(dto.vedimostId);
+                    Set<FinalGradeOfStudent> grades = new HashSet<>();
+                    dto.data.forEach(d -> {
+                        boolean existsStudent = userRepository.existsById(d.studentId);
+                        if (existsStudent) {
+                            grades.add(new FinalGradeOfStudent(Math.round(d.grade * 100) / 100.0, userRepository.findById(d.studentId).get(), vedimost));
+                        } else {
+                            throw new UserNotFoundException("Student was not found by id " + d.studentId);
+                        }
+                    });
+                    finalGradeOfStudentRepository.saveAll(grades);
+                    vedimost.setCondition(VedimostCondition.DONE);
+                    vedimost.setTimeClose(new Timestamp(System.currentTimeMillis()));
+                    vedimostRepository.save(vedimost);
+                    return new ApiResponse(true, "All grades created and vedimost is closed.");
                 }
                 else {
-                    throw new UserNotFoundException("Student was not found by id " +d.studentId);
+                    Vedimost vedimost = vedimostRepository.getById(dto.vedimostId);
+                    String timeStamp = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(vedimost.getDeadline());
+                    throw new UserNotFoundException("The deadline of vedimost was already gone at "+timeStamp+"! You cannot close this vedimost. Please, CONNECT WITH EDUCATION DEPARTMENT.");
                 }
-            });
-            finalGradeOfStudentRepository.saveAll(grades);
-            vedimost.setCondition(VedimostCondition.DONE);
-            vedimost.setTimeClose(new Timestamp(System.currentTimeMillis()));
-            vedimostRepository.save(vedimost);
-            return new ApiResponse(true, "All grades created and vedimost is closed.");
+            }
+            else {
+                Vedimost vedimost = vedimostRepository.getById(dto.vedimostId);
+                throw new UserNotFoundException("Vedimost is not OPEN. Its condition is " +vedimost.getCondition()+". If you have any question ,please, CONNECT WITH EDUCATION DEPARTMENT. ");
+            }
         }
         else {
             throw new UserNotFoundException("Vedimost was not found by id " +dto.vedimostId);
