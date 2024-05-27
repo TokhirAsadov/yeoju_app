@@ -14,7 +14,10 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import uz.yeoju.yeoju_app.secret.JwtFilter;
 import uz.yeoju.yeoju_app.service.useServices.authService.AuthService;
 
@@ -51,11 +54,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(authService).passwordEncoder(passwordEncoder());
     }
 
-    @Bean
-    public SessionRegistry sessionRegistry() {
-        SessionRegistry sessionRegistry = new SessionRegistryImpl();
-        return sessionRegistry;
-    }
+//    @Bean
+//    public SessionRegistry sessionRegistry() {
+//        SessionRegistry sessionRegistry = new SessionRegistryImpl();
+//        return sessionRegistry;
+//    }
 
 
     @Override
@@ -65,9 +68,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
                 .authorizeRequests()
                 .antMatchers(
 //                        "/v2/api-docs",
@@ -127,10 +127,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .addFilterBefore(filter(), UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement().maximumSessions(1)
-                .expiredUrl("/login")
-                .maxSessionsPreventsLogin(true)
-                .sessionRegistry(sessionRegistry());
+//                .sessionManagement().maximumSessions(1)
+//                .expiredUrl("/login")
+        ;
     }
 }
 
