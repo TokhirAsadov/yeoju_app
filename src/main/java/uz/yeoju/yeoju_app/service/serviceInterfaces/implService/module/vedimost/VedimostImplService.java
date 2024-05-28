@@ -180,6 +180,11 @@ public class VedimostImplService implements VedimostService{
     }
 
     @Override
+    public ApiResponse getVedimostByFacultyId(String facultyId, String educationYearId) {
+        return null;
+    }
+
+    @Override
     public ApiResponse getVedimostForBeingDone(String teacherId, String lessonId, String groupId, String educationYearId) {
         Boolean bool1 = vedimostRepository.existsVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(teacherId, lessonId, groupId, educationYearId);
         if (bool1) {
