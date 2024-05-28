@@ -26,6 +26,10 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
 
     @Query(value = "select Top 1 \n" +
             "    v.id,\n" +
+            "    v.courseLeader," +
+            "    v.headOfAcademicAffair," +
+            "    v.headOfDepartment," +
+            "    v.direction\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -44,6 +48,10 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
 
     @Query(value = "select \n" +
             "    v.id,\n" +
+            "    v.courseLeader," +
+            "    v.headOfAcademicAffair," +
+            "    v.headOfDepartment," +
+            "    v.direction\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -61,6 +69,10 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
 
     @Query(value = "select \n" +
             "    v.id,\n" +
+            "    v.courseLeader," +
+            "    v.headOfAcademicAffair," +
+            "    v.headOfDepartment," +
+            "    v.direction\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -79,6 +91,10 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
 
     @Query(value = "select \n" +
             "    v.id,\n" +
+            "    v.courseLeader," +
+            "    v.headOfAcademicAffair," +
+            "    v.headOfDepartment," +
+            "    v.direction\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -95,6 +111,10 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
 
     @Query(value = "select \n" +
             "    v.id,\n" +
+            "    v.courseLeader," +
+            "    v.headOfAcademicAffair," +
+            "    v.headOfDepartment," +
+            "    v.direction\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -111,6 +131,10 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
 
     @Query(value = "select \n" +
             "    v.id,\n" +
+            "    v.courseLeader," +
+            "    v.headOfAcademicAffair," +
+            "    v.headOfDepartment," +
+            "    v.direction\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -127,6 +151,10 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
 
     @Query(value = "select \n" +
             "    v.id,\n" +
+            "    v.courseLeader," +
+            "    v.headOfAcademicAffair," +
+            "    v.headOfDepartment," +
+            "    v.direction\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -143,6 +171,10 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
 
     @Query(value = "select \n" +
             "    v.id,\n" +
+            "    v.courseLeader," +
+            "    v.headOfAcademicAffair," +
+            "    v.headOfDepartment," +
+            "    v.direction\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -159,6 +191,10 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
 
     @Query(value = "select Top 1\n" +
             "    v.id,\n" +
+            "    v.courseLeader," +
+            "    v.headOfAcademicAffair," +
+            "    v.headOfDepartment," +
+            "    v.direction\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
