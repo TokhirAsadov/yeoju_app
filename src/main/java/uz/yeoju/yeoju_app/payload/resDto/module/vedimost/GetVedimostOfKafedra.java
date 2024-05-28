@@ -11,4 +11,8 @@ public interface GetVedimostOfKafedra {
     String getTeacher();
     String getLesson();
     String getGroupName();
+    String getHeadOfDepartment();
+    String getCourseLeader();
+    String getHeadOfAcademicAffair();
+    String getDirection();
 }
