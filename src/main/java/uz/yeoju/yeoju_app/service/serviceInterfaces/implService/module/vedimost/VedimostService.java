@@ -23,6 +23,7 @@ public interface VedimostService {
     ApiResponse getAllVedimostByGroupId(String groupId);
 
     ApiResponse getVedimostByGroupId(String groupId, String educationYearId);
+    ApiResponse getVedimostByFacultyId(String facultyId, String educationYearId);
 
     ApiResponse getVedimostForBeingDone(String teacherId, String lessonId, String groupId, String educationYearId);
 }
