@@ -15,6 +15,12 @@ public interface GetVedimostOfKafedraWithFinalGrades {
     String getTeacher();
     String getLesson();
     String getGroupName();
+
+    String getHeadOfDepartment();
+    String getCourseLeader();
+    String getHeadOfAcademicAffair();
+    String getDirection();
+
     @Value("#{@vedimostRepository.getAllFinalGradesOfVedimost(target.id)}")
     Set<GetAllFinalGradesOfVedimost> getGrades();
 }
