@@ -33,4 +33,20 @@ public class Vedimost extends AbsEntity {
     private EducationYear educationYear;
     @ManyToOne
     private Group group;
+
+    private String courseLeader;
+    private String headOfDepartment;
+    private String headOfAcademicAffair;
+    private String direction;
+
+    public Vedimost(Integer level, Timestamp deadline, Timestamp timeClose, VedimostCondition condition, User teacher, Lesson lesson, EducationYear educationYear, Group group) {
+        this.level = level;
+        this.deadline = deadline;
+        this.timeClose = timeClose;
+        this.condition = condition;
+        this.teacher = teacher;
+        this.lesson = lesson;
+        this.educationYear = educationYear;
+        this.group = group;
+    }
 }
