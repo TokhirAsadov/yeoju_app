@@ -181,7 +181,7 @@ public class VedimostImplService implements VedimostService{
 
     @Override
     public ApiResponse getVedimostByFacultyId(String facultyId, String educationYearId) {
-        return null;
+        return new ApiResponse(true,"All vedimosts of group by faculty id",vedimostRepository.getVedimostByFacultyId(facultyId,educationYearId));
     }
 
     @Override
