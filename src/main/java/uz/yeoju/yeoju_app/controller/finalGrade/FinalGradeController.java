@@ -27,7 +27,7 @@ public class FinalGradeController {
         return ResponseEntity.status(response.isSuccess()?201:401).body(response);
     }
 
-    @PreAuthorize("hasAnyRole('KAFEDRA','MONITORING','TEACHER')")
+    @PreAuthorize("hasAnyRole('KAFEDRA','MONITORING','TEACHER','DEKAN')")
     @GetMapping("/getGradesWithVedimost/{vedimostId}")
     public HttpEntity<?> getGradesWithVedimostByVedimostId(@CurrentUser User user, @PathVariable String vedimostId) {
         ApiResponse response = finalGradeOfStudentService.getGradesWithVedimostByVedimostId(vedimostId);
