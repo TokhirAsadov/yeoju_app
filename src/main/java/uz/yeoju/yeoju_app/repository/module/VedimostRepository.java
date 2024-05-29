@@ -29,7 +29,7 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.courseLeader," +
             "    v.headOfAcademicAffair," +
             "    v.headOfDepartment," +
-            "    v.direction\n" +
+            "    v.direction,\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -51,7 +51,7 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.courseLeader," +
             "    v.headOfAcademicAffair," +
             "    v.headOfDepartment," +
-            "    v.direction\n" +
+            "    v.direction,\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -72,7 +72,7 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.courseLeader," +
             "    v.headOfAcademicAffair," +
             "    v.headOfDepartment," +
-            "    v.direction\n" +
+            "    v.direction,\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -94,7 +94,7 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.courseLeader," +
             "    v.headOfAcademicAffair," +
             "    v.headOfDepartment," +
-            "    v.direction\n" +
+            "    v.direction,\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -114,7 +114,7 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.courseLeader," +
             "    v.headOfAcademicAffair," +
             "    v.headOfDepartment," +
-            "    v.direction\n" +
+            "    v.direction,\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -134,7 +134,7 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.courseLeader," +
             "    v.headOfAcademicAffair," +
             "    v.headOfDepartment," +
-            "    v.direction\n" +
+            "    v.direction,\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -154,7 +154,7 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.courseLeader," +
             "    v.headOfAcademicAffair," +
             "    v.headOfDepartment," +
-            "    v.direction\n" +
+            "    v.direction,\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -174,7 +174,7 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.courseLeader," +
             "    v.headOfAcademicAffair," +
             "    v.headOfDepartment," +
-            "    v.direction\n" +
+            "    v.direction,\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
@@ -194,7 +194,7 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.courseLeader," +
             "    v.headOfAcademicAffair," +
             "    v.headOfDepartment," +
-            "    v.direction\n" +
+            "    v.direction,\n" +
             "    v.level,\n" +
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
