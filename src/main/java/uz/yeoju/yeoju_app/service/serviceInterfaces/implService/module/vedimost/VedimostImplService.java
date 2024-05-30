@@ -99,7 +99,7 @@ public class VedimostImplService implements VedimostService{
 
     @Override
     public ApiResponse getVedimostByLessonId(String lessonId, String educationYearId) {
-        return new ApiResponse(true,"All vedimosts by lesson",vedimostRepository.getVedimostByLessonId(lessonId,educationYearId));
+        return new ApiResponse(true,"All vedimosts by lesson",educationYearId!=null ? vedimostRepository.getVedimostByLessonId(lessonId,educationYearId):vedimostRepository.getVedimostByLessonId(lessonId));
     }
 
     @Override
