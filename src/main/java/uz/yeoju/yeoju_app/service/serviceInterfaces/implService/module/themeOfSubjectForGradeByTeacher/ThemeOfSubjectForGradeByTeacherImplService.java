@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.entity.Lesson;
+import uz.yeoju.yeoju_app.entity.Student;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.module.GradeOfStudentByTeacher;
 import uz.yeoju.yeoju_app.entity.module.ThemeOfSubjectForGradeByTeacher;
+import uz.yeoju.yeoju_app.entity.module.Vedimost;
+import uz.yeoju.yeoju_app.entity.module.VedimostCondition;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
@@ -23,6 +26,7 @@ import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 import uz.yeoju.yeoju_app.repository.module.GradeOfStudentByTeacherRepository;
 import uz.yeoju.yeoju_app.repository.module.ThemeOfSubjectForGradeByTeacherRepository;
+import uz.yeoju.yeoju_app.repository.module.VedimostRepository;
 
 import java.util.Optional;
 import java.util.Set;
@@ -37,6 +41,7 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
     private final UserRepository userRepository;
     private final LessonRepository lessonRepository;
     private final GroupRepository groupRepository;
+    private final VedimostRepository vedimostRepository;
 
     @Override
     public ApiResponse createThemeWithGrade(User user,CreateGradesWithThemeDto dto) {
@@ -58,15 +63,39 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
                                     Lesson lesson = lessonOptional.get();
                                     Boolean enableGrade = gradeRepository.isEnableGrade(grade.studentId, dto.groupId, dto.getEducationId(), dto.getSubjectId(), grade.grade);
                                     if (enableGrade){
-                                        GradeOfStudentByTeacher gradeOfStudent = new GradeOfStudentByTeacher();
-                                        gradeOfStudent.setStudent(student);
-                                        gradeOfStudent.setEducationYear(educationYear);
-                                        gradeOfStudent.setLesson(lesson);
-                                        gradeOfStudent.setGrade(grade.grade);
-                                        gradeOfStudent.setDescription(theme.getName());
-                                        gradeOfStudent.setTime(dto.getTime());
-                                        gradeOfStudent.setTheme(theme);
-                                        gradeRepository.save(gradeOfStudent);
+
+                                        Optional<Vedimost> optionalVedimost = vedimostRepository.findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(user.getId(), dto.subjectId, dto.groupId, dto.educationId);
+                                        if (optionalVedimost.isPresent()) {
+                                            Vedimost vedimost = optionalVedimost.get();
+                                            if (vedimost.getCondition().equals(VedimostCondition.OPEN) && vedimostRepository.checkVedimostDeadlineIsEnable(vedimost.getId())) {
+                                                GradeOfStudentByTeacher gradeOfStudent = new GradeOfStudentByTeacher();
+                                                gradeOfStudent.setStudent(student);
+                                                gradeOfStudent.setEducationYear(educationYear);
+                                                gradeOfStudent.setLesson(lesson);
+                                                gradeOfStudent.setGrade(grade.grade);
+                                                gradeOfStudent.setDescription(theme.getName());
+                                                gradeOfStudent.setTime(dto.getTime());
+                                                gradeOfStudent.setTheme(theme);
+                                                gradeRepository.save(gradeOfStudent);
+                                            }
+                                            else {
+                                                throw new UserNotFoundException("You cannot give grade, because vedimost already close!");
+                                            }
+                                        }
+                                        else {
+                                            GradeOfStudentByTeacher gradeOfStudent = new GradeOfStudentByTeacher();
+                                            gradeOfStudent.setStudent(student);
+                                            gradeOfStudent.setEducationYear(educationYear);
+                                            gradeOfStudent.setLesson(lesson);
+                                            gradeOfStudent.setGrade(grade.grade);
+                                            gradeOfStudent.setDescription(theme.getName());
+                                            gradeOfStudent.setTime(dto.getTime());
+                                            gradeOfStudent.setTheme(theme);
+                                            gradeRepository.save(gradeOfStudent);
+                                        }
+
+
+
                                     }
                                     else {
                                         Float maxEnableGrade = gradeRepository.getMaxEnableGrade(grade.studentId, dto.groupId, dto.getEducationId(), dto.getSubjectId());
@@ -110,15 +139,37 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
                                     Lesson lesson = lessonOptional.get();
                                     Boolean enableGrade = gradeRepository.isEnableGrade(grade.studentId, dto.groupId, dto.getEducationId(), dto.getSubjectId(), grade.grade);
                                     if (enableGrade){
-                                        GradeOfStudentByTeacher gradeOfStudent = new GradeOfStudentByTeacher();
-                                        gradeOfStudent.setStudent(student);
-                                        gradeOfStudent.setEducationYear(educationYear);
-                                        gradeOfStudent.setLesson(lesson);
-                                        gradeOfStudent.setGrade(grade.grade);
-                                        gradeOfStudent.setDescription(theme.getName());
-                                        gradeOfStudent.setTime(dto.getTime());
-                                        gradeOfStudent.setTheme(theme);
-                                        gradeRepository.save(gradeOfStudent);
+
+                                        Optional<Vedimost> optionalVedimost = vedimostRepository.findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(user.getId(), dto.subjectId, dto.groupId, dto.educationId);
+                                        if (optionalVedimost.isPresent()) {
+                                            Vedimost vedimost = optionalVedimost.get();
+                                            if (vedimost.getCondition().equals(VedimostCondition.OPEN) && vedimostRepository.checkVedimostDeadlineIsEnable(vedimost.getId())) {
+                                                GradeOfStudentByTeacher gradeOfStudent = new GradeOfStudentByTeacher();
+                                                gradeOfStudent.setStudent(student);
+                                                gradeOfStudent.setEducationYear(educationYear);
+                                                gradeOfStudent.setLesson(lesson);
+                                                gradeOfStudent.setGrade(grade.grade);
+                                                gradeOfStudent.setDescription(theme.getName());
+                                                gradeOfStudent.setTime(dto.getTime());
+                                                gradeOfStudent.setTheme(theme);
+                                                gradeRepository.save(gradeOfStudent);
+                                            }
+                                            else {
+                                                throw new UserNotFoundException("You cannot give grade, because vedimost already close!");
+                                            }
+                                        }
+                                        else {
+                                            GradeOfStudentByTeacher gradeOfStudent = new GradeOfStudentByTeacher();
+                                            gradeOfStudent.setStudent(student);
+                                            gradeOfStudent.setEducationYear(educationYear);
+                                            gradeOfStudent.setLesson(lesson);
+                                            gradeOfStudent.setGrade(grade.grade);
+                                            gradeOfStudent.setDescription(theme.getName());
+                                            gradeOfStudent.setTime(dto.getTime());
+                                            gradeOfStudent.setTheme(theme);
+                                            gradeRepository.save(gradeOfStudent);
+                                        }
+
                                     }
                                     else {
                                         Float maxEnableGrade = gradeRepository.getMaxEnableGrade(grade.studentId, dto.groupId, dto.getEducationId(), dto.getSubjectId());
@@ -156,12 +207,32 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
                 if (existsGroup) {
                     Boolean exists = repository.existsByNameAndLessonIdAndEducationYearIdAndCreatedByAndGroupId(dto.name, dto.subjectId, dto.educationYearId, user.getId(), dto.groupId);
                     if (!exists) {
-                        EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
-                        Lesson lesson = lessonRepository.getById(dto.subjectId);
-                        Group group = groupRepository.getById(dto.groupId);
-                        ThemeOfSubjectForGradeByTeacher theme = new ThemeOfSubjectForGradeByTeacher(dto.name,dto.maxGrade,group, lesson, educationYear);
-                        repository.saveAndFlush(theme);
-                        return new ApiResponse(true, "Theme was saved successfully!.", theme.getId());
+
+                        Optional<Vedimost> optionalVedimost = vedimostRepository.findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(user.getId(), dto.subjectId, dto.groupId, dto.educationYearId);
+                        if (optionalVedimost.isPresent()) {
+                            Vedimost vedimost = optionalVedimost.get();
+                            if (vedimost.getCondition().equals(VedimostCondition.OPEN) && vedimostRepository.checkVedimostDeadlineIsEnable(vedimost.getId())) {
+                                EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
+                                Lesson lesson = lessonRepository.getById(dto.subjectId);
+                                Group group = groupRepository.getById(dto.groupId);
+                                ThemeOfSubjectForGradeByTeacher theme = new ThemeOfSubjectForGradeByTeacher(dto.name,dto.maxGrade,group, lesson, educationYear);
+                                repository.saveAndFlush(theme);
+                                return new ApiResponse(true, "Theme was saved successfully!.", theme.getId());
+                            }
+                            else {
+                                throw new UserNotFoundException("You cannot give grade, because vedimost already close!");
+                            }
+                        }
+                        else {
+                            EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
+                            Lesson lesson = lessonRepository.getById(dto.subjectId);
+                            Group group = groupRepository.getById(dto.groupId);
+                            ThemeOfSubjectForGradeByTeacher theme = new ThemeOfSubjectForGradeByTeacher(dto.name,dto.maxGrade,group, lesson, educationYear);
+                            repository.saveAndFlush(theme);
+                            return new ApiResponse(true, "Theme was saved successfully!.", theme.getId());
+                        }
+
+
                     } else {
                         throw new UserNotFoundException("Theme already exists by name: " + dto.name);
                     }
@@ -192,17 +263,42 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
                     if (existsGroup) {
                         Boolean exists = repository.existsByNameAndLessonIdAndEducationYearIdAndCreatedByAndGroupId(dto.name, dto.subjectId, dto.educationYearId, user.getId(), dto.groupId);
                         if (exists) {
-                            EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
-                            Lesson lesson = lessonRepository.getById(dto.subjectId);
-                            Group group = groupRepository.getById(dto.groupId);
-                            ThemeOfSubjectForGradeByTeacher theme = repository.getById(dto.id);
-                            theme.setLesson(lesson);
-                            theme.setGroup(group);
-                            theme.setEducationYear(educationYear);
-                            theme.setName(dto.name);
-                            theme.setMaxGrade(dto.maxGrade);
-                            repository.save(theme);
-                            return new ApiResponse(true, "Theme was updated successfully!.");
+
+                            Optional<Vedimost> optionalVedimost = vedimostRepository.findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(user.getId(), dto.subjectId, dto.groupId, dto.educationYearId);
+                            if (optionalVedimost.isPresent()) {
+                                Vedimost vedimost = optionalVedimost.get();
+                                if (vedimost.getCondition().equals(VedimostCondition.OPEN) && vedimostRepository.checkVedimostDeadlineIsEnable(vedimost.getId())) {
+                                    EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
+                                    Lesson lesson = lessonRepository.getById(dto.subjectId);
+                                    Group group = groupRepository.getById(dto.groupId);
+                                    ThemeOfSubjectForGradeByTeacher theme = repository.getById(dto.id);
+                                    theme.setLesson(lesson);
+                                    theme.setGroup(group);
+                                    theme.setEducationYear(educationYear);
+                                    theme.setName(dto.name);
+                                    theme.setMaxGrade(dto.maxGrade);
+                                    repository.save(theme);
+                                    return new ApiResponse(true, "Theme was updated successfully!.");
+                                }
+                                else {
+                                    throw new UserNotFoundException("You cannot give grade, because vedimost already close!");
+                                }
+                            }
+                            else {
+                                EducationYear educationYear = educationYearRepository.getById(dto.educationYearId);
+                                Lesson lesson = lessonRepository.getById(dto.subjectId);
+                                Group group = groupRepository.getById(dto.groupId);
+                                ThemeOfSubjectForGradeByTeacher theme = repository.getById(dto.id);
+                                theme.setLesson(lesson);
+                                theme.setGroup(group);
+                                theme.setEducationYear(educationYear);
+                                theme.setName(dto.name);
+                                theme.setMaxGrade(dto.maxGrade);
+                                repository.save(theme);
+                                return new ApiResponse(true, "Theme was updated successfully!.");
+                            }
+
+
                         } else {
                             throw new UserNotFoundException("Theme already exists by name: " + dto.name);
                         }
@@ -251,13 +347,34 @@ public class ThemeOfSubjectForGradeByTeacherImplService implements ThemeOfSubjec
     public ApiResponse deleteTheme(User user, String themeId) {
         Boolean b = repository.existsThemeByIdAndCreatedBy(themeId, user.getId());
         if (b) {
-            try {
-                repository.deleteById(themeId);
+            ThemeOfSubjectForGradeByTeacher byId = repository.getById(themeId);
+
+            Optional<Vedimost> optionalVedimost = vedimostRepository.findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(user.getId(), byId.getLesson().getId(), byId.getGroup().getId(), byId.getEducationYear().getId());
+            if (optionalVedimost.isPresent()) {
+                Vedimost vedimost = optionalVedimost.get();
+                if (vedimost.getCondition().equals(VedimostCondition.OPEN) && vedimostRepository.checkVedimostDeadlineIsEnable(vedimost.getId())) {
+                    try {
+                        repository.deleteById(themeId);
+                    }
+                    catch (Exception e) {
+                        throw new UserNotFoundException("You cannot delete theme.");
+                    }
+                    return new ApiResponse(true,"Theme was deleted successfully!");
+                }
+                else {
+                    throw new UserNotFoundException("You cannot give grade, because vedimost already close!");
+                }
             }
-            catch (Exception e) {
-                throw new UserNotFoundException("You cannot delete theme.");
+            else {
+                try {
+                    repository.deleteById(themeId);
+                }
+                catch (Exception e) {
+                    throw new UserNotFoundException("You cannot delete theme.");
+                }
+                return new ApiResponse(true,"Theme was deleted successfully!");
             }
-            return new ApiResponse(true,"Theme was deleted successfully!");
+
         }
         else {
             throw new UserNotFoundException("Theme was not found by id: " + themeId+". Or you cannot delete theme.");

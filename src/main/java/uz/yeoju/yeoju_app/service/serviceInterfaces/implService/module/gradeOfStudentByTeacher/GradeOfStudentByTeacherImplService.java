@@ -176,7 +176,7 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
     public ApiResponse updateGrade(User user, CreateGradeOfStudentByTeacher dto) {
         Student studentByUserId = studentRepository.findStudentByUserId(dto.getStudentId());
         if (studentByUserId != null) {
-            Optional<Vedimost> optionalVedimost = vedimostRepository.findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(user.getId(), dto.getStudentId(), studentByUserId.getGroup().getName(), dto.getEducationYearId());
+            Optional<Vedimost> optionalVedimost = vedimostRepository.findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(user.getId(), dto.getStudentId(), studentByUserId.getGroup().getId(), dto.getEducationYearId());
             if (optionalVedimost.isPresent()) {
                 Vedimost vedimost = optionalVedimost.get();
 
@@ -280,7 +280,7 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
     public ApiResponse retakeGrade(User user, CreateGradeOfStudentByTeacher dto) {
         Student studentByUserId = studentRepository.findStudentByUserId(dto.getStudentId());
         if (studentByUserId != null) {
-            Optional<Vedimost> optionalVedimost = vedimostRepository.findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(user.getId(), dto.getStudentId(), studentByUserId.getGroup().getName(), dto.getEducationYearId());
+            Optional<Vedimost> optionalVedimost = vedimostRepository.findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(user.getId(), dto.getStudentId(), studentByUserId.getGroup().getId(), dto.getEducationYearId());
             if (optionalVedimost.isPresent()) {
                 Vedimost vedimost = optionalVedimost.get();
 
@@ -473,7 +473,7 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
 
                 Student studentByUserId = studentRepository.findStudentByUserId(gradeOfStudentByTeacher.getStudent().getId());
                 if (studentByUserId != null) {
-                    Optional<Vedimost> optionalVedimost = vedimostRepository.findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(user.getId(), gradeOfStudentByTeacher.getLesson().getId(), studentByUserId.getGroup().getName(), gradeOfStudentByTeacher.getEducationYear().getId());
+                    Optional<Vedimost> optionalVedimost = vedimostRepository.findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(user.getId(), gradeOfStudentByTeacher.getLesson().getId(), studentByUserId.getGroup().getId(), gradeOfStudentByTeacher.getEducationYear().getId());
                     if (optionalVedimost.isPresent()) {
                         Vedimost vedimost = optionalVedimost.get();
                         if (vedimost.getCondition().equals(VedimostCondition.OPEN) && vedimostRepository.checkVedimostDeadlineIsEnable(vedimost.getId())) {
@@ -513,7 +513,7 @@ public class GradeOfStudentByTeacherImplService implements GradeOfStudentByTeach
 
                 Student studentByUserId = studentRepository.findStudentByUserId(grade.getStudent().getId());
                 if (studentByUserId != null) {
-                    Optional<Vedimost> optionalVedimost = vedimostRepository.findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(user.getId(), grade.getLesson().getId(), studentByUserId.getGroup().getName(), grade.getEducationYear().getId());
+                    Optional<Vedimost> optionalVedimost = vedimostRepository.findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(user.getId(), grade.getLesson().getId(), studentByUserId.getGroup().getId(), grade.getEducationYear().getId());
                     if (optionalVedimost.isPresent()) {
                         Vedimost vedimost = optionalVedimost.get();
                         if (vedimost.getCondition().equals(VedimostCondition.OPEN) && vedimostRepository.checkVedimostDeadlineIsEnable(vedimost.getId())) {

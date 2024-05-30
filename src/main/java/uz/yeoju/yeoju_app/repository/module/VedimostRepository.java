@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetAllFinalGradesOfVedi
 import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetVedimostOfKafedra;
 import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetVedimostOfKafedraWithFinalGrades;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface VedimostRepository extends JpaRepository<Vedimost, String> {
@@ -16,6 +17,7 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
     Boolean existsVedimostByIdAndCondition(String id, VedimostCondition condition);
     Boolean existsVedimostByTeacherIdAndLessonIdAndGroupId(String teacher_id, String lesson_id, String group_id);
     Boolean existsVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(String teacher_id, String lesson_id, String group_id, String educationYear_id);
+    Optional<Vedimost> findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(String teacher_id, String lesson_id, String group_id, String educationYear_id);
     Boolean existsVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearIdAndCondition(String teacher_id, String lesson_id, String group_id, String educationYear_id, VedimostCondition condition);
 
     @Query(value = "select dbo.CheckVedimostDeadlineIsEnable(?1);",nativeQuery = true)
