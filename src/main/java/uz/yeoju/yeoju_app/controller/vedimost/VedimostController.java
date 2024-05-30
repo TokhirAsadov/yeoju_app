@@ -21,6 +21,56 @@ import javax.validation.Valid;
 public class VedimostController {
     private final VedimostService vedimostService;
 
+
+    @PreAuthorize("hasAnyRole('KAFEDRA','MONITORING','TEACHER')")
+    @GetMapping("/getVedimostByAllParams")
+    public HttpEntity<?> getVedimostByAllParams(
+            @CurrentUser User user,
+            @RequestParam(name = "teacherId", required = false) String teacherId,
+            @RequestParam(name = "lessonId", required = false) String lessonId,
+            @RequestParam(name = "groupId", required = false) String groupId,
+            @RequestParam(name = "facultyId", required = false) String facultyId,
+            @RequestParam(name="educationYearId",required = false) String educationYearId
+    ) {
+
+        if (teacherId != null && lessonId != null && groupId != null) {
+            return ResponseEntity.ok(vedimostService.getVedimostForBeingDone(teacherId,lessonId,groupId,educationYearId));
+        }
+        else if (teacherId!=null && lessonId!=null && facultyId!=null) {
+            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(teacherId,lessonId,facultyId,educationYearId));
+        }
+        else if (teacherId!=null && facultyId!=null) {
+            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndFacultyId(teacherId,facultyId,educationYearId));
+        }
+        else if (teacherId!=null && lessonId!=null) {
+            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndLessonId(teacherId,educationYearId,lessonId));
+        }
+        else if (teacherId!=null && groupId!=null) {
+            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndGroupId(teacherId,educationYearId,groupId));
+        }
+        else if (lessonId!=null && facultyId!=null) {
+            return ResponseEntity.ok(vedimostService.getVedimostByLessonIdAndFacultyId(educationYearId,lessonId,facultyId));
+        }
+        else if (lessonId!=null && groupId!=null) {
+            return ResponseEntity.ok(vedimostService.getVedimostByLessonIdAndGroupId(educationYearId,lessonId,groupId));
+        }
+        else if (teacherId!=null){
+            return ResponseEntity.ok(vedimostService.getVedimostByTeacherId(teacherId,educationYearId));
+        }
+        else if (lessonId!=null){
+            return ResponseEntity.ok(vedimostService.getVedimostByLessonId(lessonId,educationYearId));
+        }
+        else if (groupId!=null){
+            return ResponseEntity.ok(vedimostService.getVedimostByGroupId(groupId,educationYearId));
+        }
+        else if (facultyId!=null){
+            return ResponseEntity.ok(vedimostService.getVedimostByFacultyId(facultyId,educationYearId));
+        }
+
+
+        return ResponseEntity.status(404).body(new ApiResponse(false,"Bunday tur topilmadi!. Iltimos dasturchilar bilan bog`laning."));
+    }
+
     @PreAuthorize("hasAnyRole('DEKAN','MONITORING')")
     @GetMapping("/getVedimostByFacultyId/{facultyId}")
     public HttpEntity<?> getVedimostByFacultyId(@CurrentUser User user, @PathVariable String facultyId,@RequestParam String educationYearId) {
