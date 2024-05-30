@@ -202,7 +202,7 @@ public class VedimostImplService implements VedimostService{
 
     @Override
     public ApiResponse getVedimostByGroupId(String groupId, String educationYearId) {
-        return new ApiResponse(true,"All vedimosts of group by education year",vedimostRepository.getVedimostByGroupId(groupId,educationYearId));
+        return new ApiResponse(true,"All vedimosts of group by education year",educationYearId!=null?vedimostRepository.getVedimostByGroupId(groupId,educationYearId):vedimostRepository.getVedimostByGroupId(groupId));
     }
 
     @Override
