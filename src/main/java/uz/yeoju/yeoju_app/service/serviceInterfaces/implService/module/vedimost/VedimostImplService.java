@@ -226,4 +226,9 @@ public class VedimostImplService implements VedimostService{
     public ApiResponse getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(String teacherId, String lessonId, String facultyId, String educationYearId) {
         return new ApiResponse(true,"All vedimosts of group by faculty id",vedimostRepository.getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(teacherId,lessonId,facultyId,educationYearId));
     }
+
+    @Override
+    public ApiResponse getVedimostByTeacherIdAndFacultyId(String teacherId, String facultyId, String educationYearId) {
+        return null;
+    }
 }
