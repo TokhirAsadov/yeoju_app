@@ -221,4 +221,9 @@ public class VedimostImplService implements VedimostService{
             return new ApiResponse(false,"Qaytnoma topilmadi iltimos kafedra mudiri bilan bog`laning.");
         }
     }
+
+    @Override
+    public ApiResponse getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(String teacherId, String lessonId, String facultyId, String educationYearId) {
+        return new ApiResponse(true,"All vedimosts of group by faculty id",vedimostRepository.getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(teacherId,lessonId,facultyId,educationYearId));
+    }
 }
