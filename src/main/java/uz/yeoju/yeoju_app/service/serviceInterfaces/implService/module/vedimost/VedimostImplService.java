@@ -212,13 +212,23 @@ public class VedimostImplService implements VedimostService{
 
     @Override
     public ApiResponse getVedimostForBeingDone(String teacherId, String lessonId, String groupId, String educationYearId) {
-        Boolean bool1 = vedimostRepository.existsVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(teacherId, lessonId, groupId, educationYearId);
-        if (bool1) {
-            GetVedimostOfKafedra vedimost = vedimostRepository.getVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(teacherId, lessonId, groupId, educationYearId);
-            return new ApiResponse(true,"Vedimost for teacher",vedimost);
+        if (educationYearId!=null) {
+            Boolean bool1 = vedimostRepository.existsVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(teacherId, lessonId, groupId, educationYearId);
+            if (bool1) {
+                GetVedimostOfKafedra vedimost = vedimostRepository.getVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(teacherId, lessonId, groupId, educationYearId);
+                return new ApiResponse(true, "Vedimost for teacher", vedimost);
+            } else {
+                return new ApiResponse(false, "Qaytnoma topilmadi iltimos kafedra mudiri bilan bog`laning.");
+            }
         }
         else {
-            return new ApiResponse(false,"Qaytnoma topilmadi iltimos kafedra mudiri bilan bog`laning.");
+            Boolean bool1 = vedimostRepository.existsVedimostByTeacherIdAndLessonIdAndGroupId(teacherId, lessonId, groupId);
+            if (bool1) {
+                GetVedimostOfKafedra vedimost = vedimostRepository.getVedimostByTeacherIdAndLessonIdAndGroupId(teacherId, lessonId, groupId);
+                return new ApiResponse(true, "Vedimost for teacher", vedimost);
+            } else {
+                return new ApiResponse(false, "Qaytnoma topilmadi iltimos kafedra mudiri bilan bog`laning.");
+            }
         }
     }
 
