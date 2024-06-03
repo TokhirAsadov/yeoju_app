@@ -22,7 +22,7 @@ public class VedimostController {
     private final VedimostService vedimostService;
 
 
-    @PreAuthorize("hasAnyRole('KAFEDRA','MONITORING','TEACHER')")
+//    @PreAuthorize("hasAnyRole('KAFEDRA','MONITORING','TEACHER')")
     @GetMapping("/getVedimostByAllParams")
     public HttpEntity<?> getVedimostByAllParams(
             @CurrentUser User user,
@@ -65,6 +65,9 @@ public class VedimostController {
         }
         else if (facultyId!=null){
             return ResponseEntity.ok(vedimostService.getVedimostByFacultyId(facultyId,educationYearId));
+        }
+        else if (educationYearId!=null){
+            return ResponseEntity.ok(vedimostService.getVedimostByEducationYearId(educationYearId));
         }
 
 
