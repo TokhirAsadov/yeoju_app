@@ -69,9 +69,12 @@ public class VedimostController {
         else if (educationYearId!=null){
             return ResponseEntity.ok(vedimostService.getVedimostByEducationYearId(educationYearId));
         }
+        else {
+            return ResponseEntity.ok(vedimostService.getLast50Vedimost());
+        }
 
 
-        return ResponseEntity.status(404).body(new ApiResponse(false,"Bunday tur topilmadi!. Iltimos dasturchilar bilan bog`laning."));
+        //return ResponseEntity.status(404).body(new ApiResponse(false,"Bunday tur topilmadi!. Iltimos dasturchilar bilan bog`laning."));
     }
 
     @PreAuthorize("hasAnyRole('DEKAN','MONITORING')")
