@@ -30,9 +30,9 @@ public class VedimostController {
             @RequestParam(name = "lessonId", required = false) String lessonId,
             @RequestParam(name = "groupId", required = false) String groupId,
             @RequestParam(name = "facultyId", required = false) String facultyId,
+            @RequestParam(name = "level", required = false) Integer level,
             @RequestParam(name="educationYearId") @Valid String educationYearId
     ) {
-
         if (teacherId != null && lessonId != null && groupId != null) {
             return ResponseEntity.ok(vedimostService.getVedimostForBeingDone(teacherId,lessonId,groupId,educationYearId));
         }
@@ -65,6 +65,9 @@ public class VedimostController {
         }
         else if (facultyId!=null){
             return ResponseEntity.ok(vedimostService.getVedimostByFacultyId(facultyId,educationYearId));
+        }
+        else if (level!=null){
+            return ResponseEntity.ok(vedimostService.getVedimostByLevel(level,educationYearId));
         }
         else if (educationYearId!=null){
             return ResponseEntity.ok(vedimostService.getVedimostByEducationYearId(educationYearId));
