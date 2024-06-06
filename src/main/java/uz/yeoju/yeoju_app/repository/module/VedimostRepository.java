@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import uz.yeoju.yeoju_app.entity.module.Vedimost;
 import uz.yeoju.yeoju_app.entity.module.VedimostCondition;
 import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetAllFinalGradesOfVedimost;
+import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetLessonsIdsWithTeachersIds;
 import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetVedimostOfKafedra;
 import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetVedimostOfKafedraWithFinalGrades;
 
@@ -612,4 +613,15 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    join groups g on v.group_id = g.id\n" +
             "where v.teacher_id=?1 and v.lesson_id=?2 and g.faculty_id=?3 order by v.createdAt desc",nativeQuery = true)
     GetVedimostOfKafedra getVedimostByTeacherIdAndLessonIdAndFacultyId(String teacherId,String lessonId,String facultyId);
+
+
+    @Query(value = "select ldb.subject_id as lessonId, ldb_u.teachers_id as teacherId from CardDB c\n" +
+            "join LessonDB ldb on c.lesson_id = ldb.id\n" +
+            "join LessonDB_groups ldb_g on ldb.id = ldb_g.LessonDB_id\n" +
+            "join LessonDB_users ldb_u on ldb.id = ldb_u.LessonDB_id\n" +
+            "join users u on ldb_u.teachers_id = u.id\n" +
+            "join WeekOfEducationYear w on ldb.weekOfEducationYear_id = w.id\n" +
+            "join EducationYear_WeekOfEducationYear e_w on w.id = e_w.weeks_id\n" +
+            "where e_w.EducationYear_id=?1 and ldb_g.groups_id=?2",nativeQuery = true)
+    Set<GetLessonsIdsWithTeachersIds> getLessonsIdsWithTeachersIds(String educationYearId, String groupId);
 }
