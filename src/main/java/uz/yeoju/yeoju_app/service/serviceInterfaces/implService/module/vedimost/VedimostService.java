@@ -41,4 +41,6 @@ public interface VedimostService {
     ApiResponse getVedimostByEducationYearId(String educationYearId);
 
     ApiResponse getLast50Vedimost();
+
+    ApiResponse getVedimostByLevel(Integer level, String educationYearId);
 }
