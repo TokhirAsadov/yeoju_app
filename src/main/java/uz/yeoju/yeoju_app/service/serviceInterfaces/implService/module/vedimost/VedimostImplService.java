@@ -263,4 +263,9 @@ public class VedimostImplService implements VedimostService{
     public ApiResponse getLast50Vedimost() {
         return new ApiResponse(true,"Last 50 vedimosts",vedimostRepository.getLast50Vedimost());
     }
+
+    @Override
+    public ApiResponse getVedimostByLevel(Integer level, String educationYearId) {
+        return null;
+    }
 }
