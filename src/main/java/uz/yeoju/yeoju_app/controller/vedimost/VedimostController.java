@@ -30,7 +30,7 @@ public class VedimostController {
             @RequestParam(name = "lessonId", required = false) String lessonId,
             @RequestParam(name = "groupId", required = false) String groupId,
             @RequestParam(name = "facultyId", required = false) String facultyId,
-            @RequestParam(name="educationYearId",required = false) String educationYearId
+            @RequestParam(name="educationYearId") @Valid String educationYearId
     ) {
 
         if (teacherId != null && lessonId != null && groupId != null) {
