@@ -17,6 +17,7 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
 
     Boolean existsVedimostByIdAndCondition(String id, VedimostCondition condition);
     Boolean existsVedimostByTeacherIdAndLessonIdAndGroupId(String teacher_id, String lesson_id, String group_id);
+    Boolean existsVedimostByEducationYearIdAndLessonIdAndGroupId(String educationYear_id, String lesson_id, String group_id);
     Boolean existsVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(String teacher_id, String lesson_id, String group_id, String educationYear_id);
     Optional<Vedimost> findVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearId(String teacher_id, String lesson_id, String group_id, String educationYear_id);
     Boolean existsVedimostByTeacherIdAndLessonIdAndGroupIdAndEducationYearIdAndCondition(String teacher_id, String lesson_id, String group_id, String educationYear_id, VedimostCondition condition);
