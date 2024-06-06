@@ -12,9 +12,9 @@ public class VedimostCreaterDto {
 //    public Integer level;
     public Timestamp deadline;
 //    public Timestamp timeClose;
-    public String condition;
-    public String teacherId;
-    public String lessonId;
+//    public String condition;
+//    public String teacherId;
+//    public String lessonId;
     public String educationYearId;
     public Set<String> groupsIds;
 
@@ -22,9 +22,9 @@ public class VedimostCreaterDto {
 //        this.level = level;
         this.deadline = deadline;
 //        this.timeClose = timeClose;
-        this.condition = condition;
-        this.teacherId = teacherId;
-        this.lessonId = lessonId;
+//        this.condition = condition;
+//        this.teacherId = teacherId;
+//        this.lessonId = lessonId;
         this.educationYearId = educationYearId;
         this.groupsIds = groupsIds;
     }
