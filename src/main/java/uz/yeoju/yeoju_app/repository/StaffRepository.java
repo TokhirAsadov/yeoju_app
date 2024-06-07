@@ -28,18 +28,18 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
 
     Optional<Staff> findStaffByUserId(String user_id);
 
-     @Query(value = "select TOP 1 u.id,u.fullName,u.email from Staff s\n" +
-             "                                              join users u on s.user_id = u.id\n" +
-             "                                              join users_Role uR on u.id = uR.users_id\n" +
-             "                                              join Role R2 on uR.roles_id = R2.id\n" +
-             "where (s.section_id=:id or s.dekanat_id=:id) and R2.roleName = 'ROLE_DEKAN' order by R2.createdAt asc",nativeQuery = true)
+    @Query(value = "select TOP 1 u.id,u.fullName,u.email from Dekanat s\n" +
+            "          join users u on s.owner_id = u.id\n" +
+            "          join users_Role uR on u.id = uR.users_id\n" +
+            "          join Role R2 on uR.roles_id = R2.id\n" +
+            "where (s.id=:id) and R2.roleName = 'ROLE_DEKAN' order by R2.createdAt asc",nativeQuery = true)
     KafedraMudiriForRektorTeacherPage getBossOfSectionForRektorStaffPageDekan(@Param("id") String id);
 
-    @Query(value = "select TOP 1 u.id,u.fullName,u.email from Staff s\n" +
-            "                                              join users u on s.user_id = u.id\n" +
+    @Query(value = "select TOP 1 u.id,u.fullName,u.email from Section s\n" +
+            "                                              join users u on s.owner_id = u.id\n" +
             "                                              join users_Role uR on u.id = uR.users_id\n" +
             "                                              join Role R2 on uR.roles_id = R2.id\n" +
-            "where s.section_id=:id order by R2.createdAt asc",nativeQuery = true)
+            "where s.id=:id order by R2.createdAt asc",nativeQuery = true)
     KafedraMudiriForRektorTeacherPage getBossOfSectionForRektorStaffPage(@Param("id") String id);
 
 
