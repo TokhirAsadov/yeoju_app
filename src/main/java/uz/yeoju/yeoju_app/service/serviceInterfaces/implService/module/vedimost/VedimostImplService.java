@@ -288,4 +288,9 @@ public class VedimostImplService implements VedimostService{
     public ApiResponse getDataAboutVedimostByDekanat(String dekanatId, String educationYearId) {
         return new ApiResponse(true,"All data about vedimosts in dekanat",vedimostRepository.getDataAboutVedimostByDekanat(dekanatId,educationYearId));
     }
+
+    @Override
+    public ApiResponse getDataAboutVedimostByKafedra(String kafedraId, String educationYearId) {
+        return new ApiResponse(true,"All data about vedimosts in kafedra",vedimostRepository.getDataAboutVedimostByKafedra(kafedraId,educationYearId));
+    }
 }
