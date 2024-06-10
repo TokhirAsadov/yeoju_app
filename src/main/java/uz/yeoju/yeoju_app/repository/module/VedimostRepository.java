@@ -794,6 +794,30 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "        where d_f.Dekanat_id=?1 and v.educationYear_id=?2 and condition='NOT_DONE') as isNotDone",nativeQuery = true)
     GetDataAboutVedimostsInDekanat getDataAboutVedimostByDekanat(String dekanatId, String educationYearId);
 
+    @Query(value = "select\n" +
+            "    v.id,\n" +
+            "    v.courseLeader,\n" +
+            "    v.headOfAcademicAffair,\n" +
+            "    v.headOfDepartment,\n" +
+            "    v.direction,\n" +
+            "    v.level,\n" +
+            "    v.deadline,\n" +
+            "    v.timeClose,\n" +
+            "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
+            "    u.fullName as teacher,\n" +
+            "    l.name as lesson,\n" +
+            "    g.name as groupName\n" +
+            "from Vedimost v\n" +
+            "         join users u on v.teacher_id = u.id\n" +
+            "         join Lesson l on l.id=v.lesson_id\n" +
+            "         join groups g on v.group_id = g.id\n" +
+            "join Faculty f on g.faculty_id = f.id\n" +
+            "join Dekanat_Faculty d_f on f.id = d_f.faculties_id\n" +
+            "where v.condition=?3 and d_f.Dekanat_id=?1 and v.educationYear_id=?2 order by v.createdAt",nativeQuery = true)
+    Set<GetVedimostOfKafedra> getDataAboutVedimostByDekanat(String dekanatId, String educationYearId,String condition);
+
     @Query(value = "select (select count(*) as counter from Vedimost v\n" +
             "                                   join Teacher t on v.teacher_id = t.user_id\n" +
             "         where t.kafedra_id=?1 and v.educationYear_id=?2) as total,\n" +
@@ -810,4 +834,27 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "                                            join Teacher t on v.teacher_id = t.user_id\n" +
             "        where t.kafedra_id=?1 and v.educationYear_id=?2 and condition='NOT_DONE') as isNotDone",nativeQuery = true)
     GetDataAboutVedimostsInDekanat getDataAboutVedimostByKafedra(String kafedraId, String educationYearId);
+
+    @Query(value = "select\n" +
+            "    v.id,\n" +
+            "    v.courseLeader,\n" +
+            "    v.headOfAcademicAffair,\n" +
+            "    v.headOfDepartment,\n" +
+            "    v.direction,\n" +
+            "    v.level,\n" +
+            "    v.deadline,\n" +
+            "    v.timeClose,\n" +
+            "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
+            "    u.fullName as teacher,\n" +
+            "    l.name as lesson,\n" +
+            "    g.name as groupName\n" +
+            "from Vedimost v\n" +
+            "         join users u on v.teacher_id = u.id\n" +
+            "         join Lesson l on l.id=v.lesson_id\n" +
+            "         join groups g on v.group_id = g.id\n" +
+            "         join Teacher t on v.teacher_id = t.user_id\n" +
+            "where t.kafedra_id=?1 and v.educationYear_id=?2 and v.condition=?3 order by v.createdAt",nativeQuery = true)
+    Set<GetVedimostOfKafedra> getDataAboutVedimostByKafedra(String dekanatId, String educationYearId,String condition);
 }
