@@ -42,6 +42,9 @@ public class VedimostController {
         else if (teacherId!=null && facultyId!=null) {
             return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndFacultyId(teacherId,facultyId,educationYearId));
         }
+        else if (teacherId!=null && level!=null) {
+            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndLevel(teacherId,level,educationYearId));
+        }
         else if (teacherId!=null && lessonId!=null) {
             return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndLessonId(teacherId,educationYearId,lessonId));
         }
@@ -50,6 +53,12 @@ public class VedimostController {
         }
         else if (lessonId!=null && facultyId!=null) {
             return ResponseEntity.ok(vedimostService.getVedimostByLessonIdAndFacultyId(educationYearId,lessonId,facultyId));
+        }
+        else if (lessonId!=null && level!=null) {
+            return ResponseEntity.ok(vedimostService.getVedimostByLessonIdAndLevel(educationYearId,lessonId,level));
+        }
+        else if (facultyId!=null && level!=null) {
+            return ResponseEntity.ok(vedimostService.getVedimostByFacultyIdAndLevel(educationYearId,facultyId,level));
         }
         else if (lessonId!=null && groupId!=null) {
             return ResponseEntity.ok(vedimostService.getVedimostByLessonIdAndGroupId(educationYearId,lessonId,groupId));
