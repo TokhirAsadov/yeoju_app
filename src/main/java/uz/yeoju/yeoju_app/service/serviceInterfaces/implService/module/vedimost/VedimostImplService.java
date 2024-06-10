@@ -278,4 +278,9 @@ public class VedimostImplService implements VedimostService{
     public ApiResponse getVedimostByFacultyIdAndLevel(String educationYearId, String facultyId, Integer level) {
         return new ApiResponse(true,"All vedimosts by faculty and course", vedimostRepository.getVedimostByFacultyIdAndLevel(facultyId,level,educationYearId));
     }
+
+    @Override
+    public ApiResponse getVedimostByTeacherIdAndLevel(String teacherId, Integer level, String educationYearId) {
+        return new ApiResponse(true,"All teacher's vedimosts by education year",vedimostRepository.getVedimostByTeacherIdAndLevel(teacherId,level,educationYearId));
+    }
 }
