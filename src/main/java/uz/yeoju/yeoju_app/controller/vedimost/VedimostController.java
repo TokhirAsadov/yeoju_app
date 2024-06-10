@@ -144,7 +144,7 @@ public class VedimostController {
     }
 
 
-    @PreAuthorize("hasRole('KAFEDRA')")
+    @PreAuthorize("hasRole('DEKAN')")
     @PostMapping("/createVedimost")
     public HttpEntity<?> createVedimost(@CurrentUser User user, @RequestBody @Valid VedimostCreaterDto dto) {
         ApiResponse response = vedimostService.createVedimost(dto);
