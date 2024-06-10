@@ -50,7 +50,7 @@ public interface VedimostService {
 
     ApiResponse getVedimostByTeacherIdAndLevel(String teacherId, Integer level, String educationYearId);
 
-    ApiResponse getDataAboutVedimostByDekanat(String dekanatId, String educationYearId);
+    ApiResponse getDataAboutVedimostByDekanat(String dekanatId, String educationYearId,String condition);
 
-    ApiResponse getDataAboutVedimostByKafedra(String kafedraId, String educationYearId);
+    ApiResponse getDataAboutVedimostByKafedra(String kafedraId, String educationYearId,String condition);
 }
