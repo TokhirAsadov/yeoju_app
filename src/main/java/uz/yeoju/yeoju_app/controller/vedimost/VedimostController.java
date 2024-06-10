@@ -22,13 +22,13 @@ public class VedimostController {
     private final VedimostService vedimostService;
 
     @GetMapping("/getDataAboutVedimostByDekanat/{dekanatId}")
-    public HttpEntity<?> getDataAboutVedimostByDekanat(@CurrentUser User user, @PathVariable String dekanatId,@RequestParam String educationYearId) {
-        return ResponseEntity.ok(vedimostService.getDataAboutVedimostByDekanat(dekanatId,educationYearId));
+    public HttpEntity<?> getDataAboutVedimostByDekanat(@CurrentUser User user, @PathVariable String dekanatId,@RequestParam String educationYearId,@RequestParam(required = false,name = "condition") String condition) {
+        return ResponseEntity.ok(vedimostService.getDataAboutVedimostByDekanat(dekanatId,educationYearId,condition));
     }
 
     @GetMapping("/getDataAboutVedimostByKafedra/{kafedraId}")
-    public HttpEntity<?> getDataAboutVedimostByKafedra(@CurrentUser User user, @PathVariable String kafedraId,@RequestParam String educationYearId) {
-        return ResponseEntity.ok(vedimostService.getDataAboutVedimostByKafedra(kafedraId,educationYearId));
+    public HttpEntity<?> getDataAboutVedimostByKafedra(@CurrentUser User user, @PathVariable String kafedraId,@RequestParam String educationYearId,@RequestParam(required = false,name = "condition") String condition) {
+        return ResponseEntity.ok(vedimostService.getDataAboutVedimostByKafedra(kafedraId,educationYearId,condition));
     }
 
 
