@@ -685,4 +685,24 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    join groups g on v.group_id = g.id\n" +
             "where g.level=?2 and g.faculty_id=?1 and v.educationYear_id=?3 order by v.createdAt",nativeQuery = true)
     Set<GetVedimostOfKafedra> getVedimostByFacultyIdAndLevel(String facultyId, Integer level, String educationYearId);
+
+    @Query(value = "select \n" +
+            "    v.id,\n" +
+            "    v.courseLeader," +
+            "    v.headOfAcademicAffair," +
+            "    v.headOfDepartment," +
+            "    v.direction,\n" +
+            "    v.level,\n" +
+            "    v.deadline,\n" +
+            "    v.timeClose,\n" +
+            "    v.condition,\n" +
+            "    u.fullName as teacher,\n" +
+            "    l.name as lesson,\n" +
+            "    g.name as groupName\n" +
+            "    from Vedimost v\n" +
+            "    join users u on v.teacher_id = u.id\n" +
+            "    join Lesson l on l.id=v.lesson_id\n" +
+            "    join groups g on v.group_id = g.id\n" +
+            "where g.level=?2 and v.teacher_id=?1 and v.educationYear_id=?3 order by v.createdAt",nativeQuery = true)
+    Set<GetVedimostOfKafedra> getVedimostByTeacherIdAndLevel(String teacherId, Integer level, String educationYearId);
 }
