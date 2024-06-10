@@ -49,7 +49,7 @@ public class VedimostImplService implements VedimostService{
                 if (existsGroup) {
                     Set<GetLessonsIdsWithTeachersIds> ids = vedimostRepository.getLessonsIdsWithTeachersIds(dto.educationYearId, groupId);
                     ids.forEach(id->{
-                        Boolean existsVedimost = vedimostRepository.existsVedimostByEducationYearIdAndLessonIdAndGroupId(dto.educationYearId, id.getLessonId(), id.getTeacherId());
+                        Boolean existsVedimost = vedimostRepository.existsVedimostByEducationYearIdAndLessonIdAndGroupId(dto.educationYearId, id.getLessonId(), groupId);
                         if (!existsVedimost){
                             Group group = groupRepository.getById(groupId);
                             ApiResponse dataOfLeaders = teacherService.getDataOfLeaders(userRepository.findById(id.getTeacherId()).orElse(null).getId(), group.getName());
