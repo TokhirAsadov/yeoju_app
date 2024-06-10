@@ -4,11 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import uz.yeoju.yeoju_app.entity.module.Vedimost;
 import uz.yeoju.yeoju_app.entity.module.VedimostCondition;
-import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetAllFinalGradesOfVedimost;
-import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetLessonsIdsWithTeachersIds;
-import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetVedimostOfKafedra;
-import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetVedimostOfKafedraWithFinalGrades;
+import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -705,4 +703,31 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    join groups g on v.group_id = g.id\n" +
             "where g.level=?2 and v.teacher_id=?1 and v.educationYear_id=?3 order by v.createdAt",nativeQuery = true)
     Set<GetVedimostOfKafedra> getVedimostByTeacherIdAndLevel(String teacherId, Integer level, String educationYearId);
+
+    @Query(value = "select (select count(*) as counter from Vedimost v\n" +
+            "                                             join groups g on v.group_id = g.id\n" +
+            "                                             join Faculty f on g.faculty_id = f.id\n" +
+            "                                             join Dekanat_Faculty d_f on f.id = d_f.faculties_id\n" +
+            "         where d_f.Dekanat_id=?1 and v.educationYear_id=?2) as total,\n" +
+            "       (select count(*) as counter from Vedimost v\n" +
+            "                                            join groups g on v.group_id = g.id\n" +
+            "                                            join Faculty f on g.faculty_id = f.id\n" +
+            "                                            join Dekanat_Faculty d_f on f.id = d_f.faculties_id\n" +
+            "        where d_f.Dekanat_id=?1 and v.educationYear_id=?2 and condition='OPEN') as isOpen,\n" +
+            "       (select count(*) as counter from Vedimost v\n" +
+            "                                            join groups g on v.group_id = g.id\n" +
+            "                                            join Faculty f on g.faculty_id = f.id\n" +
+            "                                            join Dekanat_Faculty d_f on f.id = d_f.faculties_id\n" +
+            "        where d_f.Dekanat_id=?1 and v.educationYear_id=?2 and condition='DONE') as isDone,\n" +
+            "       (select count(*) as counter from Vedimost v\n" +
+            "                                            join groups g on v.group_id = g.id\n" +
+            "                                            join Faculty f on g.faculty_id = f.id\n" +
+            "                                            join Dekanat_Faculty d_f on f.id = d_f.faculties_id\n" +
+            "        where d_f.Dekanat_id=?1 and v.educationYear_id=?2 and condition='CLOSE') as isClose,\n" +
+            "       (select count(*) as counter from Vedimost v\n" +
+            "                                            join groups g on v.group_id = g.id\n" +
+            "                                            join Faculty f on g.faculty_id = f.id\n" +
+            "                                            join Dekanat_Faculty d_f on f.id = d_f.faculties_id\n" +
+            "        where d_f.Dekanat_id=?1 and v.educationYear_id=?2 and condition='NOT_DONE') as isNotDone",nativeQuery = true)
+    GetDataAboutVedimostsInDekanat getDataAboutVedimostByDekanat(String dekanatId, String educationYearId);
 }
