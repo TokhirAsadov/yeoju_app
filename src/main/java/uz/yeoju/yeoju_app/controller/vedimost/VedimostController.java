@@ -26,6 +26,11 @@ public class VedimostController {
         return ResponseEntity.ok(vedimostService.getDataAboutVedimostByDekanat(dekanatId,educationYearId));
     }
 
+    @GetMapping("/getDataAboutVedimostByKafedra/{kafedraId}")
+    public HttpEntity<?> getDataAboutVedimostByKafedra(@CurrentUser User user, @PathVariable String kafedraId,@RequestParam String educationYearId) {
+        return ResponseEntity.ok(vedimostService.getDataAboutVedimostByKafedra(kafedraId,educationYearId));
+    }
+
 
     @PreAuthorize("hasAnyRole('KAFEDRA','MONITORING','TEACHER')")
     @GetMapping("/getVedimostByAllParams")
