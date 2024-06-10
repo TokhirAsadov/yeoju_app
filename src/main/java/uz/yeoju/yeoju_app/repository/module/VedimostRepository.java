@@ -38,6 +38,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -57,6 +59,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -78,6 +82,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -119,6 +125,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.timeClose,\n" +
             "    v.condition,\n" +
             "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
+            "    u.id as teacherId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -140,6 +148,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -161,6 +171,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -182,6 +194,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -202,6 +216,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -222,6 +238,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -241,6 +259,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -261,6 +281,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -281,6 +303,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -301,6 +325,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -320,6 +346,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -340,6 +368,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -360,6 +390,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -380,6 +412,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -400,6 +434,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -420,6 +456,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -440,6 +478,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -460,6 +500,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -480,6 +522,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -501,6 +545,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -521,6 +567,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -541,6 +589,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -562,6 +612,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -583,6 +635,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -604,6 +658,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.timeClose,\n" +
             "    v.condition,\n" +
             "    u.fullName as teacher,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
             "    from Vedimost v\n" +
@@ -623,6 +679,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -654,6 +712,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -674,6 +734,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
@@ -694,6 +756,8 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    v.deadline,\n" +
             "    v.timeClose,\n" +
             "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
             "    u.fullName as teacher,\n" +
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +

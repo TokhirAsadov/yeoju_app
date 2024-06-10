@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 public interface GetVedimostOfKafedra {
     String getId();
+    String getLessonId();
+    String getTeacherId();
     Integer getLevel();
     Timestamp getDeadline();
     Timestamp getTimeClose();
