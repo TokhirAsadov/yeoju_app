@@ -136,7 +136,7 @@ public class VedimostController {
     public HttpEntity<?> getVedimostByKafedra(@CurrentUser User user, @PathVariable String kafedraId,@RequestParam String educationYearId) {
         return ResponseEntity.ok(vedimostService.getVedimostByKafedra(kafedraId,educationYearId));
     }
-    @PreAuthorize("hasAnyRole('KAFEDRA','MONITORING')")
+    @PreAuthorize("hasAnyRole('DEKAN','MONITORING')")
     @PutMapping("/updateVedimost")
     public HttpEntity<?> updateVedimost(@CurrentUser User user, @RequestBody @Valid VedimostUpdaterDto dto) {
         ApiResponse response = vedimostService.updateVedimost(dto);
@@ -151,7 +151,7 @@ public class VedimostController {
         return ResponseEntity.status(response.isSuccess()?201:401).body(response);
     }
 
-    @PreAuthorize("hasRole('KAFEDRA')")
+    @PreAuthorize("hasRole('DEKAN')")
     @DeleteMapping("/deleteVedimost/{id}")
     public HttpEntity<?> deleteVedimost(@CurrentUser User user, @PathVariable String id) {
         ApiResponse response = vedimostService.deleteVedimostById(id);
