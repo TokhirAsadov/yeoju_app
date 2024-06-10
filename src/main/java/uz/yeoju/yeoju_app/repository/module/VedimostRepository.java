@@ -730,4 +730,21 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "                                            join Dekanat_Faculty d_f on f.id = d_f.faculties_id\n" +
             "        where d_f.Dekanat_id=?1 and v.educationYear_id=?2 and condition='NOT_DONE') as isNotDone",nativeQuery = true)
     GetDataAboutVedimostsInDekanat getDataAboutVedimostByDekanat(String dekanatId, String educationYearId);
+
+    @Query(value = "select (select count(*) as counter from Vedimost v\n" +
+            "                                   join Teacher t on v.teacher_id = t.user_id\n" +
+            "         where t.kafedra_id=?1 and v.educationYear_id=?2) as total,\n" +
+            "       (select count(*) as counter from Vedimost v\n" +
+            "                                           join Teacher t on v.teacher_id = t.user_id\n" +
+            "         where t.kafedra_id=?1 and v.educationYear_id=?2 and condition='OPEN') as isOpen,\n" +
+            "       (select count(*) as counter from Vedimost v\n" +
+            "                                           join Teacher t on v.teacher_id = t.user_id\n" +
+            "         where t.kafedra_id=?1 and v.educationYear_id=?2 and condition='DONE') as isDone,\n" +
+            "       (select count(*) as counter from Vedimost v\n" +
+            "                                           join Teacher t on v.teacher_id = t.user_id\n" +
+            "         where t.kafedra_id=?1 and v.educationYear_id=?2 and condition='CLOSE') as isClose,\n" +
+            "       (select count(*) as counter from Vedimost v\n" +
+            "                                            join Teacher t on v.teacher_id = t.user_id\n" +
+            "        where t.kafedra_id=?1 and v.educationYear_id=?2 and condition='NOT_DONE') as isNotDone",nativeQuery = true)
+    GetDataAboutVedimostsInDekanat getDataAboutVedimostByKafedra(String kafedraId, String educationYearId);
 }
