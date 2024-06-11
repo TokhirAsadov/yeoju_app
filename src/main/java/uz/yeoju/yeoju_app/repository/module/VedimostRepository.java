@@ -1084,4 +1084,40 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "         join Teacher t on v.teacher_id = t.user_id\n" +
             "where t.kafedra_id=?1 and v.educationYear_id=?2 and v.condition=?3 group by v.id, v.createdAt, v.courseLeader, v.headOfAcademicAffair, v.headOfDepartment, v.direction, v.level, v.deadline, v.timeClose, v.condition, u.id, l.id, u.fullName, l.name, g.name order by v.createdAt",nativeQuery = true)
     Set<GetVedimostOfKafedra> getDataAboutVedimostByKafedra(String dekanatId, String educationYearId,String condition);
+
+    @Query(value = "select (select count(*) as counter from Vedimost v\n" +
+            "         where v.educationYear_id=?1) as total,\n" +
+            "       (select count(*) as counter from Vedimost v\n" +
+            "         where v.educationYear_id=?1 and condition='OPEN') as isOpen,\n" +
+            "       (select count(*) as counter from Vedimost v\n" +
+            "         where v.educationYear_id=?1 and condition='DONE') as isDone,\n" +
+            "       (select count(*) as counter from Vedimost v\n" +
+            "         where v.educationYear_id=?1 and condition='CLOSE') as isClose,\n" +
+            "       (select count(*) as counter from Vedimost v\n" +
+            "        where v.educationYear_id=?1 and condition='NOT_DONE') as isNotDone",nativeQuery = true)
+    GetDataAboutVedimostsInDekanat getDataAboutVedimostForMonitoring(String educationYearId);
+
+    @Query(value = "select\n" +
+            "    v.id,\n" +
+            "    v.createdAt,\n" +
+            "    v.courseLeader,\n" +
+            "    v.headOfAcademicAffair,\n" +
+            "    v.headOfDepartment,\n" +
+            "    v.direction,\n" +
+            "    v.level,\n" +
+            "    v.deadline,\n" +
+            "    v.timeClose,\n" +
+            "    v.condition,\n" +
+            "    u.id as teacherId,\n" +
+            "    l.id as lessonId,\n" +
+            "    u.fullName as teacher,\n" +
+            "    l.name as lesson,\n" +
+            "    g.name as groupName\n" +
+            "from Vedimost v\n" +
+            "         join users u on v.teacher_id = u.id\n" +
+            "         join Lesson l on l.id=v.lesson_id\n" +
+            "         join groups g on v.group_id = g.id\n" +
+            "         join Teacher t on v.teacher_id = t.user_id\n" +
+            "where v.educationYear_id=?1 and v.condition=?2 group by v.id, v.createdAt, v.courseLeader, v.headOfAcademicAffair, v.headOfDepartment, v.direction, v.level, v.deadline, v.timeClose, v.condition, u.id, l.id, u.fullName, l.name, g.name order by v.createdAt",nativeQuery = true)
+    Set<GetVedimostOfKafedra> getDataAboutVedimostForMonitoring(String educationYearId, String condition);
 }
