@@ -42,7 +42,7 @@ public interface VedimostService {
 
     ApiResponse getLast50Vedimost();
 
-    ApiResponse getVedimostByLevel(Integer level, String educationYearId);
+    ApiResponse getVedimostByLevel(String type,String dekanatOrKafedraId,Integer level, String educationYearId);
 
     ApiResponse getVedimostByLessonIdAndLevel(String type,String dekanatOrKafedraId,String educationYearId, String lessonId, Integer level);
 
