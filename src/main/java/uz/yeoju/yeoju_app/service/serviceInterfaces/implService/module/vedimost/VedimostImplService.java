@@ -198,8 +198,8 @@ public class VedimostImplService implements VedimostService{
     }
 
     @Override
-    public ApiResponse getVedimostByGroupId(String groupId, String educationYearId) {
-        return new ApiResponse(true,"All vedimosts of group by education year",educationYearId!=null?vedimostRepository.getVedimostByGroupId(groupId,educationYearId):vedimostRepository.getVedimostByGroupId(groupId));
+    public ApiResponse getVedimostByGroupId(String type,String dekanatOrKafedraId,String groupId, String educationYearId) {
+        return new ApiResponse(true,"All vedimosts of group by education year",type!="MONITORING" ? vedimostRepository.getVedimostByGroupId(groupId,educationYearId):vedimostRepository.getVedimostByGroupId(groupId,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
