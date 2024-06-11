@@ -14,6 +14,7 @@ import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetVedimostOfKafedra;
 import uz.yeoju.yeoju_app.payload.resDto.uquvbulim.DataOfLeaders;
 import uz.yeoju.yeoju_app.repository.GroupRepository;
 import uz.yeoju.yeoju_app.repository.LessonRepository;
+import uz.yeoju.yeoju_app.repository.TeacherRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 import uz.yeoju.yeoju_app.repository.module.FinalGradeOfStudentRepository;
@@ -29,6 +30,7 @@ public class VedimostImplService implements VedimostService{
     private final VedimostRepository vedimostRepository;
     private final FinalGradeOfStudentRepository finalGradeOfStudentRepository;
     private final UserRepository userRepository;
+    private final TeacherRepository teacherRepository;
     private final LessonRepository lessonRepository;
     private final EducationYearRepository educationYearRepository;
     private final GroupRepository groupRepository;
@@ -48,33 +50,38 @@ public class VedimostImplService implements VedimostService{
                 boolean existsGroup = groupRepository.existsById(groupId);
                 if (existsGroup) {
                     Set<GetLessonsIdsWithTeachersIds> ids = vedimostRepository.getLessonsIdsWithTeachersIds(dto.educationYearId, groupId);
-                    ids.forEach(id->{
-                        Boolean existsVedimost = vedimostRepository.existsVedimostByEducationYearIdAndLessonIdAndGroupId(dto.educationYearId, id.getLessonId(), groupId);
-                        if (!existsVedimost){
-                            Group group = groupRepository.getById(groupId);
-                            ApiResponse dataOfLeaders = teacherService.getDataOfLeaders(userRepository.findById(id.getTeacherId()).orElse(null).getId(), group.getName());
-                            if (dataOfLeaders.isSuccess()){
-                                DataOfLeaders obj = (DataOfLeaders) dataOfLeaders.getObj();
-                                Vedimost vedimost = new Vedimost();
-                                vedimost.setCourseLeader(obj.getCourseLeader());
-                                vedimost.setHeadOfDepartment(obj.getHeadOfDepartment());
-                                vedimost.setHeadOfAcademicAffair(obj.getHeadOfAcademicAffair());
-                                vedimost.setDirection(obj.getDirection());
+                    ids.forEach(id-> {
+                        Boolean existsTeacher = teacherRepository.existsTeacherByUserId(id.getTeacherId());
+                        if (existsTeacher) {
+                            Boolean existsVedimost = vedimostRepository.existsVedimostByEducationYearIdAndLessonIdAndGroupId(dto.educationYearId, id.getLessonId(), groupId);
+                            if (!existsVedimost) {
+                                Group group = groupRepository.getById(groupId);
+                                ApiResponse dataOfLeaders = teacherService.getDataOfLeaders(userRepository.findById(id.getTeacherId()).orElse(null).getId(), group.getName());
+                                if (dataOfLeaders.isSuccess()) {
+                                    DataOfLeaders obj = (DataOfLeaders) dataOfLeaders.getObj();
+                                    Vedimost vedimost = new Vedimost();
+                                    vedimost.setCourseLeader(obj.getCourseLeader());
+                                    vedimost.setHeadOfDepartment(obj.getHeadOfDepartment());
+                                    vedimost.setHeadOfAcademicAffair(obj.getHeadOfAcademicAffair());
+                                    vedimost.setDirection(obj.getDirection());
 
-                                vedimost.setCourseLeader(obj.getCourseLeader());
-                                vedimost.setLevel(group.getLevel());
-                                vedimost.setDeadline(dto.deadline);
-//                            vedimost.setTimeClose(dto.timeClose);
-                                vedimost.setCondition(VedimostCondition.OPEN);
-                                vedimost.setTeacher(userRepository.findById(id.getTeacherId()).orElse(null));
-                                vedimost.setLesson(lessonRepository.findById(id.getLessonId()).orElse(null));
-                                vedimost.setGroup(group);
-                                vedimost.setEducationYear(educationYearRepository.findById(dto.educationYearId).orElse(null));
-                                vedimostRepository.save(vedimost);
+                                    vedimost.setCourseLeader(obj.getCourseLeader());
+                                    vedimost.setLevel(group.getLevel());
+                                    vedimost.setDeadline(dto.deadline);
+    //                            vedimost.setTimeClose(dto.timeClose);
+                                    vedimost.setCondition(VedimostCondition.OPEN);
+                                    vedimost.setTeacher(userRepository.findById(id.getTeacherId()).orElse(null));
+                                    vedimost.setLesson(lessonRepository.findById(id.getLessonId()).orElse(null));
+                                    vedimost.setGroup(group);
+                                    vedimost.setEducationYear(educationYearRepository.findById(dto.educationYearId).orElse(null));
+                                    vedimostRepository.save(vedimost);
+                                } else {
+                                    throw new UserNotFoundException("Data about course leader has error. " + dataOfLeaders.getMessage());
+                                }
                             }
-                            else {
-                                throw new UserNotFoundException("Data about course leader has error. "+dataOfLeaders.getMessage());
-                            }
+                        }
+                        else {
+                            throw new UserNotFoundException("Teacher does not exist in Kafedra. Teacher name is " + userRepository.findById(id.getTeacherId()).orElse(null).getFullName());
                         }
                     });
                 }
