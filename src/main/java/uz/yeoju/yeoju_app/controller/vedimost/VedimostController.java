@@ -21,8 +21,8 @@ import javax.validation.Valid;
 public class VedimostController {
     private final VedimostService vedimostService;
 
-    @GetMapping("/getDataAboutVedimostByDekanat/{educationYearId}")
-    public HttpEntity<?> getDataAboutVedimostByDekanat(@CurrentUser User user, @PathVariable String educationYearId,@RequestParam(required = false,name = "condition") String condition) {
+    @GetMapping("/getDataAboutVedimostForMonitoring/{educationYearId}")
+    public HttpEntity<?> getDataAboutVedimostForMonitoring(@CurrentUser User user, @PathVariable String educationYearId,@RequestParam(required = false,name = "condition") String condition) {
         return ResponseEntity.ok(vedimostService.getDataAboutVedimostForMonitoring(educationYearId,condition));
     }
 
