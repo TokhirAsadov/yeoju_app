@@ -260,8 +260,8 @@ public class VedimostImplService implements VedimostService{
     }
 
     @Override
-    public ApiResponse getLast50Vedimost() {
-        return new ApiResponse(true,"Last 50 vedimosts",vedimostRepository.getLast50Vedimost());
+    public ApiResponse getLast50Vedimost(String type,String dekanatOrKafedraId) {
+        return new ApiResponse(true,"Last 50 vedimosts",type!="MONITORING" ?vedimostRepository.getLast50Vedimost():vedimostRepository.getLast50Vedimost(dekanatOrKafedraId));
     }
 
     @Override
