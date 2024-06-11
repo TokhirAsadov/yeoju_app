@@ -624,11 +624,15 @@ public interface VedimostRepository extends JpaRepository<Vedimost, String> {
             "    l.name as lesson,\n" +
             "    g.name as groupName\n" +
             "    from Vedimost v\n" +
-            "    join users u on v.teacher_id = u.id\n" +
-            "    join Lesson l on l.id=v.lesson_id\n" +
-            "    join groups g on v.group_id = g.id\n" +
-            "where g.faculty_id=?1 order by v.createdAt desc",nativeQuery = true)
-    Set<GetVedimostOfKafedra> getVedimostByFacultyId(String facultyId);
+            "         join users u on v.teacher_id = u.id\n" +
+            "         join Teacher t on u.id = t.user_id\n" +
+            "         join Lesson l on l.id=v.lesson_id\n" +
+            "         join groups g on v.group_id = g.id\n" +
+            "         join Faculty f on g.faculty_id = f.id\n" +
+            "         join Dekanat_Faculty d_f on f.id = d_f.faculties_id\n" +
+            "where g.faculty_id=?1 and v.educationYear_id=?2 and (d_f.Dekanat_id=?3 or t.kafedra_id=?3 ) order by v.createdAt desc",nativeQuery = true)
+    Set<GetVedimostOfKafedra> getVedimostByFacultyId(String facultyId,String educationYearId,String dekanatOrKafedraId);
+
 
 
     @Query(value = "select Top 1\n" +
