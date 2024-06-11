@@ -21,6 +21,7 @@ import uz.yeoju.yeoju_app.repository.module.FinalGradeOfStudentRepository;
 import uz.yeoju.yeoju_app.repository.module.VedimostRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.teacher.TeacherService;
 
+import javax.transaction.Transactional;
 import java.util.Objects;
 import java.util.Set;
 
@@ -41,6 +42,7 @@ public class VedimostImplService implements VedimostService{
         return null;
     }
 
+    @Transactional
     @Override
     public ApiResponse createVedimost(VedimostCreaterDto dto) {
         boolean existsEducationYearId = educationYearRepository.existsById(dto.educationYearId);
