@@ -100,8 +100,8 @@ public class VedimostImplService implements VedimostService{
     }
 
     @Override
-    public ApiResponse getVedimostByTeacherId(String teacherId, String educationYearId) {
-        return new ApiResponse(true,"All teacher's vedimosts by education year",educationYearId!=null ? vedimostRepository.getVedimostByTeacherId(teacherId,educationYearId):vedimostRepository.getVedimostByTeacherId(teacherId));
+    public ApiResponse getVedimostByTeacherId(String type,String dekanatOrKafedraId,String teacherId, String educationYearId) {
+        return new ApiResponse(true,"All teacher's vedimosts by education year",type!="MONITORING" ? vedimostRepository.getVedimostByTeacherId(teacherId,educationYearId):vedimostRepository.getVedimostByTeacherId(teacherId,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
