@@ -41,58 +41,60 @@ public class VedimostController {
             @RequestParam(name = "groupId", required = false) String groupId,
             @RequestParam(name = "facultyId", required = false) String facultyId,
             @RequestParam(name = "level", required = false) Integer level,
-            @RequestParam(name="educationYearId") @Valid String educationYearId
+            @RequestParam(name="educationYearId") @Valid String educationYearId,
+            @RequestParam(name="type") @Valid String type,
+            @RequestParam(name="dekanatOrKafedraId", required = false) String dekanatOrKafedraId
     ) {
         if (teacherId != null && lessonId != null && groupId != null) {
             return ResponseEntity.ok(vedimostService.getVedimostForBeingDone(teacherId,lessonId,groupId,educationYearId));
         }
         else if (teacherId!=null && lessonId!=null && facultyId!=null) {
-            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(teacherId,lessonId,facultyId,educationYearId));
+            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(dekanatOrKafedraId,teacherId,lessonId,facultyId,educationYearId,type));
         }
         else if (teacherId!=null && facultyId!=null) {
-            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndFacultyId(teacherId,facultyId,educationYearId));
+            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndFacultyId(type,dekanatOrKafedraId,teacherId,facultyId,educationYearId));
         }
         else if (teacherId!=null && level!=null) {
-            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndLevel(teacherId,level,educationYearId));
+            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndLevel(type,dekanatOrKafedraId,teacherId,level,educationYearId));
         }
         else if (teacherId!=null && lessonId!=null) {
-            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndLessonId(teacherId,educationYearId,lessonId));
+            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndLessonId(type,dekanatOrKafedraId,teacherId,educationYearId,lessonId));
         }
         else if (teacherId!=null && groupId!=null) {
-            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndGroupId(teacherId,educationYearId,groupId));
+            return ResponseEntity.ok(vedimostService.getVedimostByTeacherIdAndGroupId(type,dekanatOrKafedraId,teacherId,educationYearId,groupId));
         }
         else if (lessonId!=null && facultyId!=null) {
-            return ResponseEntity.ok(vedimostService.getVedimostByLessonIdAndFacultyId(educationYearId,lessonId,facultyId));
+            return ResponseEntity.ok(vedimostService.getVedimostByLessonIdAndFacultyId(type,dekanatOrKafedraId,educationYearId,lessonId,facultyId));
         }
         else if (lessonId!=null && level!=null) {
-            return ResponseEntity.ok(vedimostService.getVedimostByLessonIdAndLevel(educationYearId,lessonId,level));
+            return ResponseEntity.ok(vedimostService.getVedimostByLessonIdAndLevel(type,dekanatOrKafedraId,educationYearId,lessonId,level));
         }
         else if (facultyId!=null && level!=null) {
-            return ResponseEntity.ok(vedimostService.getVedimostByFacultyIdAndLevel(educationYearId,facultyId,level));
+            return ResponseEntity.ok(vedimostService.getVedimostByFacultyIdAndLevel(type,dekanatOrKafedraId,educationYearId,facultyId,level));
         }
         else if (lessonId!=null && groupId!=null) {
-            return ResponseEntity.ok(vedimostService.getVedimostByLessonIdAndGroupId(educationYearId,lessonId,groupId));
+            return ResponseEntity.ok(vedimostService.getVedimostByLessonIdAndGroupId(type,dekanatOrKafedraId,educationYearId,lessonId,groupId));
         }
         else if (teacherId!=null){
-            return ResponseEntity.ok(vedimostService.getVedimostByTeacherId(teacherId,educationYearId));
+            return ResponseEntity.ok(vedimostService.getVedimostByTeacherId(type,dekanatOrKafedraId,teacherId,educationYearId));
         }
         else if (lessonId!=null){
-            return ResponseEntity.ok(vedimostService.getVedimostByLessonId(lessonId,educationYearId));
+            return ResponseEntity.ok(vedimostService.getVedimostByLessonId(type,dekanatOrKafedraId,lessonId,educationYearId));
         }
         else if (groupId!=null){
-            return ResponseEntity.ok(vedimostService.getVedimostByGroupId(groupId,educationYearId));
+            return ResponseEntity.ok(vedimostService.getVedimostByGroupId(type,dekanatOrKafedraId,groupId,educationYearId));
         }
         else if (facultyId!=null){
-            return ResponseEntity.ok(vedimostService.getVedimostByFacultyId(facultyId,educationYearId));
+            return ResponseEntity.ok(vedimostService.getVedimostByFacultyId(type,dekanatOrKafedraId,facultyId,educationYearId));
         }
         else if (level!=null){
-            return ResponseEntity.ok(vedimostService.getVedimostByLevel(level,educationYearId));
+            return ResponseEntity.ok(vedimostService.getVedimostByLevel(type,dekanatOrKafedraId,level,educationYearId));
         }
         else if (educationYearId!=null){
-            return ResponseEntity.ok(vedimostService.getVedimostByEducationYearId(educationYearId));
+            return ResponseEntity.ok(vedimostService.getVedimostByEducationYearId(type,dekanatOrKafedraId,educationYearId));
         }
         else {
-            return ResponseEntity.ok(vedimostService.getLast50Vedimost());
+            return ResponseEntity.ok(vedimostService.getLast50Vedimost(type,dekanatOrKafedraId));
         }
 
 
@@ -101,14 +103,18 @@ public class VedimostController {
 
     @PreAuthorize("hasAnyRole('DEKAN','MONITORING')")
     @GetMapping("/getVedimostByFacultyId/{facultyId}")
-    public HttpEntity<?> getVedimostByFacultyId(@CurrentUser User user, @PathVariable String facultyId,@RequestParam String educationYearId) {
-        return ResponseEntity.ok(vedimostService.getVedimostByFacultyId(facultyId,educationYearId));
+    public HttpEntity<?> getVedimostByFacultyId(@CurrentUser User user, @PathVariable String facultyId,@RequestParam String educationYearId,
+                                                @RequestParam(name="type") @Valid String type,
+                                                @RequestParam(name="dekanatOrKafedraId", required = false) String dekanatOrKafedraId){
+        return ResponseEntity.ok(vedimostService.getVedimostByFacultyId(type,dekanatOrKafedraId, facultyId,educationYearId));
     }
 
     @PreAuthorize("hasAnyRole('DEKAN')")
     @GetMapping("/getVedimostByGroupId/{groupId}")
-    public HttpEntity<?> getVedimostByGroupId(@CurrentUser User user, @PathVariable String groupId,@RequestParam String educationYearId) {
-        return ResponseEntity.ok(vedimostService.getVedimostByGroupId(groupId,educationYearId));
+    public HttpEntity<?> getVedimostByGroupId(@CurrentUser User user, @PathVariable String groupId,@RequestParam String educationYearId,
+                                              @RequestParam(name="type") @Valid String type,
+                                              @RequestParam(name="dekanatOrKafedraId", required = false) String dekanatOrKafedraId) {
+        return ResponseEntity.ok(vedimostService.getVedimostByGroupId(type,dekanatOrKafedraId,groupId,educationYearId));
     }
 
     @PreAuthorize("hasAnyRole('DEKAN')")
@@ -119,8 +125,10 @@ public class VedimostController {
 
     @PreAuthorize("hasAnyRole('KAFEDRA','MONITORING','TEACHER')")
     @GetMapping("/getVedimostByTeacherId/{teacherId}")
-    public HttpEntity<?> getVedimostByTeacherId(@CurrentUser User user, @PathVariable String teacherId,@RequestParam String educationYearId) {
-        return ResponseEntity.ok(vedimostService.getVedimostByTeacherId(teacherId,educationYearId));
+    public HttpEntity<?> getVedimostByTeacherId(@CurrentUser User user, @PathVariable String teacherId,@RequestParam String educationYearId,
+                                                @RequestParam(name="type") @Valid String type,
+                                                @RequestParam(name="dekanatOrKafedraId", required = false) String dekanatOrKafedraId) {
+        return ResponseEntity.ok(vedimostService.getVedimostByTeacherId(type,dekanatOrKafedraId,teacherId,educationYearId));
     }
 
     @PreAuthorize("hasAnyRole('KAFEDRA','MONITORING','TEACHER')")
