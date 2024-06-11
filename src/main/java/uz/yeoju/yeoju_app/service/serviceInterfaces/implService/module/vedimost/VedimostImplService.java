@@ -96,17 +96,17 @@ public class VedimostImplService implements VedimostService{
 
     @Override
     public ApiResponse getVedimostByLessonId(String type,String dekanatOrKafedraId,String lessonId, String educationYearId) {
-        return new ApiResponse(true,"All vedimosts by lesson",type!="MONITORING" ? vedimostRepository.getVedimostByLessonId(lessonId,educationYearId):vedimostRepository.getVedimostByLessonId(lessonId,educationYearId,dekanatOrKafedraId));
+        return new ApiResponse(true,"All vedimosts by lesson",type=="MONITORING" ? vedimostRepository.getVedimostByLessonId(lessonId,educationYearId):vedimostRepository.getVedimostByLessonId(lessonId,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
     public ApiResponse getVedimostByTeacherId(String type,String dekanatOrKafedraId,String teacherId, String educationYearId) {
-        return new ApiResponse(true,"All teacher's vedimosts by education year",type!="MONITORING" ? vedimostRepository.getVedimostByTeacherId(teacherId,educationYearId):vedimostRepository.getVedimostByTeacherId(teacherId,educationYearId,dekanatOrKafedraId));
+        return new ApiResponse(true,"All teacher's vedimosts by education year",type=="MONITORING" ? vedimostRepository.getVedimostByTeacherId(teacherId,educationYearId):vedimostRepository.getVedimostByTeacherId(teacherId,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
     public ApiResponse getVedimostByTeacherIdAndLessonId(String type,String dekanatOrKafedraId,String teacherId, String educationYearId, String lessonId) {
-        return new ApiResponse(true,"All teacher's vedimosts by education year",type!="MONITORING" ? vedimostRepository.getVedimostByTeacherIdAndLessonIdAndEducationYearId(teacherId,educationYearId,lessonId):vedimostRepository.getVedimostByTeacherIdAndLessonIdAndEducationYearId(teacherId,educationYearId,lessonId,dekanatOrKafedraId));
+        return new ApiResponse(true,"All teacher's vedimosts by education year",type=="MONITORING" ? vedimostRepository.getVedimostByTeacherIdAndLessonIdAndEducationYearId(teacherId,educationYearId,lessonId):vedimostRepository.getVedimostByTeacherIdAndLessonIdAndEducationYearId(teacherId,educationYearId,lessonId,dekanatOrKafedraId));
     }
 
     @Override
@@ -199,12 +199,12 @@ public class VedimostImplService implements VedimostService{
 
     @Override
     public ApiResponse getVedimostByGroupId(String type,String dekanatOrKafedraId,String groupId, String educationYearId) {
-        return new ApiResponse(true,"All vedimosts of group by education year",type!="MONITORING" ? vedimostRepository.getVedimostByGroupId(groupId,educationYearId):vedimostRepository.getVedimostByGroupId(groupId,educationYearId,dekanatOrKafedraId));
+        return new ApiResponse(true,"All vedimosts of group by education year",type=="MONITORING" ? vedimostRepository.getVedimostByGroupId(groupId,educationYearId):vedimostRepository.getVedimostByGroupId(groupId,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
     public ApiResponse getVedimostByFacultyId(String type,String dekanatOrKafedraId,String facultyId, String educationYearId) {
-        return new ApiResponse(true,"All vedimosts of group by faculty id",type!="MONITORING" ? vedimostRepository.getVedimostByFacultyId(facultyId,educationYearId):vedimostRepository.getVedimostByFacultyId(facultyId,educationYearId,dekanatOrKafedraId));
+        return new ApiResponse(true,"All vedimosts of group by faculty id",type=="MONITORING" ? vedimostRepository.getVedimostByFacultyId(facultyId,educationYearId):vedimostRepository.getVedimostByFacultyId(facultyId,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
@@ -231,57 +231,57 @@ public class VedimostImplService implements VedimostService{
 
     @Override
     public ApiResponse getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(String dekanatOrKafedraId,String teacherId, String lessonId, String facultyId, String educationYearId,String type) {
-        return new ApiResponse(true,"All vedimosts of group by faculty id",type!="MONITORING" ? vedimostRepository.getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(teacherId,lessonId,facultyId,educationYearId,dekanatOrKafedraId):vedimostRepository.getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(teacherId,lessonId,facultyId,educationYearId));
+        return new ApiResponse(true,"All vedimosts of group by faculty id",type=="MONITORING" ? vedimostRepository.getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(teacherId,lessonId,facultyId,educationYearId,dekanatOrKafedraId):vedimostRepository.getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(teacherId,lessonId,facultyId,educationYearId));
     }
 
     @Override
     public ApiResponse getVedimostByTeacherIdAndFacultyId(String type,String dekanatOrKafedraId,String teacherId, String facultyId, String educationYearId) {
-        return new ApiResponse(true,"All teacher's vedimosts by education year",type!="MONITORING" ? vedimostRepository.getVedimostByTeacherIdAndFacultyIdAndEducationId(teacherId,facultyId,educationYearId):vedimostRepository.getVedimostByTeacherIdAndFacultyIdAndEducationId(teacherId,facultyId,educationYearId,dekanatOrKafedraId));
+        return new ApiResponse(true,"All teacher's vedimosts by education year",type=="MONITORING" ? vedimostRepository.getVedimostByTeacherIdAndFacultyIdAndEducationId(teacherId,facultyId,educationYearId):vedimostRepository.getVedimostByTeacherIdAndFacultyIdAndEducationId(teacherId,facultyId,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
     public ApiResponse getVedimostByLessonIdAndFacultyId(String type,String dekanatOrKafedraId,String educationYearId, String lessonId, String facultyId) {
-        return new ApiResponse(true,"All vedimosts by lesson and faculty",type!="MONITORING" ? vedimostRepository.getVedimostByLessonIdAndFacultyId(lessonId,facultyId,educationYearId):vedimostRepository.getVedimostByLessonIdAndFacultyId(lessonId,facultyId,educationYearId,dekanatOrKafedraId));
+        return new ApiResponse(true,"All vedimosts by lesson and faculty",type=="MONITORING" ? vedimostRepository.getVedimostByLessonIdAndFacultyId(lessonId,facultyId,educationYearId):vedimostRepository.getVedimostByLessonIdAndFacultyId(lessonId,facultyId,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
     public ApiResponse getVedimostByLessonIdAndGroupId(String type,String dekanatOrKafedraId,String educationYearId, String lessonId, String groupId) {
-        return new ApiResponse(true,"All vedimosts by lesson and group",type!="MONITORING" ? vedimostRepository.getVedimostByLessonIdAndGroupId(lessonId,groupId,educationYearId):vedimostRepository.getVedimostByLessonIdAndGroupId(lessonId,groupId,educationYearId,dekanatOrKafedraId));
+        return new ApiResponse(true,"All vedimosts by lesson and group",type=="MONITORING" ? vedimostRepository.getVedimostByLessonIdAndGroupId(lessonId,groupId,educationYearId):vedimostRepository.getVedimostByLessonIdAndGroupId(lessonId,groupId,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
     public ApiResponse getVedimostByTeacherIdAndGroupId(String type,String dekanatOrKafedraId,String teacherId, String educationYearId, String groupId) {
-        return new ApiResponse(true,"All teacher's vedimosts by education year",type!="MONITORING" ? vedimostRepository.getVedimostByTeacherIdAndGroupId(teacherId,groupId,educationYearId):vedimostRepository.getVedimostByTeacherIdAndGroupId(teacherId,groupId,educationYearId,dekanatOrKafedraId));
+        return new ApiResponse(true,"All teacher's vedimosts by education year",type=="MONITORING" ? vedimostRepository.getVedimostByTeacherIdAndGroupId(teacherId,groupId,educationYearId):vedimostRepository.getVedimostByTeacherIdAndGroupId(teacherId,groupId,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
     public ApiResponse getVedimostByEducationYearId(String type,String dekanatOrKafedraId,String educationYearId) {
-        return new ApiResponse(true,"All teacher's vedimosts by education year",type!="MONITORING" ?vedimostRepository.getVedimostByEducationYearId(educationYearId):vedimostRepository.getVedimostByEducationYearId(educationYearId,dekanatOrKafedraId));
+        return new ApiResponse(true,"All teacher's vedimosts by education year",type=="MONITORING" ?vedimostRepository.getVedimostByEducationYearId(educationYearId):vedimostRepository.getVedimostByEducationYearId(educationYearId,dekanatOrKafedraId));
     }
 
     @Override
     public ApiResponse getLast50Vedimost(String type,String dekanatOrKafedraId) {
-        return new ApiResponse(true,"Last 50 vedimosts",type!="MONITORING" ?vedimostRepository.getLast50Vedimost():vedimostRepository.getLast50Vedimost(dekanatOrKafedraId));
+        return new ApiResponse(true,"Last 50 vedimosts",type=="MONITORING" ?vedimostRepository.getLast50Vedimost():vedimostRepository.getLast50Vedimost(dekanatOrKafedraId));
     }
 
     @Override
     public ApiResponse getVedimostByLevel(String type,String dekanatOrKafedraId,Integer level, String educationYearId) {
-        return new ApiResponse(true,"Vedimosts by level",type!="MONITORING" ? vedimostRepository.getVedimostByLevel(level,educationYearId):vedimostRepository.getVedimostByLevel(level,educationYearId,dekanatOrKafedraId));
+        return new ApiResponse(true,"Vedimosts by level",type=="MONITORING" ? vedimostRepository.getVedimostByLevel(level,educationYearId):vedimostRepository.getVedimostByLevel(level,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
     public ApiResponse getVedimostByLessonIdAndLevel(String type,String dekanatOrKafedraId,String educationYearId, String lessonId, Integer level) {
-        return new ApiResponse(true,"All vedimosts by lesson and course", type!="MONITORING" ? vedimostRepository.getVedimostByLessonIdAndLevel(lessonId,level,educationYearId):vedimostRepository.getVedimostByLessonIdAndLevel(lessonId,level,educationYearId,dekanatOrKafedraId));
+        return new ApiResponse(true,"All vedimosts by lesson and course", type=="MONITORING" ? vedimostRepository.getVedimostByLessonIdAndLevel(lessonId,level,educationYearId):vedimostRepository.getVedimostByLessonIdAndLevel(lessonId,level,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
     public ApiResponse getVedimostByFacultyIdAndLevel(String type,String dekanatOrKafedraId,String educationYearId, String facultyId, Integer level) {
-        return new ApiResponse(true,"All vedimosts by faculty and course", type!="MONITORING" ?  vedimostRepository.getVedimostByFacultyIdAndLevel(facultyId,level,educationYearId): vedimostRepository.getVedimostByFacultyIdAndLevel(facultyId,level,educationYearId,dekanatOrKafedraId));
+        return new ApiResponse(true,"All vedimosts by faculty and course", type=="MONITORING" ?  vedimostRepository.getVedimostByFacultyIdAndLevel(facultyId,level,educationYearId): vedimostRepository.getVedimostByFacultyIdAndLevel(facultyId,level,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
     public ApiResponse getVedimostByTeacherIdAndLevel(String type,String dekanatOrKafedraId,String teacherId, Integer level, String educationYearId) {
-        return new ApiResponse(true,"All teacher's vedimosts by education year",type!="MONITORING" ? vedimostRepository.getVedimostByTeacherIdAndLevel(teacherId,level,educationYearId):vedimostRepository.getVedimostByTeacherIdAndLevel(teacherId,level,educationYearId,dekanatOrKafedraId));
+        return new ApiResponse(true,"All teacher's vedimosts by education year",type=="MONITORING" ? vedimostRepository.getVedimostByTeacherIdAndLevel(teacherId,level,educationYearId):vedimostRepository.getVedimostByTeacherIdAndLevel(teacherId,level,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
