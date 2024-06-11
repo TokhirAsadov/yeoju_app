@@ -28,9 +28,9 @@ public interface VedimostService {
     ApiResponse getVedimostByFacultyId(String facultyId, String educationYearId);
 
     ApiResponse getVedimostForBeingDone(String teacherId, String lessonId, String groupId, String educationYearId);
-    ApiResponse getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(String teacherId, String lessonId, String facultyId, String educationYearId);
+    ApiResponse getVedimostByTeacherIdAndLessonIdAndEducationYearIdAndFacultyId(String dekanatOrKafedraId,String teacherId, String lessonId, String facultyId, String educationYearId,String type);
 
-    ApiResponse getVedimostByTeacherIdAndFacultyId(String teacherId, String facultyId, String educationYearId);
+    ApiResponse getVedimostByTeacherIdAndFacultyId(String type,String dekanatOrKafedraId,String teacherId, String facultyId, String educationYearId);
 
     ApiResponse getVedimostByLessonIdAndFacultyId(String educationYearId, String lessonId, String facultyId);
 
@@ -48,7 +48,7 @@ public interface VedimostService {
 
     ApiResponse getVedimostByFacultyIdAndLevel(String educationYearId, String facultyId, Integer level);
 
-    ApiResponse getVedimostByTeacherIdAndLevel(String teacherId, Integer level, String educationYearId);
+    ApiResponse getVedimostByTeacherIdAndLevel(String type, String dekanatOrKafedraId,String teacherId, Integer level, String educationYearId);
 
     ApiResponse getDataAboutVedimostByDekanat(String dekanatId, String educationYearId,String condition);
 
