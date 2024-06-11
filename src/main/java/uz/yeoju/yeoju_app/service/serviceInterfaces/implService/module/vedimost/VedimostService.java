@@ -12,7 +12,7 @@ public interface VedimostService {
 
     ApiResponse getVedimostByLessonId(String lessonId, String educationYearId);
     ApiResponse getVedimostByTeacherId(String teacherId, String educationYearId);
-    ApiResponse getVedimostByTeacherIdAndLessonId(String teacherId, String educationYearId,String lessonId);
+    ApiResponse getVedimostByTeacherIdAndLessonId(String type,String dekanatOrKafedraId,String teacherId, String educationYearId,String lessonId);
 
     ApiResponse getAllVedimostByKafedra(String kafedraId);
 
