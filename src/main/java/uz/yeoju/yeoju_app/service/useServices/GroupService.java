@@ -471,6 +471,7 @@ public class GroupService implements GroupImplService<GroupDto> {
         return new ApiResponse(false,"empty any fields");
     }
 
+    //change level
     public ApiResponse changeGroupsLevel() {
         List<Group> groupList = groupRepository.findAll();
 
