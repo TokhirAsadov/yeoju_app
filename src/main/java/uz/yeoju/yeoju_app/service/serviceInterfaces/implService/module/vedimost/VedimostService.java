@@ -53,4 +53,6 @@ public interface VedimostService {
     ApiResponse getDataAboutVedimostByDekanat(String dekanatId, String educationYearId,String condition);
 
     ApiResponse getDataAboutVedimostByKafedra(String kafedraId, String educationYearId,String condition);
+
+    ApiResponse getDataAboutVedimostForMonitoring(String educationYearId, String condition);
 }
