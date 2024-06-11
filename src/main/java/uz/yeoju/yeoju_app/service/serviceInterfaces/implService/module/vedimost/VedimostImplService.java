@@ -265,8 +265,8 @@ public class VedimostImplService implements VedimostService{
     }
 
     @Override
-    public ApiResponse getVedimostByLevel(Integer level, String educationYearId) {
-        return new ApiResponse(true,"Vedimosts by level",vedimostRepository.getVedimostByLevel(level,educationYearId));
+    public ApiResponse getVedimostByLevel(String type,String dekanatOrKafedraId,Integer level, String educationYearId) {
+        return new ApiResponse(true,"Vedimosts by level",type!="MONITORING" ? vedimostRepository.getVedimostByLevel(level,educationYearId):vedimostRepository.getVedimostByLevel(level,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
