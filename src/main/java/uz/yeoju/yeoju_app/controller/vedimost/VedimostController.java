@@ -21,6 +21,11 @@ import javax.validation.Valid;
 public class VedimostController {
     private final VedimostService vedimostService;
 
+    @GetMapping("/getDataAboutVedimostByDekanat/{educationYearId}")
+    public HttpEntity<?> getDataAboutVedimostByDekanat(@CurrentUser User user, @PathVariable String educationYearId,@RequestParam(required = false,name = "condition") String condition) {
+        return ResponseEntity.ok(vedimostService.getDataAboutVedimostForMonitoring(educationYearId,condition));
+    }
+
     @GetMapping("/getDataAboutVedimostByDekanat/{dekanatId}")
     public HttpEntity<?> getDataAboutVedimostByDekanat(@CurrentUser User user, @PathVariable String dekanatId,@RequestParam String educationYearId,@RequestParam(required = false,name = "condition") String condition) {
         return ResponseEntity.ok(vedimostService.getDataAboutVedimostByDekanat(dekanatId,educationYearId,condition));
