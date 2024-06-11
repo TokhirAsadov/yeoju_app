@@ -21,6 +21,7 @@ import javax.validation.Valid;
 public class VedimostController {
     private final VedimostService vedimostService;
 
+    @PreAuthorize("hasAnyRole('MONITORING','REKTOR')")
     @GetMapping("/getDataAboutVedimostForMonitoring/{educationYearId}")
     public HttpEntity<?> getDataAboutVedimostForMonitoring(@CurrentUser User user, @PathVariable String educationYearId,@RequestParam(required = false,name = "condition") String condition) {
         return ResponseEntity.ok(vedimostService.getDataAboutVedimostForMonitoring(educationYearId,condition));
