@@ -28,6 +28,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class VedimostImplService implements VedimostService{
+
     private final VedimostRepository vedimostRepository;
     private final FinalGradeOfStudentRepository finalGradeOfStudentRepository;
     private final UserRepository userRepository;
@@ -301,5 +302,10 @@ public class VedimostImplService implements VedimostService{
     @Override
     public ApiResponse getDataAboutVedimostByKafedra(String kafedraId, String educationYearId,String condition) {
         return new ApiResponse(true,"All data about vedimosts in kafedra",condition==null?vedimostRepository.getDataAboutVedimostByKafedra(kafedraId,educationYearId):vedimostRepository.getDataAboutVedimostByKafedra(kafedraId,educationYearId,condition));
+    }
+
+    @Override
+    public ApiResponse getDataAboutVedimostForMonitoring(String educationYearId, String condition) {
+        return new ApiResponse(true,"All data about vedimosts in kafedra",condition==null?vedimostRepository.getDataAboutVedimostForMonitoring(educationYearId):vedimostRepository.getDataAboutVedimostForMonitoring(educationYearId,condition));
     }
 }
