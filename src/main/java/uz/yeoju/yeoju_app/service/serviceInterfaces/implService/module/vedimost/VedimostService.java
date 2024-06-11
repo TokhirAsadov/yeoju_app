@@ -34,7 +34,7 @@ public interface VedimostService {
 
     ApiResponse getVedimostByLessonIdAndFacultyId(String type,String dekanatOrKafedraId,String educationYearId, String lessonId, String facultyId);
 
-    ApiResponse getVedimostByLessonIdAndGroupId(String educationYearId, String lessonId, String groupId);
+    ApiResponse getVedimostByLessonIdAndGroupId(String type,String dekanatOrKafedraId,String educationYearId, String lessonId, String groupId);
 
     ApiResponse getVedimostByTeacherIdAndGroupId(String type,String dekanatOrKafedraId,String teacherId, String educationYearId, String groupId);
 
