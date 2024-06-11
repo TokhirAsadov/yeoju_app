@@ -203,8 +203,8 @@ public class VedimostImplService implements VedimostService{
     }
 
     @Override
-    public ApiResponse getVedimostByFacultyId(String facultyId, String educationYearId) {
-        return new ApiResponse(true,"All vedimosts of group by faculty id",educationYearId!=null?vedimostRepository.getVedimostByFacultyId(facultyId,educationYearId):vedimostRepository.getVedimostByFacultyId(facultyId));
+    public ApiResponse getVedimostByFacultyId(String type,String dekanatOrKafedraId,String facultyId, String educationYearId) {
+        return new ApiResponse(true,"All vedimosts of group by faculty id",type!="MONITORING" ? vedimostRepository.getVedimostByFacultyId(facultyId,educationYearId):vedimostRepository.getVedimostByFacultyId(facultyId,educationYearId,dekanatOrKafedraId));
     }
 
     @Override
