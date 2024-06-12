@@ -306,6 +306,6 @@ public class VedimostImplService implements VedimostService{
 
     @Override
     public ApiResponse getDataAboutVedimostForMonitoring(String educationYearId, String condition) {
-        return new ApiResponse(true,"All data about vedimosts in kafedra",condition==null?vedimostRepository.getDataAboutVedimostForMonitoring(educationYearId):vedimostRepository.getDataAboutVedimostForMonitoring(educationYearId,condition));
+        return new ApiResponse(true,"All data about vedimosts for education department",condition==null?vedimostRepository.getDataAboutVedimostForMonitoring(educationYearId):vedimostRepository.getDataAboutVedimostForMonitoring(educationYearId,condition));
     }
 }
