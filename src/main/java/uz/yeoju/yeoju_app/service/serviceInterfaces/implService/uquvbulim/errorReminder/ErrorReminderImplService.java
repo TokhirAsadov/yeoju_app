@@ -3,8 +3,12 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.uquvbulim.error
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.uquvbulim.ErrorReminder;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.uquvbulimi.ErrorReminderData;
 import uz.yeoju.yeoju_app.repository.uquvbulimi.ErrorReminderRepository;
+
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -13,6 +17,10 @@ public class ErrorReminderImplService implements ErrorReminderService{
 
     @Override
     public ApiResponse getAllErrorsForSpecialUser(User user) {
-        return null;
+        return new ApiResponse(true,"all errors for special user",errorReminderRepository.findAllByCreatedByAndActiveOrderByCreatedAtDesc(user.getId(), true).stream().map(this::generateErrorData).collect(Collectors.toSet()));
+    }
+
+    public ErrorReminderData generateErrorData(ErrorReminder errorReminder) {
+        return new ErrorReminderData(errorReminder.getId(), errorReminder.getError(),errorReminder.getCreatedAt());
     }
 }
