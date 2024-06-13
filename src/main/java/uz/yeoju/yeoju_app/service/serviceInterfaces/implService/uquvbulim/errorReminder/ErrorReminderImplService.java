@@ -20,6 +20,11 @@ public class ErrorReminderImplService implements ErrorReminderService{
         return new ApiResponse(true,"all errors for special user",errorReminderRepository.findAllByCreatedByAndActiveOrderByCreatedAtDesc(user.getId(), true).stream().map(this::generateErrorData).collect(Collectors.toSet()));
     }
 
+    @Override
+    public ApiResponse changeActivityOfError(User user, String type, String id) {
+        return null;
+    }
+
     public ErrorReminderData generateErrorData(ErrorReminder errorReminder) {
         return new ErrorReminderData(errorReminder.getId(), errorReminder.getError(),errorReminder.getCreatedAt());
     }
