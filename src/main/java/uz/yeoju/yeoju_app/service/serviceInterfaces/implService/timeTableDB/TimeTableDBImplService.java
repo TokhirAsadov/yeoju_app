@@ -14,17 +14,11 @@ import uz.yeoju.yeoju_app.entity.timetableDB.CardDB;
 import uz.yeoju.yeoju_app.entity.timetableDB.GroupConnectSubject;
 import uz.yeoju.yeoju_app.entity.timetableDB.LessonDB;
 import uz.yeoju.yeoju_app.entity.timetableDB.TeacherConnectSubject;
+import uz.yeoju.yeoju_app.entity.uquvbulim.ErrorReminder;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
-import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
-import uz.yeoju.yeoju_app.payload.educationYear.GroupsLessonCount;
-import uz.yeoju.yeoju_app.payload.educationYear.WeekRestDtoForDean;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
-import uz.yeoju.yeoju_app.payload.resDto.dekan.dashboard.StudentStatisticsWithWeekOfEduYear;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.Table;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherData;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.TeacherStatisticsOfWeekday;
 import uz.yeoju.yeoju_app.repository.DekanRepository;
 import uz.yeoju.yeoju_app.repository.GroupRepository;
 import uz.yeoju.yeoju_app.repository.LessonRepository;
@@ -35,10 +29,8 @@ import uz.yeoju.yeoju_app.repository.timetableDB.CardDBRepository;
 import uz.yeoju.yeoju_app.repository.timetableDB.GroupConnectSubjectRepository;
 import uz.yeoju.yeoju_app.repository.timetableDB.LessonDBRepository;
 import uz.yeoju.yeoju_app.repository.timetableDB.TeacherConnectSubjectRepository;
-import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable.TimeTableByWeekOfYearImplService;
+import uz.yeoju.yeoju_app.repository.uquvbulimi.ErrorReminderRepository;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -77,6 +69,9 @@ public class TimeTableDBImplService implements TimeTableDBService {
 
     @Autowired
     DekanRepository dekanRepository;
+
+    @Autowired
+    ErrorReminderRepository errorReminderRepository;
 
 
     public static final List<Period> periods = new ArrayList<>();
@@ -204,35 +199,37 @@ public class TimeTableDBImplService implements TimeTableDBService {
                     Optional<User> optionalUser = userRepository.findUserByLogin(t.getShortName());
 
                     if (optionalUser.isPresent()) {
-                    try {
-//                        User user = optionalUser.orElseThrow(()-> new UserNotFoundException(t.getName()+" not found teacher by id: "+t.getShortName()+"."));
+                        try {
+    //                        User user = optionalUser.orElseThrow(()-> new UserNotFoundException(t.getName()+" not found teacher by id: "+t.getShortName()+"."));
 
-                        User user = optionalUser.get();
-                        teacherConnectSubject.setUser(user);
-                        Subject subject = subjects.stream().filter(s -> s.getId().equals(l.getSubjectId())).findFirst().get();
-                        Lesson lessonByName = lessonRepository.getLessonByName(subject.getName());
-                        teacherConnectSubject.setLesson(lessonByName);
+                            User user = optionalUser.get();
+                            teacherConnectSubject.setUser(user);
+                            Subject subject = subjects.stream().filter(s -> s.getId().equals(l.getSubjectId())).findFirst().get();
+                            Lesson lessonByName = lessonRepository.getLessonByName(subject.getName());
+                            teacherConnectSubject.setLesson(lessonByName);
 
-                        Set<Group> groupSet = new HashSet<>();
-                        l.getClassIds().forEach(i -> {
-                            Class aClass = classes.stream().filter(c -> c.getId().equals(i)).findFirst().get();
-                            Group groupByName = groupRepository.findGroupByName(aClass.getName());
-                            if (groupByName != null) {
-                                groupSet.add(groupByName);
-                            }
-                        });
-                        teacherConnectSubject.setGroups(groupSet);
-                        Optional<WeekOfEducationYear> optionalWeekOfEducationYear = weekOfEducationYearRepository.findWeekOfEducationBySortNumberAndYear(week, year);
-                        optionalWeekOfEducationYear.ifPresent(teacherConnectSubject::setWeeks);
+                            Set<Group> groupSet = new HashSet<>();
+                            l.getClassIds().forEach(i -> {
+                                Class aClass = classes.stream().filter(c -> c.getId().equals(i)).findFirst().get();
+                                Group groupByName = groupRepository.findGroupByName(aClass.getName());
+                                if (groupByName != null) {
+                                    groupSet.add(groupByName);
+                                }
+                            });
+                            teacherConnectSubject.setGroups(groupSet);
+                            Optional<WeekOfEducationYear> optionalWeekOfEducationYear = weekOfEducationYearRepository.findWeekOfEducationBySortNumberAndYear(week, year);
+                            optionalWeekOfEducationYear.ifPresent(teacherConnectSubject::setWeeks);
 
-                        teacherConnectSubjectRepository.save(teacherConnectSubject);
+                            teacherConnectSubjectRepository.save(teacherConnectSubject);
 
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+                        } catch (Exception e) {
+                            errorReminderRepository.save(new ErrorReminder(t.getName()+" teacher has error. ID: "+t.getShortName()+"; Please connect with kafedra.\n"+e.getMessage()));
+                            throw new RuntimeException(e);
+                        }
                     }
                     else {
                         System.out.println(t.getShortName());
+                        errorReminderRepository.save(new ErrorReminder(t.getName()+" teacher has error. ID: "+t.getShortName()+"; Please connect with kafedra."));
 //                        throw new Exception(t.getShortName()+" not found teacher by id: "+t.getShortName());
                     }
                 }
