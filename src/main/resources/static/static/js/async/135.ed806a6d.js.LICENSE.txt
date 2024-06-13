@@ -1,3 +1,5 @@
+/*! @mui/x-data-grid */
+
 /*! core-js/modules/esnext.iterator.constructor.js */
 
 /*! ./chart/BulimChart */
@@ -8,61 +10,57 @@
 
 /*! react-icons/gi */
 
-/*! core-js/modules/esnext.async-iterator.map.js */
-
-/*! react/jsx-runtime */
-
-/*! react */
-
-/*! @mui/x-data-grid */
-
-/*! styled-components */
+/*! framer-motion */
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
+/*! styled-components */
+
+/*! moment */
+
 /*! react */
 
 /*! react/jsx-runtime */
 
-/*! framer-motion */
+/*! axios */
 
 /*! core-js/modules/es.array.push.js */
 
-/*! @mui/material/Modal */
-
-/*! moment */
-
-/*! axios */
-
 /*! framer-motion */
+
+/*! @mui/material/Modal */
 
 /*! react-redux */
 
 /*! styled-components */
 
-/*! core-js/modules/esnext.iterator.reduce.js */
-
-/*! ../../../../utills/ServiceUrls */
-
 /*! ../../../spinner/Spinner */
 
-/*! framer-motion */
+/*! ../../../../utills/ServiceUrls */
 
 /*! react-apexcharts */
 
 /*! ../../../../utills/ServiceUrls */
 
-/*! core-js/modules/esnext.async-iterator.reduce.js */
+/*! core-js/modules/esnext.iterator.reduce.js */
 
-/*! axios */
+/*! framer-motion */
 
 /*! ./BulimExpandedCard */
 
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
 /*! styled-components */
+
+/*! axios */
 
 /*! react */
 
 /*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../spinner/Spinner */
 
 /*! @mui/material/Box */
 
@@ -72,16 +70,18 @@
 
 /*! ../../../responsiv */
 
-/*! core-js/modules/web.dom-collections.iterator.js */
-
-/*! ../../../spinner/Spinner */
-
 /*! react-icons/io */
-
-/*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! core-js/modules/esnext.iterator.map.js */
 
 /*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
 
 /*! ../../../utills/ServiceUrls */
