@@ -4,13 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.uquvbulim.errorReminder.ErrorReminderService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/errorReminder")
@@ -22,5 +23,12 @@ public class ErrorReminderController {
     @GetMapping("/findAllErrorData")
     public HttpEntity<?> findAllErrorData(@CurrentUser User user) {
         return ResponseEntity.ok(service.getAllErrorsForSpecialUser(user));
+    }
+
+    @PreAuthorize("hasAnyRole('TEACHER','REKTOR','KAFEDRA','DEKAN','MONITORING')")
+    @GetMapping("/changeActivityOfError")
+    public HttpEntity<?> changeActivityOfError(@CurrentUser User user,@RequestParam(name = "id",required = false) String id,@RequestParam(name = "type") @Valid String type) {
+        ApiResponse response = service.changeActivityOfError(user, type, id);
+        return ResponseEntity.status(response.isSuccess()?200:400).body(response);
     }
 }
