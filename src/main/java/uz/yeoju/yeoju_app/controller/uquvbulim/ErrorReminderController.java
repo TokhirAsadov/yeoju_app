@@ -18,5 +18,9 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.uquvbulim.errorR
 public class ErrorReminderController {
     private final ErrorReminderService service;
 
-
+    @PreAuthorize("hasAnyRole('TEACHER','REKTOR','KAFEDRA','DEKAN','MONITORING')")
+    @GetMapping("/findAllErrorData")
+    public HttpEntity<?> findAllErrorData(@CurrentUser User user) {
+        return ResponseEntity.ok(service.getAllErrorsForSpecialUser(user));
+    }
 }
