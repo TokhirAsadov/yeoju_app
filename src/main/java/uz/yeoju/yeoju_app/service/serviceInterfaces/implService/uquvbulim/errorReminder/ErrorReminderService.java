@@ -5,4 +5,6 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 
 public interface ErrorReminderService {
     ApiResponse getAllErrorsForSpecialUser(User user);
+
+    ApiResponse changeActivityOfError(User user, String type, String id);
 }
