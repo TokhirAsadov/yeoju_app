@@ -229,7 +229,7 @@ public class TimeTableDBImplService implements TimeTableDBService {
                     }
                     else {
                         System.out.println(t.getShortName());
-                        errorReminderRepository.save(new ErrorReminder(t.getName()+" teacher has error. ID: "+t.getShortName()+"; Please connect with kafedra."));
+                        errorReminderRepository.save(new ErrorReminder(t.getName()+" teacher has error.Teacher is not found by ID: "+t.getShortName()+"; Please connect with kafedra."));
 //                        throw new Exception(t.getShortName()+" not found teacher by id: "+t.getShortName());
                     }
                 }
