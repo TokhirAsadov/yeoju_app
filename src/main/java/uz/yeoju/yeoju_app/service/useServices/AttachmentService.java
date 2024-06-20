@@ -204,13 +204,13 @@ public class AttachmentService {
                         if (defaultOrMed.equals(WeekType.DEFAULT)){
                             EducationYear educationYear = educationYearRepository.getById(educationYearId);
                             Boolean existsSort = weekOfEducationYearRepository.existsBySortNumberAndYear(Integer.valueOf(filename), Integer.valueOf(year));
-                            Boolean existsWeek = weekOfEducationYearRepository.existsByWeekNumberAndYear(weekNumber, Integer.valueOf(year));
+//                            Boolean existsWeek = weekOfEducationYearRepository.existsByWeekNumberAndYear(weekNumber, Integer.valueOf(year));
                             if (existsSort){
                                 return new ApiResponse(false, "Already exists week of year number : "+Integer.valueOf(filename) +" at "+year);
                             }
-                            if (existsWeek){
-                                return new ApiResponse(false, "Already exists week of education year : "+weekNumber +" at "+year);
-                            }
+//                            if (existsWeek){
+//                                return new ApiResponse(false, "Already exists week of education year : "+weekNumber +" at "+year);
+//                            }
 
                             WeekOfEducationYear weekOfEducationYear = new WeekOfEducationYear();
                             weekOfEducationYear.setYear(Integer.valueOf(year));
