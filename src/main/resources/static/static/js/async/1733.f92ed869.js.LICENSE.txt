@@ -1,28 +1,22 @@
-/*! axios */
-
 /*! ../../../utills/ServiceUrls */
 
-/*! ../../../responsiv */
+/*! react-icons/bi */
 
-/*! @mui/material */
-
-/*! @mui/material/Modal */
-
-/*! @mui/material/Switch */
-
-/*! @mui/material/FormControlLabel */
-
-/*! @swc/helpers/_/_tagged_template_literal */
+/*! react-icons/io5 */
 
 /*! @swc/helpers/_/_tagged_template_literal */
 
 /*! prop-types */
 
-/*! react-icons/bi */
+/*! react-redux */
+
+/*! @mui/material/Button */
+
+/*! react-icons/bs */
 
 /*! react-icons/ai */
 
-/*! react-icons/io5 */
+/*! react-icons/md */
 
 /*! @mui/material/Box */
 
@@ -30,39 +24,25 @@
 
 /*! react/jsx-runtime */
 
+/*! @mui/material/Box */
+
 /*! core-js/modules/web.dom-collections.iterator.js */
 
-/*! react-redux */
+/*! ../../student/subject/MessagesTeacherAndStudents */
 
 /*! styled-components */
 
 /*! react-icons/io5 */
 
-/*! react-icons/bs */
-
-/*! @mui/material/Button */
-
-/*! react-icons/md */
-
 /*! @mui/material/Box */
 
 /*! core-js/modules/esnext.iterator.map.js */
 
+/*! react-icons/fi */
+
 /*! ../../../utills/ServiceUrls */
 
 /*! react-icons/io5 */
-
-/*! @mui/material/Box */
-
-/*! ../../student/subject/MessagesTeacherAndStudents */
-
-/*! core-js/modules/esnext.async-iterator.map.js */
-
-/*! react-icons/fi */
-
-/*! @mui/material/Button */
-
-/*! react-toastify */
 
 /*! react */
 
@@ -70,35 +50,35 @@
 
 /*! react-icons/fa */
 
-/*! react-icons/ri */
+/*! core-js/modules/esnext.async-iterator.map.js */
 
 /*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-icons/ri */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Button */
+
+/*! react-toastify */
+
+/*! @mui/material/TextField */
 
 /*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! react-icons/im */
 
-/*! core-js/modules/esnext.iterator.map.js */
-
-/*! @mui/material/IconButton */
-
-/*! @mui/material/TextField */
-
 /*! @mui/material/Typography */
 
 /*! core-js/modules/esnext.async-iterator.map.js */
 
-/*! @mui/material/TextField */
+/*! @mui/material/IconButton */
 
 /*! @mui/material/Autocomplete */
 
-/*! @swc/helpers/_/_tagged_template_literal */
-
-/*! react-icons/io */
+/*! @mui/material/TextField */
 
 /*! styled-components */
-
-/*! @mui/material */
 
 /*! ./ModalUploadFile */
 
@@ -108,17 +88,37 @@
 
 /*! @mui/material/IconButton */
 
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/ai */
+
+/*! react-icons/io */
+
+/*! @mui/material */
+
+/*! axios */
+
+/*! ../../../responsiv */
+
 /*! @mui/material/LinearProgress */
+
+/*! @mui/material */
 
 /*! @mui/material/Input */
 
-/*! react-icons/ai */
+/*! @mui/material/Modal */
 
 /*! styled-components */
 
 /*! react */
 
 /*! @mui/material/Switch */
+
+/*! @mui/material/FormControlLabel */
+
+/*! @mui/material/Switch */
+
+/*! @swc/helpers/_/_tagged_template_literal */
 
 /*! @mui/material/Typography */
 
