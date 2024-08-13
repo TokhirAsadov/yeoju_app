@@ -36,9 +36,9 @@ public class EnableTeacherControlTestImplService implements EnableTeacherControl
         if (dto.id==null || dto.id.isEmpty()){
             return save(dto);
         }
-
-
-        return null;
+        else {
+            return update(dto);
+        }
     }
 
     private ApiResponse save(CreatorEnableTeacherControlTestDto dto) {
@@ -69,6 +69,45 @@ public class EnableTeacherControlTestImplService implements EnableTeacherControl
         }
         else {
             throw new UserNotFoundException("User not found by id: "+dto.teacherId);
+        }
+    }
+
+    private ApiResponse update(CreatorEnableTeacherControlTestDto dto) {
+        if (repository.existsById(dto.id)) {
+            if (userRepository.existsById(dto.teacherId)) {
+                if (teacherRepository.existsTeacherByUserId(dto.teacherId)) {
+                    Set<Lesson> lessons = new HashSet<>();
+                    dto.lessonsIds.forEach(lessonId -> {
+                        if (lessonRepository.existsById(lessonId)) {
+                            lessons.add(lessonRepository.findById(lessonId).get());
+                        }
+                        else {
+                            lessons.clear();
+                            throw new UserNotFoundException("Lesson not found by id: "+lessonId);
+                        }
+                    });
+                    User teacher = userRepository.getById(dto.teacherId);
+                    try {
+                        EnableTeacherControlTest enableTeacherControlTest= repository.getById(dto.id);
+                        enableTeacherControlTest.setTeacher(teacher);
+                        enableTeacherControlTest.setLessons(lessons);
+                        repository.save(enableTeacherControlTest);
+                    }
+                    catch (Exception e){
+                        throw new UserNotFoundException("Error.. Data is not updated!?");
+                    }
+                    return new ApiResponse(true,"Successfully updated teacher");
+                }
+                else {
+                    throw new UserNotFoundException("Teacher not found by user id: "+dto.teacherId+".Firstly, you should create teacher. Show TEACHERS page");
+                }
+            }
+            else {
+                throw new UserNotFoundException("User not found by id: "+dto.teacherId);
+            }
+        }
+        else {
+            throw new UserNotFoundException("Data not found by id: "+dto.id);
         }
     }
 
