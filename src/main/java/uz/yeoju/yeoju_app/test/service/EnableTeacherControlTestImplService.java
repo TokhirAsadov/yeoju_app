@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.test.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.test.payload.CreatorEnableTeacherControlTestDto;
 import uz.yeoju.yeoju_app.test.repository.EnableTeacherControlTestRepository;
 
 @Service
@@ -14,4 +15,11 @@ public class EnableTeacherControlTestImplService implements EnableTeacherControl
     public ApiResponse findAllEnableTeacherByKafedraId(String kafkaId) {
         return new ApiResponse(true,"All teachers' list",repository.getEnableTeachersByKafedraId(kafkaId));
     }
+
+    @Override
+    public ApiResponse createAndUpdateEnableTeacher(CreatorEnableTeacherControlTestDto dto) {
+        return null;
+    }
+
+
 }
