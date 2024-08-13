@@ -12,6 +12,6 @@ public class EnableTeacherControlTestImplService implements EnableTeacherControl
 
     @Override
     public ApiResponse findAllEnableTeacherByKafedraId(String kafkaId) {
-        return null;
+        return new ApiResponse(true,"All teachers' list",repository.getEnableTeachersByKafedraId(kafkaId));
     }
 }
