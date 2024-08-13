@@ -32,6 +32,11 @@ public class EnableTeacherControlTestImplService implements EnableTeacherControl
     }
 
     @Override
+    public ApiResponse getAllTeacherLessonsByTeacherId(String teacherId) {
+        return null;
+    }
+
+    @Override
     public ApiResponse createAndUpdateEnableTeacher(CreatorEnableTeacherControlTestDto dto) {
         if (dto.id==null || dto.id.isEmpty()){
             return save(dto);
