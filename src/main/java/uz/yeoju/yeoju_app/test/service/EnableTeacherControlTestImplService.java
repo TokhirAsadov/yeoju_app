@@ -33,7 +33,7 @@ public class EnableTeacherControlTestImplService implements EnableTeacherControl
 
     @Override
     public ApiResponse getAllTeacherLessonsByTeacherId(String teacherId) {
-        return null;
+        return new ApiResponse(true,"Teacher's lessons",repository.getTeacherLessonsByTeacherId(teacherId));
     }
 
     @Override
