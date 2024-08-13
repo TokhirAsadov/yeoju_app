@@ -1,0 +1,71 @@
+/*! styled-components */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! axios */
+
+/*! react-toastify */
+
+/*! ../../../responsiv */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Button */
+
+/*! react-icons/md */
+
+/*! @mui/material/Box */
+
+/*! react-router-dom */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react-icons/fa */
+
+/*! ../../form/FormForItem */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/Modal */
+
+/*! react-icons/ri */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! @mui/x-data-grid */
+
+/*! styled-components */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react/jsx-runtime */
+
+/*! ../../utills/ServiceUrls */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-icons/fa */

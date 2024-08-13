@@ -1,0 +1,29 @@
+/*! ../../../../utills/ServiceUrls */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material */
+
+/*! ./RektorTalabaForModal */
+
+/*! react-icons/ri */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/Modal */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/x-data-grid */
+
+/*! styled-components */
+
+/*! axios */
+
+/*! core-js/modules/esnext.iterator.map.js */

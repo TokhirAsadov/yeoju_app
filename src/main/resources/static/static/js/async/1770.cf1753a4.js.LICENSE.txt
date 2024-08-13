@@ -1,0 +1,39 @@
+/*! styled-components */
+
+/*! styled-components */
+
+/*! react */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/MenuItem */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! moment/moment */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! ../../uquvbulimi/deans/Deans */
+
+/*! @mui/x-data-grid */
+
+/*! axios */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../../utills/ServiceUrls */

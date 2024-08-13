@@ -1,0 +1,15 @@
+/*! styled-components */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! axios */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/gr */
+
+/*! react-toastify */

@@ -1,0 +1,66 @@
+{
+  "barchart_workers_title": "Ishchi xodimlar",
+
+  "doughnut_chart_labels_data": [
+    "kelmaganlar",
+    "kelganlar ",
+    "*sababli "
+  ],
+
+  "language": "Tillar",
+
+  "navbar_login_address_title": "Manzil",
+  "navbar_login_address_title_value": "100121, Тoшкент шаҳри, Яккасарой тумани, Усмон Носир кўчаси, 156 уй",
+  "navbar_login_email_title": "Elekron manzil",
+  "navbar_login_tel_title": "Aloqa markazi",
+  "navbar_menu_qabul": "Qabul",
+  "navbar_menu_javob": "Javob so'rash",
+  "navbar_menu_tarix": "tarix",
+
+  "rektor_sidebar_menu": "Menyu",
+  "rektor_sidebar_staff": "Xodimlar",
+  "rektor_sidebar_student": "Talabalar",
+  "rektor_sidebar_teacher": "O`qituvchilar",
+  "rektor_sidebar_user_service": "Sozlamalar",
+  "rektor_sidebar_dekans": "Yo'nalish rahbarlari",
+  "rektor_sidebar_rahbariyat": "Rahbariyat",
+  "rektor_dean_many_nb": "Attendance of students",
+
+  "super_admin_sidebar_user": "User",
+  "super_admin_sidebar_teacher": "Teacher",
+  "super_admin_sidebar_kafedra": "Kafedra",
+  "super_admin_sidebar_dekanat": "Dekanat",
+  "super_admin_sidebar_dekan": "Dekan",
+  "super_admin_sidebar_dashboard": "Dashboard",
+  "super_admin_sidebar_student": "Student",
+  "super_admin_sidebar_staff": "Xodimlar",
+  "super_admin_sidebar_school": "Maktab",
+  "super_admin_sidebar_faculty": "Fakultet yo`nalishlar",
+
+  "dekan_sidebar_dashboard": "Boshqaruv paneli",
+  "dekan_sidebar_users": "Talabalar",
+  "dekan_sidebar_message": "Xabarlar",
+  "dekan_sidebar_groups": "Guruhlar",
+  "dekan_sidebar_sms_history": "SMS lar tarixi",
+  "dekan_sidebar_kafedra": "Kafedra",
+  "dekan_sidebar_studentAdd": "Student Settings",
+  "dekan_sidebar_groupsSettings": "Groups Settings",
+  "dekan_sidebar_staff": "Xodimlar",
+
+  "bulim_sidebar_staffs": "Xodimlar",
+
+  "kafedra_sidebar_dashboard": "Boshqaruv paneli",
+  "kafedra_sidebar_teachers": "O`qituvchilar",
+  "kafedra_sidebar_message": "Xabarlat",
+  "kafedra_sidebar_sms_history": "SMS lar tarixi",
+  "kafedra_sidebar_roles": "Roles of User",
+  "kafedra_sidebar_teachers_menu": "Change User",
+  "kafedra_sidebar_week": "Statistics of weekly",
+
+  "boshqarama_education": "Monitoring",
+
+  "teacher_sidebar_files": "Files",
+  "teacher_sidebar_statistics": "Statistics",
+  "teacher_sidebar_kafedra_dashboard": "Change User"
+
+}

@@ -1,0 +1,119 @@
+{
+  "language": "Languages",
+
+  "navbar_login_email_title": "Email",
+  "navbar_login_tel_title": "Call Center",
+  "navbar_login_address_title": "Address",
+  "navbar_login_address_title_value": "100121, Tashkent city, Yakkasaray district, Usmon Nosir street, 156 house",
+  "navbar_menu_qabul": "access",
+  "navbar_menu_javob": "asks for rest",
+  "navbar_menu_tarix": "history",
+
+  "rektor_sidebar_menu": "Menu",
+  "rektor_dean_many_nb": "Attendance of students",
+  "rektor_sidebar_student": "Students",
+  "rektor_sidebar_teacher": "Teachers",
+  "rektor_sidebar_staff": "Staff",
+  "rektor_sidebar_personnel": "Personnel",
+  "rektor_sidebar_rahbariyat": "Employees",
+  "rektor_sidebar_user_service": "User Service",
+  "rektor_sidebar_statistics": "Statistics",
+  "rektor_sidebar_statisticsall": "Statistics",
+  "rektor_sidebar_floor": "Statistics of Today",
+  "rektor_sidebar_groups": "Statistics of Groups",
+  "rektor_sidebar_teachersWeek": "Statistics of Kafedra Teachers",
+  "rektor_sidebar_statistics_dean": "Dean's statistics",
+
+
+  "dekan_sidebar_dashboard": "Dashboard",
+  "dekan_sidebar_users": "Students",
+  "dekan_sidebar_message": "Messages",
+  "dekan_sidebar_groups": "Groups",
+  "dekan_sidebar_sms_history": "SMS History",
+  "dekan_sidebar_kafedra": "Kafedra",
+  "dekan_sidebar_transfer": "Tranfer",
+  "dekan_sidebar_studentAdd": "Student Settings",
+  "dekan_sidebar_groupsSettings": "Groups Settings",
+  "dekan_sidebar_staff": "Staffs",
+  "dekan_sidebar_results": "Subjects results",
+  "dekan_sidebar_statement": "Statement",
+  "dekan_sidebar_arxiv": "Archive",
+  "dekan_sidebar_notice": "Notice",
+  "dean_sidebar_attend": "Attendance",
+  "dean_sidebar_results": "Results",
+
+  "bulim_sidebar_staffs": "Staffs",
+
+
+  "kafedra_sidebar_dashboard": "Dashboard",
+  "kafedra_sidebar_teachers": "Teachers",
+  "kafedra_sidebar_message": "Messages",
+  "kafedra_sidebar_sms_history": "SMS History",
+  "kafedra_sidebar_roles": "Roles of User",
+  "kafedra_sidebar_teachers_menu": "Change User",
+  "kafedra_sidebar_week": "Statistics of weekly",
+  "kafedra_sidebar_groupsSubject": "Connect to Groups",
+  "kafedra_sidebar_subjects": "Subjects",
+  "kafedra_sidebar_statement": "Statement",
+
+
+  "student_sidebar_settings": "Settings",
+  "student_sidebar_service": " Student service",
+  "student_sidebar_menu": "Dashboard",
+  "student_sidebar_lesson": "Subjects",
+  "student_sidebar_time_table": "Schedule",
+  "student_sidebar_statistics": "Statistics",
+  "student_sidebar_sciences": "My courses",
+  "student_sidebar_results": "Results",
+  "student_sidebar_retake": "Retake",
+  "student_sidebar_finals": "Finals",
+
+  "teacher_sidebar_files": "Files",
+  "teacher_sidebar_statistics": "Statistics",
+  "teacher_sidebar_kafedra_dashboard": "Change User",
+  "teacher_sidebar_journal": "Journal",
+  "teacher_sidebar_sciences": "Sciences",
+
+  "barchart_workers_title": "Working staff",
+
+  "super_admin_sidebar_user": "User",
+  "super_admin_sidebar_teacher": "Teacher",
+  "super_admin_sidebar_kafedra": "Kafedra",
+  "super_admin_sidebar_dekanat": "Dekanat",
+  "super_admin_sidebar_dekan": "Dekan",
+  "super_admin_sidebar_dashboard": "Dashboard",
+  "super_admin_sidebar_student": "Student",
+  "super_admin_sidebar_staff": "Staff",
+  "super_admin_sidebar_school": "School",
+  "super_admin_sidebar_faculty": "Faculty Directions",
+
+
+  "boshqarama_education": "Monitoring",
+
+  "trainingdivision_sidebar_dashboard": "Dashboard",
+  "trainingdivision_sidebar_report": "Report of Day",
+  "trainingdivision_sidebar_timetable": "Time table",
+  "trainingdivision_sidebar_groups": "Groups",
+  "trainingdivision_sidebar_roomstimetable": "Rooms",
+  "trainingdivision_sidebar_teachertimetable": "Teacher",
+  "trainingdivision_sidebar_dean": "Deans",
+  "trainingdivision_sidebar_change_log": "Change log access",
+  "trainingdivision_sidebar_rating_students": "Rating",
+  "trainingdivision_sidebar_assistant": "Assistant",
+  "trainingdivision_sidebar_students": "Students",
+  "trainingdivision_sidebar_teachers": "Teachers",
+  "trainingdivision_sidebar_eduYear": "Education years",
+
+
+  "admin_sidebar_menu": "Menu",
+  "admin_sidebar_user": "User",
+  "admin_sidebar_rooms": "Room",
+  "admin_sidebar_device": "Device",
+  "admin_sidebar_buildings": "Building",
+  "doughnut_chart_labels_data": [
+    "did not come",
+    "newcomers ",
+    "*because"
+  ]
+
+}
