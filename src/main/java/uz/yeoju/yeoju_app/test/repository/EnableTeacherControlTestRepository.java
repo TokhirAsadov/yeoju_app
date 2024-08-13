@@ -15,4 +15,7 @@ public interface EnableTeacherControlTestRepository extends JpaRepository<Enable
 
     @Query(value = "select l.id, l.name as subject from EnableTeacherControlTest_Lesson e_l join Lesson l on e_l.lessons_id = l.id where e_l.EnableTeacherControlTest_id=?1 order by l.name",nativeQuery = true)
     Set<GetLessonsOfEnableTeachersRestDto> getLessonsOfEnableTeachers(String enableTeacherControlTestId);
+
+    @Query(value = "select l.id, l.name as subject from EnableTeacherControlTest e join EnableTeacherControlTest_Lesson e_l on e.id = e_l.EnableTeacherControlTest_id join Lesson l on e_l.lessons_id = l.id where e.teacher_id=?1 order by l.name",nativeQuery = true)
+    Set<GetLessonsOfEnableTeachersRestDto> getTeacherLessonsByTeacherId(String enableTeacherControlTestId);
 }
