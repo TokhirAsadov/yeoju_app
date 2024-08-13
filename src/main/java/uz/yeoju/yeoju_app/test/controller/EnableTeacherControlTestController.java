@@ -36,4 +36,11 @@ public class EnableTeacherControlTestController {
         ApiResponse response = service.createAndUpdateEnableTeacher(dto);
         return ResponseEntity.status(response.isSuccess()?201:401).body(response);
     }
+
+    @PutMapping("/updateEnableTeacher")
+    @PreAuthorize("hasRole('KAFEDRA')")
+    public HttpEntity<?> updateEnableTeacher(@CurrentUser User user, @RequestBody CreatorEnableTeacherControlTestDto dto) {
+        ApiResponse response = service.createAndUpdateEnableTeacher(dto);
+        return ResponseEntity.status(response.isSuccess()?200:401).body(response);
+    }
 }
