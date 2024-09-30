@@ -176,17 +176,17 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                         cards.stream().filter(card -> Objects.equals(card.getLessonId(), lessonXml.getId())).forEach(card ->{
                             for (DaysDef daysDef : daysDefs) {
                                 if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                    if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                    if (daysDef.getDays().get(0).equals("1000000") || daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                         daysS.add(1);
-                                    if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                    if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                         daysS.add(2);
-                                    if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                    if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                         daysS.add(3);
-                                    if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                    if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                         daysS.add(4);
-                                    if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                    if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                         daysS.add(5);
-                                    if (daysDef.getDays().get(0).equals("000001"))
+                                    if (daysDef.getDays().get(0).equals("0000010") || daysDef.getDays().get(0).equals("000001"))
                                         daysS.add(6);
                                     break;
                                 }
@@ -223,17 +223,17 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                             for (DaysDef daysDef : daysDefs) {
                                 Card card = first.get();
                                 if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                    if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                    if (daysDef.getDays().get(0).equals("1000000") || daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                         daysS.add(1);
-                                    if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                    if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                         daysS.add(2);
-                                    if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                    if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                         daysS.add(3);
-                                    if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                    if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                         daysS.add(4);
-                                    if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                    if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                         daysS.add(5);
-                                    if (daysDef.getDays().get(0).equals("000001"))
+                                    if (daysDef.getDays().get(0).equals("0000010") || daysDef.getDays().get(0).equals("000001"))
                                         daysS.add(6);
                                     break;
                                 }
@@ -270,17 +270,17 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                             for (DaysDef daysDef : daysDefs) {
                                 Card card = first.get();
                                 if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                    if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                    if (daysDef.getDays().get(0).equals("1000000") || daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                         daysS.add(1);
-                                    if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                    if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                         daysS.add(2);
-                                    if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                    if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                         daysS.add(3);
-                                    if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                    if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                         daysS.add(4);
-                                    if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                    if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                         daysS.add(5);
-                                    if (daysDef.getDays().get(0).equals("000001"))
+                                    if (daysDef.getDays().get(0).equals("0000010") || daysDef.getDays().get(0).equals("000001"))
                                         daysS.add(6);
                                     break;
                                 }
@@ -317,17 +317,17 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                             for (DaysDef daysDef : daysDefs) {
                                 Card card = first.get();
                                 if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                    if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                    if (daysDef.getDays().get(0).equals("1000000") || daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                         daysS.add(1);
-                                    if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                    if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                         daysS.add(2);
-                                    if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                    if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                         daysS.add(3);
-                                    if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                    if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                         daysS.add(4);
-                                    if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                    if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                         daysS.add(5);
-                                    if (daysDef.getDays().get(0).equals("000001"))
+                                    if (daysDef.getDays().get(0).equals("0000010") || daysDef.getDays().get(0).equals("000001"))
                                         daysS.add(6);
                                     break;
                                 }
@@ -386,17 +386,17 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                             cards.stream().filter(card -> Objects.equals(card.getLessonId(), lessonXml.getId())).forEach(card ->{
                                 for (DaysDef daysDef : daysDefs) {
                                     if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                        if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                        if (daysDef.getDays().get(0).equals("1000000") || daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                             daysS.add(1);
-                                        if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                        if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                             daysS.add(2);
-                                        if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                        if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                             daysS.add(3);
-                                        if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                        if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                             daysS.add(4);
-                                        if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                        if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                             daysS.add(5);
-                                        if (daysDef.getDays().get(0).equals("000001"))
+                                        if (daysDef.getDays().get(0).equals("0000010") || daysDef.getDays().get(0).equals("000001"))
                                             daysS.add(6);
                                         break;
                                     }
@@ -2457,17 +2457,21 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
         if (Files.exists(path)) {
             getTimeTableByWeek(year, week);
             String dayId = daysDefs.stream().filter(item -> item.getName().equalsIgnoreCase(dayName)).findFirst().get().getDays().get(0);
+            System.out.println("dayId -> "+dayId);
             Set<String> lessonsIds = cards.stream().filter(item -> item.getDays().contains(dayId)).map(Card::getLessonId).collect(Collectors.toSet());
             Set<String> teachersIds = new HashSet<>();
+            System.out.println("lessonsIds -> "+lessonsIds);
             for (String id : lessonsIds) {
                 LessonXml lessonXml = lessons.stream().filter(item -> item.getId().equals(id)).findFirst().get();
                 teachersIds.addAll(lessonXml.getTeacherIds());
             }
             Set<Teacher> teachers1 = new HashSet<>();
+            System.out.println("teachersIds -> "+teachersIds);
             for (String id : teachersIds) {
                 Optional<Teacher> first = teachers.stream().filter(item -> item.getId().equals(id)).findFirst();
                 first.ifPresent(teachers1::add);
             }
+            System.out.println("teachers1 -> "+teachers1);
             if (year == 2023 && week < 44) {
                 for (Teacher teacher : teachers1) {
 //            TeacherData teacherData1 = userRepository.getTeachersForRemember(teacher.getShortName(),kafedraId);
@@ -2516,8 +2520,10 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                         tables.add(new Table(teacherData1, shows));
                     }
                 }
-            } else {
+            }
+            else {
                 for (Teacher teacher : teachers1) {
+                    System.out.println(teacher.getShortName());
                     TeacherData teacherData1 = userRepository.getTeachersForRememberWithKafedraIdLogin(teacher.getShortName(), kafedraId);
 
                     if (teacherData1 != null) {
@@ -2681,6 +2687,9 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                 }
             }
         }
+
+        System.out.println("----------> "+tables);
+        System.out.println("----------> "+userRepository.getTeachersStatisticsForKafedraDashboardWithYearMonthDay(kafedraId,year,week,weekday));
 
         return new ApiResponseTwoObj(true,"teachers", tables, userRepository.getTeachersStatisticsForKafedraDashboardWithYearMonthDay(kafedraId,year,week,weekday));
     }
@@ -4022,17 +4031,17 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                                 }
                                 for (DaysDef daysDef : daysDefs) {
                                     if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                        if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                        if (daysDef.getDays().get(0).equals("1000000") || daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                             show.setDayNumber(1);
-                                        if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                        if (daysDef.getDays().get(0).equals("0100000") || daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                             show.setDayNumber(2);
-                                        if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                        if (daysDef.getDays().get(0).equals("0010000") || daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                             show.setDayNumber(3);
-                                        if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                        if (daysDef.getDays().get(0).equals("0001000") || daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                             show.setDayNumber(4);
-                                        if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                        if (daysDef.getDays().get(0).equals("0000100") || daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                             show.setDayNumber(5);
-                                        if (daysDef.getDays().get(0).equals("000001"))
+                                        if (daysDef.getDays().get(0).equals("0000010") || daysDef.getDays().get(0).equals("000001"))
                                             show.setDayNumber(6);
                                         show.setDaysName(daysDef.getName());
                                         break;
@@ -4095,17 +4104,17 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                             for (DaysDef daysDef : daysDefs) {
                                 if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
                                     System.out.println(daysDef.getDays().get(0)+" < --------------day number--------------");
-                                    if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                    if (daysDef.getDays().get(0).equals("1000000") || daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                         show.setDayNumber(1);
-                                    if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                    if (daysDef.getDays().get(0).equals("0100000") || daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                         show.setDayNumber(2);
-                                    if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                    if (daysDef.getDays().get(0).equals("0010000") || daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                         show.setDayNumber(3);
-                                    if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                    if (daysDef.getDays().get(0).equals("0001000") || daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                         show.setDayNumber(4);
-                                    if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                    if (daysDef.getDays().get(0).equals("0000100") || daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                         show.setDayNumber(5);
-                                    if (daysDef.getDays().get(0).equals("000001"))
+                                    if (daysDef.getDays().get(0).equals("0000010") || daysDef.getDays().get(0).equals("000001"))
                                         show.setDayNumber(6);
                                     show.setDaysName(daysDef.getShortName());
                                     break;
@@ -4168,17 +4177,17 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                             for (DaysDef daysDef : daysDefsMed) {
                                 if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
                                     System.out.println(daysDef.getDays().get(0)+" < --------------day number--------------");
-                                    if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                    if (daysDef.getDays().get(0).equals("1000000") ||daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                         show.setDayNumber(1);
-                                    if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                    if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                         show.setDayNumber(2);
-                                    if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                    if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                         show.setDayNumber(3);
-                                    if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                    if (daysDef.getDays().get(0).equals("0001000") || daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                         show.setDayNumber(4);
-                                    if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                    if (daysDef.getDays().get(0).equals("0000100") || daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                         show.setDayNumber(5);
-                                    if (daysDef.getDays().get(0).equals("000001"))
+                                    if (daysDef.getDays().get(0).equals("0000010") || daysDef.getDays().get(0).equals("000001"))
                                         show.setDayNumber(6);
                                     show.setDaysName(daysDef.getShortName());
                                     break;
@@ -4241,17 +4250,17 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                             }
                             for (DaysDef daysDef : daysDefs) {
                                 if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                    if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                    if (daysDef.getDays().get(0).equals("1000000") ||daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                         show.setDayNumber(1);
-                                    if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                    if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                         show.setDayNumber(2);
-                                    if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                    if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                         show.setDayNumber(3);
-                                    if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                    if (daysDef.getDays().get(0).equals("0001000") || daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                         show.setDayNumber(4);
-                                    if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                    if (daysDef.getDays().get(0).equals("0000100") || daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                         show.setDayNumber(5);
-                                    if (daysDef.getDays().get(0).equals("000001"))
+                                    if (daysDef.getDays().get(0).equals("0000010") || daysDef.getDays().get(0).equals("000001"))
                                         show.setDayNumber(6);
                                     show.setDaysName(daysDef.getShortName());
                                     break;
@@ -4320,17 +4329,17 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                             }
                             for (DaysDef daysDef : daysDefsMed) {
                                 if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                    if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                    if (daysDef.getDays().get(0).equals("1000000") ||daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                         show.setDayNumber(1);
-                                    if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                    if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                         show.setDayNumber(2);
-                                    if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                    if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                         show.setDayNumber(3);
-                                    if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                    if (daysDef.getDays().get(0).equals("0001000") || daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                         show.setDayNumber(4);
-                                    if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                    if (daysDef.getDays().get(0).equals("0000100") || daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                         show.setDayNumber(5);
-                                    if (daysDef.getDays().get(0).equals("000001"))
+                                    if (daysDef.getDays().get(0).equals("0000010") || daysDef.getDays().get(0).equals("000001"))
                                         show.setDayNumber(6);
                                     show.setDaysName(daysDef.getShortName());
                                     break;
