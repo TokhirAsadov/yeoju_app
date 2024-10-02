@@ -4,11 +4,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.dekanat.NotificationOuter;
+import uz.yeoju.yeoju_app.entity.dekanat.Referral;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.GetStudentNotificationOuters;
 
 import java.util.Set;
 
-public interface ReferralRepository extends JpaRepository<NotificationOuter,String> {
+public interface ReferralRepository extends JpaRepository<Referral,String> {
     @Query(value = "select n.id,ey.name as educationYear, n.fromDate,n.toDate,n.createdAt,n.queue from NotificationOuter n \n" +
             "join EducationYear ey on ey.id = n.educationYear_id\n" +
             "join NotificationOuter_groups NOg on n.id = NOg.NotificationOuter_id\n" +
@@ -27,6 +28,6 @@ public interface ReferralRepository extends JpaRepository<NotificationOuter,Stri
             "where s.user_id=:studentId and NOC.user_id=:studentId order by n.createdAt desc",nativeQuery = true)
     Set<GetStudentNotificationOuters> getStudentNotificationOuters2(@Param("studentId") String studentId);
 
-    @Query(value = "select max(queue) from NotificationOuter",nativeQuery = true)
+    @Query(value = "select max(queue) from Referral",nativeQuery = true)
     Long maxQueue();
 }
