@@ -18,6 +18,7 @@ public class ReferralCreateDto {
     public Integer course;
     public Date fromDate;
     public Date toDate;
+    public String dekanatId;
     public Set<String> facultiesId;
     public Set<String> groupsId;
 }

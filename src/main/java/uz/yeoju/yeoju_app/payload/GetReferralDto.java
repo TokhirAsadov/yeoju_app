@@ -19,6 +19,7 @@ public class GetReferralDto {
     public Integer course;
     public Date fromDate;
     public Date toDate;
+    public String dekanat;
     public Set<String> facultyNames;
     public Set<String> groupNames;
 }
