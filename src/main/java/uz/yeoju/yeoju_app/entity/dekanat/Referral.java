@@ -35,6 +35,5 @@ public class Referral extends AbsEntity {// sirtqi talimda uqiyatgan talabalar u
 
     @ManyToMany
     private Set<Group> groups;
-    private String dynamicSection;
 
 }
