@@ -13,7 +13,6 @@ import java.util.Set;
 public class GetReferralDto {
     public String id;
     public Long queue;
-    public String dynamicSection;
     public Long numberOfDecision;
     public Date decisionDate;
     public Integer course;
