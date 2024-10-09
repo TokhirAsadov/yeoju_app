@@ -1,0 +1,73 @@
+/*! @mui/material */
+
+/*! ../../../redux/slice/educationYear/education_year_statistics_slice */
+
+/*! @mui/material/Modal */
+
+/*! react-icons/cg */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! @mui/icons-material/CheckBoxOutlineBlank */
+
+/*! ../../../responsiv */
+
+/*! axios */
+
+/*! @mui/material/Checkbox */
+
+/*! styled-components */
+
+/*! @mui/material/Button */
+
+/*! @mui/material/IconButton */
+
+/*! @mui/icons-material/CheckBox */
+
+/*! react-toastify */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/Select */
+
+/*! @mui/material/InputLabel */
+
+/*! @mui/material/Typography */
+
+/*! react */
+
+/*! react-redux */
+
+/*! react/jsx-runtime */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/TextField */
+
+/*! ../../../redux/slice/kafedra/kafedra_teacher_statistics_slice */
+
+/*! react-router-dom */
+
+/*! react-icons/md */
+
+/*! ../../../redux/actions/educationYear/education_year_actions */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-icons/io5 */
+
+/*! @mui/material/MenuItem */
+
+/*! @mui/material/FormControl */
+
+/*! @mui/material/Avatar */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
