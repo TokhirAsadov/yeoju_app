@@ -5,6 +5,7 @@ import java.util.Date;
 
 public interface GetStudentReferrals {
     String getId();
+    String getStudentId();
     Long getNumberOfDecision();
     Date getDecisionDate();
     String getFullName();
