@@ -7,6 +7,9 @@
 
 
 
+EXEC ArchiveMonitorLogByYear99 @Year = 2023;
+
+
 
 
 
