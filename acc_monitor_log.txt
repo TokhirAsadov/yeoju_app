@@ -1,6 +1,56 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+CREATE PROCEDURE ArchiveMonitorLogByYear99
+    @Year INT
+AS
+BEGIN
+    SET NOCOUNT ON;  -- Prevent extra result sets from interfering with SELECT statements.
+
+    DECLARE @TableName NVARCHAR(50);
+    SET @TableName = 'acc_monitor_log_' + CONVERT(NVARCHAR(4), @Year);
+
+    -- Check if the table for the specified year already exists
+    IF OBJECT_ID(@TableName, 'U') IS NOT NULL
+    BEGIN
+        PRINT 'Table ' + @TableName + ' already exists. Data will be inserted into it.';
+    END
+    ELSE
+    BEGIN
+        -- Create a new table for the specified year with the same structure
+        DECLARE @CreateTableSQL NVARCHAR(MAX);
+        SET @CreateTableSQL = 'SELECT * INTO ' + QUOTENAME(@TableName) + ' FROM acc_monitor_log_copy1_copy1_copy1 WHERE 1 = 0'; -- Create an empty table with the same structure
+        EXEC sp_executesql @CreateTableSQL;
+    END
+
+    -- Insert data from acc_monitor_log_copy1 to the new yearly table
+    DECLARE @InsertSQL NVARCHAR(MAX);
+    SET @InsertSQL = 'INSERT INTO ' + QUOTENAME(@TableName) + ' (change_operator, change_time, create_operator, create_time, delete_operator, delete_time, status, log_tag, time, pin, card_no, device_id, device_sn, device_name, verified, state, event_type, description, event_point_type, event_point_id, event_point_name) ' +
+                     'SELECT change_operator, change_time, create_operator, create_time, delete_operator, delete_time, status, log_tag, time, pin, card_no, device_id, device_sn, device_name, verified, state, event_type, description, event_point_type, event_point_id, event_point_name ' +
+                     'FROM acc_monitor_log_copy1_copy1_copy1 WHERE YEAR(time) = @Year';
+
+    EXEC sp_executesql @InsertSQL, N'@Year INT', @Year;
+
+    -- Clear the acc_monitor_log_copy1 table for the specified year
+    DELETE FROM acc_monitor_log_copy1_copy1_copy1 WHERE YEAR(time) = @Year;
+END
+GO
+
+
+
+
+
+
 INSERT INTO acc_monitor_log (change_operator, change_time, create_operator, create_time, delete_operator, delete_time, status, log_tag, time, pin, card_no, device_id, device_sn, device_name, verified, state, event_type, description, event_point_type, event_point_id, event_point_name)
 SELECT
     c.change_operator,
