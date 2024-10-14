@@ -12,7 +12,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class ReferralCreateDto {
     public String id;
-    public String dynamicSection;
     public Long numberOfDecision;
     public Date decisionDate;
     public Integer course;
