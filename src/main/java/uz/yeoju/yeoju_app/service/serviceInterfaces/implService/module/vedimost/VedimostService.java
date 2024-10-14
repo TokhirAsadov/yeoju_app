@@ -1,12 +1,13 @@
 package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.vedimost;
 
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.VedimostCreaterDto;
 import uz.yeoju.yeoju_app.payload.module.VedimostUpdaterDto;
 
 public interface VedimostService {
     ApiResponse findAllVedimosts();
-    ApiResponse createVedimost(VedimostCreaterDto dto);
+    ApiResponseTwoObj createVedimost(VedimostCreaterDto dto);
 
     ApiResponse getVedimostByKafedra(String kafedraId,String educationYearId);
 
