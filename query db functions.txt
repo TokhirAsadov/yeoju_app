@@ -1,4 +1,19 @@
+CREATE FUNCTION dbo.countOfAllStudents(
+)
+    RETURNS INT
+AS
+BEGIN
 
+    DECLARE @countStep INT
+
+    set @countStep = (
+    SELECT COUNT(s.id)
+    FROM Student s
+             JOIN AddressUser a ON s.user_id = a.user_id
+    WHERE s.teachStatus = 'TEACHING')
+
+    RETURN @countStep;
+END;
 
 
 CREATE FUNCTION dbo.GetAllFinalGradesOfVedimost(
