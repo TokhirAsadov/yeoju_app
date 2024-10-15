@@ -1,6 +1,14 @@
 
 
 
+#delete #carddb
+DELETE FROM CardDB
+WHERE lesson_id IN (
+    SELECT id
+    FROM LessonDB
+    WHERE createdAt BETWEEN '2024-10-14' AND '2024-10-15'
+);
+
 
 
 CREATE FUNCTION dbo.GetFirstOfEntering2(
