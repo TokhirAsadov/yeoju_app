@@ -1,3 +1,51 @@
+
+
+
+
+
+CREATE FUNCTION dbo.GetFirstOfEntering2(
+    @rfid varchar(255),
+    @year varchar(255),
+    @week varchar(255),
+    @weekday varchar(255)
+)
+    RETURNS datetime
+AS
+begin
+    RETURN (
+        select
+            TOP 1 al.time
+        from acc_monitor_log al
+        where al.time between
+            DATETIMEFROMPARTS(
+                    DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                    DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                    DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                    5,
+                    00,
+                    00,
+                    0)
+            and
+            DATETIMEFROMPARTS(
+                    DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                    DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                    DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                    23,
+                    50,
+                    00,
+                    0)
+          and al.card_no=@rfid
+        order by al.time
+    )
+end;
+
+
+
+
+
+
+
+
 CREATE FUNCTION dbo.countOfAllStudents(
 )
     RETURNS INT
