@@ -18,4 +18,6 @@ public interface StaffService {
     ApiResponse deleteStaff(String staffId,String userId);
 
     ApiResponse getDekanStatisticsForRektor(String id, Date date);
+    ApiResponse getMonitoringByDay(String login, Integer year, Integer week, Integer weekday);
+    ApiResponse getMonitoringBetween(String room, Date start, Date end);
 }
