@@ -32,6 +32,10 @@ public class Student extends AbsEntity {
     private String rektororder;
     private String lengthOfStudying;
 
+    private String hemisId;
+    private String jshshirKod;
+
+
     public Student(User user, Group group, String passportSerial, Timestamp bornYear, String description, Timestamp enrollmentYear, String citizenship) {
         this.user = user;
         this.group = group;
