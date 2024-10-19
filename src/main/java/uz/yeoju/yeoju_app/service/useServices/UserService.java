@@ -37,6 +37,7 @@ import uz.yeoju.yeoju_app.payload.superAdmin.StudentSaveDto;
 import uz.yeoju.yeoju_app.repository.*;
 import uz.yeoju.yeoju_app.secret.JwtProvider;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.UserImplService;
+import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.statistics.ActiveUserStatisticsService;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable.TimeTableByWeekOfYearImplService;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable.TimeTableByWeekOfYearService;
 
@@ -52,6 +53,7 @@ import static uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForT
 @RequiredArgsConstructor
 public class UserService implements UserImplService<UserDto> {
 
+    public final ActiveUserStatisticsService activeUserStatisticsService;
     public final UserRepository userRepository;
     public final AddressUserRepository addressUserRepository;
     public final GanderService ganderService;
@@ -153,6 +155,7 @@ public class UserService implements UserImplService<UserDto> {
                 signInDto.getPassword()
         ));
         User user = (User) auth.getPrincipal();
+        //activeUserStatisticsService.createStatistics(user);
         String token = provider.generateToken(user);
         return new ResToken(token);
     }
@@ -1015,7 +1018,7 @@ public class UserService implements UserImplService<UserDto> {
         return workbook;
     }
 
-
+//todo=====================================================================================================================================================
     @Transactional
     public ApiResponse saveStudentFromSuperAdmin(StudentSaveDto dto) {
         User userByRFID = userRepository.findUserByRFID(dto.getRfid());
