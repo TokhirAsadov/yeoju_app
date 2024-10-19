@@ -26,7 +26,7 @@ public interface RektorDashboard {
     List<StaffCountComeAndAll> getStaffs();
 
     @Value("#{@studentRepository.getStudentComeCount()}")
-    List<Integer> getStudents();
+    List<Long> getStudents();
 
 //    @Value("#{@staffRepository.getStaffComeCountStatistics()}")
 //    List<TeacherCountComeAndAll> getStaffsStatistics();
