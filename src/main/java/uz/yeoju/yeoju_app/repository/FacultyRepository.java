@@ -22,6 +22,7 @@ public interface FacultyRepository extends JpaRepository<Faculty, String> {
     boolean existsFacultyByName(String name);
 
     Optional<Faculty> findFacultyByShortName(String shortName);
+    Boolean existsFacultyByShortName(String shortName);
 
 
     //todo----------------------------------------------
