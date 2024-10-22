@@ -23,6 +23,53 @@
 
 
 
+CREATE FUNCTION dbo.GetSectionAttendance()
+    RETURNS TABLE
+        AS
+        RETURN (
+        SELECT
+            f2.section_id AS id,
+            f1.count AS comeCount,
+            f2.count AS allCount
+        FROM (
+                 SELECT
+                     s.section_id,
+                     COUNT(card.cardNo) AS count
+                 FROM (
+                          SELECT
+                              al.card_no AS cardNo
+                          FROM
+                              acc_monitor_log al
+                                  JOIN users u ON CAST(u.RFID AS VARCHAR) = CAST(al.card_no AS VARCHAR) COLLATE Chinese_PRC_CI_AS
+                                  JOIN users_Role ur ON u.id = ur.users_id
+                                  JOIN (
+                                  SELECT id
+                                  FROM Role
+                                  WHERE roleName <> 'ROLE_TEACHER'
+                                    AND roleName <> 'ROLE_STUDENT'
+                              ) AS role ON ur.roles_id = role.id
+                          WHERE
+                              al.time BETWEEN DATEADD(dd, DATEDIFF(dd, 0, GETDATE()), 0)
+                                  AND DATEADD(dd, DATEDIFF(dd, -1, GETDATE()), 0)
+                          GROUP BY al.card_no
+                      ) AS card
+                          JOIN users u ON CAST(card.cardNo AS VARCHAR) = CAST(u.RFID AS VARCHAR) COLLATE Chinese_PRC_CI_AS
+                          JOIN Staff s ON u.id = s.user_id
+                 GROUP BY s.section_id
+             ) AS f1
+                 RIGHT JOIN (
+            SELECT
+                s.section_id,
+                COUNT(s.id) AS count
+            FROM
+                Staff s
+            GROUP BY s.section_id
+        ) AS f2 ON f2.section_id = f1.section_id
+        );
+
+
+
+
 DELETE FROM users
 WHERE id IN (
     select id from users u
