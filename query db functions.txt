@@ -16,6 +16,35 @@
 
 
 
+
+
+CREATE FUNCTION dbo.GetUserCountByEduType(@Region VARCHAR(255))
+    RETURNS @ResultTable TABLE
+                         (
+                             count INT,
+                             eduType VARCHAR(255)
+                         )
+AS
+BEGIN
+    INSERT INTO @ResultTable
+    SELECT
+        COUNT(u.id) AS count,
+        et.name AS eduType
+    FROM
+        users u
+            JOIN Student s ON u.id = s.user_id
+            JOIN groups g2 ON s.group_id = g2.id
+            JOIN EducationType et ON g2.educationType_id = et.id
+            JOIN AddressUser AU ON u.id = AU.user_id
+    WHERE
+        AU.region = @Region
+    GROUP BY
+        AU.region, et.name;
+
+    RETURN;
+END;
+GO
+
 CREATE FUNCTION dbo.GetUserCountByGender(@Region varchar(255))
     RETURNS @ResultTable TABLE
                          (
