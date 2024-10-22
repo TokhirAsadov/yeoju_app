@@ -16,6 +16,30 @@
 
 
 
+CREATE FUNCTION dbo.GetUserCountByGender(@Region varchar(255))
+    RETURNS @ResultTable TABLE
+                         (
+                             count INT,
+                             gander VARCHAR(255)
+                         )
+AS
+BEGIN
+    INSERT INTO @ResultTable
+    SELECT
+        COUNT(u.id) AS count,
+        G.gandername AS gander
+    FROM
+        users u
+            JOIN AddressUser AU ON u.id = AU.user_id
+            JOIN Gander G ON G.id = u.gander_id
+    WHERE
+        AU.region = @Region
+    GROUP BY
+        G.gandername, AU.region;
+
+    RETURN;
+END;
+GO
 
 
 CREATE FUNCTION dbo.GetKafedraAttendance()
