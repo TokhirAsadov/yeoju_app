@@ -1553,6 +1553,7 @@ CREATE FUNCTION dbo.GetTotalClassroomAttendanceByEduTypeAndFacultyAndCourse
                                                        JOIN groups g2 ON g2.id = s2.group_id
                                                        join Faculty f2 on g2.faculty_id = f2.id
                                                        join EducationType et2 on g2.educationType_id = et2.id
+                                                  AND et2.name = @eduType
                                                   AND f2.shortName = @faculty
                                                   AND g2.level = @course
                                               GROUP BY cs.rfid,
@@ -1597,6 +1598,7 @@ CREATE FUNCTION dbo.GetTotalClassroomAttendanceByEduTypeAndFacultyAndCourse
                                                              JOIN groups g2 ON g2.id = s2.group_id
                                                              join Faculty f2 on g2.faculty_id = f2.id
                                                              join EducationType et2 on g2.educationType_id = et2.id
+                                                        AND et2.name = @eduType
                                                         AND f2.shortName = @faculty
                                                         AND g2.level = @course
                                                     GROUP BY cs.rfid,
@@ -1611,6 +1613,8 @@ CREATE FUNCTION dbo.GetTotalClassroomAttendanceByEduTypeAndFacultyAndCourse
         RETURN;
     end
 go
+
+
 
 
 
