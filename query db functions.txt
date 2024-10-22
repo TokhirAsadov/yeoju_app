@@ -18,7 +18,57 @@
 
 
 
+CREATE FUNCTION dbo.GetKafedraAttendance()
+    RETURNS @ResultTable TABLE
+                         (
+                             id varchar(255),
+                             comeCount INT,
+                             allCount INT
+                         )
+AS
+BEGIN
+    INSERT INTO @ResultTable
+    SELECT
+        f2.kafedra_id AS id,
+        f1.count AS comeCount,
+        f2.count AS allCount
+    FROM (
+             SELECT
+                 t.kafedra_id,
+                 COUNT(card.cardNo) AS count
+             FROM (
+                      SELECT
+                          al.card_no AS cardNo
+                      FROM
+                          acc_monitor_log al
+                              JOIN users u ON CAST(u.RFID AS VARCHAR) = CAST(al.card_no AS VARCHAR) COLLATE Chinese_PRC_CI_AS
+                              JOIN users_Role ur ON u.id = ur.users_id
+                              JOIN (
+                              SELECT id
+                              FROM Role
+                              WHERE roleName = 'ROLE_TEACHER'
+                          ) AS role ON ur.roles_id = role.id
+                      WHERE
+                          al.time BETWEEN DATEADD(dd, DATEDIFF(dd, 0, GETDATE()), 0)
+                              AND DATEADD(dd, DATEDIFF(dd, -1, GETDATE()), 0)
+                      GROUP BY al.card_no
+                  ) AS card
+                      JOIN users u ON CAST(card.cardNo AS VARCHAR) = CAST(u.RFID AS VARCHAR) COLLATE Chinese_PRC_CI_AS
+                      JOIN Teacher t ON u.id = t.user_id
+             GROUP BY t.kafedra_id
+         ) AS f1
+             RIGHT JOIN (
+        SELECT
+            t.kafedra_id,
+            COUNT(t.id) AS count
+        FROM
+            Teacher t
+        GROUP BY t.kafedra_id
+    ) AS f2 ON f2.kafedra_id = f1.kafedra_id;
 
+    RETURN;
+END;
+GO
 
 
 
