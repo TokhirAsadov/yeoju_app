@@ -66,87 +66,90 @@ CREATE FUNCTION dbo.GetPassedTeachers
 )
     RETURNS @UsersState TABLE
                         (
-                            userId varchar(255),
+                            classroom varchar(255),
                             fullName varchar(255),
+                            kafedra varchar(255),
+                            section int,
                             login varchar(255),
-                            subject varchar(255),
-                            sectionName varchar(255),
-                            section int
+                            time datetime
                         )
 AS
 Begin
 
     if @Year=YEAR(getdate()) and @SortNumber=DATEPART(WEEK, getdate()) and @Day=DATEPART(WEEKDAY , getdate())-1
         begin
-            insert into @UsersState (userId, fullName,login,subject,sectionName,section)
-            select f1.userId,f1.fullName,f1.login,f1.subject,f1.betweenDuringDate as sectionName,f1.period as section from
-            (SELECT u.id as userId,
-            u.fullName,
-            u.login,
-            l.name as subject,
-            c.id as cardId,
-            c.betweenDuringDate,
-            c.period
-            FROM CardDB c
-            JOIN WeekOfEducationYear wy ON c.weekOfEducationYear_id = wy.id
-            JOIN LessonDB ld ON c.lesson_id = ld.id
-            JOIN Lesson l on ld.subject_id = l.id
-            join LessonDB_users lu on lu.LessonDB_id = ld.id
-            JOIN users u on lu.teachers_id = u.id
-            WHERE wy.year = ?1
-            AND wy.sortNumber = ?2
-            AND c.day = ?3
-            AND c.period !> DATEPART(Hour, getdate()) - 8
-            AND c.classroom IS NOT NULL
-            GROUP BY c.id, u.id, u.fullName,u.login,l.name,c.betweenDuringDate,c.period) as f1
-            left join (SELECT COUNT(cardDB_id) AS comeCount,
-                     cardDB_id
-              FROM (SELECT cs.rfid,
-                           cs.cardDB_id
-                    FROM CardDbStatistics cs
-                             join users u2 on u2.RFID = cs.rfid
-                    GROUP BY cs.rfid,
-                             cs.cardDB_id) AS f
-              GROUP BY f.cardDB_id) as f2 on f1.cardId=f2.cardDB_id
-            where f2.cardDB_id is null order by f1.period
+            insert into @UsersState (classroom, fullName,kafedra,section,login,time)
+            select f1.classroom,f1.fullName, f1.nameUz as kafedra  ,f1.period as section,f1.login,f2.time  from
+                (SELECT k.nameUz,
+                        u.fullName,
+                        u.login,
+                        c.id as cardId,
+                        c.classroom,
+                        c.period
+                 FROM CardDB c
+                          JOIN WeekOfEducationYear wy ON c.weekOfEducationYear_id = wy.id
+                          JOIN LessonDB ld ON c.lesson_id = ld.id
+                          join LessonDB_users lu on lu.LessonDB_id = ld.id
+                          JOIN users u on lu.teachers_id = u.id
+                          LEFT JOIN Teacher t on t.user_id=u.id
+                          JOIN Kafedra k on t.kafedra_id = k.id
+                 WHERE wy.year = @Year
+                   AND wy.sortNumber = @SortNumber
+                   AND c.day = @Day
+                   AND c.period !> DATEPART(Hour, getdate()) - 8
+                   AND c.classroom IS NOT NULL
+                 GROUP BY k.nameUz,c.id, u.fullName,u.login,c.classroom,c.period) as f1
+                    left join (SELECT
+                                   cs.time,
+                                   cs.rfid,
+                                   cs.cardDB_id
+                               FROM CardDbStatistics cs
+                                        join users u2 on u2.RFID = cs.rfid
+                               GROUP BY cs.rfid,
+                                        cs.cardDB_id,cs.time
+                ) as f2 on f1.cardId=f2.cardDB_id
+            where f2.cardDB_id is null
+            order by f1.classroom, f1.period,f2.time
         end
     else
         begin
-            insert into @UsersState (userId, fullName,login,subject,sectionName,section)
-            select f1.userId,f1.fullName,f1.login,f1.subject,f1.betweenDuringDate as sectionName,f1.period as section from
-              (SELECT u.id as userId,
-                       u.fullName,
-                       u.login,
-                       l.name as subject,
-                       c.id as cardId,
-                       c.betweenDuringDate,
-                       c.period
-                FROM CardDB c
-                         JOIN WeekOfEducationYear wy ON c.weekOfEducationYear_id = wy.id
-                         JOIN LessonDB ld ON c.lesson_id = ld.id
-                         JOIN Lesson l on ld.subject_id = l.id
-                         join LessonDB_users lu on lu.LessonDB_id = ld.id
-                         JOIN users u on lu.teachers_id = u.id
-                WHERE wy.year = ?1
-                  AND wy.sortNumber = ?2
-                  AND c.day = ?3
-                  AND c.classroom IS NOT NULL
-                GROUP BY c.id, u.id, u.fullName,u.login,l.name,c.betweenDuringDate,c.period) as f1
-                   left join (SELECT COUNT(cardDB_id) AS comeCount,
-                                     cardDB_id
-                              FROM (SELECT cs.rfid,
-                                           cs.cardDB_id
-                                    FROM CardDbStatistics cs
-                                             join users u2 on u2.RFID = cs.rfid
-                                    GROUP BY cs.rfid,
-                                             cs.cardDB_id) AS f
-                              GROUP BY f.cardDB_id) as f2 on f1.cardId=f2.cardDB_id
-            where f2.cardDB_id is null order by f1.period
+            insert into @UsersState (classroom, fullName,kafedra,section,login,time)
+            select f1.classroom,f1.fullName, f1.nameUz as kafedra  ,f1.period as section,f1.login,f2.time  from
+                (SELECT k.nameUz,
+                        u.fullName,
+                        u.login,
+                        c.id as cardId,
+                        c.classroom,
+                        c.period
+                 FROM CardDB c
+                          JOIN WeekOfEducationYear wy ON c.weekOfEducationYear_id = wy.id
+                          JOIN LessonDB ld ON c.lesson_id = ld.id
+                          join LessonDB_users lu on lu.LessonDB_id = ld.id
+                          JOIN users u on lu.teachers_id = u.id
+                          LEFT JOIN Teacher t on t.user_id=u.id
+                          JOIN Kafedra k on t.kafedra_id = k.id
+                 WHERE wy.year = @Year
+                   AND wy.sortNumber = @SortNumber
+                   AND c.day = @Day
+                   AND c.classroom IS NOT NULL
+                 GROUP BY k.nameUz,c.id, u.fullName,u.login,c.classroom,c.period) as f1
+                    left join (SELECT
+                                   cs.time,
+                                   cs.rfid,
+                                   cs.cardDB_id
+                               FROM CardDbStatistics cs
+                                        join users u2 on u2.RFID = cs.rfid
+                               GROUP BY cs.rfid,
+                                        cs.cardDB_id,cs.time
+                ) as f2 on f1.cardId=f2.cardDB_id
+            where f2.cardDB_id is null
+            order by f1.classroom, f1.period,f2.time
         end
 
     RETURN;
 end
 go
+
 
 
 
