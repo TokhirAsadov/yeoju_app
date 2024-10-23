@@ -17,7 +17,43 @@
 
 
 
+todo--------------------------------trigger
+-- Now, create the trigger
+CREATE TRIGGER trg_acc_monitor_log_insert
+    ON acc_monitor_log
+    AFTER INSERT
+    AS
+BEGIN
+    -- Declare necessary variables
+    DECLARE @id INT;
+    DECLARE @room varchar(255);
+    DECLARE @time DATETIME;
+    DECLARE @carnNo NVARCHAR(200);
 
+    -- Select the data from the inserted row
+    SELECT @id = id,
+           @room = event_point_name,
+           @time = time,
+           @carnNo = card_no
+    FROM inserted;
+
+    DECLARE @cardId varchar(255);
+    set @cardId = (
+        select Top 1 c.id from CardDB c
+                                   join WeekOfEducationYear w on c.weekOfEducationYear_id = w.id
+        where w.year=YEAR(@time)
+          and w.sortNumber=DATEPART(WEEK, @time)
+          and c.day=DATEPART(WEEKDAY , @time)-1
+          and c.period=DATEPART(Hour , DATEADD(MINUTE, 10, @time))-8
+          and c.classroom like '%'+@room+'%'
+        );
+
+    if @cardId is not null
+    -- Insert a new row into the audit table with the log details
+    INSERT INTO CardDbStatistics (id,cardDB_id,rfid,time)
+    VALUES (NEWID(),@cardId,@carnNo,@time);
+END;
+go
 
 
 
