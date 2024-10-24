@@ -35,6 +35,47 @@ END;
 
 
 todo--------------------------------trigger
+
+-- Now, create the trigger
+CREATE TRIGGER trg_acc_monitor_log_insert
+    ON acc_monitor_log
+    AFTER INSERT
+    AS
+BEGIN
+    -- Declare necessary variables
+    DECLARE @id INT;
+    DECLARE @deviceId INT;
+    DECLARE @time DATETIME;
+    DECLARE @carnNo NVARCHAR(200);
+
+    -- Select the data from the inserted row
+    SELECT @id = id,
+           @deviceId = device_id,
+           @time = time,
+           @carnNo = card_no
+    FROM inserted;
+
+    DECLARE @cardId varchar(255);
+    set @cardId = (
+        SELECT TOP 1 c.id
+        FROM CardDB c
+                 JOIN WeekOfEducationYear w ON c.weekOfEducationYear_id = w.id
+                 JOIN acc_door ad ON c.classroom COLLATE SQL_Latin1_General_CP1_CI_AS LIKE '%' + ad.door_name + '%' COLLATE SQL_Latin1_General_CP1_CI_AS
+        WHERE w.year = YEAR(@time)
+          AND w.sortNumber = DATEPART(WEEK, @time)
+          AND c.day = DATEPART(WEEKDAY, @time) - 1
+          AND c.period = DATEPART(HOUR, DATEADD(MINUTE, 10, @time)) - 8
+          AND ad.device_id = @deviceId
+    );
+
+    if @cardId is not null
+        -- Insert a new row into the audit table with the log details
+        INSERT INTO CardDbStatistics (id,cardDB_id,rfid,time)
+        VALUES (NEWID(),@cardId,@carnNo,@time);
+END;
+go
+
+
 -- Now, create the trigger
 CREATE TRIGGER trg_acc_monitor_log_insert
     ON acc_monitor_log
