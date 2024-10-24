@@ -5,6 +5,7 @@ import java.util.Date;
 public interface TeacherStatisticsOfWeekday2 {
 //    String getId();
 //    String getFullName();
+    String getLogin();
     String getRoom();
     Date getTime();
     Integer getWeek();
