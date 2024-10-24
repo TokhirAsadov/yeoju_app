@@ -12,7 +12,24 @@
 
 
 
+CREATE FUNCTION GetEarliestTime
+(
+    @cardDB_id VARCHAR(255),
+    @rfid VARCHAR(255)
+)
+    RETURNS DATETIME
+AS
+BEGIN
+    DECLARE @earliestTime DATETIME;
 
+    SELECT TOP 1 @earliestTime = cs.time
+    FROM CardDbStatistics cs
+    WHERE cs.cardDB_id = @cardDB_id
+      AND cs.rfid = @rfid
+    ORDER BY cs.time ASC;
+
+    RETURN @earliestTime;
+END;
 
 
 
