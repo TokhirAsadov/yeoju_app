@@ -4,8 +4,8 @@ import java.util.Date;
 
 public interface TeacherStatisticsOfWeekday {
 //    String getId();
-//    String getFullName();
 //    String getRoom();
+    String getLogin();
     Date getTime();
     Integer getWeek();
     Integer getWeekday();
