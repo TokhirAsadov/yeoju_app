@@ -3799,12 +3799,15 @@ CREATE FUNCTION dbo.GetTimesForRoomStatisticsByUserIdUnion2
                                 0)
                         ELSE 0
                         END
-                  and ad.door_name LIKE @room and u.id=@userId
+                  and ((ad.door_name LIKE '%'+@room+'%') or (@room LIKE '%'+ad.door_name+'%')) and u.id=@userId
                 union
                 select d.id as nameId,d.createdAt as time, d.week, d.weekday,  d.section,'DYNAMIC' as type,d.isCome,u3.fullName as createdBy from DynamicAttendance d
                 join users u3 on d.createdBy=u3.id
-                where d.room LIKE @room and d.student_id=@userId and d.weekday=@weekday and d.week=@week and d.section=@section and d.year=@year
-            );
+                where ((d.room LIKE '%'+@room+'%') or (@room LIKE '%'+d.room+'%')) and d.student_id=@userId and d.weekday=@weekday and d.week=@week and d.section=@section and d.year=@year
+            )
+go
+
+
 
 
 CREATE FUNCTION dbo.GetTimesForRoomStatisticsByUserIdUnion1
