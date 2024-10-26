@@ -1,5 +1,7 @@
 package uz.yeoju.yeoju_app.payload.resDto.statistics;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.Date;
 
 public interface GetPassedTeacher {
@@ -7,7 +9,11 @@ public interface GetPassedTeacher {
     String getFullName();
     String getLogin();
     String getClassroom();
-    Date getTime();
+    String getCardId();
+    String getRfid();
     Integer getSection();
+
+//    @Value("#{@cardDbStatisticsRepository.getEarliestTime(target.cardId,target.rfid)}")
+    Date getTime();
 
 }
