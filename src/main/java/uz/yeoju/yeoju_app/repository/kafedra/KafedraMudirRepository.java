@@ -16,7 +16,7 @@ public interface KafedraMudirRepository extends JpaRepository<KafedraMudiri, Str
 
     Optional<KafedraMudiri> findKafedraMudiriByKafedraId(String kafedra_id);
 
-    @Query(value = "select u.id,u.fullName,u.email from KafedraMudiri km\n" +
+    @Query(value = "select u.login,u.passportNum as passport,u.id,u.fullName,u.email from KafedraMudiri km\n" +
             "join Kafedra k on km.kafedra_id = k.id\n" +
             "join users u on km.user_id = u.id\n" +
             "where kafedra_id=:id",nativeQuery = true)
