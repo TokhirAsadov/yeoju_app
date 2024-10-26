@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface KafedraMudiriForRektorTeacherPage {
     String getId();
+    String getLogin();
+    String getPassport();
     String getFullName();
     String getEmail();
 
