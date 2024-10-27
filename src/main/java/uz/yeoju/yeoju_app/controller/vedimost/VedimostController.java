@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.VedimostCreaterDto;
 import uz.yeoju.yeoju_app.payload.module.VedimostUpdaterDto;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
@@ -49,6 +50,7 @@ public class VedimostController {
             @RequestParam(name = "level", required = false) Integer level,
             @RequestParam(name="educationYearId") @Valid String educationYearId,
             @RequestParam(name="type") @Valid String type,
+            @RequestParam(name="eduType") @Valid String eduType,
             @RequestParam(name="dekanatOrKafedraId", required = false) String dekanatOrKafedraId
     ) {
         if (teacherId != null && lessonId != null && groupId != null) {
@@ -171,7 +173,7 @@ public class VedimostController {
     @PreAuthorize("hasRole('DEKAN')")
     @PostMapping("/createVedimost")
     public HttpEntity<?> createVedimost(@CurrentUser User user, @RequestBody @Valid VedimostCreaterDto dto) {
-        ApiResponse response = vedimostService.createVedimost(dto);
+        ApiResponseTwoObj response = vedimostService.createVedimost(dto);
         return ResponseEntity.status(response.isSuccess()?201:401).body(response);
     }
 
