@@ -371,17 +371,17 @@ public class TimeTableDBImplService implements TimeTableDBService {
                 }
                 for (DaysDef daysDef : daysDefs) {
                     if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                        if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                        if (daysDef.getDays().get(0).equals("1000000") ||daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                             cardDB.setDay(1);
-                        if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                        if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                             cardDB.setDay(2);
-                        if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                        if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                             cardDB.setDay(3);
-                        if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                        if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                             cardDB.setDay(4);
-                        if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                        if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                             cardDB.setDay(5);
-                        if (daysDef.getDays().get(0).equals("000001"))
+                        if (daysDef.getDays().get(0).equals("0000010")||daysDef.getDays().get(0).equals("000001"))
                             cardDB.setDay(6);
                         cardDB.setDayName(daysDef.getName()+"-"+daysDef.getShortName());
                         break;
