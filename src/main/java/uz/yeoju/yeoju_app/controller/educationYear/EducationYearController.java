@@ -21,9 +21,10 @@ public class EducationYearController {
     @GetMapping("/getStudentsStatisticsForDean")
     public HttpEntity<?> getStudentsStatisticsForDean(
             @RequestParam("educationYearId") String educationYearId,
-            @RequestParam("group") String groupName
+            @RequestParam("group") String groupName,
+            @RequestParam(value = "id",required = false) String studentId
     ){
-        return ResponseEntity.ok(statisticsService.getStudentsStatisticsForDean(educationYearId,groupName));
+        return ResponseEntity.ok(studentId==null ? statisticsService.getStudentsStatisticsForDean(educationYearId,groupName):statisticsService.getStudentStatisticsForDean(educationYearId,groupName,studentId));
     }
 
     @GetMapping("/getGroupsByFacultyId/{facultyId}")
