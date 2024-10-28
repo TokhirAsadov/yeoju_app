@@ -399,7 +399,11 @@ public interface KafedraRepository extends JpaRepository<Kafedra, String> {
             "    where t.kafedra_id=:kafedraId\n" +
             "    group by t.kafedra_id\n" +
             ") as f2 on f2.kafedra_id = f1.kafedra_id",nativeQuery = true)
-    ComeCountTodayStatistics getComeCountTodayStatistics(@Param("kafedraId") String id);
+    ComeCountTodayStatistics getComeCountTodayStatistics2(@Param("kafedraId") String id);
+
+
+    @Query(value = "select * from dbo.GetKafedraAttendanceById(?1)",nativeQuery = true)
+    ComeCountTodayStatistics getComeCountTodayStatistics(String id);
 
 
     @Query(value = "select u.id,u.fullName,u.email,u.RFID,u.login,u.passportNum as passport\n" +
