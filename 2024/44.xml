@@ -839,7 +839,7 @@
   </subjects>
   <teachers options="canadd,export:silent" columns="id,name,short,gender,color,email,mobile,partner_id,firstname,lastname">
     <teacher id="8F415A7506BD281B" firstname="JAMBUL RUSLONOVICH" lastname="YUSUPOV" name="YUSUPOV JAMBUL RUSLONOVICH" short="100221" gender="" color="#009999" email="" mobile="" partner_id=""/>
-    <teacher id="59B0BE6B3C4FDEA6" firstname="KUDRAT" lastname="QUTLIMURODOV" name="QUTLIMURODOV KUDRAT, main (1)" short="QUTLIMURODOV KUDRAT RUZIBAYEVICH" gender="" color="#9620C0" email="" mobile="" partner_id=""/>
+    <teacher id="59B0BE6B3C4FDEA6" firstname="KUDRAT" lastname="QUTLIMURODOV" name="QUTLIMURODOV KUDRAT, main (1)" short="100952" gender="" color="#9620C0" email="" mobile="" partner_id=""/>
     <teacher id="ACECB21ECDAE1068" firstname="ABDUVOXID GOFUROVICH" lastname="YUNUSOV" name="YUNUSOV ABDUVOXID GOFUROVICH" short="100792" gender="" color="#808000" email="" mobile="" partner_id=""/>
     <teacher id="2D79A3E0940D0853" firstname="SHERZOD TAXIROVICH" lastname="SABIROV" name="SABIROV SHERZOD TAXIROVICH" short="100120" gender="" color="#9966FF" email="" mobile="" partner_id=""/>
     <teacher id="DA9D075E3DE1538A" firstname="MOUSTAFA ELSETOUHY SHETIA" lastname="OSSAMA" name="OSSAMA MOUSTAFA ELSETOUHY SHETIA" short="100537" gender="" color="#FF9900" email="" mobile="" partner_id=""/>
@@ -1092,7 +1092,7 @@
     <teacher id="B3E9C17FD5483EBB" firstname="SANJARBEK KOMILOVICH" lastname="RO’ZIMOV" name="RO’ZIMOV SANJARBEK KOMILOVICH" short="100953" gender="" color="#C0C000" email="" mobile="" partner_id=""/>
     <teacher id="5FEEAD48985EFAEE" firstname="ILXOMJON SHAVKATJON O'G'LI" lastname="IBROXIMOV" name="IBROXIMOV ILXOMJON SHAVKATJON O'G'LI" short="100260" gender="" color="#00FFC0" email="" mobile="" partner_id=""/>
     <teacher id="076BB1BA3A139F68" firstname="JAXONGIR UKTAM O’G’LI" lastname="ABDUSALAMOV" name="ABDUSALAMOV JAXONGIR UKTAM O’G’LI" short="101084" gender="" color="#9966FF" email="" mobile="" partner_id=""/>
-    <teacher id="85871B01423B8F75" firstname="AKMAL BALTAYEVICH" lastname="ALLAKULIYEV" name="ALLAKULIYEV AKMAL BALTAYEVICH" short="000027" gender="" color="#CCFF33" email="" mobile="" partner_id=""/>
+    <teacher id="85871B01423B8F75" firstname="AKMAL BALTAYEVICH" lastname="ALLAKULIYEV" name="ALLAKULIYEV AKMAL BALTAYEVICH" short="00027" gender="" color="#CCFF33" email="" mobile="" partner_id=""/>
     <teacher id="CA3DC7790E6FA220" firstname="SITORA ALISHER QIZI" lastname="ODINAYEVA" name="ODINAYEVA SITORA ALISHER QIZI" short="100474" gender="" color="#00FFCC" email="" mobile="" partner_id=""/>
     <teacher id="9FEF8FA05AFDACB4" firstname="DILOBAR XABIBULLAYEVNA" lastname="IBROHIMOVA" name="IBROHIMOVA DILOBAR XABIBULLAYEVNA" short="100190" gender="" color="#C020FF" email="" mobile="" partner_id=""/>
     <teacher id="69DD2447585EDADA" firstname="RAXMATULLO XAMIDULLAYEVICH" lastname="PIRMATOV" name="PIRMATOV RAXMATULLO XAMIDULLAYEVICH" short="100136" gender="" color="#0080FF" email="" mobile="" partner_id=""/>
