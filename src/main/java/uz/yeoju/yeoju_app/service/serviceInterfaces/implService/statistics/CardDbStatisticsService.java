@@ -40,4 +40,5 @@ public interface CardDbStatisticsService {
     ApiResponse getTotalClassroomAttendanceEveryGroupByFaculty(Integer year, Integer week, Integer weekday,String faculty);
     ApiResponse getTotalClassroomAttendanceEveryGroupByEduType(Integer year, Integer week, Integer weekday,String eduType);
     ApiResponse getTotalClassroomAttendanceEveryGroupByCourse(Integer year, Integer week, Integer weekday,Integer course);
+    ApiResponse getTotalClassroomAttendanceEveryGroup(Integer year, Integer week, Integer weekday);
 }
