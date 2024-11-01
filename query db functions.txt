@@ -11,6 +11,41 @@
 
 
 
+CREATE FUNCTION dbo.GetDateRangeAttendanceByEduTypeAndCourse
+(
+    @StartDate DATE,
+    @EndDate DATE,
+    @eduType varchar(255),
+    @course int
+)
+    RETURNS @AttendanceTable TABLE
+                             (
+                                 DateValue DATE,
+                                 totalAllStudent INT,
+                                 totalComeCount INT
+                             )
+AS
+BEGIN
+    WITH DateRange AS (
+        SELECT @StartDate AS DateValue
+        UNION ALL
+        SELECT DATEADD(DAY, 1, DateValue)
+        FROM DateRange
+        WHERE DATEADD(DAY, 1, DateValue) <= @EndDate
+    )
+    INSERT INTO @AttendanceTable
+    SELECT
+        DateValue,
+        Attendance.totalAllStudent,
+        Attendance.totalComeCount
+    FROM DateRange
+             CROSS APPLY dbo.GetTotalClassroomAttendanceByEduTypeAndCourse(YEAR(DateValue), DATEPART(WEEK, DateValue), DATEPART(WEEKDAY, DateValue) - 1,@eduType,@course) AS Attendance
+    WHERE DATEPART(WEEKDAY, DateValue) != 1  -- Exclude Sundays
+    OPTION (MAXRECURSION 0);
+
+    RETURN;
+END;
+
 CREATE FUNCTION dbo.GetDateRangeAttendanceByEduType
 (
     @StartDate DATE,
