@@ -44,12 +44,12 @@ public interface CardDbStatisticsService {
     ApiResponse getTotalClassroomAttendanceEveryGroupByCourse(Integer year, Integer week, Integer weekday,Integer course);
     ApiResponse getTotalClassroomAttendanceEveryGroup(Integer year, Integer week, Integer weekday);
 
-    ApiResponse getDateRangeAttendance(Date start,Date end);
-    ApiResponse getDateRangeAttendanceByEduType(Date start,Date end,String eduType);
-    ApiResponse getDateRangeAttendanceByCourse(Date start,Date end,Integer course);
-    ApiResponse getDateRangeAttendanceByFaculty(Date start,Date end,String faculty);
-    ApiResponse getDateRangeAttendanceByEduTypeAndCourse(Date start,Date end,String eduType,Integer course);
-    ApiResponse getDateRangeAttendanceByEduTypeAndFaculty(Date start,Date end,String eduType,String faculty);
-    ApiResponse getDateRangeAttendanceByFacultyAndCourse(Date start,Date end,String faculty,Integer course);
-    ApiResponse getDateRangeAttendanceByEduTypeAndFacultyAndCourse(Date start,Date end,String eduType,String faculty,Integer course);
+    ApiResponse getDateRangeAttendance(Date start,Date end,String eduForm);
+    ApiResponse getDateRangeAttendanceByEduType(Date start,Date end,String eduType,String eduForm);
+    ApiResponse getDateRangeAttendanceByCourse(Date start,Date end,Integer course,String eduForm);
+    ApiResponse getDateRangeAttendanceByFaculty(Date start,Date end,String faculty,String eduForm);
+    ApiResponse getDateRangeAttendanceByEduTypeAndCourse(Date start,Date end,String eduType,Integer course,String eduForm);
+    ApiResponse getDateRangeAttendanceByEduTypeAndFaculty(Date start,Date end,String eduType,String faculty,String eduForm);
+    ApiResponse getDateRangeAttendanceByFacultyAndCourse(Date start,Date end,String faculty,Integer course,String eduForm);
+    ApiResponse getDateRangeAttendanceByEduTypeAndFacultyAndCourse(Date start,Date end,String eduType,String faculty,Integer course,String eduForm);
 }
