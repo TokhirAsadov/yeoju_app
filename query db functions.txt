@@ -12,7 +12,28 @@
 
 
 
+CREATE FUNCTION dbo.ExistsCardDBItem (
+    @date DATETIME,
+    @classroom INT
+)
+    RETURNS BIT
+AS
+BEGIN
+    DECLARE @exists BIT;
 
+    SELECT @exists = CASE WHEN EXISTS (
+        SELECT 1
+        FROM CardDB c
+                 JOIN WeekOfEducationYear w ON c.weekOfEducationYear_id = w.id
+        WHERE w.year = YEAR(@date)
+          AND w.sortNumber = DATEPART(WEEK, @date)
+          AND c.day = DATEPART(WEEKDAY, @date) - 1
+          AND c.period = DATEPART(HOUR, DATEADD(MINUTE, 10, @date)) - 8
+          AND c.classroom = @classroom
+    ) THEN 1 ELSE 0 END;
+
+    RETURN @exists;
+END;
 
 
 CREATE FUNCTION dbo.GetDateRangeAttendanceByFacultyAndCourse
