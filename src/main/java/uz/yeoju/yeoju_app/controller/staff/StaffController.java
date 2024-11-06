@@ -88,6 +88,13 @@ public class StaffController {
         ApiResponse apiResponse = service.getMonitoringByDay(login, year, week, weekday);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
-
+    @GetMapping("/getMonitoringBetween/{room}")
+    public HttpEntity<?> GetMonitoringBetween(@PathVariable String room,
+                                              @RequestParam(name = "start") @DateTimeFormat(pattern = "yyyy.MM.dd HH:mm") Date start,
+                                              @RequestParam(name = "end") @DateTimeFormat(pattern = "yyyy.MM.dd HH:mm") Date end
+    ){
+        ApiResponse apiResponse = service.getMonitoringBetween(room, start,end);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
 
 }
