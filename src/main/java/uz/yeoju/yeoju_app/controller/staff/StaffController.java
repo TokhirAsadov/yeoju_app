@@ -78,4 +78,16 @@ public class StaffController {
         ApiResponse apiResponse = service.saveStaff(dto);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
+
+    @GetMapping("/getMonitoring/{login}")
+    public HttpEntity<?> getMonitoringByDay(@PathVariable String login,
+                                            @RequestParam(name = "year") Integer year,
+                                            @RequestParam(name = "week") Integer week,
+                                            @RequestParam(name = "weekday") Integer weekday
+                                            ){
+        ApiResponse apiResponse = service.getMonitoringByDay(login, year, week, weekday);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+
 }
