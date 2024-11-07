@@ -21,6 +21,6 @@ public interface StudentMonitoringRestDto {
     @Value("#{@studentRepository.getStudentMonitoringByDay(target.studentId,target.groupId,target.year,target.week,target.day)}")
     String getStudentMonitoringByDay();
 
-    @Value("#{@studentRepository.getAllSubjectsByDayAndGroupAndStudentId(target.studentId,target.groupId,target.year,target.week,target.day)}")
+    @Value("#{@studentRepository.getAllSubjectsByDayAndGroupAndStudentId2(target.studentId,target.groupId,target.year,target.week,target.day)}")
     Set<GetAllSubjectsByDayAndGroupAndStudentId> getTimeTableOfToday();
 }
