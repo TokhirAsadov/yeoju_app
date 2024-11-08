@@ -33,5 +33,10 @@ public class CardDbStatisticsImplService implements CardDbStatisticsService{
         return new ApiResponse(true,"total all classroom statistics with week", repository.getTotalAllClassroomStatisticsWithWeek(year, week));
     }
 
+    @Override
+    public ApiResponse getTotalClassroomAttendanceByEduType(Integer year, Integer week, Integer weekday, String eduType,String eduForm) {
+        return new ApiResponse(true,"total all classroom statistics by edu type: "+eduType, repository.getTotalClassroomAttendanceByEduType(year, week, weekday,eduType,eduForm));
+    }
+
 
 }
