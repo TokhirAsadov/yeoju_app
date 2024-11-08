@@ -28,5 +28,10 @@ public class CardDbStatisticsImplService implements CardDbStatisticsService{
     }
 
 
+    @Override
+    public ApiResponse getTotalAllClassroomStatisticsWithWeek(Integer year, Integer week) {
+        return new ApiResponse(true,"total all classroom statistics with week", repository.getTotalAllClassroomStatisticsWithWeek(year, week));
+    }
+
 
 }
