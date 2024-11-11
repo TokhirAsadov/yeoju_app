@@ -11,6 +11,8 @@ import java.util.List;
 public interface KafedraTeachers30 {
 
     String getId();
+    String getRoom();
+    String getPhone();
 
     @Value("#{@kafedraMudirRepository.getKafedraMudiriForRektorTeacherPage(target.id)}")
     KafedraMudiriForRektorTeacherPage getKafedraMudiri();
