@@ -1,0 +1,113 @@
+/*! axios */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! react-toastify */
+
+/*! @mui/material/Modal */
+
+/*! @mui/icons-material/Visibility */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../../responsiv */
+
+/*! @mui/material/OutlinedInput */
+
+/*! ../../../redux/actions/user/user_actions */
+
+/*! @mui/material/InputLabel */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../redux/actions/kafedra/section_actions */
+
+/*! ./ChangeRoomDepartment */
+
+/*! @mui/material/OutlinedInput */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! react-icons/io5 */
+
+/*! @mui/material/Button */
+
+/*! moment */
+
+/*! styled-components */
+
+/*! react-icons/fa */
+
+/*! react-redux */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../form/SaveAddress */
+
+/*! react */
+
+/*! @mui/icons-material/VisibilityOff */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ../../../utills/images/no-picture.jpg */
+
+/*! react-toastify */
+
+/*! @mui/material/Box */
+
+/*! react-icons/ri */
+
+/*! ../../form/SavePhoneNumber */
+
+/*! @mui/material/FormControl */
+
+/*! @mui/material/IconButton */
+
+/*! react-redux */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../hook/useHttp */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material/FormControl */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! @mui/material/Input */
+
+/*! @mui/material/Box */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/InputAdornment */
+
+/*! @mui/material/Button */
+
+/*! react-icons/fa6 */
+
+/*! react-icons/hi */
+
+/*! ../../hook/useHttp */
+
+/*! @mui/material */
+
+/*! jwt-decode */
+
+/*! @mui/material/InputLabel */
+
+/*! axios */
+
+/*! react-icons/bs */
