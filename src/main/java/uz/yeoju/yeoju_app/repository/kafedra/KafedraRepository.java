@@ -343,7 +343,7 @@ public interface KafedraRepository extends JpaRepository<Kafedra, String> {
 
 
 
-    @Query(value = "select k.id, k.nameEn as name from Kafedra k join KafedraMudiri km on km.kafedra_id=k.id where km.user_id=:userId",nativeQuery = true)
+    @Query(value = "select k.id, k.nameEn  as name, k.room, k.phone from Kafedra k join KafedraMudiri km on km.kafedra_id=k.id where km.user_id=:userId",nativeQuery = true)
     KafedraResDto getKafedraNameByUserId(@Param("userId") String userId);
 
 
