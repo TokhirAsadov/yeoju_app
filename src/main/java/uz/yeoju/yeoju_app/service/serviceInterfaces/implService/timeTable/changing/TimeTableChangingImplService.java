@@ -117,7 +117,17 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
         return null;
     }
 
-
+    @Override
+    public ApiResponse getDataOfTeachers(WeekType weekType,Integer year, Integer week) {
+        if (weekType==WeekType.DEFAULT){
+            getTimeTableByWeek(year,week);
+            return new ApiResponse(true,"all teachers year: "+year+", week: "+week,teachers);
+        }
+        else {
+            getTimeTableByWeekMed(year,week);
+            return new ApiResponse(true,"all med teachers year: "+year+", week: "+week,teachersMed);
+        }
+    }
 
 
     public void getTimeTableByWeek(Integer year, Integer week) {
