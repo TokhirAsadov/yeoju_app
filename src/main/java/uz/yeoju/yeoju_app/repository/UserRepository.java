@@ -71,16 +71,16 @@ public interface UserRepository extends JpaRepository<User, String> {
     SectionStaff28No getSectionStaffsDataForRektorBySectionId28No(@Param("id") String id);
 
 
-    @Query(value = "select :id as id",nativeQuery = true)
+    @Query(value = "select :id as id,phone,room from Kafedra where id=:id",nativeQuery = true)
     KafedraTeachers31 getKafedraTeachersDataForRektorByKafedraId31(@Param("id") String id);
 
-    @Query(value = "select :id as id",nativeQuery = true)
+    @Query(value = "select :id as id,phone,room from Kafedra where id=:id",nativeQuery = true)
     KafedraTeachers30 getKafedraTeachersDataForRektorByKafedraId30(@Param("id") String id);
 
-    @Query(value = "select :id as id",nativeQuery = true)
+    @Query(value = "select :id as id,phone,room from Kafedra where id=:id",nativeQuery = true)
     KafedraTeachers29 getKafedraTeachersDataForRektorByKafedraId29(@Param("id") String id);
 
-    @Query(value = "select :id as id",nativeQuery = true)
+    @Query(value = "select :id as id,phone,room from Kafedra where id=:id",nativeQuery = true)
     KafedraTeachers28 getKafedraTeachersDataForRektorByKafedraId28(@Param("id") String id);
 
     @Query(value = "select id,nameEn as name from Kafedra order by name asc ",nativeQuery = true)
@@ -2163,7 +2163,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "  and ad.door_name LIKE :room and u.passportNum=:passport",nativeQuery = true)
     List<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByPassportByWeek(@Param("passport") String passport, @Param("room") String room, @Param("weekday") Integer weekday,@Param("week") Integer week,@Param("year") Integer year, @Param("section") Integer section);
 
-    @Query(value = "select u.id,u.fullName,al.time, :weekday as weekday,  :section as section, ad.door_name as room\n" +
+    @Query(value = "select u.id,u.login,u.fullName,al.time, :weekday as weekday,  :section as section, ad.door_name as room\n" +
             "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
             "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "where al.time between\n" +
@@ -2575,7 +2575,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "  and ad.door_name LIKE :room and u.passportNum=:passport",nativeQuery = true)
     List<TeacherStatisticsOfWeekday2> getTimesForRoomStatisticsByPassportByWeek2(@Param("passport") String passport, @Param("room") String room, @Param("weekday") Integer weekday, @Param("week") Integer week, @Param("year") Integer year, @Param("section") Integer section);
 
-    @Query(value = "select u.id,u.fullName,al.time, :weekday as weekday,  :section as section, ad.door_name as room\n" +
+    @Query(value = "select u.id,u.login,u.fullName,al.time, :weekday as weekday,  :section as section, ad.door_name as room\n" +
             "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
             "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
             "where al.time between\n" +
@@ -3191,7 +3191,7 @@ public interface UserRepository extends JpaRepository<User, String> {
             "                0)\n" +
             "        ELSE 0\n" +
             "        END\n" +
-            "  and ad.door_name=:room and u.id=:userId",nativeQuery = true)
+            "  and ((ad.door_name like '%'+:room+'%') or (:room like '%'+ad.door_name+'%')) and u.id=:userId",nativeQuery = true)
     List<TeacherStatisticsOfWeekday> getTimesForRoomStatisticsByUserIdAndWeek(@Param("userId") String userId, @Param("room") String room, @Param("weekday") Integer weekday,@Param("week") Integer week,@Param("year") Integer year, @Param("section") Integer section);
 
 
