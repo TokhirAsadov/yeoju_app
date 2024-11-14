@@ -80,6 +80,9 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
             "    select t.kafedra_id,count(t.id) as count from Teacher t\n" +
             "    group by t.kafedra_id\n" +
             ") as f2 on f2.kafedra_id = f1.kafedra_id",nativeQuery = true)
+    List<TeacherCountComeAndAll> getCountComeAndAll2();
+
+    @Query(value = "select * from dbo.GetKafedraAttendance()",nativeQuery = true)
     List<TeacherCountComeAndAll> getCountComeAndAll();
 
     @Query(value = "select  count(al.card_no) as count\n" +
