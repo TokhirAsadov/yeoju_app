@@ -22,11 +22,16 @@ public interface AddressUserRepository extends JpaRepository<AddressUser,String>
     StudentAddress getAddressCurrentByUserId(@Param("userId") String userId);
 
     @Query(value = "select count(u.id) as count,G.gandername as gander from users u join  AddressUser AU on u.id = AU.user_id join Gander G on G.id = u.gander_id where AU.region=:region group by G.gandername,AU.region",nativeQuery = true)
-    List<GanderStatistics> getGandersStatistics(@Param("region") String region);
+    List<GanderStatistics> getGandersStatistics2(@Param("region") String region);
+
+
 
 
     @Query(value = "select count(u.id) as count,et.name as eduType from users u join Student s on u.id = s.user_id  join groups g2 on s.group_id = g2.id join EducationType et on g2.educationType_id = et.id join  AddressUser AU on u.id = AU.user_id where AU.region=:region group by AU.region,et.name",nativeQuery = true)
-    List<EduTypeStatistics> getEduTypeStatistics(@Param("region") String region);
+    List<EduTypeStatistics> getEduTypeStatistics2(@Param("region") String region);
+
+    @Query(value = "select * from dbo.GetUserCountByEduType(?1)",nativeQuery = true)
+    List<EduTypeStatistics> getEduTypeStatistics(String region);
 
     @Query(value = "select count(*) as count,region  from AddressUser group by region order by region",nativeQuery = true)
     List<MapStatistics> getMapStatistics();
