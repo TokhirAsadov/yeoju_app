@@ -2,11 +2,17 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable.chang
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 
+import org.glassfish.grizzly.utils.ArraySet;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -14,23 +20,34 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import java.io.File;
 
+import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.educationYear.WeekOfEducationYear;
 import uz.yeoju.yeoju_app.entity.educationYear.WeekType;
+import uz.yeoju.yeoju_app.entity.timetableDB.CardDB;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
+import uz.yeoju.yeoju_app.payload.timetableChanging.ChangingRoomOfLessonDetailsDto;
 import uz.yeoju.yeoju_app.payload.timetableChanging.ChangingTeacherDetailsDto;
+import uz.yeoju.yeoju_app.repository.UserRepository;
+import uz.yeoju.yeoju_app.repository.educationYear.WeekOfEducationYearRepository;
+import uz.yeoju.yeoju_app.repository.timetableDB.CardDBRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable.TimeTableByWeekOfYearImplService;
 
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable.getSAXParsedDocument;
 
 @Service
 public class TimeTableChangingImplService implements TimeTableChangingService{
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    CardDBRepository cardDBRepository;
 
 
     public static final List<Period> periods = new ArrayList<>();
@@ -116,6 +133,99 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
 
         return null;
     }
+
+    @Override
+    public ApiResponse changingRoomOfLesson(ChangingRoomOfLessonDetailsDto dto) {
+        try {
+            Path path = dto.type.equals(WeekType.DEFAULT) ?
+                    Paths.get(dto.year + "\\" + dto.week + ".xml")
+                    : Paths.get(dto.year + "\\" + dto.week + "med.xml");
+            File xmlFile = path.toFile();
+
+            if (!xmlFile.exists()) {
+                return new ApiResponse(false, "The XML file does not exist at: " + path);
+            }
+
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(xmlFile);
+            doc.getDocumentElement().normalize();
+
+            XPathFactory xPathFactory = XPathFactory.newInstance();
+            XPath xPath = xPathFactory.newXPath();
+            String expression = String.format(
+                    "//card[@lessonid='%s' and @period='%s' and @days='%s']",
+                    dto.lessonId, dto.period, dto.dayCode
+            );
+            NodeList cardList = (NodeList) xPath.evaluate(expression, doc, XPathConstants.NODESET);
+
+            for (int i = 0; i < cardList.getLength(); i++) {
+                Element cardElement = (Element) cardList.item(i);
+//                Optional<ClassRoom> roomOptional = classRooms.stream()
+//                        .filter(room -> room.getId().equals(dto.roomId))
+//                        .findFirst();
+//
+//                if (roomOptional.isPresent()) {
+                    String classroomids = cardElement.getAttribute("classroomids");
+                    if (!classroomids.equals(dto.roomId)) {
+                        cardElement.setAttribute("classroomids", dto.roomId);
+                    }
+//                }
+            }
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(xmlFile);
+            transformer.transform(source, result);
+
+//060D83E303B2043C
+            User teacher = userRepository.getById(dto.teacherId);
+            String id = cardDBRepository.getCardId(
+                    dto.day,
+                    dto.period,
+                    new HashSet<>(Arrays.asList(teacher)),
+                    dto.week,
+                    dto.year
+            );
+            CardDB cardDB = cardDBRepository.getById(id);
+//            CardDB cardDB = new CardDB();
+
+            System.out.println("card db -> "+cardDB);
+/*            if(card.getClassroomIds().get(0).length()!=0){
+                ClassRoom room = classRooms.stream().filter(classRoom -> classRoom.getId().equals(card.getClassroomIds().get(0))).findFirst().get();
+                cardDB.setClassroom(room.getName());
+            }
+            for (DaysDef daysDef : daysDefs) {
+                if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
+                    if (daysDef.getDays().get(0).equals("1000000") ||daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                        cardDB.setDay(1);
+                    if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                        cardDB.setDay(2);
+                    if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                        cardDB.setDay(3);
+                    if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                        cardDB.setDay(4);
+                    if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                        cardDB.setDay(5);
+                    if (daysDef.getDays().get(0).equals("0000010")||daysDef.getDays().get(0).equals("000001"))
+                        cardDB.setDay(6);
+                    cardDB.setDayName(daysDef.getName()+"-"+daysDef.getShortName());
+                    break;
+                }
+            }
+            cardDBRepository.save(cardDB);*/
+
+            return new ApiResponse(true, "Classroom updated successfully");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse(false, "An error occurred: " + e.getMessage());
+        }
+    }
+
 
     @Override
     public ApiResponse getDataOfTeachers(WeekType weekType,Integer year, Integer week) {
