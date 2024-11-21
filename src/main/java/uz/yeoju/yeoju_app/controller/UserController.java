@@ -42,6 +42,11 @@ public class UserController {
     public final UserRepository userRepository;
     public final PasswordEncoder passwordEncoder;
 
+    @GetMapping("/time")
+    public Date getTime(){
+        return new Date();
+    }
+
     @GetMapping("/getLoginByPassport/{passport}")
     public HttpEntity<?> getLoginByPassport(@PathVariable("passport") String passport){
         return ResponseEntity.ok(userRepository.getLoginByPassport(passport));
