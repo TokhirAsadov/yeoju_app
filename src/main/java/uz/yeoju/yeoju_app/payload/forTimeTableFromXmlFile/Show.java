@@ -16,6 +16,8 @@ import java.util.Optional;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Show {
+    private String lessonId;
+    private String dayCode;
     private Integer dayNumber;
     private Integer hourNumber;
     private String room;
