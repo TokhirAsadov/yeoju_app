@@ -608,5 +608,9 @@ public class StaffImplService implements StaffService{
     }
 
 
-
+    @Override
+    public ApiResponse getMonitoringBetween(String room, Date start, Date end) {
+        Set<GetMonitoringBetween> betweenDate = staffRepository.getMonitoringBetweenDate(room, start, end);
+        return new ApiResponse(true,"all monitoring of staff", betweenDate);
+    }
 }
