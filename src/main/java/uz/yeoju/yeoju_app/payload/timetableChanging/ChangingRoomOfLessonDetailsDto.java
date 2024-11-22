@@ -26,4 +26,6 @@ public class ChangingRoomOfLessonDetailsDto {
 
     //new room id
     public String roomId;
+    //new room
+    public String room;
 }
