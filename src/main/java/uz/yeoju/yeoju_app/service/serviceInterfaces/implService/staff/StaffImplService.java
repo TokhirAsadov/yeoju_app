@@ -11,6 +11,8 @@ import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.dekanat.Dekan;
 import uz.yeoju.yeoju_app.entity.staff.Staff;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.staff.GetMonitoringBetween;
+import uz.yeoju.yeoju_app.payload.staff.GetMonitoringByDay;
 import uz.yeoju.yeoju_app.payload.staff.StaffSaveFromSection;
 import uz.yeoju.yeoju_app.payload.superAdmin.StaffSaveDto;
 import uz.yeoju.yeoju_app.repository.*;
@@ -592,5 +594,19 @@ public class StaffImplService implements StaffService{
             return new ApiResponse(true, "<??? 28", staffRepository.getDateForRektor28(date, id));
         }
     }
+
+    @Override
+    public ApiResponse getMonitoringByDay(String login, Integer year, Integer week, Integer weekday) {
+        boolean b = userRepository.existsUserByLogin(login);
+        if (b){
+            Set<GetMonitoringByDay> monitoringByDay = staffRepository.getMonitoringByDay(login, year, week, weekday);
+            return new ApiResponse(true,"all monitoring of staff", monitoringByDay);
+        }
+        else {
+            return new ApiResponse(false,"not fount staff");
+        }
+    }
+
+
 
 }
