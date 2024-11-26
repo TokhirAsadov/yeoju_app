@@ -13,5 +13,5 @@ public interface CardDBRepository extends JpaRepository<CardDB,String> {
             "join LessonDB_users lu on l.id = lu.LessonDB_id\n" +
             "join WeekOfEducationYear w on c.weekOfEducationYear_id = w.id\n" +
             "where c.day=?1 and c.period=?2 and lu.teachers_id=?3 and w.sortNumber=?4 and w.year=?5",nativeQuery = true)
-    String getCardId(Integer day, Integer period, Set<User> lesson_teachers, Integer weekOfEducationYear_sortNumber, Integer weekOfEducationYear_year);
+    String getCardId(Integer day, Integer period, String teacherId, Integer weekOfEducationYear_sortNumber, Integer weekOfEducationYear_year);
 }
