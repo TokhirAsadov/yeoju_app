@@ -4,9 +4,11 @@ import uz.yeoju.yeoju_app.entity.educationYear.WeekType;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.timetableChanging.ChangingRoomOfLessonDetailsDto;
 import uz.yeoju.yeoju_app.payload.timetableChanging.ChangingTeacherDetailsDto;
+import uz.yeoju.yeoju_app.payload.timetableChanging.ChangingTeacherOfLessonDetailsDto;
 
 public interface TimeTableChangingService {
     ApiResponse changingTeacherData(ChangingTeacherDetailsDto dto);
     ApiResponse changingRoomOfLesson(ChangingRoomOfLessonDetailsDto dto);
+    ApiResponse changingTeacherOfLesson(ChangingTeacherOfLessonDetailsDto dto);
     ApiResponse getDataOfTeachers(WeekType weekType, Integer year, Integer week);
 }
