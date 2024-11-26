@@ -11,7 +11,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
-import org.glassfish.grizzly.utils.ArraySet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -21,22 +20,24 @@ import org.w3c.dom.NodeList;
 import java.io.File;
 
 import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.entity.educationYear.WeekOfEducationYear;
 import uz.yeoju.yeoju_app.entity.educationYear.WeekType;
 import uz.yeoju.yeoju_app.entity.timetableDB.CardDB;
+import uz.yeoju.yeoju_app.entity.timetableDB.LessonDB;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
 import uz.yeoju.yeoju_app.payload.timetableChanging.ChangingRoomOfLessonDetailsDto;
 import uz.yeoju.yeoju_app.payload.timetableChanging.ChangingTeacherDetailsDto;
+import uz.yeoju.yeoju_app.payload.timetableChanging.ChangingTeacherOfLessonDetailsDto;
 import uz.yeoju.yeoju_app.repository.UserRepository;
-import uz.yeoju.yeoju_app.repository.educationYear.WeekOfEducationYearRepository;
 import uz.yeoju.yeoju_app.repository.timetableDB.CardDBRepository;
+import uz.yeoju.yeoju_app.repository.timetableDB.LessonDBRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable.TimeTableByWeekOfYearImplService;
 
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.db.DataBaseForTimeTable.getSAXParsedDocument;
 
@@ -48,6 +49,9 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
 
     @Autowired
     CardDBRepository cardDBRepository;
+
+    @Autowired
+    LessonDBRepository lessonDBRepository;
 
 
     public static final List<Period> periods = new ArrayList<>();
@@ -182,16 +186,17 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
             transformer.transform(source, result);
 
 //060D83E303B2043C
-            User teacher = userRepository.getById(dto.teacherId);
+            //TODO ---------------------------------------------------
             String id = cardDBRepository.getCardId(
                     dto.day,
                     dto.period,
-                    new HashSet<>(Arrays.asList(teacher)),
+                    dto.teacherId,
                     dto.week,
                     dto.year
             );
             CardDB cardDB = cardDBRepository.getById(id);
-//            CardDB cardDB = new CardDB();
+            cardDB.setClassroom(dto.room);
+            cardDBRepository.save(cardDB);
 
             System.out.println("card db -> "+cardDB);
 /*            if(card.getClassroomIds().get(0).length()!=0){
@@ -219,6 +224,78 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
             cardDBRepository.save(cardDB);*/
 
             return new ApiResponse(true, "Classroom updated successfully");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse(false, "An error occurred: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public ApiResponse changingTeacherOfLesson(ChangingTeacherOfLessonDetailsDto dto) {
+        try {
+            Path path = dto.type.equals(WeekType.DEFAULT) ?
+                    Paths.get(dto.year + "\\" + dto.week + ".xml")
+                    : Paths.get(dto.year + "\\" + dto.week + "med.xml");
+            File xmlFile = path.toFile();
+
+            if (!xmlFile.exists()) {
+                return new ApiResponse(false, "The XML file does not exist at: " + path);
+            }
+
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(xmlFile);
+            doc.getDocumentElement().normalize();
+
+            XPathFactory xPathFactory = XPathFactory.newInstance();
+            XPath xPath = xPathFactory.newXPath();
+            String expression = String.format(
+                    "//lesson[@id='%s']",
+                    dto.lessonId
+            );
+            NodeList lessonList = (NodeList) xPath.evaluate(expression, doc, XPathConstants.NODESET);
+
+            for (int i = 0; i < lessonList.getLength(); i++) {
+                Element lessonElement = (Element) lessonList.item(i);
+                String teacherids = lessonElement.getAttribute("teacherids");
+                if (!teacherids.equals(dto.xmlTeacherId)) {
+                    lessonElement.setAttribute("teacherids", dto.xmlTeacherId);
+                }
+
+            }
+
+            Optional<User> userByLogin = userRepository.findUserByLogin(dto.newTeacherShortname);
+
+            if (userByLogin.isPresent()) {
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+                DOMSource source = new DOMSource(doc);
+                StreamResult result = new StreamResult(xmlFile);
+                transformer.transform(source, result);
+
+                String id = cardDBRepository.getCardId(
+                        dto.day,
+                        dto.period,
+                        dto.teacherId,
+                        dto.week,
+                        dto.year
+                );
+                CardDB cardDB = cardDBRepository.getById(id);
+                LessonDB lesson = cardDB.getLesson();
+                Set<User> lessonTeachers = lesson.getTeachers();
+                HashSet<User> newTeachers = lessonTeachers.stream().filter(teacher -> teacher.getId() != dto.teacherId).collect(Collectors.toCollection(HashSet::new));
+                newTeachers.add(userByLogin.get());
+                lesson.setTeachers(newTeachers);
+                lessonDBRepository.save(lesson);
+
+                return new ApiResponse(true, "Lesson updated successfully");
+            }
+            else {
+                return new ApiResponse(false, "The teacher does not exist by shortname: " + dto.newTeacherShortname+".\n Please, check teacher's details.");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
