@@ -45,4 +45,13 @@ public class TimeTableChangingController {
         return ResponseEntity.ok(service.getDataOfTeachers(weekType, year, week));
     }
 
+    @GetMapping("/getDataOfRooms/{weekType}")
+    HttpEntity<?> getDataOfRooms(
+            @PathVariable WeekType weekType,
+            @RequestParam("year") Integer year,
+            @RequestParam("week") Integer week
+    ){
+        return ResponseEntity.ok(service.getDataOfRooms(weekType, year, week));
+    }
+
 }
