@@ -318,7 +318,14 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
 
     @Override
     public ApiResponse getDataOfRooms(WeekType weekType, Integer year, Integer week) {
-        return null;
+        if (weekType==WeekType.DEFAULT){
+            getTimeTableByWeek(year,week);
+            return new ApiResponse(true,"all rooms year: "+year+", week: "+week,classRooms);
+        }
+        else {
+            getTimeTableByWeekMed(year,week);
+            return new ApiResponse(true,"all med rooms year: "+year+", week: "+week,classRoomsMed);
+        }
     }
 
 
