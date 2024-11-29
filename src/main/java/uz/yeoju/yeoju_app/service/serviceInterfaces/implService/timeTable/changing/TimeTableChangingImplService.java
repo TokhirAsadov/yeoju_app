@@ -316,6 +316,11 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
         }
     }
 
+    @Override
+    public ApiResponse getDataOfRooms(WeekType weekType, Integer year, Integer week) {
+        return null;
+    }
+
 
     public void getTimeTableByWeek(Integer year, Integer week) {
         clearTimeTable();
@@ -323,18 +328,18 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
         String xmlFile = year+"/"+week+".xml";
         org.jdom2.Document document = getSAXParsedDocument(xmlFile);
         org.jdom2.Element rootNode = document.getRootElement();
-        rootNode.getChild("periods").getChildren("period").forEach(TimeTableByWeekOfYearImplService::readPeriod);
-        rootNode.getChild("daysdefs").getChildren("daysdef").forEach(TimeTableByWeekOfYearImplService::readDaysDef);
-        rootNode.getChild("weeksdefs").getChildren("weeksdef").forEach(TimeTableByWeekOfYearImplService::readWeeksDef);
-        rootNode.getChild("termsdefs").getChildren("termsdef").forEach(TimeTableByWeekOfYearImplService::readTermsDefs);
-        rootNode.getChild("subjects").getChildren("subject").forEach(TimeTableByWeekOfYearImplService::readSubject);
-        rootNode.getChild("teachers").getChildren("teacher").forEach(TimeTableByWeekOfYearImplService::readTeacher);
-        rootNode.getChild("classrooms").getChildren("classroom").forEach(TimeTableByWeekOfYearImplService::readClassroom);
-        rootNode.getChild("grades").getChildren("grade").forEach(TimeTableByWeekOfYearImplService::readGrade);
-        rootNode.getChild("classes").getChildren("class").forEach(TimeTableByWeekOfYearImplService::readClass);
-        rootNode.getChild("groups").getChildren("group").forEach(TimeTableByWeekOfYearImplService::readGroup);
-        rootNode.getChild("lessons").getChildren("lesson").forEach(TimeTableByWeekOfYearImplService::readLesson);
-        rootNode.getChild("cards").getChildren("card").forEach(TimeTableByWeekOfYearImplService::readCard);
+        rootNode.getChild("periods").getChildren("period").forEach(TimeTableChangingImplService::readPeriod);
+        rootNode.getChild("daysdefs").getChildren("daysdef").forEach(TimeTableChangingImplService::readDaysDef);
+        rootNode.getChild("weeksdefs").getChildren("weeksdef").forEach(TimeTableChangingImplService::readWeeksDef);
+        rootNode.getChild("termsdefs").getChildren("termsdef").forEach(TimeTableChangingImplService::readTermsDefs);
+        rootNode.getChild("subjects").getChildren("subject").forEach(TimeTableChangingImplService::readSubject);
+        rootNode.getChild("teachers").getChildren("teacher").forEach(TimeTableChangingImplService::readTeacher);
+        rootNode.getChild("classrooms").getChildren("classroom").forEach(TimeTableChangingImplService::readClassroom);
+        rootNode.getChild("grades").getChildren("grade").forEach(TimeTableChangingImplService::readGrade);
+        rootNode.getChild("classes").getChildren("class").forEach(TimeTableChangingImplService::readClass);
+        rootNode.getChild("groups").getChildren("group").forEach(TimeTableChangingImplService::readGroup);
+        rootNode.getChild("lessons").getChildren("lesson").forEach(TimeTableChangingImplService::readLesson);
+        rootNode.getChild("cards").getChildren("card").forEach(TimeTableChangingImplService::readCard);
     }
 
 
@@ -344,18 +349,18 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
         String xmlFile = year+"/"+week+"med.xml";
         org.jdom2.Document document = getSAXParsedDocument(xmlFile);
         org.jdom2.Element rootNode = document.getRootElement();
-        rootNode.getChild("periods").getChildren("period").forEach(TimeTableByWeekOfYearImplService::readPeriodMed);
-        rootNode.getChild("daysdefs").getChildren("daysdef").forEach(TimeTableByWeekOfYearImplService::readDaysDefMed);
-        rootNode.getChild("weeksdefs").getChildren("weeksdef").forEach(TimeTableByWeekOfYearImplService::readWeeksDefMed);
-        rootNode.getChild("termsdefs").getChildren("termsdef").forEach(TimeTableByWeekOfYearImplService::readTermsDefsMed);
-        rootNode.getChild("subjects").getChildren("subject").forEach(TimeTableByWeekOfYearImplService::readSubjectMed);
-        rootNode.getChild("teachers").getChildren("teacher").forEach(TimeTableByWeekOfYearImplService::readTeacherMed);
-        rootNode.getChild("classrooms").getChildren("classroom").forEach(TimeTableByWeekOfYearImplService::readClassroomMed);
-        rootNode.getChild("grades").getChildren("grade").forEach(TimeTableByWeekOfYearImplService::readGradeMed);
-        rootNode.getChild("classes").getChildren("class").forEach(TimeTableByWeekOfYearImplService::readClassMed);
-        rootNode.getChild("groups").getChildren("group").forEach(TimeTableByWeekOfYearImplService::readGroupMed);
-        rootNode.getChild("lessons").getChildren("lesson").forEach(TimeTableByWeekOfYearImplService::readLessonMed);
-        rootNode.getChild("cards").getChildren("card").forEach(TimeTableByWeekOfYearImplService::readCardMed);
+        rootNode.getChild("periods").getChildren("period").forEach(TimeTableChangingImplService::readPeriodMed);
+        rootNode.getChild("daysdefs").getChildren("daysdef").forEach(TimeTableChangingImplService::readDaysDefMed);
+        rootNode.getChild("weeksdefs").getChildren("weeksdef").forEach(TimeTableChangingImplService::readWeeksDefMed);
+        rootNode.getChild("termsdefs").getChildren("termsdef").forEach(TimeTableChangingImplService::readTermsDefsMed);
+        rootNode.getChild("subjects").getChildren("subject").forEach(TimeTableChangingImplService::readSubjectMed);
+        rootNode.getChild("teachers").getChildren("teacher").forEach(TimeTableChangingImplService::readTeacherMed);
+        rootNode.getChild("classrooms").getChildren("classroom").forEach(TimeTableChangingImplService::readClassroomMed);
+        rootNode.getChild("grades").getChildren("grade").forEach(TimeTableChangingImplService::readGradeMed);
+        rootNode.getChild("classes").getChildren("class").forEach(TimeTableChangingImplService::readClassMed);
+        rootNode.getChild("groups").getChildren("group").forEach(TimeTableChangingImplService::readGroupMed);
+        rootNode.getChild("lessons").getChildren("lesson").forEach(TimeTableChangingImplService::readLessonMed);
+        rootNode.getChild("cards").getChildren("card").forEach(TimeTableChangingImplService::readCardMed);
     }
 
 
