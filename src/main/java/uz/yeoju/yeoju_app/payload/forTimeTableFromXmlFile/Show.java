@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.educationYear.WeekType;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 
@@ -28,4 +29,5 @@ public class Show {
     private List<Teacher> teachers;
     private List<String> groups;
     private String kafedraId;
+    private WeekType type;
 }
