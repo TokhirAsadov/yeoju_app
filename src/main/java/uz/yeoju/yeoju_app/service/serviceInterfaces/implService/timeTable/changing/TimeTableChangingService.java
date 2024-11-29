@@ -11,4 +11,6 @@ public interface TimeTableChangingService {
     ApiResponse changingRoomOfLesson(ChangingRoomOfLessonDetailsDto dto);
     ApiResponse changingTeacherOfLesson(ChangingTeacherOfLessonDetailsDto dto);
     ApiResponse getDataOfTeachers(WeekType weekType, Integer year, Integer week);
+
+    ApiResponse getDataOfRooms(WeekType weekType, Integer year, Integer week);
 }
