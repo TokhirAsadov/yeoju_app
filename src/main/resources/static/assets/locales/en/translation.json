@@ -1,6 +1,5 @@
 {
   "language": "Languages",
-
   "navbar_login_email_title": "Email",
   "navbar_login_tel_title": "Call Center",
   "navbar_login_address_title": "Address",
@@ -8,7 +7,6 @@
   "navbar_menu_qabul": "access",
   "navbar_menu_javob": "asks for rest",
   "navbar_menu_tarix": "history",
-
   "rektor_sidebar_menu": "Menu",
   "rektor_dean_many_nb": "Attendance of students",
   "rektor_sidebar_student": "Students",
@@ -23,8 +21,6 @@
   "rektor_sidebar_groups": "Statistics of Groups",
   "rektor_sidebar_teachersWeek": "Statistics of Kafedra Teachers",
   "rektor_sidebar_statistics_dean": "Dean's statistics",
-
-
   "dekan_sidebar_dashboard": "Dashboard",
   "dekan_sidebar_users": "Students",
   "dekan_sidebar_message": "Messages",
@@ -41,10 +37,7 @@
   "dekan_sidebar_notice": "Notice",
   "dean_sidebar_attend": "Attendance",
   "dean_sidebar_results": "Results",
-
   "bulim_sidebar_staffs": "Staffs",
-
-
   "kafedra_sidebar_dashboard": "Dashboard",
   "kafedra_sidebar_teachers": "Teachers",
   "kafedra_sidebar_message": "Messages",
@@ -56,8 +49,6 @@
   "kafedra_sidebar_subjects": "Subjects",
   "kafedra_sidebar_statement": "Statement",
   "kafedra_sidebar_controlTest": "Control Test",
-
-
   "student_sidebar_settings": "Settings",
   "student_sidebar_service": " Student service",
   "student_sidebar_menu": "Dashboard",
@@ -68,15 +59,12 @@
   "student_sidebar_results": "Results",
   "student_sidebar_retake": "Retake",
   "student_sidebar_finals": "Finals",
-
   "teacher_sidebar_files": "Files",
   "teacher_sidebar_statistics": "Statistics",
   "teacher_sidebar_kafedra_dashboard": "Change User",
   "teacher_sidebar_journal": "Journal",
   "teacher_sidebar_sciences": "Sciences",
-
   "barchart_workers_title": "Working staff",
-
   "super_admin_sidebar_user": "User",
   "super_admin_sidebar_teacher": "Teacher",
   "super_admin_sidebar_kafedra": "Kafedra",
@@ -87,10 +75,7 @@
   "super_admin_sidebar_staff": "Staff",
   "super_admin_sidebar_school": "School",
   "super_admin_sidebar_faculty": "Faculty Directions",
-
-
   "boshqarama_education": "Monitoring",
-
   "trainingdivision_sidebar_dashboard": "Dashboard",
   "trainingdivision_sidebar_report": "Report of Day",
   "trainingdivision_sidebar_timetable": "Time table",
@@ -104,7 +89,7 @@
   "trainingdivision_sidebar_students": "Students",
   "trainingdivision_sidebar_teachers": "Teachers",
   "trainingdivision_sidebar_eduYear": "Education years",
-
+  "change_time_table": "Change time table",
 
   "admin_sidebar_menu": "Menu",
   "admin_sidebar_user": "User",
@@ -116,5 +101,4 @@
     "newcomers ",
     "*because"
   ]
-
 }

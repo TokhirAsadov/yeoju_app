@@ -1,8 +1,14 @@
+/*! core-js/modules/esnext.iterator.for-each.js */
+
+/*! core-js/modules/esnext.async-iterator.for-each.js */
+
 /*! @mui/material/Autocomplete */
 
 /*! @mui/material/TextField */
 
 /*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/es.array.push.js */
 
 /*! axios */
 
@@ -10,13 +16,7 @@
 
 /*! moment/locale/ru */
 
-/*! core-js/modules/es.array.push.js */
-
 /*! core-js/modules/es.promise.finally.js */
-
-/*! core-js/modules/esnext.iterator.constructor.js */
-
-/*! core-js/modules/esnext.iterator.for-each.js */
 
 /*! ../../teacher/timeTable/TeacherTimeTableOfWeek */
 
@@ -28,9 +28,9 @@
 
 /*! core-js/modules/web.dom-collections.iterator.js */
 
-/*! core-js/modules/esnext.async-iterator.for-each.js */
-
 /*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
 
 /*! react */
 
