@@ -12,10 +12,12 @@ import uz.yeoju.yeoju_app.payload.resDto.uquvbulim.DataOfLeaders;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 //@EnableJpaRepositories
 public interface TeacherRepository extends JpaRepository<Teacher, String> {
 
+    Set<Teacher> findAllByKafedraId(String kafedra_id);
 
     Boolean existsTeacherByUserId(String user_id);
 
