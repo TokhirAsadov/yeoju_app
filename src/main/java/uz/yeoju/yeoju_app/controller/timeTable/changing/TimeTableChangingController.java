@@ -45,6 +45,18 @@ public class TimeTableChangingController {
         return ResponseEntity.ok(service.getDataOfTeachers(weekType, year, week));
     }
 
+    @GetMapping("/getDataOfFreeTeachers/{kafedraId}")
+    HttpEntity<?> getDataOfFreeTeachers(
+            @PathVariable String kafedraId,
+            @RequestParam("year") Integer year,
+            @RequestParam("week") Integer week,
+            @RequestParam("dayCode") String dayCode,
+            @RequestParam("period") Integer period
+    ){
+        ApiResponse response = service.getDataOfFreeTeachers(kafedraId, year, week, dayCode, period);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 400).body(response);
+    }
+
     @GetMapping("/getDataOfRooms/{weekType}")
     HttpEntity<?> getDataOfRooms(
             @PathVariable WeekType weekType,
@@ -53,5 +65,7 @@ public class TimeTableChangingController {
     ){
         return ResponseEntity.ok(service.getDataOfRooms(weekType, year, week));
     }
+
+
 
 }
