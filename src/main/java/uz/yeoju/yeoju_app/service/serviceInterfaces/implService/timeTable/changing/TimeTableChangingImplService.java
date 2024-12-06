@@ -332,6 +332,69 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
     }
 
     @Override
+    public ApiResponse getDataOfFreeRooms(Integer year, Integer week, String dayCode, Integer period) {
+
+        getTimeTableByWeek(year,week);
+        getTimeTableByWeekMed(year,week);
+
+        Set<ClassRoom> freeRooms = new HashSet<>();
+
+        Optional<DaysDef> daysDef1 = daysDefs.stream().filter(daysDef -> daysDef.getDays().get(0).equals(dayCode)).findFirst();
+        Optional<DaysDef> daysDef2 = daysDefsMed.stream().filter(daysDef -> daysDef.getDays().get(0).equals(dayCode)).findFirst();
+
+        if (daysDef1.isPresent()){
+            DaysDef daysDef = daysDef1.get();
+            String daysDefShortName = daysDef.getShortName();
+            classRooms.forEach(classRoom -> {
+                Set<Card> collected = cards.stream().filter(card -> (card.getClassroomIds().contains(classRoom.getId()) && Objects.equals(card.getPeriod(), period) && card.getDays().contains(dayCode))).collect(Collectors.toSet());
+                if (collected.isEmpty()){
+                    freeRooms.add(classRoom);
+                }
+            });
+
+            Optional<DaysDef> daysDefOptional = daysDefsMed.stream().filter(daysDefM -> daysDefM.getShortName().equals(daysDefShortName)).findFirst();
+            if (daysDefOptional.isPresent()){
+                DaysDef daysDefM = daysDefOptional.get();
+                classRoomsMed.forEach(classRoom -> {
+                    Set<Card> collected = cardsMed.stream().filter(card -> (card.getClassroomIds().contains(classRoom.getId()) && Objects.equals(card.getPeriod(), period) && card.getDays().contains(daysDefM.getDays().get(0)))).collect(Collectors.toSet());
+                    if (collected.isEmpty()){
+                        freeRooms.add(classRoom);
+                    }
+                });
+            }
+
+            return new ApiResponse(true,"all rooms year: "+year+", week: "+week,freeRooms);
+        } else if (daysDef2.isPresent()) {
+            DaysDef daysDef = daysDef2.get();
+            String daysDefShortName = daysDef.getShortName();
+            classRoomsMed.forEach(classRoom -> {
+                Set<Card> collected = cardsMed.stream().filter(card -> (card.getClassroomIds().contains(classRoom.getId()) && Objects.equals(card.getPeriod(), period) && card.getDays().contains(dayCode))).collect(Collectors.toSet());
+                if (collected.isEmpty()){
+                    freeRooms.add(classRoom);
+                }
+            });
+
+            Optional<DaysDef> daysDefOptional = daysDefs.stream().filter(daysDefM -> daysDefM.getShortName().equals(daysDefShortName)).findFirst();
+            if (daysDefOptional.isPresent()){
+                DaysDef daysDefM = daysDefOptional.get();
+                classRooms.forEach(classRoom -> {
+                    Set<Card> collected = cards.stream().filter(card -> (card.getClassroomIds().contains(classRoom.getId()) && Objects.equals(card.getPeriod(), period) && card.getDays().contains(daysDefM.getDays().get(0)))).collect(Collectors.toSet());
+                    if (collected.isEmpty()){
+                        freeRooms.add(classRoom);
+                    }
+                });
+            }
+
+            return new ApiResponse(true,"all rooms year: "+year+", week: "+week,freeRooms);
+        }
+        else {
+            return new ApiResponse(false,"error occurred with day code: "+dayCode);
+        }
+
+
+    }
+
+    @Override
     public ApiResponse getDataOfFreeTeachers(String kafedraId, Integer year, Integer week, String dayCode, Integer period) {
 
         Set<uz.yeoju.yeoju_app.entity.teacher.Teacher> allByKafedraId = teacherRepository.findAllByKafedraId(kafedraId);
