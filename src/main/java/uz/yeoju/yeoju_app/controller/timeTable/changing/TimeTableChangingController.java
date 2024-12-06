@@ -66,6 +66,16 @@ public class TimeTableChangingController {
         return ResponseEntity.ok(service.getDataOfRooms(weekType, year, week));
     }
 
+    @GetMapping("/getDataOfFreeRooms")
+    HttpEntity<?> getDataOfFreeRooms(
+            @RequestParam("year") Integer year,
+            @RequestParam("week") Integer week,
+            @RequestParam("dayCode") String dayCode,
+            @RequestParam("period") Integer period
+    ){
+        System.out.println(period+" - "+dayCode);
+        return ResponseEntity.ok(service.getDataOfFreeRooms(year, week,dayCode,period));
+    }
 
 
 }
