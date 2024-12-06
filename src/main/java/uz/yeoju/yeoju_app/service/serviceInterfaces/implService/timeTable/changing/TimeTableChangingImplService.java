@@ -28,10 +28,10 @@ import uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.*;
 import uz.yeoju.yeoju_app.payload.timetableChanging.ChangingRoomOfLessonDetailsDto;
 import uz.yeoju.yeoju_app.payload.timetableChanging.ChangingTeacherDetailsDto;
 import uz.yeoju.yeoju_app.payload.timetableChanging.ChangingTeacherOfLessonDetailsDto;
+import uz.yeoju.yeoju_app.repository.TeacherRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.timetableDB.CardDBRepository;
 import uz.yeoju.yeoju_app.repository.timetableDB.LessonDBRepository;
-import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable.TimeTableByWeekOfYearImplService;
 
 
 import java.nio.file.Path;
@@ -46,6 +46,9 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    TeacherRepository teacherRepository;
 
     @Autowired
     CardDBRepository cardDBRepository;
@@ -308,11 +311,11 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
     public ApiResponse getDataOfTeachers(WeekType weekType,Integer year, Integer week) {
         if (weekType==WeekType.DEFAULT){
             getTimeTableByWeek(year,week);
-            return new ApiResponse(true,"all teachers year: "+year+", week: "+week,teachers);
+            return new ApiResponse(true,"all teachers year: "+year+", week: "+week, new HashSet<>(teachers));
         }
         else {
             getTimeTableByWeekMed(year,week);
-            return new ApiResponse(true,"all med teachers year: "+year+", week: "+week,teachersMed);
+            return new ApiResponse(true,"all med teachers year: "+year+", week: "+week,new HashSet<>(teachersMed));
         }
     }
 
@@ -325,6 +328,104 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
         else {
             getTimeTableByWeekMed(year,week);
             return new ApiResponse(true,"all med rooms year: "+year+", week: "+week,classRoomsMed);
+        }
+    }
+
+    @Override
+    public ApiResponse getDataOfFreeTeachers(String kafedraId, Integer year, Integer week, String dayCode, Integer period) {
+
+        Set<uz.yeoju.yeoju_app.entity.teacher.Teacher> allByKafedraId = teacherRepository.findAllByKafedraId(kafedraId);
+
+        getTimeTableByWeek(year,week);
+        getTimeTableByWeekMed(year,week);
+
+
+        Set<Teacher> allTeachers=new HashSet<>();
+        allByKafedraId.forEach(teacherById -> {
+            Optional<Teacher> first = teachers.stream().filter(teacher -> teacher.getShortName().equals(teacherById.getUser().getLogin())).findFirst();
+            first.ifPresent(allTeachers::add);
+        });
+        Set<Teacher> allTeachers2=new HashSet<>();
+        allByKafedraId.forEach(teacherById -> {
+            Optional<Teacher> first = teachersMed.stream().filter(teacher -> teacher.getShortName().equals(teacherById.getUser().getLogin())).findFirst();
+            first.ifPresent(allTeachers2::add);
+        });
+
+        Set<Teacher> freeTeachers = new HashSet<>();
+
+        Optional<DaysDef> daysDef1 = daysDefs.stream().filter(daysDef -> daysDef.getDays().get(0).equals(dayCode)).findFirst();
+        Optional<DaysDef> daysDef2 = daysDefsMed.stream().filter(daysDef -> daysDef.getDays().get(0).equals(dayCode)).findFirst();
+        if (daysDef1.isPresent()) {
+            DaysDef daysDef = daysDef1.get();
+            String daysDefShortName = daysDef.getShortName();
+            new HashSet<>(allTeachers).forEach(teacher -> {
+                HashSet<LessonXml> lessonsCollected = lessons.stream().filter(lessonXml -> lessonXml.getTeacherIds().contains(teacher.getId())).collect(Collectors.toCollection(HashSet::new));
+                Set<Card> checker = new HashSet<>();
+                lessonsCollected.forEach(lessonXml -> {
+                    Set<Card> collected = cards.stream().filter(card -> (card.getLessonId().equals(lessonXml.getId()) && Objects.equals(card.getPeriod(), period) && card.getDays().contains(dayCode))).collect(Collectors.toSet());
+                    checker.addAll(collected);
+                });
+                if (checker.isEmpty()){
+                    freeTeachers.add(teacher);
+                }
+
+            });
+
+            Optional<DaysDef> daysDefOptional = daysDefsMed.stream().filter(daysDefM -> daysDefM.getShortName().equals(daysDefShortName)).findFirst();
+            if (daysDefOptional.isPresent()) {
+                DaysDef daysDefM = daysDefOptional.get();
+                new HashSet<>(allTeachers2).forEach(teacher -> {
+                    HashSet<LessonXml> lessonsCollected = lessonsMed.stream().filter(lessonXml -> lessonXml.getTeacherIds().contains(teacher.getId())).collect(Collectors.toCollection(HashSet::new));
+                    Set<Card> checker = new HashSet<>();
+                    lessonsCollected.forEach(lessonXml -> {
+                        Set<Card> collected = cardsMed.stream().filter(card -> (card.getLessonId().equals(lessonXml.getId()) && Objects.equals(card.getPeriod(), period) && card.getDays().contains(daysDefM.getDays().get(0)))).collect(Collectors.toSet());
+                        checker.addAll(collected);
+                    });
+                    if (checker.isEmpty()){
+                        freeTeachers.add(teacher);
+                    }
+
+                });
+            }
+            return new ApiResponse(true,"all teachers year: "+year+", week: "+week, new HashSet<>(freeTeachers));
+        }
+        else if (daysDef2.isPresent()) {
+            DaysDef daysDef = daysDef2.get();
+            String daysDefShortName = daysDef.getShortName();
+            new HashSet<>(allTeachers2).forEach(teacher -> {
+                HashSet<LessonXml> lessonsCollected = lessonsMed.stream().filter(lessonXml -> lessonXml.getTeacherIds().contains(teacher.getId())).collect(Collectors.toCollection(HashSet::new));
+                Set<Card> checker = new HashSet<>();
+                lessonsCollected.forEach(lessonXml -> {
+                    Set<Card> collected = cardsMed.stream().filter(card -> (card.getLessonId().equals(lessonXml.getId()) && Objects.equals(card.getPeriod(), period) && card.getDays().contains(dayCode))).collect(Collectors.toSet());
+                    checker.addAll(collected);
+                });
+                if (checker.isEmpty()) {
+                    freeTeachers.add(teacher);
+                }
+
+            });
+
+            Optional<DaysDef> daysDefOptional = daysDefs.stream().filter(daysDefD -> daysDefD.getShortName().equals(daysDefShortName)).findFirst();
+            if (daysDefOptional.isPresent()) {
+                DaysDef daysDefD = daysDefOptional.get();
+                new HashSet<>(allTeachers).forEach(teacher -> {
+                    HashSet<LessonXml> lessonsCollected = lessons.stream().filter(lessonXml -> lessonXml.getTeacherIds().contains(teacher.getId())).collect(Collectors.toCollection(HashSet::new));
+                    Set<Card> checker = new HashSet<>();
+                    lessonsCollected.forEach(lessonXml -> {
+                        Set<Card> collected = cards.stream().filter(card -> (card.getLessonId().equals(lessonXml.getId()) && Objects.equals(card.getPeriod(), period) && card.getDays().contains(daysDefD.getDays().get(0)))).collect(Collectors.toSet());
+                        checker.addAll(collected);
+                    });
+                    if (checker.isEmpty()) {
+                        freeTeachers.add(teacher);
+                    }
+
+                });
+            }
+
+            return new ApiResponse(true,"all teachers year: "+year+", week: "+week, new HashSet<>(freeTeachers));
+        }
+        else {
+            return new ApiResponse(false,"error occurred with day code: "+dayCode);
         }
     }
 
