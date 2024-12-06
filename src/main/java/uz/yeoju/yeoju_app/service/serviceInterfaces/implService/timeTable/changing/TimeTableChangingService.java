@@ -14,5 +14,5 @@ public interface TimeTableChangingService {
 
     ApiResponse getDataOfRooms(WeekType weekType, Integer year, Integer week);
 
-    ApiResponse getDataOfFreeTeachers(WeekType weekType, Integer year, Integer week, String dayCode, Integer period);
+    ApiResponse getDataOfFreeTeachers(String kafedraId, Integer year, Integer week, String dayCode, Integer period);
 }
