@@ -1,18 +1,12 @@
 /*! @mui/icons-material/CheckBoxOutlineBlank */
 
-/*! @mui/material/Button */
-
 /*! @mui/material/Box */
-
-/*! @mui/material/Select */
 
 /*! react-icons/ri */
 
-/*! @mui/material/MenuItem */
-
-/*! @mui/material/FormControl */
-
 /*! styled-components */
+
+/*! @mui/material */
 
 /*! ../../../utills/ServiceUrls */
 
@@ -25,6 +19,8 @@
 /*! core-js/modules/esnext.iterator.every.js */
 
 /*! @mui/icons-material/CheckBox */
+
+/*! @mui/material/Button */
 
 /*! react-icons/fa */
 
@@ -62,8 +58,6 @@
 
 /*! react-icons/bs */
 
-/*! @mui/material/InputLabel */
-
 /*! core-js/modules/esnext.async-iterator.map.js */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
@@ -73,7 +67,5 @@
 /*! @mui/material/Checkbox */
 
 /*! core-js/modules/esnext.iterator.find.js */
-
-/*! @mui/material */
 
 /*! core-js/modules/esnext.async-iterator.every.js */
