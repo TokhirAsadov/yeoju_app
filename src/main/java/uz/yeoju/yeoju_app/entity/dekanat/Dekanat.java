@@ -33,8 +33,8 @@ public class Dekanat extends AbsEntity {
     private String room;
     private String phone;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private EducationType eduType;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<EducationType> eduType;
 
     public Dekanat(String id, String name) {
         super(id);
