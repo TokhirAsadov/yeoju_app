@@ -26,8 +26,8 @@ public class Dekan extends AbsEntity {
     @OneToOne(fetch = FetchType.LAZY)
     private Dekanat dekanat;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private EducationType educationType;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<EducationType> educationType;
 
     public Dekan(String id, User user) {
         super(id);
