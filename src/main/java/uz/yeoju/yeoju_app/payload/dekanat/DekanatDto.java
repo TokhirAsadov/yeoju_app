@@ -20,7 +20,7 @@ public class DekanatDto {
     private OwnerDto owner;
     private String room;
     private String phone;
-    private String eduType;
+    private Set<String> eduTypes;
 
     public DekanatDto(String id, String name, Set<String> facultiesName, Set<String> roles, Set<String> positions, OwnerDto owner, String room, String phone) {
         this.id = id;
