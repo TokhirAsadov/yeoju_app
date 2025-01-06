@@ -19,8 +19,8 @@ public class NotificationOuterController {
     private final NotificationOuterService service;
 
     @GetMapping("/getAllOuterNotifications")
-    public HttpEntity<?> getAllOuterNotifications() {
-        return ResponseEntity.ok(service.findAllNotifications());
+    public HttpEntity<?> getAllOuterNotifications(@CurrentUser User user) {
+        return ResponseEntity.ok(service.findAllNotifications(user));
     }
 
     @GetMapping("/getAllCounters")
