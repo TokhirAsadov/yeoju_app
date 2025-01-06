@@ -34,8 +34,8 @@ public class NotificationOuterImplService implements NotificationOuterService{
     private final GroupRepository groupRepository;
 
     @Override
-    public ApiResponse findAllNotifications() {
-        return new ApiResponse(true,"all notifications", notificationRepository.findAll().stream().map(this::generateDto).collect(Collectors.toSet()));
+    public ApiResponse findAllNotifications(User user) {
+        return new ApiResponse(true,"all notifications", notificationRepository.findAllByCreatedBy(user.getId()).stream().map(this::generateDto).collect(Collectors.toSet()));
     }
 
     @Override
