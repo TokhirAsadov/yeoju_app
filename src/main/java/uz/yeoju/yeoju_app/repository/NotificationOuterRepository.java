@@ -6,9 +6,13 @@ import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.dekanat.NotificationOuter;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.GetStudentNotificationOuters;
 
+import java.util.List;
 import java.util.Set;
 
 public interface NotificationOuterRepository extends JpaRepository<NotificationOuter,String> {
+
+    List<NotificationOuter> findAllByCreatedBy(String createdBy);
+
     @Query(value = "select n.id,ey.name as educationYear, n.fromDate,n.toDate,n.createdAt,n.queue from NotificationOuter n \n" +
             "join EducationYear ey on ey.id = n.educationYear_id\n" +
             "join NotificationOuter_groups NOg on n.id = NOg.NotificationOuter_id\n" +
