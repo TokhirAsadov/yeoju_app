@@ -17,6 +17,7 @@ import uz.yeoju.yeoju_app.payload.dekanat.*;
 import uz.yeoju.yeoju_app.repository.*;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.DekanImplService;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -172,12 +173,20 @@ public class DekanService implements DekanImplService<DekanDto> {
             Optional<Dekanat> dekanatOptional = dekanatRepository.findById(dto.getDekanatId());
 
             if (dekanatOptional.isPresent()){
-                Optional<EducationType> typeOptional = educationTypeRepository.findEducationTypeByName(dto.getEdu());
-                if (typeOptional.isPresent()) {
+                Set<EducationType> educationTypes = new HashSet<>();
+                for (String edu : dto.getEdu()) {
+                    Optional<EducationType> typeOptional = educationTypeRepository.findEducationTypeByName(edu);
+                    if (typeOptional.isPresent()) {
+                        educationTypes.add(typeOptional.get());
+                    }
+                }
+
+
+                if (!educationTypes.isEmpty()) {
                     Dekan dekan = new Dekan();
                     dekan.setDekanat(dekanatOptional.get());
                     dekan.setUser(userOptional.get());
-                    dekan.setEducationType(typeOptional.get());
+                    dekan.setEducationType(educationTypes);
                     dekanRepository.saveAndFlush(dekan);
                     return new ApiResponse(true, "saved", dekan);
                 }
