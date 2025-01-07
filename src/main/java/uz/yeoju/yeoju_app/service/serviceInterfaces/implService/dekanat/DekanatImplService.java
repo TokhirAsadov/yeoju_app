@@ -98,9 +98,16 @@ public class DekanatImplService implements DekanatService{
                                     dekanat.setRoom(dto.getRoom());
                                     dekanat.setPhone(dto.getPhone());
                                     dekanat.setName(dto.getName());
-                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                                    if (educationTypeByName != null) {
-                                        dekanat.setEduType(educationTypeByName);
+                                    Set<EducationType> educationTypes = new HashSet<>();
+                                    for (String eduType : dto.getEduTypes()) {
+                                        EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(eduType);
+                                        if (educationTypeByName != null) {
+                                            educationTypes.add(educationTypeByName);
+                                        }
+                                    }
+
+                                    if (!educationTypes.isEmpty()) {
+                                        dekanat.setEduType(educationTypes);
                                     }
 
                                     Set<Role> roleSet = new HashSet<>();
@@ -133,9 +140,16 @@ public class DekanatImplService implements DekanatService{
                                     dekanat.setRoom(dto.getRoom());
                                     dekanat.setPhone(dto.getPhone());
                                     dekanat.setName(dto.getName());
-                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                                    if (educationTypeByName != null) {
-                                        dekanat.setEduType(educationTypeByName);
+                                    Set<EducationType> educationTypes = new HashSet<>();
+                                    for (String eduType : dto.getEduTypes()) {
+                                        EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(eduType);
+                                        if (educationTypeByName != null) {
+                                            educationTypes.add(educationTypeByName);
+                                        }
+                                    }
+
+                                    if (!educationTypes.isEmpty()) {
+                                        dekanat.setEduType(educationTypes);
                                     }
 
                                     Set<Role> roleSet = new HashSet<>();
@@ -162,8 +176,8 @@ public class DekanatImplService implements DekanatService{
 
                                     User user = userOptional.get();
                                     oldDekan.setUser(user);
-                                    if (educationTypeByName != null) {
-                                        oldDekan.setEducationType(educationTypeByName);
+                                    if (!educationTypes.isEmpty()){
+                                        oldDekan.setEducationType(educationTypes);
                                     }
                                     dekanRepository.save(oldDekan);
 
@@ -180,9 +194,16 @@ public class DekanatImplService implements DekanatService{
                                 dekanat.setRoom(dto.getRoom());
                                 dekanat.setPhone(dto.getPhone());
                                 dekanat.setName(dto.getName());
-                                EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                                if (educationTypeByName != null) {
-                                    dekanat.setEduType(educationTypeByName);
+                                Set<EducationType> educationTypes = new HashSet<>();
+                                for (String eduType : dto.getEduTypes()) {
+                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(eduType);
+                                    if (educationTypeByName != null) {
+                                        educationTypes.add(educationTypeByName);
+                                    }
+                                }
+
+                                if (!educationTypes.isEmpty()) {
+                                    dekanat.setEduType(educationTypes);
                                 }
 
                                 Set<Role> roleSet = new HashSet<>();
@@ -215,8 +236,8 @@ public class DekanatImplService implements DekanatService{
                                 user.setRoles(roleSet2);
                                 userRepository.saveAndFlush(user);
 
-                                if (educationTypeByName != null) {
-                                    oldDekan.setEducationType(educationTypeByName);
+                                if (!educationTypes.isEmpty()){
+                                    oldDekan.setEducationType(educationTypes);
                                 }
                                 oldDekan.setUser(user);
                                 dekanRepository.save(oldDekan);
@@ -231,9 +252,16 @@ public class DekanatImplService implements DekanatService{
                                 dekanat.setRoom(dto.getRoom());
                                 dekanat.setPhone(dto.getPhone());
                                 dekanat.setName(dto.getName());
-                                EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                                if (educationTypeByName != null) {
-                                    dekanat.setEduType(educationTypeByName);
+                                Set<EducationType> educationTypes = new HashSet<>();
+                                for (String eduType : dto.getEduTypes()) {
+                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(eduType);
+                                    if (educationTypeByName != null) {
+                                        educationTypes.add(educationTypeByName);
+                                    }
+                                }
+
+                                if (!educationTypes.isEmpty()) {
+                                    dekanat.setEduType(educationTypes);
                                 }
 
                                 Set<Role> roleSet = new HashSet<>();
@@ -259,8 +287,8 @@ public class DekanatImplService implements DekanatService{
                                 dekanatRepository.save(dekanat);
 
                                 dekanByUserId.setDekanat(dekanat);
-                                if (educationTypeByName != null) {
-                                    dekanByUserId.setEducationType(educationTypeByName);
+                                if (!educationTypes.isEmpty()){
+                                    dekanByUserId.setEducationType(educationTypes);
                                 }
                                 dekanRepository.save(dekanByUserId);
 
@@ -274,9 +302,16 @@ public class DekanatImplService implements DekanatService{
                                 dekanat.setRoom(dto.getRoom());
                                 dekanat.setPhone(dto.getPhone());
                                 dekanat.setName(dto.getName());
-                                EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                                if (educationTypeByName != null) {
-                                    dekanat.setEduType(educationTypeByName);
+                                Set<EducationType> educationTypes = new HashSet<>();
+                                for (String eduType : dto.getEduTypes()) {
+                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(eduType);
+                                    if (educationTypeByName != null) {
+                                        educationTypes.add(educationTypeByName);
+                                    }
+                                }
+
+                                if (!educationTypes.isEmpty()) {
+                                    dekanat.setEduType(educationTypes);
                                 }
 
                                 Set<Role> roleSet = new HashSet<>();
@@ -312,8 +347,8 @@ public class DekanatImplService implements DekanatService{
 
                                 Dekan dekan = new Dekan();
                                 dekan.setDekanat(dekanat);
-                                if (educationTypeByName != null) {
-                                    dekan.setEducationType(educationTypeByName);
+                                if (!educationTypes.isEmpty()){
+                                    dekan.setEducationType(educationTypes);
                                 }
                                 dekan.setUser(user);
                                 dekanRepository.save(dekan);
@@ -350,9 +385,16 @@ public class DekanatImplService implements DekanatService{
                                     dekanat.setRoom(dto.getRoom());
                                     dekanat.setPhone(dto.getPhone());
                                     dekanat.setName(dto.getName());
-                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                                    if (educationTypeByName != null) {
-                                        dekanat.setEduType(educationTypeByName);
+                                    Set<EducationType> educationTypes = new HashSet<>();
+                                    for (String eduType : dto.getEduTypes()) {
+                                        EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(eduType);
+                                        if (educationTypeByName != null) {
+                                            educationTypes.add(educationTypeByName);
+                                        }
+                                    }
+
+                                    if (!educationTypes.isEmpty()) {
+                                        dekanat.setEduType(educationTypes);
                                     }
 
                                     Set<Role> roleSet = new HashSet<>();
@@ -385,9 +427,16 @@ public class DekanatImplService implements DekanatService{
                                     dekanat.setRoom(dto.getRoom());
                                     dekanat.setPhone(dto.getPhone());
                                     dekanat.setName(dto.getName());
-                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                                    if (educationTypeByName != null) {
-                                        dekanat.setEduType(educationTypeByName);
+                                    Set<EducationType> educationTypes = new HashSet<>();
+                                    for (String eduType : dto.getEduTypes()) {
+                                        EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(eduType);
+                                        if (educationTypeByName != null) {
+                                            educationTypes.add(educationTypeByName);
+                                        }
+                                    }
+
+                                    if (!educationTypes.isEmpty()) {
+                                        dekanat.setEduType(educationTypes);
                                     }
 
                                     Set<Role> roleSet = new HashSet<>();
@@ -414,8 +463,8 @@ public class DekanatImplService implements DekanatService{
 
                                     User user = userOptional.get();
                                     oldDekan.setUser(user);
-                                    if (educationTypeByName != null) {
-                                        oldDekan.setEducationType(educationTypeByName);
+                                    if (!educationTypes.isEmpty()){
+                                        oldDekan.setEducationType(educationTypes);
                                     }
                                     dekanRepository.save(oldDekan);
 
@@ -432,9 +481,16 @@ public class DekanatImplService implements DekanatService{
                                 dekanat.setRoom(dto.getRoom());
                                 dekanat.setPhone(dto.getPhone());
                                 dekanat.setName(dto.getName());
-                                EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                                if (educationTypeByName != null) {
-                                    dekanat.setEduType(educationTypeByName);
+                                Set<EducationType> educationTypes = new HashSet<>();
+                                for (String eduType : dto.getEduTypes()) {
+                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(eduType);
+                                    if (educationTypeByName != null) {
+                                        educationTypes.add(educationTypeByName);
+                                    }
+                                }
+
+                                if (!educationTypes.isEmpty()) {
+                                    dekanat.setEduType(educationTypes);
                                 }
 
                                 Set<Role> roleSet = new HashSet<>();
@@ -467,8 +523,8 @@ public class DekanatImplService implements DekanatService{
                                 user.setRoles(roleSet2);
                                 userRepository.saveAndFlush(user);
 
-                                if (educationTypeByName != null) {
-                                    oldDekan.setEducationType(educationTypeByName);
+                                if (!educationTypes.isEmpty()){
+                                    oldDekan.setEducationType(educationTypes);
                                 }
                                 oldDekan.setUser(user);
                                 dekanRepository.save(oldDekan);
@@ -483,9 +539,16 @@ public class DekanatImplService implements DekanatService{
                                 dekanat.setRoom(dto.getRoom());
                                 dekanat.setPhone(dto.getPhone());
                                 dekanat.setName(dto.getName());
-                                EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                                if (educationTypeByName != null) {
-                                    dekanat.setEduType(educationTypeByName);
+                                Set<EducationType> educationTypes = new HashSet<>();
+                                for (String eduType : dto.getEduTypes()) {
+                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(eduType);
+                                    if (educationTypeByName != null) {
+                                        educationTypes.add(educationTypeByName);
+                                    }
+                                }
+
+                                if (!educationTypes.isEmpty()) {
+                                    dekanat.setEduType(educationTypes);
                                 }
 
                                 Set<Role> roleSet = new HashSet<>();
@@ -511,8 +574,8 @@ public class DekanatImplService implements DekanatService{
                                 dekanatRepository.save(dekanat);
 
                                 dekanByUserId.setDekanat(dekanat);
-                                if (educationTypeByName != null) {
-                                    dekanByUserId.setEducationType(educationTypeByName);
+                                if (!educationTypes.isEmpty()){
+                                    dekanByUserId.setEducationType(educationTypes);
                                 }
                                 dekanRepository.save(dekanByUserId);
 
@@ -526,9 +589,16 @@ public class DekanatImplService implements DekanatService{
                                 dekanat.setRoom(dto.getRoom());
                                 dekanat.setPhone(dto.getPhone());
                                 dekanat.setName(dto.getName());
-                                EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                                if (educationTypeByName != null) {
-                                    dekanat.setEduType(educationTypeByName);
+                                Set<EducationType> educationTypes = new HashSet<>();
+                                for (String eduType : dto.getEduTypes()) {
+                                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(eduType);
+                                    if (educationTypeByName != null) {
+                                        educationTypes.add(educationTypeByName);
+                                    }
+                                }
+
+                                if (!educationTypes.isEmpty()) {
+                                    dekanat.setEduType(educationTypes);
                                 }
 
                                 Set<Role> roleSet = new HashSet<>();
@@ -564,8 +634,8 @@ public class DekanatImplService implements DekanatService{
 
                                 Dekan dekan = new Dekan();
                                 dekan.setDekanat(dekanat);
-                                if (educationTypeByName != null) {
-                                    dekan.setEducationType(educationTypeByName);
+                                if (!educationTypes.isEmpty()){
+                                    dekan.setEducationType(educationTypes);
                                 }
                                 dekan.setUser(user);
                                 dekanRepository.save(dekan);
@@ -603,9 +673,16 @@ public class DekanatImplService implements DekanatService{
                 Dekan dekanByUserId = dekanRepository.getDekanByUserId(dto.getOwner().getValue());
                 if (dekanByUserId!=null) {
                     Dekanat dekanat = generateDekanat(dto);
-                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                    if (educationTypeByName != null) {
-                        dekanat.setEduType(educationTypeByName);
+                    Set<EducationType> educationTypes = new HashSet<>();
+                    for (String eduType : dto.getEduTypes()) {
+                        EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(eduType);
+                        if (educationTypeByName != null) {
+                            educationTypes.add(educationTypeByName);
+                        }
+                    }
+
+                    if (!educationTypes.isEmpty()) {
+                        dekanat.setEduType(educationTypes);
                     }
                     dekanat.setOwner(userOptional.get());
                     dekanat.setPhone(dto.getPhone());
@@ -621,9 +698,16 @@ public class DekanatImplService implements DekanatService{
                     User user = userOptional.get();
 
                     Dekanat dekanat = generateDekanat(dto);
-                    EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(dto.getEduType());
-                    if (educationTypeByName != null) {
-                        dekanat.setEduType(educationTypeByName);
+                    Set<EducationType> educationTypes = new HashSet<>();
+                    for (String eduType : dto.getEduTypes()) {
+                        EducationType educationTypeByName = educationTypeRepository.getEducationTypeByName(eduType);
+                        if (educationTypeByName != null) {
+                            educationTypes.add(educationTypeByName);
+                        }
+                    }
+
+                    if (!educationTypes.isEmpty()) {
+                        dekanat.setEduType(educationTypes);
                     }
                     dekanat.setOwner(user);
                     dekanat.setPhone(dto.getPhone());
@@ -639,8 +723,8 @@ public class DekanatImplService implements DekanatService{
 
                     Dekan dekan = new Dekan();
                     dekan.setDekanat(dekanat);
-                    if (educationTypeByName != null) {
-                        dekan.setEducationType(educationTypeByName);
+                    if (!educationTypes.isEmpty()){
+                        dekan.setEducationType(educationTypes);
                     }
                     dekan.setUser(user);
                     dekanRepository.save(dekan);
