@@ -7,9 +7,9 @@ import uz.yeoju.yeoju_app.payload.dekanat.NotificationOuterCreateDto;
 
 public interface ReferralService {
     ApiResponse findAllReferrals();
-//    ApiResponse getAllCounters();
-//    ApiResponse getStudentNotifications(String studentId);
+    ApiResponse getAllCounters();
+    ApiResponse getStudentReferrals(String studentId);
     ApiResponse createAndUpdate(ReferralCreateDto dto);
 //
-//    ApiResponse delete(User user, String id);
+    ApiResponse delete(User user, String id);
 }
