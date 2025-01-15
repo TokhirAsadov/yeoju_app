@@ -195,15 +195,16 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
 //            @Param("dateTo") LocalDateTime dateTo
 //    );
 
-    @Query(value = "select g.id,g.level,g.name as name, el.name as language,et.name as type,ef.name as form,f.shortName as faculty from groups g\n" +
+    @Query(value = "select g.id,g.level,g.name as name, el.name as language,et.name as type,ef.name as form,f.shortName as faculty  from Dekan d\n" +
+            "join Dekanat d2 on d.dekanat_id = d2.id\n" +
+            "join Dekanat_EducationType d_et on d2.id = d_et.Dekanat_id\n" +
+            "    join EducationType et on d_et.eduType_id = et.id\n" +
+            "join Dekanat_Faculty df on d2.id = df.Dekanat_id\n" +
+            "join Faculty f on df.faculties_id = f.id\n" +
+            "join groups g on f.id = g.faculty_id\n" +
             "left join EducationLanguage el on g.educationLanguage_id = el.id\n" +
-            "left join EducationType et on g.educationType_id = et.id\n" +
             "left join EducationForm ef on g.educationForm_id = ef.id\n" +
-            "    join Faculty f on g.faculty_id = f.id\n" +
-            "join Dekanat_Faculty d_f on d_f.faculties_id = g.faculty_id\n" +
-            "join Dekanat D2 on d_f.Dekanat_id = D2.id\n" +
-            "join Dekan D on D2.id = D.dekanat_id\n" +
-            "where D.user_id=:id and g.educationType_id=D.educationType_id and g.active=1  order by g.name asc",nativeQuery = true)
+            "where d.user_id=:id and g.educationType_id=et.id and g.active=1 order by g.name",nativeQuery = true)
     List<GroupsDatas> getGroupsNamesForDekanByFacultyId(@Param("id") String id);
 
     @Query(value = "select g.id,g.level,g.name as name, el.name as language,et.name as type,ef.name as form,f.shortName as faculty from groups g\n" +
@@ -226,12 +227,15 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "where g.faculty_id=?1 and g.level=?2 and et.name=?3 and g.active=1  order by g.name asc",nativeQuery = true)
     List<GroupsDatas> getGroupsNamesByFacultyIdAndLevelAndEduType(String facultyId, Integer course, String eduType);
 
-    @Query(value = "select g.name from groups g\n" +
-            "join Dekanat_Faculty DF on Df.faculties_id=g.faculty_id\n" +
-            "join Dekanat D on DF.Dekanat_id = D.id\n" +
-            "join Dekan d2 on D.id = d2.dekanat_id\n" +
-            "where (g.level=:level and d2.user_id=:userId and g.educationType_id=d2.educationType_id and g.active=1) order by g.name asc ",nativeQuery = true)
-    List<String> getGroupsNamesForDekanByDekanIdAndLevel(@Param("userId") String userId,@Param("level") Integer level);
+    @Query(value = "select g.name as name  from Dekan d\n" +
+            "join Dekanat d2 on d.dekanat_id = d2.id\n" +
+            "join Dekanat_EducationType d_et on d2.id = d_et.Dekanat_id\n" +
+            "    join EducationType et on d_et.eduType_id = et.id\n" +
+            "join Dekanat_Faculty df on d2.id = df.Dekanat_id\n" +
+            "join Faculty f on df.faculties_id = f.id\n" +
+            "join groups g on f.id = g.faculty_id\n" +
+            "where g.level=:level and d.user_id=:id and g.educationType_id=et.id and g.active=1 order by g.name",nativeQuery = true)
+    List<String> getGroupsNamesForDekanByDekanIdAndLevel(@Param("id") String userId,@Param("level") Integer level);
 
 //    @Query(value = "select g.name from groups g\n" +
 //            "join Dekanat_Faculty DF on Df.faculties_id=g.faculty_id\n" +
