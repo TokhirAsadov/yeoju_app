@@ -57,6 +57,9 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     @Query(value = "select * from dbo.GetAllSubjectsByDayAndGroupAndStudentId(?1,?2,?3,?4,?5) order by section;",nativeQuery = true)
     Set<GetAllSubjectsByDayAndGroupAndStudentId> getAllSubjectsByDayAndGroupAndStudentId(String studentId,String groupId,Integer year,Integer week,Integer day);
 
+    @Query(value = "select * from dbo.GetAllSubjectsByDayAndGroupAndStudentId2(?1,?2,?3,?4,?5) order by section;",nativeQuery = true)
+    Set<GetAllSubjectsByDayAndGroupAndStudentId> getAllSubjectsByDayAndGroupAndStudentId2(String studentId,String groupId,Integer year,Integer week,Integer day);
+
     @Query(value = "select dbo.GetStudentMonitoringByDay(?1,?2,?3,?4,?5);",nativeQuery = true)
     String getStudentMonitoringByDay(String studentId,String groupId,Integer year,Integer week,Integer day);
 
@@ -203,23 +206,10 @@ public interface StudentRepository extends JpaRepository<Student, String> {
 
 
 
-    @Query(value = "SELECT count(f.cardNo) as comeCount from (\n" +
-            "select  COUNT(al.card_no) as cardNo\n" +
-            "from acc_monitor_log al\n" +
-            "      join users u\n" +
-            "           on cast(u.RFID as varchar) =\n" +
-            "              cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-            "      join users_Role ur\n" +
-            "           on u.id = ur.users_id\n" +
-            "      join (select id from Role where roleName = 'ROLE_STUDENT') as role\n" +
-            "           on ur.roles_id = role.id\n" +
-            "where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)\n" +
-            "group by al.card_no\n" +
-            "\n" +
-            ") as f\n" +
+    @Query(value = "select dbo.countOfComeStudents()\n" +
             "union\n" +
-            "select count(s.id) from Student s join AddressUser a on s.user_id = a.user_id and s.teachStatus='TEACHING'",nativeQuery = true)
-    List<Integer> getStudentComeCount();
+            "select dbo.countOfAllStudents()",nativeQuery = true)
+    List<Long> getStudentComeCount();
 
     @Query(value = "select * from groups g\n" +
             "join Student s on g.id = s.group_id\n" +
@@ -228,6 +218,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     Group getGroupByUserLogin(@Param("login") String login);
 
     List<Student> findStudentsByGroupId(String group_id);
+    Student findStudentsByGroupIdAndUserId(String group_id, String user_id);
 //    List<Student> findStudentsByEducationFormId(String educationForm_id);
 //    List<Student> findStudentsByEducationTypeId(String educationType_id);
 //    List<Student> findStudentsByEducationLanguageId(String educationLanguage_id);
