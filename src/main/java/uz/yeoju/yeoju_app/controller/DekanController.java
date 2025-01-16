@@ -142,6 +142,11 @@ public class DekanController {
         return ResponseEntity.ok(dekanRepository.getGroupsNamesByFacultyIdAndLevelAndEduType(facultyId,course,eduType));
     }
 
+    @GetMapping("/getGroupsNamesForDeplom/{facultyId}") //getGroupsNamesForDekanByFacultyId
+    public HttpEntity<?> getGroupsNamesForDeplom(@CurrentUser User user,@PathVariable("facultyId") String facultyId,@RequestParam(name = "course") Integer course){
+        return ResponseEntity.ok(dekanRepository.getGroupsNamesByFacultyIdAndLevel(facultyId,course));
+    }
+
 
     @GetMapping("/getFacultiesFromDekanByUserId")//getFacultiesFromDekanByUserId
     public HttpEntity<?> getFacultiesFromDekanByUserId(@CurrentUser User user){
