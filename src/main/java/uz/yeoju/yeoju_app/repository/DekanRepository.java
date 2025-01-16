@@ -227,6 +227,14 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
             "where g.faculty_id=?1 and g.level=?2 and et.name=?3 and g.active=1  order by g.name asc",nativeQuery = true)
     List<GroupsDatas> getGroupsNamesByFacultyIdAndLevelAndEduType(String facultyId, Integer course, String eduType);
 
+    @Query(value = "select g.id,g.level,g.name as name, el.name as language,et.name as type,ef.name as form,f.shortName as faculty from groups g\n" +
+            "    left join EducationLanguage el on g.educationLanguage_id = el.id\n" +
+            "    left join EducationType et on g.educationType_id = et.id\n" +
+            "    left join EducationForm ef on g.educationForm_id = ef.id\n" +
+            "    join Faculty f on g.faculty_id = f.id\n" +
+            "where g.faculty_id=?1 and g.level=?2 and g.active=1  order by g.name asc",nativeQuery = true)
+    List<GroupsDatas> getGroupsNamesByFacultyIdAndLevel(String facultyId, Integer course);
+
     @Query(value = "select g.name as name  from Dekan d\n" +
             "join Dekanat d2 on d.dekanat_id = d2.id\n" +
             "join Dekanat_EducationType d_et on d2.id = d_et.Dekanat_id\n" +
