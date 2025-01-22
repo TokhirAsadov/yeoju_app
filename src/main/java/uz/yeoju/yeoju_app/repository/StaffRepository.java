@@ -16,10 +16,13 @@ import uz.yeoju.yeoju_app.payload.resDto.rektor.staff.monthly.MonthlyStaffsForRe
 import uz.yeoju.yeoju_app.payload.resDto.rektor.staff.monthly.MonthlyStaffsForRektor29;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.staff.monthly.MonthlyStaffsForRektor30;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.staff.monthly.MonthlyStaffsForRektor31;
+import uz.yeoju.yeoju_app.payload.staff.GetMonitoringBetween;
+import uz.yeoju.yeoju_app.payload.staff.GetMonitoringByDay;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface StaffRepository extends JpaRepository<Staff, String> {
 
@@ -28,14 +31,48 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
 
     Optional<Staff> findStaffByUserId(String user_id);
 
-    @Query(value = "select TOP 1 u.id,u.fullName,u.email from Dekanat s\n" +
+    @Query(value = "select /*u.id,u.fullName,*/al.time,al.event_point_name as room\n" +
+            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+            "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where u.login=?1 and al.time between\n" +
+            "    DATETIMEFROMPARTS(\n" +
+            "            DATEPART( YEAR, DATEADD( DAY, + (?4-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(?2 as varchar) AS Date))+2,DATEADD(WK,?3-1,CAST('1/1/' + cast(?2 as varchar) AS Date))))),\n" +
+            "            DATEPART( MONTH, DATEADD( DAY, + (?4-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(?2 as varchar) AS Date))+2,DATEADD(WK,?3-1,CAST('1/1/' + cast(?2 as varchar) AS Date))))),\n" +
+            "            DATEPART( DAY, DATEADD( DAY, + (?4-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(?2 as varchar) AS Date))+2,DATEADD(WK,?3-1,CAST('1/1/' + cast(?2 as varchar) AS Date))))),\n" +
+            "            6,\n" +
+            "            00,\n" +
+            "            00,\n" +
+            "            0)\n" +
+            "    and\n" +
+            "    DATETIMEFROMPARTS(\n" +
+            "            DATEPART( YEAR, DATEADD( DAY, + (?4-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(?2 as varchar) AS Date))+2,DATEADD(WK,?3-1,CAST('1/1/' + cast(?2 as varchar) AS Date))))),\n" +
+            "            DATEPART( MONTH, DATEADD( DAY, + (?4-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(?2 as varchar) AS Date))+2,DATEADD(WK,?3-1,CAST('1/1/' + cast(?2 as varchar) AS Date))))),\n" +
+            "            DATEPART( DAY, DATEADD( DAY, + (?4-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(?2 as varchar) AS Date))+2,DATEADD(WK,?3-1,CAST('1/1/' + cast(?2 as varchar) AS Date))))),\n" +
+            "            23,\n" +
+            "            00,\n" +
+            "            00,\n" +
+            "            0)\n" +
+            "group by al.time, al.event_point_name order by al.time desc",nativeQuery = true)
+    Set<GetMonitoringByDay> getMonitoringByDay(String login, Integer year, Integer week, Integer weekday);
+
+    @Query(value = "select u.login,u.fullName,al.time \n" +
+            "from acc_monitor_log al join acc_door ad on ad.device_id=al.device_id\n" +
+            "                        join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "where ad.door_name=?1 and al.time between\n" +
+            "    ?2\n" +
+            "    and\n" +
+            "    ?3\n" +
+            "group by u.login,u.fullName,al.time order by al.time desc",nativeQuery = true)
+    Set<GetMonitoringBetween> getMonitoringBetweenDate(String room, Date start, Date end);
+
+    @Query(value = "select TOP 1 u.id,u.login,u.passportNum as passport,u.fullName,u.email from Dekanat s\n" +
             "          join users u on s.owner_id = u.id\n" +
             "          join users_Role uR on u.id = uR.users_id\n" +
             "          join Role R2 on uR.roles_id = R2.id\n" +
             "where (s.id=:id) and R2.roleName = 'ROLE_DEKAN' order by R2.createdAt asc",nativeQuery = true)
     KafedraMudiriForRektorTeacherPage getBossOfSectionForRektorStaffPageDekan(@Param("id") String id);
 
-    @Query(value = "select TOP 1 u.id,u.fullName,u.email from Section s\n" +
+    @Query(value = "select TOP 1 u.id,u.login,u.passportNum as passport,u.fullName,u.email from Section s\n" +
             "                                              join users u on s.owner_id = u.id\n" +
             "                                              join users_Role uR on u.id = uR.users_id\n" +
             "                                              join Role R2 on uR.roles_id = R2.id\n" +
@@ -211,5 +248,8 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
            "    select s.section_id,count(s.id) as count from Staff s\n" +
            "    group by s.section_id\n" +
            ") as f2 on f2.section_id = f1.section_id",nativeQuery = true)
+    List<StaffCountComeAndAll> getStaffComeCountStatistics2();
+
+    @Query(value = "select * from dbo.GetSectionAttendance()",nativeQuery = true)
     List<StaffCountComeAndAll> getStaffComeCountStatistics();
 }
