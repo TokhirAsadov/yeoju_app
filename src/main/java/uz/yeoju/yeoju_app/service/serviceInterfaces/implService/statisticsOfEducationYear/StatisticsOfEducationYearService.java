@@ -11,6 +11,7 @@ public interface StatisticsOfEducationYearService {
     void getTimeTableByWeek(Integer year,Integer week);
 
     ApiResponse getStudentsStatisticsForDean(String educationYearId,String groupName);
+    ApiResponse getStudentStatisticsForDean(String educationYearId,String groupName,String studentId);
 
     ApiResponse getStudentsStatisticsForTeacher(String educationYearId,String teacherPassport,String lessonName,String groupName);
     ApiResponse getGroupsForTeacher(String educationYearId, String teacherPassport, String lessonName, WeekEduType eduType);
