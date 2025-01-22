@@ -105,6 +105,154 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
         rootNode.getChild("cards").getChildren("card").forEach(StatisticsOfEducationYearImplService::readCard);
     }
 
+
+    @Override
+    public ApiResponse getStudentStatisticsForDean(String educationYearId, String groupId,String studentId) {
+        Optional<EducationYear> yearOptional = educationYearRepository.findById(educationYearId);
+        Group groupByName = groupRepository.getById(groupId);
+
+        if (yearOptional.isPresent() && groupByName!=null) {
+            Set<LessonsOneGroup> lessonsOneGroups = new HashSet<>();
+//            Group groupByName = groupRepository.findGroupByName(groupName);
+
+                Student student = studentRepository.findStudentsByGroupIdAndUserId(groupId, studentId);
+                EducationYear educationYear = yearOptional.get();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+
+                Set<Set<TeacherStatisticsOfWeekday>> statisticsAll = new HashSet<>();
+                Set<LessonData> lessonDataList = new HashSet<>();
+                educationYear.getWeeks().forEach(week -> {
+                    String year = simpleDateFormat.format(week.getStart()).toUpperCase();
+                    getTimeTableByWeek(Integer.valueOf(year), week.getSortNumber());
+
+                    Optional<Class> classOptional = classes.stream().filter(t -> Objects.equals(t.getName(), groupByName.getName())).findFirst();
+                    if (classOptional.isPresent()) {
+                        Class group = classOptional.get();
+
+                        Set<LessonXml> lessonXmlSet = lessons.stream().filter(lessonXml -> lessonXml.getClassIds().contains(group.getId())).collect(Collectors.toSet());
+
+                        lessonXmlSet.forEach(lessonXml -> {
+
+                            // 3. cards dan lessonid bo`yicha filterda cardid(_) bo`yicha oldik
+                            Set<Card> cardSet = cards.stream().filter(card -> Objects.equals(card.getLessonId(), lessonXml.getId())).collect(Collectors.toSet());
+
+                            cardSet.forEach(card -> {
+                                // 4.1 card dan classroomIds dan xonaning id sini oldik
+                                String classroomId = card.getClassroomIds().get(0);
+
+                                if (classroomId!=null) {
+                                    Optional<ClassRoom> roomOptional = classRooms.stream().filter(classRoom -> Objects.equals(classRoom.getId(), classroomId)).findFirst();
+
+
+                                    if (roomOptional.isPresent()) {
+                                        // 4.2 card dan xonani oldik
+                                        ClassRoom room = roomOptional.get();
+
+                                        System.out.println(room.toString()+"========================== 4.2");
+
+                                        int day = 0;
+                                        // 4.3
+                                        for (DaysDef daysDef : daysDefs) {
+                                            if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
+                                                if (daysDef.getDays().get(0).equals("1000000") ||daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                                    day=1;
+                                                if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                                    day=2;
+                                                if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                                    day=3;
+                                                if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                                    day=4;
+                                                if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                                    day=5;
+                                                if (daysDef.getDays().get(0).equals("0000010")||daysDef.getDays().get(0).equals("000001"))
+                                                    day=6;
+                                                break;
+                                            }
+                                        }
+                                        // 4.4 card dan period bo`yicha darsning nechanchi parada(section da)ligini oldik
+                                        Integer section = card.getPeriod();
+
+                                        //todo===========================    MY FUNCTION    ============================ --------------------------------------------------
+
+                                        String w = new SimpleDateFormat("w").format(new Date());
+
+                                        Optional<Subject> subjectOptional = subjects.stream().filter(subject -> subject.getId().equals(lessonXml.getSubjectId())).findFirst();
+                                        if (subjectOptional.isPresent()) {
+                                            Subject subject = subjectOptional.get();
+
+
+                                            if (Integer.valueOf(w).equals(week.getSortNumber())) {
+
+                                                Calendar cal = Calendar.getInstance();
+                                                cal.setTimeInMillis(System.currentTimeMillis());
+                                                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+
+                                                if (day <= (dayOfWeek - 1)) {
+                                                    Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(
+                                                            student.getUser().getId(),
+                                                            room.getName(),
+                                                            Integer.valueOf(year),
+                                                            week.getSortNumber(),
+                                                            day,
+                                                            section
+                                                    );
+                                                    statisticsAll.add(weekdayList);
+                                                    lessonDataList.add(new LessonData(week.getStart(),subject.getName(), section, day, week.getSortNumber()));
+                                                }
+                                            } else {
+                                                Set<TeacherStatisticsOfWeekday> weekdayList = educationYearRepository.getTimesForRoomStatisticsByUserIdNEW(
+                                                        student.getUser().getId(),
+                                                        room.getName(),
+                                                        Integer.valueOf(year),
+                                                        week.getSortNumber(),
+                                                        day,
+                                                        section
+                                                );
+                                                statisticsAll.add(weekdayList);
+                                                lessonDataList.add(new LessonData(week.getStart(), subject.getName(), section, day, week.getSortNumber()));
+                                            }
+
+                                        }
+                                    }
+                                }
+                            });
+                        });
+
+                    }
+
+//                    LessonsOneGroup lessonsOneGroup = new LessonsOneGroup();
+//                    lessonsOneGroup.setStatistics(statisticsAll);
+//                    lessonsOneGroup.setStudent(student.getUser().getLastName()+" "+student.getUser().getFirstName()+" "+student.getUser().getMiddleName());
+//                    lessonsOneGroups.add(lessonsOneGroup);
+
+                });
+
+                if (student.getUser().getLastName()==null){
+                    lessonsOneGroups.add(new LessonsOneGroup(
+                            statisticsAll,
+                            lessonDataList,
+                            student.getUser().getFullName(),
+                            student.getUser().getLogin()
+                    ));
+                }
+                else {
+                    lessonsOneGroups.add(new LessonsOneGroup(
+                            statisticsAll,
+                            lessonDataList,
+                            student.getUser().getLastName()+" "+student.getUser().getFirstName()+" "+student.getUser().getMiddleName(),
+                            student.getUser().getLogin()
+                    ));
+                }
+
+
+
+            return new ApiResponse(true,"statistics for deans",lessonsOneGroups);
+        }
+
+        else {
+            return new ApiResponse(false, "education year not found");
+        }
+    }
     @Override
     public ApiResponse getStudentsStatisticsForDean(String educationYearId, String groupName) {
         Optional<EducationYear> yearOptional = educationYearRepository.findById(educationYearId);
@@ -152,17 +300,17 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                                         // 4.3
                                         for (DaysDef daysDef : daysDefs) {
                                             if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                                if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                                if (daysDef.getDays().get(0).equals("1000000") ||daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                                     day=1;
-                                                if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                                if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                                     day=2;
-                                                if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                                if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                                     day=3;
-                                                if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                                if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                                     day=4;
-                                                if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                                if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                                     day=5;
-                                                if (daysDef.getDays().get(0).equals("000001"))
+                                                if (daysDef.getDays().get(0).equals("0000010")||daysDef.getDays().get(0).equals("000001"))
                                                     day=6;
                                                 break;
                                             }
@@ -319,17 +467,17 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                                             // 4.3
                                             for (DaysDef daysDef : daysDefs) {
                                                 if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                                    if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                                    if (daysDef.getDays().get(0).equals("1000000") ||daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                                         day=1;
-                                                    if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                                    if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                                         day=2;
-                                                    if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                                    if (daysDef.getDays().get(0).equals("0010000") || daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                                         day=3;
-                                                    if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                                    if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                                         day=4;
-                                                    if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                                    if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                                         day=5;
-                                                    if (daysDef.getDays().get(0).equals("000001"))
+                                                    if (daysDef.getDays().get(0).equals("0000010")||daysDef.getDays().get(0).equals("000001"))
                                                         day=6;
                                                     break;
                                                 }
@@ -616,17 +764,17 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                                                 // 4.3
                                                 for (DaysDef daysDef : daysDefs) {
                                                     if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                                        if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                                        if (daysDef.getDays().get(0).equals("1000000") ||daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                                             day=1;
-                                                        if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                                        if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                                             day=2;
-                                                        if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                                        if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                                             day=3;
-                                                        if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                                        if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                                             day=4;
-                                                        if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                                        if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                                             day=5;
-                                                        if (daysDef.getDays().get(0).equals("000001"))
+                                                        if (daysDef.getDays().get(0).equals("0000010")||daysDef.getDays().get(0).equals("000001"))
                                                             day=6;
                                                         break;
                                                     }
@@ -807,17 +955,17 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                                                 // 4.3
                                                 for (DaysDef daysDef : daysDefs) {
                                                     if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                                        if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                                        if (daysDef.getDays().get(0).equals("1000000") || daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                                             day=1;
-                                                        if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                                        if (daysDef.getDays().get(0).equals("0100000") || daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                                             day=2;
-                                                        if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                                        if (daysDef.getDays().get(0).equals("0010000") || daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                                             day=3;
-                                                        if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                                        if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                                             day=4;
-                                                        if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                                        if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                                             day=5;
-                                                        if (daysDef.getDays().get(0).equals("000001"))
+                                                        if (daysDef.getDays().get(0).equals("0000010")||daysDef.getDays().get(0).equals("000001"))
                                                             day=6;
                                                         break;
                                                     }
@@ -969,17 +1117,17 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                                         // 4.3
                                         for (DaysDef daysDef : daysDefs) {
                                             if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                                if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                                if (daysDef.getDays().get(0).equals("1000000") || daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                                     day=1;
-                                                if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                                if (daysDef.getDays().get(0).equals("0100000") || daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                                     day=2;
-                                                if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                                if (daysDef.getDays().get(0).equals("0010000") || daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                                     day=3;
-                                                if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                                if (daysDef.getDays().get(0).equals("0001000") || daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                                     day=4;
-                                                if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                                if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                                     day=5;
-                                                if (daysDef.getDays().get(0).equals("000001"))
+                                                if (daysDef.getDays().get(0).equals("0000010")||daysDef.getDays().get(0).equals("000001"))
                                                     day=6;
                                                 break;
                                             }
@@ -2240,17 +2388,17 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                                 }
                                 for (DaysDef daysDef : daysDefs) {
                                     if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                        if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                        if (daysDef.getDays().get(0).equals("1000000") ||daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                             show.setDayNumber(1);
-                                        if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                        if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                             show.setDayNumber(2);
-                                        if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                        if (daysDef.getDays().get(0).equals("0010000") || daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                             show.setDayNumber(3);
-                                        if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                        if (daysDef.getDays().get(0).equals("0001000") || daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                             show.setDayNumber(4);
-                                        if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                        if (daysDef.getDays().get(0).equals("0000100") || daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                             show.setDayNumber(5);
-                                        if (daysDef.getDays().get(0).equals("000001"))
+                                        if (daysDef.getDays().get(0).equals("0000010")||daysDef.getDays().get(0).equals("000001"))
                                             show.setDayNumber(6);
                                         show.setDaysName(daysDef.getName());
                                         break;
@@ -2312,17 +2460,17 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                             }
                             for (DaysDef daysDef : daysDefs) {
                                 if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                    if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                    if (daysDef.getDays().get(0).equals("1000000") || daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                         show.setDayNumber(1);
-                                    if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                    if (daysDef.getDays().get(0).equals("0100000") || daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                         show.setDayNumber(2);
-                                    if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                    if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                         show.setDayNumber(3);
-                                    if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                    if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                         show.setDayNumber(4);
-                                    if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                    if (daysDef.getDays().get(0).equals("0000100") || daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                         show.setDayNumber(5);
-                                    if (daysDef.getDays().get(0).equals("000001"))
+                                    if (daysDef.getDays().get(0).equals("0000010")||daysDef.getDays().get(0).equals("000001"))
                                         show.setDayNumber(6);
                                     show.setDaysName(daysDef.getShortName());
                                     break;
@@ -2385,17 +2533,17 @@ public class StatisticsOfEducationYearImplService implements StatisticsOfEducati
                             }
                             for (DaysDef daysDef : daysDefs) {
                                 if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                                    if (daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
+                                    if (daysDef.getDays().get(0).equals("1000000") || daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
                                         show.setDayNumber(1);
-                                    if (daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
+                                    if (daysDef.getDays().get(0).equals("0100000") || daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
                                         show.setDayNumber(2);
-                                    if (daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
+                                    if (daysDef.getDays().get(0).equals("0010000") || daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
                                         show.setDayNumber(3);
-                                    if (daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
+                                    if (daysDef.getDays().get(0).equals("0001000") || daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
                                         show.setDayNumber(4);
-                                    if (daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
+                                    if (daysDef.getDays().get(0).equals("0000100") || daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
                                         show.setDayNumber(5);
-                                    if (daysDef.getDays().get(0).equals("000001"))
+                                    if (daysDef.getDays().get(0).equals("0000010")||daysDef.getDays().get(0).equals("000001"))
                                         show.setDayNumber(6);
                                     show.setDaysName(daysDef.getShortName());
                                     break;
