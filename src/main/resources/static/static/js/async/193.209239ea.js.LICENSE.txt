@@ -1,3 +1,13 @@
+/*! ./PdfNewChange */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../utills/ServiceUrls */
+
 /*! html2pdf.js/src */
 
 /*! ./ReferralPageStudent */
@@ -12,15 +22,15 @@
 
 /*! react */
 
-/*! core-js/modules/web.dom-collections.iterator.js */
+/*! react/jsx-runtime */
 
 /*! ../../../utills/ServiceUrls */
-
-/*! react/jsx-runtime */
 
 /*! ./PdfFile */
 
 /*! @mui/material/Button */
+
+/*! ../../../utills/ServiceUrls */
 
 /*! ../../../utills/ServiceUrls */
 
@@ -33,8 +43,6 @@
 /*! react-icons/md */
 
 /*! core-js/modules/web.dom-collections.iterator.js */
-
-/*! ../../../utills/ServiceUrls */
 
 /*! qrcode.react */
 
@@ -58,15 +66,15 @@
 
 /*! react */
 
+/*! react/jsx-runtime */
+
+/*! react */
+
 /*! @mui/material/InputLabel */
 
 /*! react/jsx-runtime */
 
 /*! styled-components */
-
-/*! react */
-
-/*! react/jsx-runtime */
 
 /*! moment */
 
@@ -77,6 +85,8 @@
 /*! axios */
 
 /*! @mui/material/CircularProgress */
+
+/*! react-redux */
 
 /*! react-redux */
 
@@ -102,36 +112,26 @@
 
 /*! react-toastify */
 
-/*! react-redux */
+/*! axios */
+
+/*! ./NoticeForStudent */
 
 /*! ./NoticePageForStudent */
 
 /*! styled-components */
 
-/*! axios */
-
 /*! @swc/helpers/_/_tagged_template_literal */
 
 /*! react-icons/bs */
 
-/*! ./NoticeForStudent */
-
-/*! core-js/modules/web.dom-collections.iterator.js */
-
 /*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! react-redux */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
 
 /*! ../../emptyDataImg/EmptyDataImg */
 
 /*! @mui/material/Box */
 
 /*! core-js/modules/esnext.iterator.constructor.js */
-
-/*! ./PdfNewChange */
-
-/*! core-js/modules/esnext.iterator.map.js */
-
-/*! @mui/material/Button */
-
-/*! ../../../utills/ServiceUrls */
