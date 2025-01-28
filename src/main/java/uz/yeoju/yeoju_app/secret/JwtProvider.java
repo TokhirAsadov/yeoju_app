@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import uz.yeoju.yeoju_app.entity.User;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 @Component
@@ -29,7 +30,7 @@ public class JwtProvider {
                 .compact();
     }
 
-    public boolean validateToken(String token){
+    public boolean validateToken(String token, HttpServletResponse response){
         try {
             Jwts
                     .parser()
@@ -38,14 +39,19 @@ public class JwtProvider {
             return true;
         }catch (ExpiredJwtException e){
             System.err.println("Muddati o`tgan");
-        }catch (MalformedJwtException m){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+        } catch (MalformedJwtException m) {
             System.err.println("Buzilgan token");
-        }catch (SignatureException s){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
+        } catch (SignatureException s) {
             System.err.println("Kalit so`z xato");
-        }catch (UnsupportedJwtException u){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+        } catch (UnsupportedJwtException u) {
             System.err.println("Qo`llanilmagan token");
-        }catch (IllegalArgumentException i){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
+        } catch (IllegalArgumentException i) {
             System.err.println("Bo`sh token");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // 400
         }
         return false;
     }
