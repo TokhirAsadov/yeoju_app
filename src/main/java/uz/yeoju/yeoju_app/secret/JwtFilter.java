@@ -52,7 +52,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String tokenFromRequest = getTokenFromRequest(request);
         if (tokenFromRequest != null) {
-            User user = getUserFromToken(tokenFromRequest);
+            User user = getUserFromToken(tokenFromRequest,response);
             if (user != null) {
                 if (user.isAccountNonExpired()) {
                     if (user.isAccountNonLocked()) {
@@ -80,17 +80,17 @@ public class JwtFilter extends OncePerRequestFilter {
             }
             else {
 //                response.sendRedirect("/login");
-                response.sendRedirect("http://localhost:3000/login");
-                response.setStatus(200);
+//                response.sendRedirect("/login");
+//                response.setStatus(401);
             }
         }
         filterChain.doFilter(request, response);
 
     }
 
-    private User getUserFromToken(String token) {
+    private User getUserFromToken(String token, HttpServletResponse response) {
         System.out.println(token);
-        boolean validateToken = provider.validateToken(token);
+        boolean validateToken = provider.validateToken(token,response);
         if (validateToken){
             String userIdFromToken = provider.getUserIdFromToken(token);
             return userRepository.findById(userIdFromToken/*UUID.fromString(userIdFromToken)*/).get();
