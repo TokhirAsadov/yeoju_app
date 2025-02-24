@@ -5,5 +5,5 @@ import uz.yeoju.yeoju_app.entity.dekanat.Diploma;
 
 public interface DiplomaRepository extends JpaRepository<Diploma, String> {
     Boolean existsDiplomaByLogin(String login);
-
+    Boolean existsDiplomaByDiplomId(String diplomId);
 }
