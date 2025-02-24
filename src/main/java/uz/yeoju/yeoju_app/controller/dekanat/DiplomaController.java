@@ -27,4 +27,11 @@ public class DiplomaController {
         ApiResponse response = service.createDiploma(creator);
         return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
     }
+
+    @PostMapping("/update")
+    @PreAuthorize("hasRole('DEKAN')")
+    public HttpEntity<?> updateDiploma(@CurrentUser User user, @RequestBody DiplomaCreator creator){
+        ApiResponse response = service.createDiploma(creator);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
+    }
 }
