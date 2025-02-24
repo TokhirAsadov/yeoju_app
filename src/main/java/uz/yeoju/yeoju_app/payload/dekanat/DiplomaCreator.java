@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DiplomaCreator {
+    public String id;
     public String diplomId;
     public String diplomSeriya;
     public String diplomRaqami;
