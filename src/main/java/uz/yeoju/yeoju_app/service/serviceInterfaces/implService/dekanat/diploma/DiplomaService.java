@@ -5,4 +5,5 @@ import uz.yeoju.yeoju_app.payload.dekanat.DiplomaCreator;
 
 public interface DiplomaService {
     ApiResponse createDiploma(DiplomaCreator creator);
+    ApiResponse updateDiploma(DiplomaCreator creator);
 }
