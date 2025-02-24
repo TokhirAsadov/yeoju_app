@@ -21,5 +21,10 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.dekanat.diploma.
 public class DiplomaController {
     private final DiplomaService service;
 
-
+    @PostMapping("/create")
+    @PreAuthorize("hasRole('DEKAN')")
+    public HttpEntity<?> createDiploma(@CurrentUser User user, @RequestBody DiplomaCreator creator){
+        ApiResponse response = service.createDiploma(creator);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
+    }
 }
