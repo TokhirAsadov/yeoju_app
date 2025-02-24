@@ -7,4 +7,6 @@ public interface DiplomaRepository extends JpaRepository<Diploma, String> {
     Boolean existsDiplomaByLogin(String login);
     Boolean existsDiplomaByDiplomId(String diplomId);
     Boolean existsDiplomaByDiplomRaqami(String diplomRaqami);
+
+    Boolean existsDiplomaByLoginAndId(String login,String id);
 }
