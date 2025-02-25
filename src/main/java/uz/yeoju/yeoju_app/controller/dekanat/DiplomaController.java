@@ -28,7 +28,7 @@ public class DiplomaController {
         return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     @PreAuthorize("hasRole('DEKAN')")
     HttpEntity<?> updateDiploma(@CurrentUser User user, @RequestBody DiplomaCreator creator){
         ApiResponse response = service.updateDiploma(creator);
