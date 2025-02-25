@@ -228,12 +228,16 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
     List<GroupsDatas> getGroupsNamesByFacultyIdAndLevelAndEduType(String facultyId, Integer course, String eduType);
 
     @Query(value = "select g.id,g.level,g.name as name, el.name as language,et.name as type,ef.name as form,f.shortName as faculty from groups g\n" +
-            "    left join EducationLanguage el on g.educationLanguage_id = el.id\n" +
-            "    left join EducationType et on g.educationType_id = et.id\n" +
-            "    left join EducationForm ef on g.educationForm_id = ef.id\n" +
-            "    join Faculty f on g.faculty_id = f.id\n" +
-            "where g.faculty_id=?1 and g.level=?2 and g.active=1  order by g.name asc",nativeQuery = true)
-    List<GroupsDatas> getGroupsNamesByFacultyIdAndLevel(String facultyId, Integer course);
+            "left join EducationLanguage el on g.educationLanguage_id = el.id\n" +
+            "left join EducationType et on g.educationType_id = et.id\n" +
+            "left join EducationForm ef on g.educationForm_id = ef.id\n" +
+            "join Faculty f on g.faculty_id = f.id\n" +
+            "join Dekanat_Faculty df on f.id = df.faculties_id\n" +
+            "join Dekanat d on df.Dekanat_id = d.id\n" +
+            "join Dekanat_EducationType de on de.eduType_id=et.id and de.Dekanat_id=d.id\n" +
+            "join users u2 on d.owner_id=u2.id\n" +
+            "where g.faculty_id=?1 and g.level=?2 and g.active=1 and u2.id=?3 order by g.name asc",nativeQuery = true)
+    List<GroupsDatas> getGroupsNamesByFacultyIdAndLevel(String facultyId, Integer course,String dekanId);
 
     @Query(value = "select g.name as name  from Dekan d\n" +
             "join Dekanat d2 on d.dekanat_id = d2.id\n" +
