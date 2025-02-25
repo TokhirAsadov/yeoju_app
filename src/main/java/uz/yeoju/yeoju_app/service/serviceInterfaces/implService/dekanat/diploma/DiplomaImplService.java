@@ -131,6 +131,11 @@ public class DiplomaImplService implements DiplomaService{
         return null;
     }
 
+    @Override
+    public ApiResponse getStudentsWithDiploma(String groupId) {
+        return new ApiResponse(true,"Students with diploma are listed",diplomaRepository.findStudentsWithDiploma(groupId));
+    }
+
     @Transactional
     public ApiResponse readDataFromExcel(MultipartFile file) {
         try {
