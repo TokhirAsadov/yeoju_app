@@ -136,6 +136,17 @@ public class DiplomaImplService implements DiplomaService{
         return new ApiResponse(true,"Students with diploma are listed",diplomaRepository.findStudentsWithDiploma(groupId));
     }
 
+    @Override
+    public ApiResponse deleteDiploma(String id) {
+        try {
+            diplomaRepository.deleteById(id);
+            return new ApiResponse(true,"Diploma is deleted");
+        }
+        catch (Exception e){
+            return new ApiResponse(false,"Error is occurred while deleting diploma");
+        }
+    }
+
     @Transactional
     public ApiResponse readDataFromExcel(MultipartFile file) {
         try {
