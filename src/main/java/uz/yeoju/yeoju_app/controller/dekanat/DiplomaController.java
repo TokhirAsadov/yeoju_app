@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
@@ -26,22 +23,30 @@ public class DiplomaController {
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('DEKAN')")
-    public HttpEntity<?> createDiploma(@CurrentUser User user, @RequestBody DiplomaCreator creator){
+    HttpEntity<?> createDiploma(@CurrentUser User user, @RequestBody DiplomaCreator creator){
         ApiResponse response = service.createDiploma(creator);
         return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
     }
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('DEKAN')")
-    public HttpEntity<?> updateDiploma(@CurrentUser User user, @RequestBody DiplomaCreator creator){
+    HttpEntity<?> updateDiploma(@CurrentUser User user, @RequestBody DiplomaCreator creator){
         ApiResponse response = service.updateDiploma(creator);
         return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
     }
 
     @PostMapping("/uploadDiploma")
     @PreAuthorize("hasRole('DEKAN')")
-    public HttpEntity<?> uploadDiploma(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+    HttpEntity<?> uploadDiploma(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
         ApiResponse apiResponse = service.uploadDiploma(request);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
+
+    @GetMapping("/getStudentsWithDiploma/${groupId}")
+    @PreAuthorize("hasRole('DEKAN')")
+    HttpEntity<?> getStudentsWithDiploma(@PathVariable String groupId){
+        ApiResponse response = service.getStudentsWithDiploma(groupId);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
+    }
+
 }
