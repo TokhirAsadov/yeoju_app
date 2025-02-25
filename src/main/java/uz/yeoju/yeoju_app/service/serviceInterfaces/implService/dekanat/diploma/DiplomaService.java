@@ -9,4 +9,5 @@ public interface DiplomaService {
     ApiResponse updateDiploma(DiplomaCreator creator);
 
     ApiResponse uploadDiploma(MultipartHttpServletRequest request);
+    ApiResponse getStudentsWithDiploma(String groupId);
 }
