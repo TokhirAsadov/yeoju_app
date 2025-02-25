@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import uz.yeoju.yeoju_app.entity.Student;
-import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.dekanat.Diploma;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.dekanat.DiplomaCreator;
