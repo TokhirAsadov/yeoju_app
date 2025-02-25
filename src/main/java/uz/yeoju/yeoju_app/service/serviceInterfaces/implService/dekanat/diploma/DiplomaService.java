@@ -10,4 +10,6 @@ public interface DiplomaService {
 
     ApiResponse uploadDiploma(MultipartHttpServletRequest request);
     ApiResponse getStudentsWithDiploma(String groupId);
+
+    ApiResponse deleteDiploma(String id);
 }
