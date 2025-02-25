@@ -8,12 +8,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.dekanat.DiplomaCreator;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.dekanat.diploma.DiplomaService;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/diploma")
@@ -31,7 +34,14 @@ public class DiplomaController {
     @PostMapping("/update")
     @PreAuthorize("hasRole('DEKAN')")
     public HttpEntity<?> updateDiploma(@CurrentUser User user, @RequestBody DiplomaCreator creator){
-        ApiResponse response = service.createDiploma(creator);
+        ApiResponse response = service.updateDiploma(creator);
         return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
+    }
+
+    @PostMapping("/uploadDiploma")
+    @PreAuthorize("hasRole('DEKAN')")
+    public HttpEntity<?> uploadDiploma(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        ApiResponse apiResponse = service.uploadDiploma(request);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 }
