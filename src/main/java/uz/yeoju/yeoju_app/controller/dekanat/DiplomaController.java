@@ -42,16 +42,16 @@ public class DiplomaController {
         return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 409).body(apiResponse);
     }
 
-    @GetMapping("/getStudentsWithDiploma/${groupId}")
+    @GetMapping("/getStudentsWithDiploma/{groupId}")
     @PreAuthorize("hasRole('DEKAN')")
-    HttpEntity<?> getStudentsWithDiploma(@PathVariable String groupId){
+    HttpEntity<?> getStudentsWithDiploma(@PathVariable("groupId") String groupId){
         ApiResponse response = service.getStudentsWithDiploma(groupId);
         return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
     }
 
-    @DeleteMapping("/deleteDiploma/${id}")
+    @DeleteMapping("/deleteDiploma/{id}")
     @PreAuthorize("hasRole('DEKAN')")
-    HttpEntity<?> deleteDiploma(@PathVariable String id){
+    HttpEntity<?> deleteDiploma(@PathVariable("id") String id){
         ApiResponse response = service.deleteDiploma(id);
         return ResponseEntity.status(response.isSuccess() ? 204 : 409).body(response);
     }
