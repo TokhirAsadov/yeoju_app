@@ -32,14 +32,14 @@ public class DiplomaController {
     @PreAuthorize("hasRole('DEKAN')")
     HttpEntity<?> updateDiploma(@CurrentUser User user, @RequestBody DiplomaCreator creator){
         ApiResponse response = service.updateDiploma(creator);
-        return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
+        return ResponseEntity.status(response.isSuccess() ? 203 : 409).body(response);
     }
 
     @PostMapping("/uploadDiploma")
     @PreAuthorize("hasRole('DEKAN')")
     HttpEntity<?> uploadDiploma(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
         ApiResponse apiResponse = service.uploadDiploma(request);
-        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 409).body(apiResponse);
     }
 
     @GetMapping("/getStudentsWithDiploma/${groupId}")
@@ -49,4 +49,10 @@ public class DiplomaController {
         return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
     }
 
+    @DeleteMapping("/deleteDiploma/${id}")
+    @PreAuthorize("hasRole('DEKAN')")
+    HttpEntity<?> deleteDiploma(@PathVariable String id){
+        ApiResponse response = service.deleteDiploma(id);
+        return ResponseEntity.status(response.isSuccess() ? 204 : 409).body(response);
+    }
 }
