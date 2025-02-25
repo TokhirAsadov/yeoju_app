@@ -78,24 +78,22 @@ public class DiplomaImplService implements DiplomaService{
                     if (!diplomaRepository.existsDiplomaByDiplomRaqami(creator.diplomRaqami)
                     || diplomaRepository.existsDiplomaByDiplomRaqamiAndId(creator.diplomRaqami,creator.id)
                     ){
-                        Diploma diploma = Diploma.builder()
-                                .diplomId(creator.getDiplomId())
-                                .diplomSeriya(creator.getDiplomSeriya())
-                                .diplomRaqami(creator.getDiplomRaqami())
-                                .fName(creator.getFName())
-                                .lName(creator.getLName())
-                                .mName(creator.getMName())
-                                .fNameEng(creator.getFNameEng())
-                                .lNameEng(creator.getLNameEng())
-                                .yonalishQisqa(creator.getYonalishQisqa())
-                                .yonalishEng(creator.getYonalishEng())
-                                .yonalishUzb(creator.getYonalishUzb())
-                                .maktab(creator.getMaktab())
-                                .bachelorOf(creator.getBachelorOf())
-                                .imtiyoz(creator.getImtiyoz())
-                                .imtiyozEng(creator.getImtiyozEng())
-                                .login(creator.getLogin())
-                                .build();
+                        Diploma diploma = diplomaRepository.findById(creator.id).get();
+                        diploma.setDiplomId(creator.getDiplomId());
+                        diploma.setDiplomSeriya(creator.getDiplomSeriya());
+                        diploma.setDiplomRaqami(creator.getDiplomRaqami());
+                        diploma.setFName(creator.getFName());
+                        diploma.setLName(creator.getLName());
+                        diploma.setMName(creator.getMName());
+                        diploma.setFNameEng(creator.getFNameEng());
+                        diploma.setLNameEng(creator.getLNameEng());
+                        diploma.setYonalishQisqa(creator.getYonalishQisqa());
+                        diploma.setYonalishEng(creator.getYonalishEng());
+                        diploma.setYonalishUzb(creator.getYonalishUzb());
+                        diploma.setMaktab(creator.getMaktab());
+                        diploma.setBachelorOf(creator.getBachelorOf());
+                        diploma.setImtiyoz(creator.getImtiyoz());
+                        diploma.setImtiyozEng(creator.getImtiyozEng());
                         diplomaRepository.save(diploma);
                         return new ApiResponse(true,creator.getLogin()+" diploma is updated");
                     }
