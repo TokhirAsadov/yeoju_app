@@ -20,7 +20,7 @@ public interface DiplomaRepository extends JpaRepository<Diploma, String> {
             "    u.id as userId,\n" +
             "    u.fullName as fullName,\n" +
             "    u.login as login,\n" +
-            "    d.id as diplomaId,\n" +
+            "    d.id as diplomId,\n" +
             "    d.diplomId as ID,\n" +
             "    d.diplomSeriya,\n" +
             "    d.diplomRaqami,\n" +
