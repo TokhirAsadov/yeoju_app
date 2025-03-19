@@ -110,8 +110,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/staff/**",
                         "/teacher/**",
                         "/file/services/reference/**",
+                        "/file/services/referral/**",
                         "/file/services/notice/**",
-                        "/kafedra/**"
+                        "/file/services/internship/**",
+                        "/kafedra/**",
+                        "/broken-image.jpg"
                 )
                 .permitAll()
 //                .antMatchers(
