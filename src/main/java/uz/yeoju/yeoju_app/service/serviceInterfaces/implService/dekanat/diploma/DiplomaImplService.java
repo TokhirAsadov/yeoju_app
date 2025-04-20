@@ -2,9 +2,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.dekanat.diploma
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -146,58 +144,104 @@ public class DiplomaImplService implements DiplomaService{
     @Transactional
     public ApiResponse readDataFromExcel(MultipartFile file) {
         try {
+            System.out.println("------------------------------------ 1 -----------------------");
             Workbook workbook = getWorkBook(file);
             Sheet sheet = workbook.getSheetAt(0);
             Iterator<Row> rows = sheet.iterator();
-            rows.next();
-            while (rows.hasNext()){
+            rows.next(); // Skip header row
+            System.out.println("------------------------------------ 2 -----------------------");
+
+            while (rows.hasNext()) {
+                System.out.println("------------------------------------ 3 -----------------------");
                 Row row = rows.next();
-                Boolean existsed = diplomaRepository.existsDiplomaByLogin(row.getCell(0).getStringCellValue());
-                if(!existsed){
-                    if (!diplomaRepository.existsDiplomaByDiplomId(row.getCell(1).getStringCellValue())) {
-                        if (!diplomaRepository.existsDiplomaByDiplomRaqami(row.getCell(3).getStringCellValue())){
+
+                // Safely get cell values with type handling
+                String login = getCellValueAsString(row.getCell(0));
+                String diplomId = getCellValueAsString(row.getCell(1)); // Assuming diplomId should be String
+                String diplomSeriya = getCellValueAsString(row.getCell(2));
+                String diplomRaqami = getCellValueAsString(row.getCell(3));
+
+                Boolean existsed = diplomaRepository.existsDiplomaByLogin(login);
+                if (!existsed) {
+                    System.out.println("------------------------------------ 4 -----------------------");
+                    if (!diplomaRepository.existsDiplomaByDiplomId(diplomId)) {
+                        System.out.println("------------------------------------ 5 -----------------------");
+                        if (!diplomaRepository.existsDiplomaByDiplomRaqami(diplomRaqami)) {
+                            System.out.println("------------------------------------ 6 -----------------------");
                             Diploma diploma = Diploma.builder()
-                                    .login(row.getCell(0).getStringCellValue())
-                                    .diplomId(row.getCell(1).getStringCellValue())
-                                    .diplomSeriya(row.getCell(2).getStringCellValue())
-                                    .diplomRaqami(row.getCell(3).getStringCellValue())
-                                    .lName(row.getCell(4).getStringCellValue())
-                                    .fName(row.getCell(5).getStringCellValue())
-                                    .mName(row.getCell(6).getStringCellValue())
-                                    .lNameEng(row.getCell(7).getStringCellValue())
-                                    .fNameEng(row.getCell(8).getStringCellValue())
-                                    .yonalishQisqa(row.getCell(9).getStringCellValue())
-                                    .yonalishUzb(row.getCell(10).getStringCellValue())
-                                    .yonalishEng(row.getCell(11).getStringCellValue())
-                                    .maktab(row.getCell(12).getStringCellValue())
-                                    .bachelorOf(row.getCell(13).getStringCellValue())
+                                    .login(login)
+                                    .diplomId(diplomId)
+                                    .diplomSeriya(diplomSeriya)
+                                    .diplomRaqami(diplomRaqami)
+                                    .lName(getCellValueAsString(row.getCell(4)))
+                                    .fName(getCellValueAsString(row.getCell(5)))
+                                    .mName(getCellValueAsString(row.getCell(6)))
+                                    .lNameEng(getCellValueAsString(row.getCell(7)))
+                                    .fNameEng(getCellValueAsString(row.getCell(8)))
+                                    .yonalishQisqa(getCellValueAsString(row.getCell(9)))
+                                    .yonalishUzb(getCellValueAsString(row.getCell(10)))
+                                    .yonalishEng(getCellValueAsString(row.getCell(11)))
+                                    .maktab(getCellValueAsString(row.getCell(12)))
+                                    .bachelorOf(getCellValueAsString(row.getCell(13)))
                                     .build();
 
-                            if (row.getCell(14)!=null && !Objects.equals(row.getCell(14).getStringCellValue(), "")){
-                                diploma.setImtiyoz(row.getCell(14).getStringCellValue());
+                            // Optional fields with null and empty checks
+                            String imtiyoz = getCellValueAsString(row.getCell(14));
+                            if (imtiyoz != null && !imtiyoz.isEmpty()) {
+                                diploma.setImtiyoz(imtiyoz);
                             }
-                            if (row.getCell(15)!=null && !Objects.equals(row.getCell(15).getStringCellValue(), "")){
-                                diploma.setImtiyozEng(row.getCell(15).getStringCellValue());
+                            String imtiyozEng = getCellValueAsString(row.getCell(15));
+                            if (imtiyozEng != null && !imtiyozEng.isEmpty()) {
+                                diploma.setImtiyozEng(imtiyozEng);
                             }
 
                             diplomaRepository.save(diploma);
+                            System.out.println("///////////////////////////////////////////////////");
+                        } else {
+                            throw new IllegalArgumentException("The diploma is already with raqam: " + diplomRaqami);
                         }
-                        else {
-                            throw new IllegalArgumentException("The diploma is already with raqam: "+row.getCell(3).getStringCellValue());
-                        }
+                    } else {
+                        throw new IllegalArgumentException("The diploma is already with ID: " + diplomId);
                     }
-                    else {
-                        throw new IllegalArgumentException("The diploma is already with ID: "+row.getCell(1).getStringCellValue());
-                    }
-                }
-                else {
-                    throw new IllegalArgumentException("The diploma is already with login: "+row.getCell(0).getStringCellValue());
+                } else {
+                    throw new IllegalArgumentException("The diploma is already with login: " + login);
                 }
             }
 
-            return new ApiResponse(true,"Diplomas are saved.");
-        }catch (Exception e){
-            return new ApiResponse(false,"Error is occurred while saving diplomas");
+            return new ApiResponse(true, "Diplomas are saved.");
+        } catch (Exception e) {
+            return new ApiResponse(false, "Error occurred while saving diplomas: " + e.getMessage());
+        }
+    }
+
+    // Helper method to get cell value as String regardless of type
+    private String getCellValueAsString(Cell cell) {
+        if (cell == null) {
+            return null;
+        }
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    return cell.getDateCellValue().toString(); // Handle dates if needed
+                } else {
+                    // Convert numeric to string, removing ".0" if it's a whole number
+                    double numericValue = cell.getNumericCellValue();
+                    if (numericValue == Math.floor(numericValue)) {
+                        return String.valueOf((long) numericValue);
+                    } else {
+                        return String.valueOf(numericValue);
+                    }
+                }
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case FORMULA:
+                return cell.getCellFormula(); // Or evaluate the formula if needed
+            case BLANK:
+                return "";
+            default:
+                return null;
         }
     }
 
