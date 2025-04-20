@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -31,10 +32,10 @@ public class NotificationOuter2 extends AbsEntity {// sirtqi talimda uqiyatgan t
     private Date fromDate;
     private Date toDate;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     private Set<Faculty> faculties;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     private Set<Group> groups;
     private String dynamicSection;
 
