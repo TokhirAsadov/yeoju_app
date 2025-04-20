@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -20,7 +21,7 @@ public class NotificationOuter2Counter extends AbsEntity {
     @ManyToOne
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private NotificationOuter2 notificationOuter2;
 
     public NotificationOuter2Counter(String id, Long queue, User user, NotificationOuter2 notificationOuter) {
