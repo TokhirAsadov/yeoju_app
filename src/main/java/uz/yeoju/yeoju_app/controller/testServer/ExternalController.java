@@ -24,5 +24,11 @@ public class ExternalController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("/students")
+    HttpEntity<?> sendStudentsData() {
+        Set<StudentDataForExternalApi> data = groupRepository.sendStudentsData();
+        return ResponseEntity.ok(data);
+    }
 
+    
 }
