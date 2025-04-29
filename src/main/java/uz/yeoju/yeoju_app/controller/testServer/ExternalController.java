@@ -30,5 +30,27 @@ public class ExternalController {
         return ResponseEntity.ok(data);
     }
 
-    
+    @PatchMapping("/updatePatchStudent")
+    HttpEntity<?> updatePatchStudent(@RequestBody UserPatchUpdater updater){
+        Optional<User> optionalUser = userRepository.findUserByLogin(updater.login);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (updater.firstName != null) {
+                user.setFirstName(updater.firstName);
+            }
+            if (updater.lastName != null) {
+                user.setLastName(updater.lastName);
+            }
+            if (updater.middleName != null) {
+                user.setMiddleName(updater.middleName);
+            }
+            if (updater.password != null) {
+                user.setPassword(updater.password);
+            }
+            userRepository.save(user);
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.status(404).body(false);
+        }
+    }
 }
