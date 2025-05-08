@@ -61,6 +61,9 @@ public class User extends AbsEntity implements UserDetails {
     @Column
     private Boolean enabled = true;
 
+    private String lastNameEn;
+    private String firstNameEn;
+
 
 
     public User(String id, String fullName, String login, String password) {
