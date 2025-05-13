@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.Group;
+import uz.yeoju.yeoju_app.payload.resDto.StudentDataForExternalApi;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentGroupField;
 import uz.yeoju.yeoju_app.payload.resDto.group.GroupForStudent;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetGroupsDataForKafedraMudiri;
@@ -21,6 +22,19 @@ public interface GroupRepository extends JpaRepository<Group,String> {
    List<Group> findGroupsByLevel(Integer level);
    List<Group> findGroupsByFacultyId(String faculty_id);
 
+
+   @Query(value = "select " +
+           "u.firstName, " +
+           "u.lastName, " +
+           "u.middleName, " +
+           "u.login, " +
+           "u.password, " +
+           "g.name as groupName, " +
+           "g.level as course " +
+           "from users u\n" +
+           "join Student s on u.id = s.user_id\n" +
+           "join groups g on s.group_id = g.id",nativeQuery = true)
+   Set<StudentDataForExternalApi> sendStudentsData();
 
    @Query(value = "select u.rfid, g.id as groupId,u.id as studentId,u.fullName,?2 as educationYearId,?3 as weekday,?4 as week, ?5 as year from groups g \n" +
            "join Student S on g.id = S.group_id\n" +
