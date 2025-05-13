@@ -8,67 +8,96 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import uz.yeoju.yeoju_app.entity.Faculty;
+import uz.yeoju.yeoju_app.entity.Group;
+import uz.yeoju.yeoju_app.entity.Student;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.dekanat.Diploma;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.dekanat.DiplomaCreator;
 import uz.yeoju.yeoju_app.repository.DiplomaRepository;
+import uz.yeoju.yeoju_app.repository.StudentRepository;
+import uz.yeoju.yeoju_app.repository.UserRepository;
 
 import java.util.Iterator;
-import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class DiplomaImplService implements DiplomaService{
     private final DiplomaRepository diplomaRepository;
+    private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
 
-    public DiplomaImplService(DiplomaRepository diplomaRepository) {
+    public DiplomaImplService(DiplomaRepository diplomaRepository, UserRepository userRepository, StudentRepository studentRepository) {
         this.diplomaRepository = diplomaRepository;
+        this.userRepository = userRepository;
+        this.studentRepository = studentRepository;
     }
 
     @Override
     public ApiResponse createDiploma(DiplomaCreator creator) {
-        Boolean existsed = diplomaRepository.existsDiplomaByLogin(creator.getLogin());
-        if(!existsed){
-            if (!diplomaRepository.existsDiplomaByDiplomId(creator.getDiplomId())) {
-                if (!diplomaRepository.existsDiplomaByDiplomRaqami(creator.diplomRaqami)){
-                    Diploma diploma = Diploma.builder()
-                            .diplomId(creator.getDiplomId())
-                            .diplomSeriya(creator.getDiplomSeriya())
-                            .diplomRaqami(creator.getDiplomRaqami())
-                            .fName(creator.getFName())
-                            .lName(creator.getLName())
-                            .mName(creator.getMName())
-                            .fNameEng(creator.getFNameEng())
-                            .lNameEng(creator.getLNameEng())
-                            .yonalishQisqa(creator.getYonalishQisqa())
-                            .yonalishEng(creator.getYonalishEng())
-                            .yonalishUzb(creator.getYonalishUzb())
-                            .maktab(creator.getMaktab())
-                            .bachelorOf(creator.getBachelorOf())
-                            .imtiyoz(creator.getImtiyoz())
-                            .imtiyozEng(creator.getImtiyozEng())
-                            .login(creator.getLogin())
-                            .build();
-                    diplomaRepository.save(diploma);
-                    return new ApiResponse(true,creator.getLogin()+" diploma is saved");
-                }
-                else {
-                    throw new IllegalArgumentException("The diploma is already with raqam: "+creator.getDiplomRaqami());
+        Optional<User> userOptional = userRepository.findById(creator.studentId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            boolean existsStudentByUserId = studentRepository.existsStudentByUserId(creator.studentId);
+            if (existsStudentByUserId) {
+                Student student = studentRepository.findStudentByUserId(creator.studentId);
+                Group group = student.getGroup();
+                Faculty faculty = group.getFaculty();
+
+                Boolean existsed = diplomaRepository.existsDiplomaByLogin(user.getLogin());
+                if (!existsed) {
+                    if (!diplomaRepository.existsDiplomaByDiplomId(creator.getDiplomId())) {
+                        if (!diplomaRepository.existsDiplomaByDiplomRaqami(creator.diplomRaqami)) {
+                            Diploma diploma = Diploma.builder()
+                                    .diplomId(creator.getDiplomId())
+                                    .diplomSeriya(creator.getDiplomSeriya())
+                                    .diplomRaqami(creator.getDiplomRaqami())
+                                    .fName(user.getFirstName())
+                                    .lName(user.getLastName())
+                                    .mName(user.getMiddleName())
+                                    .fNameEng(user.getFirstNameEn())
+                                    .lNameEng(user.getLastNameEn())
+                                    .yonalishQisqa(faculty.getShortName())
+                                    .yonalishEng(faculty.getNameEn())
+                                    .yonalishUzb(faculty.getName())
+                                    .maktab(faculty.getSchool())
+                                    .bachelorOf(creator.getBachelorOf())
+                                    .imtiyoz(creator.getImtiyoz())
+                                    .imtiyozEng(creator.getImtiyozEng())
+                                    .login(user.getLogin())
+                                    .build();
+                            diplomaRepository.save(diploma);
+                            return new ApiResponse(true, user.getLogin() + " diploma is saved");
+                        } else {
+                            throw new IllegalArgumentException("The diploma is already with raqam: " + creator.getDiplomRaqami());
+                        }
+                    } else {
+                        throw new IllegalArgumentException("The diploma is already with ID: " + creator.getDiplomId());
+                    }
+                } else {
+                    throw new IllegalArgumentException("The diploma is already with login: " + (user.getLogin()));
                 }
             }
             else {
-                throw new IllegalArgumentException("The diploma is already with ID: "+creator.getDiplomId());
+                throw new IllegalArgumentException("The student not found with userId: " + (creator.studentId));
             }
         }
         else {
-            throw new IllegalArgumentException("The diploma is already with login: "+(creator.getLogin()));
+            throw new IllegalArgumentException("The student not found: " + (creator.studentId));
         }
     }
 
     @Override
     public ApiResponse updateDiploma(DiplomaCreator creator) {
         if (diplomaRepository.existsById(creator.id)){
-            Boolean existsed = diplomaRepository.existsDiplomaByLogin(creator.getLogin());
-            Boolean existsed2 = diplomaRepository.existsDiplomaByLoginAndId(creator.getLogin(),creator.id);
+            Diploma byId = diplomaRepository.getById(creator.id);
+            User user = userRepository.getById(creator.studentId);
+            Student student = studentRepository.findStudentByUserId(creator.studentId);
+            Group group = student.getGroup();
+            Faculty faculty = group.getFaculty();
+            Boolean existsed = diplomaRepository.existsDiplomaByLogin(user.getLogin());
+            Boolean existsed2 = diplomaRepository.existsDiplomaByLoginAndId(user.getLogin(),creator.id);
             if(!existsed || existsed2){
                 if (!diplomaRepository.existsDiplomaByDiplomId(creator.getDiplomId())
                 || diplomaRepository.existsDiplomaByDiplomIdAndId(creator.getDiplomId(), creator.id)
@@ -80,20 +109,20 @@ public class DiplomaImplService implements DiplomaService{
                         diploma.setDiplomId(creator.getDiplomId());
                         diploma.setDiplomSeriya(creator.getDiplomSeriya());
                         diploma.setDiplomRaqami(creator.getDiplomRaqami());
-                        diploma.setFName(creator.getFName());
-                        diploma.setLName(creator.getLName());
-                        diploma.setMName(creator.getMName());
-                        diploma.setFNameEng(creator.getFNameEng());
-                        diploma.setLNameEng(creator.getLNameEng());
-                        diploma.setYonalishQisqa(creator.getYonalishQisqa());
-                        diploma.setYonalishEng(creator.getYonalishEng());
-                        diploma.setYonalishUzb(creator.getYonalishUzb());
-                        diploma.setMaktab(creator.getMaktab());
+                        diploma.setFName(user.getFirstName());
+                        diploma.setLName(user.getLastName());
+                        diploma.setMName(user.getMiddleName());
+                        diploma.setFNameEng(user.getFirstNameEn());
+                        diploma.setLNameEng(user.getLastNameEn());
+                        diploma.setYonalishQisqa(faculty.getShortName());
+                        diploma.setYonalishEng(faculty.getNameEn());
+                        diploma.setYonalishUzb(faculty.getName());
+                        diploma.setMaktab(faculty.getSchool());
                         diploma.setBachelorOf(creator.getBachelorOf());
                         diploma.setImtiyoz(creator.getImtiyoz());
                         diploma.setImtiyozEng(creator.getImtiyozEng());
                         diplomaRepository.save(diploma);
-                        return new ApiResponse(true,creator.getLogin()+" diploma is updated");
+                        return new ApiResponse(true,user.getLogin()+" diploma is updated");
                     }
                     else {
                         throw new IllegalArgumentException("The diploma is already with raqam: "+creator.getDiplomRaqami());
@@ -104,7 +133,7 @@ public class DiplomaImplService implements DiplomaService{
                 }
             }
             else {
-                throw new IllegalArgumentException("The diploma is already with login: "+(creator.getLogin()));
+                throw new IllegalArgumentException("The diploma is already with login: "+(user.getLogin()));
             }
         }
         else {
