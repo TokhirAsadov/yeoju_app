@@ -391,4 +391,10 @@ public interface DekanRepository extends JpaRepository<Dekan,String> {
     Set<StudentDataByWeekDay> getStudentDataByWeekDayNEW(Date start, String groupsArr);
 
 
+    @Query(value = "select F.id, F.shortName, F.name, F.nameEn, F.school as schoolCode from Dekan d\n" +
+            "join Dekanat D1 on d.dekanat_id=D1.id\n" +
+            "join Dekanat_Faculty DF on D1.id = DF.Dekanat_id\n" +
+            "join Faculty F on DF.faculties_id = F.id\n" +
+            "where d.user_id=:id",nativeQuery = true)
+    List<GetFaculties> getFaculties(String id);
 }
