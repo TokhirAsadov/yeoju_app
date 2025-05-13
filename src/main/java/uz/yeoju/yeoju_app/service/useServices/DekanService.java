@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uz.yeoju.yeoju_app.entity.EducationType;
-import uz.yeoju.yeoju_app.entity.Group;
-import uz.yeoju.yeoju_app.entity.Student;
-import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.entity.dekanat.Dekan;
 import uz.yeoju.yeoju_app.entity.dekanat.Dekanat;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
@@ -30,6 +27,7 @@ public class DekanService implements DekanImplService<DekanDto> {
     private final UserService userService;
     private final UserRepository userRepository;
     private final FacultyService facultyService;
+    private final FacultyRepository facultyRepository;
     private final StudentRepository studentRepository;
     private final GroupRepository groupRepository;
     private final DekanatRepository dekanatRepository;
@@ -255,6 +253,37 @@ public class DekanService implements DekanImplService<DekanDto> {
         }
         else {
             return new ApiResponse(false,"not fount user");
+        }
+    }
+
+    @Transactional
+    public ApiResponse updateFaculty(UpdateFacultyByDekanDto dto) {
+        boolean exists = facultyRepository.existsById(dto.id);
+        if (exists){
+            Faculty faculty = facultyRepository.getById(dto.id);
+            if (dto.name!=null && !dto.name.isEmpty()) {
+                faculty.setName(dto.name);
+            }
+            if (dto.nameEn!=null && !dto.nameEn.isEmpty()) {
+                faculty.setNameEn(dto.nameEn);
+            }
+            if (dto.shortName!=null && !dto.shortName.isEmpty()) {
+                faculty.setShortName(dto.shortName);
+            }
+            if (dto.schoolCode!=null && !dto.schoolCode.isEmpty()) {
+                faculty.setSchool(dto.schoolCode);
+            }
+            Faculty save = facultyRepository.save(faculty);
+            return new ApiResponse(true,"Yo`nalish update qilindi.", new UpdateFacultyByDekanDto(
+                    save.getId(),
+                    save.getName(),
+                    save.getNameEn(),
+                    save.getShortName(),
+                    save.getSchool()
+            ));
+        }
+        else {
+            throw new IllegalArgumentException("Yo`nalish topilmadi, id: " + (dto.getId()));
         }
     }
 }
