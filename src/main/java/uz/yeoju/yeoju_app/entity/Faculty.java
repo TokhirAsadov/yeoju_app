@@ -19,6 +19,8 @@ public class Faculty extends AbsEntity {
 
     private Integer schoolCode;
     private String shortName;
+    private String nameEn;
+    private String school;
 
 
     public Faculty(String name) {
