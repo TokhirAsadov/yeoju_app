@@ -6,15 +6,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import uz.yeoju.yeoju_app.entity.Role;
 import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.entity.dekanat.Dekan;
-import uz.yeoju.yeoju_app.entity.dekanat.Dekanat;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.payload.dekanat.DekanSave;
-import uz.yeoju.yeoju_app.payload.dekanat.DekanSaveWithEduType;
-import uz.yeoju.yeoju_app.payload.dekanat.DekanatSaveDto;
-import uz.yeoju.yeoju_app.payload.dekanat.StudentChangeDto;
+import uz.yeoju.yeoju_app.payload.dekanat.*;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.FacultyForDekan;
 import uz.yeoju.yeoju_app.repository.DekanRepository;
 import uz.yeoju.yeoju_app.repository.DekanatRepository;
@@ -25,11 +19,7 @@ import uz.yeoju.yeoju_app.service.useServices.DekanService;
 import uz.yeoju.yeoju_app.service.useServices.FacultyService;
 import uz.yeoju.yeoju_app.service.useServices.UserService;
 
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/dekan")
@@ -52,6 +42,16 @@ public class DekanController {
     @GetMapping("/getStudentDataWithUserId/{id}")
     public HttpEntity<?> getStudentDataForEditedDekan(@CurrentUser User user,@PathVariable String id){
         return ResponseEntity.ok(dekanRepository.getStudentDataForEditedDekan(id));
+    }
+
+    @GetMapping("/getFaculties/{id}")
+    public HttpEntity<?> getFaculties(@CurrentUser User user,@PathVariable String id){
+        return ResponseEntity.ok(dekanRepository.getFaculties(id));
+    }
+
+    @PutMapping("/updateFaculty")
+    public HttpEntity<?> updateFaculty(@CurrentUser User user,@RequestBody UpdateFacultyByDekanDto dto){
+        return ResponseEntity.ok(dekanService.updateFaculty(dto));
     }
 
     @GetMapping("/getFacultiesShortnamesWithDekanId")
@@ -144,7 +144,7 @@ public class DekanController {
 
     @GetMapping("/getGroupsNamesForDeplom/{facultyId}") //getGroupsNamesForDekanByFacultyId
     public HttpEntity<?> getGroupsNamesForDeplom(@CurrentUser User user,@PathVariable("facultyId") String facultyId,@RequestParam(name = "course") Integer course){
-        return ResponseEntity.ok(dekanRepository.getGroupsNamesByFacultyIdAndLevel(facultyId,course));
+        return ResponseEntity.ok(dekanRepository.getGroupsNamesByFacultyIdAndLevel(facultyId,course,user.getId()));
     }
 
 
