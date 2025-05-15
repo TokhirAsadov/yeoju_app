@@ -48,7 +48,7 @@ public class ModuleImplService implements ModuleService {
 
     @Override
     public ApiResponse findById(String id) {
-        if (courseRepository.existsById(id)) {
+        if (moduleRepository.existsById(id)) {
             return new ApiResponse(true,"Module is found by id: "+id,moduleRepository.findById(id).get());
         }
         else {
