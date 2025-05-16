@@ -2,6 +2,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.course
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uz.yeoju.yeoju_app.entity.moduleV2.Course;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
@@ -20,9 +21,10 @@ public class CourseImplService implements CourseService{
     }
 
     @Override
+    @Transactional
     public void createCourse(CourseCreator creator) {
         if (planRepository.existsById(creator.planId)){
-            Course course = new Course(creator.planId, planRepository.findById(creator.planId).get());
+            Course course = new Course(creator.title, planRepository.findById(creator.planId).get());
             courseRepository.save(course);
         } else {
             throw new UserNotFoundException("Plan did not found by id: "+creator.planId);
