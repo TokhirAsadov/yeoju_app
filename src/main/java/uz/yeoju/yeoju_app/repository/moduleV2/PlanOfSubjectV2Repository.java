@@ -2,10 +2,10 @@ package uz.yeoju.yeoju_app.repository.moduleV2;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import uz.yeoju.yeoju_app.entity.EducationLanguage;
+import uz.yeoju.yeoju_app.entity.EducationType;
 import uz.yeoju.yeoju_app.entity.moduleV2.PlanOfSubjectV2;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetSubjectsForTeacherWithSubjectForPlan;
-import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetTeacherWIthSubjectForPlan;
-import uz.yeoju.yeoju_app.payload.resDto.module.GetExistsPlans;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetGroupsOfPlan;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetPlansForTeacherSciences;
 import uz.yeoju.yeoju_app.payload.resDto.moduleV2.GetExistsPlansV2;
@@ -16,6 +16,7 @@ import java.util.Set;
 public interface PlanOfSubjectV2Repository extends JpaRepository<PlanOfSubjectV2,String> {
     Set<PlanOfSubjectV2> getPlanOfSubjectsByEducationYearIdAndSubjectIdAndLevel(String educationYear_id, String subject_id, Integer level);
 
+    Boolean existsByUserIdAndEducationYearIdAndSubjectIdAndLevelAndEducationLanguageIdAndEducationTypeId(String user_id, String educationYear_id, String subject_id, Integer level, String educationLanguage_id, String educationType_id);
 
     @Query(value = "select ?2 as educationYearId, u.id,u.fullName,u.firstName,u.lastName,u.middleName from users u\n" +
             "    join Teacher T on u.id = T.user_id\n" +
@@ -41,6 +42,13 @@ public interface PlanOfSubjectV2Repository extends JpaRepository<PlanOfSubjectV2
             "    join Lesson L on ps.subject_id = L.id\n" +
             "where ps.user_id=?1 and ps.educationYear_id=?2",nativeQuery = true)
     Set<GetExistsPlansV2> getAllExistsPlans(String userId, String educationYearId);
+
+    @Query(value = "select ps.user_id as teacherId, ps.id,L.id as lessonId,L.name as lessonName,ET.name as eduType,EL.name as eduLang,ps.level from PlanOfSubjectV2 ps\n" +
+            "    join EducationType ET on ps.educationType_id = ET.id\n" +
+            "    join EducationLanguage EL on ps.educationLanguage_id = EL.id\n" +
+            "    join Lesson L on ps.subject_id = L.id\n" +
+            "where ps.createdAt=?1 ",nativeQuery = true)
+    Set<GetExistsPlansV2> getPlansByKafedraId(String userId);
 
     @Query(value = "select g.id as groupId,g.name as groupName from PlanOfSubject_groups pg join groups g on pg.groups_id = g.id\n" +
             "where pg.PlanOfSubject_id=?1",nativeQuery = true)
