@@ -12,5 +12,5 @@ public interface GetExistsPlansV2 {
     Integer getLevel();
 
     @Value("#{@planOfSubjectV2Repository.getTeacherWIthSubjectForPlanGetData(target.teacherId)}")
-    GetTeacherWIthSubjectForPlanV2 getUserData();
+    GetTeacherWIthSubjectForPlanV22 getUserData();
 }
