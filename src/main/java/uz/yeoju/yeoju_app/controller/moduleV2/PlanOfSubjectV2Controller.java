@@ -48,13 +48,18 @@ public class PlanOfSubjectV2Controller {
         return ResponseEntity.ok(service.getExistPlans(user.getId(),educationYearId, subjectId, level));
     }
 
-    @PreAuthorize("hasRole('TEACHER')")
+//    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/createdPlan")
     public HttpEntity<?> createPlan(@CurrentUser User user, @RequestBody CreatePlanOfStudentV2 dto ){
         return ResponseEntity.ok(service.createPlan(user,dto));
     }
 
-
+    @GetMapping("/getPlansByKafedraId/{kafedraId}")
+    public HttpEntity<?> getPlansByKafedraId(@CurrentUser User user,
+                                       @PathVariable("kafedraId") String kafedraId
+    ){
+        return ResponseEntity.ok(service.getPlansByKafedraId(user.getId(),kafedraId));
+    }
 
 
 }
