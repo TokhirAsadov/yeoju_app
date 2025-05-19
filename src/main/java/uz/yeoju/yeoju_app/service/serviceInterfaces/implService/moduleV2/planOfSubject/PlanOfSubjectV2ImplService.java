@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.module.PlanOfSubject;
 import uz.yeoju.yeoju_app.entity.moduleV2.PlanOfSubjectV2;
+import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.CreatePlanOfStudent;
@@ -60,18 +61,31 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
         EducationYear educationYear = educationYearRepository.getById(dto.getEducationYearId());
         Optional<User> userOptional = userRepository.findById(dto.teacherId);
 
-        PlanOfSubjectV2 plan = new PlanOfSubjectV2(
-                userOptional.get(),
-                educationYear,
-                lesson,
-                educationTypeByName,
-                educationLanguageByName,
-                dto.getLevel()
-        );
+        if (planRepository.existsByUserIdAndEducationYearIdAndSubjectIdAndLevelAndEducationLanguageIdAndEducationTypeId(
+                user.getId(),
+                educationYear.getId(),
+                lesson.getId(),
+                dto.getLevel(),
+                educationLanguageByName.getId(),
+                educationTypeByName.getId()
+        )) {
+            PlanOfSubjectV2 plan = new PlanOfSubjectV2(
+                    userOptional.get(),
+                    educationYear,
+                    lesson,
+                    educationTypeByName,
+                    educationLanguageByName,
+                    dto.getLevel()
+            );
 
-        planRepository.save(plan);
 
-        return new ApiResponse(true,"create plan successfully");
+
+            planRepository.save(plan);
+
+            return new ApiResponse(true,"create plan successfully");
+        }
+        throw new UserNotFoundException("plan already exists");
+
     }
 
 
@@ -86,5 +100,11 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
     @Override
     public ApiResponse getTeacherWIthSubjectForPlan(String id,String educationYearId) {
         return new ApiResponse(true,"teacher with subjects",planRepository.getTeacherWIthSubjectForPlan(id,educationYearId));
+    }
+
+    @Override
+    public ApiResponse getPlansByKafedraId(String id, String kafedraId) {
+        Set<GetExistsPlansV2> plansByKafedraId = planRepository.getPlansByKafedraId(id);
+        return new ApiResponse(true,"plans by kafedra id",plansByKafedraId);
     }
 }
