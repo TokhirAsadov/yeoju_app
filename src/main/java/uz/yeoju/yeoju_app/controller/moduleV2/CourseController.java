@@ -44,4 +44,11 @@ public class CourseController {
         return ResponseEntity.status(res.isSuccess() ? 200 : 417)
                 .body(res);
     }
+
+    @GetMapping("/getCourseByIdV1/{id}")
+    HttpEntity<?> getCourseByIdV1(@PathVariable String id){
+        ApiResponse res = service.getCourseByIdV1(id);
+        return ResponseEntity.status(res.isSuccess() ? 200 : 417)
+                .body(res);
+    }
 }
