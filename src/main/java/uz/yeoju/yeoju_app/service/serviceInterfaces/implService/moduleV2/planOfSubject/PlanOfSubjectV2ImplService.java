@@ -104,7 +104,6 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
 
     @Override
     public ApiResponse getPlansByKafedraId(String id, String kafedraId) {
-        Set<GetExistsPlansV2> plansByKafedraId = planRepository.getPlansByKafedraId(id);
-        return new ApiResponse(true,"plans by kafedra id",plansByKafedraId);
+        return new ApiResponse(true,"plans by kafedra id",planRepository.getPlansByKafedraId(id));
     }
 }
