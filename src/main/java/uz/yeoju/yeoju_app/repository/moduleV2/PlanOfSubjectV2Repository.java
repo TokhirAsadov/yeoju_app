@@ -10,6 +10,7 @@ import uz.yeoju.yeoju_app.payload.resDto.module.GetGroupsOfPlan;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetPlansForTeacherSciences;
 import uz.yeoju.yeoju_app.payload.resDto.moduleV2.GetExistsPlansV2;
 import uz.yeoju.yeoju_app.payload.resDto.moduleV2.GetTeacherWIthSubjectForPlanV2;
+import uz.yeoju.yeoju_app.payload.resDto.moduleV2.GetTeacherWIthSubjectForPlanV22;
 
 import java.util.Set;
 
@@ -24,15 +25,17 @@ public interface PlanOfSubjectV2Repository extends JpaRepository<PlanOfSubjectV2
             "    where K.owner_id=?1",nativeQuery = true)
     Set<GetTeacherWIthSubjectForPlanV2> getTeacherWIthSubjectForPlan(String id, String educationYearId);
 
-    @Query(value = "select u.id,u.fullName,u.firstName,u.lastName,u.middleName from users u\n" +
-            "    where u.id=?1",nativeQuery = true)
-    GetTeacherWIthSubjectForPlanV2 getTeacherWIthSubjectForPlanGetData(String id);
+    @Query(value = "select TOP 1 u.id,ey.id as educationYearId,u.fullName,u.firstName,u.lastName,u.middleName from users u\n" +
+            " join PlanOfSubjectV2 ps on u.id = ps.user_id\n" +
+            " join EducationYear ey on ps.educationYear_id = ey.id\n" +
+            "where u.id=?1",nativeQuery = true)
+    GetTeacherWIthSubjectForPlanV22 getTeacherWIthSubjectForPlanGetData(String id);
 
-    @Query(value = "select L.id,L.name from PlanOfSubject p join Lesson L on p.subject_id = L.id where p.user_id=?1 group by L.id, L.name",nativeQuery = true)
+    @Query(value = "select L.id,L.name from PlanOfSubjectV2 p join Lesson L on p.subject_id = L.id where p.user_id=?1 group by L.id, L.name",nativeQuery = true)
     Set<GetSubjectsForTeacherWithSubjectForPlan> getSubjectsForTeacherWithSubjectForPlan(String id);
 
 
-    @Query(value = "select L.id,L.name from PlanOfSubject p join Lesson L on p.subject_id = L.id where p.user_id=?1 and p.educationYear_id=?2 group by L.id, L.name",nativeQuery = true)
+    @Query(value = "select L.id,L.name from PlanOfSubjectV2 p join Lesson L on p.subject_id = L.id where p.user_id=?1 and p.educationYear_id=?2 group by L.id, L.name",nativeQuery = true)
     Set<GetSubjectsForTeacherWithSubjectForPlan> getSubjectsForTeacherWithSubjectForPlan(String id,String educationYearId);
 
 
@@ -51,7 +54,7 @@ public interface PlanOfSubjectV2Repository extends JpaRepository<PlanOfSubjectV2
             "    join EducationType ET on ps.educationType_id = ET.id\n" +
             "    join EducationLanguage EL on ps.educationLanguage_id = EL.id\n" +
             "    join Lesson L on ps.subject_id = L.id\n" +
-            "where ps.createdAt=?1 ",nativeQuery = true)
+            "where ps.createdBy=?1 ",nativeQuery = true)
     Set<GetExistsPlansV2> getPlansByKafedraId(String userId);
 
     @Query(value = "select g.id as groupId,g.name as groupName from PlanOfSubject_groups pg join groups g on pg.groups_id = g.id\n" +
