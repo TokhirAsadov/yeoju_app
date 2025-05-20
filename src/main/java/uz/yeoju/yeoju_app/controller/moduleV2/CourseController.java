@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.moduleV2.CourseCreator;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.course.CourseService;
 
 @RestController
@@ -48,6 +50,18 @@ public class CourseController {
     @GetMapping("/getCourseByIdV1/{id}")
     HttpEntity<?> getCourseByIdV1(@PathVariable String id){
         ApiResponse res = service.getCourseByIdV1(id);
+        return ResponseEntity.status(res.isSuccess() ? 200 : 417)
+                .body(res);
+    }
+
+    @GetMapping("/getCourseByIdV2/{id}")
+    HttpEntity<?> getCourseByIdV1(@CurrentUser User user, @PathVariable String id, @RequestParam(required = false) String userId){
+        if (userId == null) {
+            ApiResponse res = service.getCourseByIdV2(id,user.getId());
+            return ResponseEntity.status(res.isSuccess() ? 200 : 417)
+                    .body(res);
+        }
+        ApiResponse res = service.getCourseByIdV2(id,userId);
         return ResponseEntity.status(res.isSuccess() ? 200 : 417)
                 .body(res);
     }
