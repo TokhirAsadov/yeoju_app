@@ -19,6 +19,11 @@ public interface PlanOfSubjectV2Repository extends JpaRepository<PlanOfSubjectV2
 
     Boolean existsByUserIdAndEducationYearIdAndSubjectIdAndLevelAndEducationLanguageIdAndEducationTypeId(String user_id, String educationYear_id, String subject_id, Integer level, String educationLanguage_id, String educationType_id);
 
+
+    @Query(value = "select g.id as groupId,g.name as groupName from PlanOfSubjectV2_groups pg join groups g on pg.groups_id = g.id\n" +
+            "where pg.PlanOfSubjectV2_id=?1",nativeQuery = true)
+    Set<GetGroupsOfPlan> getGroupsOfPlan(String id);
+
     @Query(value = "select ?2 as educationYearId, u.id,u.fullName,u.firstName,u.lastName,u.middleName from users u\n" +
             "    join Teacher T on u.id = T.user_id\n" +
             "    join Kafedra K on T.kafedra_id = K.id\n" +
@@ -39,11 +44,11 @@ public interface PlanOfSubjectV2Repository extends JpaRepository<PlanOfSubjectV2
     Set<GetSubjectsForTeacherWithSubjectForPlan> getSubjectsForTeacherWithSubjectForPlan(String id,String educationYearId);
 
 
-    @Query(value = "select ps.id,L.id as lessonId,L.name as lessonName,ET.name as eduType,EL.name as eduLang,ps.level from PlanOfSubject ps join Lesson L on ps.subject_id = L.id join EducationType ET on ps.educationType_id = ET.id join EducationLanguage EL on ps.educationLanguage_id = EL.id\n" +
+    @Query(value = "select ps.user_id as teacherId, ps.id,L.id as lessonId,L.name as lessonName,ET.name as eduType,EL.name as eduLang,ps.level from PlanOfSubject ps join Lesson L on ps.subject_id = L.id join EducationType ET on ps.educationType_id = ET.id join EducationLanguage EL on ps.educationLanguage_id = EL.id\n" +
             "where ps.user_id=?1 and ps.educationYear_id=?2 and ps.subject_id=?3 and ps.level=?4",nativeQuery = true)
     Set<GetExistsPlansV2> getExistsPlans(String userId,String educationYearId,String subjectId,Integer level);
 
-    @Query(value = "select ps.id,L.id as lessonId,L.name as lessonName,ET.name as eduType,EL.name as eduLang,ps.level from PlanOfSubjectV2 ps\n" +
+    @Query(value = "select ps.user_id as teacherId, ps.id,L.id as lessonId,L.name as lessonName,ET.name as eduType,EL.name as eduLang,ps.level from PlanOfSubjectV2 ps\n" +
             "    join EducationType ET on ps.educationType_id = ET.id\n" +
             "    join EducationLanguage EL on ps.educationLanguage_id = EL.id\n" +
             "    join Lesson L on ps.subject_id = L.id\n" +
@@ -56,10 +61,6 @@ public interface PlanOfSubjectV2Repository extends JpaRepository<PlanOfSubjectV2
             "    join Lesson L on ps.subject_id = L.id\n" +
             "where ps.createdBy=?1 ",nativeQuery = true)
     Set<GetExistsPlansV2> getPlansByKafedraId(String userId);
-
-    @Query(value = "select g.id as groupId,g.name as groupName from PlanOfSubject_groups pg join groups g on pg.groups_id = g.id\n" +
-            "where pg.PlanOfSubject_id=?1",nativeQuery = true)
-    Set<GetGroupsOfPlan> getGroupsOfPlan(String id);
 
     @Query(value = "select u.id as userId,  u.fullName ,u.firstName,u.lastName,u.middleName, g.id as groupId,g.name as groupName,g.level,et.name as eduType,EL.name as lang from TeacherConnectSubject ts\n" +
             "    join users u on ts.user_id = u.id\n" +
