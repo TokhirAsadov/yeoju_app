@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ModuleCreator {
     public String title;
+    public String theme;
     public String courseId;
 }
