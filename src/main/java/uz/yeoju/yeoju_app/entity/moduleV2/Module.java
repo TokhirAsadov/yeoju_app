@@ -1,5 +1,6 @@
 package uz.yeoju.yeoju_app.entity.moduleV2;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,15 +18,19 @@ public class Module extends AbsEntity {
 
     private String title;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    private String theme;
+
+    @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(mappedBy = "module")
-    private List<LessonModule> lessons = new ArrayList<>();
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<UserLessonModuleProgress> usersProgresses = new ArrayList<>();
 
-    public Module(String title, Course course) {
+    public Module(String title, String theme, Course course) {
         this.title = title;
+        this.theme = theme;
         this.course = course;
     }
 }
