@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.entity.moduleV2.Module;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.moduleV2.ModuleCreator;
+import uz.yeoju.yeoju_app.payload.moduleV2.ModuleUpdater;
 import uz.yeoju.yeoju_app.repository.moduleV2.CourseRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.ModuleRepository;
 
@@ -24,10 +25,28 @@ public class ModuleImplService implements ModuleService {
     @Transactional
     public void createModule(ModuleCreator creator) {
         if (courseRepository.existsById(creator.courseId)){
-            Module module = new Module(creator.title, courseRepository.findById(creator.courseId).get());
+            Module module = new Module(creator.title, creator.theme, courseRepository.findById(creator.courseId).get());
             moduleRepository.save(module);
         } else {
             throw new UserNotFoundException("Course did not found by id: "+creator.courseId);
+        }
+    }
+
+    @Override
+    @Transactional
+    public ApiResponse updateModule(ModuleUpdater updater) {
+        if (moduleRepository.existsById(updater.id)){
+            Module module = moduleRepository.findById(updater.getId()).get();
+            if (updater.getTitle()!=null && !updater.getTitle().isEmpty()) {
+                module.setTitle(updater.getTitle());
+            }
+            if (updater.theme!=null && !updater.theme.isEmpty()) {
+                module.setTheme(updater.getTheme());
+            }
+            Module save = moduleRepository.save(module);
+            return new ApiResponse(true,"Module updated",save);
+        } else {
+            throw new UserNotFoundException("Module did not found by id: "+updater.id);
         }
     }
 
