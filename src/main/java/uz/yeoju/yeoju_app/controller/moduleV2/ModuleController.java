@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.moduleV2.ModuleCreator;
+import uz.yeoju.yeoju_app.payload.moduleV2.ModuleUpdater;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.module.ModuleService;
 
 @RestController
@@ -23,6 +24,14 @@ public class ModuleController {
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody ModuleCreator creator){
         service.createModule(creator);
+    }
+
+    @PostMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    HttpEntity<?> update(@RequestBody ModuleUpdater updater){
+        ApiResponse response = service.updateModule(updater);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 417)
+                .body(response);
     }
 
     @DeleteMapping("/delete/{id}")
