@@ -60,9 +60,10 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
         Lesson lesson = lessonRepository.getById(dto.getSubjectId());
         EducationYear educationYear = educationYearRepository.getById(dto.getEducationYearId());
         Optional<User> userOptional = userRepository.findById(dto.teacherId);
+        List<Group> groupList = groupRepository.findAllById(dto.getGroupsIds());
 
-        if (planRepository.existsByUserIdAndEducationYearIdAndSubjectIdAndLevelAndEducationLanguageIdAndEducationTypeId(
-                user.getId(),
+        if (!planRepository.existsByUserIdAndEducationYearIdAndSubjectIdAndLevelAndEducationLanguageIdAndEducationTypeId(
+                dto.getTeacherId(),
                 educationYear.getId(),
                 lesson.getId(),
                 dto.getLevel(),
@@ -73,12 +74,11 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
                     userOptional.get(),
                     educationYear,
                     lesson,
+                    new HashSet<>(groupList),
                     educationTypeByName,
                     educationLanguageByName,
                     dto.getLevel()
             );
-
-
 
             planRepository.save(plan);
 
