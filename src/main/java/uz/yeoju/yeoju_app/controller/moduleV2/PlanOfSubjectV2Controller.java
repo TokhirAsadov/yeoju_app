@@ -58,7 +58,7 @@ public class PlanOfSubjectV2Controller {
     public HttpEntity<?> getPlansByKafedraId(@CurrentUser User user,
                                        @PathVariable("kafedraId") String kafedraId
     ){
-        return ResponseEntity.ok(service.getPlansByKafedraId(user.getId(),kafedraId));
+        return ResponseEntity.ok(service.getPlansByKafedraId(user.getId(), kafedraId));
     }
 
 
