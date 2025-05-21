@@ -16,11 +16,11 @@ import java.util.List;
 public class Course extends AbsEntity {
     private String title;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "plan_id")
     private PlanOfSubjectV2 plan;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Module> modules = new ArrayList<>();
 
     public Course(String title, PlanOfSubjectV2 plan) {
