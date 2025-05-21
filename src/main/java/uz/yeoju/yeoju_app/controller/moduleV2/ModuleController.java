@@ -26,7 +26,7 @@ public class ModuleController {
         service.createModule(creator);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
     HttpEntity<?> update(@RequestBody ModuleUpdater updater){
         ApiResponse response = service.updateModule(updater);
