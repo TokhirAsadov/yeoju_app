@@ -13,4 +13,6 @@ public interface CourseService {
 
     ApiResponse getCourseByIdV1(String id);
     ApiResponse getCourseByIdV2(String id,String userId);
+
+    ApiResponse findByStudentIdAndEducationYearId(String studentId, String educationYearId);
 }
