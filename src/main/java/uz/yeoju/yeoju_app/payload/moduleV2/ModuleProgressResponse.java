@@ -13,5 +13,5 @@ public class ModuleProgressResponse {
     private String title;
     private double progress;
     private String done;
-    private List<LessonModuleResponse> lessons;
+    private String theme;
 }
