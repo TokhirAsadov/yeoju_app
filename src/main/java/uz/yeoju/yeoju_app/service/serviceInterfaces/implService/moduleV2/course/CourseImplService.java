@@ -146,39 +146,45 @@ public class CourseImplService implements CourseService{
             throw new UserNotFoundException("Student not found by userId: " + studentId);
         }
 
+        User user = student.getUser();
+
         List<CourseResponse> response = courseRepository
                 .findAllByPlanEducationYearIdAndPlanGroupsId(educationYearId, student.getGroup().getId())
                 .stream()
                 .sorted(Comparator.comparing(AbsEntity::getCreatedAt))
                 .map(course -> {
-                    // Bu yerda getCourseByIdV2 funksiyasining ichki logikasini yozamiz
-                    List<ModuleProgressResponse> modules = course.getModules().stream()
-                            .map(module -> {
-                                boolean isCompleted = userLessonModuleProgressRepository
-                                        .existsByUserAndModuleAndCompletedTrue(student.getUser(), module);
+                    List<Module> modules = course.getModules();
+                    int totalModules = modules.size();
 
-                                int done = isCompleted ? 1 : 0;
-                                int total = 1;
-                                double progress = done * 100.0;
+                    List<ModuleProgressResponse> moduleProgressList = new ArrayList<>();
+                    int doneModules = 0;
 
-                                return new ModuleProgressResponse(
-                                        module.getTitle(),
-                                        progress,
-                                        done + "/" + total,
-                                        module.getTheme() // lessons bo‘sh
-                                );
-                            })
-                            .collect(Collectors.toList());
+                    for (Module module : modules) {
+                        boolean isCompleted = userLessonModuleProgressRepository
+                                .existsByUserAndModuleAndCompletedTrue(user, module);
+                        if (isCompleted) doneModules++;
+
+                        moduleProgressList.add(new ModuleProgressResponse(
+                                module.getTitle(),
+                                isCompleted ? 100.0 : 0.0,
+                                isCompleted ? "1/1" : "0/1",
+                                module.getTheme()
+                        ));
+                    }
+
+                    double progress = totalModules > 0 ? (doneModules * 100.0 / totalModules) : 0.0;
 
                     return new CourseResponse(
                             course.getId(),
                             course.getTitle(),
-                            modules
+                            Math.round(progress * 100.0) / 100.0,
+                            doneModules + "/" + totalModules,
+                            moduleProgressList
                     );
                 })
                 .collect(Collectors.toList());
 
-        return new ApiResponse(true, "Courses with progress", response);
+        return new ApiResponse(true, "Courses with module progress", response);
     }
 
 
