@@ -9,4 +9,8 @@ public interface CourseService {
     boolean deleteCourse(String courseId);
     ApiResponse findAll(Pageable pageable);
     ApiResponse findById(String id);
+    ApiResponse findByPlanId(String id);
+
+    ApiResponse getCourseByIdV1(String id);
+    ApiResponse getCourseByIdV2(String id,String userId);
 }
