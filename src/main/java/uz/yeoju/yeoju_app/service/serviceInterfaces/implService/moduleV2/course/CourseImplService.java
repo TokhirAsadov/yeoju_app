@@ -3,21 +3,36 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.course
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.moduleV2.Course;
+import uz.yeoju.yeoju_app.entity.moduleV2.Module;
+import uz.yeoju.yeoju_app.entity.moduleV2.UserLessonModuleProgress;
+import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.payload.moduleV2.CourseCreator;
+import uz.yeoju.yeoju_app.payload.moduleV2.*;
+import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.CourseRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.PlanOfSubjectV2Repository;
+import uz.yeoju.yeoju_app.repository.moduleV2.UserLessonModuleProgressRepository;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseImplService implements CourseService{
     private final CourseRepository courseRepository;
     private final PlanOfSubjectV2Repository planRepository;
+    private final UserRepository userRepository;
+    private final UserLessonModuleProgressRepository userLessonModuleProgressRepository;
 
-    public CourseImplService(CourseRepository courseRepository, PlanOfSubjectV2Repository planRepository) {
+    public CourseImplService(CourseRepository courseRepository, PlanOfSubjectV2Repository planRepository, UserRepository userRepository, UserLessonModuleProgressRepository userLessonModuleProgressRepository) {
         this.courseRepository = courseRepository;
         this.planRepository = planRepository;
+        this.userRepository = userRepository;
+        this.userLessonModuleProgressRepository = userLessonModuleProgressRepository;
     }
 
     @Override
@@ -33,12 +48,17 @@ public class CourseImplService implements CourseService{
 
     @Override
     public boolean deleteCourse(String courseId) {
-        if(courseRepository.existsById(courseId)){
-            courseRepository.deleteById(courseId);
-            return true;
-        } else {
-            throw new UserNotFoundException("Course did not found by id: "+courseId);
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Course not found"));
+
+        for (Module module : course.getModules()) {
+            // Har bir modul uchun progresslarni topib o'chirish
+            List<UserLessonModuleProgress> progresses = userLessonModuleProgressRepository.findAllByModule(module);
+            userLessonModuleProgressRepository.deleteAll(progresses);
         }
+
+        courseRepository.delete(course);
+        return true;
     }
 
     @Override
@@ -55,4 +75,66 @@ public class CourseImplService implements CourseService{
             throw new UserNotFoundException("Course not found by id: "+id);
         }
     }
+
+    @Override
+    public ApiResponse findByPlanId(String planId) {
+        return new ApiResponse(true,"Courses",courseRepository.findAllByPlanId(planId)
+                .stream()
+                .sorted(Comparator.comparing(AbsEntity::getCreatedAt))
+                .map(course -> new CourseResponse(
+                        course.getId(),
+                        course.getTitle()
+                )).collect(Collectors.toList())
+        );
+    }
+
+    @Override
+    public ApiResponse getCourseByIdV1(String id) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Course not found"));
+
+        List<ModuleAdminResponse> modules = course.getModules().stream()
+                .map(module -> new ModuleAdminResponse(
+                        module.getId(),
+                        module.getTitle(),
+                        module.getTheme()
+                ))
+                .collect(Collectors.toList());
+
+        return new ApiResponse(true, "Modules", modules);
+    }
+
+    @Override
+    public ApiResponse getCourseByIdV2(String id, String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Course not found"));
+
+        List<ModuleProgressResponse> responseList = new ArrayList<>();
+
+        for (Module module : course.getModules()) {
+            // Har bir modul uchun foydalanuvchi tugatganmi yoki yo'qmi
+            boolean isCompleted = userLessonModuleProgressRepository.existsByUserAndModuleAndCompletedTrue(user, module);
+
+            // Faqat bitta modul, shuning uchun total = 1, done = 1 yoki 0
+            int done = isCompleted ? 1 : 0;
+            int total = 1;
+
+            double progress = (done * 100.0); // 0 yoki 100
+
+            responseList.add(new ModuleProgressResponse(
+                    module.getTitle(),
+                    progress,
+                    done + "/" + total,
+                    new ArrayList<>() // lessonlar yo‘q
+            ));
+        }
+
+        return new ApiResponse(true, "Course progress", responseList);
+    }
+
+
+
 }
