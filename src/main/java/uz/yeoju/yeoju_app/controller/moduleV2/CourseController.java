@@ -47,6 +47,13 @@ public class CourseController {
                 .body(res);
     }
 
+    @GetMapping("/findByPlanId/{id}")
+    HttpEntity<?> findByPlanId(@PathVariable String id){
+        ApiResponse res = service.findByPlanId(id);
+        return ResponseEntity.status(res.isSuccess() ? 200 : 417)
+                .body(res);
+    }
+
     @GetMapping("/getCourseByIdV1/{id}")
     HttpEntity<?> getCourseByIdV1(@PathVariable String id){
         ApiResponse res = service.getCourseByIdV1(id);
