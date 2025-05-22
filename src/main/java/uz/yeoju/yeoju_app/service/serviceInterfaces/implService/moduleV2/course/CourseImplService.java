@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.course
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uz.yeoju.yeoju_app.entity.Student;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.moduleV2.Course;
 import uz.yeoju.yeoju_app.entity.moduleV2.Module;
@@ -11,6 +12,7 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.moduleV2.*;
+import uz.yeoju.yeoju_app.repository.StudentRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.CourseRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.PlanOfSubjectV2Repository;
@@ -26,12 +28,14 @@ public class CourseImplService implements CourseService{
     private final CourseRepository courseRepository;
     private final PlanOfSubjectV2Repository planRepository;
     private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
     private final UserLessonModuleProgressRepository userLessonModuleProgressRepository;
 
-    public CourseImplService(CourseRepository courseRepository, PlanOfSubjectV2Repository planRepository, UserRepository userRepository, UserLessonModuleProgressRepository userLessonModuleProgressRepository) {
+    public CourseImplService(CourseRepository courseRepository, PlanOfSubjectV2Repository planRepository, UserRepository userRepository, StudentRepository studentRepository, UserLessonModuleProgressRepository userLessonModuleProgressRepository) {
         this.courseRepository = courseRepository;
         this.planRepository = planRepository;
         this.userRepository = userRepository;
+        this.studentRepository = studentRepository;
         this.userLessonModuleProgressRepository = userLessonModuleProgressRepository;
     }
 
@@ -128,11 +132,53 @@ public class CourseImplService implements CourseService{
                     module.getTitle(),
                     progress,
                     done + "/" + total,
-                    new ArrayList<>() // lessonlar yo‘q
+                    module.getTheme() // lessonlar yo‘q
             ));
         }
 
         return new ApiResponse(true, "Course progress", responseList);
+    }
+
+    @Override
+    public ApiResponse findByStudentIdAndEducationYearId(String studentId, String educationYearId) {
+        Student student = studentRepository.findStudentByUserId(studentId);
+        if (student == null) {
+            throw new UserNotFoundException("Student not found by userId: " + studentId);
+        }
+
+        List<CourseResponse> response = courseRepository
+                .findAllByPlanEducationYearIdAndPlanGroupsId(educationYearId, student.getGroup().getId())
+                .stream()
+                .sorted(Comparator.comparing(AbsEntity::getCreatedAt))
+                .map(course -> {
+                    // Bu yerda getCourseByIdV2 funksiyasining ichki logikasini yozamiz
+                    List<ModuleProgressResponse> modules = course.getModules().stream()
+                            .map(module -> {
+                                boolean isCompleted = userLessonModuleProgressRepository
+                                        .existsByUserAndModuleAndCompletedTrue(student.getUser(), module);
+
+                                int done = isCompleted ? 1 : 0;
+                                int total = 1;
+                                double progress = done * 100.0;
+
+                                return new ModuleProgressResponse(
+                                        module.getTitle(),
+                                        progress,
+                                        done + "/" + total,
+                                        module.getTheme() // lessons bo‘sh
+                                );
+                            })
+                            .collect(Collectors.toList());
+
+                    return new CourseResponse(
+                            course.getId(),
+                            course.getTitle(),
+                            modules
+                    );
+                })
+                .collect(Collectors.toList());
+
+        return new ApiResponse(true, "Courses with progress", response);
     }
 
 
