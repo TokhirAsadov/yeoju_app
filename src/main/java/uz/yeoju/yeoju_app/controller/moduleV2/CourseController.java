@@ -54,6 +54,14 @@ public class CourseController {
                 .body(res);
     }
 
+    @GetMapping("/findByStudentIdAndEducationYearId/{studentId}/{educationYearId}")
+    HttpEntity<?> findByStudentIdAndEducationYearId(@PathVariable String studentId,
+                                                    @PathVariable String educationYearId){
+        ApiResponse res = service.findByStudentIdAndEducationYearId(studentId,educationYearId);
+        return ResponseEntity.status(res.isSuccess() ? 200 : 417)
+                .body(res);
+    }
+
     @GetMapping("/getCourseByIdV1/{id}")
     HttpEntity<?> getCourseByIdV1(@PathVariable String id){
         ApiResponse res = service.getCourseByIdV1(id);
