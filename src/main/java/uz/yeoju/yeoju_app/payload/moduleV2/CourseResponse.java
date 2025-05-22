@@ -11,7 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 public class CourseResponse {
     public String id;
-    public String title;
+    private String title;
+    private double progress;
+    private String done;
     private List<ModuleProgressResponse> modules;
 
     public CourseResponse(String id, String title) {
