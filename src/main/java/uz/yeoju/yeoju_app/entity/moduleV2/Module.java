@@ -22,6 +22,7 @@ public class Module extends AbsEntity {
 
     @ManyToOne
     @JoinColumn(name = "course_id")
+    @JsonIgnore
     private Course course;
 
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
