@@ -1,0 +1,123 @@
+/*! styled-components */
+
+/*! ./ModalUploadFile */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react-router-dom */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material/IconButton */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! prop-types */
+
+/*! react-icons/ai */
+
+/*! @mui/material/Autocomplete */
+
+/*! @mui/material/Box */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ../../../responsiv */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/Modal */
+
+/*! @mui/material/Switch */
+
+/*! @mui/material/FormControlLabel */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! styled-components */
+
+/*! react-icons/io5 */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-icons/io5 */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react-icons/io5 */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/Button */
+
+/*! react-icons/bs */
+
+/*! axios */
+
+/*! @mui/material/Button */
+
+/*! react-toastify */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-icons/im */
+
+/*! react-icons/ai */
+
+/*! @mui/material/IconButton */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-redux */
+
+/*! @mui/material/TextField */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/TextField */
+
+/*! ../../student/subject/MessagesTeacherAndStudents */
+
+/*! react-icons/bi */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/Typography */
+
+/*! react-icons/io */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material */
+
+/*! react-icons/fa */
+
+/*! @mui/material/LinearProgress */
+
+/*! @mui/material/Input */
+
+/*! react-icons/ri */
+
+/*! styled-components */
+
+/*! react */
+
+/*! @mui/material/Switch */
+
+/*! @mui/material/Typography */
+
+/*! axios */
+
+/*! react/jsx-runtime */
