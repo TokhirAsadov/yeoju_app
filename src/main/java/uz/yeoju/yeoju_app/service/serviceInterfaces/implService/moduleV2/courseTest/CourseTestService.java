@@ -5,5 +5,6 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.moduleV2.CTestCreator;
 
 public interface CourseTestService {
+    ApiResponse create(CTestCreator creator);
 
 }
