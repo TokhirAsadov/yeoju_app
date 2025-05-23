@@ -6,5 +6,6 @@ import uz.yeoju.yeoju_app.payload.moduleV2.CTestCreator;
 
 public interface CourseTestService {
     ApiResponse create(CTestCreator creator);
-
+    ApiResponse findAll(Pageable pageable);
+    ApiResponse findById(String courseTestId);
 }
