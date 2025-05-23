@@ -15,6 +15,7 @@ public class CourseResponse {
     private double progress;
     private String done;
     private List<ModuleProgressResponse> modules;
+    private boolean canStartTest;
 
     public CourseResponse(String id, String title) {
         this.id = id;
