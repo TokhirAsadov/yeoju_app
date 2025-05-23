@@ -19,5 +19,20 @@ public class CourseTestController {
         this.service = service;
     }
 
+    @PostMapping("/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    HttpEntity<?> create(@RequestBody CTestCreator creator){
+        ApiResponse response = service.create(creator);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 417)
+                .body(response);
+    }
+
+//    @DeleteMapping("/delete/{id}")
+//    HttpEntity<?> delete(@PathVariable String id){
+//        boolean deleted = service.de(id);
+//        return ResponseEntity.status(deleted ? 200 : 417)
+//                .body("Course is deleted.");
+//    }
+
     
 }
