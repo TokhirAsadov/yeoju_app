@@ -116,27 +116,44 @@ public class CourseImplService implements CourseService{
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
 
+        List<Module> modules = course.getModules();
+        int totalModules = modules.size();
+        int doneModules = 0;
+
         List<ModuleProgressResponse> responseList = new ArrayList<>();
 
-        for (Module module : course.getModules()) {
-            // Har bir modul uchun foydalanuvchi tugatganmi yoki yo'qmi
-            boolean isCompleted = userLessonModuleProgressRepository.existsByUserAndModuleAndCompletedTrue(user, module);
+        for (Module module : modules) {
+            boolean isCompleted = userLessonModuleProgressRepository
+                    .existsByUserAndModuleAndCompletedTrue(user, module);
 
-            // Faqat bitta modul, shuning uchun total = 1, done = 1 yoki 0
-            int done = isCompleted ? 1 : 0;
-            int total = 1;
-
-            double progress = (done * 100.0); // 0 yoki 100
+            if (isCompleted) {
+                doneModules++;
+            }
 
             responseList.add(new ModuleProgressResponse(
+                    module.getId(),
                     module.getTitle(),
-                    progress,
-                    done + "/" + total,
-                    module.getTheme() // lessonlar yo‘q
+                    isCompleted ,
+                    isCompleted ? "1/1" : "0/1",
+                    module.getTheme()
             ));
         }
 
-        return new ApiResponse(true, "Course progress", responseList);
+        double overallProgress = totalModules > 0 ? (doneModules * 100.0 / totalModules) : 0.0;
+        String doneOfTotal = doneModules + "/" + totalModules;
+
+        boolean canStartTest = doneModules == totalModules && totalModules > 0;
+
+        CourseResponse courseResponse = new CourseResponse(
+                course.getId(),
+                course.getTitle(),
+                Math.round(overallProgress * 100.0) / 100.0,
+                doneOfTotal,
+                responseList,
+                canStartTest // YANGI: testni boshlash ruxsati
+        );
+
+        return new ApiResponse(true, "Course progress", courseResponse);
     }
 
     @Override
@@ -165,27 +182,31 @@ public class CourseImplService implements CourseService{
                         if (isCompleted) doneModules++;
 
                         moduleProgressList.add(new ModuleProgressResponse(
+                                module.getId(),
                                 module.getTitle(),
-                                isCompleted ? 100.0 : 0.0,
+                                isCompleted,
                                 isCompleted ? "1/1" : "0/1",
                                 module.getTheme()
                         ));
                     }
 
                     double progress = totalModules > 0 ? (doneModules * 100.0 / totalModules) : 0.0;
+                    boolean canStartTest = totalModules > 0 && doneModules == totalModules;
 
                     return new CourseResponse(
                             course.getId(),
                             course.getTitle(),
                             Math.round(progress * 100.0) / 100.0,
                             doneModules + "/" + totalModules,
-                            moduleProgressList
+                            moduleProgressList,
+                            canStartTest // 🔧 Qo‘shildi
                     );
                 })
                 .collect(Collectors.toList());
 
         return new ApiResponse(true, "Courses with module progress", response);
     }
+
 
 
 
