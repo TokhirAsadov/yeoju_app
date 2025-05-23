@@ -34,5 +34,11 @@ public class CourseTestController {
 //                .body("Course is deleted.");
 //    }
 
-    
+    @GetMapping("/findAll")
+    HttpEntity<?> findAll(Pageable pageable){
+        ApiResponse res = service.findAll(pageable);
+        return ResponseEntity.ok(res);
+    }
+
+
 }
