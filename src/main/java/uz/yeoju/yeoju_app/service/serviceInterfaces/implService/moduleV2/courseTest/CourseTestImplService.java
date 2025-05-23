@@ -18,5 +18,30 @@ public class CourseTestImplService implements CourseTestService{
         this.courseRepository = courseRepository;
     }
 
+    @Override
+    public ApiResponse create(CTestCreator creator) {
+        if (!courseRepository.existsById(creator.courseId)) {
+            return new ApiResponse(false,"Course not found");
+        }
+        if (courseTestRepository.existsByCourseId(creator.courseId)) {
+            return new ApiResponse(false,"Test already exists for this course");
+        }
+        CourseTest courseTest = new CourseTest();
+        courseTest.setTitle(creator.title);
+        courseTest.setCourse(courseRepository.getById(creator.courseId));
+        CourseTest save = courseTestRepository.save(courseTest);
+        return new ApiResponse(true,"Test created successfully",save.getId());
+    }
 
+    @Override
+    public ApiResponse findAll(Pageable pageable) {
+        return new ApiResponse(true,"Course Test",courseTestRepository.findAll(pageable));
+    }
+
+    @Override
+    public ApiResponse findById(String courseTestId) {
+        CourseTest courseTest = courseTestRepository.findById(courseTestId)
+                .orElseThrow(() -> new RuntimeException("Course test not found by id="+courseTestId));
+        return new ApiResponse(true,"Course test by id="+courseTestId,courseTest);
+    }
 }
