@@ -8,5 +8,6 @@ public interface TestQuestionService {
     ApiResponse create(TestQuestionCreator creator);
     ApiResponse findAll(Pageable pageable);
     ApiResponse findById(String testQuestionId);
+    boolean deleteById(String testQuestionId);
 
 }
