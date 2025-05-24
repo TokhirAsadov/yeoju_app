@@ -2,11 +2,14 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.course
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uz.yeoju.yeoju_app.entity.moduleV2.CourseTest;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.moduleV2.CTestCreator;
 import uz.yeoju.yeoju_app.repository.moduleV2.CourseRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.CourseTestRepository;
+
+import java.util.Optional;
 
 @Service
 public class CourseTestImplService implements CourseTestService{
@@ -43,5 +46,17 @@ public class CourseTestImplService implements CourseTestService{
         CourseTest courseTest = courseTestRepository.findById(courseTestId)
                 .orElseThrow(() -> new RuntimeException("Course test not found by id="+courseTestId));
         return new ApiResponse(true,"Course test by id="+courseTestId,courseTest);
+    }
+
+    @Override
+    @Transactional
+    public boolean delete(String id) {
+        Optional<CourseTest> optional = courseTestRepository.findById(id);
+        if (optional.isPresent()) {
+            courseTestRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
