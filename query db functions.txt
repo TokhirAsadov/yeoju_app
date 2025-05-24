@@ -5,6 +5,74 @@ CREATE OR ALTER FUNCTION dbo.get_course_group_details (@plan_id varchar(36))
 AS
 BEGIN
     DECLARE @result NVARCHAR(MAX);
+    DECLARE @course_test NVARCHAR(MAX);
+
+    -- Har doim 1 ta obyekt sifatida course_test ni olish
+    SELECT @course_test = (
+        SELECT TOP 1
+            ct.id,
+            ct.title,
+            ct.createdAt,
+            ct.updatedAt,
+            (
+                SELECT COUNT(*)
+                FROM testQuestion tq
+                WHERE tq.test_id = ct.id
+            ) AS question_count
+        FROM courseTest ct
+        WHERE ct.course_id = c.id
+        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+    )
+    FROM course c
+    WHERE c.plan_id = @plan_id;
+
+    -- Agar NULL bo‘lsa, bo‘sh obyekt qilib belgilaymiz
+    SET @course_test = ISNULL(@course_test, '{}');
+
+    SELECT @result = (
+        SELECT
+            c.id AS course_id,
+            c.title AS course_title,
+
+            (
+                SELECT
+                    m.id AS module_id,
+                    m.title AS module_title,
+                    m.theme AS module_theme
+                FROM module m
+                WHERE m.course_id = c.id
+                FOR JSON PATH
+            ) AS modules,
+
+            JSON_QUERY(@course_test) AS course_test
+
+        FROM course c
+        WHERE c.plan_id = @plan_id
+        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+    );
+
+    DECLARE @groups NVARCHAR(MAX);
+
+    SELECT @groups = (
+        SELECT
+            g.id AS group_id,
+            g.name AS group_name,
+            p.level
+        FROM [groups] g
+                 JOIN PlanOfSubjectV2_groups pg ON g.id = pg.groups_id
+                 JOIN PlanOfSubjectV2 p ON pg.PlanOfSubjectV2_id = p.id
+        WHERE p.id = @plan_id
+        FOR JSON PATH
+    );
+
+    RETURN '{ "course": ' + @result + ', "groups": ' + @groups + ' }';
+END;
+
+CREATE OR ALTER FUNCTION dbo.get_course_group_details (@plan_id varchar(36))
+    RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+    DECLARE @result NVARCHAR(MAX);
 
     SELECT @result = (
         SELECT
