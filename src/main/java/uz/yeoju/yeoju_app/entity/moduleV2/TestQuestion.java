@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -25,6 +22,10 @@ public class TestQuestion extends AbsEntity {
     private String questionText;
 
     @ElementCollection
+    @CollectionTable(
+            name = "TestQuestion_options",
+            joinColumns = @JoinColumn(name = "TestQuestion_id")
+    )
     private List<String> options; // ["O'zbekiston", "Qozog'iston", "Tojikiston", "Turkmaniston"]
 
     @JsonIgnore
