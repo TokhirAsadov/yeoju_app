@@ -9,5 +9,6 @@ public interface TestQuestionService {
     ApiResponse findAll(Pageable pageable);
     ApiResponse findById(String testQuestionId);
     boolean deleteById(String testQuestionId);
+    ApiResponse findTestQuestionsByCourseIdWithShuffledOptions(String courseId);
 
 }
