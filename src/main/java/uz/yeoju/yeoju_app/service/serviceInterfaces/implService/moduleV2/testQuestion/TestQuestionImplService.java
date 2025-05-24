@@ -59,6 +59,19 @@ public class TestQuestionImplService implements TestQuestionService {
         return new ApiResponse(true,"Test question by id="+testId,testQuestion);
     }
 
+    @Override
+    public boolean deleteById(String testQuestionId) {
+        TestQuestion testQuestion = testQuestionRepository.findById(testQuestionId)
+                .orElseThrow(() -> new RuntimeException("Test question not found by id=" + testQuestionId));
+
+        // qo‘lda options’ni o‘chirib yuborish
+        testQuestion.setOptions(new ArrayList<>()); // yoki null
+        testQuestionRepository.save(testQuestion); // majburiy emas, lekin ehtiyot chorasi
+
+        testQuestionRepository.delete(testQuestion);
+        return true;
+    }
+
 
 
 }
