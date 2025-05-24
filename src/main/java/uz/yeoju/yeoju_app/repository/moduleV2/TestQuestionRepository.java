@@ -11,6 +11,6 @@ public interface TestQuestionRepository extends JpaRepository<TestQuestion,Strin
     @Query(value = "SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM TestQuestion WHERE LOWER(TRIM(questionText)) = LOWER(TRIM(:questionText))", nativeQuery = true)
     Integer existsByNormalizedQuestionText(@Param("questionText") String questionText);
 
-
+    List<TestQuestion> findAllByTestId(String testId);
 
 }
