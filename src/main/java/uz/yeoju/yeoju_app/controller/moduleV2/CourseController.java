@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.moduleV2.CourseCreator;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.course.CourseService;
@@ -64,7 +65,7 @@ public class CourseController {
 
     @GetMapping("/getCourseByIdV1/{id}")
     HttpEntity<?> getCourseByIdV1(@PathVariable String id){
-        ApiResponse res = service.getCourseByIdV1(id);
+        ApiResponseTwoObj res = service.getCourseByIdV1(id);
         return ResponseEntity.status(res.isSuccess() ? 200 : 417)
                 .body(res);
     }
