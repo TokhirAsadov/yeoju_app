@@ -5,22 +5,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.yeoju.yeoju_app.entity.Student;
 import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.entity.moduleV2.Course;
-import uz.yeoju.yeoju_app.entity.moduleV2.Module;
-import uz.yeoju.yeoju_app.entity.moduleV2.UserLessonModuleProgress;
+import uz.yeoju.yeoju_app.entity.moduleV2.*;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.moduleV2.*;
 import uz.yeoju.yeoju_app.repository.StudentRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.CourseRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.PlanOfSubjectV2Repository;
 import uz.yeoju.yeoju_app.repository.moduleV2.UserLessonModuleProgressRepository;
+import uz.yeoju.yeoju_app.repository.moduleV2.UserTestAnswerRepository;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,13 +28,15 @@ public class CourseImplService implements CourseService{
     private final UserRepository userRepository;
     private final StudentRepository studentRepository;
     private final UserLessonModuleProgressRepository userLessonModuleProgressRepository;
+    private final UserTestAnswerRepository userTestAnswerRepository;
 
-    public CourseImplService(CourseRepository courseRepository, PlanOfSubjectV2Repository planRepository, UserRepository userRepository, StudentRepository studentRepository, UserLessonModuleProgressRepository userLessonModuleProgressRepository) {
+    public CourseImplService(CourseRepository courseRepository, PlanOfSubjectV2Repository planRepository, UserRepository userRepository, StudentRepository studentRepository, UserLessonModuleProgressRepository userLessonModuleProgressRepository, UserTestAnswerRepository userTestAnswerRepository) {
         this.courseRepository = courseRepository;
         this.planRepository = planRepository;
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
         this.userLessonModuleProgressRepository = userLessonModuleProgressRepository;
+        this.userTestAnswerRepository = userTestAnswerRepository;
     }
 
     @Override
@@ -93,7 +93,8 @@ public class CourseImplService implements CourseService{
     }
 
     @Override
-    public ApiResponse getCourseByIdV1(String id) {
+    public ApiResponseTwoObj getCourseByIdV1(String id) {
+        System.out.println("---------------------------"+id);
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
 
@@ -105,7 +106,14 @@ public class CourseImplService implements CourseService{
                 ))
                 .collect(Collectors.toList());
 
-        return new ApiResponse(true, "Modules", modules);
+        if (course.getTests().isEmpty()) {
+            return new ApiResponseTwoObj(true, "Modules", modules);
+        }
+        else {
+            return new ApiResponseTwoObj(true, "Modules", modules, course.getTests().get(0));
+        }
+
+
     }
 
     @Override
@@ -144,13 +152,55 @@ public class CourseImplService implements CourseService{
 
         boolean canStartTest = doneModules == totalModules && totalModules > 0;
 
+
+
+        // ✅ TEST NATIJALARINI OLIB BORISH
+
+        Map<String, Object> testResultInfo = new HashMap<>();
+        CourseTest courseTest = course.getTests().get(0);
+        if (courseTest != null) {
+            List<TestQuestion> questions = courseTest.getQuestions();
+            int totalQuestions = questions.size();
+
+            if (totalQuestions > 0) {
+                int correctAnswers = 0;
+                int attempted = 0;
+
+                for (TestQuestion question : questions) {
+                    Optional<UserTestAnswer> userAnswerOpt = userTestAnswerRepository.findByUserAndQuestion(user, question);
+                    if (userAnswerOpt.isPresent()) {
+                        attempted++;
+                        if (userAnswerOpt.get().isCorrect()) {
+                            correctAnswers++;
+                        }
+                    }
+                }
+
+                double percent = totalQuestions > 0 ? (correctAnswers * 100.0 / totalQuestions) : 0.0;
+
+                testResultInfo.put("testTitle", courseTest.getTitle());
+                testResultInfo.put("attemptedQuestions", attempted);
+                testResultInfo.put("totalQuestions", totalQuestions);
+                testResultInfo.put("correctAnswers", correctAnswers);
+                testResultInfo.put("percent", Math.round(percent * 100.0) / 100.0);
+            }
+        }
+        else {
+            testResultInfo.put("testTitle", "No test available");
+            testResultInfo.put("attemptedQuestions", 0);
+            testResultInfo.put("totalQuestions", 0);
+            testResultInfo.put("correctAnswers", 0);
+            testResultInfo.put("percent", 0.0);
+        }
+
         CourseResponse courseResponse = new CourseResponse(
                 course.getId(),
                 course.getTitle(),
                 Math.round(overallProgress * 100.0) / 100.0,
                 doneOfTotal,
                 responseList,
-                canStartTest // YANGI: testni boshlash ruxsati
+                canStartTest,// YANGI: testni boshlash ruxsati,
+                testResultInfo
         );
 
         return new ApiResponse(true, "Course progress", courseResponse);
@@ -193,15 +243,55 @@ public class CourseImplService implements CourseService{
                     double progress = totalModules > 0 ? (doneModules * 100.0 / totalModules) : 0.0;
                     boolean canStartTest = totalModules > 0 && doneModules == totalModules;
 
+                    // ✅ TEST NATIJALARINI OLIB BORISH
+                    Map<String, Object> testResultInfo = new HashMap<>();
+                    CourseTest courseTest = course.getTests().get(0);
+                    if (courseTest != null) {
+                        List<TestQuestion> questions = courseTest.getQuestions();
+                        int totalQuestions = questions.size();
+
+                        if (totalQuestions > 0) {
+                            int correctAnswers = 0;
+                            int attempted = 0;
+
+                            for (TestQuestion question : questions) {
+                                Optional<UserTestAnswer> userAnswerOpt = userTestAnswerRepository.findByUserAndQuestion(user, question);
+                                if (userAnswerOpt.isPresent()) {
+                                    attempted++;
+                                    if (userAnswerOpt.get().isCorrect()) {
+                                        correctAnswers++;
+                                    }
+                                }
+                            }
+
+                            double percent = totalQuestions > 0 ? (correctAnswers * 100.0 / totalQuestions) : 0.0;
+
+                            testResultInfo.put("testTitle", courseTest.getTitle());
+                            testResultInfo.put("attemptedQuestions", attempted);
+                            testResultInfo.put("totalQuestions", totalQuestions);
+                            testResultInfo.put("correctAnswers", correctAnswers);
+                            testResultInfo.put("percent", Math.round(percent * 100.0) / 100.0);
+                        }
+                    }
+                    else {
+                        testResultInfo.put("testTitle", "No test available");
+                        testResultInfo.put("attemptedQuestions", 0);
+                        testResultInfo.put("totalQuestions", 0);
+                        testResultInfo.put("correctAnswers", 0);
+                        testResultInfo.put("percent", 0.0);
+                    }
+
                     return new CourseResponse(
                             course.getId(),
                             course.getTitle(),
                             Math.round(progress * 100.0) / 100.0,
                             doneModules + "/" + totalModules,
                             moduleProgressList,
-                            canStartTest // 🔧 Qo‘shildi
+                            canStartTest,
+                            testResultInfo // ✅ qo‘shildi
                     );
                 })
+
                 .collect(Collectors.toList());
 
         return new ApiResponse(true, "Courses with module progress", response);
