@@ -34,5 +34,11 @@ public class TestQuestionController {
                 .body("Test question is deleted.");
     }
 
+    @GetMapping("/findAll")
+    HttpEntity<?> findAll(Pageable pageable){
+        ApiResponse res = service.findAll(pageable);
+        return ResponseEntity.ok(res);
+    }
+
 
 }
