@@ -27,5 +27,12 @@ public class TestQuestionController {
                 .body(response);
     }
 
+    @DeleteMapping("/delete/{id}")
+    HttpEntity<?> delete(@PathVariable String id){
+        boolean deleted = service.deleteById(id);
+        return ResponseEntity.status(deleted ? 200 : 417)
+                .body("Test question is deleted.");
+    }
+
 
 }
