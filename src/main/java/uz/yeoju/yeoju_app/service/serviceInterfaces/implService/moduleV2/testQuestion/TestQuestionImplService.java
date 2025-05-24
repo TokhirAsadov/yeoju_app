@@ -27,6 +27,26 @@ public class TestQuestionImplService implements TestQuestionService {
     }
 
 
+    @Override
+    @Transactional
+    public ApiResponse create(TestQuestionCreator creator) {
+        if (!courseTestRepository.existsById(creator.courseTestId)) {
+            return new ApiResponse(false,"Course test not found by id="+creator.courseTestId);
+        }
+        Integer exists = testQuestionRepository.existsByNormalizedQuestionText(creator.questionText);
+        if (exists != null && exists == 1) {
+            return new ApiResponse(false, "Bunday savol allaqachon mavjud!");
+        }
+
+        TestQuestion testQuestion = new TestQuestion();
+        testQuestion.setQuestionText(creator.questionText);
+        testQuestion.setOptions(creator.options);
+        testQuestion.setCorrectAnswerText(creator.correctAnswerText);
+        testQuestion.setTest(courseTestRepository.getById(creator.courseTestId));
+        TestQuestion save = testQuestionRepository.save(testQuestion);
+        return new ApiResponse(true,"Test Question created successfully",save.getId());
+    }
+
 
 
 }
