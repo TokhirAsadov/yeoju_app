@@ -72,6 +72,20 @@ public class TestQuestionImplService implements TestQuestionService {
         return true;
     }
 
+    @Override
+    public ApiResponse findTestQuestionsByCourseIdWithShuffledOptions(String courseId) {
+        List<TestQuestion> allQuestions = testQuestionRepository.findAllByTestId(courseId);
+
+        // Har bir savolning options larini shuffle qilamiz
+        allQuestions.forEach(q -> {
+            List<String> shuffledOptions = new ArrayList<>(q.getOptions());
+            Collections.shuffle(shuffledOptions);
+            q.setOptions(shuffledOptions);
+        });
+
+        return new ApiResponse(true, "Test questions with shuffled options", allQuestions);
+    }
+
 
 
 }
