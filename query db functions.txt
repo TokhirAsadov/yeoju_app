@@ -1,6 +1,67 @@
 
 
+CREATE OR ALTER FUNCTION dbo.get_course_group_details (@plan_id varchar(36))
+    RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+    DECLARE @result NVARCHAR(MAX);
 
+    SELECT @result = (
+        SELECT
+            c.id AS course_id,
+            c.title AS course_title,
+
+            (
+                SELECT
+                    m.id AS module_id,
+                    m.title AS module_title,
+                    m.theme AS module_theme
+                FROM module m
+                WHERE m.course_id = c.id
+                FOR JSON PATH
+            ) AS modules,
+
+            (
+                SELECT TOP 1
+                    ct.id,
+                    ct.title,
+                    ct.createdAt,
+                    ct.updatedAt,
+                    (
+                        SELECT COUNT(*)
+                        FROM testQuestion tq
+                        WHERE tq.test_id = ct.id
+                    ) AS question_count
+                FROM courseTest ct
+                WHERE ct.course_id = c.id
+                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+            ) AS course_test
+
+        FROM course c
+        WHERE c.plan_id = @plan_id
+        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+    );
+
+    DECLARE @groups NVARCHAR(MAX);
+
+    SELECT @groups = (
+        SELECT
+            g.id AS group_id,
+            g.name AS group_name,
+            g.level
+        FROM [groups] g
+                 JOIN PlanOfSubjectV2_groups pg ON g.id = pg.groups_id
+                 JOIN PlanOfSubjectV2 p ON pg.PlanOfSubjectV2_id = p.id
+        WHERE p.id = @plan_id
+        FOR JSON PATH
+    );
+
+    -- Bu yerda course va groups ni qo‘shamiz, har ikkalasi allaqachon JSON string
+    -- Shuning uchun, natijani qo‘lda JSON formatda birlashtiramiz
+
+    RETURN
+        '{ "course": ' + @result + ', "groups": ' + @groups + ' }';
+END;
 
 
 '2024-10-17'
