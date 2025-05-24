@@ -19,5 +19,13 @@ public class TestQuestionController {
         this.service = service;
     }
 
+    @PostMapping("/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    HttpEntity<?> create(@RequestBody TestQuestionCreator creator){
+        ApiResponse response = service.create(creator);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 417)
+                .body(response);
+    }
+
 
 }
