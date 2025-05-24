@@ -8,4 +8,5 @@ public interface CourseTestService {
     ApiResponse create(CTestCreator creator);
     ApiResponse findAll(Pageable pageable);
     ApiResponse findById(String courseTestId);
+    boolean delete(String id);
 }
