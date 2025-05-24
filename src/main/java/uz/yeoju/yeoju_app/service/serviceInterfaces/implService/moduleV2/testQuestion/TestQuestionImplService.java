@@ -47,6 +47,11 @@ public class TestQuestionImplService implements TestQuestionService {
         return new ApiResponse(true,"Test Question created successfully",save.getId());
     }
 
+    @Override
+    public ApiResponse findAll(Pageable pageable) {
+        return new ApiResponse(true,"Course Test",testQuestionRepository.findAll(pageable));
+    }
+
 
 
 }
