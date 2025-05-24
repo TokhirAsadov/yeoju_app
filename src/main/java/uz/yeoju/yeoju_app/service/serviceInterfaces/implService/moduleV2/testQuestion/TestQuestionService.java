@@ -7,5 +7,6 @@ import uz.yeoju.yeoju_app.payload.moduleV2.TestQuestionCreator;
 public interface TestQuestionService {
     ApiResponse create(TestQuestionCreator creator);
     ApiResponse findAll(Pageable pageable);
+    ApiResponse findById(String testQuestionId);
 
 }
