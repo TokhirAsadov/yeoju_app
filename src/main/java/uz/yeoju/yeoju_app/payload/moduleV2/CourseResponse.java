@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -16,6 +17,7 @@ public class CourseResponse {
     private String done;
     private List<ModuleProgressResponse> modules;
     private boolean canStartTest;
+    private Map<String, Object> testResultInfo; // ✅ Qo‘shildi
 
     public CourseResponse(String id, String title) {
         this.id = id;
