@@ -86,6 +86,22 @@ public class TestQuestionImplService implements TestQuestionService {
         return new ApiResponse(true, "Test questions with shuffled options", allQuestions);
     }
 
-
+    @Override
+    public ApiResponse findByCourseTestId(String courseTestId) {
+        List<TestQuestion> testQuestions = testQuestionRepository.findAllByTestId(courseTestId);
+        if (testQuestions.isEmpty()) {
+            return new ApiResponse(false, "Test questions not found by course test id=" + courseTestId);
+        }
+        Set<TestQuestionResponse> collect = testQuestions.stream().map(test -> {
+            return new TestQuestionResponse(
+                    test.getId(),
+                    test.getTest().getId(),
+                    test.getQuestionText(),
+                    test.getOptions(),
+                    test.getCorrectAnswerText()
+            );
+        }).collect(Collectors.toSet());
+        return new ApiResponse(true, "Test questions by course test id=" + courseTestId, collect);
+    }
 
 }
