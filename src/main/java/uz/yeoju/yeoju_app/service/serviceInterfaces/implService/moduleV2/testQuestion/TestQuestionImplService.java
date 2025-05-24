@@ -52,6 +52,13 @@ public class TestQuestionImplService implements TestQuestionService {
         return new ApiResponse(true,"Course Test",testQuestionRepository.findAll(pageable));
     }
 
+    @Override
+    public ApiResponse findById(String testId) {
+        TestQuestion testQuestion = testQuestionRepository.findById(testId)
+                .orElseThrow(() -> new RuntimeException("Test question not found by id="+testId));
+        return new ApiResponse(true,"Test question by id="+testId,testQuestion);
+    }
+
 
 
 }
