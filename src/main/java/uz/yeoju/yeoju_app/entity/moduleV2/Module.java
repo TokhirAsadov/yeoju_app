@@ -18,6 +18,8 @@ public class Module extends AbsEntity {
 
     private String title;
 
+    @Lob
+    @Column(length = 10000)
     private String theme;
 
     @ManyToOne
