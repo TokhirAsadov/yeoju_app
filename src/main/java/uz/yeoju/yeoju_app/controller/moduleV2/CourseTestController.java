@@ -27,12 +27,12 @@ public class CourseTestController {
                 .body(response);
     }
 
-//    @DeleteMapping("/delete/{id}")
-//    HttpEntity<?> delete(@PathVariable String id){
-//        boolean deleted = service.de(id);
-//        return ResponseEntity.status(deleted ? 200 : 417)
-//                .body("Course is deleted.");
-//    }
+    @DeleteMapping("/delete/{id}")
+    HttpEntity<?> delete(@PathVariable String id){
+        boolean deleted = service.delete(id);
+        return ResponseEntity.status(deleted ? 200 : 417)
+                .body(deleted ? "Course Test is deleted.":"Course Test not found by id="+id);
+    }
 
     @GetMapping("/findAll")
     HttpEntity<?> findAll(Pageable pageable){
