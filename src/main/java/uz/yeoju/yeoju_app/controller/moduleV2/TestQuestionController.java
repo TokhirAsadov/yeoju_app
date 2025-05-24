@@ -40,5 +40,12 @@ public class TestQuestionController {
         return ResponseEntity.ok(res);
     }
 
+    @GetMapping("/findById/{id}")
+    HttpEntity<?> findById(@PathVariable String id){
+        ApiResponse res = service.findById(id);
+        return ResponseEntity.status(res.isSuccess() ? 200 : 417)
+                .body(res);
+    }
+
 
 }
