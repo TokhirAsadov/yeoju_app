@@ -10,14 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.entity.module.DownloadCounter;
-import uz.yeoju.yeoju_app.entity.module.TopicFileOfLine;
 import uz.yeoju.yeoju_app.entity.module.TopicFileType;
+import uz.yeoju.yeoju_app.entity.moduleV2.TopicFileOfLineV2;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.repository.module.DownloadCounterRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.DownloadCounterV2Repository;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
-import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.topicFileOfLine.TopicFileOfLineService;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.topicFileOfLine.TopicFileOfLineV2Service;
 
 import java.io.IOException;
@@ -34,45 +31,14 @@ public class TopicFileOfLineV2Controller {
     @GetMapping("/uploadFromSystem")
     public HttpEntity<?> download(
             @CurrentUser User user,
-            @RequestParam("fileName") String fileName,
-            @RequestParam("subject") String subject
+            @RequestParam("fileName") String fileName
             ) throws IOException {
 
         ApiResponse topic = service.findByName(fileName);
         if (topic.isSuccess()) {
-            TopicFileOfLine topicObj = (TopicFileOfLine) topic.getObj();
+            TopicFileOfLineV2 topicObj = (TopicFileOfLineV2) topic.getObj();
 
-            System.out.println(user.toString());
-            System.out.println(user.getId());
-            System.out.println(topicObj.toString());
-            System.out.println("----------------------------------"+topicObj.getId()+"------------------------------------------------------------");
-
-            // for statistics who downloaded? how many?
-//            Boolean exists = downloadRepository.existsDownloadCounterByUserIdAndTopicId(user.getId(), topicObj.getId());
-//
-//            if (exists!=null && exists) {
-//                Optional<DownloadCounter> downloadCounterOptional = downloadRepository.findDownloadCounterByUserIdAndTopicId(user.getId(), topicObj.getId());
-//                if (downloadCounterOptional.isPresent()) {
-//                    DownloadCounter downloadCounter = downloadCounterOptional.get();
-//                    downloadCounter.setCount(downloadCounter.getCount() + 1);
-//                    downloadRepository.save(downloadCounter);
-//                } else {
-//                    DownloadCounter downloadCounter = new DownloadCounter();
-//                    downloadCounter.setCount(1);
-//                    downloadCounter.setTopic(topicObj);
-//                    downloadCounter.setUser(user);
-//                    downloadRepository.save(downloadCounter);
-//                }
-//            }
-//            else {
-//                DownloadCounter downloadCounter = new DownloadCounter();
-//                downloadCounter.setCount(1);
-//                downloadCounter.setTopic(topicObj);
-//                downloadCounter.setUser(user);
-//                downloadRepository.save(downloadCounter);
-//            }
-
-            byte[] imageData=service.downloadImageFromFileSystem(subject,fileName+topicObj.getFileType());
+            byte[] imageData=service.downloadImageFromFileSystem(topicObj.getPackageName(),fileName+topicObj.getFileType());
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.valueOf(topicObj.getContentType()))
                     .body(imageData);
@@ -86,15 +52,14 @@ public class TopicFileOfLineV2Controller {
 
     @GetMapping("/uploadFromSystemUser")
     public HttpEntity<?> download(
-            @RequestParam("fileName") String fileName,
-            @RequestParam("subject") String subject
+            @RequestParam("fileName") String fileName
     ) throws IOException {
 
         ApiResponse topic = service.findByName(fileName);
         if (topic.isSuccess()) {
-            TopicFileOfLine topicObj = (TopicFileOfLine) topic.getObj();
+            TopicFileOfLineV2 topicObj = (TopicFileOfLineV2) topic.getObj();
 
-            byte[] imageData=service.downloadImageFromFileSystem(subject,fileName+topicObj.getFileType());
+            byte[] imageData=service.downloadImageFromFileSystem(topicObj.getPackageName(),fileName+topicObj.getFileType());
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.valueOf(topicObj.getContentType()))
                     .body(imageData);
@@ -117,10 +82,10 @@ public class TopicFileOfLineV2Controller {
 
 
     @PreAuthorize("hasRole('TEACHER')")
-    @PostMapping("/upload/{lineId}/{fileName}")
+    @PostMapping("/upload/{moduleId}/{fileName}")
     public HttpEntity<?> uploadXml(
             MultipartHttpServletRequest request,
-            @PathVariable("lessonModuleId") String lessonModuleId,
+            @PathVariable("moduleId") String lessonModuleId,
             @PathVariable("fileName") String fileName,
             @RequestParam("type") TopicFileType type,
             @RequestParam("fileUrl") String fileUrl
@@ -133,10 +98,9 @@ public class TopicFileOfLineV2Controller {
     @PreAuthorize("hasRole('TEACHER')")
     @DeleteMapping("/delete")
     public HttpEntity<?> deleteFile(
-            @RequestParam("fileName") String fileName,
-            @RequestParam("subject") String subject
+            @RequestParam("fileName") String fileName
     ) {
-        ApiResponse apiResponse = service.deleteFileFromSystem(fileName, subject);
+        ApiResponse apiResponse = service.deleteFileFromSystem(fileName);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 404).body(apiResponse);
     }
 
