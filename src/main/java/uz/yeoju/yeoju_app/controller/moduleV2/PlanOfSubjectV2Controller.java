@@ -61,5 +61,9 @@ public class PlanOfSubjectV2Controller {
         return ResponseEntity.ok(service.getPlansByKafedraId(user.getId(), kafedraId));
     }
 
+    @GetMapping("/getAllDataOfPlanById/{planId}")
+    HttpEntity<?> getAllDataOfPlanById(@PathVariable("planId") String planId){
+        return ResponseEntity.ok(service.getAllDataOfPlanById(planId));
+    }
 
 }
