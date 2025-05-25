@@ -1,5 +1,6 @@
 package uz.yeoju.yeoju_app.entity.moduleV2;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,8 @@ import uz.yeoju.yeoju_app.entity.module.TopicFileType;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,7 +23,12 @@ public class TopicFileOfLineV2 extends AbsEntity {
 
     @Enumerated(EnumType.STRING)
     private TopicFileType type;
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
-    private Set<LessonModule> lessons;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Module> modules;
+
+    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<DownloadCounterV2> downloads = new ArrayList<>();
+
     private String url;
 }
