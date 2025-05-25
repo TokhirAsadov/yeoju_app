@@ -25,6 +25,7 @@ public class TopicFileOfLineV2 extends AbsEntity {
     private TopicFileType type;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Module> modules;
+    private String packageName;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
