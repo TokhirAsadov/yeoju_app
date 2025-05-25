@@ -1,0 +1,29 @@
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../spinner/Spinner */
+
+/*! styled-components */
+
+/*! react-router-dom */
+
+/*! react-icons/io5 */
+
+/*! @mui/material/Box */
+
+/*! @mui/x-data-grid */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! axios */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */

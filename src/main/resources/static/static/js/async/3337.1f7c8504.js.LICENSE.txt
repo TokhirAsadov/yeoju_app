@@ -1,0 +1,33 @@
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! styled-components */
+
+/*! axios */
+
+/*! react-toastify */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-icons/fa */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-redux */
+
+/*! ../../../responsiv */
+
+/*! @mui/material/Button */
+
+/*! react-router-dom */
+
+/*! react/jsx-runtime */
+
+/*! react-icons/bi */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Box */
+
+/*! react */

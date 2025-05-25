@@ -1,0 +1,123 @@
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-icons/ai */
+
+/*! @mui/material */
+
+/*! react-icons/io */
+
+/*! react-icons/io5 */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material */
+
+/*! react */
+
+/*! react-toastify */
+
+/*! @mui/material/LinearProgress */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/IconButton */
+
+/*! react-icons/im */
+
+/*! @mui/material/Button */
+
+/*! react */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/Box */
+
+/*! react-icons/io5 */
+
+/*! @mui/material/FormControlLabel */
+
+/*! styled-components */
+
+/*! @mui/material/Autocomplete */
+
+/*! axios */
+
+/*! @mui/material/Input */
+
+/*! ../../../responsiv */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! styled-components */
+
+/*! @mui/material/Modal */
+
+/*! @mui/material/Button */
+
+/*! @mui/material/IconButton */
+
+/*! @mui/material/Typography */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/TextField */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material/Switch */
+
+/*! prop-types */
+
+/*! @mui/material/Box */
+
+/*! react-router-dom */
+
+/*! react-icons/ri */
+
+/*! react/jsx-runtime */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material/Typography */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react-icons/bi */
+
+/*! react-icons/fa */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/Switch */
+
+/*! ../../student/subject/MessagesTeacherAndStudents */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/TextField */
+
+/*! ./ModalUploadFile */
+
+/*! react-redux */
+
+/*! react-icons/io5 */
+
+/*! axios */
+
+/*! react/jsx-runtime */
+
+/*! styled-components */
+
+/*! react-icons/bs */
+
+/*! react/jsx-runtime */
+
+/*! react-icons/ai */
+
+/*! react */

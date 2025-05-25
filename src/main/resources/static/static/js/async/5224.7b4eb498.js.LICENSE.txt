@@ -1,0 +1,35 @@
+/*! @mui/material */
+
+/*! react/jsx-runtime */
+
+/*! axios */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-icons/bs */
+
+/*! react */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/Button */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../../utills/pdfFiles/PdfNotice */
+
+/*! styled-components */
+
+/*! @mui/x-data-grid */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ./FilterNoticeHistoryGroups */
+
+/*! react-router-dom */

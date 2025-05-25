@@ -1,0 +1,71 @@
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material/Typography */
+
+/*! @mui/material/Select */
+
+/*! react-icons/io5 */
+
+/*! @mui/material */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../../redux/actions/educationYear/education_year_actions */
+
+/*! @mui/material/Box */
+
+/*! @mui/material/FormControl */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/Modal */
+
+/*! @mui/material/IconButton */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! @mui/material/TextField */
+
+/*! @mui/icons-material/CheckBoxOutlineBlank */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! react-redux */
+
+/*! react-icons/md */
+
+/*! @mui/material/InputLabel */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../redux/slice/kafedra/kafedra_teacher_statistics_slice */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! styled-components */
+
+/*! @mui/material/Avatar */
+
+/*! react */
+
+/*! @mui/icons-material/CheckBox */
+
+/*! @mui/material/Button */
+
+/*! react-icons/cg */
+
+/*! @mui/material/Checkbox */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-toastify */
+
+/*! ../../../redux/slice/educationYear/education_year_statistics_slice */
+
+/*! axios */
+
+/*! @mui/material/MenuItem */
+
+/*! ../../../responsiv */

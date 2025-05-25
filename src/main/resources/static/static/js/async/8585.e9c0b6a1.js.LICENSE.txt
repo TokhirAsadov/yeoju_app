@@ -1,0 +1,33 @@
+/*! @mui/material */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/Typography */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react */
+
+/*! @mui/x-data-grid */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! styled-components */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! @mui/material/MenuItem */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! axios */
+
+/*! react-toastify */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! moment/moment */
+
+/*! react-redux */
+
+/*! core-js/modules/web.dom-collections.iterator.js */

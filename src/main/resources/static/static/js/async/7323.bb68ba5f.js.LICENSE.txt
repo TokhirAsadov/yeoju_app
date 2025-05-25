@@ -1,0 +1,23 @@
+/*! ../../../responsiv */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../spinner/Spinner */
+
+/*! @mui/x-data-grid */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */
+
+/*! axios */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! styled-components */

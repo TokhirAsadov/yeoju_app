@@ -1,0 +1,13 @@
+/*! ../../userStatistics/UserStatistics */
+
+/*! react */
+
+/*! react-redux */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react/jsx-runtime */
+
+/*! styled-components */
+
+/*! ../../../utills/ServiceUrls */

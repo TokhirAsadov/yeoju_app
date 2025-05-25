@@ -1,0 +1,55 @@
+/*! ../../../redux/slice/educationYear/education_year_statistics_slice */
+
+/*! @mui/material/MenuItem */
+
+/*! react-icons/im */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! styled-components */
+
+/*! @mui/material/Select */
+
+/*! react-redux */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! @mui/material/FormControl */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! ../../../redux/actions/educationYear/education_year_actions */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! axios */
+
+/*! react-icons/io5 */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/InputLabel */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../../../redux/actions/lessonsTeacher/lessons_teacher_actions */
+
+/*! ../../../responsiv */
+
+/*! react-router-dom */
+
+/*! react */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Box */

@@ -1,0 +1,33 @@
+/*! react-redux */
+
+/*! moment */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/FormControl */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react */
+
+/*! @mui/material/Select */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material/MenuItem */
+
+/*! styled-components */
+
+/*! axios */
+
+/*! ../../student/timeTable/StudentTimeTableOfWeek */
+
+/*! ../../../responsiv */
+
+/*! @mui/material/TextField */
+
+/*! @mui/material/Autocomplete */
+
+/*! @mui/material/InputLabel */

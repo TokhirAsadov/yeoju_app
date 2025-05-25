@@ -1,0 +1,127 @@
+/*! @mui/material */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! react-icons/bs */
+
+/*! axios */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/Button */
+
+/*! @mui/x-data-grid */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Button */
+
+/*! @mui/material/CircularProgress */
+
+/*! @mui/material/Box */
+
+/*! react/jsx-runtime */
+
+/*! ./NewStudentService */
+
+/*! @mui/material */
+
+/*! react */
+
+/*! qrcode.react */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! ./OldStudentService */
+
+/*! html2pdf.js/src */
+
+/*! react/jsx-runtime */
+
+/*! @mui/x-data-grid */
+
+/*! @mui/material/Button */
+
+/*! moment */
+
+/*! axios */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react */
+
+/*! @mui/material */
+
+/*! @mui/material/Button */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react-redux */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-redux */
+
+/*! moment/moment */
+
+/*! ../../student/student_service/PdfNewChange */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react */
+
+/*! moment */
+
+/*! react-icons/md */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/Box */
+
+/*! react */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! axios */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ./PdfFile */
+
+/*! ../../../utills/images/logo.png */
+
+/*! styled-components */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! styled-components */
+
+/*! react-toastify */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/bs */
+
+/*! react/jsx-runtime */
+
+/*! styled-components */
+
+/*! @mui/material/CircularProgress */

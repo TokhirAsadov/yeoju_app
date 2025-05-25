@@ -1,0 +1,61 @@
+/*! react-redux */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! prop-types */
+
+/*! @mui/material/InputLabel */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! ../../responsiv */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ../emptyDataImg/EmptyDataImg */
+
+/*! @mui/material/Tabs */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/Tab */
+
+/*! styled-components */
+
+/*! @mui/material/FormControl */
+
+/*! ../../utills/images/no-picture.jpg */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! @mui/material/Skeleton */
+
+/*! axios */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react/jsx-runtime */
+
+/*! ../../utills/ServiceUrls */
+
+/*! moment/moment */
+
+/*! core-js/modules/es.array.unscopables.flat.js */
+
+/*! @mui/material/Box */
+
+/*! ../../redux/actions/educationYear/education_year_actions */
+
+/*! @mui/material/Select */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/MenuItem */
+
+/*! react */
