@@ -16,4 +16,5 @@ public interface CourseService {
     ApiResponse getCourseByIdV2(String id,String userId);
 
     ApiResponse findByStudentIdAndEducationYearId(String studentId, String educationYearId);
+    ApiResponse getCourseProgressForGroup(String groupId, String courseId);
 }
