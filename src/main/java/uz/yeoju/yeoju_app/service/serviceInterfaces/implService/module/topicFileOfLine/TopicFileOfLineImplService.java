@@ -118,4 +118,30 @@ public class TopicFileOfLineImplService implements TopicFileOfLineService{
 
         return new ApiResponse(false,"not fount line by id: "+lineId);
     }
+
+    @Override
+    public ApiResponse deleteById(String id) {
+        Optional<TopicFileOfLine> optional = fileRepository.findById(id);
+        if (optional.isPresent()) {
+            TopicFileOfLine topicFile = optional.get();
+
+            // Fayl turi FILE bo‘lsa, fayl tizimidan ham o‘chiramiz
+            if (topicFile.getType() == TopicFileType.FILE) {
+                String subject = topicFile.getLineOfPlans().iterator().next()
+                        .getPlanOfSubject().getSubject().getName();
+                String fullPath = "subjects\\" + subject + "\\" + topicFile.getName() + topicFile.getFileType();
+
+                try {
+                    Files.deleteIfExists(Paths.get(fullPath));
+                } catch (IOException e) {
+                    return new ApiResponse(false, "Faylni o‘chirishda xatolik yuz berdi: " + e.getMessage());
+                }
+            }
+
+            fileRepository.deleteById(id);
+            return new ApiResponse(true, "Fayl muvaffaqiyatli o‘chirildi.");
+        }
+        return new ApiResponse(false, "Fayl topilmadi.");
+    }
+
 }
