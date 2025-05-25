@@ -657,6 +657,8 @@ public interface StudentRepository extends JpaRepository<Student, String> {
             "where p.id=?1 and p.status='CONFIRM' and u2.id=p.dean_id group by p.id, p.queue, p.numeration, p.updatedAt, u.fullName, u.passportNum, F.name, g.level, el.name, et.name, s.lengthOfStudying, s.rektororder, u2.fullName",nativeQuery = true)
     GetDataForStudentReference getDataForStudentReference(String studentId);
 
+    List<Student> findAllByGroupId(String groupId);
+
 //    @Query(value = "select u.id, u.fullName,u.passportNum as passport, F.name as direction , g.level as grade , el.name as eduLang, et.name as eduType,s.lengthOfStudying,s.rektororder,u2.fullName as dean from users u join Student s on u.id = s.user_id\n" +
 //            "    join groups g on s.group_id = g.id\n" +
 //            "    join EducationType et on g.educationType_id = et.id\n" +
