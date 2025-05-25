@@ -17,6 +17,9 @@ import java.util.Set;
 public interface PlanOfSubjectV2Repository extends JpaRepository<PlanOfSubjectV2,String> {
     Set<PlanOfSubjectV2> getPlanOfSubjectsByEducationYearIdAndSubjectIdAndLevel(String educationYear_id, String subject_id, Integer level);
 
+    @Query(value = "select dbo.get_course_group_details(?1);",nativeQuery = true)
+    String getCourseGroupDetails(String planId);
+
     Boolean existsByUserIdAndEducationYearIdAndSubjectIdAndLevelAndEducationLanguageIdAndEducationTypeId(String user_id, String educationYear_id, String subject_id, Integer level, String educationLanguage_id, String educationType_id);
 
 
