@@ -129,4 +129,15 @@ public class TopicFileOfLineV2Controller {
         ApiResponse apiResponse = service.saveFileToSystem(request,lessonModuleId,type,fileName,fileUrl);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @DeleteMapping("/delete")
+    public HttpEntity<?> deleteFile(
+            @RequestParam("fileName") String fileName,
+            @RequestParam("subject") String subject
+    ) {
+        ApiResponse apiResponse = service.deleteFileFromSystem(fileName, subject);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 404).body(apiResponse);
+    }
+
 }
