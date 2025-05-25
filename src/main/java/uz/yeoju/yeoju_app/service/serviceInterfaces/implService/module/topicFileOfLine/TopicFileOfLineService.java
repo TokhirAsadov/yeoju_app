@@ -10,4 +10,5 @@ public interface TopicFileOfLineService {
     ApiResponse saveFileToSystem(MultipartHttpServletRequest request, String lineId,TopicFileType type, String fileName, String fileUrl);
     byte[] downloadImageFromFileSystem(String subject,String fileName) throws IOException;
     ApiResponse findByName(String name);
+    ApiResponse deleteById(String id);
 }
