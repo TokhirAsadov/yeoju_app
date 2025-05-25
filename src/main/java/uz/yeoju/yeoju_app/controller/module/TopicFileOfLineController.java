@@ -1,8 +1,6 @@
 package uz.yeoju.yeoju_app.controller.module;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +12,10 @@ import uz.yeoju.yeoju_app.entity.module.TopicFileOfLine;
 import uz.yeoju.yeoju_app.entity.module.TopicFileType;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.repository.module.DownloadCounterRepository;
-import uz.yeoju.yeoju_app.repository.module.TopicFileOfLineRepository;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.module.topicFileOfLine.TopicFileOfLineService;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 @RestController
@@ -130,4 +124,12 @@ public class TopicFileOfLineController {
         ApiResponse apiResponse = service.saveFileToSystem(request,lineId,type,fileName,fileUrl);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @DeleteMapping("/delete/{id}")
+    public HttpEntity<?> deleteTopicFile(@PathVariable String id) {
+        ApiResponse response = service.deleteById(id);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 404).body(response);
+    }
+
 }
