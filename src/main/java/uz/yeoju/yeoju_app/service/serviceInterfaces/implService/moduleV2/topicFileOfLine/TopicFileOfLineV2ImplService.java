@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.entity.module.TopicFileType;
-import uz.yeoju.yeoju_app.entity.moduleV2.LessonModule;
+import uz.yeoju.yeoju_app.entity.moduleV2.Module;
 import uz.yeoju.yeoju_app.entity.moduleV2.TopicFileOfLineV2;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.repository.moduleV2.LessonModuleRepository;
+import uz.yeoju.yeoju_app.repository.moduleV2.ModuleRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.TopicFileOfLineV2Repository;
 
 import java.io.File;
@@ -24,7 +24,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class TopicFileOfLineV2ImplService implements TopicFileOfLineV2Service {
     private final TopicFileOfLineV2Repository fileRepository;
-    private final LessonModuleRepository lessonModuleRepository;
+    private final ModuleRepository moduleRepository;
 
     @Override
     public byte[] downloadImageFromFileSystem(String subject,String fileName) throws IOException {
@@ -43,7 +43,7 @@ public class TopicFileOfLineV2ImplService implements TopicFileOfLineV2Service {
     @Override
     public ApiResponse saveFileToSystem(
             MultipartHttpServletRequest request,
-            String lessonModuleId,
+            String moduleId,
             TopicFileType type,
             String fileName,
             String fileUrl
@@ -61,13 +61,13 @@ public class TopicFileOfLineV2ImplService implements TopicFileOfLineV2Service {
             f.mkdir();
         }
 
-        Optional<LessonModule> lessonModuleOptional = lessonModuleRepository.findById(lessonModuleId);
-        if (lessonModuleOptional.isPresent()) {
-            LessonModule lessonModule = lessonModuleOptional.get();
-            Path path = Paths.get("subjects\\" + lessonModule.getModule().getCourse().getPlan().getSubject().getName());
+        Optional<Module> moduleOptional = moduleRepository.findById(moduleId);
+        if (moduleOptional.isPresent()) {
+            Module module = moduleOptional.get();
+            Path path = Paths.get("subjects\\" + module.getCourse().getPlan().getSubject().getName());
 
             if(Files.notExists(path)) {
-                File f = new File("subjects\\" + lessonModule.getModule().getCourse().getPlan().getSubject().getName());
+                File f = new File("subjects\\" + module.getCourse().getPlan().getSubject().getName());
                 f.mkdirs();
             }
 
@@ -80,7 +80,7 @@ public class TopicFileOfLineV2ImplService implements TopicFileOfLineV2Service {
                         System.out.println(file.getOriginalFilename());
                         String substring = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
                         String name = fileName + "_" + UUID.randomUUID();
-                        Path filePath = Paths.get("subjects\\" + lessonModule.getModule().getCourse().getPlan().getSubject().getName() + "\\" + name + substring);
+                        Path filePath = Paths.get("subjects\\" + module.getCourse().getPlan().getSubject().getName() + "\\" + name + substring);
                         Files.copy(file.getInputStream(), filePath);
 
                         TopicFileOfLineV2 topicFileOfLine = new TopicFileOfLineV2();
@@ -89,9 +89,9 @@ public class TopicFileOfLineV2ImplService implements TopicFileOfLineV2Service {
                         topicFileOfLine.setName(name);
                         topicFileOfLine.setContentType(file.getContentType());
 
-                        Set<LessonModule> lessonModules = new HashSet<>();
-                        lessonModules.add(lessonModule);
-                        topicFileOfLine.setLessons(lessonModules);
+                        Set<Module> modules = new HashSet<>();
+                        modules.add(module);
+                        topicFileOfLine.setModules(modules);
 
                         fileRepository.save(topicFileOfLine);
                     }
@@ -103,9 +103,9 @@ public class TopicFileOfLineV2ImplService implements TopicFileOfLineV2Service {
                 topicFileOfLine.setType(type);
                 topicFileOfLine.setName(name);
 
-                Set<LessonModule> lessonModules = new HashSet<>();
-                lessonModules.add(lessonModule);
-                topicFileOfLine.setLessons(lessonModules);
+                Set<Module> modules = new HashSet<>();
+                modules.add(module);
+                topicFileOfLine.setModules(modules);
 
                 fileRepository.save(topicFileOfLine);
             }
@@ -113,6 +113,38 @@ public class TopicFileOfLineV2ImplService implements TopicFileOfLineV2Service {
             return new ApiResponse(true,"save file successfully");
         }
 
-        throw new UserNotFoundException("not fount module by id: "+lessonModuleId);
+        throw new UserNotFoundException("not fount module by id: "+moduleId);
     }
+
+    @Override
+    public ApiResponse deleteFileFromSystem(String fileName, String subjectName) {
+        // Fayl katalogi yo'lini tuzish
+        String directoryPath = "subjects\\" + subjectName;
+        Optional<TopicFileOfLineV2> optional = fileRepository.findTopicFileOfLineV2ByName(fileName);
+
+        if (optional.isPresent()) {
+            TopicFileOfLineV2 file = optional.get();
+
+            // Faqat FILE turidagi fayllarni fayl tizimidan o'chirishga harakat qilamiz
+            if (file.getType() == TopicFileType.FILE) {
+                String fullFileName = file.getName() + file.getFileType(); // UUID_....pdf
+                Path filePath = Paths.get(directoryPath, fullFileName);
+
+                try {
+                    Files.deleteIfExists(filePath);
+                    fileRepository.delete(file);
+                    return new ApiResponse(true, "Fayl va ma'lumotlar bazasidan muvaffaqiyatli o'chirildi.");
+                } catch (IOException e) {
+                    return new ApiResponse(false, "Faylni o'chirishda xatolik: " + e.getMessage());
+                }
+            } else {
+                // FILE bo'lmasa faqat bazadan o'chiriladi
+                fileRepository.delete(file);
+                return new ApiResponse(true, "Tizimdan hech narsa o'chirilmadi, lekin ma'lumotlar bazasidan o'chirildi.");
+            }
+        }
+
+        return new ApiResponse(false, "Fayl topilmadi: " + fileName);
+    }
+
 }
