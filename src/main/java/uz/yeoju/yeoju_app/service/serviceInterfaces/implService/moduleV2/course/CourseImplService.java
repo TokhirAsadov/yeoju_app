@@ -3,6 +3,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.course
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uz.yeoju.yeoju_app.entity.Group;
 import uz.yeoju.yeoju_app.entity.Student;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.moduleV2.*;
@@ -11,6 +12,7 @@ import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.moduleV2.*;
+import uz.yeoju.yeoju_app.repository.GroupRepository;
 import uz.yeoju.yeoju_app.repository.StudentRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.CourseRepository;
@@ -29,14 +31,16 @@ public class CourseImplService implements CourseService{
     private final StudentRepository studentRepository;
     private final UserLessonModuleProgressRepository userLessonModuleProgressRepository;
     private final UserTestAnswerRepository userTestAnswerRepository;
+    private final GroupRepository groupRepository;
 
-    public CourseImplService(CourseRepository courseRepository, PlanOfSubjectV2Repository planRepository, UserRepository userRepository, StudentRepository studentRepository, UserLessonModuleProgressRepository userLessonModuleProgressRepository, UserTestAnswerRepository userTestAnswerRepository) {
+    public CourseImplService(CourseRepository courseRepository, PlanOfSubjectV2Repository planRepository, UserRepository userRepository, StudentRepository studentRepository, UserLessonModuleProgressRepository userLessonModuleProgressRepository, UserTestAnswerRepository userTestAnswerRepository, GroupRepository groupRepository) {
         this.courseRepository = courseRepository;
         this.planRepository = planRepository;
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
         this.userLessonModuleProgressRepository = userLessonModuleProgressRepository;
         this.userTestAnswerRepository = userTestAnswerRepository;
+        this.groupRepository = groupRepository;
     }
 
     @Override
@@ -94,7 +98,6 @@ public class CourseImplService implements CourseService{
 
     @Override
     public ApiResponseTwoObj getCourseByIdV1(String id) {
-        System.out.println("---------------------------"+id);
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
 
@@ -297,6 +300,92 @@ public class CourseImplService implements CourseService{
         return new ApiResponse(true, "Courses with module progress", response);
     }
 
+    public ApiResponse getCourseProgressForGroup(String groupId, String courseId) {
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new UserNotFoundException("Group not found"));
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new UserNotFoundException("Course not found"));
+
+        List<Student> students = studentRepository.findAllByGroupId(groupId);
+        List<Module> modules = course.getModules();
+        int totalModules = modules.size();
+
+        // Barcha modullar bo‘yicha progressni oldindan yuklab olish
+        List<UserLessonModuleProgress> allProgress = userLessonModuleProgressRepository
+                .findAllByModuleInAndCompletedTrue(modules);
+
+        // StudentID + ModuleID kombinatsiyasi bo‘yicha completed map
+        Set<String> completedMap = allProgress.stream()
+                .map(p -> p.getUser().getId() + "_" + p.getModule().getId())
+                .collect(Collectors.toSet());
+
+        // Barcha test javoblarini oldindan yuklab olish
+        List<TestQuestion> testQuestions = !course.getTests().isEmpty() ? course.getTests().get(0).getQuestions() : Collections.emptyList();
+        List<UserTestAnswer> allTestAnswers = userTestAnswerRepository.findAllByQuestionIn(testQuestions);
+
+        // StudentID -> List<UserTestAnswer>
+        Map<String, List<UserTestAnswer>> userAnswersMap = allTestAnswers.stream()
+                .collect(Collectors.groupingBy(ans -> ans.getUser().getId()));
+
+        // Har bir student uchun response tuzish
+        List<StudentCourseProgressResponse> responseList = new ArrayList<>();
+
+        for (Student student : students) {
+            User user = student.getUser();
+            int doneModules = 0;
+
+            List<ModuleProgressResponse> moduleProgressList = new ArrayList<>();
+            for (Module module : modules) {
+                boolean isCompleted = completedMap.contains(user.getId() + "_" + module.getId());
+                if (isCompleted) doneModules++;
+                moduleProgressList.add(new ModuleProgressResponse(
+                        module.getId(),
+                        module.getTitle(),
+                        isCompleted,
+                        isCompleted ? "1/1" : "0/1",
+                        module.getTheme()
+                ));
+            }
+
+            double progress = totalModules > 0 ? (doneModules * 100.0 / totalModules) : 0.0;
+            boolean canStartTest = totalModules > 0 && doneModules == totalModules;
+
+            Map<String, Object> testResultInfo = new HashMap<>();
+            if (canStartTest && !testQuestions.isEmpty()) {
+                List<UserTestAnswer> answers = userAnswersMap.getOrDefault(user.getId(), Collections.emptyList());
+
+                int total = testQuestions.size();
+                int attempted = answers.size();
+                int correct = (int) answers.stream().filter(UserTestAnswer::isCorrect).count();
+                double percent = total > 0 ? (correct * 100.0 / total) : 0.0;
+
+                testResultInfo.put("testTitle", course.getTests().get(0).getTitle());
+                testResultInfo.put("attemptedQuestions", attempted);
+                testResultInfo.put("totalQuestions", total);
+                testResultInfo.put("correctAnswers", correct);
+                testResultInfo.put("percent", Math.round(percent * 100.0) / 100.0);
+            } else {
+                testResultInfo.put("testTitle", "No test or not completed");
+                testResultInfo.put("attemptedQuestions", 0);
+                testResultInfo.put("totalQuestions", 0);
+                testResultInfo.put("correctAnswers", 0);
+                testResultInfo.put("percent", 0.0);
+            }
+
+            responseList.add(new StudentCourseProgressResponse(
+                    student.getUser().getId(),
+                    user.getFullName(),
+                    doneModules + "/" + totalModules,
+                    Math.round(progress * 100.0) / 100.0,
+                    moduleProgressList,
+                    canStartTest,
+                    testResultInfo
+            ));
+        }
+
+        return new ApiResponse(true, "Course progress for group", responseList);
+    }
 
 
 
