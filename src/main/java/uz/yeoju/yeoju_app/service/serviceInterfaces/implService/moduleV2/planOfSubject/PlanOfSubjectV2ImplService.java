@@ -1,16 +1,20 @@
 package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.planOfSubject;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
 import uz.yeoju.yeoju_app.entity.module.PlanOfSubject;
+import uz.yeoju.yeoju_app.entity.moduleV2.Course;
 import uz.yeoju.yeoju_app.entity.moduleV2.PlanOfSubjectV2;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.CreatePlanOfStudent;
+import uz.yeoju.yeoju_app.payload.moduleV2.CourseGroupDetails;
 import uz.yeoju.yeoju_app.payload.moduleV2.CreatePlanOfStudentV2;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetExistsPlans;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetPlansForTeacherSciences;
@@ -18,6 +22,7 @@ import uz.yeoju.yeoju_app.payload.resDto.moduleV2.GetExistsPlansV2;
 import uz.yeoju.yeoju_app.repository.*;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
 import uz.yeoju.yeoju_app.repository.module.PlanOfSubjectRepository;
+import uz.yeoju.yeoju_app.repository.moduleV2.CourseRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.PlanOfSubjectV2Repository;
 
 import java.util.HashSet;
@@ -35,6 +40,8 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
     private final GroupRepository groupRepository;
     private final LessonRepository lessonRepository;
     private final UserRepository userRepository;
+    private final ObjectMapper objectMapper;
+    private final CourseRepository courseRepository;
 
     @Override
     public ApiResponseTwoObj getPlansForTeacherSciences(String teacherId, String educationId, String subjectId, Integer groupLevel) {
@@ -80,7 +87,10 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
                     dto.getLevel()
             );
 
-            planRepository.save(plan);
+            PlanOfSubjectV2 save = planRepository.save(plan);
+
+            Course course = new Course(lesson.getName(), save);
+            courseRepository.save(course);
 
             return new ApiResponse(true,"create plan successfully");
         }
@@ -105,5 +115,16 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
     @Override
     public ApiResponse getPlansByKafedraId(String id, String kafedraId) {
         return new ApiResponse(true,"plans by kafedra id",planRepository.getPlansByKafedraId(id));
+    }
+
+    @Override
+    public ApiResponse getAllDataOfPlanById(String planId) {
+        String json = planRepository.getCourseGroupDetails(planId);
+        System.out.println("JSON: " + json);
+        try {
+            return new ApiResponse(true,"All details",objectMapper.readValue(json, CourseGroupDetails.class));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("JSON parse xatosi", e);
+        }
     }
 }
