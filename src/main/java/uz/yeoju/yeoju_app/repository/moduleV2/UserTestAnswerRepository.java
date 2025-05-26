@@ -9,5 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserTestAnswerRepository extends JpaRepository<UserTestAnswer,String> {
+    boolean existsByUserIdAndQuestionId(String userId, String questionId);
 
 }
