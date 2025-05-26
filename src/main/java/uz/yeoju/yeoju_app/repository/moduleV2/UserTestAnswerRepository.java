@@ -15,5 +15,5 @@ public interface UserTestAnswerRepository extends JpaRepository<UserTestAnswer,S
 
     List<UserTestAnswer> findAllByUserIdAndQuestionTestId(String userId, String courseTestId);
 
-
+    List<UserTestAnswer> findAllByQuestionIn(List<TestQuestion> testQuestions);
 }
