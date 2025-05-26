@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface UserTestAnswerRepository extends JpaRepository<UserTestAnswer,String> {
     boolean existsByUserIdAndQuestionId(String userId, String questionId);
 
+    Optional<UserTestAnswer> findByUserAndQuestion(User user, TestQuestion question);
+
 }
