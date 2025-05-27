@@ -27,7 +27,7 @@ public class Module extends AbsEntity {
     @JsonIgnore
     private Course course;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne
     @JoinColumn(name = "test_id")
     private Test moduleTest;
 
