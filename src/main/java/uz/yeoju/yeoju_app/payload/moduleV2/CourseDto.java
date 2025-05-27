@@ -13,5 +13,6 @@ public class CourseDto {
     private String course_id;
     private String course_title;
     private List<ModuleDto> modules;
-    private CourseTestDto course_test;
+//    private CourseTestDto course_test;
+    private CourseTestDto final_test;
 }
