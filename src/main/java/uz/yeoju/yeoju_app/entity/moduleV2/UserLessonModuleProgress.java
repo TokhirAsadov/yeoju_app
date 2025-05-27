@@ -17,13 +17,13 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 public class UserLessonModuleProgress extends AbsEntity {
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "lesson_id")
-    private LessonModule lesson;
+    @ManyToOne
+    @JoinColumn(name = "module_id")
+    private Module module;
 
     private boolean completed;
 }
