@@ -27,6 +27,11 @@ public class Module extends AbsEntity {
     @JsonIgnore
     private Course course;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "test_id")
+    private Test moduleTest;
+
+
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<UserLessonModuleProgress> usersProgresses = new ArrayList<>();
