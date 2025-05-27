@@ -9,5 +9,5 @@ public interface CourseRepository extends JpaRepository<Course,String> {
      List<Course> findAllByPlanId(String planId);
      List<Course> findAllByPlanEducationYearIdAndPlanGroupsId(String educationYearId, String groupId);
      boolean existsByIdAndFinalTestIdIsNotNull(String id);
-
+     Course findByFinalTestId(String id);
 }
