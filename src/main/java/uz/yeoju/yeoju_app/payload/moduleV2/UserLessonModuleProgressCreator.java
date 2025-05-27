@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserLessonModuleProgressCreator {
     public String userId;
-    public String lessonModuleId;
+    public String moduleId;
     public boolean completed;
 }
