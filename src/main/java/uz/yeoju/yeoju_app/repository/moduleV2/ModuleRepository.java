@@ -5,4 +5,6 @@ import uz.yeoju.yeoju_app.entity.moduleV2.Module;
 
 public interface ModuleRepository extends JpaRepository<Module,String> {
     boolean existsByIdAndModuleTestIdIsNotNull(String moduleId);
+
+    Module findByModuleTestId(String id);
 }
