@@ -37,6 +37,6 @@ public interface NotificationOuter2Repository extends JpaRepository<Notification
             "where s.user_id=:studentId and NOC.user_id=:studentId order by n.createdAt desc",nativeQuery = true)
     Set<GetStudentNotificationOuters> getStudentNotificationOuters2(@Param("studentId") String studentId);
 
-    @Query(value = "select max(queue) from NotificationOuter2",nativeQuery = true)
+    @Query(value = "select COALESCE(MAX(queue), 0) from NotificationOuter2",nativeQuery = true)
     Long maxQueue();
 }
