@@ -4,21 +4,27 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.yeoju.yeoju_app.entity.moduleV2.Module;
+import uz.yeoju.yeoju_app.entity.moduleV2.TopicFileOfLineV2;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.payload.moduleV2.ModuleCreator;
-import uz.yeoju.yeoju_app.payload.moduleV2.ModuleUpdater;
+import uz.yeoju.yeoju_app.payload.moduleV2.*;
 import uz.yeoju.yeoju_app.repository.moduleV2.CourseRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.ModuleRepository;
+import uz.yeoju.yeoju_app.repository.moduleV2.TopicFileOfLineV2Repository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ModuleImplService implements ModuleService {
     private final CourseRepository courseRepository;
     private final ModuleRepository moduleRepository;
+    private final TopicFileOfLineV2Repository topicFileOfLineV2Repository;
 
-    public ModuleImplService(CourseRepository courseRepository, ModuleRepository moduleRepository) {
+    public ModuleImplService(CourseRepository courseRepository, ModuleRepository moduleRepository, TopicFileOfLineV2Repository topicFileOfLineV2Repository) {
         this.courseRepository = courseRepository;
         this.moduleRepository = moduleRepository;
+        this.topicFileOfLineV2Repository = topicFileOfLineV2Repository;
     }
 
     @Override
@@ -68,7 +74,28 @@ public class ModuleImplService implements ModuleService {
     @Override
     public ApiResponse findById(String id) {
         if (moduleRepository.existsById(id)) {
-            return new ApiResponse(true,"Module is found by id: "+id,moduleRepository.findById(id).get());
+            ModuleResponse moduleResponse = new ModuleResponse();
+            moduleResponse.setId(id);
+            Module module = moduleRepository.findById(id).get();
+            moduleResponse.setTitle(module.getTitle());
+            moduleResponse.setTheme(module.getTheme());
+
+            List<TopicFileOfLineV2Dto> topicFiles = new ArrayList<>();
+            List<TopicFileOfLineV2> topics = topicFileOfLineV2Repository.findAllByModulesId(module.getId());
+            boolean isTopicFilesEmpty = topics.isEmpty();
+            if (!isTopicFilesEmpty&&topics.size()>0) {
+                topics.forEach(tf -> {
+                    topicFiles.add(new TopicFileOfLineV2Dto(
+                            tf.getName(),
+                            tf.getFileType(),
+                            tf.getContentType(),
+                            tf.getPackageName()
+                    ));
+                });
+            }
+
+            moduleResponse.setTopicFiles(topicFiles);
+            return new ApiResponse(true,"Module is found by id: "+id,moduleResponse);
         }
         else {
             throw new UserNotFoundException("Module not found by id: "+id);
