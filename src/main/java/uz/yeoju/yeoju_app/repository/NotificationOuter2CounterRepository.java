@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface NotificationOuter2CounterRepository extends JpaRepository<NotificationOuter2Counter,String> {
 
-    @Query(value = "select max(queue) from NotificationOuter2Counter",nativeQuery = true)
+    @Query(value = "select COALESCE(MAX(queue), 0) from NotificationOuter2Counter",nativeQuery = true)
     Long maxQueue();
 
     Boolean existsByUserIdAndNotificationOuter2Id(String user_id, String notificationOuter2_id);
