@@ -11,4 +11,5 @@ public class CTestCreator {
     public String title;
     public String courseId;
     public String moduleId;
+    public Double passingPercentage;
 }
