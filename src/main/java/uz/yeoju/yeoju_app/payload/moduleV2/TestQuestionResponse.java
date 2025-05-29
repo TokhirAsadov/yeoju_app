@@ -15,6 +15,5 @@ public class TestQuestionResponse {
     public String courseTestId;
     public String questionText;
     public TestType type;
-    public List<String> options;
-    public List<String> correctAnswers;
+    public List<TestOptionResponse> options;
 }
