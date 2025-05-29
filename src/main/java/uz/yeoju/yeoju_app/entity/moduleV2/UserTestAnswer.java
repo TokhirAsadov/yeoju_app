@@ -26,16 +26,15 @@ public class UserTestAnswer extends AbsEntity {
     @JsonIgnore
     private TestQuestion question;
 
-//    private String selectedOption; // foydalanuvchi tanlagan variant: "A", "B", "C", "D"
-
-    @ElementCollection
-    @CollectionTable(
-            name = "UserTestAnswer_selected_options",
-            joinColumns = @JoinColumn(name = "UserTestAnswer_id")
+    @ManyToMany
+    @JoinTable(
+            name = "user_test_answer_selected_options",
+            joinColumns = @JoinColumn(name = "user_test_answer_id"),
+            inverseJoinColumns = @JoinColumn(name = "test_option_id")
     )
-    private List<String> selectedOptions; // MULTIPLE uchun ["A", "C"]
-    private String writtenAnswer; // WRITTEN uchun
+    private List<TestOption> selectedOptions;
 
+    private String writtenAnswer;
 
     private boolean isCorrect;
 }
