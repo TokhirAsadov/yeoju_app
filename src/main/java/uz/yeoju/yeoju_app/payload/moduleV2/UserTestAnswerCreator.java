@@ -13,7 +13,7 @@ import java.util.List;
 public class UserTestAnswerCreator {
     public String userId;
     public String testQuestionId;
-    public List<String> selectedOptions;
+    public List<String> selectedOptionsIds;
     public String writtenAnswer; // WRITTEN uchun
 }
 
