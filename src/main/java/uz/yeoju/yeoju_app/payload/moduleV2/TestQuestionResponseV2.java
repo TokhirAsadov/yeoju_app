@@ -17,5 +17,5 @@ public class TestQuestionResponseV2 {
     @JsonIgnore
     public String courseTestId;
     public String questionText;
-    public List<String> options;
+    public List<TestOptionResponseV2> options;
 }
