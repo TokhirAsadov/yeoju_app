@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.entity.moduleV2.TestType;
 
 import java.util.List;
 
+@Deprecated
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
