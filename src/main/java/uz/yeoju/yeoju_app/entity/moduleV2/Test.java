@@ -44,11 +44,20 @@ public class Test {
 
     private String title;
 
-//    @ManyToOne
-//    @JoinColumn(name = "course_id")
-//    @JsonIgnore
-//    private Course course;
-
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TestQuestion> questions = new ArrayList<>();
+
+    // Testdan o‘tish uchun kerakli minimum foiz
+    @Column(nullable = false)
+    private Double passingPercentage = 70.0; // default 70%
+
+    public Test(String id, Timestamp createdAt, Timestamp updatedAt, String createdBy, String updatedBy, String title, List<TestQuestion> questions) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.title = title;
+        this.questions = questions;
+    }
 }
