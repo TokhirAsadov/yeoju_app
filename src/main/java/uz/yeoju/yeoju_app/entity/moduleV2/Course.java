@@ -22,8 +22,6 @@ public class Course extends AbsEntity {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Module> modules = new ArrayList<>();
-//    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Test> tests;
 
     @OneToOne
     @JoinColumn(name = "test_id")
