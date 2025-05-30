@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public interface TopicFileOfLineV2Service {
     ApiResponse saveFileToSystem(MultipartHttpServletRequest request, String moduleId,TopicFileType type, String fileName, String fileUrl);
-    byte[] downloadImageFromFileSystem(String subject,String fileName) throws IOException;
+    byte[] downloadImageFromFileSystem(String packageName,String fileName) throws IOException;
     ApiResponse findByName(String name);
-    ApiResponse deleteFileFromSystem(String fileName, String subjectName);
+    ApiResponse deleteFileFromSystem(String fileName);
 }
