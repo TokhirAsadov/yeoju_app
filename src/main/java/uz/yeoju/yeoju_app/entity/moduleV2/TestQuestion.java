@@ -26,20 +26,8 @@ public class TestQuestion extends AbsEntity {
 
     private String questionText;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "TestQuestion_options",
-            joinColumns = @JoinColumn(name = "TestQuestion_id")
-    )
-    private List<String> options; // variantlar (faqat SINGLE/MULTIPLE uchun kerak)
-
-    @ElementCollection
-    @CollectionTable(
-            name = "TestQuestion_correct_answers",
-            joinColumns = @JoinColumn(name = "TestQuestion_id")
-    )
-    @JsonIgnore
-    private List<String> correctAnswers; // MULTIPLE uchun ko‘p to‘g‘ri javob, SINGLE uchun 1 dona, WRITTEN uchun bo‘sh qolishi mumkin
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TestOption> options = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
