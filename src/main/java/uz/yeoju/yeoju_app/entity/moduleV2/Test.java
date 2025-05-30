@@ -48,7 +48,7 @@ public class Test {
     private List<TestQuestion> questions = new ArrayList<>();
 
     // Testdan o‘tish uchun kerakli minimum foiz
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private Double passingPercentage = 70.0; // default 70%
 
     public Test(String id, Timestamp createdAt, Timestamp updatedAt, String createdBy, String updatedBy, String title, List<TestQuestion> questions) {
