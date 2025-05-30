@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.moduleV2.TestQuestionCreator;
+import uz.yeoju.yeoju_app.payload.moduleV2.TestQuestionCreatorV2;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.testQuestion.TestQuestionService;
 
 @RestController
@@ -19,10 +20,20 @@ public class TestQuestionController {
         this.service = service;
     }
 
-    @PostMapping("/create")
+    @Deprecated
+    @PostMapping("/createOld")
     @ResponseStatus(HttpStatus.CREATED)
     HttpEntity<?> create(@RequestBody TestQuestionCreator creator){
         ApiResponse response = service.create(creator);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 417)
+                .body(response);
+    }
+
+
+    @PostMapping("/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    HttpEntity<?> createV2(@RequestBody TestQuestionCreatorV2 creator){
+        ApiResponse response = service.createV2(creator);
         return ResponseEntity.status(response.isSuccess() ? 201 : 417)
                 .body(response);
     }
