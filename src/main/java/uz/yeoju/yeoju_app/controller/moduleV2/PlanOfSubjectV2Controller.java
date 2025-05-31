@@ -18,6 +18,18 @@ public class PlanOfSubjectV2Controller {
     @Autowired
     private PlanOfSubjectV2Service service;
 
+    // module
+    @GetMapping("/getTeacherSubjects/{educationYearId}")
+    public HttpEntity<?> getTeacherSubjects(@CurrentUser User user,
+                                            @PathVariable("educationYearId") String educationYearId,
+                                            @RequestParam(value = "teacherId", required = false) String teacherId
+    ){
+        if (teacherId != null && !teacherId.isEmpty()) {
+            return ResponseEntity.ok(service.getTeacherSubjects(teacherId, educationYearId));
+        }
+        return ResponseEntity.ok(service.getTeacherSubjects(user.getId(),educationYearId));
+    }
+
     @GetMapping("/getTeacherWIthSubjectForPlan/{educationYearId}")
     public HttpEntity<?> getTeacherWIthSubjectForPlan(@CurrentUser User user,@PathVariable("educationYearId") String educationYearId){
         return ResponseEntity.ok(service.getTeacherWIthSubjectForPlan(user.getId(),educationYearId));
