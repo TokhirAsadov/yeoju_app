@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import uz.yeoju.yeoju_app.entity.EducationLanguage;
 import uz.yeoju.yeoju_app.entity.EducationType;
 import uz.yeoju.yeoju_app.entity.moduleV2.PlanOfSubjectV2;
+import uz.yeoju.yeoju_app.payload.moduleV2.GetTeacherLessonInModule;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetSubjectsForTeacherWithSubjectForPlan;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetGroupsOfPlan;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetPlansForTeacherSciences;
@@ -12,6 +13,7 @@ import uz.yeoju.yeoju_app.payload.resDto.moduleV2.GetExistsPlansV2;
 import uz.yeoju.yeoju_app.payload.resDto.moduleV2.GetTeacherWIthSubjectForPlanV2;
 import uz.yeoju.yeoju_app.payload.resDto.moduleV2.GetTeacherWIthSubjectForPlanV22;
 
+import java.util.List;
 import java.util.Set;
 
 public interface PlanOfSubjectV2Repository extends JpaRepository<PlanOfSubjectV2,String> {
@@ -89,4 +91,23 @@ public interface PlanOfSubjectV2Repository extends JpaRepository<PlanOfSubjectV2
             "\n" +
             " group by u.id, u.fullName, u.firstName, u.lastName, u.middleName, g.id, g.name, g.level, et.name, EL.name  order by u.fullName",nativeQuery = true)
     Set<GetPlansForTeacherSciences> getAllPlansForTeacherSciences(String teacherId, String educationYearId);
+
+    @Query(value = "select\n" +
+            "    l.id as lessonId,\n" +
+            "    l.name as lessonName," +
+            "    p.level ,\n" +
+            "    ey.name as educationYear,\n" +
+            "    el.name as educationLanguage,\n" +
+            "    et.name as educationType,\n" +
+            "    f.shortName as facultyShortName\n" +
+            "from PlanOfSubjectV2 p\n" +
+            "join EducationYear ey on ey.id=p.educationYear_id\n" +
+            "join EducationLanguage el on p.educationLanguage_id=el.id\n" +
+            "join EducationType et on p.educationType_id=et.id\n" +
+            "join Lesson l on p.subject_id=l.id\n" +
+            "left join Course c on p.id=c.plan_id\n" +
+            "join Course_Faculty cf on c.id=cf.course_id\n" +
+            "join Faculty f on cf.faculties_id=f.id\n" +
+            "where p.user_id=?1 and p.educationYear_id=?2",nativeQuery = true)
+    List<GetTeacherLessonInModule> getTeacherLessonByTeacherIdAndEducationYearId(String teacherId, String educationYearId);
 }
