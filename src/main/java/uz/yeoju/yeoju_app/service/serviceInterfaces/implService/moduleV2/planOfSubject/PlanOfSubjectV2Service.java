@@ -20,4 +20,6 @@ public interface PlanOfSubjectV2Service {
      ApiResponse getPlansByKafedraId(String id, String kafedraId);
 
     ApiResponse getAllDataOfPlanById(String planId);
+
+     ApiResponse getTeacherSubjects(String teacherId, String educationYearId);
 }
