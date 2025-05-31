@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.entity.educationYear.EducationYear;
-import uz.yeoju.yeoju_app.entity.module.PlanOfSubject;
-import uz.yeoju.yeoju_app.entity.moduleV2.Course;
 import uz.yeoju.yeoju_app.entity.moduleV2.PlanOfSubjectV2;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
@@ -67,7 +65,7 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
         Lesson lesson = lessonRepository.getById(dto.getSubjectId());
         EducationYear educationYear = educationYearRepository.getById(dto.getEducationYearId());
         Optional<User> userOptional = userRepository.findById(dto.teacherId);
-        List<Group> groupList = groupRepository.findAllById(dto.getGroupsIds());
+//        List<Group> groupList = groupRepository.findAllById(dto.getGroupsIds());
 
         if (!planRepository.existsByUserIdAndEducationYearIdAndSubjectIdAndLevelAndEducationLanguageIdAndEducationTypeId(
                 dto.getTeacherId(),
@@ -81,7 +79,7 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
                     userOptional.get(),
                     educationYear,
                     lesson,
-                    new HashSet<>(groupList),
+//                    new HashSet<>(groupList),
                     educationTypeByName,
                     educationLanguageByName,
                     dto.getLevel()
@@ -89,8 +87,8 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
 
             PlanOfSubjectV2 save = planRepository.save(plan);
 
-            Course course = new Course(lesson.getName(), save);
-            courseRepository.save(course);
+//            Course course = new Course(lesson.getName(), save);
+//            courseRepository.save(course);
 
             return new ApiResponse(true,"create plan successfully");
         }
@@ -126,5 +124,11 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
         } catch (JsonProcessingException e) {
             throw new RuntimeException("JSON parse xatosi", e);
         }
+    }
+
+    @Override
+    public ApiResponse getTeacherSubjects(String teacherId, String educationYearId) {
+        return new ApiResponse(true, "teacher subjects",
+                planRepository.getTeacherLessonByTeacherIdAndEducationYearId(teacherId, educationYearId));
     }
 }
