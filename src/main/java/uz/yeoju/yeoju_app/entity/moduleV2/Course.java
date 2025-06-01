@@ -3,11 +3,13 @@ package uz.yeoju.yeoju_app.entity.moduleV2;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.yeoju.yeoju_app.entity.Faculty;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -27,9 +29,12 @@ public class Course extends AbsEntity {
     @JoinColumn(name = "test_id")
     private Test finalTest;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Faculty> faculties;
 
-    public Course(String title, PlanOfSubjectV2 plan) {
+    public  Course(String title, PlanOfSubjectV2 plan, Set<Faculty> faculties) {
         this.title = title;
         this.plan = plan;
+        this.faculties = faculties;
     }
 }
