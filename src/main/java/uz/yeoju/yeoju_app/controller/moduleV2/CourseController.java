@@ -5,11 +5,13 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.moduleV2.CourseCreator;
+import uz.yeoju.yeoju_app.payload.moduleV2.CourseUpdator;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.course.CourseService;
 
@@ -26,6 +28,14 @@ public class CourseController {
     @ResponseStatus(HttpStatus.CREATED)
     void create(@RequestBody CourseCreator creator){
         service.createCourse(creator);
+    }
+
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    HttpEntity<?> update(@RequestBody CourseUpdator updator){
+        ApiResponse response = service.updateCourse(updator);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 417)
+                .body(response);
     }
 
     @DeleteMapping("/delete/{id}")
