@@ -1,6 +1,7 @@
 package uz.yeoju.yeoju_app.payload.moduleV2;
 
 public interface GetTeacherLessonInModule {
+    String getPlanId();
     String getTeacherId();
     String getTeacherFullName();
     String getLessonId();
