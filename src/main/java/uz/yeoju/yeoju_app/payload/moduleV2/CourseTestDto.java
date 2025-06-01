@@ -12,5 +12,6 @@ public class CourseTestDto {
     private String title;
     private String createdAt;
     private String updatedAt;
+    private Double passingPercentage;
     private int question_count;
 }
