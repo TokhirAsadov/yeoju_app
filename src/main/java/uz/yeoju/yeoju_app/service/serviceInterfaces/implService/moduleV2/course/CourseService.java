@@ -4,9 +4,11 @@ import org.springframework.data.domain.Pageable;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.moduleV2.CourseCreator;
+import uz.yeoju.yeoju_app.payload.moduleV2.CourseUpdator;
 
 public interface CourseService {
     void createCourse(CourseCreator creator);
+    ApiResponse updateCourse(CourseUpdator updator);
     boolean deleteCourse(String courseId);
     ApiResponse findAll(Pageable pageable);
     ApiResponse findById(String id);
