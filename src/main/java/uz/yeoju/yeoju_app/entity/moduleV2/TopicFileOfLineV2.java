@@ -27,9 +27,5 @@ public class TopicFileOfLineV2 extends AbsEntity {
     private Set<Module> modules;
     private String packageName;
 
-    @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<DownloadCounterV2> downloads = new ArrayList<>();
-
     private String url;
 }
