@@ -30,6 +30,15 @@ public class PlanOfSubjectV2Controller {
         return ResponseEntity.ok(service.getTeacherSubjects(user.getId(),educationYearId));
     }
 
+    @GetMapping("/getPlansBySubjectId/{lessonId}/{educationYearId}")
+    public HttpEntity<?> getPlansBySubjectId(@CurrentUser User user,
+                                            @PathVariable("lessonId") String lessonId,
+                                            @PathVariable("educationYearId") String educationYearId
+
+    ){
+        return ResponseEntity.ok(service.getPlansBySubjectId(lessonId,educationYearId));
+    }
+
     @GetMapping("/getTeacherWIthSubjectForPlan/{educationYearId}")
     public HttpEntity<?> getTeacherWIthSubjectForPlan(@CurrentUser User user,@PathVariable("educationYearId") String educationYearId){
         return ResponseEntity.ok(service.getTeacherWIthSubjectForPlan(user.getId(),educationYearId));
@@ -76,6 +85,11 @@ public class PlanOfSubjectV2Controller {
     @GetMapping("/getAllDataOfPlanById/{planId}")
     HttpEntity<?> getAllDataOfPlanById(@PathVariable("planId") String planId){
         return ResponseEntity.ok(service.getAllDataOfPlanById(planId));
+    }
+
+    @GetMapping("/getCourseDetailsByCourseId/{courseId}")
+    HttpEntity<?> getCourseDetailsByCourseId(@PathVariable("courseId") String courseId){
+        return ResponseEntity.ok(service.getCourseDetailsByCourseId(courseId));
     }
 
 }
