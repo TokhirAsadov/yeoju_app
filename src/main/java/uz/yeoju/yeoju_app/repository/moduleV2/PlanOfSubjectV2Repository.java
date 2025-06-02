@@ -22,6 +22,8 @@ public interface PlanOfSubjectV2Repository extends JpaRepository<PlanOfSubjectV2
     @Query(value = "select dbo.get_course_group_details(?1);",nativeQuery = true)
     String getCourseGroupDetails(String planId);
 
+
+
     Boolean existsByUserIdAndEducationYearIdAndSubjectIdAndLevelAndEducationLanguageIdAndEducationTypeId(String user_id, String educationYear_id, String subject_id, Integer level, String educationLanguage_id, String educationType_id);
 
 
@@ -93,21 +95,40 @@ public interface PlanOfSubjectV2Repository extends JpaRepository<PlanOfSubjectV2
     Set<GetPlansForTeacherSciences> getAllPlansForTeacherSciences(String teacherId, String educationYearId);
 
     @Query(value = "select\n" +
+            "    p.id as planId,\n" +
+            "    u.id as teacherId,\n" +
+            "    u.fullName as teacherFullName,\n" +
             "    l.id as lessonId,\n" +
-            "    l.name as lessonName," +
+            "    l.name as lessonName,\n" +
             "    p.level ,\n" +
             "    ey.name as educationYear,\n" +
             "    el.name as educationLanguage,\n" +
-            "    et.name as educationType,\n" +
-            "    f.shortName as facultyShortName\n" +
+            "    et.name as educationType\n" +
             "from PlanOfSubjectV2 p\n" +
-            "join EducationYear ey on ey.id=p.educationYear_id\n" +
-            "join EducationLanguage el on p.educationLanguage_id=el.id\n" +
-            "join EducationType et on p.educationType_id=et.id\n" +
-            "join Lesson l on p.subject_id=l.id\n" +
-            "left join Course c on p.id=c.plan_id\n" +
-            "join Course_Faculty cf on c.id=cf.course_id\n" +
-            "join Faculty f on cf.faculties_id=f.id\n" +
+            "    join users u on p.user_id = u.id\n" +
+            "         join EducationYear ey on ey.id=p.educationYear_id\n" +
+            "         join EducationLanguage el on p.educationLanguage_id=el.id\n" +
+            "         join EducationType et on p.educationType_id=et.id\n" +
+            "         join Lesson l on p.subject_id=l.id\n" +
             "where p.user_id=?1 and p.educationYear_id=?2",nativeQuery = true)
     List<GetTeacherLessonInModule> getTeacherLessonByTeacherIdAndEducationYearId(String teacherId, String educationYearId);
+
+    @Query(value = "select\n" +
+            "    p.id as planId,\n" +
+            "    u.id as teacherId,\n" +
+            "    u.fullName as teacherFullName,\n" +
+            "    l.id as lessonId,\n" +
+            "    l.name as lessonName,\n" +
+            "    p.level ,\n" +
+            "    ey.name as educationYear,\n" +
+            "    el.name as educationLanguage,\n" +
+            "    et.name as educationType\n" +
+            "from PlanOfSubjectV2 p\n" +
+            "    join users u on p.user_id = u.id\n" +
+            "         join EducationYear ey on ey.id=p.educationYear_id\n" +
+            "         join EducationLanguage el on p.educationLanguage_id=el.id\n" +
+            "         join EducationType et on p.educationType_id=et.id\n" +
+            "         join Lesson l on p.subject_id=l.id\n" +
+            "where l.id=?1 and p.educationYear_id=?2",nativeQuery = true)
+    List<GetTeacherLessonInModule> getPlansBySubjectId(String lessonId, String educationYearId);
 }
