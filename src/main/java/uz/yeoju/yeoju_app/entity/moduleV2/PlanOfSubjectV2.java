@@ -11,7 +11,6 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -27,9 +26,6 @@ public class PlanOfSubjectV2 extends AbsEntity {
     @ManyToOne
     private Lesson subject;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private Set<Group> groups;
-
     @ManyToOne
     private EducationType educationType;
 
@@ -42,17 +38,7 @@ public class PlanOfSubjectV2 extends AbsEntity {
     @JsonIgnore
     private List<Course> courses = new ArrayList<>();
 
-    public PlanOfSubjectV2(User user, EducationYear educationYear, Lesson subject, Set<Group> groups, EducationType educationType, EducationLanguage educationLanguage, Integer level) {
-        this.user = user;
-        this.educationYear = educationYear;
-        this.subject = subject;
-        this.groups = groups;
-        this.educationType = educationType;
-        this.educationLanguage = educationLanguage;
-        this.level = level;
-    }
-
-    public PlanOfSubjectV2(User user, EducationYear educationYear, Lesson subject, EducationType educationType, EducationLanguage educationLanguage, Integer level) {
+    public PlanOfSubjectV2(User user, EducationYear educationYear, Lesson subject,  EducationType educationType, EducationLanguage educationLanguage, Integer level) {
         this.user = user;
         this.educationYear = educationYear;
         this.subject = subject;
