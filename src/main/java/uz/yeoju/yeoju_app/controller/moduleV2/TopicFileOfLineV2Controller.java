@@ -13,19 +13,16 @@ import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.module.TopicFileType;
 import uz.yeoju.yeoju_app.entity.moduleV2.TopicFileOfLineV2;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.repository.moduleV2.DownloadCounterV2Repository;
 import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.topicFileOfLine.TopicFileOfLineV2Service;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/topicFileV2")
 @RequiredArgsConstructor
 public class TopicFileOfLineV2Controller {
     private final TopicFileOfLineV2Service service;
-    private final DownloadCounterV2Repository downloadRepository;
 
 
     @GetMapping("/uploadFromSystem")
