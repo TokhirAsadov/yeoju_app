@@ -2,6 +2,7 @@ package uz.yeoju.yeoju_app.controller.testServer;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.entity.User;
@@ -18,10 +19,12 @@ import java.util.Set;
 public class ExternalController {
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
 
-    public ExternalController(GroupRepository groupRepository, UserRepository userRepository) {
+    public ExternalController(GroupRepository groupRepository, UserRepository userRepository, PasswordEncoder encoder) {
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
+        this.encoder = encoder;
     }
 
     @GetMapping("/students")
@@ -30,7 +33,7 @@ public class ExternalController {
         return ResponseEntity.ok(data);
     }
 
-    @PatchMapping("/updatePatchStudent")
+    @PostMapping("/updatePatchStudent")
     HttpEntity<?> updatePatchStudent(@RequestBody UserPatchUpdater updater){
         Optional<User> optionalUser = userRepository.findUserByLogin(updater.login);
         if (optionalUser.isPresent()) {
@@ -45,7 +48,16 @@ public class ExternalController {
                 user.setMiddleName(updater.middleName);
             }
             if (updater.password != null) {
-                user.setPassword(updater.password);
+                user.setPassword(encoder.encode(updater.password));
+            }
+            if (updater.firstNameEn != null) {
+                user.setFirstName(updater.firstNameEn);
+            }
+            if (updater.lastNameEn != null) {
+                user.setLastName(updater.lastNameEn);
+            }
+            if (updater.middleNameEn != null) {
+                user.setMiddleName(updater.middleNameEn);
             }
             userRepository.save(user);
             return ResponseEntity.ok(true);
