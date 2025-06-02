@@ -27,8 +27,8 @@ public class TopicFileOfLineV2ImplService implements TopicFileOfLineV2Service {
     private final ModuleRepository moduleRepository;
 
     @Override
-    public byte[] downloadImageFromFileSystem(String subject,String fileName) throws IOException {
-        byte[] images = Files.readAllBytes(new File("subjects\\"+subject+"\\"+fileName).toPath());
+    public byte[] downloadImageFromFileSystem(String packageName,String fileName) throws IOException {
+        byte[] images = Files.readAllBytes(new File("subjects\\"+packageName+"\\"+fileName).toPath());
         return images;
     }
 
@@ -84,6 +84,7 @@ public class TopicFileOfLineV2ImplService implements TopicFileOfLineV2Service {
                         Files.copy(file.getInputStream(), filePath);
 
                         TopicFileOfLineV2 topicFileOfLine = new TopicFileOfLineV2();
+                        topicFileOfLine.setPackageName(module.getCourse().getPlan().getSubject().getName());
                         topicFileOfLine.setFileType(substring);
                         topicFileOfLine.setType(type);
                         topicFileOfLine.setName(name);
@@ -117,13 +118,13 @@ public class TopicFileOfLineV2ImplService implements TopicFileOfLineV2Service {
     }
 
     @Override
-    public ApiResponse deleteFileFromSystem(String fileName, String subjectName) {
+    public ApiResponse deleteFileFromSystem(String fileName) {
         // Fayl katalogi yo'lini tuzish
-        String directoryPath = "subjects\\" + subjectName;
         Optional<TopicFileOfLineV2> optional = fileRepository.findTopicFileOfLineV2ByName(fileName);
 
         if (optional.isPresent()) {
             TopicFileOfLineV2 file = optional.get();
+            String directoryPath = "subjects\\" + file.getPackageName();
 
             // Faqat FILE turidagi fayllarni fayl tizimidan o'chirishga harakat qilamiz
             if (file.getType() == TopicFileType.FILE) {
