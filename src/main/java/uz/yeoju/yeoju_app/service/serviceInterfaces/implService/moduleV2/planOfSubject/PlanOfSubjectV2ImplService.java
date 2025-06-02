@@ -139,5 +139,9 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
                 planRepository.getTeacherLessonByTeacherIdAndEducationYearId(teacherId, educationYearId));
     }
 
-
+    @Override
+    public ApiResponse getPlansBySubjectId(String lessonId, String educationYearId) {
+        return new ApiResponse(true, "plans by subject id",
+                planRepository.getPlansBySubjectId(lessonId, educationYearId));
+    }
 }
