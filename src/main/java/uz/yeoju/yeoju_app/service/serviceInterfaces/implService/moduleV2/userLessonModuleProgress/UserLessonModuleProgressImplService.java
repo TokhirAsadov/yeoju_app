@@ -2,41 +2,116 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.userLe
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import uz.yeoju.yeoju_app.entity.moduleV2.UserLessonModuleProgress;
+import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.moduleV2.*;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.moduleV2.UserLessonModuleProgressCreator;
 import uz.yeoju.yeoju_app.repository.UserRepository;
-import uz.yeoju.yeoju_app.repository.moduleV2.LessonModuleRepository;
+import uz.yeoju.yeoju_app.repository.moduleV2.ModuleRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.UserLessonModuleProgressRepository;
+import uz.yeoju.yeoju_app.repository.moduleV2.UserTestAnswerRepository;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserLessonModuleProgressImplService implements UserLessonModuleProgressService{
     private final UserLessonModuleProgressRepository userLessonModuleProgressRepository;
-    private final LessonModuleRepository lessonModuleRepository;
+    private final ModuleRepository moduleRepository;
     private final UserRepository userRepository;
+    private final UserTestAnswerRepository userTestAnswerRepository;
 
-    public UserLessonModuleProgressImplService(UserLessonModuleProgressRepository userLessonModuleProgressRepository, LessonModuleRepository lessonModuleRepository, UserRepository userRepository) {
+    public UserLessonModuleProgressImplService(UserLessonModuleProgressRepository userLessonModuleProgressRepository, ModuleRepository moduleRepository, UserRepository userRepository, UserTestAnswerRepository userTestAnswerRepository) {
         this.userLessonModuleProgressRepository = userLessonModuleProgressRepository;
-        this.lessonModuleRepository = lessonModuleRepository;
+        this.moduleRepository = moduleRepository;
         this.userRepository = userRepository;
+        this.userTestAnswerRepository = userTestAnswerRepository;
     }
 
     @Override
     public void create(UserLessonModuleProgressCreator creator) {
-        if (userRepository.existsById(creator.userId)) {
-            if (lessonModuleRepository.existsById(creator.lessonModuleId)){
-                UserLessonModuleProgress userLessonModuleProgress = new UserLessonModuleProgress(
-                        userRepository.findById(creator.userId).get(),
-                        lessonModuleRepository.findById(creator.lessonModuleId).get(),
-                        false
-                );
-                userLessonModuleProgressRepository.save(userLessonModuleProgress);
+        User user = userRepository.findById(creator.userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found by id: " + creator.userId));
+
+        Module currentModule = moduleRepository.findById(creator.moduleId)
+                .orElseThrow(() -> new UserNotFoundException("Lesson module not found by id: " + creator.moduleId));
+
+        Course course = currentModule.getCourse();
+
+        // Kursdagi modullarni vaqt bo‘yicha saralash
+        List<Module> orderedModules = course.getModules()
+                .stream()
+                .sorted(Comparator.comparing(Module::getCreatedAt))
+                .collect(Collectors.toList());
+
+        int currentIndex = -1;
+        for (int i = 0; i < orderedModules.size(); i++) {
+            if (orderedModules.get(i).getId().equals(currentModule.getId())) {
+                currentIndex = i;
+                break;
             }
-            throw new UserNotFoundException("Lesson module not found by id: "+creator.lessonModuleId);
         }
-        throw new UserNotFoundException("User not found by id: "+creator.userId);
+
+        if (currentIndex == -1) {
+            throw new RuntimeException("Current module not found in course modules");
+        }
+
+        // Oldingi modullarni tekshirish
+        for (int i = 0; i < currentIndex; i++) {
+            Module previousModule = orderedModules.get(i);
+
+            boolean isCompleted = userLessonModuleProgressRepository
+                    .existsByUserIdAndModuleIdAndCompletedTrue(user.getId(), previousModule.getId());
+
+            if (!isCompleted) {
+                throw new RuntimeException("You must complete previous module before continuing: " + previousModule.getTitle());
+            }
+
+            Test moduleTest = previousModule.getModuleTest();
+
+
+            if (moduleTest != null && moduleTest.getQuestions() != null && !moduleTest.getQuestions().isEmpty()) {
+                boolean allQuestionsAttempted = true;
+                int correctAnswers = 0;
+                int totalQuestions = moduleTest.getQuestions().size();
+
+                for (TestQuestion question : moduleTest.getQuestions()) {
+                    Optional<UserTestAnswer> answerOpt = userTestAnswerRepository.findByUserAndQuestion(user, question);
+
+                    if (!answerOpt.isPresent()) {
+                        allQuestionsAttempted = false;
+                        break;
+                    }
+
+                    UserTestAnswer answer = answerOpt.get();
+
+                    if (answer.isCorrect()) {
+                        correctAnswers++;
+                    }
+                }
+
+                if (!allQuestionsAttempted) {
+                    throw new RuntimeException("You must complete the test for module: " + previousModule.getTitle());
+                }
+
+                double scorePercent = ((double) correctAnswers / totalQuestions) * 100;
+
+                if (scorePercent < moduleTest.getPassingPercentage()) {
+                    throw new RuntimeException("Test for module \"" + previousModule.getTitle() + "\" not passed. Required: "
+                            + moduleTest.getPassingPercentage() + "%, but got: " + scorePercent + "%");
+                }
+            }
+
+        }
+
+        // Endi progress yozamiz
+        UserLessonModuleProgress progress = new UserLessonModuleProgress(user, currentModule, true);
+        userLessonModuleProgressRepository.save(progress);
     }
+
 
     @Override
     public boolean delete(String id) {
