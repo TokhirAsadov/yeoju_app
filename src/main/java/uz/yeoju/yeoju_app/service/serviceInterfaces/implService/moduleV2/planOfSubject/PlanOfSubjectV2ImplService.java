@@ -11,20 +11,16 @@ import uz.yeoju.yeoju_app.entity.moduleV2.PlanOfSubjectV2;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
-import uz.yeoju.yeoju_app.payload.module.CreatePlanOfStudent;
 import uz.yeoju.yeoju_app.payload.moduleV2.CourseGroupDetails;
+import uz.yeoju.yeoju_app.payload.moduleV2.CoursesGroupDetails;
 import uz.yeoju.yeoju_app.payload.moduleV2.CreatePlanOfStudentV2;
-import uz.yeoju.yeoju_app.payload.resDto.module.GetExistsPlans;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetPlansForTeacherSciences;
 import uz.yeoju.yeoju_app.payload.resDto.moduleV2.GetExistsPlansV2;
 import uz.yeoju.yeoju_app.repository.*;
 import uz.yeoju.yeoju_app.repository.educationYear.EducationYearRepository;
-import uz.yeoju.yeoju_app.repository.module.PlanOfSubjectRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.CourseRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.PlanOfSubjectV2Repository;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -120,6 +116,17 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
         String json = planRepository.getCourseGroupDetails(planId);
         System.out.println("JSON: " + json);
         try {
+            return new ApiResponse(true,"All details",objectMapper.readValue(json, CoursesGroupDetails.class));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("JSON parse xatosi", e);
+        }
+    }
+
+    @Override
+    public ApiResponse getCourseDetailsByCourseId(String planId) {
+        String json = planRepository.getCourseDetailsByCourseId(planId);
+        System.out.println("JSON: " + json);
+        try {
             return new ApiResponse(true,"All details",objectMapper.readValue(json, CourseGroupDetails.class));
         } catch (JsonProcessingException e) {
             throw new RuntimeException("JSON parse xatosi", e);
@@ -131,4 +138,6 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
         return new ApiResponse(true, "teacher subjects",
                 planRepository.getTeacherLessonByTeacherIdAndEducationYearId(teacherId, educationYearId));
     }
+
+
 }
