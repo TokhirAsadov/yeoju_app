@@ -1,6 +1,5 @@
 package uz.yeoju.yeoju_app.entity.moduleV2;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,11 +12,11 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DownloadCounterV2 extends AbsEntity {
+public class StudentReadCourseCounter extends AbsEntity {
     @ManyToOne
     private User user;
     @ManyToOne
-    @JoinColumn(name = "topic_id")
-    private TopicFileOfLineV2 topic;
+    @JoinColumn(name = "course_id")
+    private Course course;
     private Integer count=0;
 }
