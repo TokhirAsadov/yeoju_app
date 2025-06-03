@@ -33,17 +33,18 @@ public class UserLessonModuleProgressImplService implements UserLessonModuleProg
 
     @Override
     public void create(UserLessonModuleProgressCreator creator) {
+        // 1. Foydalanuvchini tekshirish
         User user = userRepository.findById(creator.userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found by id: " + creator.userId));
 
+        // 2. Modulni tekshirish
         Module currentModule = moduleRepository.findById(creator.moduleId)
-                .orElseThrow(() -> new UserNotFoundException("Lesson module not found by id: " + creator.moduleId));
+                .orElseThrow(() -> new RuntimeException("Lesson module not found by id: " + creator.moduleId));
 
+        // 3. Kurs va modul ro‘yxatini olish
         Course course = currentModule.getCourse();
 
-        // Kursdagi modullarni vaqt bo‘yicha saralash
-        List<Module> orderedModules = course.getModules()
-                .stream()
+        List<Module> orderedModules = course.getModules().stream()
                 .sorted(Comparator.comparing(Module::getCreatedAt))
                 .collect(Collectors.toList());
 
@@ -59,10 +60,11 @@ public class UserLessonModuleProgressImplService implements UserLessonModuleProg
             throw new RuntimeException("Current module not found in course modules");
         }
 
-        // Oldingi modullarni tekshirish
+        // 4. Oldingi modullarni tekshirish
         for (int i = 0; i < currentIndex; i++) {
             Module previousModule = orderedModules.get(i);
 
+            // 4.1 Progress mavjudmi
             boolean isCompleted = userLessonModuleProgressRepository
                     .existsByUserIdAndModuleIdAndCompletedTrue(user.getId(), previousModule.getId());
 
@@ -71,7 +73,6 @@ public class UserLessonModuleProgressImplService implements UserLessonModuleProg
             }
 
             Test moduleTest = previousModule.getModuleTest();
-
 
             if (moduleTest != null && moduleTest.getQuestions() != null && !moduleTest.getQuestions().isEmpty()) {
                 boolean allQuestionsAttempted = true;
@@ -87,7 +88,6 @@ public class UserLessonModuleProgressImplService implements UserLessonModuleProg
                     }
 
                     UserTestAnswer answer = answerOpt.get();
-
                     if (answer.isCorrect()) {
                         correctAnswers++;
                     }
@@ -100,14 +100,23 @@ public class UserLessonModuleProgressImplService implements UserLessonModuleProg
                 double scorePercent = ((double) correctAnswers / totalQuestions) * 100;
 
                 if (scorePercent < moduleTest.getPassingPercentage()) {
-                    throw new RuntimeException("Test for module \"" + previousModule.getTitle() + "\" not passed. Required: "
-                            + moduleTest.getPassingPercentage() + "%, but got: " + scorePercent + "%");
+                    // ⚠️ Belgilab qo‘yish: bu foydalanuvchining javoblari o‘chiriladi
+                    for (TestQuestion question : moduleTest.getQuestions()) {
+                        userTestAnswerRepository.findByUserAndQuestion(user, question)
+                                .ifPresent(answer -> {
+                                    answer.setShouldBeDeleted(true);
+                                    userTestAnswerRepository.save(answer);
+                                });
+                    }
+
+                    throw new RuntimeException("Test for module \"" + previousModule.getTitle()
+                            + "\" not passed. Required: " + moduleTest.getPassingPercentage()
+                            + "%, but got: " + scorePercent + "%");
                 }
             }
-
         }
 
-        // Endi progress yozamiz
+        // 5. Progressni saqlash
         UserLessonModuleProgress progress = new UserLessonModuleProgress(user, currentModule, true);
         userLessonModuleProgressRepository.save(progress);
     }
