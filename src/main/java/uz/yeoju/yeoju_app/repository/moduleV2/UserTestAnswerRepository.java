@@ -5,6 +5,7 @@ import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.moduleV2.TestQuestion;
 import uz.yeoju.yeoju_app.entity.moduleV2.UserTestAnswer;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,4 +17,6 @@ public interface UserTestAnswerRepository extends JpaRepository<UserTestAnswer,S
     List<UserTestAnswer> findAllByUserIdAndQuestionTestId(String userId, String courseTestId);
 
     List<UserTestAnswer> findAllByQuestionIn(List<TestQuestion> testQuestions);
+
+    List<UserTestAnswer> findAllByShouldBeDeletedTrueAndCreatedAtBefore(Timestamp twoHoursAgo);
 }
