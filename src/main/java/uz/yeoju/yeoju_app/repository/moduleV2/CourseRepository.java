@@ -3,6 +3,8 @@ package uz.yeoju.yeoju_app.repository.moduleV2;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import uz.yeoju.yeoju_app.entity.moduleV2.Course;
+import uz.yeoju.yeoju_app.payload.moduleV2.GetCourse;
+import uz.yeoju.yeoju_app.payload.moduleV2.GetJsonObject;
 
 import java.util.List;
 
@@ -19,4 +21,10 @@ public interface CourseRepository extends JpaRepository<Course,String> {
 //     List<Course> findAllByPlanEducationYearIdAndPlanGroupsId(String educationYearId, String groupId);
      boolean existsByIdAndFinalTestIdIsNotNull(String id);
      Course findByFinalTestId(String id);
+
+     @Query(value = "select c.id, c.title from Course c\n" +
+             "where c.createdBy=?1 and c.plan_id=?2",nativeQuery = true)
+     List<GetCourse> getCoursesByCreatorIdAndPlanId(String creatorId, String planId);
+
+
 }
