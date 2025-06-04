@@ -16,6 +16,18 @@ public class UserTestAnswerCleanupService {
 
     private final UserTestAnswerRepository userTestAnswerRepository;
 
+    @Transactional
+    @Scheduled(fixedRate = 10 * 60 * 1000) // Har 10 daqiqada ishga tushadi
+    public void deleteOldFailedAnswers() {
+        Timestamp twoHoursAgo = new Timestamp(System.currentTimeMillis() - 2 * 60 * 60 * 1000);
 
+        List<UserTestAnswer> expiredAnswers = userTestAnswerRepository
+                .findAllByShouldBeDeletedTrueAndCreatedAtBefore(twoHoursAgo);
+
+        if (!expiredAnswers.isEmpty()) {
+            userTestAnswerRepository.deleteAll(expiredAnswers);
+            System.out.println("Deleted " + expiredAnswers.size() + " expired user test answers.");
+        }
+    }
 }
 
