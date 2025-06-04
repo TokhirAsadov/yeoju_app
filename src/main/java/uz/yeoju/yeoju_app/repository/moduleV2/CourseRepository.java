@@ -31,5 +31,11 @@ public interface CourseRepository extends JpaRepository<Course,String> {
              "where cf.Course_id=?1",nativeQuery = true)
      List<GetJsonObject> getFacultiesByCourseId(String courseId);
 
-
+     @Query(value = "select g.id,g.name from Course c\n" +
+             "join PlanOfSubjectV2 p on c.plan_id = p.id\n" +
+             "join Course_Faculty cf on c.id = cf.course_id\n" +
+             "join Faculty f on cf.faculties_id = f.id\n" +
+             "join groups g on f.id = g.faculty_id and g.level=p.level\n" +
+             "where c.id=?1 and f.id=?2;",nativeQuery = true)
+     List<GetJsonObject> getGroups(String courseId, String facultyId);
 }
