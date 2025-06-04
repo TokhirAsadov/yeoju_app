@@ -794,6 +794,11 @@ public class CourseImplService implements CourseService{
         return new ApiResponse(true, "Course progress for group", responseList);
     }
 
+    @Override
+    public ApiResponse getGroups(String facultyId, String courseId) {
+        return new ApiResponse(true, "Groups for course",
+                courseRepository.getGroups(courseId, facultyId));
+    }
 
 
 }
