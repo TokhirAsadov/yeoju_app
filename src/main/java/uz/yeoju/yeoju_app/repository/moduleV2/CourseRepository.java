@@ -26,5 +26,10 @@ public interface CourseRepository extends JpaRepository<Course,String> {
              "where c.createdBy=?1 and c.plan_id=?2",nativeQuery = true)
      List<GetCourse> getCoursesByCreatorIdAndPlanId(String creatorId, String planId);
 
+     @Query(value = "select f.id, f.shortName as name from Course_Faculty cf\n" +
+             "join Faculty f on cf.faculties_id = f.id\n" +
+             "where cf.Course_id=?1",nativeQuery = true)
+     List<GetJsonObject> getFacultiesByCourseId(String courseId);
+
 
 }
