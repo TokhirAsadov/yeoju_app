@@ -37,5 +37,9 @@ public class UserTestAnswer extends AbsEntity {
     private String writtenAnswer;
 
     private boolean isCorrect;
+
+    @Column(nullable = false)
+    private boolean shouldBeDeleted = false;
+
 }
 
