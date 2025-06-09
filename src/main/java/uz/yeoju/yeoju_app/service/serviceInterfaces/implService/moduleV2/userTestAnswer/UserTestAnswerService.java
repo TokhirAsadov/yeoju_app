@@ -8,5 +8,6 @@ import uz.yeoju.yeoju_app.payload.moduleV2.UserTestAnswerFinisher;
 
 public interface UserTestAnswerService {
     ApiResponse finishCourseTest(UserTestAnswerFinisher finisher);
+    ApiResponse create(UserTestAnswerCreator creator);
 
 }
