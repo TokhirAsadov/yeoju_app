@@ -1,5 +1,97 @@
+CREATE OR ALTER FUNCTION dbo.get_course_group_details (@plan_id varchar(36))
+    RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+    DECLARE @result NVARCHAR(MAX);
+
+    SELECT @result = (
+        SELECT
+            c.id AS course_id,
+            c.title AS course_title,
+
+            -- Final test (agar bo'lsa)
+            ISNULL((
+                       SELECT
+                           ft.id,
+                           ft.title,
+                           ft.createdAt,
+                           ft.updatedAt,
+                           (
+                               SELECT COUNT(*)
+                               FROM testQuestion tq
+                               WHERE tq.test_id = ft.id
+                           ) AS question_count
+                       FROM test ft
+                       WHERE ft.id = c.test_id  -- bu yerda Course.finalTest join uchun
+                       FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+                   ), '{}') AS final_test,
+
+            (
+                SELECT
+                    m.id AS module_id,
+                    m.title AS module_title,
+                    m.theme AS module_theme,
+
+                    -- Har modulning testi (agar bo'lsa)
+                    ISNULL((
+                               SELECT
+                                   mt.id,
+                                   mt.title,
+                                   mt.createdAt,
+                                   mt.updatedAt,
+                                   (
+                                       SELECT COUNT(*)
+                                       FROM testQuestion tq
+                                       WHERE tq.test_id = mt.id
+                                   ) AS question_count
+                               FROM test mt
+                               WHERE mt.id = m.test_id
+                               FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+                           ), '{}') AS module_test,
+
+                    (
+                        SELECT
+                            t.name,
+                            t.fileType,
+                            t.contentType,
+                            t.packageName
+                        FROM TopicFileOfLineV2 t
+                                 JOIN TopicFileOfLineV2_Module tm ON t.id = tm.TopicFileOfLineV2_id
+                        WHERE tm.modules_id = m.id
+                        FOR JSON PATH
+                    ) AS topic_files
+
+                FROM module m
+                WHERE m.course_id = c.id
+                ORDER BY m.createdAt
+                FOR JSON PATH
+            ) AS modules
+
+        FROM course c
+        WHERE c.plan_id = @plan_id
+        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+    );
+
+    DECLARE @groups NVARCHAR(MAX);
+
+    SELECT @groups = (
+        SELECT
+            g.id AS group_id,
+            g.name AS group_name,
+            p.level
+        FROM [groups] g
+                 JOIN PlanOfSubjectV2_groups pg ON g.id = pg.groups_id
+                 JOIN PlanOfSubjectV2 p ON pg.PlanOfSubjectV2_id = p.id
+        WHERE p.id = @plan_id
+        FOR JSON PATH
+    );
+
+    RETURN '{ "course": ' + @result + ', "groups": ' + @groups + ' }';
+END;
 
 
+
+-- 33333333
 CREATE OR ALTER FUNCTION dbo.get_course_group_details (@plan_id varchar(36))
     RETURNS NVARCHAR(MAX)
 AS
@@ -20,6 +112,86 @@ BEGIN
                 WHERE tq.test_id = ct.id
             ) AS question_count
         FROM courseTest ct
+        WHERE ct.course_id = c.id
+        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+    )
+    FROM course c
+    WHERE c.plan_id = @plan_id;
+
+    -- Agar NULL bo‘lsa, bo‘sh obyekt qilib belgilaymiz
+    SET @course_test = ISNULL(@course_test, '{}');
+
+    SELECT @result = (
+        SELECT
+            c.id AS course_id,
+            c.title AS course_title,
+
+            (
+                SELECT
+                    m.id AS module_id,
+                    m.title AS module_title,
+                    m.theme AS module_theme,
+                    (
+                        SELECT
+                            t.name,
+                            t.fileType,
+                            t.contentType,
+                            t.packageName
+                        FROM TopicFileOfLineV2 t
+                                 JOIN TopicFileOfLineV2_Module tm ON t.id = tm.TopicFileOfLineV2_id
+                        WHERE tm.modules_id = m.id
+                        FOR JSON PATH
+                    ) AS topic_files
+                FROM module m
+                WHERE m.course_id = c.id order by m.createdAt
+                FOR JSON PATH
+            ) AS modules,
+
+            JSON_QUERY(@course_test) AS course_test
+
+        FROM course c
+        WHERE c.plan_id = @plan_id
+        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+    );
+
+    DECLARE @groups NVARCHAR(MAX);
+
+    SELECT @groups = (
+        SELECT
+            g.id AS group_id,
+            g.name AS group_name,
+            p.level
+        FROM [groups] g
+                 JOIN PlanOfSubjectV2_groups pg ON g.id = pg.groups_id
+                 JOIN PlanOfSubjectV2 p ON pg.PlanOfSubjectV2_id = p.id
+        WHERE p.id = @plan_id
+        FOR JSON PATH
+    );
+
+    RETURN '{ "course": ' + @result + ', "groups": ' + @groups + ' }';
+END;
+===========
+
+CREATE OR ALTER FUNCTION dbo.get_course_group_details (@plan_id varchar(36))
+    RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+    DECLARE @result NVARCHAR(MAX);
+    DECLARE @course_test NVARCHAR(MAX);
+
+    -- Har doim 1 ta obyekt sifatida course_test ni olish
+    SELECT @course_test = (
+        SELECT TOP 1
+            ct.id,
+            ct.title,
+            ct.createdAt,
+            ct.updatedAt,
+            (
+                SELECT COUNT(*)
+                FROM testQuestion tq
+                WHERE tq.test_id = ct.id
+            ) AS question_count
+        FROM test ct
         WHERE ct.course_id = c.id
         FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
     )
@@ -100,7 +272,7 @@ BEGIN
                         FROM testQuestion tq
                         WHERE tq.test_id = ct.id
                     ) AS question_count
-                FROM courseTest ct
+                FROM test ct
                 WHERE ct.course_id = c.id
                 FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
             ) AS course_test
