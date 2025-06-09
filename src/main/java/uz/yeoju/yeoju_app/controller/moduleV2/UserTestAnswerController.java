@@ -44,5 +44,11 @@ public class UserTestAnswerController {
                 .body("User test answer is deleted.");
     }
 
+    @GetMapping("/findAll")
+    HttpEntity<?> findAll(Pageable pageable){
+        ApiResponse res = service.findAll(pageable);
+        return ResponseEntity.ok(res);
+    }
+
 
 }
