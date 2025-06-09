@@ -21,5 +21,13 @@ public class UserTestAnswerController {
         this.service = service;
     }
 
+    @PostMapping("/finishCourseTest")
+    @ResponseStatus(HttpStatus.CREATED)
+    HttpEntity<?> finishCourseTest(@RequestBody UserTestAnswerFinisher finisher){
+        ApiResponse response = service.finishCourseTest(finisher);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 417)
+                .body(response);
+    }
+
 
 }
