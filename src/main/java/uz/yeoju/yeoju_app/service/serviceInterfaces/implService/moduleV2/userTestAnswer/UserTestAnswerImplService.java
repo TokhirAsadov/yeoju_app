@@ -215,5 +215,14 @@ public class UserTestAnswerImplService implements UserTestAnswerService{
         return new ApiResponse(true,"User test answer by id="+userTestAnswerId,userTestAnswer);
     }
 
+    @Override
+    public boolean deleteById(String userTestAnswerId) {
+        UserTestAnswer userTestAnswer = userTestAnswerRepository.findById(userTestAnswerId)
+                .orElseThrow(() -> new RuntimeException("User test answer not found by id="+userTestAnswerId));
+        userTestAnswer.setSelectedOptions(new ArrayList<>());
+        userTestAnswerRepository.delete(userTestAnswer);
+        return true;
+    }
+
 
 }
