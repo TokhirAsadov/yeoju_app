@@ -165,4 +165,47 @@ public class UserTestAnswerImplService implements UserTestAnswerService{
         return new ApiResponse(true, "User test answer created successfully", saved);
     }
 
+
+//    public ApiResponse create(UserTestAnswerCreator creator) {
+//        if (!userRepository.existsById(creator.userId)) {
+//            return new ApiResponse(false,"User not found by id="+creator.userId);
+//        }
+//        if (!testQuestionRepository.existsById(creator.testQuestionId)) {
+//            return new ApiResponse(false,"Test question not found by id="+creator.testQuestionId);
+//        }
+//        if (userTestAnswerRepository.existsByUserIdAndQuestionId(creator.userId, creator.testQuestionId)) {
+//            return new ApiResponse(false, "Bunday javob allaqachon mavjud!");
+//        }
+//        UserTestAnswer userTestAnswer = new UserTestAnswer();
+//        userTestAnswer.setUser(userRepository.getById(creator.userId));
+//        TestQuestion questionRepositoryById = testQuestionRepository.getById(creator.testQuestionId);
+//        userTestAnswer.setQuestion(questionRepositoryById);
+//        userTestAnswer.setSelectedOptions(creator.selectedOptions);
+////        userTestAnswer.setCorrect(questionRepositoryById.getCorrectAnswerText().trim().equalsIgnoreCase(creator.selectedOption.trim()));
+//        List<String> correctAnswers = questionRepositoryById.getCorrectAnswers()
+//                .stream()
+//                .map(String::trim)
+//                .collect(Collectors.toList());
+//
+//        List<String> selectedOptions = creator.selectedOptions
+//                .stream()
+//                .map(String::trim)
+//                .collect(Collectors.toList());
+//
+//// Ikkala ro'yxatni Set qilib solishtiramiz
+//        boolean isCorrect = new HashSet<>(correctAnswers).equals(new HashSet<>(selectedOptions));
+//
+//        userTestAnswer.setWrittenAnswer(creator.writtenAnswer);
+//
+//        userTestAnswer.setCorrect(isCorrect);
+//
+//        UserTestAnswer save = userTestAnswerRepository.save(userTestAnswer);
+//        return new ApiResponse(true,"User test answer created successfully",save);
+//    }
+
+    @Override
+    public ApiResponse findAll(Pageable pageable) {
+        return new ApiResponse(true,"User test answer",userTestAnswerRepository.findAll(pageable));
+    }
+
 }
