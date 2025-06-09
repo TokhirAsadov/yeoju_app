@@ -29,5 +29,13 @@ public class UserTestAnswerController {
                 .body(response);
     }
 
+    @PostMapping("/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    HttpEntity<?> create(@RequestBody UserTestAnswerCreator creator){
+        ApiResponse response = service.create(creator);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 417)
+                .body(response);
+    }
+
 
 }
