@@ -11,5 +11,6 @@ public interface UserTestAnswerService {
     ApiResponse create(UserTestAnswerCreator creator);
     ApiResponse findAll(Pageable pageable);
     ApiResponse findById(String userTestAnswerId);
+    boolean deleteById(String userTestAnswerId);
 
 }
