@@ -10,5 +10,6 @@ public interface UserTestAnswerService {
     ApiResponse finishCourseTest(UserTestAnswerFinisher finisher);
     ApiResponse create(UserTestAnswerCreator creator);
     ApiResponse findAll(Pageable pageable);
+    ApiResponse findById(String userTestAnswerId);
 
 }
