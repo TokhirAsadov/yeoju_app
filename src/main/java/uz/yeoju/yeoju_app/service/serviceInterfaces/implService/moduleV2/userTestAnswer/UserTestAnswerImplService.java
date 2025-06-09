@@ -85,4 +85,84 @@ public class UserTestAnswerImplService implements UserTestAnswerService{
         return new ApiResponse(true, "User test answers saved successfully");
     }
 
+//    public ApiResponse finishCourseTest(UserTestAnswerFinisher finisher) {
+//        if (!userRepository.existsById(finisher.userId)) {
+//            return new ApiResponse(false,"User not found by id="+finisher.userId);
+//        }
+//        finisher.answers.forEach(answer -> {
+//            if (!testQuestionRepository.existsById(answer.testQuestionId)) {
+//                throw new RuntimeException("Test question not found by id=" + answer.testQuestionId);
+//            }
+//            if (userTestAnswerRepository.existsByUserIdAndQuestionId(finisher.userId, answer.testQuestionId)) {
+//                throw new RuntimeException("Bunday javob allaqachon mavjud!");
+//            }
+//            UserTestAnswer userTestAnswer = new UserTestAnswer();
+//            userTestAnswer.setUser(userRepository.getById(finisher.userId));
+//            TestQuestion questionRepositoryById = testQuestionRepository.getById(answer.testQuestionId);
+//            userTestAnswer.setQuestion(questionRepositoryById);
+//            userTestAnswer.setSelectedOptions(answer.selectedOptions);
+////            userTestAnswer.setCorrect(questionRepositoryById.getCorrectAnswerText().trim().equalsIgnoreCase(answer.selectedOption.trim()));
+//            List<String> correctAnswers = questionRepositoryById.getCorrectAnswers()
+//                    .stream()
+//                    .map(String::trim)
+//                    .collect(Collectors.toList());
+//
+//            List<String> selectedOptions = answer.selectedOptions
+//                    .stream()
+//                    .map(String::trim)
+//                    .collect(Collectors.toList());
+//
+//// Ikkala ro'yxatni Set qilib solishtiramiz
+//            boolean isCorrect = new HashSet<>(correctAnswers).equals(new HashSet<>(selectedOptions));
+//
+//            userTestAnswer.setCorrect(isCorrect);
+//
+//            userTestAnswerRepository.save(userTestAnswer);
+//        });
+//        return new ApiResponse(true,"User test answers saved successfully");
+//    }
+
+    @Override
+    @Transactional
+    public ApiResponse create(UserTestAnswerCreator creator) {
+        if (!userRepository.existsById(creator.userId)) {
+            return new ApiResponse(false, "User not found by id = " + creator.userId);
+        }
+        if (!testQuestionRepository.existsById(creator.testQuestionId)) {
+            return new ApiResponse(false, "Test question not found by id = " + creator.testQuestionId);
+        }
+        if (userTestAnswerRepository.existsByUserIdAndQuestionId(creator.userId, creator.testQuestionId)) {
+            return new ApiResponse(false, "Bunday javob allaqachon mavjud!");
+        }
+
+        User user = userRepository.getById(creator.userId);
+        TestQuestion question = testQuestionRepository.getById(creator.testQuestionId);
+
+        // Foydalanuvchi tanlagan variantlar
+        List<TestOption> selectedOptions = testOptionRepository.findAllById(creator.getSelectedOptionsIds());
+
+        // To'g'ri variantlarni olish
+        List<String> correctOptionIds = question.getOptions().stream()
+                .filter(TestOption::getCorrect)
+                .map(option -> option.getId().trim())
+                .collect(Collectors.toList());
+
+        List<String> selectedOptionIds = selectedOptions.stream()
+                .map(option -> option.getId().trim())
+                .collect(Collectors.toList());
+
+        boolean isCorrect = new HashSet<>(correctOptionIds).equals(new HashSet<>(selectedOptionIds));
+
+        // Javob obyektini to‘ldirish
+        UserTestAnswer userTestAnswer = new UserTestAnswer();
+        userTestAnswer.setUser(user);
+        userTestAnswer.setQuestion(question);
+        userTestAnswer.setSelectedOptions(selectedOptions);
+        userTestAnswer.setWrittenAnswer(creator.getWrittenAnswer()); // faqat WRITTEN turdagi testlar uchun
+        userTestAnswer.setCorrect(isCorrect);
+
+        UserTestAnswer saved = userTestAnswerRepository.save(userTestAnswer);
+        return new ApiResponse(true, "User test answer created successfully", saved);
+    }
+
 }
