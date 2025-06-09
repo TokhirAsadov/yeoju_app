@@ -224,5 +224,20 @@ public class UserTestAnswerImplService implements UserTestAnswerService{
         return true;
     }
 
+    @Override
+    public TestResultDto calculateUserScore(String userId, String courseTestId) {
+        List<TestQuestion> testQuestions = testQuestionRepository.findAllByTestId(courseTestId);
+        int totalQuestions = testQuestions.size();
 
+        List<UserTestAnswer> userAnswers = userTestAnswerRepository.findAllByUserIdAndQuestionTestId(userId, courseTestId);
+
+        int correctCount = 0;
+        for (UserTestAnswer answer : userAnswers) {
+            if (answer.isCorrect()) {
+                correctCount++;
+            }
+        }
+
+        return new TestResultDto(totalQuestions, correctCount);
+    }
 }
