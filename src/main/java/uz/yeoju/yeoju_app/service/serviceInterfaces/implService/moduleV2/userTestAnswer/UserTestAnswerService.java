@@ -12,5 +12,5 @@ public interface UserTestAnswerService {
     ApiResponse findAll(Pageable pageable);
     ApiResponse findById(String userTestAnswerId);
     boolean deleteById(String userTestAnswerId);
-
+    TestResultDto calculateUserScore(String userId, String courseTestId);
 }
