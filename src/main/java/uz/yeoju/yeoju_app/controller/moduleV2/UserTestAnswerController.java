@@ -57,5 +57,10 @@ public class UserTestAnswerController {
                 .body(res);
     }
 
-
+    @GetMapping("/findStudentResult/{studentUserId}/{courseTestId}")
+    HttpEntity<?> findStudentResult(@PathVariable String studentUserId,
+                                    @PathVariable String courseTestId){
+        TestResultDto res = service.calculateUserScore(studentUserId, courseTestId);
+        return ResponseEntity.ok(res);
+    }
 }
