@@ -208,4 +208,12 @@ public class UserTestAnswerImplService implements UserTestAnswerService{
         return new ApiResponse(true,"User test answer",userTestAnswerRepository.findAll(pageable));
     }
 
+    @Override
+    public ApiResponse findById(String userTestAnswerId) {
+        UserTestAnswer userTestAnswer = userTestAnswerRepository.findById(userTestAnswerId)
+                .orElseThrow(() -> new RuntimeException("User test answer not found by id="+userTestAnswerId));
+        return new ApiResponse(true,"User test answer by id="+userTestAnswerId,userTestAnswer);
+    }
+
+
 }
