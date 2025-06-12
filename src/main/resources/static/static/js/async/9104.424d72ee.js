@@ -1,0 +1,2 @@
+/*! For license information please see 9104.424d72ee.js.LICENSE.txt */
+(self.webpackChunkkiut_client=self.webpackChunkkiut_client||[]).push([["9104"],{420460:function(e,t,a){"use strict";a.r(t),a("333948");var u=a("785893"),l=a("667294"),c=a("193065");t.default=()=>{let[e,t]=(0,l.useState)({}),a=(0,l.useCallback)(async()=>{try{var e;let a=await c.default.get("/module/findById/9d42687e-0b31-4270-a78d-b818ec20103c");t(null===(e=a.data.obj)||void 0===e?void 0:e.theme)}catch(e){}},[]);return(0,l.useEffect)(()=>{a()},[]),(0,u.jsx)("div",{dangerouslySetInnerHTML:{__html:e}})}}}]);
