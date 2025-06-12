@@ -125,7 +125,7 @@ public class AttachmentService {
     }
 
 
-        private String createFileUrl(String originalFilename) {
+    private String createFileUrl(String originalFilename) {
         String name = UUID.randomUUID().toString();
         String[] split = originalFilename.split("\\.");
         String contentType = split[split.length - 1];
