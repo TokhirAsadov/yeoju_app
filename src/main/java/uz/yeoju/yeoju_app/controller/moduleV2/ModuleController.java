@@ -5,6 +5,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.moduleV2.ModuleCreator;
@@ -53,4 +54,20 @@ public class ModuleController {
         return ResponseEntity.status(res.isSuccess() ? 200 : 417)
                 .body(res);
     }
+
+    @PostMapping("/upload/{moduleId}")
+    public ResponseEntity<String> uploadDoc(@PathVariable String moduleId, @RequestParam("file") MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Fayl bo'sh bo'lishi mumkin emas.");
+            }
+            service.uploadModuleFile(moduleId,file);
+            return ResponseEntity.ok("Mavzu muvaffaqiyatli yuklandi.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Xatolik yuz berdi: " + e.getMessage());
+        }
+    }
+
 }
