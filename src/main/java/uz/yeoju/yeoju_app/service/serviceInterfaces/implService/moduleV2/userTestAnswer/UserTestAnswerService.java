@@ -1,10 +1,11 @@
 package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.userTestAnswer;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.payload.moduleV2.TestResultDto;
-import uz.yeoju.yeoju_app.payload.moduleV2.UserTestAnswerCreator;
-import uz.yeoju.yeoju_app.payload.moduleV2.UserTestAnswerFinisher;
+import uz.yeoju.yeoju_app.payload.moduleV2.*;
+
+import java.io.IOException;
 
 public interface UserTestAnswerService {
     ApiResponse finishCourseTest(UserTestAnswerFinisher finisher);
@@ -13,4 +14,5 @@ public interface UserTestAnswerService {
     ApiResponse findById(String userTestAnswerId);
     boolean deleteById(String userTestAnswerId);
     TestResultDto calculateUserScore(String userId, String courseTestId);
+    ResponseEntity<AiResponseDto> ai(AiRequestDto dto) throws IOException;
 }
