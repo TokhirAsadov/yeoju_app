@@ -4,13 +4,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.moduleV2.AiRequestDto;
 import uz.yeoju.yeoju_app.payload.moduleV2.TestResultDto;
 import uz.yeoju.yeoju_app.payload.moduleV2.UserTestAnswerCreator;
 import uz.yeoju.yeoju_app.payload.moduleV2.UserTestAnswerFinisher;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.userTestAnswer.UserTestAnswerService;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/user-test-answer")
@@ -62,5 +66,11 @@ public class UserTestAnswerController {
                                     @PathVariable String courseTestId){
         TestResultDto res = service.calculateUserScore(studentUserId, courseTestId);
         return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/ai")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_TEACHER', 'ROLE_KAFEDRA')")
+    HttpEntity<?> ai(@RequestBody AiRequestDto dto) throws IOException {
+        return service.ai(dto);
     }
 }
