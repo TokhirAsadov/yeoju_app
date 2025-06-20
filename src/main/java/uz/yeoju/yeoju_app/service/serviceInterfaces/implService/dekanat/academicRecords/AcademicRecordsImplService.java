@@ -14,15 +14,18 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.entity.dekanat.AcademicRecords;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.repository.AcademicRecordsRepository;
+import uz.yeoju.yeoju_app.repository.UserRepository;
 
 import java.util.*;
 
 @Service
 public class AcademicRecordsImplService implements AcademicRecordsService{
     private final AcademicRecordsRepository academicRecordsRepository;
+    private final UserRepository userRepository;
 
-    public AcademicRecordsImplService(AcademicRecordsRepository academicRecordsRepository) {
+    public AcademicRecordsImplService(AcademicRecordsRepository academicRecordsRepository, UserRepository userRepository) {
         this.academicRecordsRepository = academicRecordsRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
