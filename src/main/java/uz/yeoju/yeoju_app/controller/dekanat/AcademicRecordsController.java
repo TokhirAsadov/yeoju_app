@@ -22,5 +22,14 @@ public class AcademicRecordsController {
         this.service = service;
     }
 
+    @PostMapping("/uploadAll")
+    @PreAuthorize("hasAnyRole('ROLE_DEKAN', 'ROLE_ADMIN', 'ROLE_TEACHER')")
+    public HttpEntity<?> uploadAll(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        System.out.println(" ----------------------------- 1 1 1 ------------------------ --");
+        ApiResponse apiResponse = service.saveRecords(request);
+        System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
 
 }
