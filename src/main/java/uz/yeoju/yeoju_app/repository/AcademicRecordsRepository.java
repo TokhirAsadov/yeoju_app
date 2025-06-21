@@ -13,6 +13,6 @@ public interface AcademicRecordsRepository extends JpaRepository<AcademicRecords
 
     @Query(value = "select u.id as userId, u.login from Student s\n" +
             "join users u on s.user_id = u.id\n" +
-            "where s.group_id=?1;",nativeQuery = true)
+            "where s.group_id=?;",nativeQuery = true)
     List<GetAllRecordsOfGroup> getAllRecordsByGroupId(String groupId);
 }
