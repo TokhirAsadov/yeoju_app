@@ -42,4 +42,10 @@ public class AcademicRecordsController {
         ApiResponse apiResponse = service.getRecordsByQaytRaqami(qaydRaqam);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
+
+    @GetMapping("/getAllRecordsByGroupId/{groupId}")
+    HttpEntity<?> getAllRecordsByGroupId(@CurrentUser User user, @PathVariable("groupId") String groupId) {
+        ApiResponse apiResponse = service.getAllRecordsByGroupId(groupId);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
 }
