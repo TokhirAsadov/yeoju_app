@@ -6,4 +6,5 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 public interface AcademicRecordsService {
     ApiResponse saveRecords(MultipartHttpServletRequest request);
     ApiResponse getRecordsByUserId(String userId);
+    ApiResponse getRecordsByQaytRaqami(String qaydRaqami);
 }
