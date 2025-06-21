@@ -37,5 +37,9 @@ public class AcademicRecordsController {
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
-
+    @GetMapping("/getRecordsByQaydRaqam/{qaydRaqam}")
+    HttpEntity<?> getRecordsByQaydRaqam(@CurrentUser User user, @PathVariable("qaydRaqam") String qaydRaqam) {
+        ApiResponse apiResponse = service.getRecordsByQaytRaqami(qaydRaqam);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
 }
