@@ -2,10 +2,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.dekanat.academi
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -18,6 +15,7 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.repository.AcademicRecordsRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -206,18 +204,34 @@ public class AcademicRecordsImplService implements AcademicRecordsService{
     }*/
 
 
-
     private String getCellStringValue(Cell cell) {
         if (cell == null) return null;
+
         switch (cell.getCellType()) {
             case STRING:
                 return cell.getStringCellValue().trim();
+
             case NUMERIC:
-                return String.valueOf((long) cell.getNumericCellValue()); // for IDs or dates as strings
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    // Excel date format: 6/20/2025 -> convert to yyyy-MM-dd
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    return sdf.format(cell.getDateCellValue());
+                } else {
+                    double val = cell.getNumericCellValue();
+                    // Agar butun son bo‘lsa: 123.0 -> "123"
+                    if (val == Math.floor(val)) {
+                        return String.valueOf((long) val);
+                    } else {
+                        return String.valueOf(val); // Masalan: 123.45
+                    }
+                }
+
             case BOOLEAN:
                 return String.valueOf(cell.getBooleanCellValue());
+
             case FORMULA:
                 return cell.getCellFormula();
+
             default:
                 return null;
         }
