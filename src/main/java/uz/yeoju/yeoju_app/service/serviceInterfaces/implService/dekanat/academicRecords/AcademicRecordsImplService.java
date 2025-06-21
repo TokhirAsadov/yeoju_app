@@ -6,22 +6,32 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.dekanat.AcademicRecords;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.repository.AcademicRecordsRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 @Service
 public class AcademicRecordsImplService implements AcademicRecordsService{
     private final AcademicRecordsRepository academicRecordsRepository;
     private final UserRepository userRepository;
+
+    static {
+        IOUtils.setByteArrayMaxOverride(200 * 1024 * 1024); // 200 MB limit
+    }
 
     public AcademicRecordsImplService(AcademicRecordsRepository academicRecordsRepository, UserRepository userRepository) {
         this.academicRecordsRepository = academicRecordsRepository;
@@ -42,7 +52,98 @@ public class AcademicRecordsImplService implements AcademicRecordsService{
         return null;
     }
 
+    @Override
+    public ApiResponse getRecordsByUserId(String userId) {
+        if (userRepository.existsById(userId)) {
+            User user = userRepository.getById(userId);
+            List<AcademicRecords> records = academicRecordsRepository.findAllByQaydRaqami(user.getLogin());
+            if (records.isEmpty()) {
+                return new ApiResponse(false, "No records found for user ID: " + userId);
+            }
+            return new ApiResponse(true, "Records found", records);
+        }
+        return new ApiResponse(false, "User not found with ID: " + userId);
+    }
+
+    @Override
+    public ApiResponse getRecordsByQaytRaqami(String qaydRaqami) {
+        List<AcademicRecords> records = academicRecordsRepository.findAllByQaydRaqami(qaydRaqami);
+        if (records.isEmpty()) {
+            return new ApiResponse(false, "No records found for qayd raqam: " + qaydRaqami);
+        }
+        return new ApiResponse(true, "Records found", records);
+    }
+
     @Transactional
+    public ApiResponse readDataFromExcel(MultipartFile file) {
+        String seeker = "";
+        try {
+            Workbook workbook = getWorkBook(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            rows.next(); // skip header
+
+            List<Row> rowList = new ArrayList<>();
+            while (rows.hasNext()) {
+                rowList.add(rows.next());
+            }
+
+            int threadCount = Runtime.getRuntime().availableProcessors(); // yoki Runtime.getRuntime().availableProcessors();
+            ExecutorService executor = Executors.newFixedThreadPool(threadCount);
+
+            List<Future<List<AcademicRecords>>> futures = new ArrayList<>();
+            int chunkSize = rowList.size() / threadCount + 1;
+
+            for (int i = 0; i < rowList.size(); i += chunkSize) {
+                int from = i;
+                int to = Math.min(i + chunkSize, rowList.size());
+
+                Callable<List<AcademicRecords>> task = () -> {
+                    List<AcademicRecords> records = new ArrayList<>();
+                    for (int j = from; j < to; j++) {
+                        Row row = rowList.get(j);
+                        AcademicRecords record = new AcademicRecords(
+                                getCellStringValue(row.getCell(0)),
+                                getCellStringValue(row.getCell(1)),
+                                getCellStringValue(row.getCell(2)),
+                                getCellStringValue(row.getCell(3)),
+                                getCellStringValue(row.getCell(4)),
+                                getCellStringValue(row.getCell(5)),
+                                getCellStringValue(row.getCell(6)),
+                                getCellStringValue(row.getCell(7)),
+                                getCellStringValue(row.getCell(8)),
+                                getCellStringValue(row.getCell(9)),
+                                getCellStringValue(row.getCell(10)),
+                                getCellIntegerValue(row.getCell(11)),
+                                getCellIntegerValue(row.getCell(12)),
+                                getCellIntegerValue(row.getCell(13)),
+                                getCellIntegerValue(row.getCell(14)),
+                                getCellIntegerValue(row.getCell(15))
+                        );
+                        records.add(record);
+                    }
+                    return records;
+                };
+
+                futures.add(executor.submit(task));
+            }
+
+            List<AcademicRecords> allRecords = new ArrayList<>();
+            for (Future<List<AcademicRecords>> future : futures) {
+                allRecords.addAll(future.get());
+            }
+
+            executor.shutdown();
+
+            academicRecordsRepository.saveAll(allRecords);
+            return new ApiResponse(true, "Multithreaded load complete. Total: " + allRecords.size());
+
+        } catch (Exception e) {
+            return new ApiResponse(false, "Xatolik: " + e.getMessage() + " --> " + seeker);
+        }
+    }
+
+   /* @Transactional
     public ApiResponse readDataFromExcel(MultipartFile file) {
         String seeker = "";
         try {
@@ -102,7 +203,7 @@ public class AcademicRecordsImplService implements AcademicRecordsService{
         } catch (Exception e) {
             return new ApiResponse(false, "Xatolik: " + e.getMessage() + " --> " + seeker);
         }
-    }
+    }*/
 
 
 
@@ -140,23 +241,27 @@ public class AcademicRecordsImplService implements AcademicRecordsService{
         }
     }
 
-
     private Workbook getWorkBook(MultipartFile file) {
-        Workbook workbook = null;
-        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-        try {
-            assert extension != null;
-            if (extension.equalsIgnoreCase("xlsx")){
-                workbook = new XSSFWorkbook(file.getInputStream());
-
-            } else if (extension.equalsIgnoreCase("xls")){
-                workbook = new HSSFWorkbook(file.getInputStream());
-
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("Fayl bo‘sh bo‘lmasligi kerak");
         }
-        return workbook;
+
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+        if (extension == null) {
+            throw new IllegalArgumentException("Fayl kengaytmasi aniqlanmadi");
+        }
+
+        try {
+            if (extension.equalsIgnoreCase("xlsx")) {
+                return new XSSFWorkbook(file.getInputStream());
+            } else if (extension.equalsIgnoreCase("xls")) {
+                return new HSSFWorkbook(file.getInputStream());
+            } else {
+                throw new IllegalArgumentException("Noto‘g‘ri fayl formati: ." + extension);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Excel faylni ochishda xatolik: " + e.getMessage(), e);
+        }
     }
 }
 /*public ApiResponse readDataFromExcel(MultipartFile file) {
