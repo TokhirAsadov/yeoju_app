@@ -12,7 +12,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.dekanat.AcademicRecords;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.GetAllRecordsOfGroup;
 import uz.yeoju.yeoju_app.repository.AcademicRecordsRepository;
+import uz.yeoju.yeoju_app.repository.GroupRepository;
 import uz.yeoju.yeoju_app.repository.UserRepository;
 
 import java.text.SimpleDateFormat;
@@ -26,14 +28,16 @@ import java.util.concurrent.Future;
 public class AcademicRecordsImplService implements AcademicRecordsService{
     private final AcademicRecordsRepository academicRecordsRepository;
     private final UserRepository userRepository;
+    private final GroupRepository groupRepository;
 
     static {
         IOUtils.setByteArrayMaxOverride(200 * 1024 * 1024); // 200 MB limit
     }
 
-    public AcademicRecordsImplService(AcademicRecordsRepository academicRecordsRepository, UserRepository userRepository) {
+    public AcademicRecordsImplService(AcademicRecordsRepository academicRecordsRepository, UserRepository userRepository, GroupRepository groupRepository) {
         this.academicRecordsRepository = academicRecordsRepository;
         this.userRepository = userRepository;
+        this.groupRepository = groupRepository;
     }
 
     @Override
@@ -70,6 +74,20 @@ public class AcademicRecordsImplService implements AcademicRecordsService{
             return new ApiResponse(false, "No records found for qayd raqam: " + qaydRaqami);
         }
         return new ApiResponse(true, "Records found", records);
+    }
+
+    @Override
+    public ApiResponse getAllRecordsByGroupId(String groupId) {
+        if (groupRepository.existsById(groupId)) {
+            System.out.println(groupId);
+            List<GetAllRecordsOfGroup> records = academicRecordsRepository.getAllRecordsByGroupId(groupId);
+            if (records.isEmpty()) {
+                return new ApiResponse(false, "No records found for group ID: " + groupId);
+            }
+            return new ApiResponse(true, "Records found", records);
+        } else {
+            return new ApiResponse(false, "Group not found with ID: " + groupId);
+        }
     }
 
     @Transactional
