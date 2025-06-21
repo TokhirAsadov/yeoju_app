@@ -31,5 +31,11 @@ public class AcademicRecordsController {
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
+    @GetMapping("/getRecordsByUserId/{userId}")
+    HttpEntity<?> getRecordsByUserId(@CurrentUser User user, @PathVariable("userId") String userId) {
+        ApiResponse apiResponse = service.getRecordsByUserId(userId);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
 
 }
