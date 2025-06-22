@@ -9,6 +9,6 @@ public interface GetAllRecordsOfGroup {
     String getUserId();
     String getLogin();
 
-    @Value("#{academicRecordsRepository.findAllByQaydRaqami(target.login)}")
+    @Value("#{@academicRecordsRepository.findAllByQaydRaqami(target.login)}")
     List<AcademicRecords> getRecords();
 }
