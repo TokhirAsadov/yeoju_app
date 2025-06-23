@@ -109,6 +109,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/bulim/**",
                         "/staff/**",
                         "/teacher/**",
+                        "/file/services/academic/**",
                         "/file/services/reference/**",
                         "/file/services/referral/**",
                         "/file/services/notice/**",
