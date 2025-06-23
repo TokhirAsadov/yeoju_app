@@ -41,5 +41,6 @@ public class UserTestAnswer extends AbsEntity {
     @Column(nullable = false)
     private boolean shouldBeDeleted = false;
 
+    private Integer score = 0;
 }
 
