@@ -19,6 +19,6 @@ public interface StudentSubjectsByEduYearIdAndGroupAndStudentId {
     @Value("#{@educationYearRepository.getTimesForRoomStatisticsByUserIdTimeNEW(target.studentId)}")
     Date getTime();
 
-    @Value("#{@educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(target.studentId,target.room,target.year,target.week,target.day,target.section)}")
+    @Value("#{@educationYearRepository.getTimesForRoomStatisticsByUserIdUnionNEW(target.studentId,target.room.indexOf(' ')>0 ? target.room.substring(0,target.room.indexOf(' ')) : target.room,target.year,target.week,target.day,target.section)}")
     Set<StudentsDynamicAttendance> getStatistics();
 }
