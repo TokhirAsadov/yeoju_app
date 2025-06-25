@@ -71,4 +71,14 @@ public class TestQuestionController {
         return ResponseEntity.status(res.isSuccess() ? 200 : 417)
                 .body(res);
     }
+
+    @GetMapping("/student-answers")
+    HttpEntity<?> getStudentCourseTestAnswers(
+            @RequestParam String testId,
+            @RequestParam String userId
+    ){
+        ApiResponse response = service.getStudentCourseTestAnswers(testId, userId);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 417)
+                .body(response);
+    }
 }
