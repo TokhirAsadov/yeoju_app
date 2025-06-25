@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TestQuestionAnswerDto {
+    private String userTestAnswerId; // UserTestAnswer ID
     private String questionId;
     private String questionText;
     private String type;
