@@ -4,11 +4,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.moduleV2.GiveScoreToWrittenUserAnswerDto;
 import uz.yeoju.yeoju_app.payload.moduleV2.TestQuestionCreator;
 import uz.yeoju.yeoju_app.payload.moduleV2.TestQuestionCreatorV2;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.testQuestion.TestQuestionService;
 
 @RestController
@@ -78,6 +82,17 @@ public class TestQuestionController {
             @RequestParam String userId
     ){
         ApiResponse response = service.getStudentCourseTestAnswers(testId, userId);
+        return ResponseEntity.status(response.isSuccess() ? 200 : 417)
+                .body(response);
+    }
+
+    @PutMapping("/giveScoreToWrittenUserAnswer")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_TEACHER')")
+    HttpEntity<?> giveScoreToWrittenUserAnswer(
+            @CurrentUser User user,
+            @RequestBody GiveScoreToWrittenUserAnswerDto dto
+    ){
+        ApiResponse response = service.giveScoreToWrittenUserAnswer(dto);
         return ResponseEntity.status(response.isSuccess() ? 200 : 417)
                 .body(response);
     }
