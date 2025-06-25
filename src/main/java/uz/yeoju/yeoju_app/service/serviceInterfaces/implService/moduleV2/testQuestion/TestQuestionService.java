@@ -14,4 +14,6 @@ public interface TestQuestionService {
     boolean deleteById(String testQuestionId);
     ApiResponse findTestQuestionsByCourseIdWithShuffledOptions(String courseId);
     ApiResponse findByCourseTestId(String courseTestId);
+
+    ApiResponse getStudentCourseTestAnswers(String testId, String studentId);
 }
