@@ -196,6 +196,7 @@ public class TestQuestionImplService implements TestQuestionService {
                     })
                     .collect(Collectors.toList());
 
+            String userTestAnswerId = null;
             String writtenAnswer = null;
             Boolean isCorrect = false;
             Integer score = 0;
@@ -203,6 +204,7 @@ public class TestQuestionImplService implements TestQuestionService {
 
             if (answerOpt.isPresent()) {
                 UserTestAnswer answer = answerOpt.get();
+                userTestAnswerId = answer.getId();
                 writtenAnswer = answer.getWrittenAnswer();
                 isCorrect = answer.isCorrect();
                 score = answer.getScore() != null ? answer.getScore() : 0;
@@ -210,6 +212,7 @@ public class TestQuestionImplService implements TestQuestionService {
             }
 
             result.add(new TestQuestionAnswerDto(
+                    userTestAnswerId,
                     question.getId(),
                     question.getQuestionText(),
                     question.getType().name(),
@@ -222,6 +225,21 @@ public class TestQuestionImplService implements TestQuestionService {
         }
 
         return new ApiResponse(true, "Student's course test answers with all options", result);
+    }
+
+    @Override
+    @Transactional
+    public ApiResponse giveScoreToWrittenUserAnswer(GiveScoreToWrittenUserAnswerDto dto) {
+        UserTestAnswer userTestAnswer = userTestAnswerRepository.findById(dto.getUserTestAnswerId())
+                .orElseThrow(() -> new RuntimeException("User Test Answer not found"));
+        if (userTestAnswer.getWrittenAnswer() == null || userTestAnswer.getWrittenAnswer().isEmpty()) {
+            return new ApiResponse(false, "User Test Answer has no written answer to score");
+        } else if (userTestAnswer.getScore() != null && !userTestAnswer.getCreatedBy().equals(userTestAnswer.getUpdatedBy())) {
+            return new ApiResponse(false, "User Test Answer already has a score");
+        } else {
+            userTestAnswer.setScore(dto.getScore());
+            return new ApiResponse(true, "Score given to User Test Answer", userTestAnswerRepository.save(userTestAnswer));
+        }
     }
 
 }
