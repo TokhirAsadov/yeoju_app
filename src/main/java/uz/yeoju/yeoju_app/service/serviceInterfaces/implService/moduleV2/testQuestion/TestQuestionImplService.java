@@ -3,13 +3,18 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.testQu
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uz.yeoju.yeoju_app.entity.User;
+import uz.yeoju.yeoju_app.entity.moduleV2.Test;
 import uz.yeoju.yeoju_app.entity.moduleV2.TestOption;
 import uz.yeoju.yeoju_app.entity.moduleV2.TestQuestion;
+import uz.yeoju.yeoju_app.entity.moduleV2.UserTestAnswer;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.moduleV2.*;
+import uz.yeoju.yeoju_app.repository.UserRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.CourseTestRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.TestOptionRepository;
 import uz.yeoju.yeoju_app.repository.moduleV2.TestQuestionRepository;
+import uz.yeoju.yeoju_app.repository.moduleV2.UserTestAnswerRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,11 +24,17 @@ public class TestQuestionImplService implements TestQuestionService {
     private final CourseTestRepository courseTestRepository;
     private final TestQuestionRepository testQuestionRepository;
     private final TestOptionRepository testOptionRepository;
+    private final CourseTestRepository testRepository;
+    private final UserRepository userRepository;
+    private final UserTestAnswerRepository userTestAnswerRepository;
 
-    public TestQuestionImplService(CourseTestRepository courseTestRepository, TestQuestionRepository testQuestionRepository, TestOptionRepository testOptionRepository) {
+    public TestQuestionImplService(CourseTestRepository courseTestRepository, TestQuestionRepository testQuestionRepository, TestOptionRepository testOptionRepository, CourseTestRepository testRepository, UserRepository userRepository, UserTestAnswerRepository userTestAnswerRepository) {
         this.courseTestRepository = courseTestRepository;
         this.testQuestionRepository = testQuestionRepository;
         this.testOptionRepository = testOptionRepository;
+        this.testRepository = testRepository;
+        this.userRepository = userRepository;
+        this.userTestAnswerRepository = userTestAnswerRepository;
     }
 
 
@@ -154,6 +165,63 @@ public class TestQuestionImplService implements TestQuestionService {
             );
         }).collect(Collectors.toSet());
         return new ApiResponse(true, "Test questions by course test id=" + courseTestId, collect);
+    }
+
+    @Override
+    public ApiResponse getStudentCourseTestAnswers(String testId, String studentId) {
+        Test test = testRepository.findById(testId)
+                .orElseThrow(() -> new RuntimeException("Test not found"));
+
+        User user = userRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<TestQuestionAnswerDto> result = new ArrayList<>();
+
+        for (TestQuestion question : test.getQuestions()) {
+            Optional<UserTestAnswer> answerOpt = userTestAnswerRepository.findByUserAndQuestion(user, question);
+
+            List<TestOptionDto> optionDtos = question.getOptions().stream()
+                    .map(option -> {
+                        boolean selected = answerOpt.isPresent() &&
+                                answerOpt.get().getSelectedOptions() != null &&
+                                answerOpt.get().getSelectedOptions().stream()
+                                        .anyMatch(opt -> opt.getId().equals(option.getId()));
+                        return new TestOptionDto(
+                                option.getId(),
+                                option.getText(),
+                                option.getCorrect(),
+                                option.getScore(),
+                                selected
+                        );
+                    })
+                    .collect(Collectors.toList());
+
+            String writtenAnswer = null;
+            Boolean isCorrect = false;
+            Integer score = 0;
+            Boolean teacherChecked = false;
+
+            if (answerOpt.isPresent()) {
+                UserTestAnswer answer = answerOpt.get();
+                writtenAnswer = answer.getWrittenAnswer();
+                isCorrect = answer.isCorrect();
+                score = answer.getScore() != null ? answer.getScore() : 0;
+                teacherChecked = !Objects.equals(answer.getCreatedBy(), answer.getUpdatedBy());
+            }
+
+            result.add(new TestQuestionAnswerDto(
+                    question.getId(),
+                    question.getQuestionText(),
+                    question.getType().name(),
+                    optionDtos,
+                    writtenAnswer,
+                    isCorrect,
+                    score,
+                    teacherChecked
+            ));
+        }
+
+        return new ApiResponse(true, "Student's course test answers with all options", result);
     }
 
 }
