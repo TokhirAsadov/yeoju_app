@@ -232,9 +232,9 @@ public class TestQuestionImplService implements TestQuestionService {
     public ApiResponse giveScoreToWrittenUserAnswer(GiveScoreToWrittenUserAnswerDto dto) {
         UserTestAnswer userTestAnswer = userTestAnswerRepository.findById(dto.getUserTestAnswerId())
                 .orElseThrow(() -> new RuntimeException("User Test Answer not found"));
-        if (userTestAnswer.getWrittenAnswer() == null || userTestAnswer.getWrittenAnswer().isEmpty()) {
+        /*if (userTestAnswer.getWrittenAnswer() == null || userTestAnswer.getWrittenAnswer().isEmpty()) {
             return new ApiResponse(false, "User Test Answer has no written answer to score");
-        } else if (userTestAnswer.getScore() != null && !userTestAnswer.getCreatedBy().equals(userTestAnswer.getUpdatedBy())) {
+        } else */if (userTestAnswer.getScore() != null && !userTestAnswer.getCreatedBy().equals(userTestAnswer.getUpdatedBy())) {
             return new ApiResponse(false, "User Test Answer already has a score");
         } else {
             userTestAnswer.setScore(dto.getScore());
