@@ -419,24 +419,54 @@ public class CourseImplService implements CourseService{
                         int attempted = 0;
                         int finalScore = 0;
 
+                        boolean teacherDidNotCheck = false;
+
                         for (TestQuestion question : questions) {
                             Optional<UserTestAnswer> userAnswerOpt = userTestAnswerRepository.findByUserAndQuestion(user, question);
                             if (userAnswerOpt.isPresent()) {
                                 attempted++;
                                 UserTestAnswer userTestAnswer = userAnswerOpt.get();
-                                if (userTestAnswer.isCorrect()) {
-                                    correctAnswers++;
-                                }
-                                for (int coreCount = 0; coreCount < userTestAnswer.getSelectedOptions().size(); coreCount++) {
-                                    if (userTestAnswer.getSelectedOptions().get(coreCount).getCorrect()) {
-                                        finalScore = finalScore + userTestAnswer.getSelectedOptions().get(coreCount).getScore();
+
+                                if (question.getType() == TestType.WRITTEN) {
+                                    // WRITTEN test uchun: agar createdBy == updatedBy bo‘lsa, hali teacher baholamagan
+                                    if (Objects.equals(userTestAnswer.getCreatedBy(), userTestAnswer.getUpdatedBy())) {
+                                        teacherDidNotCheck = true;
+                                        continue; // hisobga olmaymiz
+                                    }
+                                    finalScore += userTestAnswer.getScore() != null ? userTestAnswer.getScore() : 0;
+                                } else {
+                                    if (userTestAnswer.isCorrect()) {
+                                        correctAnswers++;
+                                    }
+                                    for (TestOption option : userTestAnswer.getSelectedOptions()) {
+                                        if (Boolean.TRUE.equals(option.getCorrect())) {
+                                            finalScore += option.getScore() != null ? option.getScore() : 0;
+                                        }
                                     }
                                 }
                             }
                         }
 
+
+//                        for (TestQuestion question : questions) {
+//                            Optional<UserTestAnswer> userAnswerOpt = userTestAnswerRepository.findByUserAndQuestion(user, question);
+//                            if (userAnswerOpt.isPresent()) {
+//                                attempted++;
+//                                UserTestAnswer userTestAnswer = userAnswerOpt.get();
+//                                if (userTestAnswer.isCorrect()) {
+//                                    correctAnswers++;
+//                                }
+//                                for (int coreCount = 0; coreCount < userTestAnswer.getSelectedOptions().size(); coreCount++) {
+//                                    if (userTestAnswer.getSelectedOptions().get(coreCount).getCorrect()) {
+//                                        finalScore = finalScore + userTestAnswer.getSelectedOptions().get(coreCount).getScore();
+//                                    }
+//                                }
+//                            }
+//                        }
+
                         double percent = totalQuestions > 0 ? (correctAnswers * 100.0 / totalQuestions) : 0.0;
 
+                        finalTestResultInfo.put("teacherDidNotCheck", teacherDidNotCheck);
                         finalTestResultInfo.put("courseTestId", finalTest.getId());
                         finalTestResultInfo.put("testTitle", finalTest.getTitle());
                         finalTestResultInfo.put("passingPercentage", finalTest.getPassingPercentage());
@@ -453,6 +483,8 @@ public class CourseImplService implements CourseService{
                         finalTestResultInfo.put("correctAnswers", 0);
                         finalTestResultInfo.put("percent", 0.0);
                         finalTestResultInfo.put("testCompleted", false);
+                        finalTestResultInfo.put("teacherDidNotCheck", true);
+
                     }
 
                     // O'qish counterini oshirish
@@ -641,7 +673,7 @@ public class CourseImplService implements CourseService{
         return new ApiResponse(true, "Courses with module progress", response);
     }*/
 
-    public ApiResponse getCourseProgressForGroup(String groupId, String courseId) {
+    /*public ApiResponse getCourseProgressForGroup(String groupId, String courseId) {
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new UserNotFoundException("Group not found"));
 
@@ -792,7 +824,207 @@ public class CourseImplService implements CourseService{
         }
 
         return new ApiResponse(true, "Course progress for group", responseList);
+    }*/
+
+    public ApiResponse getCourseProgressForGroup(String groupId, String courseId) {
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new UserNotFoundException("Group not found"));
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new UserNotFoundException("Course not found"));
+
+        List<Student> students = studentRepository.findAllByGroupId(groupId);
+        List<Module> modules = course.getModules().stream().sorted(Comparator.comparing(Module::getCreatedAt)).collect(Collectors.toList());
+        int totalModules = modules.size();
+
+        List<UserLessonModuleProgress> allProgress = userLessonModuleProgressRepository
+                .findAllByModuleInAndCompletedTrue(modules);
+
+        Set<String> completedMap = allProgress.stream()
+                .map(p -> p.getUser().getId() + "_" + p.getModule().getId())
+                .collect(Collectors.toSet());
+
+        List<TestQuestion> testQuestions = course.getFinalTest() != null ? course.getFinalTest().getQuestions() : Collections.emptyList();
+        List<UserTestAnswer> allTestAnswers = userTestAnswerRepository.findAllByQuestionIn(testQuestions);
+
+        Map<String, List<UserTestAnswer>> userAnswersMap = allTestAnswers.stream()
+                .collect(Collectors.groupingBy(ans -> ans.getUser().getId()));
+
+        List<StudentCourseProgressResponse> responseList = new ArrayList<>();
+
+        for (Student student : students) {
+            User user = student.getUser();
+            int doneModules = 0;
+
+            List<ModuleProgressResponse> moduleProgressList = new ArrayList<>();
+            for (Module module : modules) {
+                boolean isCompleted = completedMap.contains(user.getId() + "_" + module.getId());
+                if (isCompleted) doneModules++;
+
+                List<TopicFileOfLineV2Dto> topicFiles = topicFileOfLineV2Repository
+                        .findAllByModulesId(module.getId())
+                        .stream()
+                        .map(tf -> new TopicFileOfLineV2Dto(tf.getName(), tf.getFileType(), tf.getContentType(), tf.getPackageName()))
+                        .collect(Collectors.toList());
+
+                Test moduleTest = module.getModuleTest();
+                ModuleTestDto moduleTestDto = null;
+                Map<String, Object> testResultInfo = new HashMap<>();
+
+                if (moduleTest != null) {
+                    moduleTestDto = new ModuleTestDto(
+                            moduleTest.getId(),
+                            moduleTest.getTitle(),
+                            moduleTest.getQuestions() != null ? moduleTest.getQuestions().size() : 0
+                    );
+
+                    List<TestQuestion> questions = moduleTest.getQuestions();
+                    int totalQuestions = questions.size();
+                    int correctAnswers = 0;
+                    int attempted = 0;
+                    int moduleScore = 0;
+                    boolean teacherDidNotCheck = false;
+
+                    for (TestQuestion question : questions) {
+                        Optional<UserTestAnswer> answerOpt = userTestAnswerRepository.findByUserAndQuestion(user, question);
+                        if (answerOpt.isPresent()) {
+                            attempted++;
+                            UserTestAnswer userTestAnswer = answerOpt.get();
+
+                            if (question.getType() == TestType.WRITTEN) {
+                                if (Objects.equals(userTestAnswer.getCreatedBy(), userTestAnswer.getUpdatedBy())) {
+                                    teacherDidNotCheck = true;
+                                    continue;
+                                }
+                                moduleScore += userTestAnswer.getScore() != null ? userTestAnswer.getScore() : 0;
+                            } else {
+                                if (userTestAnswer.isCorrect()) {
+                                    correctAnswers++;
+                                }
+                                for (TestOption option : userTestAnswer.getSelectedOptions()) {
+                                    if (Boolean.TRUE.equals(option.getCorrect())) {
+                                        moduleScore += option.getScore() != null ? option.getScore() : 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    double percent = totalQuestions > 0 ? (correctAnswers * 100.0 / totalQuestions) : 0.0;
+
+                    testResultInfo.put("testId", moduleTest.getId());
+                    testResultInfo.put("testTitle", moduleTest.getTitle());
+                    testResultInfo.put("attemptedQuestions", attempted);
+                    testResultInfo.put("totalQuestions", totalQuestions);
+                    testResultInfo.put("correctAnswers", correctAnswers);
+                    testResultInfo.put("studentScore", moduleScore);
+                    testResultInfo.put("percent", Math.round(percent * 100.0) / 100.0);
+                    testResultInfo.put("testCompleted", attempted != 0);
+                    testResultInfo.put("teacherDidNotCheck", teacherDidNotCheck);
+                } else {
+                    testResultInfo.put("testTitle", "No test available");
+                    testResultInfo.put("attemptedQuestions", 0);
+                    testResultInfo.put("totalQuestions", 0);
+                    testResultInfo.put("correctAnswers", 0);
+                    testResultInfo.put("percent", 0.0);
+                    testResultInfo.put("testCompleted", false);
+                    testResultInfo.put("teacherDidNotCheck", false);
+                }
+
+                moduleProgressList.add(new ModuleProgressResponse(
+                        module.getId(),
+                        module.getTitle(),
+                        isCompleted,
+                        isCompleted ? "1/1" : "0/1",
+                        module.getTheme(),
+                        topicFiles,
+                        moduleTestDto,
+                        testResultInfo
+                ));
+            }
+
+            double progress = totalModules > 0 ? (doneModules * 100.0 / totalModules) : 0.0;
+            boolean canStartTest = totalModules > 0 && doneModules == totalModules;
+
+            Map<String, Object> testResultInfo = new HashMap<>();
+            if (canStartTest && !testQuestions.isEmpty()) {
+                List<UserTestAnswer> answers = userAnswersMap.getOrDefault(user.getId(), Collections.emptyList());
+
+                int total = testQuestions.size();
+                int attempted = 0;
+                int correct = 0;
+                int finalScore = 0;
+                boolean teacherDidNotCheck = false;
+
+                for (TestQuestion question : testQuestions) {
+                    Optional<UserTestAnswer> answerOpt = answers.stream()
+                            .filter(ans -> ans.getQuestion().getId().equals(question.getId()))
+                            .findFirst();
+
+                    if (answerOpt.isPresent()) {
+                        attempted++;
+                        UserTestAnswer answer = answerOpt.get();
+
+                        if (question.getType() == TestType.WRITTEN) {
+                            if (Objects.equals(answer.getCreatedBy(), answer.getUpdatedBy())) {
+                                teacherDidNotCheck = true;
+                                continue;
+                            }
+                            finalScore += answer.getScore() != null ? answer.getScore() : 0;
+                        } else {
+                            if (answer.isCorrect()) {
+                                correct++;
+                            }
+                            for (TestOption option : answer.getSelectedOptions()) {
+                                if (Boolean.TRUE.equals(option.getCorrect())) {
+                                    finalScore += option.getScore() != null ? option.getScore() : 0;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                double percent = total > 0 ? (correct * 100.0 / total) : 0.0;
+
+                boolean hasWrittenQuestions = testQuestions.stream()
+                        .anyMatch(q -> q.getType() == TestType.WRITTEN);
+
+                testResultInfo.put("testId", course.getFinalTest().getId());
+                testResultInfo.put("testTitle", course.getFinalTest().getTitle());
+                testResultInfo.put("attemptedQuestions", attempted);
+                testResultInfo.put("totalQuestions", total);
+                testResultInfo.put("correctAnswers", correct);
+                testResultInfo.put("studentFinalScore", finalScore);
+                testResultInfo.put("percent", Math.round(percent * 100.0) / 100.0);
+                testResultInfo.put("testCompleted", attempted != 0);
+                testResultInfo.put("teacherDidNotCheck", teacherDidNotCheck);
+                testResultInfo.put("hasWrittenQuestions", hasWrittenQuestions);
+            } else {
+                testResultInfo.put("testId", "");
+                testResultInfo.put("testTitle", "No test or not completed");
+                testResultInfo.put("attemptedQuestions", 0);
+                testResultInfo.put("totalQuestions", 0);
+                testResultInfo.put("correctAnswers", 0);
+                testResultInfo.put("percent", 0.0);
+                testResultInfo.put("testCompleted", false);
+                testResultInfo.put("teacherDidNotCheck", false);
+                testResultInfo.put("hasWrittenQuestions", false);
+            }
+
+            responseList.add(new StudentCourseProgressResponse(
+                    user.getId(),
+                    user.getFullName(),
+                    doneModules + "/" + totalModules,
+                    Math.round(progress * 100.0) / 100.0,
+                    moduleProgressList,
+                    canStartTest,
+                    testResultInfo
+            ));
+        }
+
+        return new ApiResponse(true, "Course progress for group", responseList);
     }
+
 
     @Override
     public ApiResponse getGroups(String facultyId, String courseId) {
