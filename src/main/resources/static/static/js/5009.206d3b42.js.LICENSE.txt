@@ -4,19 +4,9 @@
 
 /*! ./useEventCallback */
 
+/*! ../../gestures/use-pan-gesture.mjs */
+
 /*! ../internals/string-html-forced */
-
-/**
- * @license React
- * use-sync-external-store-shim.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-/*! ./defineProperty.js */
 
 /*! @mui/utils */
 
@@ -46,6 +36,8 @@
 
 /*! ../../hooks/utils/useGridRootProps */
 
+/*! lodash-es */
+
 /*! ../internals/is-object */
 
 /*! core-js/modules/es.string.iterator.js */
@@ -70,8 +62,6 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ./drag/utils/lock.mjs */
-
 /*! react/jsx-runtime */
 
 /*! ./dialogClasses */
@@ -92,9 +82,17 @@
 
 /*! ../../hooks/utils/useGridRootProps */
 
+/*! style-value-types */
+
 /*! ../../hooks/utils/useGridRootProps */
 
+/*! react-is */
+
 /*! clsx */
+
+/*! ../html/visual-element.mjs */
+
+/*! ../utils/is-browser.mjs */
 
 /*! ../columns/gridColumnsSelector */
 
@@ -118,6 +116,8 @@
 
 /*! @mui/material/utils */
 
+/*! popmotion */
+
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! react */
@@ -126,9 +126,9 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! ./createTransitions */
+/*! react */
 
-/*! ./utils/lock.mjs */
+/*! ./createTransitions */
 
 /*! ../../hooks/utils/useGridApiContext */
 
@@ -151,6 +151,8 @@
 
 /*! react */
 
+/*! ./numbers/units.mjs */
+
 /*! react */
 
 /*! @mui/material/utils */
@@ -169,27 +171,21 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ./utils/build-styles.mjs */
-
 /*! react/jsx-runtime */
 
 /*! @mui/material/styles */
 
-/*! clsx */
+/*! ../../utils/use-isomorphic-effect.mjs */
 
-/*! react */
+/*! clsx */
 
 /*! @babel/runtime/helpers/interopRequireDefault */
 
+/*! ../../utils/array.mjs */
+
 /*! ./Select */
 
-/*! ./src/Tokenizer.js */
-
 /*! @mui/material/styles */
-
-/*! style-value-types */
-
-/*! ./utils/create-render-state.mjs */
 
 /*! ./GridFilterInputMultipleValue */
 
@@ -199,9 +195,9 @@
 
 /*! @mui/material */
 
-/*! ../generateUtilityClass */
+/*! style-value-types */
 
-/*! ./animations/inertia.mjs */
+/*! ../generateUtilityClass */
 
 /*! ../utils/getBasePlacement.js */
 
@@ -215,21 +211,21 @@
 
 /*! @mui/utils */
 
-/*! ./type-int.mjs */
-
 /*! ./GridFooterPlaceholder */
 
 /*! ./math.js */
 
 /*! ../../core/pipeProcessing */
 
-/*! ../utils/use-constant.mjs */
-
 /*! ./FileUploadOutlined */
 
 /*! ./gridPaginationSelector */
 
 /*! ../internals/components/KeyboardDateInput */
+
+/*! ./TransitionGroup */
+
+/*! ./arrayWithHoles.js */
 
 /*! ../GlobalStyles */
 
@@ -244,6 +240,8 @@
 /*! ./zIndex */
 
 /*! react */
+
+/*! ../../gestures/drag/use-drag.mjs */
 
 /*! react/jsx-runtime */
 
@@ -287,11 +285,13 @@
 
 /*! @mui/utils */
 
-/*! ./components/AnimatePresence/index.mjs */
-
 /*! ./plugin/hyperlinks.js */
 
-/*! style-value-types */
+/*! hoist-non-react-statics */
+
+/*! parchment */
+
+/*! @babel/runtime/helpers/esm/toArray */
 
 /*! ../../constants/gridClasses */
 
@@ -301,13 +301,9 @@
 
 /*! ./ListSubheader */
 
-/*! parchment */
-
 /*! ../styles/useThemeProps */
 
 /*! ../generateUtilityClass */
-
-/*! ./progress.mjs */
 
 /*! ./colDef */
 
@@ -323,6 +319,8 @@
 
 /*! ../../hooks/utils/useGridRootProps */
 
+/*! ./utils/use-motion-ref.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../constants/gridClasses */
@@ -330,6 +328,8 @@
 /*! ../utils/useGridApiMethod */
 
 /*! clsx */
+
+/*! ../../../context/SwitchLayoutGroupContext.mjs */
 
 /*! ../../utils/useFirstRender */
 
@@ -343,11 +343,13 @@
 
 /*! @mui/utils */
 
+/*! ../../render/utils/variants.mjs */
+
 /*! ../../constants/gridClasses */
 
-/*! ./index.mjs */
-
 /*! ../internals/inspect-source */
+
+/*! ../../context/LayoutGroupContext.mjs */
 
 /*! ../ButtonBase */
 
@@ -357,7 +359,7 @@
 
 /*! ../internals/has */
 
-/*! ../events/event-info.mjs */
+/*! ./emitter.js */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -375,8 +377,6 @@
 
 /*! ./WrapperVariantContext */
 
-/*! ./config */
-
 /*! react/jsx-runtime */
 
 /*!********************************************************************!*\
@@ -387,15 +387,11 @@
   !*** ./node_modules/core-js/modules/web.dom-collections.iterator.js ***!
   \**********************************************************************/
 
-/*! tslib */
-
 /*! ../../../components/columnHeaders/GridColumnGroupHeader */
 
 /*! @mui/material/Unstable_TrapFocus */
 
 /*! ../utils/capitalize */
-
-/*! tslib */
 
 /*! ./dialogContentTextClasses */
 
@@ -409,9 +405,13 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! ../../../context/LayoutGroupContext.mjs */
+/*! ../../dom/value-types/get-as-type.mjs */
 
 /*! react */
+
+/*! ./instances.js */
+
+/*! ../dom/value-types/defaults.mjs */
 
 /*! react-dom */
 
@@ -419,7 +419,11 @@
 
 /*! ../generateUtilityClass */
 
+/*! ./utils.mjs */
+
 /*! ./useForkRef */
+
+/*! ./utils/variants.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -443,9 +447,9 @@
 
 /*! ../generateUtilityClass */
 
-/*! ./unit-conversion.mjs */
-
 /*! ./dialogActionsClasses */
+
+/*! ./utils/distance.mjs */
 
 /*! ../internals/components/wrappers/WrapperVariantContext */
 
@@ -453,15 +457,9 @@
 
 /*! ../internals/components/PickersArrowSwitcher */
 
-/*! react */
-
 /*! ./expandToHashMap.js */
 
-/*! ./utils/elapsed.mjs */
-
 /*! react */
-
-/*! ../../html/config-motion.mjs */
 
 /*! ./inputAdornmentClasses */
 
@@ -471,15 +469,17 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
+/*! ../../render/utils/types.mjs */
+
 /*! @mui/utils */
 
-/*! ./break.js */
-
 /*! react */
 
-/*! react */
+/*! ./utils/motion-values.mjs */
 
 /*! ./TableContainer */
+
+/*! ./utils/use-visual-element.mjs */
 
 /**
  * @mui/material v5.14.10
@@ -497,11 +497,15 @@
 
 /*! ../generateUtilityClass */
 
+/*! react */
+
 /*! react/jsx-runtime */
 
 /*! ./GridToolbarDensitySelector */
 
 /*! ./mergePaddingObject.js */
+
+/*! ./index.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -523,9 +527,13 @@
 
 /*! @mui/base/composeClasses */
 
+/*! ./utils/is-node-or-child.mjs */
+
 /*! ../generateUtilityClass */
 
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! ./hooks/useDispatch */
 
 /*! ./getFreshSideObject.js */
 
@@ -555,13 +563,13 @@
 
 /*! ./useGridApiInitialization */
 
-/*! ../components/Context */
-
 /*! ../generateUtilityClass */
 
 /*! es6-promise */
 
 /*! @mui/material/MenuItem */
+
+/*! react-dom */
 
 /*! ../generateUtilityClass */
 
@@ -571,13 +579,15 @@
 
 /*! ../../utils/useGridApiEventHandler */
 
-/*! ./pipe.mjs */
-
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../internals/fails */
 
+/*! ./module.js */
+
 /*! ../internals/is-object */
+
+/*! ../numbers/units.mjs */
 
 /*! @mui/base/FocusTrap */
 
@@ -599,19 +609,21 @@
 
 /*! ../enums.js */
 
-/*! ../../svg/config-motion.mjs */
+/*! ../styles/styled */
+
+/*! ../../render/utils/animation-state.mjs */
 
 /*! ../styles/styled */
 
-/*! ./render/dom/motion.mjs */
-
-/*! ../styles/styled */
+/*! ./selection.js */
 
 /*! ../columns/gridColumnsSelector */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! ../../projection/styles/scale-correction.mjs */
+/*! ./rgba.mjs */
+
+/*! ./src/Enum.js */
 
 /*! ../../hooks/utils/useGridRootProps */
 
@@ -632,8 +644,6 @@
 /*! ../columns/gridColumnsSelector */
 
 /*! react/jsx-runtime */
-
-/*! ./Context */
 
 /*! ../internals/hooks/useViews */
 
@@ -659,8 +669,6 @@
 
 /*! ../../../utils/utils */
 
-/*! ../core/module.js */
-
 /*! ../internals/has */
 
 /*! ../ButtonGroup/ButtonGroupButtonContext */
@@ -669,9 +677,7 @@
 
 /*! ../hooks/features/sorting/gridSortingUtils */
 
-/*! tslib */
-
-/*! ./transform.mjs */
+/*! style-value-types */
 
 /*!**************************************************!*\
   !*** ./node_modules/core-js/internals/shared.js ***!
@@ -685,15 +691,13 @@
 
 /*! ../FormControl/FormControlContext */
 
-/*! style-value-types */
-
 /*! ./params */
 
 /*! ../styles/useTheme */
 
-/*! ./typeof.js */
-
 /*! ./useGridLoggerFactory */
+
+/*! clsx */
 
 /*! ../styles/useThemeProps */
 
@@ -711,7 +715,7 @@
 
 /*! ./computeOffsets.js */
 
-/*! ../render/utils/types.mjs */
+/*! ../../context/PresenceContext.mjs */
 
 /*! ../utils/capitalize */
 
@@ -719,15 +723,9 @@
 
 /*! ./GridFilterInputValue */
 
-/*! ../gestures/utils/event-type.mjs */
-
-/*! ../utils/use-unmount-effect.mjs */
-
 /*! @mui/material/utils */
 
 /*! ../generateUtilityClass */
-
-/*! ./PresenceChild.mjs */
 
 /*! ../../hooks/utils/useGridRootProps */
 
@@ -743,34 +741,25 @@
 
 /*! ../internals/object-define-property */
 
+/*! ../../render/utils/types.mjs */
+
 /*!********************************************************!*\
   !*** ./node_modules/core-js/modules/es.object.keys.js ***!
   \********************************************************/
 
-/*! style-value-types */
+/*! popmotion */
 
 /*! ../../../hooks/utils/useGridRootProps */
-
-/** @license React v17.0.2
- * react-is.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
 
 /*! ../../hooks/utils/useGridRootProps */
 
 /*! ./AccordionDetails */
 
-/*! ../value/index.mjs */
-
 /*!*************************************************************************!*\
   !*** ./node_modules/core-js/internals/object-property-is-enumerable.js ***!
   \*************************************************************************/
 
-/*! framesync */
+/*! @babel/runtime/helpers/esm/objectSpread2 */
 
 /*! ../styles */
 
@@ -790,8 +779,6 @@
 
 /*! ./Op */
 
-/*! ./defaults.mjs */
-
 /*! ./gridClasses */
 
 /*! react */
@@ -804,9 +791,19 @@
 
 /*! ../internals/utils/warning */
 
-/*! ./models */
+/*! ./observers.mjs */
 
-/*! react */
+/**
+ * @license React
+ * react-is.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/*! ./models */
 
 /*! react */
 
@@ -818,17 +815,19 @@
 
 /*! ../../utils/useGridApiMethod */
 
+/*! ../geometry/delta-calc.mjs */
+
 /*! react-dom */
 
 /*! ./IconButton */
+
+/*! react */
 
 /*! ../../utils/keyboardUtils */
 
 /*! ../internals/fails */
 
 /*! clsx */
-
-/*! ./CSSTransition */
 
 /*! ../../hooks/utils/useGridApiContext */
 
@@ -840,25 +839,25 @@
 
 /*! ../../hooks/utils/useGridRootProps */
 
+/*! lodash/isEqual */
+
 /*! ../utils/expandToHashMap.js */
 
 /*! ../rows */
 
 /*! ./createStack */
 
+/*! react */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! @mui/material/utils */
-
-/*! hey-listen */
 
 /*! react */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! jspdf */
-
-/*! ../../gestures/use-focus-gesture.mjs */
 
 // ! moment.js locale configuration
 
@@ -870,6 +869,8 @@
 
 /*! ../../hooks/utils/useGridApiContext */
 
+/*! ./utils/constraints.mjs */
+
 /*! @mui/base/composeClasses */
 
 /*! @babel/runtime/helpers/slicedToArray */
@@ -880,7 +881,7 @@
 
 /*! react/jsx-runtime */
 
-/*! ../../utils/resolve-value.mjs */
+/*! framesync */
 
 /*! ../internals/create-non-enumerable-property */
 
@@ -902,8 +903,6 @@
 
 /*! ../../hooks/utils/useGridSelector */
 
-/*! ./DocumentProjectionNode.mjs */
-
 /*! ../../utils/createSvgIcon */
 
 /*! ../internals/hooks/usePickerState */
@@ -914,6 +913,8 @@
 
 /*! ../Fade */
 
+/*! @babel/runtime/helpers/esm/getPrototypeOf */
+
 /*! react */
 
 /*! ../internals/has */
@@ -922,13 +923,11 @@
 
 /*! ../utils/capitalize */
 
-/*! ./is-browser.mjs */
-
 /*! clsx */
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ./event-info.mjs */
+/*! ./Transition */
 
 /*! ./SvgIcon */
 
@@ -936,7 +935,11 @@
 
 /*! ../../constants/gridClasses */
 
+/*! ./utils/create-render-state.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! react */
 
 /**
  * @license
@@ -958,15 +961,13 @@
 
 /*! @mui/material/Tab */
 
-/*! ../utils.mjs */
+/*! ./utils/reflow */
 
 /*! ../../utils/EventManager */
 
 /*! ../styles/useThemeProps */
 
 /*! ../../hooks/utils/useGridApiContext */
-
-/*! @babel/runtime/helpers/esm/possibleConstructorReturn */
 
 /*! ./useValidation */
 
@@ -975,8 +976,6 @@
 /*!***********************************************************!*\
   !*** ./node_modules/core-js/internals/array-iteration.js ***!
   \***********************************************************/
-
-/*! ./emitter.js */
 
 /*! ../generateUtilityClass */
 
@@ -1004,6 +1003,8 @@
 
 /*! ../styles/styled */
 
+/*! hey-listen */
+
 /*! @mui/base/composeClasses */
 
 /*! ../styles/styled */
@@ -1018,8 +1019,6 @@
 
 /*! ./Chip */
 
-/*! ../../context/MotionContext/index.mjs */
-
 /*! ./filterPanelUtils */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
@@ -1029,6 +1028,8 @@
 /*! @emotion/serialize */
 
 /*! react/jsx-runtime */
+
+/*! ../render/utils/types.mjs */
 
 /*! ../hooks/features/filter/gridFilterSelector */
 
@@ -1056,11 +1057,13 @@
 
 /*! ./Clock */
 
+/*! tslib */
+
 /*! react/jsx-runtime */
 
-/*! ./logger.js */
-
 /*! ../internals/get-built-in */
+
+/*! ../../projection/utils/measure.mjs */
 
 /*! ./SnackbarContent */
 
@@ -1077,8 +1080,6 @@
 /*! ../Portal */
 
 /*! react/jsx-runtime */
-
-/*! ../svg/use-props.mjs */
 
 /*! ../internals/object-keys */
 
@@ -1112,7 +1113,7 @@
 
 /*! ../../constants/gridClasses */
 
-/*! tslib */
+/*! ./utils/createRegistryWithFormats.js */
 
 /*! react */
 
@@ -1144,21 +1145,25 @@
 
 /*! react */
 
+/*! tslib */
+
+/*! ./is-point.mjs */
+
 /*! react */
 
 /*! ./tabsClasses */
 
 /*! ./merge */
 
-/*! ../../../animation/utils/is-keyframes-target.mjs */
+/*! ../../motion/utils/use-visual-state.mjs */
+
+/*! ./use-is-mounted.mjs */
 
 /*! @mui/material */
 
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! react/jsx-runtime */
-
-/*! ../../html/utils/render.mjs */
 
 /*! ./unstable_useModal */
 
@@ -1170,6 +1175,8 @@
 
 /*! @mui/material/utils */
 
+/*! react */
+
 /*! react/jsx-runtime */
 
 /*! react */
@@ -1178,11 +1185,7 @@
 
 /*! react/jsx-runtime */
 
-/*! parchment */
-
 /*! ./PickersYear */
-
-/*! react */
 
 /*! ../Toolbar */
 
@@ -1194,17 +1197,19 @@
 
 /*! clsx */
 
+/*! ./components/AnimateSharedLayout.mjs */
+
 /*! react */
 
 /*! @babel/runtime/helpers/esm/extends */
-
-/*! ../utils.mjs */
 
 /*! ../PickersModalDialog */
 
 /*! ../styles/useThemeProps */
 
 /*! ./TextareaAutosize */
+
+/*! react */
 
 /*! react/jsx-runtime */
 
@@ -1214,8 +1219,6 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! ./utils/batch */
-
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! react */
@@ -1228,8 +1231,6 @@
 
 /*! react/jsx-runtime */
 
-/*! ../render/utils/types.mjs */
-
 /*! @mui/material/MenuList */
 
 /*! ../../../hooks/utils/useGridRootProps */
@@ -1238,19 +1239,19 @@
 
 /*! ../spacing */
 
-/*! ./transform.mjs */
+/*! use-sync-external-store/shim */
 
 /*! ../hooks/utils/useGridRootProps */
 
-/*! ./exports */
+/*! ../utils/use-unmount-effect.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../columns/gridColumnsSelector */
 
-/*! ./hsla-to-rgba.mjs */
-
 /*! ./getDocumentElement.js */
+
+/*! tslib */
 
 /*! ./tabsClasses */
 
@@ -1262,7 +1263,7 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! ./utils.mjs */
+/*! ../blots/break.js */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -1284,17 +1285,11 @@
 
 /*! @mui/system */
 
-/*! ../../utils/use-constant.mjs */
-
-/*! ./Context */
-
 /*! ../colors/green */
 
 /*! ./gridDateOperators */
 
 /*! ../DateTimePicker/shared */
-
-/*! ./number.mjs */
 
 /*! ../hooks/core/useGridInitialization */
 
@@ -1318,6 +1313,10 @@
 
 /*! ./GridRowCount */
 
+/*! ../PanSession.mjs */
+
+/*! ../blots/block.js */
+
 /*! ../focus/gridFocusStateSelector */
 
 /*! ../styles/useThemeProps */
@@ -1332,11 +1331,11 @@
 
 /*! ../rows/gridRowsMetaSelector */
 
-/*! ../numbers/index.mjs */
-
 /*! @mui/material/utils */
 
 /*! ../utils/time-utils */
+
+/*! tslib */
 
 /*! ./RadioButtonIcon */
 
@@ -1351,6 +1350,8 @@
 /*! ../internals/descriptors */
 
 /*! ../styles/useTheme */
+
+/*! tslib */
 
 /*! @mui/utils */
 
@@ -1368,8 +1369,6 @@
 
 /*! ../DatePicker/DatePickerToolbar */
 
-/*! ./type-auto.mjs */
-
 /*! @mui/material/styles */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
@@ -1379,6 +1378,8 @@
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+
+/*! ./useStore */
 
 /*! @mui/utils */
 
@@ -1390,11 +1391,11 @@
 
 /*! ./MobileDatePicker */
 
-/*! react */
-
 /*! ./useGridLogger */
 
 /*! @mui/material */
+
+/*! hey-listen */
 
 /*! ../internals/use-symbol-as-uid */
 
@@ -1402,15 +1403,15 @@
 
 /*! ./DialogContent */
 
-/*! ../../motion/features/gestures.mjs */
-
 /*! ./menuItemClasses */
-
-/*! ../../../projection/node/create-projection-node.mjs */
 
 /*! @mui/material */
 
+/*! ../../projection/node/group.mjs */
+
 /*! ../styles/styled */
+
+/*! ./setPrototypeOf.js */
 
 /*! ../components/panel/filterPanel/GridFilterInputMultipleValue */
 
@@ -1426,6 +1427,8 @@
 
 /*! ./gridRowsSelector */
 
+/*! react */
+
 /*! @mui/base/composeClasses */
 
 /*! @mui/utils */
@@ -1433,8 +1436,6 @@
 /*! ../styles/styled */
 
 /*! react */
-
-/*! tslib */
 
 /*! react */
 
@@ -1448,23 +1449,19 @@
 
 /*! stylis */
 
+/*! parchment */
+
 /*! ../hooks/features/dimensions/useGridDimensions */
 
 /*! ./useControlled */
 
 /*! @mui/material/utils */
 
-/*! ../utils/Subscription */
-
 /*! react */
 
-/*! ./src/Middleware.js */
-
-/*! react */
+/*! ./TransitionGroupContext */
 
 /*! @mui/utils */
-
-/*! tslib */
 
 /*! ../internals/create-non-enumerable-property */
 
@@ -1476,15 +1473,17 @@
 
 /*! @mui/system */
 
-/*! ./Utility.js */
+/*! ../numbers/index.mjs */
 
-/*! ../dom/utils/parse-dom-variant.mjs */
-
-/*! ../dom/value-types/animatable-none.mjs */
+/*! ../../animation/utils/is-animation-controls.mjs */
 
 /*! ../columns */
 
 /*! ../../../utils/keyboardUtils */
+
+/*! ../../motion/utils/is-forced-motion-value.mjs */
+
+/*! ./utils/reflow */
 
 /*! react */
 
@@ -1493,8 +1492,6 @@
 /*! ../internals/global */
 
 /*! @mui/material */
-
-/*! ./Tokenizer.js */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -1516,13 +1513,9 @@
 
 /*! ../internals/utils/utils */
 
-/*! @babel/runtime/helpers/esm/inheritsLoose */
-
-/*! ../../events/use-pointer-event.mjs */
+/*! react */
 
 /*! react/jsx-runtime */
-
-/*! ./text.js */
 
 /*! ../generateUtilityClass */
 
@@ -1544,6 +1537,8 @@
 
 /*! ../../../hooks/utils/useGridRootProps */
 
+/*! quill-delta */
+
 /*! react */
 
 /*! ../styles/styled */
@@ -1554,11 +1549,11 @@
 
 /*! ./utils/debounce.js */
 
+/*! ../../utils/use-reduced-motion.mjs */
+
 /*! ../ButtonBase */
 
 /*! ../utils/getScrollbarSize */
-
-/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ./ListContext */
 
@@ -1572,21 +1567,19 @@
 
 /*! ../internals/to-length */
 
-/*! ../lib */
-
-/*! react */
-
 /*! ./omitEventHandlers */
 
 /*! ../components/GridApiContext */
 
-/*! ./utils/create-config.mjs */
+/*! ./utils.mjs */
 
 /*! @mui/system */
 
 /*! @mui/styled-engine */
 
 /*! react */
+
+/*! react-dom */
 
 /*! ./Paper */
 
@@ -1602,19 +1595,17 @@
 
 /*! ../../hooks/utils/useGridApiContext */
 
-/*! ./easing.mjs */
-
 /*! @mui/material/Tooltip */
 
 /*! ../internals/object-get-own-property-names-external */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
+/*! ./inc.mjs */
+
 /*! ./paperClasses */
 
 /*! ../columns */
-
-/*! ../../components/AnimatePresence/use-presence.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -1626,13 +1617,9 @@
 
 /*! ../../utils/useGridLogger */
 
-/*! ../../../value/utils/is-motion-value.mjs */
-
 /*! ../../utils/utils */
 
 /*! ./GridColumnMenuContainer */
-
-/*! ./utils/velocity-per-second.mjs */
 
 /*! @mui/base/composeClasses */
 
@@ -1656,6 +1643,10 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
+/*! ../html/use-props.mjs */
+
+/*! react */
+
 /*!
  * @overview es6-promise - a tiny implementation of Promises/A+.
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
@@ -1664,15 +1655,13 @@
  * @version   v4.2.8+1e68dce6
  */
 
-/*! ../../utils/use-instant-transition-state.mjs */
-
-/*! ./is-point.mjs */
-
 /*! ../hooks/features/pagination/useGridPagination */
 
 /*! react-transition-group */
 
 /*! ./popperClasses */
+
+/*! dom-helpers/removeClass */
 
 /*! ../generateUtilityClasses */
 
@@ -1684,21 +1673,19 @@
   !*** ./node_modules/core-js/internals/native-weak-map.js ***!
   \***********************************************************/
 
+/*! ../utils.mjs */
+
 /*! react */
 
 /*! ../internals/to-length */
 
 /*! @mui/utils */
 
-/*! parchment */
-
 /*! ../internals/hooks/useUtils */
 
 /*! react */
 
 /*! ../filter/gridFilterSelector */
-
-/*! ./is-point-3d.mjs */
 
 /*! ../ButtonBase */
 
@@ -1722,8 +1709,6 @@
 
 /*! react/jsx-runtime */
 
-/*! ../../utils/is-ref-object.mjs */
-
 /*! ./tableBodyClasses */
 
 /*! core-js/modules/es.number.constructor.js */
@@ -1738,11 +1723,11 @@
 
 /*! ../rows/gridRowsMetaSelector */
 
+/*! ../events/use-dom-event.mjs */
+
 /*! @mui/material/Badge */
 
 /*! ../internal/svg-icons/ArrowDropDown */
-
-/*! @babel/runtime/helpers/esm/assertThisInitialized */
 
 /*! ./useThemeProps */
 
@@ -1751,6 +1736,8 @@
 /*! ./identifier */
 
 /*! ./useDateValidation */
+
+/*! ../context/MotionConfigContext.mjs */
 
 /*! ../styles/useThemeProps */
 
@@ -1768,6 +1755,8 @@
 
 /*! ./RadioGroup */
 
+/*! ../../context/LazyContext.mjs */
+
 /*! react/jsx-runtime */
 
 /*!*************************************************************!*\
@@ -1782,21 +1771,19 @@
 
 /*! ../internals/hooks/useUtils */
 
-/*! hey-listen */
-
 /*! ./generateUtilityClasses */
 
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! ../core/quill.js */
 
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../internals/array-includes */
 
-/*! react-is */
+/*! ../geometry/delta-apply.mjs */
 
 /*! ../Typography */
-
-/*! ../../../value/utils/is-motion-value.mjs */
 
 /*! ../internals/to-string-tag-support */
 
@@ -1806,15 +1793,15 @@
 
 /*! ./getNodeName.js */
 
-/*! ../../value/utils/is-motion-value.mjs */
-
 /*! ./createMixins */
+
+/*! ../../context/PresenceContext.mjs */
 
 /*! ../../../models/gridEditRowModel */
 
 /*! clsx */
 
-/*! hey-listen */
+/*! ./text.js */
 
 /*! @mui/material */
 
@@ -1826,11 +1813,11 @@
 
 /*! ./GridGenericColumnHeaderItem */
 
-/*! framesync */
-
 /*! react */
 
 /*! @mui/material */
+
+/*! ./index.js */
 
 /*! @mui/system */
 
@@ -1849,6 +1836,8 @@
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! @mui/base/ClassNameGenerator */
+
+/*! ./complex/filter.mjs */
 
 /*! @mui/material/IconButton */
 
@@ -1877,7 +1866,7 @@
 
 /*! @emotion/is-prop-valid */
 
-/*! react */
+/*! react-dom */
 
 /*! react/jsx-runtime */
 
@@ -1903,6 +1892,10 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
+/*! ../value/index.mjs */
+
+/*! ./complex/index.mjs */
+
 /*! ../../utils/createSvgIcon */
 
 /*! ../rows/gridRowsMetaSelector */
@@ -1923,8 +1916,6 @@
 
 /*! ./FormControlContext */
 
-/*! ./utils/pipe.mjs */
-
 /*! @mui/utils */
 
 /*! ./shadows */
@@ -1935,23 +1926,35 @@
 
 /*! ../../core/pipeProcessing */
 
+/*! popmotion */
+
+/*! ./PanSession.mjs */
+
+/*! ./arrayLikeToArray.js */
+
 /*! ../internals/to-integer */
 
 /*! ../FormHelperText */
+
+/*! tslib */
+
+/*! ./numbers/index.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! react/jsx-runtime */
 
-/*! ./Utility.js */
+/*! ../geometry/copy.mjs */
+
+/*! ./nonIterableRest.js */
 
 /*! @mui/material */
 
 /*! react/jsx-runtime */
 
-/*! ../../projection/node/HTMLProjectionNode.mjs */
-
 /*! ../utils.js */
+
+/*! ./on-next-frame.mjs */
 
 /*! ../../utils/utils */
 
@@ -1965,11 +1968,11 @@
 
 /*! @mui/utils */
 
-/*! tslib */
-
 /*! @mui/utils */
 
 /*! ../utils/capitalize */
+
+/*! ../shared/stack.mjs */
 
 /*! @mui/system */
 
@@ -1980,6 +1983,8 @@
  */
 
 /*! @mui/utils */
+
+/*! popmotion */
 
 /*! ./gridFilterUtils */
 
@@ -2000,9 +2005,13 @@
  * http://opensource.org/licenses/mit-license
  */
 
+/*! ../../context/SwitchLayoutGroupContext.mjs */
+
 /*! react/jsx-runtime */
 
 /*! ./gridRowsSelector */
+
+/*! ./unsupportedIterableToArray.js */
 
 /*! ./utils/createSvgIcon */
 
@@ -2018,17 +2027,11 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ./utils/is-svg-component.mjs */
+/*! tslib */
 
 /*! @mui/base/composeClasses */
 
-/*! ./arrayWithHoles.js */
-
 /*! @mui/base/unstable_useModal */
-
-/*! framesync */
-
-/*! @babel/runtime/helpers/esm/defineProperty */
 
 /*!****************************************************************************!*\
   !*** ./node_modules/core-js/internals/array-method-has-species-support.js ***!
@@ -2036,21 +2039,21 @@
 
 /*! @mui/utils */
 
-/*! lodash-es */
-
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+
+/*! ../lib */
 
 /*! ../styles/styled */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! ../geometry/models.mjs */
-
-/*! @babel/runtime/helpers/esm/inheritsLoose */
+/*! ../animation/utils/is-keyframes-target.mjs */
 
 /*! ../../utils/useGridApiEventHandler */
 
 /*! ../utils/capitalize */
+
+/*! tslib */
 
 /*! ../internals/export */
 
@@ -2072,8 +2075,6 @@
 
 /*! ../columnGrouping/useGridColumnGrouping */
 
-/*! ../utils/has-transform.mjs */
-
 /*! ../styles/styled */
 
 /*! ../../utils/createSvgIcon */
@@ -2082,11 +2083,15 @@
 
 /*! ../pagination */
 
+/*! ../../animation/utils/transitions.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! @mui/system */
 
 /*! ../useUtils */
+
+/*! quill */
 
 /*! react-dom */
 
@@ -2094,25 +2099,23 @@
 
 /*! ../internals/hooks/useUtils */
 
-/*! ../utils.mjs */
+/*! ../context/MotionConfigContext.mjs */
+
+/*! ./use-dom-event.mjs */
 
 /*! ./Slide */
 
 /*! ../../../utils/warning */
 
-/*! ../projection/node/id.mjs */
-
 /*! clsx */
-
-/*! ./setters.mjs */
-
-/*! ../../utils/use-constant.mjs */
 
 /*! react/jsx-runtime */
 
 /*! react/jsx-runtime */
 
 /*! ../utils/math.js */
+
+/*! ../../render/html/utils/transform.mjs */
 
 /*! @mui/material */
 
@@ -2124,31 +2127,29 @@
 
 /*! ./useMediaQuery */
 
-/*! react */
-
 /*! react/jsx-runtime */
 
 /*! ../internals/fails */
 
 /*! ./Avatar */
 
-/*! ../utils/has-transform.mjs */
-
 // ! moment.js locale configuration
+
+/*! ../../utils/subscription-manager.mjs */
 
 /*! react-transition-group */
 
-/*! ./variants.mjs */
+/*! ../blots/container.js */
 
 /*! ../hooks/utils/useGridVisibleRows */
 
 /*! @mui/material/Button */
 
-/*! ../../utils/use-force-update.mjs */
-
 /*! ../colors/orange */
 
 /*! ../rows/gridRowsSelector */
+
+/*! ./utils/create-render-state.mjs */
 
 /*! ./gridNumericColDef */
 
@@ -2156,13 +2157,11 @@
 
 /*! react/jsx-runtime */
 
-/*! ../../render/dom/utils/css-variables-conversion.mjs */
+/*! ../../motion/features/drag.mjs */
 
 /*! core-js/modules/es.object.keys.js */
 
 /*! lodash.clonedeep */
-
-/*! ./utils/build-attrs.mjs */
 
 /*! @babel/runtime/helpers/defineProperty */
 
@@ -2190,8 +2189,6 @@
 
 /*! ../styles/useThemeProps */
 
-/*! ./utils.mjs */
-
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! react/jsx-runtime */
@@ -2210,17 +2207,15 @@
 
 /*! @mui/material */
 
-/*! ./mix.mjs */
-
 /*! react/jsx-runtime */
-
-/*! ../utils/each-axis.mjs */
 
 /*! ../../utils/useGridLogger */
 
 /*! ../../hooks/useViews */
 
 /*! @mui/material/InputAdornment */
+
+/*! ./utils/camel-case-attrs.mjs */
 
 /*! clsx */
 
@@ -2234,21 +2229,19 @@
 
 /*! ../../models/gridEditRowModel */
 
-/*! ../dom/value-types/find.mjs */
+/*! react */
 
 /*! react */
 
 /*! ../hooks/utils/useGridSelector */
-
-/*! ../../events/event-info.mjs */
-
-/*! ../../render/utils/variants.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ./dateTimePickerToolbarClasses */
 
 /*! ../../../hooks/features/columns/gridColumnsSelector */
+
+/*! ./create-projection-node.mjs */
 
 /*! ./TableRow */
 
@@ -2257,8 +2250,6 @@
 /*! ../../hooks/utils/useGridRootProps */
 
 /*! ./useGridErrorHandler */
-
-/*! ../utils/interpolate.mjs */
 
 /*! ../internals/utils/defaultReduceAnimations */
 
@@ -2276,21 +2267,25 @@
 
 /*! react/jsx-runtime */
 
+/*! ../geometry/conversion.mjs */
+
 /*! @mui/utils */
 
 /*! ../../../utils/keyboardUtils */
 
-/*! ./variants.mjs */
+/*! ./hooks/useStore */
 
 /*! ../generateUtilityClass */
-
-/*! popmotion */
 
 /*! ../internals/utils/date-utils */
 
 /*! clsx */
 
+/*! ./utils.js */
+
 /*! ../../hooks/utils/useGridRootProps */
+
+/*! ../../animation/utils/transitions.mjs */
 
 /*! ../useTheme */
 
@@ -2299,8 +2294,6 @@
 /*! ../components/DataGridVirtualScroller */
 
 /*! react */
-
-/*! ../html/use-props.mjs */
 
 /*! ../internal/svg-icons/ReportProblemOutlined */
 
@@ -2313,6 +2306,8 @@
 /*! ../utils.js */
 
 /*! ./getScrollbarSize */
+
+/*! react */
 
 /*! react */
 
@@ -2336,6 +2331,8 @@
 
 /*! ./gridNumericOperators */
 
+/*! ./components/Context */
+
 /*! ../internals/global */
 
 /*! canvg */
@@ -2351,8 +2348,6 @@
 /*! ../internals/ie8-dom-define */
 
 /*! ../hooks/utils/useGridRootProps */
-
-/*! ./src/Utility.js */
 
 /*! ./useGridCellEditing.old */
 
@@ -2372,13 +2367,11 @@
 
 /*! @mui/material */
 
-/*! ./utils.mjs */
+/*! ./utils/lifecycles.mjs */
 
 /*! react/jsx-runtime */
 
-/*! dom-helpers/addClass */
-
-/*! tslib */
+/*! ./definitions.mjs */
 
 /*! ../../constants/gridClasses */
 
@@ -2388,11 +2381,11 @@
 
 /*! @mui/system */
 
+/*! ./components/connect */
+
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ../../events/use-dom-event.mjs */
-
-/*! ./pipe.mjs */
+/*! ../components/Context */
 
 /*! ./gridEditRowsSelector */
 
@@ -2408,21 +2401,13 @@
 
 /*! ./densitySelector */
 
-/*! react */
-
 /*! @mui/base */
 
 /*! ../internals/internal-state */
 
-/*! react */
-
 /*! ./nested */
 
 /*! ./rectToClientRect.js */
-
-/*! ./drag/utils/lock.mjs */
-
-/*! ../../html/utils/build-styles.mjs */
 
 /*! ./Badge */
 
@@ -2438,35 +2423,27 @@
 
 /*! ../InputBase/InputBase */
 
+/*! ../lib */
+
 /*! ../containers/GridMainContainer */
-
-/*! tslib */
-
-/*! ./break.js */
 
 /*! ./utils.js */
 
-/*! ../hooks/features/columnGrouping/useGridColumnGroupingPreProcessors */
+/*! react */
 
-/*! ../dom/value-types/defaults.mjs */
+/*! ../hooks/features/columnGrouping/useGridColumnGroupingPreProcessors */
 
 /*! ../internals/array-iteration */
 
-/*! ../cjs/use-sync-external-store-shim.production.min.js */
+/*! ../../utils/is-ref-object.mjs */
 
 /*! @mui/material */
 
 /*! ./skeletonClasses */
 
-/*! hey-listen */
-
 /*! clsx */
 
-/*! style-value-types */
-
 /*! ./MobileDatePicker */
-
-/*! tslib */
 
 /*! clsx */
 
@@ -2485,8 +2462,6 @@
 /*! @mui/material/Popper */
 
 /*! ./breakpoints */
-
-/*! ../use-render.mjs */
 
 /*! react/jsx-runtime */
 
@@ -2514,6 +2489,8 @@
 
 /*! ../dom-utils/getBoundingClientRect.js */
 
+/*! ../lib */
+
 /*! ./Grid */
 
 /*! ../internals/hooks/useUtils */
@@ -2523,6 +2500,8 @@
 /*! ./autocompleteClasses */
 
 /*! ../../utils/createSvgIcon */
+
+/*! react */
 
 /*! react/jsx-runtime */
 
@@ -2536,15 +2515,11 @@
 
 /*! ./gridColumnGroupsSelector */
 
-/*! ./color/rgba.mjs */
-
 /*! ./inputClasses */
 
 /*! ./Typography */
 
 /*! @mui/material/utils */
-
-/*! ../../utils/use-is-mounted.mjs */
 
 /*! react/jsx-runtime */
 
@@ -2558,6 +2533,8 @@
 
 /*! ../columns/gridColumnsSelector */
 
+/*! ./mix-complex.mjs */
+
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ../internal/svg-icons/CheckBoxOutlineBlank */
@@ -2570,23 +2547,23 @@
 
 /*! ./TableBody */
 
+/*! style-value-types */
+
 /*! ../utils/isMuiElement */
 
 /*! ../generateUtilityClass */
-
-/*! ../../dom/value-types/number.mjs */
-
-/*! ./rgba.mjs */
 
 /*! ../components/GridNoResultsOverlay */
 
 /*! @mui/material/Typography */
 
+/*! react */
+
 /*! ../models/gridEditRowModel */
 
-/*! ../utils/useEnhancedEffect */
+/*! ../../utils/shallow-compare.mjs */
 
-/*! sheetjs (C) 2013-present SheetJS -- http://sheetjs.com */
+/*! ../utils/useEnhancedEffect */
 
 /*! ./GridOverlay */
 
@@ -2598,13 +2575,9 @@
 
 /*! ./GridNoRowsOverlay */
 
-/*! ./is-motion-value.mjs */
-
 /*! @mui/utils */
 
 /*! ./InputAdornment */
-
-/*! ../../projection/utils/each-axis.mjs */
 
 /*! react */
 
@@ -2619,10 +2592,6 @@
 /*! ../internals/object-create */
 
 /*! react */
-
-/*! popmotion */
-
-/*! @babel/runtime/helpers/esm/assertThisInitialized */
 
 /*! ./virtualization/GridVirtualScroller */
 
@@ -2652,6 +2621,8 @@
 
 /*! ./isTableElement.js */
 
+/*! @babel/runtime/helpers/esm/inherits */
+
 /*! ../styles/useThemeProps */
 
 /*! ../Table/Tablelvl2Context */
@@ -2664,25 +2635,23 @@
 
 /*! ../internals/global */
 
+/*! ../utils/subscription-manager.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ./getComputedStyle.js */
 
-/*! ./test.mjs */
-
 /*! react-is */
-
-/*! ./Transition */
-
-/*! parchment */
 
 /*! ./Tabs */
 
+/*! style-value-types */
+
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ./menuItemClasses */
+/*! react */
 
-/*! ../../value/index.mjs */
+/*! ./menuItemClasses */
 
 /*! ../internals/array-for-each */
 
@@ -2702,6 +2671,8 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
+/*! ./default-transitions.mjs */
+
 /*! react */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
@@ -2710,17 +2681,15 @@
 
 /*! @mui/material */
 
-/*! clsx */
+/*! ../formats/table.js */
 
-/*! ../cjs/use-sync-external-store-shim/with-selector.production.min.js */
+/*! clsx */
 
 /*! ./skeletonClasses */
 
 /*! react */
 
 /*! @babel/runtime/helpers/esm/extends */
-
-/*! ../value-types/dimensions.mjs */
 
 /*! ../styles/styled */
 
@@ -2735,6 +2704,8 @@
 /*! @mui/material/utils */
 
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! ./easing/cubic-bezier.mjs */
 
 /*! @mui/material */
 
@@ -2754,11 +2725,11 @@
 
 /*! ../ButtonBase */
 
+/*! ../lib */
+
 /*!******************************************************************!*\
   !*** ./node_modules/core-js/internals/object-define-property.js ***!
   \******************************************************************/
-
-/*! ../blots/cursor.js */
 
 /*! @mui/material/utils */
 
@@ -2768,7 +2739,7 @@
 
 /*! ../components/cell/GridEditInputCell */
 
-/*! ./is-keyframes-target.mjs */
+/*! ../../motion/index.mjs */
 
 /*! ./virtualization/GridVirtualScrollerRenderZone */
 
@@ -2790,11 +2761,9 @@
 
 /*! ../Paper */
 
-/*! ../blots/block.js */
-
 /*! react/jsx-runtime */
 
-/*! use-sync-external-store/shim */
+/*! tslib */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -2814,6 +2783,10 @@
   !*** ./node_modules/core-js/internals/set-global.js ***!
   \******************************************************/
 
+/*! style-value-types */
+
+/*! react */
+
 /*! react */
 
 /*! ./GridSelectedRowCount */
@@ -2832,8 +2805,6 @@
 
 /*! ../internals/is-object */
 
-/*! ./utils/progress.mjs */
-
 /*! ./DialogContext */
 
 /*! ../../../components/toolbar/GridToolbarExport */
@@ -2844,21 +2815,19 @@
 
 /*! ./getNodeName.js */
 
+/*! ./is-svg-component.mjs */
+
 /*! ../utils.js */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! ./cjs/react-is.production.min.js */
-
 /*! ./TextField */
 
-/*! ../events/use-pointer-event.mjs */
-
-/*! hey-listen */
-
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! react */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -2875,6 +2844,8 @@
 /*! react */
 
 /*! ../../core/strategyProcessing */
+
+/*! ./index.mjs */
 
 /*! ../../constants/gridClasses */
 
@@ -2893,6 +2864,8 @@
 /*! react */
 
 /*! @mui/material/styles */
+
+/*! parchment */
 
 /*! react */
 
@@ -2928,15 +2901,13 @@
 
 /*! ../../../constants */
 
-/*! ../../utils/is-zero-value-string.mjs */
-
 /*! ./menuClasses */
 
 /*! @mui/base */
 
-/*! ../../utils/useGridLogger */
+/*! ../../projection/geometry/conversion.mjs */
 
-/*! ../../../projection/styles/scale-correction.mjs */
+/*! ../../utils/useGridLogger */
 
 /*! react/jsx-runtime */
 
@@ -2944,9 +2915,9 @@
 
 /*! @mui/base */
 
-/*! ../internals/object-define-property */
+/*! popmotion */
 
-/*! react */
+/*! ../internals/object-define-property */
 
 /*! react */
 
@@ -2958,13 +2929,11 @@
 
 /*! ../generateUtilityClass */
 
-/*! style-value-types */
-
 /*! ./utils/createSvgIcon */
 
-/*! react/jsx-runtime */
+/*! ../animation/mix-values.mjs */
 
-/*! ../html/utils/transform.mjs */
+/*! react/jsx-runtime */
 
 /*! @mui/utils */
 
@@ -2982,11 +2951,17 @@
 
 /*! ../internals/fails */
 
+/*! react */
+
 /*! ../../hooks/utils/useGridApiContext */
 
 /*! ../internals/regexp-flags */
 
+/*! ./logger.js */
+
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! ./utils/build-styles.mjs */
 
 /*! @mui/utils */
 
@@ -3002,15 +2977,13 @@
 
 /*! ../Fade */
 
+/*! popmotion */
+
 /*! ./NotchedOutline */
 
 /*! ../internals/array-species-create */
 
 /*! ../../utils/keyboardUtils */
-
-/*! style-value-types */
-
-/*! ./utils/reactBatchedUpdates */
 
 /*! ./useGridRegisterStrategyProcessor */
 
@@ -3024,17 +2997,17 @@
 
 /*! ../../../utils/warning */
 
+/*! ../../utils/use-unmount-effect.mjs */
+
 /*! @mui/material */
 
 /*! ../internals/object-property-is-enumerable */
-
-/*! react */
 
 /*! clsx */
 
 /*! react/jsx-runtime */
 
-/*! react */
+/*! ../html/utils/transform.mjs */
 
 /*! ../FormControl/useFormControl */
 
@@ -3051,8 +3024,6 @@
 /*! react/jsx-runtime */
 
 /*! ../internals/to-string */
-
-/*! ./utils/scrape-motion-values.mjs */
 
 /*! ../FormControl */
 
@@ -3080,15 +3051,19 @@
   !*** ./node_modules/core-js/internals/is-array.js ***!
   \****************************************************/
 
-/*! react */
-
 /*! @mui/system */
+
+/*! tslib */
 
 /*! ./formatMuiErrorMessage */
 
 /*! ../../hooks/utils/useGridRootProps */
 
+/*! ../../utils/array.mjs */
+
 /*! ../internal/svg-icons/FirstPage */
+
+/*! ../geometry/delta-apply.mjs */
 
 /*! ./chainPropTypes */
 
@@ -3098,15 +3073,13 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! ../../projection/geometry/delta-calc.mjs */
+/*! quill-delta */
 
 /*!***********************************************!*\
   !*** ./node_modules/core-js/internals/has.js ***!
   \***********************************************/
 
 /*! ./unsupportedProp */
-
-/*! react */
 
 /*! ../internals/object-get-prototype-of */
 
@@ -3122,15 +3095,15 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ./utils.js */
+/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ../hooks/features/columnHeaders/useGridColumnHeaders */
-
-/*! ../../dom/utils/camel-to-dash.mjs */
 
 /*!************************************************!*\
   !*** ./node_modules/core-js/internals/html.js ***!
   \************************************************/
+
+/*! ../../utils/is-ref-object.mjs */
 
 /*! ../styles/useThemeProps */
 
@@ -3147,6 +3120,8 @@
 /*! ../SnackbarContent */
 
 /*! react/jsx-runtime */
+
+/*! style-value-types */
 
 /*! ./Tooltip */
 
@@ -3168,8 +3143,6 @@
 
 /*! ./columnMenu */
 
-/*! ./getFetch.cjs */
-
 /*! ../generateUtilityClass */
 
 /*! ./getWindowScroll.js */
@@ -3182,7 +3155,11 @@
 
 /*! ./FocusTrap */
 
+/*! ../events/use-pointer-event.mjs */
+
 /*! ../../core/pipeProcessing */
+
+/*! ./utils/mix.mjs */
 
 /*! @mui/material/utils */
 
@@ -3194,8 +3171,6 @@
 
 /*! react/jsx-runtime */
 
-/*! ./mix-color.mjs */
-
 /*! ../../utils/useGridApiEventHandler */
 
 /*! ./useFocusManagement */
@@ -3203,8 +3178,6 @@
 /*! ../../utils/useGridLogger */
 
 /*! ../styles/useThemeProps */
-
-/*! framesync */
 
 /*! ./typographyClasses */
 
@@ -3214,8 +3187,6 @@
 
 /*! react */
 
-/*! ./delta-apply.mjs */
-
 /*! ./defaultGridSlotsComponents */
 
 /*! ../utils/capitalize */
@@ -3223,8 +3194,6 @@
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ./dom-utils/instanceOf.js */
-
-/*! popmotion */
 
 /*! ./getWindowScrollBarX.js */
 
@@ -3237,6 +3206,8 @@
 /*! ../breakpoints */
 
 /*! react-dom */
+
+/*! ../../html/utils/transform.mjs */
 
 /*! ./DataGrid */
 
@@ -3256,7 +3227,7 @@
 
 /*! ./clockClasses */
 
-/*! ../value/utils/is-motion-value.mjs */
+/*! ../../utils/use-isomorphic-effect.mjs */
 
 /*! ../../hooks/features/preferencesPanel/gridPreferencePanelsValue */
 
@@ -3284,12 +3255,6 @@
 
 /*! @mui/material/Dialog */
 
-/*! tslib */
-
-/*! ./nonIterableRest.js */
-
-/*! ./utils/transform.mjs */
-
 /*! @mui/material/IconButton */
 
 /*! @mui/utils */
@@ -3297,6 +3262,8 @@
 /*! react */
 
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! tslib */
 
 /*! ../pagination/gridPaginationSelector */
 
@@ -3336,13 +3303,13 @@
 
 /*! react/jsx-runtime */
 
+/*! ./utils/scrape-motion-values.mjs */
+
 /*! ./SortGridMenuItems */
 
 /*!***********************************************************************!*\
   !*** ./node_modules/core-js/internals/copy-constructor-properties.js ***!
   \***********************************************************************/
-
-/*! ./use-constant.mjs */
 
 /*! ../../hooks/utils/useGridRootProps */
 
@@ -3352,13 +3319,7 @@
 
 /*! clsx */
 
-/*! ../svg/visual-element.mjs */
-
-/*! ./array.mjs */
-
 /*! @babel/runtime/helpers/esm/extends */
-
-/*! ./unsupportedIterableToArray.js */
 
 /*! ./Checkbox */
 
@@ -3374,9 +3335,9 @@
 
 /*! ./useSlotProps */
 
-/*! ../internals/object-get-own-property-descriptor */
+/*! ../../value/index.mjs */
 
-/*! ../../projection/utils/measure.mjs */
+/*! ../internals/object-get-own-property-descriptor */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -3394,15 +3355,13 @@
 
 /*! ../internals/descriptors */
 
-/*! ../../html/utils/scrape-motion-values.mjs */
-
 /*! ../../../utils/keyboardUtils */
 
 /*! ../internals/indexed-object */
 
-/*! clsx */
+/*! ./emitter.js */
 
-/*! ./index.mjs */
+/*! clsx */
 
 /*! @mui/material/styles */
 
@@ -3416,11 +3375,9 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! ../../utils/resolve-value.mjs */
-
 /*! ../styles/useThemeProps */
 
-/*! react */
+/*! ./components/Provider */
 
 /*! ../internals/well-known-symbol */
 
@@ -3432,9 +3389,13 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! @mui/material */
+/*! ../geometry/delta-remove.mjs */
 
-/*! react */
+/*! ../../svg/lowercase-elements.mjs */
+
+/*! tslib */
+
+/*! @mui/material */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -3448,6 +3409,8 @@
 
 /*! ../internals/object-assign */
 
+/*! ./text.js */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! @babel/runtime/helpers/esm/extends */
@@ -3455,8 +3418,6 @@
 /*! ./getParentNode.js */
 
 /*! ./dividerClasses */
-
-/*! ../../animation/utils/is-keyframes-target.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -3488,6 +3449,8 @@
 
 /*! @babel/runtime/helpers/createClass */
 
+/*! ../../value/utils/resolve-motion-value.mjs */
+
 /*! ../internals/array-method-has-species-support */
 
 /*! @mui/base/composeClasses */
@@ -3504,6 +3467,8 @@
 
 /*! ./Menu */
 
+/*! ./utils/filter-props.mjs */
+
 /*! react */
 
 /*! react-transition-group */
@@ -3512,13 +3477,9 @@
 
 /*! @mui/utils */
 
-/*! eventemitter3 */
-
 /*!*****************************************************!*\
   !*** ./node_modules/core-js/internals/an-object.js ***!
   \*****************************************************/
-
-/*! ./Utility.js */
 
 /*! ./appendOwnerState */
 
@@ -3544,8 +3505,6 @@
 
 /*! @mui/material/styles */
 
-/*! react */
-
 /*! ./extractEventHandlers */
 
 /*! @babel/runtime/helpers/esm/extends */
@@ -3565,8 +3524,6 @@
 /*! core-js/modules/es.object.keys.js */
 
 /*! ../styleFunctionSx/defaultSxConfig */
-
-/*! ./instances.js */
 
 /*! ../ButtonBase */
 
@@ -3602,13 +3559,19 @@
 
 /*! ./GridSelectedRowCount */
 
+/*! react-dom */
+
 /*! clsx */
 
 /*! react */
 
+/*! ./utils/render.mjs */
+
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! core-js/modules/es.object.to-string.js */
+
+/*! ./utils/build-attrs.mjs */
 
 /*! @mui/material/Chip */
 
@@ -3618,17 +3581,13 @@
 
 /*! react */
 
-/*! ./utils.mjs */
+/*! ./css-variables-conversion.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
-
-/*! popmotion */
 
 /*! react */
 
 /*! ./Alert */
-
-/*! react */
 
 /*! react/jsx-runtime */
 
@@ -3638,6 +3597,8 @@
 
 /*! ./RadioGroupContext */
 
+/*! ../styles/transform.mjs */
+
 /*! react */
 
 /*! @babel/runtime/helpers/esm/extends */
@@ -3646,15 +3607,13 @@
 
 /*! ../rows/gridRowsUtils */
 
+/*! ./clamp.mjs */
+
 /*! ./base */
 
 /*! ../../../constants/gridClasses */
 
 /*! ../styles/useThemeProps */
-
-/*! ./motion-proxy.mjs */
-
-/*! ./MeasureLayout.mjs */
 
 /*! ./MobileDateTimePicker */
 
@@ -3668,9 +3627,11 @@
 
 /*! react */
 
+/*! react */
+
 /*! ./utils/createSvgIcon */
 
-/*! react */
+/*! tslib */
 
 /*! ./compose */
 
@@ -3684,13 +3645,15 @@
 
 /*! react */
 
+/*! ../lib */
+
 /*! ../internals/to-object */
+
+/*! ./build-transform.mjs */
 
 /*! ./GridPanelWrapper */
 
 /*! @mui/utils */
-
-/*! ./iconContext */
 
 /*! @mui/material/styles */
 
@@ -3706,7 +3669,11 @@
 
 /*! ../../../hooks/utils/useGridApiContext */
 
+/*! react */
+
 /*! ../dom-utils/getWindow.js */
+
+/*! parchment */
 
 /*! react/jsx-runtime */
 
@@ -3726,11 +3693,7 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! shallowequal */
-
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
-
-/*! ../events/use-pointer-event.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -3742,13 +3705,13 @@
 
 /*! ../../utils/useGridLogger */
 
+/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+
 /*! ../../hooks/features/filter/gridFilterSelector */
 
 /*! ./getThemeProps */
 
 /*! ./snackbarClasses */
-
-/*! ../../value/utils/is-motion-value.mjs */
 
 /*! react */
 
@@ -3772,13 +3735,11 @@
 
 /*! ./inputLabelClasses */
 
-/*! popmotion */
-
 /*! ./createChainedFunction */
 
 /*! ../internals/array-method-has-species-support */
 
-/*! ./inc.mjs */
+/*! ./path.mjs */
 
 /*! react/jsx-runtime */
 
@@ -3789,8 +3750,6 @@
 /*! clsx */
 
 /*! ../internals/well-known-symbol */
-
-/*! ../components/Context */
 
 /*! ../enums.js */
 
@@ -3804,11 +3763,9 @@
 
 /*! clsx */
 
-/*! ../../utils/use-id.mjs */
-
 /*! react */
 
-/*! ../context/LayoutGroupContext.mjs */
+/*! ./compare-by-depth.mjs */
 
 /*! ../../utils/keyboardUtils */
 
@@ -3817,6 +3774,10 @@
 /*! ../internals/to-string-tag-support */
 
 /*! @mui/material/styles */
+
+/*! ./hsla.mjs */
+
+/*! ../utils.mjs */
 
 /*! @mui/utils */
 
@@ -3834,6 +3795,8 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
+/*! tslib */
+
 /*! @mui/utils */
 
 /*! ../../core/pipeProcessing */
@@ -3848,17 +3811,17 @@
 
 /*! ../useThemeWithoutDefault */
 
-/*! ../utils.mjs */
+/*! ./Utility.js */
 
 /*! ../FormControl/useFormControl */
 
 /*! @mui/material/utils */
 
-/*! ../../utils/use-constant.mjs */
-
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../styles/useThemeProps */
+
+/*! ./color/hsla.mjs */
 
 /*! ./useGridRegisterPipeProcessor */
 
@@ -3868,11 +3831,13 @@
 
 /*! ./SelectInput */
 
+/*! ./easing/index.mjs */
+
 /*! @emotion/utils */
 
 /*! ../internals/to-indexed-object */
 
-/*! use-sync-external-store/shim/with-selector */
+/*! ./color/index.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -3947,6 +3912,8 @@
 
 /*! ../../hooks/features/columns/gridColumnsSelector */
 
+/*! ./dimensions.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../styles/styled */
@@ -3961,9 +3928,9 @@
 
 /*! @mui/material/FormControl */
 
-/*! ./camel-case-attrs.mjs */
-
 /*! @mui/material/utils */
+
+/*! ./features/use-projection.mjs */
 
 /*! ../utils.js */
 
@@ -3981,7 +3948,13 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
+/*! ./create-visual-element.mjs */
+
+/*! tslib */
+
 /*! ./CardContent */
+
+/*! ../geometry/utils.mjs */
 
 /*! @mui/utils */
 
@@ -3995,15 +3968,23 @@
 
 /*! react */
 
+/*! ../numbers/index.mjs */
+
+/*! ../dom/utils/is-css-variable.mjs */
+
 /*! clsx */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+
+/*! ./src/Parser.js */
 
 /*! @mui/material/utils */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! ../utils/setters.mjs */
+/*! tslib */
+
+/*! ../../animation/utils/is-animation-controls.mjs */
 
 /*! ./snackbarContentClasses */
 
@@ -4015,11 +3996,11 @@
 
 /*! @mui/material */
 
+/*! tslib */
+
 /*! @mui/base/composeClasses */
 
 /*! @mui/material */
-
-/*! ../../context/PresenceContext.mjs */
 
 /*! react */
 
@@ -4027,7 +4008,7 @@
 
 /*! ./getNodeName.js */
 
-/*! ../../animation/utils/transitions.mjs */
+/*! ./setPrototypeOf.js */
 
 /*! @mui/material/Typography */
 
@@ -4039,7 +4020,7 @@
 
 /*! ./tabScrollButtonClasses */
 
-/*! ./animations/index.mjs */
+/*! ./editor.js */
 
 /*! ../internals/hooks/validation/useDateValidation */
 
@@ -4051,15 +4032,11 @@
 
 /*! react/jsx-runtime */
 
-/*! react */
-
-/*! ../utils/useIsomorphicLayoutEffect */
-
 /*! react/jsx-runtime */
 
-/*! react/jsx-runtime */
+/*! ../../utils/use-force-update.mjs */
 
-/*! framesync */
+/*! react/jsx-runtime */
 
 /*! ./listItemTextClasses */
 
@@ -4079,6 +4056,8 @@
 
 /*! ../hooks/features/filter/useGridFilter */
 
+/*! ./useReduxContext */
+
 /*! @mui/material */
 
 /*! @babel/runtime/helpers/esm/extends */
@@ -4089,7 +4068,7 @@
 
 /*! ../sorting/gridSortingSelector */
 
-/*! style-value-types */
+/*! react */
 
 /*! ../generateUtilityClass */
 
@@ -4119,19 +4098,11 @@
 
 /*! ../generateUtilityClass */
 
-/*! ./assertThisInitialized.js */
-
-/*! ./theme.js */
-
 /*! ../generateUtilityClass */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ./useTheme */
-
-/*! ../../gestures/use-tap-gesture.mjs */
-
-/*! ./logger.js */
 
 /*! ../utils/capitalize */
 
@@ -4141,9 +4112,11 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ../../utils/subscription-manager.mjs */
-
 /*! @emotion/styled */
+
+/*! ../generators/spring.mjs */
+
+/*! tslib */
 
 /*! ./gridStringColDef */
 
@@ -4173,9 +4146,9 @@
 
 /*! ./useEnhancedEffect */
 
-/*! @babel/runtime/helpers/esm/extends */
+/*! ./iterableToArrayLimit.js */
 
-/*! style-value-types */
+/*! @babel/runtime/helpers/esm/extends */
 
 /*! @babel/runtime/helpers/interopRequireDefault */
 
@@ -4193,6 +4166,8 @@
 
 /*! ./plugin/jspdf-plugin.js */
 
+/*! ../../context/LazyContext.mjs */
+
 /*! ./drawerClasses */
 
 /*! ../createTheme */
@@ -4201,7 +4176,7 @@
 
 /*! ../internals/to-primitive */
 
-/*! ../utils/is-browser.mjs */
+/*! ../utils/velocity-per-second.mjs */
 
 /*!*****************************************************************!*\
   !*** ./node_modules/core-js/internals/ordinary-to-primitive.js ***!
@@ -4215,15 +4190,13 @@
 
 /*! ../internals/global */
 
-/*! ./utils/event-type.mjs */
-
 /*! ../components/panel/filterPanel/GridFilterInputValue */
 
 /*! ../hooks/features/density/useGridDensity */
 
-/*! @mui/material */
+/*! parchment */
 
-/*! ../../context/LayoutGroupContext.mjs */
+/*! @mui/material */
 
 /*! react */
 
@@ -4241,7 +4214,9 @@
 
 /*! ./alertTitleClasses */
 
-/*! ./utils/detect-animation-from-options.mjs */
+/*! @babel/runtime/helpers/esm/typeof */
+
+/*! ../../projection/geometry/models.mjs */
 
 /*! ../lib/createDetectElementResize */
 
@@ -4265,11 +4240,11 @@
 
 /*! ./Zoom */
 
-/*! ../utils.mjs */
-
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! react */
+
+/*! ./utils/scrollRectIntoView.js */
 
 /*! @mui/base/composeClasses */
 
@@ -4281,15 +4256,17 @@
 
 /*! ./PickersDay */
 
-/*! @mui/material/styles */
+/*! ./create-projection-node.mjs */
 
-/*! ./typeof.js */
+/*! @mui/material/styles */
 
 /*! @mui/material */
 
 /*! ../internals/to-object */
 
 /*! ../styles/styled */
+
+/*! ./batch */
 
 /*! react/jsx-runtime */
 
@@ -4311,7 +4288,11 @@
 
 /*! ./gridColumnsSelector */
 
+/*! ./components/connect */
+
 /*! ./FormHelperText */
+
+/*! ../context/MotionConfigContext.mjs */
 
 /*! ../icons/index */
 
@@ -4319,21 +4300,17 @@
 
 /*! @mui/material/Popper */
 
-/*! tslib */
-
 /*! ../hooks/features/statePersistence/useGridStatePersistence */
 
 /*! ../generateUtilityClass */
 
 /*! react/jsx-runtime */
 
-/*! ../html/visual-element.mjs */
+/*! ./utils/scrape-motion-values.mjs */
 
 /*! ../internals/shared */
 
 /*! ./listItemClasses */
-
-/*! ../../../projection/styles/scale-box-shadow.mjs */
 
 /*! react */
 
@@ -4347,19 +4324,21 @@
   !*** ./node_modules/core-js/internals/object-to-string.js ***!
   \************************************************************/
 
-/*! react/jsx-runtime */
+/*! ../utils/useIsomorphicLayoutEffect */
+
+/*! ./utils/render.mjs */
 
 /*! react/jsx-runtime */
+
+/*! ./hooks/useSelector */
+
+/*! react/jsx-runtime */
+
+/*! ./composition.js */
 
 /*! @mui/material/Paper */
 
-/*! @emotion/is-prop-valid */
-
 /*! @babel/runtime/helpers/esm/extends */
-
-/*! ../styles/scale-correction.mjs */
-
-/*! ../../gestures/use-hover-gesture.mjs */
 
 /*! @babel/runtime/helpers/esm/classCallCheck */
 
@@ -4373,11 +4352,15 @@
 
 /*! ../generateUtilityClass */
 
+/*! tslib */
+
 /*! @mui/base/composeClasses */
 
 /*! ./LocalizationProvider */
 
 /*! ./pickersToolbarTextClasses */
+
+/*! ../../dom/utils/is-css-variable.mjs */
 
 /*! ../internals/inherit-if-required */
 
@@ -4411,6 +4394,8 @@
 
 /*! ../DatePicker/shared */
 
+/*! ../context/MotionContext/index.mjs */
+
 /*! ../../constants/gridClasses */
 
 /*! ./TableContext */
@@ -4429,13 +4414,9 @@
 
 /*! @mui/utils */
 
-/*! ./create-render-step.mjs */
-
 /*! ../focus/gridFocusStateSelector */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
-
-/*! ./toPrimitive.js */
 
 /*! react/jsx-runtime */
 
@@ -4447,11 +4428,13 @@
 
 /*! ../../constants/gridClasses */
 
+/*! react */
+
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! @babel/runtime/helpers/esm/extends */
+/*! tslib */
 
-/*! @emotion/stylis */
+/*! @babel/runtime/helpers/esm/extends */
 
 /*! ./utils/orderModifiers.js */
 
@@ -4481,6 +4464,8 @@
 
 /*! ./gridStringColDef */
 
+/*! ../../html/utils/create-render-state.mjs */
+
 /** @license
    * Copyright (c) 2017 Dominik Homberger
   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -4492,13 +4477,13 @@
 
 /*! ../utils/within.js */
 
+/*! ../../utils/is-numerical-string.mjs */
+
 /*! react/jsx-runtime */
 
 /*! @mui/material/IconButton */
 
-/*! ../events/use-pointer-event.mjs */
-
-/*! react */
+/*! ./test.mjs */
 
 /*! clsx */
 
@@ -4524,19 +4509,11 @@
 
 /*! ./orange */
 
-/*! ./color/hex.mjs */
-
-/*! ../generators/decay.mjs */
-
-/*! ./text.js */
-
 /*! react/jsx-runtime */
 
 /*! react/jsx-runtime */
 
 /*! @babel/runtime/helpers/esm/extends */
-
-/*! style-value-types */
 
 /*! ../internals/hidden-keys */
 
@@ -4546,11 +4523,15 @@
 
 /*! ./getVariation.js */
 
+/*! ../value/utils/is-motion-value.mjs */
+
 /*! react */
 
 /*! ../styles/useThemeProps */
 
 /*! ../FormControl/formControlState */
+
+/*! ../../motion/utils/use-visual-state.mjs */
 
 /*! ./gridSingleSelectColDef */
 
@@ -4572,13 +4553,15 @@
 
 /*! ../internals/object-to-string */
 
-/*! quill-delta */
+/*! hoist-non-react-statics */
 
 /*! ./GridIconButtonContainer */
 
 /*! ../utils/useControlled */
 
 /*! ../internals/has */
+
+/*! ./animation.mjs */
 
 /*! react */
 
@@ -4590,15 +4573,11 @@
 
 /*! ../utils/utils */
 
-/*! ../utils/make-renderless-component.mjs */
-
 /*! ../generateUtilityClass */
 
 /*! ./listSubheaderClasses */
 
-/*! style-value-types */
-
-/*! tslib */
+/*! ./features/definitions.mjs */
 
 /*! react */
 
@@ -4612,17 +4591,27 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
+/*! parchment */
+
 /*! ../Divider */
 
+/*! tslib */
+
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+
+/*! ../../context/PresenceContext.mjs */
 
 /*!********************************************************************!*\
   !*** ./node_modules/core-js/internals/require-object-coercible.js ***!
   \********************************************************************/
 
+/*! ./utils/build-attrs.mjs */
+
 /*! ./FormControlLabel */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+
+/*! ./iconContext */
 
 /*! ../internals/add-to-unscopables */
 
@@ -4636,11 +4625,20 @@
 
 /*! clsx */
 
+/*! ./utils/VisualElementHandler.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../internal/svg-icons/SuccessOutlined */
 
 /*! ../utils/useControlled */
+
+/*!
+ * Quill Editor v1.3.7
+ * https://quilljs.com/
+ * Copyright (c) 2014, Jason Chen
+ * Copyright (c) 2013, salesforce.com
+ */
 
 /*! ../internals/hooks/validation/useDateValidation */
 
@@ -4652,13 +4650,15 @@
 
 /*! ../internals/indexed-object */
 
+/*! ./useReduxContext */
+
 /*! ./instanceOf.js */
+
+/*! ../lib */
 
 /*! ./breakpoints */
 
 /*! ./tableRowClasses */
-
-/*! ../blots/embed.js */
 
 /*! react/jsx-runtime */
 
@@ -4678,16 +4678,6 @@
 
 /*! react/jsx-runtime */
 
-/**
- * @license React
- * use-sync-external-store-shim/with-selector.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../internals/well-known-symbol */
@@ -4696,17 +4686,19 @@
   !*** ./node_modules/core-js/internals/indexed-object.js ***!
   \**********************************************************/
 
-/*! ../../utils/resolve-value.mjs */
-
 /*! ../utils */
 
 /*! ../../hooks/utils/useGridApiContext */
 
-/*! ../components/Context */
+/*! ../../context/MotionContext/index.mjs */
+
+/*! ./is-browser.mjs */
 
 /*! ./GridFilterInputMultipleSingleSelect */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+
+/*! @babel/runtime/helpers/esm/extends */
 
 /*! ../../utils/keyboardUtils */
 
@@ -4730,11 +4722,15 @@
 
 /*! ./Modal */
 
+/*! ./toPropertyKey.js */
+
 /*! ../Paper */
 
 /*!********************************************************!*\
   !*** ./node_modules/core-js/internals/get-built-in.js ***!
   \********************************************************/
+
+/*! ../context/MotionContext/create.mjs */
 
 /*! ./GridColumnHeaderSortIcon */
 
@@ -4744,7 +4740,11 @@
 
 /*! ../FormGroup */
 
+/*! ./objectWithoutPropertiesLoose.js */
+
 /*! ./filterPanelUtils */
+
+/*! ./toPropertyKey.js */
 
 /*! ../styles/styled */
 
@@ -4753,6 +4753,8 @@
 /*! ./FormControl */
 
 /*! ./identifier */
+
+/*! @emotion/unitless */
 
 /*! ../internals/correct-prototype-getter */
 
@@ -4770,6 +4772,8 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
+/*! ./is-animatable.mjs */
+
 /*! ./gridBooleanOperators */
 
 /*! ../../../utils/warning */
@@ -4784,17 +4788,19 @@
 
 /*! ../utils/ownerWindow */
 
-/*! react */
-
 /*! ../internals/shared-store */
 
 /*! @mui/material/utils */
+
+/*! tslib */
 
 /*! ../internals/object-get-own-property-descriptor */
 
 /*! ./GridPagination */
 
 /*! react */
+
+/*! tslib */
 
 /*! @babel/runtime/helpers/typeof */
 
@@ -4812,8 +4818,6 @@
 
 /*! @mui/utils */
 
-/*! ../../../motion/utils/is-forced-motion-value.mjs */
-
 /*! ./useFirstRender */
 
 /*! ./MenuList */
@@ -4826,9 +4830,9 @@
 
 /*! @mui/system */
 
-/*! ../rows/gridRowsSelector */
+/*! cross-fetch */
 
-/*! tslib */
+/*! ../rows/gridRowsSelector */
 
 /*! @mui/material/Badge */
 
@@ -4852,8 +4856,6 @@
 
 /*! ../List/ListContext */
 
-/*! ./hooks/useSelector */
-
 /*! ./ListItemIcon */
 
 /*! ./columnHeaders */
@@ -4861,6 +4863,8 @@
 /*! ../utils/ownerDocument */
 
 /*! ./isHostComponent */
+
+/*! lodash-es */
 
 /*! ./pickersArrowSwitcherClasses */
 
@@ -4879,6 +4883,8 @@
 /*! ../hooks/useUtils */
 
 /*! ./gridEditCellParams */
+
+/*! tslib */
 
 /*! ../SvgIcon */
 
@@ -4906,15 +4912,11 @@
 
 /*! @mui/material/styles */
 
-/*! ./create-projection-node.mjs */
-
 /*! ../ButtonBase */
 
 /*! react */
 
 /*! ../utils/detectOverflow.js */
-
-/*! ../../motion/features/animations.mjs */
 
 /*! ./gridBooleanColDef */
 
@@ -4923,8 +4925,6 @@
 /*! ./switchClasses */
 
 /*! ./useGridStrategyProcessing */
-
-/*! react */
 
 /*! ../../core/pipeProcessing */
 
@@ -4936,11 +4936,11 @@
 
 /*! ../internals/array-method-has-species-support */
 
-/*! ./request.js */
-
 /*! ../../../utils/warning */
 
 /*! core-js/modules/es.object.to-string.js */
+
+/*! ../generators/keyframes.mjs */
 
 /*! ../../../hooks/utils/useGridRootProps */
 
@@ -4954,11 +4954,15 @@
 
 /*! @mui/material/utils */
 
+/*! popmotion */
+
 /*! ../filter/gridFilterSelector */
 
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../hooks/utils/useGridRootProps */
+
+/*! ../color/index.mjs */
 
 /*! ../../../hooks/utils/useGridApiContext */
 
@@ -4966,13 +4970,13 @@
 
 /*! ../styles/useThemeProps */
 
+/*! ../../utils/clamp.mjs */
+
 /*! @mui/system */
 
 /*! @mui/material */
 
 /*! @babel/runtime/helpers/esm/createClass */
-
-/*! ../dom/utils/camel-to-dash.mjs */
 
 /*! ../internals/require-object-coercible */
 
@@ -4981,10 +4985,6 @@
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../constants/gridClasses */
-
-/*! ../index.mjs */
-
-/*! ../../animation/animate.mjs */
 
 /*! react */
 
@@ -4998,15 +4998,11 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ../utils/make-renderless-component.mjs */
-
 /*! ./SortGridMenuItems */
 
 /*! react/jsx-runtime */
 
 /*! ../styles/styled */
-
-/*! ./mix.mjs */
 
 /*! ../hooks/features/density/densitySelector */
 
@@ -5018,15 +5014,25 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
+/**
+ * @license React
+ * use-sync-external-store-shim.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 /*! ./PickersToolbarText */
 
 /*! core-js/modules/es.array.concat.js */
 
+/*! ./defineProperty.js */
+
 /*! @mui/material/InputLabel */
 
 /*! @babel/runtime/helpers/esm/extends */
-
-/*! style-value-types */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -5058,19 +5064,11 @@
 
 /*! react/jsx-runtime */
 
-/*! ./utils/animation-state.mjs */
-
 /*! ./useGridPage */
 
 /*! ../utils/utils */
 
 /*! ../internals/a-function */
-
-/*! ../utils/useSyncExternalStore */
-
-/*! ../../../motion/utils/valid-prop.mjs */
-
-/*! hey-listen */
 
 /*! ../../core/pipeProcessing */
 
@@ -5078,9 +5076,7 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! ../lib */
-
-/*! ./utils/transitions.mjs */
+/*! ./drag/utils/lock.mjs */
 
 /*! ../generateUtilityClass */
 
@@ -5121,6 +5117,8 @@
 
 /*! @mui/base */
 
+/*! ./utils/lock.mjs */
+
 /*! ../../utils/useGridLogger */
 
 /*! @emotion/react */
@@ -5135,10 +5133,6 @@
 
 /*! ./defaultSxConfig */
 
-/*! ./utils/ChildMapping */
-
-/*! @babel/runtime/helpers/esm/extends */
-
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ./dialogTitleClasses */
@@ -5149,15 +5143,13 @@
 
 /*! ../internals/to-integer */
 
+/*! ./utils/build-styles.mjs */
+
 /*! ../internals/define-iterator */
 
 /*! react/jsx-runtime */
 
-/*! ./utils/event-type.mjs */
-
 /*! reselect */
-
-/*! ../../../render/utils/types.mjs */
 
 /*! ./GlobalStyles */
 
@@ -5173,9 +5165,15 @@
 
 /*! react/jsx-runtime */
 
+/*! react */
+
 /*! @mui/utils */
 
 /*! ../../hooks/utils/useGridRootProps */
+
+/*! ./src/Tokenizer.js */
+
+/*! style-value-types */
 
 /*! ../hooks/features/columnGrouping/useGridColumnGrouping */
 
@@ -5187,7 +5185,7 @@
 
 /*! ./isLayoutViewport.js */
 
-/*! ./TransitionGroupContext */
+/*! ./utils/create-render-state.mjs */
 
 /*!***************************************************************!*\
   !*** ./node_modules/core-js/modules/es.symbol.description.js ***!
@@ -5198,6 +5196,8 @@
 /*! ../styles/useThemeProps */
 
 /*! ../FormControl/useFormControl */
+
+/*! ./animations/inertia.mjs */
 
 /*! ./Typography */
 
@@ -5211,8 +5211,6 @@
 
 /*! ../../hooks/utils/useGridRootProps */
 
-/*! ../../../projection/geometry/delta-calc.mjs */
-
 /*! ../hooks/features/rows/useGridRowsPreProcessors */
 
 /*! ../hooks/utils/useGridRootProps */
@@ -5225,23 +5223,19 @@
 
 /*! react/jsx-runtime */
 
-/*! ./iconBase */
+/*! ./type-int.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! clsx */
+/*! ../utils/use-constant.mjs */
 
-/*! ./Enum.js */
+/*! clsx */
 
 /*! @mui/utils */
 
 /*! react */
 
 /*! ../../utils/createSvgIcon */
-
-/*! ../../utils/use-constant.mjs */
-
-/*! react */
 
 /*! ./GridFooterContainer */
 
@@ -5289,6 +5283,8 @@
 
 /*! ./clockNumberClasses */
 
+/*! ./components/AnimatePresence/index.mjs */
+
 /*! ../internals/to-string */
 
 /*! ../../utils/useGridLogger */
@@ -5299,9 +5295,9 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! ./types.mjs */
-
 /*! react/jsx-runtime */
+
+/*! style-value-types */
 
 /*! @mui/material/MenuItem */
 
@@ -5321,11 +5317,7 @@
 
 /*! ../../../models/gridFeatureMode */
 
-/*! ../utils/find-spring.mjs */
-
 /*! ../InputBase */
-
-/*! quill-delta */
 
 /*! @mui/material/utils */
 
@@ -5339,6 +5331,8 @@
 
 /*! react */
 
+/*! parchment */
+
 /*! @mui/utils */
 
 /*! @mui/material/MenuItem */
@@ -5347,13 +5341,11 @@
   !*** ./node_modules/core-js/internals/shared-key.js ***!
   \******************************************************/
 
-/*! react */
-
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../utils */
 
-/*! ./variants.mjs */
+/*! ./progress.mjs */
 
 /*! ./GridRootPropsContext */
 
@@ -5364,8 +5356,6 @@
 /*! ../styles/styled */
 
 /*! ./shared */
-
-/*! hey-listen */
 
 /*!**************************************************************************!*\
   !*** ./node_modules/core-js/internals/create-non-enumerable-property.js ***!
@@ -5379,8 +5369,6 @@
 
 /*! ../hooks/features/export/useGridPrintExport */
 
-/*! tslib */
-
 /*! @mui/material/Grow */
 
 /*! ../FormControl/formControlState */
@@ -5389,13 +5377,11 @@
 
 /*! ./getDocumentElement.js */
 
-/*! ./utils/create-render-state.mjs */
-
 /*! @mui/utils */
 
 /*! react */
 
-/*! ../../../components/AnimatePresence/use-presence.mjs */
+/*! ./index.mjs */
 
 /*! ../internals/hooks/useUtils */
 
@@ -5407,7 +5393,7 @@
 
 /*! ./useTranslation */
 
-/*! ./VisualElementDragControls.mjs */
+/*! ../events/event-info.mjs */
 
 /*! ./breakpoints */
 
@@ -5421,7 +5407,7 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! tslib */
+/*! ./config */
 
 /*! ../internals/iterators-core */
 
@@ -5431,9 +5417,11 @@
 
 /*! react/jsx-runtime */
 
-/*! ../../utils/time-conversion.mjs */
-
 /*! ../PickersDay/PickersDay */
+
+/*! tslib */
+
+/*! tslib */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -5443,17 +5431,15 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
+/*! ../../../context/LayoutGroupContext.mjs */
+
 /*! ../internals/export */
 
 /*! clsx */
 
-/*! ./utils/scrape-motion-values.mjs */
-
 /*! ../../utils/useGridApiEventHandler */
 
 /*! @emotion/serialize */
-
-/*! framesync */
 
 /*! @mui/material */
 
@@ -5462,8 +5448,6 @@
 /*! ./Accordion */
 
 /*! ./GridOverlays */
-
-/*! @babel/runtime/helpers/esm/classCallCheck */
 
 /*! ../../utils/cleanupTracking/FinalizationRegistryBasedCleanupTracking */
 
@@ -5503,19 +5487,23 @@
 
 /*! core-js/modules/es.object.to-string.js */
 
-/*! ../../render/utils/flat-tree.mjs */
-
 /*! ./PickersActionBar */
 
 /*! react/jsx-runtime */
 
+/*! ./unit-conversion.mjs */
+
 /*! react/jsx-runtime */
+
+/*! react */
 
 /*! ./createTheme */
 
-/*! ../utils/make-renderless-component.mjs */
+/*! ./utils/elapsed.mjs */
 
 /*! react */
+
+/*! ../../html/config-motion.mjs */
 
 /*! ../internals/object-get-own-property-symbols */
 
@@ -5525,11 +5513,13 @@
 
 /*! ./GridEditDateCell */
 
-/*! framesync */
+/*! ./break.js */
 
 /*! ../styles/styled */
 
 /*! ../hooks/utils/useGridApiContext */
+
+/*! react */
 
 /*! ./styles */
 
@@ -5537,15 +5527,11 @@
 
 /*! ../internals/hooks/useUtils */
 
-/*! tslib */
-
 /*! ./Divider */
 
 /*! react/jsx-runtime */
 
 /*! ../../utils/useGridSelector */
-
-/*! ./iterableToArray.js */
 
 /*! ../hooks/features/columns/gridColumnsSelector */
 
@@ -5577,8 +5563,6 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ./typeof.js */
-
 /*! react/jsx-runtime */
 
 /*! ./tabScrollButtonClasses */
@@ -5592,8 +5576,6 @@
 /*! @mui/material/FormControlLabel */
 
 /*! ./defaultTheme */
-
-/*! ./features/use-features.mjs */
 
 /*! @mui/material/InputBase */
 
@@ -5609,9 +5591,13 @@
 
 /*! ../internals/an-object */
 
+/*! ../components/Context */
+
 /*! ./DesktopDateTimePicker */
 
 /*! ../styles/styled */
+
+/*! ./pipe.mjs */
 
 /*! react */
 
@@ -5621,13 +5607,7 @@
 
 /*! ../../hooks/utils/useGridApiContext */
 
-/*! js-cookie v3.0.1 | MIT */
-
 /*! react */
-
-/*! ./utils/render.mjs */
-
-/*! parchment */
 
 /*! ./alertTitleClasses */
 
@@ -5641,8 +5621,6 @@
   !*** ./node_modules/core-js/internals/iterators-core.js ***!
   \**********************************************************/
 
-/*! ../../easing/index.mjs */
-
 /**
  * @mui/styled-engine v5.14.10
  *
@@ -5653,6 +5631,8 @@
 
 /*! react */
 
+/*! ../../svg/config-motion.mjs */
+
 /*! ../ListItemIcon */
 
 /*! ../context/GridContextProvider */
@@ -5661,17 +5641,17 @@
 
 /*! ../styles/styled */
 
+/*! ./render/dom/motion.mjs */
+
 /*! ../styles/styled */
 
 /*! ../internals/is-object */
 
-/*! ../../value/utils/resolve-motion-value.mjs */
-
 /*! html2canvas */
 
-/*! clsx */
+/*! ../../projection/styles/scale-correction.mjs */
 
-/*! ../utils.mjs */
+/*! clsx */
 
 /*! @mui/system */
 
@@ -5685,13 +5665,11 @@
 
 /*! @mui/material */
 
-/*! ../index.mjs */
-
 /*! ./DateTimePicker */
 
 /*! ../enums.js */
 
-/*! ../../utils/interpolate.mjs */
+/*! ./Context */
 
 /*! ../menu/GridMenu */
 
@@ -5705,7 +5683,7 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ./defaultMemoize */
+/*! ../core/module.js */
 
 /*! ../../hooks/utils/useGridRootProps */
 
@@ -5719,9 +5697,7 @@
 
 /*! ./gridFeatureMode */
 
-/*! ../blots/text.js */
-
-/*! ../../../projection/styles/scale-border-radius.mjs */
+/*! tslib */
 
 /*! @mui/utils */
 
@@ -5739,6 +5715,8 @@
 
 /*! ../internals/require-object-coercible */
 
+/*! ./transform.mjs */
+
 /*! react */
 
 /*! react/jsx-runtime */
@@ -5751,19 +5729,19 @@
 
 /*! @mui/base/composeClasses */
 
+/*! style-value-types */
+
 /*! ../../icons */
 
 /*! ../FilledInput */
+
+/*! ./typeof.js */
 
 /*! ../DateTimePicker/DateTimePickerToolbar */
 
 /*! ../../hooks/features/filter/gridFilterSelector */
 
-/*! ../../utils/use-id.mjs */
-
 /*! @mui/base/composeClasses */
-
-/*! ./selection.js */
 
 /** ====================================================================
  * @license
@@ -5805,6 +5783,8 @@
 
 /*! ../internals/define-well-known-symbol */
 
+/*! ../render/utils/types.mjs */
+
 /*! ../../utils/date-utils */
 
 /*! ../internal/svg-icons/KeyboardArrowLeft */
@@ -5813,19 +5793,21 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
+/*! ../gestures/utils/event-type.mjs */
+
 /*! ../dom-utils/getDocumentElement.js */
 
-/*! clsx */
+/*! ../utils/use-unmount-effect.mjs */
 
-/*! ./Enum.js */
+/*! clsx */
 
 /*! ../styles/styled */
 
 /*! ../styles/useThemeProps */
 
-/*! ./listItemIconClasses */
+/*! ./PresenceChild.mjs */
 
-/*! ./LayoutGroup/index.mjs */
+/*! ./listItemIconClasses */
 
 /*! react */
 
@@ -5835,9 +5817,9 @@
 
 /*! ./detectOverflow.js */
 
-/*! ../../context/PresenceContext.mjs */
-
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! style-value-types */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -5845,33 +5827,44 @@
 
 /*! ./formLabelClasses */
 
+/** @license React v17.0.2
+ * react-is.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 /*! @mui/base/composeClasses */
 
 /*! ./AlertTitle */
 
 /*! core-js/modules/es.regexp.to-string.js */
 
-/*! ../../animation/utils/is-animation-controls.mjs */
-
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../useUtils */
+
+/*! ../value/index.mjs */
 
 /*! @emotion/serialize */
 
 /*! ../internals/global */
 
+/*! framesync */
+
 /*! @mui/material/utils */
 
 /*! ../utils/getBasePlacement.js */
+
+/*! ./defaults.mjs */
 
 /*! ../utils/math.js */
 
 /*! @mui/material/Chip */
 
 /*! ../internals/hidden-keys */
-
-/*! ./utils/clamp.mjs */
 
 /*! ../internals/to-indexed-object */
 
@@ -5889,7 +5882,7 @@
 
 /*! ../utils/capitalize */
 
-/*! popmotion */
+/*! react */
 
 /*! ../internal/svg-icons/IndeterminateCheckBox */
 
@@ -5911,8 +5904,6 @@
   !*** ./node_modules/core-js/internals/whitespaces.js ***!
   \*******************************************************/
 
-/*! ../utils/useSyncExternalStore */
-
 /*! react/jsx-runtime */
 
 /*! @mui/base/composeClasses */
@@ -5925,7 +5916,7 @@
 
 /*! react */
 
-/*! ./viewport/use-viewport.mjs */
+/*! ./CSSTransition */
 
 /*! ../../hooks/features/preferencesPanel/gridPreferencePanelSelector */
 
@@ -5945,13 +5936,11 @@
 
 /*! @mui/material/MenuItem */
 
-/*! react */
-
 /*! ../components/DataGridColumnHeaders */
 
 /*! @mui/material */
 
-/*! ../../render/dom/value-types/animatable-none.mjs */
+/*! hey-listen */
 
 /*! ../internals/utils/time-utils */
 
@@ -5964,6 +5953,8 @@
 /*! ../../hooks/utils/useGridApiContext */
 
 /*! ../../constants/gridClasses */
+
+/*! ../../gestures/use-focus-gesture.mjs */
 
 /*! react/jsx-runtime */
 
@@ -5987,6 +5978,8 @@
 
 /*! ../internals/path */
 
+/*! ../../utils/resolve-value.mjs */
+
 /*! @mui/utils */
 
 /*! clsx */
@@ -6005,8 +5998,6 @@
 
 /*! ../internals/components/PureDateInput */
 
-/*! ./mix.mjs */
-
 /*! ./createChainedFunction */
 
 /*! react */
@@ -6015,7 +6006,7 @@
 
 /*! react/jsx-runtime */
 
-/*! react */
+/*! ./DocumentProjectionNode.mjs */
 
 /*! ../MobileDateTimePicker */
 
@@ -6024,8 +6015,6 @@
 /*! react/jsx-runtime */
 
 /*! @mui/base/composeClasses */
-
-/*! ../utils/time-conversion.mjs */
 
 /*! react */
 
@@ -6043,7 +6032,11 @@
 
 /*! ./IconButton */
 
+/*! ./is-browser.mjs */
+
 /*! ../columns/gridColumnsSelector */
+
+/*! ./event-info.mjs */
 
 /*! ../generateUtilityClass */
 
@@ -6054,8 +6047,6 @@
 /*! react */
 
 /*! ../../hooks/utils/useGridRootProps */
-
-/*! ../../render/html/utils/transform.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -6079,21 +6070,19 @@
 
 /*! ./createTheme */
 
-/*! ./mix-color.mjs */
-
 /*! ../styles/useThemeProps */
 
 /*! @mui/material/MenuItem */
 
 /*! ../internals/components/PickerViewRoot */
 
-/*! hey-listen */
-
 /*! ../utils/debounce */
 
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../Typography */
+
+/*! ../utils.mjs */
 
 /*! ../generateUtilityClass */
 
@@ -6103,7 +6092,7 @@
 
 /*! react/jsx-runtime */
 
-/*! xlsx.js (C) 2013-present SheetJS -- http://sheetjs.com */
+/*! @babel/runtime/helpers/esm/possibleConstructorReturn */
 
 /*! react */
 
@@ -6117,9 +6106,9 @@
 
 /*! @mui/utils */
 
-/*! ./src/Serializer.js */
-
 /*! react */
+
+/*! ./emitter.js */
 
 /*! ../utils/useIsFocusVisible */
 
@@ -6128,8 +6117,6 @@
 /*! react/jsx-runtime */
 
 /*! @babel/runtime/helpers/esm/extends */
-
-/*! @babel/runtime/helpers/esm/createClass */
 
 /*! ../FilledInput/filledInputClasses */
 
@@ -6143,13 +6130,9 @@
  * http://opensource.org/licenses/mit-license
  */
 
-/*! tslib */
-
 /*! react */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
-
-/*! ./utils/is-svg-component.mjs */
 
 /*! react/jsx-runtime */
 
@@ -6162,6 +6145,8 @@
 /*! ../columns/gridColumnsSelector */
 
 /*! ../styles/useThemeProps */
+
+/*! ../../context/MotionContext/index.mjs */
 
 /*! ../styles/styled */
 
@@ -6197,8 +6182,6 @@
 
 /*! ../internals/object-keys */
 
-/*! ./cjs/react-is.production.min.js */
-
 /*! @mui/material */
 
 /*!********************************************************************!*\
@@ -6229,7 +6212,7 @@
 
 /*! react */
 
-/*! react */
+/*! ./logger.js */
 
 /*! ../utils/useForkRef */
 
@@ -6248,6 +6231,8 @@
 /*! ./LocalizationProvider */
 
 /*! ../internals/hooks/usePickerState */
+
+/*! ../svg/use-props.mjs */
 
 /*! ../utils/useForkRef */
 
@@ -6279,19 +6264,15 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! ../sorting/gridSortingSelector */
+/*! tslib */
 
-/*! ./inline.js */
+/*! ../sorting/gridSortingSelector */
 
 /*! ../../../utils/utils */
 
 /*! ../internals/hooks/useUtils */
 
-/*! @babel/runtime/helpers/esm/inheritsLoose */
-
 /*! ../internals/internal-state */
-
-/*! ../../motion/features/layout/index.mjs */
 
 /*! ./ownerWindow */
 
@@ -6300,10 +6281,6 @@
 /*! ../../constants/gridClasses */
 
 /*! ../internals/components/wrappers/DesktopWrapper */
-
-/*! ./transform-origin.mjs */
-
-/*! ../../context/DeprecatedLayoutGroupContext.mjs */
 
 /*! ../InputBase/InputBase */
 
@@ -6319,9 +6296,13 @@
 
 /*! @mui/material/styles */
 
+/*! ../../../animation/utils/is-keyframes-target.mjs */
+
 /*! ./DataGrid */
 
 /*! ./warning */
+
+/*! ../../html/utils/render.mjs */
 
 /*! ../dom-utils/instanceOf.js */
 
@@ -6335,19 +6316,17 @@
 
 /*! ./gridStringColDef */
 
-/*! ./use-isomorphic-effect.mjs */
+/*! react */
+
+/*! parchment */
 
 /*! react */
 
 /*! ./ListItemIcon */
 
-/*! ./hex.mjs */
-
 /*! ../internals/is-pure */
 
 /*! ../breakpoints */
-
-/*! ../../gestures/use-pan-gesture.mjs */
 
 /*! ./ButtonBase */
 
@@ -6359,6 +6338,8 @@
 
 /*! react */
 
+/*! ../utils.mjs */
+
 /*! ../worker.js */
 
 /*! ../dom-utils/getDocumentElement.js */
@@ -6367,13 +6348,13 @@
 
 /*! ./TableHead */
 
+/*! ./utils/batch */
+
 /*! ./OpIterator */
 
 /*! react/jsx-runtime */
 
 /*! ../internals/to-property-key */
-
-/*! lodash-es */
 
 /*! @mui/base */
 
@@ -6383,15 +6364,23 @@
 
 /*! react/jsx-runtime */
 
+/*! ../render/utils/types.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! @mui/material/styles */
+
+/*! ./transform.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../hooks/features/density/densitySelector */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+
+/*! ./exports */
+
+/*! ./hsla-to-rgba.mjs */
 
 /*! ./clockPickerClasses */
 
@@ -6403,17 +6392,11 @@
 
 /*! ../internals/native-symbol */
 
+/*! ./utils.mjs */
+
 /*! react */
 
-/*! style-value-types */
-
-/*! react-is */
-
 /*! ./useModal */
-
-/*! ../html/visual-element.mjs */
-
-/*! ../utils/is-browser.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -6435,6 +6418,10 @@
 
 /*! ../../hooks/utils/useGridRootProps */
 
+/*! ../../utils/use-constant.mjs */
+
+/*! ./Context */
+
 /**
  * @license
  * Licensed under the MIT License.
@@ -6447,11 +6434,11 @@
  * http://www.fpdf.org/en/script/script37.php
  */
 
-/*! popmotion */
-
 /*! ../FormControl/useFormControl */
 
 /*! ../hooks/features/editRows/useGridEditing.old */
+
+/*! ./number.mjs */
 
 /** @license
  *
@@ -6503,8 +6490,6 @@
  *    kim3er, mfo, alnorth, Flamenco
  */
 
-/*! react */
-
 /*! ../Table/TableContext */
 
 /*! ../../utils/useGridLogger */
@@ -6514,8 +6499,6 @@
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! @babel/runtime/helpers/esm/extends */
-
-/*! ./numbers/units.mjs */
 
 /*! react */
 
@@ -6531,6 +6514,8 @@
 
 /*! @mui/utils */
 
+/*! ../numbers/index.mjs */
+
 /*! ./ClockNumber */
 
 /*! @mui/material/utils */
@@ -6541,8 +6526,6 @@
 
 /*! ../dom-utils/contains.js */
 
-/*! ../../utils/use-isomorphic-effect.mjs */
-
 /*! ../internals/shared-key */
 
 /*! ../utils/ClassNameConfigurator */
@@ -6551,7 +6534,7 @@
 
 /*! ../../hooks/useIsLandscape */
 
-/*! ../../utils/array.mjs */
+/*! ./type-auto.mjs */
 
 /*! ../internals/redefine */
 
@@ -6569,13 +6552,17 @@
 
 /*! ./modifiers/arrow.js */
 
-/*! style-value-types */
-
 /*! ../className */
 
 /*! ./tableHeadClasses */
 
+/*! react */
+
 /*! ../internals/well-known-symbol */
+
+/*! ../../motion/features/gestures.mjs */
+
+/*! ../../../projection/node/create-projection-node.mjs */
 
 /*! react */
 
@@ -6589,11 +6576,7 @@
 
 /*! @mui/material/Autocomplete */
 
-/*! ./TransitionGroup */
-
 /*! ../utils/getMainAxisFromPlacement.js */
-
-/*! ./arrayWithHoles.js */
 
 /*! ./dom-utils/getOffsetParent.js */
 
@@ -6611,8 +6594,6 @@
 
 /*! ../../hooks/utils/useGridApiContext */
 
-/*! ../../gestures/drag/use-drag.mjs */
-
 // ! moment.js locale configuration
 
 /*! @mui/utils */
@@ -6629,17 +6610,23 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
+/*! tslib */
+
 /*! ../utils/getFreshSideObject.js */
 
 /*! ./spacing */
 
 /*! ../styles/identifier */
 
+/*! ../utils/Subscription */
+
 /*! react */
 
 /*! ./ThemeProvider */
 
 /*! ../List/ListContext */
+
+/*! react */
 
 /*! ../../hooks/utils/useGridRootProps */
 
@@ -6649,13 +6636,11 @@
 
 /*! ../utils/isMuiElement */
 
-/*! hoist-non-react-statics */
+/*! ./src/Middleware.js */
 
 /*! ./debounce */
 
 /*! ../../hooks/utils/useGridRootProps */
-
-/*! parchment */
 
 /*! @mui/material/styles */
 
@@ -6663,9 +6648,9 @@
 
 /*! ../internals/hooks/useUtils */
 
-/*! react/jsx-runtime */
+/*! tslib */
 
-/*! @babel/runtime/helpers/esm/toArray */
+/*! react/jsx-runtime */
 
 /*! ./Collapse */
 
@@ -6675,7 +6660,13 @@
 
 /*! @mui/base/composeClasses */
 
+/*! ./Utility.js */
+
+/*! ../dom/utils/parse-dom-variant.mjs */
+
 /*! ./GridPanelContent */
+
+/*! ../dom/value-types/animatable-none.mjs */
 
 /*! ../internals/set-global */
 
@@ -6695,8 +6686,6 @@
 
 /*! ./containers/GridOverlay */
 
-/*! ./utils/use-motion-ref.mjs */
-
 /*! ./toolbarClasses */
 
 /*! react/jsx-runtime */
@@ -6709,31 +6698,31 @@
 
 /*! ../internals/well-known-symbol */
 
-/*! ../../../context/SwitchLayoutGroupContext.mjs */
-
 /*! react/jsx-runtime */
 
 /*! ./useControlled */
 
 /*! ../../hooks/utils/useGridRootProps */
 
+/*! ./Tokenizer.js */
+
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ../internals/well-known-symbol */
 
-/*! ../../render/utils/variants.mjs */
-
 /*! ../../hooks/utils/useGridRootProps */
-
-/*! ../../context/LayoutGroupContext.mjs */
 
 /*! @mui/utils */
 
 /*! ../../utils/useGridLogger */
 
-/*! ./emitter.js */
+/*! ../../events/use-pointer-event.mjs */
+
+/*! @babel/runtime/helpers/esm/inheritsLoose */
 
 /*! ../internals/redefine */
+
+/*! ./text.js */
 
 /*! ../internals/hooks/usePickerState */
 
@@ -6745,8 +6734,6 @@
 
 /*! react/jsx-runtime */
 
-/*! ../../dom/value-types/get-as-type.mjs */
-
 /*! ../hooks/utils/useGridSelector */
 
 /*! @babel/runtime/helpers/esm/extends */
@@ -6755,17 +6742,13 @@
 
 /*! @mui/base/composeClasses */
 
-/*! ./instances.js */
-
 /*! ../internals/an-object */
-
-/*! ../dom/value-types/defaults.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! react/jsx-runtime */
 
-/*! ./utils.mjs */
+/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ../../utils/createSvgIcon */
 
@@ -6773,7 +6756,9 @@
 
 /*! ./tablePaginationClasses */
 
-/*! ./utils/variants.mjs */
+/*! ../lib */
+
+/*! react */
 
 /*! @mui/material/ListItemIcon */
 
@@ -6787,6 +6772,8 @@
 
 /*! react/jsx-runtime */
 
+/*! ./utils/create-config.mjs */
+
 /*! ../utils/getBasePlacement.js */
 
 /*! ../internals/object-get-own-property-symbols */
@@ -6794,8 +6781,6 @@
 /*! ./tabClasses */
 
 /*! ../generateUtilityClass */
-
-/*! ./utils/distance.mjs */
 
 /*! ../Paper */
 
@@ -6807,15 +6792,11 @@
 
 /*! ../internals/utils/date-utils */
 
-/*! ../../render/utils/types.mjs */
-
 /*! ../../hooks/utils/useGridSelector */
 
 /*! ../internals/components/CalendarOrClockPicker */
 
-/*! ./utils/motion-values.mjs */
-
-/*! ./utils/use-visual-element.mjs */
+/*! ./easing.mjs */
 
 /*! ../../utils/useGridSelector */
 
@@ -6835,13 +6816,15 @@
 
 /*! ../internals/internal-state */
 
-/*! react */
+/*! ../../components/AnimatePresence/use-presence.mjs */
+
+/*! ../../../value/utils/is-motion-value.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ./index.mjs */
-
 /*! ../styles/useThemeProps */
+
+/*! ./utils/velocity-per-second.mjs */
 
 /*! ../hooks/features/rows/useGridParamsApi */
 
@@ -6853,19 +6836,19 @@
 
 /*! ../filter/gridFilterSelector */
 
+/*! ../../utils/use-instant-transition-state.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../../constants/gridClasses */
 
 /*! ../generateUtilityClass */
 
-/*! ./utils/is-node-or-child.mjs */
-
 /*! ./GridColumnHeaderFilterIconButton */
 
-/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+/*! ./is-point.mjs */
 
-/*! ./hooks/useDispatch */
+/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -6899,7 +6882,7 @@
 
 /*! ./useGridStateInitialization */
 
-/*! react-dom */
+/*! parchment */
 
 /*! react/jsx-runtime */
 
@@ -6911,9 +6894,7 @@
 
 /*! react */
 
-/*! ./module.js */
-
-/*! ../numbers/units.mjs */
+/*! ./is-point-3d.mjs */
 
 /*! ./Badge */
 
@@ -6937,21 +6918,17 @@
 
 /*! ./GridToolbarExportContainer */
 
+/*! ../../utils/is-ref-object.mjs */
+
 /*! ../IconButton */
 
-/*! ../../render/utils/animation-state.mjs */
-
-/*! ./selection.js */
-
-/*! ./rgba.mjs */
-
 /*! ./getComputedStyle.js */
-
-/*! ./src/Enum.js */
 
 /*! ../internals/is-object */
 
 /*! react/jsx-runtime */
+
+/*! @babel/runtime/helpers/esm/assertThisInitialized */
 
 /*! react/jsx-runtime */
 
@@ -6977,6 +6954,8 @@
 
 /*! ./GridActionsCell */
 
+/*! hey-listen */
+
 /*!*************************************************************!*\
   !*** ./node_modules/core-js/internals/engine-v8-version.js ***!
   \*************************************************************/
@@ -6985,7 +6964,11 @@
 
 /*! @mui/utils */
 
-/*! style-value-types */
+/*! react-is */
+
+/*! ../../../value/utils/is-motion-value.mjs */
+
+/*! ../../value/utils/is-motion-value.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -6994,6 +6977,8 @@
 /*! ../DatePicker/DatePickerToolbar */
 
 /*! @mui/material/utils */
+
+/*! hey-listen */
 
 /** @license
  * Copyright (c) 2012 Willow Systems Corporation, https://github.com/willowsystems
@@ -7019,19 +7004,17 @@
  * ====================================================================
  */
 
+/*! framesync */
+
 /*! rifm */
 
 /*! react/jsx-runtime */
 
 /*! react */
 
-/*! clsx */
-
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ../../../utils/keyboardUtils */
-
-/*! ../../context/PresenceContext.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -7069,6 +7052,8 @@
 
 /*! ../internals/has */
 
+/*! react */
+
 /*! ../styles/styled */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
@@ -7076,10 +7061,6 @@
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! @mui/material/styles */
-
-/*! ../../render/utils/types.mjs */
-
-/*! popmotion */
 
 /*! react/jsx-runtime */
 
@@ -7101,8 +7082,6 @@
 
 /*! ../internals/internal-state */
 
-/*! @babel/runtime/helpers/esm/objectSpread2 */
-
 /*! ./getWindowScrollBarX.js */
 
 /*! ./cardContentClasses */
@@ -7114,6 +7093,8 @@
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! ./utils/pipe.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -7141,23 +7122,15 @@
 
 /*! ../internals/has */
 
-/*! ./observers.mjs */
+/*! ./Utility.js */
+
+/*! ../../projection/node/HTMLProjectionNode.mjs */
 
 /*! react */
 
 /*! @mui/utils */
 
 /*! react */
-
-/**
- * @license React
- * react-is.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
 
 /*! ./DesktopDatePicker */
 
@@ -7169,15 +7142,13 @@
 
 /*! ./createStyled */
 
-/*! ../geometry/delta-calc.mjs */
-
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ./buttonBaseClasses */
 
 /*! ./dom-utils/getCompositeRect.js */
 
-/*! react */
+/*! tslib */
 
 /*! @mui/utils */
 
@@ -7193,15 +7164,11 @@
 
 /*! clsx */
 
-/*! lodash/isEqual */
-
 /*! @mui/base/composeClasses */
 
 /*! ./utils/createSvgIcon */
 
 /*! ../internal/svg-icons/LastPage */
-
-/*! react */
 
 /*! react */
 
@@ -7211,7 +7178,13 @@
 
 /*! ../styles/styled */
 
+/*! ./utils/is-svg-component.mjs */
+
+/*! ./arrayWithHoles.js */
+
 /*! react/jsx-runtime */
+
+/*! framesync */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -7225,7 +7198,9 @@
 
 /*! clsx */
 
-/*! ./utils/constraints.mjs */
+/*! @babel/runtime/helpers/esm/defineProperty */
+
+/*! lodash-es */
 
 /*! ../internals/indexed-object */
 
@@ -7239,6 +7214,8 @@
 
 /*! ./getDocumentRect.js */
 
+/*! ../geometry/models.mjs */
+
 /**
  * @license
  * Copyright (c) 2017 Aras Abbasi
@@ -7249,7 +7226,7 @@
 
 /*! react */
 
-/*! framesync */
+/*! @babel/runtime/helpers/esm/inheritsLoose */
 
 /*! ../../../constants/gridClasses */
 
@@ -7274,6 +7251,8 @@
 /*! ../generateUtilityClass */
 
 /*! ./dialogActionsClasses */
+
+/*! ../utils/has-transform.mjs */
 
 /*! ../../hooks/features/columns/gridColumnsSelector */
 
@@ -7300,13 +7279,9 @@
 
 /*! ./useTheme */
 
-/*! @babel/runtime/helpers/esm/getPrototypeOf */
-
 /*! react/jsx-runtime */
 
 /*! react */
-
-/*! ./Transition */
 
 /*! clsx */
 
@@ -7324,19 +7299,23 @@
 
 /*! @mui/utils */
 
-/*! ./utils/create-render-state.mjs */
-
 /*! react */
 
 /*! ./densitySelector */
 
+/*! ../utils.mjs */
+
 /*! ./cssUtils */
 
-/*! react */
+/*! ../projection/node/id.mjs */
+
+/*! ./setters.mjs */
 
 /*! @mui/utils */
 
 /*! @mui/utils */
+
+/*! ../../utils/use-constant.mjs */
 
 /*! ./GridColumnHeaderMenu */
 
@@ -7350,9 +7329,11 @@
 
 /*! react */
 
-/*! ./utils/reflow */
-
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! react */
+
+/*! ../utils/has-transform.mjs */
 
 /*! ./utils/getPickersLocalization */
 
@@ -7368,7 +7349,11 @@
 
 /*! ../enums.js */
 
+/*! ./variants.mjs */
+
 /*! ./gridEditRowsSelector */
+
+/*! ../../utils/use-force-update.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -7378,13 +7363,15 @@
 
 /*! ../../hooks/features/filter/gridFilterSelector */
 
+/*! ../../render/dom/utils/css-variables-conversion.mjs */
+
 /*! react/jsx-runtime */
 
 /*! ./gridClasses */
 
 /*! ../internals/object-keys */
 
-/*! hey-listen */
+/*! ./utils/build-attrs.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -7418,7 +7405,7 @@
 
 /*! react/jsx-runtime */
 
-/*! ../render/utils/types.mjs */
+/*! ./utils.mjs */
 
 /*! ./breakpoints */
 
@@ -7444,7 +7431,11 @@
 
 /*! ./Input */
 
+/*! ./mix.mjs */
+
 /*! react/jsx-runtime */
+
+/*! ../utils/each-axis.mjs */
 
 /*! clsx */
 
@@ -7466,17 +7457,15 @@
 
 /*! @babel/runtime/helpers/interopRequireDefault */
 
+/*! ../dom/value-types/find.mjs */
+
 /*! ../utils/useEventCallback */
 
 /*! ../styles/styled */
 
-/*! tslib */
-
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ./columnHeaders/GridColumnHeadersInner */
-
-/*! ../../projection/utils/measure.mjs */
 
 /*! ./identifier */
 
@@ -7486,11 +7475,17 @@
 
 /*! ./inputClasses */
 
+/*! ../../events/event-info.mjs */
+
+/*! ../../render/utils/variants.mjs */
+
 /*! ./context */
 
 /*! ../focus/gridFocusStateSelector */
 
 /*! ./listItemTextClasses */
+
+/*! ../utils/interpolate.mjs */
 
 /*! ./styleFunctionSx */
 
@@ -7510,9 +7505,13 @@
 
 /*! ../styles/useThemeProps */
 
+/*! ./variants.mjs */
+
 /*! react/jsx-runtime */
 
 /*! @mui/material */
+
+/*! popmotion */
 
 /*! clsx */
 
@@ -7528,8 +7527,6 @@
 
 /*! ../../constants/gridClasses */
 
-/*! ./utils/createRegistryWithFormats.js */
-
 /*! ../internals/classof-raw */
 
 /*! ./useGridSelector */
@@ -7539,6 +7536,8 @@
 /*! ../internals/set-to-string-tag */
 
 /*! ../colDef/gridActionsColDef */
+
+/*! ../html/use-props.mjs */
 
 /*! ./FormControlContext */
 
@@ -7564,10 +7563,6 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! tslib */
-
-/*! ./is-point.mjs */
-
 /*! @mui/material */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
@@ -7579,10 +7574,6 @@
 /*!******************************!*\
   !*** external "html2canvas" ***!
   \******************************/
-
-/*! ../../motion/utils/use-visual-state.mjs */
-
-/*! ./use-is-mounted.mjs */
 
 /*! ./ThemeProvider */
 
@@ -7610,7 +7601,7 @@
  * http://opensource.org/licenses/mit-license
  */
 
-/*! react */
+/*! ./src/Utility.js */
 
 /*! ./popper.js */
 
@@ -7630,11 +7621,15 @@
 
 /*! ../lib */
 
+/*! ./utils.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ./typographyClasses */
 
 /*! @mui/base/composeClasses */
+
+/*! dom-helpers/addClass */
 
 /*! ../../utils/useGridRootProps */
 
@@ -7642,7 +7637,7 @@
 
 /*! react */
 
-/*! ./components/AnimateSharedLayout.mjs */
+/*! tslib */
 
 /*! ../utils/capitalize */
 
@@ -7654,7 +7649,9 @@
 
 /*! ../ListItemText */
 
-/*! react */
+/*! ./pipe.mjs */
+
+/*! ../../events/use-dom-event.mjs */
 
 /*! ./Avatar */
 
@@ -7663,6 +7660,8 @@
 /*! ../../utils/useGridApiContext */
 
 /*! ./getDocumentElement.js */
+
+/*! react */
 
 /*!***********************************************************!*\
   !*** ./node_modules/core-js/internals/to-property-key.js ***!
@@ -7676,29 +7675,27 @@
 
 /*! react */
 
+/*! react */
+
+/*! ./drag/utils/lock.mjs */
+
 /*! ./columnMenuSelector */
 
 /*! ../internals/shared-key */
 
-/*! use-sync-external-store/shim */
-
 /*! ../../utils/useGridLogger */
 
-/*! ../utils/use-unmount-effect.mjs */
+/*! ../../html/utils/build-styles.mjs */
 
 /*! ../../../hooks/utils/useGridRootProps */
 
 /*! ../editRows/gridEditRowsSelector */
-
-/*! tslib */
 
 /*! ../internals/redefine */
 
 /*!********************************************************************!*\
   !*** ./node_modules/core-js/internals/object-define-properties.js ***!
   \********************************************************************/
-
-/*! ../blots/break.js */
 
 /*! ./Stack */
 
@@ -7710,7 +7707,11 @@
 
 /*! ../internals/shared-key */
 
+/*! ./break.js */
+
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! tslib */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -7720,7 +7721,11 @@
 
 /*! ./getBasePlacement.js */
 
+/*! ../dom/value-types/defaults.mjs */
+
 /*! ../internal/SwitchBase */
+
+/*! ../cjs/use-sync-external-store-shim.production.min.js */
 
 /*! ./circularProgressClasses */
 
@@ -7733,6 +7738,12 @@
 /*! ../internals/components/PickersToolbarText */
 
 /*! ../../utils */
+
+/*! hey-listen */
+
+/*! style-value-types */
+
+/*! tslib */
 
 /*! ../internal/svg-icons/RadioButtonUnchecked */
 
@@ -7750,6 +7761,8 @@
 
 /*! react */
 
+/*! ../use-render.mjs */
+
 /*! ./instanceOf.js */
 
 /*! ../../../utils/domUtils */
@@ -7759,10 +7772,6 @@
 /*! ../../hooks/utils/useGridRootProps */
 
 /*! ../../utils/createSvgIcon */
-
-/*! ../PanSession.mjs */
-
-/*! ../blots/block.js */
 
 /*!*************************************************************************!*\
   !*** ./node_modules/core-js/internals/object-get-own-property-names.js ***!
@@ -7788,8 +7797,6 @@
 
 /*! @mui/material */
 
-/*! tslib */
-
 /*! react-is */
 
 /*! ../../utils/useGridApiContext */
@@ -7803,8 +7810,6 @@
 /*! react */
 
 /*! ../MenuList */
-
-/*! tslib */
 
 /*! ../../utils/createSvgIcon */
 
@@ -7820,7 +7825,11 @@
 
 /*! @babel/runtime/helpers/esm/toPropertyKey */
 
+/*! ./color/rgba.mjs */
+
 /*! ../internals/native-symbol */
+
+/*! ../../utils/use-is-mounted.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -7832,8 +7841,6 @@
 
 /*! ./appBarClasses */
 
-/*! ./useStore */
-
 /*! ../enums.js */
 
 /*! @mui/base/composeClasses */
@@ -7843,8 +7850,6 @@
 /*! ../FormControl */
 
 /*! ../internals/create-property-descriptor */
-
-/*! hey-listen */
 
 /*! ../../hooks/utils/useGridSelector */
 
@@ -7860,13 +7865,13 @@
 
 /*! @mui/material/IconButton */
 
-/*! ../../projection/node/group.mjs */
-
-/*! ./setPrototypeOf.js */
-
 /*! react */
 
 /*! ./gridColumnsUtils */
+
+/*! ../../dom/value-types/number.mjs */
+
+/*! ./rgba.mjs */
 
 /*! ../internals/object-define-property */
 
@@ -7880,9 +7885,9 @@
 
 /*! ./tableContainerClasses */
 
-/*! react */
-
 /*! ./GridToolbarDensitySelector */
+
+/*! sheetjs (C) 2013-present SheetJS -- http://sheetjs.com */
 
 /*! ../../core/strategyProcessing */
 
@@ -7894,7 +7899,11 @@
 
 /*! @babel/runtime/helpers/interopRequireDefault */
 
+/*! ./is-motion-value.mjs */
+
 /*! ../../utils */
+
+/*! ../../projection/utils/each-axis.mjs */
 
 /*! @mui/styled-engine */
 
@@ -7908,6 +7917,8 @@
 
 /*! ../utils/ownerWindow */
 
+/*! popmotion */
+
 /*! @mui/material */
 
 /*!***************************************************!*\
@@ -7918,7 +7929,7 @@
 
 /*! @mui/system */
 
-/*! parchment */
+/*! @babel/runtime/helpers/esm/assertThisInitialized */
 
 /*! ../internal/svg-icons/Close */
 
@@ -7933,8 +7944,6 @@
 /*! ../focus/gridFocusStateSelector */
 
 /*! ./Edit */
-
-/*! ./TransitionGroupContext */
 
 /*! react */
 
@@ -7954,13 +7963,17 @@
 
 /*! ../../../models/gridEditRowModel */
 
+/*! ./test.mjs */
+
 /*! react/jsx-runtime */
 
 /*! react/jsx-runtime */
+
+/*! parchment */
+
+/*! ./Transition */
 
 /*! ./gridCheckboxSelectionColDef */
-
-/*! ../numbers/index.mjs */
 
 /*! clsx */
 
@@ -7970,15 +7983,11 @@
 
 /*! react */
 
-/*! ../../animation/utils/is-animation-controls.mjs */
+/*! ../../value/index.mjs */
 
 /*! react/jsx-runtime */
 
 /*! ./useAutocomplete */
-
-/*! ./utils/reflow */
-
-/*! ../../motion/utils/is-forced-motion-value.mjs */
 
 /*! ../../../hooks/utils/useGridApiContext */
 
@@ -7996,9 +8005,13 @@
 
 /*! @mui/utils */
 
+/*! ../cjs/use-sync-external-store-shim/with-selector.production.min.js */
+
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! react/jsx-runtime */
+
+/*! ../value-types/dimensions.mjs */
 
 /*! ./SnackbarContent */
 
@@ -8012,8 +8025,6 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
-/*! react */
-
 /**
  * @license
  * jsPDF fileloading PlugIn
@@ -8023,7 +8034,11 @@
  * http://opensource.org/licenses/mit-license
  */
 
+/*! ../blots/cursor.js */
+
 /*! ../internals/has */
+
+/*! ./is-keyframes-target.mjs */
 
 /*!***********************!*\
   !*** ./src/worker.js ***!
@@ -8037,23 +8052,21 @@
 
 /*! ./ScrollbarSize */
 
+/*! ../blots/block.js */
+
 /*! react */
 
 /*! ../../../colDef/gridCheckboxSelectionColDef */
-
-/*! quill-delta */
 
 /*! @babel/runtime/helpers/interopRequireDefault */
 
 /*! ../hooks/utils/useGridSelector */
 
+/*! use-sync-external-store/shim */
+
 /*! react */
 
 /*! @babel/runtime/helpers/esm/extends */
-
-/*! ./linearProgressClasses */
-
-/*! ../internals/object-get-own-property-names */
 
 // ! moment.js locale configuration
 
@@ -8065,9 +8078,11 @@
 
 // ! author : Коренберг Марк : https://github.com/socketpair
 
-/*! ../internals/create-property */
+/*! ./linearProgressClasses */
 
-/*! ../../utils/use-reduced-motion.mjs */
+/*! ../internals/object-get-own-property-names */
+
+/*! ../internals/create-property */
 
 /*! ./useId */
 
@@ -8085,23 +8100,27 @@
 
 /*! ../generateUtilityClass */
 
-/*! react/jsx-runtime */
+/*! ./utils/progress.mjs */
 
-/*! ./utils.mjs */
+/*! react/jsx-runtime */
 
 /*! ../styles/styled */
 
 /*! react/jsx-runtime */
 
+/*! ./cjs/react-is.production.min.js */
+
+/*! ../events/use-pointer-event.mjs */
+
 /*! ../Paper */
 
 /*! react */
 
-/*! react-dom */
-
 /*! react/jsx-runtime */
 
 /*! ../focus/gridFocusStateSelector */
+
+/*! hey-listen */
 
 /*!*************************************************************!*\
   !*** ./node_modules/core-js/internals/to-indexed-object.js ***!
@@ -8178,8 +8197,6 @@
 
 /*! ../../utils/useGridApiEventHandler */
 
-/*! ./inc.mjs */
-
 /*! ../../hooks/utils/useGridRootProps */
 
 /*! ../internals/to-length */
@@ -8196,8 +8213,6 @@
 
 /*! ./useGridRowEditing.old */
 
-/*! ../html/use-props.mjs */
-
 /*! @mui/material */
 
 /*! @mui/material */
@@ -8208,11 +8223,11 @@
 
 /*! ../utils/computeAutoPlacement.js */
 
-/*! react */
-
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! dom-helpers/removeClass */
+/*! ../../utils/is-zero-value-string.mjs */
+
+/*! ../../../projection/styles/scale-correction.mjs */
 
 /*! react */
 
@@ -8234,17 +8249,21 @@
 
 /*! ../styles/styled */
 
-/*! ../utils.mjs */
+/*! react */
 
 /*! ../styles/useThemeProps */
 
 /*! ../utils/useEventCallback */
+
+/*! style-value-types */
 
 /*! ../wrappers/WrapperVariantContext */
 
 /*! ../internals/components/wrappers/WrapperVariantContext */
 
 /*! @mui/material/utils */
+
+/*! ../html/utils/transform.mjs */
 
 /*! ../Grow */
 
@@ -8290,7 +8309,9 @@
 
 /*! ./icons */
 
-/*! ../events/use-dom-event.mjs */
+/*! style-value-types */
+
+/*! ./utils/reactBatchedUpdates */
 
 /*! @mui/material */
 
@@ -8302,17 +8323,17 @@
 
 /*! ../internals/object-get-own-property-names */
 
-/*! ../context/MotionConfigContext.mjs */
+/*! react */
 
 /*! ./panel */
 
 /*! clsx */
 
-/*! ../../context/LazyContext.mjs */
-
 /*! ../../../hooks/utils/useGridRootProps */
 
 /*! ./hasClass */
+
+/*! react */
 
 /*! ../../../utils/utils */
 
@@ -8323,6 +8344,8 @@
 /*! ../internals/fails */
 
 /*! ../generateUtilityClass */
+
+/*! ./utils/scrape-motion-values.mjs */
 
 /*! react */
 
@@ -8336,11 +8359,7 @@
 
 /*! ./borders */
 
-/*! ../core/quill.js */
-
 /*! ../hooks/features/clipboard/useGridClipboard */
-
-/*! ../geometry/delta-apply.mjs */
 
 /*! core-js/modules/es.object.assign.js */
 
@@ -8348,9 +8367,7 @@
   !*** ./node_modules/core-js/internals/object-assign.js ***!
   \*********************************************************/
 
-/*! ../../context/PresenceContext.mjs */
-
-/*! ./text.js */
+/*! react */
 
 /*! @mui/material */
 
@@ -8368,9 +8385,9 @@
 
 /*! react/jsx-runtime */
 
-/*! ./index.js */
-
 /*! ../../utils/useGridApiMethod */
+
+/*! ../../projection/geometry/delta-calc.mjs */
 
 /*! ../internals/hooks/validation/useDateValidation */
 
@@ -8378,7 +8395,7 @@
 
 /*! @mui/material/styles */
 
-/*! ./complex/filter.mjs */
+/*! react */
 
 /*! ../internal/svg-icons/KeyboardArrowRight */
 
@@ -8402,13 +8419,15 @@
 
 /*! clsx */
 
-/*! react-dom */
-
 /*! ./capitalize */
 
 /*! core-js/modules/es.array.concat.js */
 
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! ./utils.js */
+
+/*! ../../dom/utils/camel-to-dash.mjs */
 
 /*! @mui/base/composeClasses */
 
@@ -8422,11 +8441,7 @@
 
 /*! ../utils/debounce */
 
-/*! ../value/index.mjs */
-
 /*! ./Input */
-
-/*! ./complex/index.mjs */
 
 /*! react/jsx-runtime */
 
@@ -8437,6 +8452,8 @@
 /*! @emotion/utils */
 
 /*! ../InputBase */
+
+/*! ./getFetch.cjs */
 
 /*! react/jsx-runtime */
 
@@ -8452,19 +8469,13 @@
 
 /*! @mui/utils */
 
-/*! popmotion */
-
 /*! react */
-
-/*! ./PanSession.mjs */
 
 /*! ./gridNumericOperators */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ../internals/set-to-string-tag */
-
-/*! ./arrayLikeToArray.js */
 
 /*! ../internals/utils/date-utils */
 
@@ -8478,17 +8489,13 @@
 
 /*! ./formControlClasses */
 
-/*! tslib */
-
-/*! ./numbers/index.mjs */
+/*! ./mix-color.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ../geometry/copy.mjs */
-
-/*! ./nonIterableRest.js */
+/*! framesync */
 
 /*! ../menu/GridMenu */
 
@@ -8502,11 +8509,13 @@
 
 /*! ../internals/has */
 
-/*! ./on-next-frame.mjs */
+/*! ./delta-apply.mjs */
 
 /*! ../../models */
 
 /*! ../containers/GridToolbarContainer */
+
+/*! popmotion */
 
 /*! react */
 
@@ -8518,8 +8527,6 @@
 
 /*! ../internals/is-object */
 
-/*! ../shared/stack.mjs */
-
 /*! @mui/system */
 
 /*! ../styles/useThemeProps */
@@ -8527,8 +8534,6 @@
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! react */
-
-/*! popmotion */
 
 /*! react/jsx-runtime */
 
@@ -8540,17 +8545,19 @@
 
 /*! ./getHTMLElementScroll.js */
 
+/*! ../value/utils/is-motion-value.mjs */
+
 /*! clsx */
-
-/*! ../../context/SwitchLayoutGroupContext.mjs */
-
-/*! ./unsupportedIterableToArray.js */
 
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! react */
 
 /*! tslib */
+
+/*! ./nonIterableRest.js */
+
+/*! ./utils/transform.mjs */
 
 /*! react/jsx-runtime */
 
@@ -8559,8 +8566,6 @@
 /*!**********************************************************!*\
   !*** ./node_modules/core-js/internals/inspect-source.js ***!
   \**********************************************************/
-
-/*! ../lib */
 
 /*! ./Fade */
 
@@ -8572,23 +8577,27 @@
 
 /*! @mui/system */
 
-/*! ../animation/utils/is-keyframes-target.mjs */
-
-/*! tslib */
-
 /*! ../internals/native-symbol */
 
 /*! ../../hooks/features/rows/gridRowsSelector */
 
+/*! ./use-constant.mjs */
+
 /*! ../internals/descriptors */
 
 /*! ./getWindowScroll.js */
+
+/*! ../svg/visual-element.mjs */
+
+/*! ./array.mjs */
 
 /*! @mui/base/composeClasses */
 
 /*! react/jsx-runtime */
 
 /*! ../internals/well-known-symbol */
+
+/*! ./unsupportedIterableToArray.js */
 
 /*! ../virtualization/useGridVirtualScroller */
 
@@ -8606,21 +8615,15 @@
 
 /*! ./GlobalStyles */
 
-/*! ../../animation/utils/transitions.mjs */
+/*! ../../projection/utils/measure.mjs */
 
 /*! ./ColumnHeaderMenuIcon */
-
-/*! quill */
 
 /*! ./positioning */
 
 /*! react/jsx-runtime */
 
 /*! ./getWindow.js */
-
-/*! ../context/MotionConfigContext.mjs */
-
-/*! ./use-dom-event.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -8634,7 +8637,7 @@
 
 /*! ../generateUtilityClass */
 
-/*! ../../render/html/utils/transform.mjs */
+/*! ../../html/utils/scrape-motion-values.mjs */
 
 /*! ./ButtonGroup */
 
@@ -8650,6 +8653,8 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
+/*! ./index.mjs */
+
 /*! ./GridPanelHeader */
 
 /*! @mui/utils */
@@ -8664,21 +8669,19 @@
 
 /*! react */
 
-/*! ../../utils/subscription-manager.mjs */
-
 /*! ./formControlClasses */
 
 /*! @mui/material/ButtonBase */
+
+/*! ../../utils/resolve-value.mjs */
+
+/*! react */
 
 /*! ../hooks/features/rows/gridRowsSelector */
 
 /*! core-js/modules/es.array.iterator.js */
 
 /*! ./listSubheaderClasses */
-
-/*! ../blots/container.js */
-
-/*! ./utils/create-render-state.mjs */
 
 /*! ../InputBase/utils */
 
@@ -8687,6 +8690,8 @@
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ../styles/styled */
+
+/*! react */
 
 /*! @mui/base/Portal */
 
@@ -8698,13 +8703,13 @@
 
 /*! ./DialogContent */
 
-/*! ../../motion/features/drag.mjs */
-
 /*! ../List/ListContext */
 
 /*! ./formHelperTextClasses */
 
 /*! react */
+
+/*! ../../animation/utils/is-keyframes-target.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -8752,9 +8757,11 @@
 
 /*! ./deprecatedPropType */
 
-/*! @mui/material/Switch */
+/*! eventemitter3 */
 
-/*! ./utils/camel-case-attrs.mjs */
+/*! ./Utility.js */
+
+/*! @mui/material/Switch */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -8790,7 +8797,7 @@
 
 /*! ./isMuiElement */
 
-/*! ./create-projection-node.mjs */
+/*! ./instances.js */
 
 /*! html2canvas */
 
@@ -8808,11 +8815,7 @@
 
 /*! ./debounce */
 
-/*! ../geometry/conversion.mjs */
-
 /*! ./requirePropFactory */
-
-/*! ./hooks/useStore */
 
 /*! react */
 
@@ -8824,11 +8827,7 @@
 
 /*! core-js/modules/web.dom-collections.for-each.js */
 
-/*! ./utils.js */
-
 /*! react */
-
-/*! ../../animation/utils/transitions.mjs */
 
 /*! ./getNodeName.js */
 
@@ -8840,11 +8839,15 @@
 
 /*! clsx */
 
+/*! ./utils.mjs */
+
 /*! @mui/material/Autocomplete */
 
 /*! react/jsx-runtime */
 
 /*! ../internals/components/wrappers/WrapperVariantContext */
+
+/*! popmotion */
 
 /*! react */
 
@@ -8878,13 +8881,15 @@
 
 /*! ../../utils/useGridApiEventHandler */
 
+/*! ./motion-proxy.mjs */
+
+/*! ./MeasureLayout.mjs */
+
 /*! ../styles/styled */
 
 /*! ../internals/fails */
 
 /*! @mui/base/composeClasses */
-
-/*! ./components/Context */
 
 /*! ../utils/useEnhancedEffect */
 
@@ -8895,6 +8900,8 @@
 /*! ./backdropClasses */
 
 /*! ../internals/has */
+
+/*! react */
 
 /*! clsx */
 
@@ -8908,9 +8915,9 @@
 
 /*! ./TabScrollButton */
 
-/*! @babel/runtime/helpers/esm/extends */
+/*! ./iconContext */
 
-/*! ./utils/lifecycles.mjs */
+/*! @babel/runtime/helpers/esm/extends */
 
 /*! ../../utils/useGridApiMethod */
 
@@ -8934,8 +8941,6 @@
   !*** ./node_modules/core-js/internals/enum-bug-keys.js ***!
   \*********************************************************/
 
-/*! ./definitions.mjs */
-
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ../Slide */
@@ -8950,15 +8955,13 @@
 
 /*! ./FilePresent */
 
-/*! ./components/connect */
-
 /*! ../styles/styled */
 
 /*! ./buttonClasses */
 
 /*! ../Collapse */
 
-/*! ../components/Context */
+/*! shallowequal */
 
 /*! @mui/base/composeClasses */
 
@@ -8971,6 +8974,8 @@
 /*! ./instanceOf.js */
 
 /*! @mui/utils */
+
+/*! ../events/use-pointer-event.mjs */
 
 /*! ../../utils/useGridApiMethod */
 
@@ -8985,6 +8990,8 @@
 /*! @mui/utils */
 
 /*! react/jsx-runtime */
+
+/*! ../../value/utils/is-motion-value.mjs */
 
 /*! ./pickersYearClasses */
 
@@ -9012,17 +9019,15 @@
 
 /*! ../enums.js */
 
-/*! ../lib */
-
 /*! ../../hooks/utils/useGridApiContext */
 
-/*! react */
+/*! popmotion */
+
+/*! ./inc.mjs */
 
 /*! ../internals/copy-constructor-properties */
 
 /*! ../Paper */
-
-/*! ../../utils/is-ref-object.mjs */
 
 /*! @mui/material/utils */
 
@@ -9034,6 +9039,8 @@
 
 /*! ../utils/useForkRef */
 
+/*! ../components/Context */
+
 /*! ../internals/components/wrappers/WrapperVariantContext */
 
 /*! ../constants/dimensions */
@@ -9042,9 +9049,15 @@
 
 /*! ../../hooks/utils/useGridRootProps */
 
+/*! ../../utils/use-id.mjs */
+
 /*! ./Button */
 
+/*! react */
+
 /*! ./Dialog */
+
+/*! ../context/LayoutGroupContext.mjs */
 
 /*! @mui/base/useSnackbar */
 
@@ -9074,11 +9087,7 @@
   !*** ./src/plugin/hyperlinks.js ***!
   \**********************************/
 
-/*! ../lib */
-
 /*! clsx */
-
-/*! react */
 
 /*! ../../../utils/createSelector */
 
@@ -9087,6 +9096,8 @@
 /*! ./deepmerge */
 
 /*! react-transition-group */
+
+/*! ../utils.mjs */
 
 /*! ../styles/useThemeProps */
 
@@ -9102,13 +9113,13 @@
   !*** ./node_modules/core-js/internals/dom-iterables.js ***!
   \*********************************************************/
 
+/*! ../../utils/use-constant.mjs */
+
 /*! ../internals/to-indexed-object */
 
 /*! ../styles/useThemeProps */
 
 /*! ../../utils/useGridVisibleRows */
-
-/*! ./mix-complex.mjs */
 
 /*! react/jsx-runtime */
 
@@ -9122,6 +9133,8 @@
 
 /*! ./InputLabel */
 
+/*! use-sync-external-store/shim/with-selector */
+
 /*! ../internals/document-create-element */
 
 /*! @babel/runtime/helpers/esm/extends */
@@ -9134,8 +9147,6 @@
 
 /*! ./circularProgressClasses */
 
-/*! style-value-types */
-
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ./dayPickerClasses */
@@ -9144,11 +9155,7 @@
 
 /*! react/jsx-runtime */
 
-/*! react */
-
 /*! ./chipClasses */
-
-/*! ../../utils/shallow-compare.mjs */
 
 /*! ./ThemeProvider */
 
@@ -9167,6 +9174,8 @@
 /*! ../menu/GridMenu */
 
 /*! ../internals/own-keys */
+
+/*! ./camel-case-attrs.mjs */
 
 /*! ../preferencesPanel/gridPreferencePanelsValue */
 
@@ -9230,17 +9239,17 @@
 
 /*! ../dom-utils/getLayoutRect.js */
 
+/*! ../utils/setters.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../Typography */
-
-/*! @babel/runtime/helpers/esm/inherits */
 
 /*! ../../hooks/features/columns/gridColumnsSelector */
 
 /*! ../internals/indexed-object */
 
-/*! ../utils/subscription-manager.mjs */
+/*! ../../context/PresenceContext.mjs */
 
 /*! ../styles/useThemeProps */
 
@@ -9254,8 +9263,6 @@
 
 /*! ../internal/svg-icons/CheckBox */
 
-/*! style-value-types */
-
 /*! react/jsx-runtime */
 
 /*! ./resolveProps */
@@ -9264,7 +9271,7 @@
 
 /*! ../internals/hooks/validation/useDateTimeValidation */
 
-/*! react */
+/*! ../../animation/utils/transitions.mjs */
 
 /*! ../menu/columnMenu/GridColumnHeaderMenu */
 
@@ -9272,9 +9279,7 @@
 
 /*! ./palette */
 
-/*! ./default-transitions.mjs */
-
-/*! ../formats/table.js */
+/*! ./animations/index.mjs */
 
 /*! @mui/material/utils */
 
@@ -9300,17 +9305,19 @@
 
 /*! ../internals/ie8-dom-define */
 
-/*! ./easing/cubic-bezier.mjs */
+/*! react */
 
 /*! react */
+
+/*! ../utils/useIsomorphicLayoutEffect */
 
 /*! ./useBadge */
 
 /*! ../generateUtilityClass */
 
-/*! clsx */
+/*! framesync */
 
-/*! ../lib */
+/*! clsx */
 
 /*! @mui/material/styles */
 
@@ -9320,25 +9327,19 @@
 
 /*! react */
 
-/*! ../../motion/index.mjs */
-
-/*! tslib */
-
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! @mui/material/MenuList */
+
+/*! style-value-types */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ../utils/computeOffsets.js */
 
-/*! style-value-types */
-
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! @mui/utils */
-
-/*! react */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -9350,21 +9351,27 @@
 
 /*! react */
 
+/*! ./theme.js */
+
+/*! ./assertThisInitialized.js */
+
+/*! ../../gestures/use-tap-gesture.mjs */
+
 /*! ../../hooks/utils/useGridRootProps */
 
 /*! react/jsx-runtime */
 
 /*! ../utils/detectOverflow.js */
 
-/*! ./is-svg-component.mjs */
-
 /*! ../FormControl/FormControlContext */
 
 /*! ./getBoundingClientRect.js */
 
+/*! ./logger.js */
+
 /*! ../../hooks/utils/useGridApiContext */
 
-/*! react */
+/*! ../../utils/subscription-manager.mjs */
 
 /*! ../styles/useThemeProps */
 
@@ -9380,8 +9387,6 @@
 
 /*! ../internals/get-built-in */
 
-/*! ./index.mjs */
-
 /*! ../../utils/useFirstRender */
 
 /*! @mui/utils */
@@ -9392,9 +9397,9 @@
 
 /*! ../internals/object-get-own-property-descriptor */
 
-/*! parchment */
-
 /*! ./FormGroup */
+
+/*! style-value-types */
 
 /*! ./TableBody */
 
@@ -9410,7 +9415,11 @@
 
 /*! ../internals/create-property-descriptor */
 
+/*! ../utils/is-browser.mjs */
+
 /*! core-js/modules/web.dom-collections.for-each.js */
+
+/*! ./utils/event-type.mjs */
 
 /*! ../../../hooks/features/sorting/gridSortingSelector */
 
@@ -9420,17 +9429,19 @@
 
 /*! @mui/utils */
 
+/*! ../../context/LayoutGroupContext.mjs */
+
 /*! ../PickersPopper */
 
 /*! ./GridRow */
 
 /*! ./svgIconClasses */
 
-/*! ../../projection/geometry/conversion.mjs */
-
 /*! ../rows/gridRowsSelector */
 
 /*! jspdf */
+
+/*! ./utils/detect-animation-from-options.mjs */
 
 /*! @mui/utils */
 
@@ -9439,8 +9450,6 @@
 /*! ./dividerClasses */
 
 /*! @mui/material/ListItemIcon */
-
-/*! popmotion */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -9462,13 +9471,13 @@
 
 /*! lodash.isequal */
 
+/*! ../utils.mjs */
+
 /*! react */
 
 /*! dompurify */
 
 /*! ../../hooks/utils/useGridApiContext */
-
-/*! ../animation/mix-values.mjs */
 
 /*! ./useDataGridComponent */
 
@@ -9480,13 +9489,9 @@
 
 /*! ../internals/classof-raw */
 
+/*! ./typeof.js */
+
 /*! ../internals/global */
-
-/*! react */
-
-/*! ./logger.js */
-
-/*! ./utils/build-styles.mjs */
 
 /*! react */
 
@@ -9500,7 +9505,7 @@
 
 /*! ../../utils/useGridApiMethod */
 
-/*! popmotion */
+/*! tslib */
 
 /*! @babel/runtime/helpers/interopRequireDefault */
 
@@ -9514,11 +9519,11 @@
 
 /*! ../generateUtilityClass */
 
-/*! ../../utils/use-unmount-effect.mjs */
+/*! ../html/visual-element.mjs */
 
 /*! @mui/material/Switch */
 
-/*! ../html/utils/transform.mjs */
+/*! ../../../projection/styles/scale-box-shadow.mjs */
 
 /*!**********************************************************!*\
   !*** ./node_modules/core-js/modules/es.object.assign.js ***!
@@ -9546,6 +9551,12 @@
 
 /*! @mui/material */
 
+/*! @emotion/is-prop-valid */
+
+/*! ../styles/scale-correction.mjs */
+
+/*! ../../gestures/use-hover-gesture.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../../constants/gridClasses */
@@ -9566,8 +9577,6 @@
 
 /*! @mui/material/Tabs */
 
-/*! tslib */
-
 /**
  * @mui/base v5.0.0-beta.16
  *
@@ -9584,8 +9593,6 @@
 
 /*! ../icons */
 
-/*! ../../utils/array.mjs */
-
 /*! ../utils */
 
 /*! ../utils/capitalize */
@@ -9601,8 +9608,6 @@
 /*! ./avatarClasses */
 
 /*! react/jsx-runtime */
-
-/*! ../geometry/delta-apply.mjs */
 
 /*!
  * html2pdf.js v0.10.1
@@ -9631,8 +9636,6 @@
 /*! ./useSnackbar */
 
 /*! ../internals/string-trim */
-
-/*! quill-delta */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -9668,9 +9671,9 @@
 
 /*! @mui/material/MenuItem */
 
-/*! ../styles/useThemeProps */
+/*! ./create-render-step.mjs */
 
-/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+/*! ../styles/useThemeProps */
 
 /*! ../generateUtilityClass */
 
@@ -9678,9 +9681,9 @@
 
 /*! react */
 
-/*! ../OutlinedInput */
+/*! ./toPrimitive.js */
 
-/*! ../../utils/is-ref-object.mjs */
+/*! ../OutlinedInput */
 
 /*! @mui/base/composeClasses */
 
@@ -9689,8 +9692,6 @@
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ./composeClasses */
-
-/*! style-value-types */
 
 /*! ../../hooks/utils/useGridApiContext */
 
@@ -9701,6 +9702,8 @@
 /*! ./sizing */
 
 /*! ../styles/useThemeProps */
+
+/*! @emotion/stylis */
 
 /*! clsx */
 
@@ -9720,13 +9723,9 @@
   !*** ./node_modules/core-js/internals/create-html.js ***!
   \*******************************************************/
 
-/*! ../events/use-pointer-event.mjs */
-
 /*! ../generateUtilityClass */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
-
-/*! ./utils/mix.mjs */
 
 /*! ./capitalize */
 
@@ -9735,6 +9734,10 @@
 /*! ../internals/global */
 
 /*! ../../hooks/utils/useGridApiContext */
+
+/*! react */
+
+/*! ../events/use-pointer-event.mjs */
 
 /*! react */
 
@@ -9756,9 +9759,15 @@
 
 /*! ../../../models/gridEditRowModel */
 
+/*! ./color/hex.mjs */
+
 /*! ./getWindow.js */
 
+/*! ../generators/decay.mjs */
+
 /*! react */
+
+/*! ./text.js */
 
 /*! ../rows/gridRowsUtils */
 
@@ -9768,19 +9777,17 @@
 
 /*! ./TablePaginationActions */
 
+/*! style-value-types */
+
 /*! @mui/material/MenuList */
 
 /*! ./FormControlLabel */
 
 /*! @mui/base/composeClasses */
 
-/*! ../../html/utils/transform.mjs */
-
 /*! ../../hooks/utils/useGridRootProps */
 
 /*! ../TableCell */
-
-/*! ../../utils/use-isomorphic-effect.mjs */
 
 /*! ./gridActionsColDef */
 
@@ -9800,15 +9807,15 @@
 
 /*! ../utils/useId */
 
-/*! react */
-
-/*! @mui/base/composeClasses */
+/*! quill-delta */
 
 /*! react */
 
 /*! @mui/base/composeClasses */
 
-/*! tslib */
+/*! react */
+
+/*! @mui/base/composeClasses */
 
 /*! ./Portal */
 
@@ -9826,15 +9833,19 @@
 
 /*! ./popoverClasses */
 
+/*! ../utils/make-renderless-component.mjs */
+
 /*! ../../constants/gridClasses */
 
 /*! ../../constants/gridClasses */
+
+/*! style-value-types */
+
+/*! tslib */
 
 /*! ../styles/styled */
 
 /*! ../../../colDef */
-
-/*! ./utils/scrape-motion-values.mjs */
 
 /*! ./Button */
 
@@ -9876,8 +9887,6 @@
 
 /*! ../enums.js */
 
-/*! ../../value/index.mjs */
-
 /*! ../selection/gridSelectionSelector */
 
 /*! ./setRef */
@@ -9892,7 +9901,7 @@
 
 /*! ../utils/useControlled */
 
-/*! ./emitter.js */
+/*! ../blots/embed.js */
 
 /*! @mui/base/composeClasses */
 
@@ -9910,17 +9919,21 @@
 
 /*! react */
 
+/**
+ * @license React
+ * use-sync-external-store-shim/with-selector.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 /*! ./createSpacing */
 
-/*! ./components/Provider */
+/*! ../../utils/resolve-value.mjs */
 
 /*! ../../hooks/utils/useGridSelector */
-
-/*! ../../svg/lowercase-elements.mjs */
-
-/*! ../geometry/delta-remove.mjs */
-
-/*! tslib */
 
 /*! clsx */
 
@@ -9934,11 +9947,11 @@
 
 /*! ../../hooks/features/columns/gridColumnsSelector */
 
+/*! ../components/Context */
+
 /*! ./AccordionSummary */
 
 /*! ../../../utils/createSelector */
-
-/*! ./text.js */
 
 /*! ../Dialog/DialogContext */
 
@@ -9955,8 +9968,6 @@
 /*! ../internals/create-non-enumerable-property */
 
 /*! @mui/material/utils */
-
-/*! ../../value/utils/resolve-motion-value.mjs */
 
 /*! ./accordionClasses */
 
@@ -9979,8 +9990,6 @@
 /*!**********************************!*\
   !*** ./src/plugin/pagebreaks.js ***!
   \**********************************/
-
-/*! ./utils/filter-props.mjs */
 
 /*! clsx */
 
@@ -10028,6 +10037,8 @@
 
 /*! ../internals/fails */
 
+/*! react */
+
 /*! react/jsx-runtime */
 
 /*! ../hooks/features/density/densitySelector */
@@ -10042,9 +10053,9 @@
 
 /*! ../utils/capitalize */
 
-/*! ./useUtils */
+/*! ../../../motion/utils/is-forced-motion-value.mjs */
 
-/*! react-dom */
+/*! ./useUtils */
 
 /*! ../../hooks/features/pagination/gridPaginationSelector */
 
@@ -10054,15 +10065,15 @@
 
 /*! ../density/densitySelector */
 
+/*! tslib */
+
 /*! ../rows */
-
-/*! ./utils/render.mjs */
-
-/*! ./utils/build-attrs.mjs */
 
 /*! ../FormControl/useFormControl */
 
 /*! ./gridPaginationSelector */
+
+/*! ./hooks/useSelector */
 
 /*! ../../../../utils/warning */
 
@@ -10084,8 +10095,6 @@
 
 /*! ../internals/to-object */
 
-/*! ./css-variables-conversion.mjs */
-
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../../../utils/keyboardUtils */
@@ -10099,10 +10108,6 @@
 /*! ../../utils/useGridSelector */
 
 /*! @mui/material */
-
-/*! ../styles/transform.mjs */
-
-/*! ./clamp.mjs */
 
 /*! @mui/utils */
 
@@ -10122,15 +10127,13 @@
 
 /*! ../../hooks/utils/useGridSelector */
 
+/*! ./create-projection-node.mjs */
+
 /*! ../generateUtilityClass */
 
 /*! ./getBoundingClientRect.js */
 
-/*! react */
-
 /*! ../rows/gridRowsMetaSelector */
-
-/*! tslib */
 
 /*! ./unsupportedProp */
 
@@ -10148,17 +10151,17 @@
 
 /*! ../internals/is-symbol */
 
-/*! ../lib */
-
 /*! ../DatePicker/shared */
 
-/*! ./build-transform.mjs */
+/*! ../../motion/features/animations.mjs */
 
 /*! react/jsx-runtime */
 
-/*! ../utils/capitalize */
-
 /*! react */
+
+/*! ./request.js */
+
+/*! ../utils/capitalize */
 
 /*! react/jsx-runtime */
 
@@ -10167,8 +10170,6 @@
 /*! ../styles/createTransitions */
 
 /*! ../ListItemButton */
-
-/*! parchment */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -10192,13 +10193,17 @@
 
 /*! react */
 
+/*! ../dom/utils/camel-to-dash.mjs */
+
 /*! ./getMainAxisFromPlacement.js */
 
 /*! ./touchRippleClasses */
 
 /*! react */
 
-/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+/*! ../index.mjs */
+
+/*! ../../animation/animate.mjs */
 
 /*! ../DialogTitle/dialogTitleClasses */
 
@@ -10206,9 +10211,15 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
+/*! ../utils/make-renderless-component.mjs */
+
 /*! ./accordionDetailsClasses */
 
+/*! ./mix.mjs */
+
 /*! ../Popper */
+
+/*! style-value-types */
 
 /*! ../palette */
 
@@ -10219,8 +10230,6 @@
 /*! clsx */
 
 /*! @mui/material/Skeleton */
-
-/*! ./path.mjs */
 
 /*! ./Ripple */
 
@@ -10242,6 +10251,8 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
+/*! ./utils/animation-state.mjs */
+
 /*! ../composeClasses */
 
 /*! react/jsx-runtime */
@@ -10250,15 +10261,17 @@
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
+/*! ../utils/useSyncExternalStore */
+
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+
+/*! ../../../motion/utils/valid-prop.mjs */
 
 /*! ./spacing */
 
+/*! hey-listen */
+
 /*! ../internals/object-keys-internal */
-
-/*! react */
-
-/*! ./compare-by-depth.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -10266,15 +10279,15 @@
 
 /*! ../../utils/useGridApiMethod */
 
+/*! ../lib */
+
 /*! @mui/material */
+
+/*! ./utils/transitions.mjs */
 
 /*! ../components/columnSelection/GridCellCheckboxRenderer */
 
 /*! react/jsx-runtime */
-
-/*! ../utils.mjs */
-
-/*! ./hsla.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -10286,8 +10299,6 @@
 
 /*! @mui/material/utils */
 
-/*! tslib */
-
 /*! ../internals/export */
 
 /*! ./ButtonGroupContext */
@@ -10297,8 +10308,6 @@
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
-
-/*! ./Utility.js */
 
 /*! ./MobileDateTimePicker */
 
@@ -10310,7 +10319,7 @@
 
 /*! ./ListItemSecondaryAction */
 
-/*! ./color/hsla.mjs */
+/*! ./utils/ChildMapping */
 
 /*! @mui/styled-engine */
 
@@ -10318,15 +10327,13 @@
 
 /*! ../internals/descriptors */
 
-/*! ./easing/index.mjs */
+/*! @babel/runtime/helpers/esm/extends */
 
 /*! ./listClasses */
 
 /*! react */
 
 /*! ../utils */
-
-/*! ./color/index.mjs */
 
 /*! ./buttonGroupClasses */
 
@@ -10343,6 +10350,10 @@
 /*! ../styles/styled */
 
 /*! @mui/system */
+
+/*! ./utils/event-type.mjs */
+
+/*! ../../../render/utils/types.mjs */
 
 /*! @mui/material/IconButton */
 
@@ -10370,13 +10381,11 @@
 
 /*! ./Grow */
 
-/*! ./dimensions.mjs */
-
 /*! ../../hooks/utils/useGridRootProps */
 
-/*! ../utils/debounce */
+/*! ./TransitionGroupContext */
 
-/*! ./features/use-projection.mjs */
+/*! ../utils/debounce */
 
 /*! ../styles/styled */
 
@@ -10388,13 +10397,11 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
+/*! ../../../projection/geometry/delta-calc.mjs */
+
 /*! ../../hooks/features/density/densitySelector */
 
 /*! ../../../models/gridEditRowModel */
-
-/*! tslib */
-
-/*! ./create-visual-element.mjs */
 
 /*! @mui/material/Button */
 
@@ -10402,9 +10409,9 @@
 
 /*! clsx */
 
-/*! ../MobileDatePicker */
+/*! ./iconBase */
 
-/*! ../geometry/utils.mjs */
+/*! ../MobileDatePicker */
 
 /*! react/jsx-runtime */
 
@@ -10420,21 +10427,17 @@
 
 /*! @mui/base/composeClasses */
 
-/*! ../dom/utils/is-css-variable.mjs */
-
-/*! ../numbers/index.mjs */
+/*! ./Enum.js */
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ./src/Parser.js */
+/*! react */
 
 /*! react */
 
+/*! ../../utils/use-constant.mjs */
+
 /*! ./getParentNode.js */
-
-/*! ../../animation/utils/is-animation-controls.mjs */
-
-/*! tslib */
 
 /*! ../internals/global */
 
@@ -10443,8 +10446,6 @@
 /*! ../../utils/createSvgIcon */
 
 /*! ../utils/math.js */
-
-/*! tslib */
 
 /*! react */
 
@@ -10455,8 +10456,6 @@
 /*! clsx */
 
 /*! ../internals/hidden-keys */
-
-/*! ./setPrototypeOf.js */
 
 /*! @mui/material/styles */
 
@@ -10478,8 +10477,6 @@
 
 /*! ../internals/fails */
 
-/*! ./editor.js */
-
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ../internals/hidden-keys */
@@ -10497,6 +10494,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+/*! ./types.mjs */
+
 /*! clsx */
 
 /*! react */
@@ -10504,8 +10503,6 @@
 /*! react */
 
 /*! ../List/ListContext */
-
-/*! ../../utils/use-force-update.mjs */
 
 /*! ./dialogContentTextClasses */
 
@@ -10515,15 +10512,21 @@
 
 /*! ./TableRow */
 
+/*! ../utils/find-spring.mjs */
+
 /*! react */
 
 /*! ./TabScrollButton */
+
+/*! quill-delta */
 
 /*! react */
 
 /*! ../InputBase/utils */
 
 /*! ../internals/has */
+
+/*! react */
 
 /*! @mui/base/composeClasses */
 
@@ -10533,9 +10536,9 @@
 
 /*! ../styles/useThemeProps */
 
-/*! ../../utils/useGridLogger */
+/*! ./variants.mjs */
 
-/*! ./useReduxContext */
+/*! ../../utils/useGridLogger */
 
 /*! @mui/material/utils */
 
@@ -10543,13 +10546,15 @@
 
 /*! ../internals/to-indexed-object */
 
-/*! react */
+/*! hey-listen */
 
 /*! @babel/runtime/helpers/classCallCheck */
 
 /*! react */
 
 /*! ../../hooks/utils/useGridApiContext */
+
+/*! tslib */
 
 /*! ./buttonGroupClasses */
 
@@ -10569,6 +10574,8 @@
   !*** ./node_modules/es6-promise/dist/es6-promise.js ***!
   \******************************************************/
 
+/*! ./utils/create-render-state.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../ButtonGroup/ButtonGroupContext */
@@ -10576,6 +10583,8 @@
 /*! ../../utils/useGridApiMethod */
 
 /*! ../internals/shared */
+
+/*! ../../../components/AnimatePresence/use-presence.mjs */
 
 /*! react/jsx-runtime */
 
@@ -10597,6 +10606,8 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
+/*! ./VisualElementDragControls.mjs */
+
 /*! react/jsx-runtime */
 
 /*! @mui/material */
@@ -10615,11 +10626,11 @@
   !*** ./node_modules/core-js/internals/object-keys.js ***!
   \*******************************************************/
 
-/*! ../internals/object-set-prototype-of */
-
-/*! ../generators/spring.mjs */
-
 /*! tslib */
+
+/*! ../../utils/time-conversion.mjs */
+
+/*! ../internals/object-set-prototype-of */
 
 /*! react */
 
@@ -10629,7 +10640,11 @@
 
 /*! ./useCalendarState */
 
+/*! ./utils/scrape-motion-values.mjs */
+
 /*! react/jsx-runtime */
+
+/*! framesync */
 
 /*! @mui/utils */
 
@@ -10641,6 +10656,8 @@
 
 /*! ./useMediaQuery */
 
+/*! @babel/runtime/helpers/esm/classCallCheck */
+
 /*! ./dom-utils/listScrollParents.js */
 
 /*! ../../../utils/createSelector */
@@ -10648,8 +10665,6 @@
 /*! ../internals/utils/date-utils */
 
 /*! ./modifiers/flip.js */
-
-/*! ./iterableToArrayLimit.js */
 
 /*! @mui/base/composeClasses */
 
@@ -10661,7 +10676,7 @@
 
 /*! ../styles/styled */
 
-/*! ../../context/LazyContext.mjs */
+/*! ../../render/utils/flat-tree.mjs */
 
 /*! react */
 
@@ -10675,8 +10690,6 @@
  * SPDX-License-Identifier: ISC
  */
 
-/*! ../utils/velocity-per-second.mjs */
-
 /*! ../components/ErrorOverlay */
 
 /*! ../../utils/useGridVisibleRows */
@@ -10687,11 +10700,11 @@
 
 /*! ./ClickAwayListener */
 
-/*! parchment */
-
 /*! ./filledInputClasses */
 
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! ../utils/make-renderless-component.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -10703,9 +10716,7 @@
 
 /*! ./outlinedInputClasses */
 
-/*! @babel/runtime/helpers/esm/typeof */
-
-/*! ../../projection/geometry/models.mjs */
+/*! framesync */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -10725,11 +10736,13 @@
 
 /*! ./identifier */
 
+/*! tslib */
+
 /*! ../generateUtilityClass */
 
-/*! ./createTheme */
+/*! ./iterableToArray.js */
 
-/*! ./utils/scrollRectIntoView.js */
+/*! ./createTheme */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -10749,8 +10762,6 @@
 
 /*! ./FilledInput */
 
-/*! ./create-projection-node.mjs */
-
 /*! ../internals/get-built-in */
 
 /*! @mui/utils */
@@ -10758,8 +10769,6 @@
 /*!****************************************************!*\
   !*** ./node_modules/core-js/internals/own-keys.js ***!
   \****************************************************/
-
-/*! ./batch */
 
 /*! ../lib */
 
@@ -10778,6 +10787,8 @@
 /*! ./lib/ReactPropTypesSecret */
 
 /*! @mui/material */
+
+/*! ./typeof.js */
 
 /*! @mui/system */
 
@@ -10799,15 +10810,13 @@
 
 /*! ../utils/useEnhancedEffect */
 
-/*! ./components/connect */
-
 /*! ../Popover */
-
-/*! ../context/MotionConfigContext.mjs */
 
 /*! ../internals/a-possible-prototype */
 
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! ./features/use-features.mjs */
 
 /*! ../internals/to-length */
 
@@ -10831,15 +10840,17 @@
 
 /*! react */
 
+/*! js-cookie v3.0.1 | MIT */
+
 /*! core-js/modules/es.array.slice.js */
 
 /*! ./radioClasses */
 
-/*! ./utils/scrape-motion-values.mjs */
-
 /*! ../Chip */
 
 /*! react */
+
+/*! ./utils/render.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -10853,11 +10864,15 @@
 
 /*! ../components/columnHeaders/GridColumnUnsortedIcon */
 
+/*! parchment */
+
 /*! ../colors/grey */
 
 /*! react/jsx-runtime */
 
 /*! ../styles/useThemeProps */
+
+/*! ../../easing/index.mjs */
 
 /*! ../../hooks/utils/useGridRootProps */
 
@@ -10865,19 +10880,11 @@
 
 /*! clsx */
 
-/*! ../utils/useIsomorphicLayoutEffect */
-
 /*! react */
-
-/*! ./utils/render.mjs */
 
 /*!*****************************************************************!*\
   !*** ./node_modules/core-js/internals/to-string-tag-support.js ***!
   \*****************************************************************/
-
-/*! ./hooks/useSelector */
-
-/*! ./composition.js */
 
 /*! ./pickersSlideTransitionClasses */
 
@@ -10893,9 +10900,13 @@
 
 /*! @mui/material */
 
+/*! ../../value/utils/resolve-motion-value.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+
+/*! ../utils.mjs */
 
 /*! ./switchBaseClasses */
 
@@ -10903,15 +10914,15 @@
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! tslib */
-
 /*! ./useForkRef */
-
-/*! ../../dom/utils/is-css-variable.mjs */
 
 /*! @mui/material/TablePagination */
 
 /*! react */
+
+/*! ../index.mjs */
+
+/*! ../../utils/interpolate.mjs */
 
 /*! ../../utils/useGridLogger */
 
@@ -10927,11 +10938,11 @@
   !*** ./node_modules/core-js/internals/define-iterator.js ***!
   \***********************************************************/
 
+/*! ./defaultMemoize */
+
 /*! ../../hooks/features/rows/gridRowsSelector */
 
 /*! ../colors/red */
-
-/*! ../context/MotionContext/index.mjs */
 
 /*! react */
 
@@ -10942,6 +10953,10 @@
 /*! ../internals/shared-key */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+
+/*! ../blots/text.js */
+
+/*! ../../../projection/styles/scale-border-radius.mjs */
 
 /*! ./useIsFocusVisible */
 
@@ -10963,15 +10978,13 @@
 
 /*! ./debounce */
 
-/*! react */
-
 /*! ./useSnackbar */
 
 /*! react */
 
 /*! ./constants */
 
-/*! tslib */
+/*! ../../utils/use-id.mjs */
 
 /*! ./useAutocomplete */
 
@@ -10986,6 +10999,8 @@
 /*! ./capitalize */
 
 /*! clsx */
+
+/*! ./selection.js */
 
 /*! ./ListItemSecondaryAction */
 
@@ -11005,11 +11020,11 @@
 
 /*! ./GridPreferencesPanel */
 
-/*! @babel/runtime/helpers/esm/extends */
+/*! ./Enum.js */
 
 /*! @babel/runtime/helpers/esm/extends */
 
-/*! ../../html/utils/create-render-state.mjs */
+/*! @babel/runtime/helpers/esm/extends */
 
 /*! ./GridApiContext */
 
@@ -11017,17 +11032,17 @@
   !*** ./node_modules/core-js/internals/uid.js ***!
   \***********************************************/
 
-/*! ../../utils/is-numerical-string.mjs */
+/*! ./LayoutGroup/index.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
-
-/*! ./test.mjs */
 
 /*! @emotion/unitless */
 
 /*! react */
 
 /*! @mui/utils */
+
+/*! ../../context/PresenceContext.mjs */
 
 /*! ./getOffsetParent.js */
 
@@ -11038,6 +11053,8 @@
 /*! ../internals/fails */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+
+/*! ../../animation/utils/is-animation-controls.mjs */
 
 /*! react/jsx-runtime */
 
@@ -11061,25 +11078,21 @@
 
 /*! @mui/material/IconButton */
 
-/*! ../value/utils/is-motion-value.mjs */
-
 /*! ./ListItem */
 
 /*! react/jsx-runtime */
 
 /*! ../styles/styled */
 
-/*! ../../motion/utils/use-visual-state.mjs */
-
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
 /*! ./listScrollParents.js */
 
+/*! ./utils/clamp.mjs */
+
 /*! ../Typography */
 
 /*! react */
-
-/*! hoist-non-react-statics */
 
 /*! ../../constants/gridClasses */
 
@@ -11087,7 +11100,7 @@
 
 /*! ./gridFocusStateSelector */
 
-/*! ./animation.mjs */
+/*! popmotion */
 
 /*! @mui/base/useBadge */
 
@@ -11103,6 +11116,8 @@
 
 /*! ./gridStringOperators */
 
+/*! ../utils/useSyncExternalStore */
+
 /*!
  * @overview es6-promise - a tiny implementation of Promises/A+.
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
@@ -11110,8 +11125,6 @@
  *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
  * @version   v4.2.8+1e68dce6
  */
-
-/*! ./features/definitions.mjs */
 
 /*!**************************************************!*\
   !*** ./node_modules/core-js/internals/global.js ***!
@@ -11121,27 +11134,23 @@
 
 /*! @mui/material/ClickAwayListener */
 
+/*! ./viewport/use-viewport.mjs */
+
 /*! ../internals/enum-bug-keys */
 
 /*! ./DialogTitle */
-
-/*! parchment */
-
-/*! tslib */
 
 /*! ./instanceOf.js */
 
 /*! react/jsx-runtime */
 
-/*! ../../context/PresenceContext.mjs */
-
-/*! ./utils/build-attrs.mjs */
+/*! react */
 
 /*! ../ClassNameGenerator */
 
 /*! ../internals/uid */
 
-/*! ./iconContext */
+/*! ../../render/dom/value-types/animatable-none.mjs */
 
 /*! @mui/base/composeClasses */
 
@@ -11153,30 +11162,19 @@
 
 /*! ../../hooks/features/preferencesPanel/gridPreferencePanelSelector */
 
-/*! ./utils/VisualElementHandler.mjs */
-
 /*! react/jsx-runtime */
 
 /*! ./scrollLeft */
 
 /*! ./getDocumentElement.js */
 
-/*!
- * Quill Editor v1.3.7
- * https://quilljs.com/
- * Copyright (c) 2014, Jason Chen
- * Copyright (c) 2013, salesforce.com
- */
-
 /*! react */
 
 /*! ../components/cell/GridEditSingleSelectCell */
 
-/*! ./useReduxContext */
-
-/*! ../lib */
-
 /*! ./CircularProgress */
+
+/*! ./mix.mjs */
 
 /*! ../styles/styled */
 
@@ -11188,6 +11186,8 @@
 
 /*! clsx */
 
+/*! react */
+
 /*! ../hooks/utils/useGridApiEventHandler */
 
 /*! ./GlobalStyles */
@@ -11195,6 +11195,8 @@
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! react/jsx-runtime */
+
+/*! ../utils/time-conversion.mjs */
 
 /*! @mui/base/composeClasses */
 
@@ -11204,13 +11206,11 @@
 
 /*! ../transitions/utils */
 
-/*! ../../context/MotionContext/index.mjs */
-
 /*! ../useEnhancedEffect */
 
 /*! ./DatePicker */
 
-/*! ./is-browser.mjs */
+/*! ../../render/html/utils/transform.mjs */
 
 /*! @babel/runtime/helpers/esm/extends */
 
@@ -11218,23 +11218,21 @@
 
 /*! @mui/base/composeClasses */
 
-/*! @babel/runtime/helpers/esm/extends */
-
 /*! @mui/material/styles */
 
 /*! @mui/utils */
 
 /*! ../generateUtilityClass */
 
+/*! ./mix-color.mjs */
+
 /*! ../../utils/useGridApiEventHandler */
 
 /*! ./gridBooleanColDef */
 
+/*! hey-listen */
+
 /*! ../styles/useThemeProps */
-
-/*! ./toPropertyKey.js */
-
-/*! ../context/MotionContext/create.mjs */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
 
@@ -11244,17 +11242,15 @@
 
 /*! ../lib */
 
-/*! ../../utils/useGridApiMethod */
+/*! xlsx.js (C) 2013-present SheetJS -- http://sheetjs.com */
 
-/*! ./objectWithoutPropertiesLoose.js */
+/*! ../../utils/useGridApiMethod */
 
 /*! ../hooks/features/sorting/useGridSorting */
 
-/*! ./toPropertyKey.js */
-
 /*! ./iconButtonClasses */
 
-/*! @emotion/unitless */
+/*! ./src/Serializer.js */
 
 /*! react */
 
@@ -11274,6 +11270,8 @@
 
 /*! react/jsx-runtime */
 
+/*! @babel/runtime/helpers/esm/createClass */
+
 /*! @mui/utils */
 
 /*! @mui/utils */
@@ -11288,9 +11286,11 @@
 
 /*! @mui/system */
 
-/*! ./is-animatable.mjs */
+/*! tslib */
 
 /*! @babel/runtime/helpers/esm/extends */
+
+/*! ./utils/is-svg-component.mjs */
 
 /*! ../styles/styled */
 
@@ -11302,13 +11302,9 @@
 
 /*! ./outlinedInputClasses */
 
-/*! tslib */
-
 /*! react */
 
 /*! ./propsToClassKey */
-
-/*! tslib */
 
 /*! ../../hooks/features/focus/gridFocusStateSelector */
 
@@ -11326,13 +11322,13 @@
 
 /*! ../internals/function-bind-context */
 
-/*! cross-fetch */
-
 /*! ./DayPicker */
 
 /*! ../internal/svg-icons/Close */
 
 /*! ../internals/iterators-core */
+
+/*! ./cjs/react-is.production.min.js */
 
 /*! react */
 
@@ -11342,19 +11338,17 @@
 
 /*! ../../utils/useGridVisibleRows */
 
+/*! react */
+
 /*! ../Portal */
 
 /*! ./gridDefaultColumnTypes */
-
-/*! lodash-es */
 
 /*! ../generateUtilityClass */
 
 /*! ../styles/useTheme */
 
 /*! ../utils/userAgent.js */
-
-/*! tslib */
 
 /*! @mui/material */
 
@@ -11390,6 +11384,8 @@
 
 /*! @mui/utils */
 
+/*! ./inline.js */
+
 /*! ../generateUtilityClass */
 
 /*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
@@ -11406,7 +11402,9 @@
 
 /*! react */
 
-/*! ../generators/keyframes.mjs */
+/*! @babel/runtime/helpers/esm/inheritsLoose */
+
+/*! ../../motion/features/layout/index.mjs */
 
 /*!*******************************************************************!*\
   !*** ./node_modules/core-js/internals/object-set-prototype-of.js ***!
@@ -11420,7 +11418,9 @@
 
 /*! ./useTimeValidation */
 
-/*! popmotion */
+/*! ../../context/DeprecatedLayoutGroupContext.mjs */
+
+/*! ./transform-origin.mjs */
 
 /*! ../generateUtilityClass */
 
@@ -11430,11 +11430,7 @@
 
 /*! ../styles/styled */
 
-/*! ../color/index.mjs */
-
 /*! ../lib */
-
-/*! ../../utils/clamp.mjs */
 
 /*! ../styles/styled */
 
@@ -11444,8 +11440,12 @@
 
 /*! ./gridRowsMetaSelector */
 
+/*! ./use-isomorphic-effect.mjs */
+
 /*! @babel/runtime/helpers/esm/extends */
 
 /*! ../styles/useThemeProps */
 
 /*! ../../../CalendarPicker/CalendarPicker */
+
+/*! ./hex.mjs */
