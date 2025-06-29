@@ -1,0 +1,5145 @@
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../../../emptyDataImg/EmptyDataImg */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../slice/kafedra/section_slice */
+
+/*! ../../slice/rektor/rektor_dashboard_staffs_slice */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! moment */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../responsiv */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react-quill */
+
+/*! ./user/CreateUser */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/x-date-pickers/AdapterMoment */
+
+/*! ./slice/kafedra/kafedra_teacher_statistics_slice */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! ../../../../redux/actions/educationYear/education_year_actions */
+
+/*! jwt-decode */
+
+/*! ./InternshipForStudent */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! styled-components */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/Tooltip */
+
+/*! ./EditDiplomaModal */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/InputLabel */
+
+/*! ../notification/Notification2 */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ./actions/dekan/dekan_transfer_student_actions */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../data/data */
+
+/*! ./slice/questions/questions_slice */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! styled-components */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.map.includes.js */
+
+/*! ../components/dekan/studentservice/referral/ReferralForDean */
+
+/*! styled-components */
+
+/*! ./TeacherActions */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react/jsx-runtime */
+
+/*! react-icons/hi */
+
+/*! react */
+
+/*! styled-components */
+
+/*! axios */
+
+/*! ../../utills/ServiceUrls */
+
+/*! styled-components */
+
+/*! i18next */
+
+/*! ../../../spinner/Spinner */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! @mui/material/Typography */
+
+/*! ../../components/navbar/NavBarUser */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/es.typed-array.at.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ./slice/user/user_slice */
+
+/*! react-icons/md */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! react-router-dom */
+
+/*! ../emptyDataImg/EmptyDataImg */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-icons/md */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! file-saver */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! ../../../utills/apiAxios */
+
+/*! ../sidebar/SidebarBtn */
+
+/*! ../../components/student/results/StudentExamFinal */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../../components/uquvbulimi/statisticsedu/TableEduPartTime */
+
+/*! ../../../../responsiv */
+
+/*! ../responsiv */
+
+/*! @mui/x-data-grid */
+
+/*! core-js/modules/esnext.map.map-keys.js */
+
+/*! react */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../components/navbar/NavBarDekan */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/TextField */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react */
+
+/*! react */
+
+/*! core-js/modules/esnext.array.group.js */
+
+/*! html2pdf.js/src */
+
+/*! core-js/modules/es.typed-array.uint8-array.js */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react/jsx-runtime */
+
+/*! ./ReferralDataGrid */
+
+/*! @mui/material/TextField */
+
+/*! ../../components/teacher/timeTable/TeacherTimeTable */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react */
+
+/*! react-redux */
+
+/*! ./ModalUploadFileV2 */
+
+/*! react-toastify */
+
+/*! ../../../redux/actions/dekan/dekan_groups_actions */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../bulim/sittings/BulimSittings */
+
+/*! ./pages/deputydean/DeputyDean */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! styled-components */
+
+/*! react-icons/fa6 */
+
+/*! axios */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @reduxjs/toolkit */
+
+/*! ../../components/bulim/dashboard/BulimDashboard */
+
+/*! @mui/icons-material/CheckBox */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ./timetable/TimeTable */
+
+/*! react-router-dom */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! ./ModalCreate */
+
+/*! ../../redux/slice/user/user_slice */
+
+/*! jwt-decode */
+
+/*! axios */
+
+/*! ../staff/StaffUserModal */
+
+/*! core-js/modules/esnext.async-iterator.every.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react-icons/md */
+
+/*! @mui/material */
+
+/*! ../../components/kafedra/controlTest/DepartmentControlTestTeacher */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! react-icons/md */
+
+/*! ./pages/rektor/RektorPage */
+
+/*! @mui/material/MenuItem */
+
+/*! @mui/material/CircularProgress */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! axios */
+
+/*! ./actions/dekanat/dekanat_actions */
+
+/*! react-redux */
+
+/*! react-icons/md */
+
+/*! axios */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react/jsx-runtime */
+
+/*! ./StudentGetAnswersModal */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/x-data-grid */
+
+/*! styled-components */
+
+/*! react */
+
+/*! @mui/material/Box */
+
+/*! ../components/dekan/historySMS/DekanSMSHistory */
+
+/*! react */
+
+/*! @mui/material/IconButton */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! axios */
+
+/*! ../../responsiv */
+
+/*! @mui/material/Button */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ./pages/PdfViewInternship/PdfViewInternship */
+
+/*! ./components/teacher/teacherScience/CourseModuleData */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/IconButton */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/Typography */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../images/logo.png */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react/jsx-runtime */
+
+/*! ../../../components/dataGridCustomize/DataGridCustomize */
+
+/*! @mui/x-date-pickers/AdapterMoment */
+
+/*! react-toastify */
+
+/*! quill/modules/table */
+
+/*! ../kafedra/teachers/teacherPanel/TeacherPanel */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */
+
+/*! react */
+
+/*! core-js/modules/web.dom-exception.stack.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Typography */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Select */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../responsiv */
+
+/*! react */
+
+/*! ./pages/boshqarma/BoshqarmaPage */
+
+/*! react-redux */
+
+/*! ../../../redux/actions/educationYear/education_year_actions */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react-toastify */
+
+/*! moment/moment */
+
+/*! ../../utills/images/logo.png */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ./slice/vedimost/vedimostSlice */
+
+/*! @mui/icons-material/VisibilityOff */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-router-dom */
+
+/*! ../../components/spinner/Spinner */
+
+/*! @mui/material */
+
+/*! @mui/material/MenuItem */
+
+/*! @mui/material/Box */
+
+/*! ../../components/contact/AllContacts */
+
+/*! ../../data/data */
+
+/*! ../components/dekan/studentservice/internship/InternshipForDean */
+
+/*! ../../components/rektor/rahbariyat/RektorRahbariyat */
+
+/*! react */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! @mui/icons-material/CheckBoxOutlineBlank */
+
+/*! ./PdfAcademicConfig */
+
+/*! react-redux */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-toastify */
+
+/*! ../../components/rektor/StudentsStatisticsForRektor */
+
+/*! @mui/material */
+
+/*! ../../data/data */
+
+/*! ./slice/kafedra/kafedra_dashboard_statistics_slice */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! moment */
+
+/*! react-toastify */
+
+/*! ../../../../responsiv */
+
+/*! ./changeLog/ChangeLog */
+
+/*! ../../responsiv */
+
+/*! ./slice/infoStudentForLesson/infoStudentForLesson_slice */
+
+/*! ../../components/spinner/Spinner */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */
+
+/*! ../../teacher/teacherScience/OnlyCourseData */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../../redux/actions/notification/notification_action */
+
+/*! @mui/material/Select */
+
+/*! react-router-dom */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! styled-components */
+
+/*! ../../components/uquvbulimi/results/LayoutRating */
+
+/*! react */
+
+/*! react */
+
+/*! react-toastify */
+
+/*! core-js/modules/esnext.iterator.some.js */
+
+/*! react-quill/dist/quill.snow.css */
+
+/*! react-redux */
+
+/*! ../../../redux/slice/educationYear/education_year_statistics_slice */
+
+/*! @mui/material/CircularProgress */
+
+/*! @mui/material/Box */
+
+/*! styled-components */
+
+/*! ./PdfContr */
+
+/*! @mui/icons-material/Save */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! ./slice/dekan/bad_and_best */
+
+/*! react/jsx-runtime */
+
+/*! react/jsx-runtime */
+
+/*! axios */
+
+/*! ../../data/data */
+
+/*! @mui/material/FormControl */
+
+/*! react-router-dom */
+
+/*! core-js/modules/es.array.unscopables.flat-map.js */
+
+/*! @mui/material/Autocomplete */
+
+/*! ../sidebar/SideBar */
+
+/*! ../../utills/ServiceUrls */
+
+/*! ../../../../utills/apiAxios */
+
+/*! ./staff/StaffAdd */
+
+/*! ../../redux/actions/notification/notification_action */
+
+/*! ../components/dekan/studentservice/DeanStudentServiceReference */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! ../contact/AllContacts */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../staff/ExportBtnToExcelForRektor */
+
+/*! react-icons/tb */
+
+/*! @mui/material/MenuItem */
+
+/*! ../../dataGridCustomize/DataGridCustomize */
+
+/*! ./slice/lessonsTeacher/lessons_teacher_slice */
+
+/*! @mui/material/Select */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! moment/locale/ru */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-icons/ri */
+
+/*! ../../utills/ServiceUrls */
+
+/*! @mui/material/Avatar */
+
+/*! ../../redux/actions/educationYear/education_year_actions */
+
+/*! core-js/modules/esnext.iterator.for-each.js */
+
+/*! react-router-dom */
+
+/*! ../components/spinner/Spinner */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ./dashboard/EducationalDashboard */
+
+/*! ./actions/dekan/dekan_groups_actions */
+
+/*! react */
+
+/*! core-js/modules/esnext.async-iterator.some.js */
+
+/*! jwt-decode */
+
+/*! styled-components */
+
+/*! ./DataPassedTeacher */
+
+/*! react-icons/ai */
+
+/*! @mui/material/Tabs */
+
+/*! ../contact/AllContacts */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */
+
+/*! ../../data/data */
+
+/*! ../../components/student/student_service/NoticeForStudent */
+
+/*! ./slice/educationYear/education_year_slice */
+
+/*! @mui/material/Modal */
+
+/*! ./EduYearModal */
+
+/*! @mui/material/Select */
+
+/*! react-redux */
+
+/*! @mui/material/FormControl */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/es.array.unscopables.flat.js */
+
+/*! moment */
+
+/*! ../../components/rektor/staff/LayoutEmployees */
+
+/*! @mui/material/TextField */
+
+/*! core-js/modules/es.string.replace.js */
+
+/*! ../../slice/user/user_slice */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! jwt-decode */
+
+/*! styled-components */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../components/student/subject/StudentSubjectsTheme */
+
+/*! ../../../utills/apiAxios */
+
+/*! ../components/dekan/statement/StatementDataDean */
+
+/*! ./EnterAndOutTimesOfTeacher */
+
+/*! react/jsx-runtime */
+
+/*! ./slice/attendanceJournal/attendanceJournal_slice */
+
+/*! @mui/icons-material/ExpandMore */
+
+/*! ../../responsiv */
+
+/*! html2pdf.js/src */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! @mui/x-date-pickers/DatePicker */
+
+/*! ../../components/student/student_service/ReferralForStudent */
+
+/*! @mui/material/Box */
+
+/*! react */
+
+/*! core-js/modules/web.url-search-params.delete.js */
+
+/*! react */
+
+/*! react-icons/md */
+
+/*! moment */
+
+/*! react-router-dom */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/Modal */
+
+/*! ../../../utills/apiAxios */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../components/rektor/statisticsDean/StatisticsDean */
+
+/*! react-router-dom */
+
+/*! moment */
+
+/*! react/jsx-runtime */
+
+/*! ./actions/infoStudentForLesson/InfoStudentForLesson_actions */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react/jsx-runtime */
+
+/*! ./actions/student/student_actions */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/web.url.js */
+
+/*! ../ModalRektorTeachersPage */
+
+/*! react-router-dom */
+
+/*! ./pages/PdfViewReference/PdfViewReference */
+
+/*! @mui/material */
+
+/*! i18next-http-backend */
+
+/*! ./actions/rektor/rektor_dashboard_students_action */
+
+/*! ../../redux/actions/notification/notification_action */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ../historyEnter/HistoryEnter */
+
+/*! ./teachers/EducationalTeachers */
+
+/*! @mui/material/AccordionSummary */
+
+/*! ../../utills/ServiceUrls */
+
+/*! react-icons/ai */
+
+/*! react */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../responsiv */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../../../utills/images/no-picture.jpg */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! html2pdf.js/src */
+
+/*! @mui/material/Box */
+
+/*! @mui/material/CircularProgress */
+
+/*! @reduxjs/toolkit */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ../../components/sidebar/SideBar */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */
+
+/*! ../../components/teacher/settings/TeacherSettings */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../../components/sidebar/SideBar */
+
+/*! react */
+
+/*! ../../../../utills/ServiceUrls */
+
+/*! react/jsx-runtime */
+
+/*! styled-components */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! moment */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/fa */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! styled-components */
+
+/*! @mui/material/FormControl */
+
+/*! ../../responsiv */
+
+/*! ../../slice/rektor/rektor_staffs_slice */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! ../../../utills/pdfFiles/PdfInternship */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! core-js/modules/es.error.cause.js */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-redux */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ./slice/dekan/dekan_faculties_for_transfer_student_slice */
+
+/*! react-icons/ai */
+
+/*! react/jsx-runtime */
+
+/*! react-icons/ai */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/Tabs */
+
+/*! moment/moment */
+
+/*! react-redux */
+
+/*! @reduxjs/toolkit */
+
+/*! @mui/material/Button */
+
+/*! ../../../pages/kafedra/statement/ModalStatementData */
+
+/*! react */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../../redux/slice/rektor/rektor_teachers_slice */
+
+/*! react-icons/ri */
+
+/*! @mui/material/Button */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.for-each.js */
+
+/*! @mui/material/InputLabel */
+
+/*! react-icons/md */
+
+/*! ../components/contact/AllContacts */
+
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.flat-map.js */
+
+/*! i18next */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! react-icons/md */
+
+/*! @mui/material/Modal */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../redux/slice/educationYear/education_year_statistics_slice */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-toastify */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! qrcode.react */
+
+/*! react/jsx-runtime */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ./roles/DekanRoleSettings */
+
+/*! ../../../../utills/ServiceUrls */
+
+/*! react-icons/md */
+
+/*! react */
+
+/*! styled-components */
+
+/*! ../../responsiv */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! @mui/material/IconButton */
+
+/*! react/jsx-runtime */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/Box */
+
+/*! react-icons/io5 */
+
+/*! xlsx */
+
+/*! react-router-dom */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/Box */
+
+/*! ../../responsiv */
+
+/*! react-redux */
+
+/*! moment */
+
+/*! ../../../../utills/pdfFiles/PdfInternship */
+
+/*! ./slice/educationYear/education_year_statistics_slice */
+
+/*! core-js/modules/esnext.typed-array.to-spliced.js */
+
+/*! ../../components/charts/barchart/StackedBarChart */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../redux/slice/serverTime/serverTimeSlice */
+
+/*! react */
+
+/*! xlsx */
+
+/*! @mui/material/Box */
+
+/*! react-icons/md */
+
+/*! styled-components */
+
+/*! @mui/material/Typography */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! axios */
+
+/*! @mui/material */
+
+/*! @mui/material/TextField */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../SectionNav */
+
+/*! core-js/modules/esnext.map.map-values.js */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../components/rektor/student/LayoutStudentsForRekror */
+
+/*! react-icons/io5 */
+
+/*! @mui/icons-material */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/IconButton */
+
+/*! ../../components/navbar/NavBarUser */
+
+/*! react-router-dom */
+
+/*! ../../components/student/student_service/StudentServiceLayout */
+
+/*! @mui/material/Modal */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! ./room/EducationalRooms */
+
+/*! ../../../utills/apiAxios */
+
+/*! @mui/material */
+
+/*! ../redux/actions/teacher/teacher_actions */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! ./pages/kafedra/Kafedra */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-icons/io5 */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../responsiv */
+
+/*! react-redux */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ./InternshipDataGrid */
+
+/*! @mui/material/Button */
+
+/*! html2pdf.js/src */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! react/jsx-runtime */
+
+/*! react-icons/fa */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/CircularProgress */
+
+/*! ../../components/navbar/NavBarDekan */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/CircularProgress */
+
+/*! ./slice/tableData/tableSlice */
+
+/*! react-router-dom */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! styled-components */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react/jsx-runtime */
+
+/*! ../data/data */
+
+/*! react-icons/io */
+
+/*! ../../components/dekan/journal/DekanJournal */
+
+/*! qrcode.react */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/CircularProgress */
+
+/*! ./ExcelStatement */
+
+/*! styled-components */
+
+/*! react-router-dom */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/ri */
+
+/*! react-toastify */
+
+/*! ../components/dekan/xabarnoma/NoticeForDean */
+
+/*! react-toastify */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react-icons/md */
+
+/*! ./pages/Admin */
+
+/*! react */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! styled-components */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @reduxjs/toolkit */
+
+/*! styled-components */
+
+/*! ../../redux/slice/serverTime/serverTimeSlice */
+
+/*! react */
+
+/*! @mui/x-date-pickers/AdapterMoment */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../responsiv */
+
+/*! jwt-decode */
+
+/*! react-icons/fa */
+
+/*! react-icons/md */
+
+/*! react/jsx-runtime */
+
+/*! styled-components */
+
+/*! @mui/material */
+
+/*! ./sittings/BulimSittings */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ../../utills/apiAxios */
+
+/*! react-redux */
+
+/*! @mui/material/Box */
+
+/*! ../../redux/slice/btnvalue */
+
+/*! ./pages/monitoringAssistant/MonitoringAssistant */
+
+/*! @mui/material/Autocomplete */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Typography */
+
+/*! @mui/material/InputLabel */
+
+/*! quill-table-ui/dist/index.css */
+
+/*! ./actions/rektor/rektor_dashboard_staffs_action */
+
+/*! ../../../utills/apiAxios */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! ./actions/user/user_actions */
+
+/*! @mui/material/Modal */
+
+/*! ../../components/sidebar/SideBar */
+
+/*! react-icons/bs */
+
+/*! react-redux */
+
+/*! ../../slice/dekan/dekan_transfer_student_slice */
+
+/*! react */
+
+/*! react-quill */
+
+/*! styled-components */
+
+/*! quill-table-ui */
+
+/*! ../../dataGridCustomize/DataGridCustomize */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../components/dekan/students/DekanStudents */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! @mui/material/Button */
+
+/*! react-icons/fa6 */
+
+/*! ./components/bulim/Bulim */
+
+/*! react-icons/io */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/InputLabel */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! @mui/icons-material/Delete */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! @mui/material/IconButton */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! @mui/material/Checkbox */
+
+/*! react-router-dom */
+
+/*! react */
+
+/*! styled-components */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react-toastify */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../../components/contact/AllContacts */
+
+/*! ../../../../utills/apiAxios */
+
+/*! styled-components */
+
+/*! react */
+
+/*! ../../../utills/apiAxios */
+
+/*! @reduxjs/toolkit */
+
+/*! ../../../../utills/apiAxios */
+
+/*! react/jsx-runtime */
+
+/*! ../../actions/tableData/table_action */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react-toastify */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ./modal/ChangeIdTeacher */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../dataGridCustomize/DataGridCustomize */
+
+/*! ../components/dekan/kafedra/DekanKafedra */
+
+/*! ../../utills/ServiceUrls */
+
+/*! xlsx */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ./components/spinner/Spinner */
+
+/*! ../../components/uquvbulimi/room/EducationalRooms */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! ../../slice/dekan/dekan_groups_slice */
+
+/*! @mui/material/FormControl */
+
+/*! ../components/admin/building/Buildings */
+
+/*! @mui/material/Grid */
+
+/*! ../../utills/ServiceUrls */
+
+/*! react-redux */
+
+/*! styled-components */
+
+/*! react */
+
+/*! @mui/material/Autocomplete */
+
+/*! moment/locale/uz-latn */
+
+/*! ../../utills/ServiceUrls */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! ../components/dekan/studentservice/NoticeHistory */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react/jsx-runtime */
+
+/*! @mui/x-date-pickers/LocalizationProvider */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react/jsx-runtime */
+
+/*! @reduxjs/toolkit */
+
+/*! react/jsx-runtime */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ./components/uquvbulimi/EducationalDepartment */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../tableForTeachers/TabelForTeachers */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! ../../components/sidebar/SideBar */
+
+/*! axios */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../components/sidebar/SideBar */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! styled-components */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-redux */
+
+/*! @mui/material/Tab */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! styled-components */
+
+/*! react-icons/md */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../components/dekan/studentservice/internship/InternshipHistory */
+
+/*! ../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! @mui/material/Box */
+
+/*! styled-components */
+
+/*! react-icons/bs */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! styled-components */
+
+/*! @mui/material/Box */
+
+/*! ./teachers/Teachers */
+
+/*! ../../responsiv */
+
+/*! react/jsx-runtime */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../components/dekan/groups/DekanGroupsEdit */
+
+/*! react-toastify */
+
+/*! @mui/material/Typography */
+
+/*! html2pdf.js */
+
+/*! @mui/material/FormControl */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! @mui/x-date-pickers/AdapterMoment */
+
+/*! ./slice/dekan/dekan_groups_slice */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ./DashBoardLayout */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../../../utills/ServiceUrls */
+
+/*! react-icons/io5 */
+
+/*! ../components/admin/user/AdminUserAddPage */
+
+/*! styled-components */
+
+/*! @mui/material/Typography */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../components/navbar/NavBarUser */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react */
+
+/*! ../../components/student/menu/StudentMenu */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! @mui/icons-material/CheckCircle */
+
+/*! ../components/navbar/NavBarDekan */
+
+/*! react */
+
+/*! react */
+
+/*! ./pages/pdfViewReferral/PdfViewReferral */
+
+/*! react-icons/ri */
+
+/*! @mui/material/Button */
+
+/*! styled-components */
+
+/*! ../../slice/rektor/rektor_teachers_slice */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material */
+
+/*! ../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../utills/ServiceUrls */
+
+/*! react */
+
+/*! ../../../utills/apiAxios */
+
+/*! core-js/modules/esnext.typed-array.unique-by.js */
+
+/*! react-redux */
+
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! ./OnlyCourseData */
+
+/*! ../../utills/ServiceUrls */
+
+/*! ../../dataGridCustomize/DataGridCustomize */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! styled-components */
+
+/*! @mui/material/Autocomplete */
+
+/*! styled-components */
+
+/*! prop-types */
+
+/*! ../../redux/slice/btnvalue */
+
+/*! @mui/material/Checkbox */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ./addStudent/AddStudents */
+
+/*! @mui/material/Backdrop */
+
+/*! react/jsx-runtime */
+
+/*! jwt-decode */
+
+/*! react/jsx-runtime */
+
+/*! @mui/x-date-pickers/LocalizationProvider */
+
+/*! @mui/material/TextField */
+
+/*! axios */
+
+/*! react-redux */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! core-js/modules/es.typed-array.find-last-index.js */
+
+/*! react-router-dom */
+
+/*! ../../../utills/apiAxios */
+
+/*! @reduxjs/toolkit */
+
+/*! react */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! jwt-decode */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../../components/student/subject/StudentSubjects */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! @mui/material/Select */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-i18next */
+
+/*! moment */
+
+/*! react */
+
+/*! ../../../utills/apiAxios */
+
+/*! @mui/material/MenuItem */
+
+/*! framer-motion */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/Modal */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! core-js/modules/esnext.map.filter.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../utills/ServiceUrls */
+
+/*! @mui/material/Tabs */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! ./components/teacher/teacherScience/ModuleSelectType */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../userStatistics/UsersMonthStatistics */
+
+/*! @mui/material */
+
+/*! moment */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../redux/actions/bulim/bulim_second_actions */
+
+/*! @mui/material/Box */
+
+/*! quill-image-resize-module-react */
+
+/*! ../../components/userService/MainSectionBody */
+
+/*! @mui/material/Tab */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/CircularProgress */
+
+/*! react-icons/gi */
+
+/*! ../components/admin/device/Device */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! framer-motion */
+
+/*! react-icons/gi */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react-icons/ri */
+
+/*! ./slice/dekanat/dekanat_slice */
+
+/*! @mui/material */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material */
+
+/*! ../../components/dekan/arxiv/ArchiveForDean */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! styled-components */
+
+/*! ./changeTimeTable/LayoutChangeTimeTable */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! axios */
+
+/*! react */
+
+/*! @mui/material/Select */
+
+/*! @mui/material/Autocomplete */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.flat-map.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! @mui/material/Typography */
+
+/*! @mui/icons-material/ExpandMore */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../data/data */
+
+/*! ../../../../utills/apiAxios */
+
+/*! ../../../utills/apiAxios */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ../sidebar/SideBar */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! react-icons/ai */
+
+/*! @mui/material/CircularProgress */
+
+/*! @reduxjs/toolkit */
+
+/*! ./components/charts/doughnutchart/CartDoughnutChart.css */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! ./results/ResultsScoreStudent */
+
+/*! @mui/material */
+
+/*! ./pages/PdfViewNotice/PdfViewNotice */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../dataGridCustomize/DataGridCustomize */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material */
+
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! react */
+
+/*! styled-components */
+
+/*! axios */
+
+/*! @mui/material/Autocomplete */
+
+/*! react */
+
+/*! ./error.css */
+
+/*! @mui/material/Button */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/Tooltip */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-router-dom */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react/jsx-runtime */
+
+/*! react-redux */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @reduxjs/toolkit */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.iterator.for-each.js */
+
+/*! @mui/icons-material/ExpandMore */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../../../responsiv */
+
+/*! ../../../utills/apiAxios */
+
+/*! ./redux/store */
+
+/*! ./slice/btnvalue */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material */
+
+/*! ./AssistantUsers */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react */
+
+/*! react */
+
+/*! styled-components */
+
+/*! @mui/material/Button */
+
+/*! ./slice/rektor/rektor_dashboard_students_slice */
+
+/*! react-icons/bs */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-redux */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../components/spinner/Spinner */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../components/teacher/rich/MyPage */
+
+/*! ./slice/teacher/teacher_slice */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../components/dekan/messages/DekanMessages */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-redux */
+
+/*! quill-table-ui/dist/index.css */
+
+/*! ../../components/student/student_service/StudentAcademicService */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Box */
+
+/*! react-toastify */
+
+/*! @mui/material/FormControl */
+
+/*! core-js/modules/esnext.array.group.js */
+
+/*! styled-components */
+
+/*! react-i18next */
+
+/*! react */
+
+/*! react */
+
+/*! ../../../utills/apiAxios */
+
+/*! ./CourseV2 */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! react-router-dom */
+
+/*! ../../slice/dekanat/dekanat_slice */
+
+/*! ../utills/images/logo_nav.png */
+
+/*! @mui/material/Typography */
+
+/*! @reduxjs/toolkit */
+
+/*! react-icons/pi */
+
+/*! @mui/material/Box */
+
+/*! @mui/material */
+
+/*! @mui/material/TextField */
+
+/*! ./GroupResults */
+
+/*! @mui/icons-material/ExpandMore */
+
+/*! @mui/material/FormControl */
+
+/*! ./StatisticsButton */
+
+/*! axios */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react/jsx-runtime */
+
+/*! react-redux */
+
+/*! @mui/material/Box */
+
+/*! jwt-decode */
+
+/*! @mui/material/Tooltip */
+
+/*! react-router-dom */
+
+/*! ./DataStudentForDean */
+
+/*! react-icons/md */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.async-iterator.flat-map.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! react */
+
+/*! ../../components/kafedra/sms/KafedraMessage */
+
+/*! @mui/material/Button */
+
+/*! ../../utills/ServiceUrls */
+
+/*! ./faculty/FacultyService */
+
+/*! react/jsx-runtime */
+
+/*! ./slice/allNbModalForTeacher/allNbModalForTeacher_slice */
+
+/*! ../components/hook/useHttp */
+
+/*! styled-components */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ./roles/KafedraRoleSettings */
+
+/*! styled-components */
+
+/*! ../../../redux/actions/educationYear/education_year_actions */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../utills/ServiceUrls */
+
+/*! react-redux */
+
+/*! @mui/material/InputLabel */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! ./apiAxios */
+
+/*! ../../slice/educationYear/education_year_statistics_slice */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-icons/cg */
+
+/*! @mui/material/Button */
+
+/*! ../../../responsiv */
+
+/*! @mui/icons-material/Delete */
+
+/*! @mui/material/CircularProgress */
+
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! ./slice/student/student_slice */
+
+/*! ./actions/dekan/dekan_faculties_for_transfer_student_actions */
+
+/*! axios */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.map.update.js */
+
+/*! axios */
+
+/*! react-redux */
+
+/*! react-icons/md */
+
+/*! ../../components/teacher/menu/TeacherMenu */
+
+/*! ../LogoNav */
+
+/*! @mui/material/InputLabel */
+
+/*! react-redux */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-icons/md */
+
+/*! core-js/modules/esnext.typed-array.group-by.js */
+
+/*! ../../components/sidebar/SideBar */
+
+/*! ./actions/notification/notification_action */
+
+/*! axios */
+
+/*! @mui/material/Grid */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.iterator.for-each.js */
+
+/*! ../../responsiv */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! @mui/x-data-grid */
+
+/*! ../redux/actions/user/user_actions */
+
+/*! react-router-dom */
+
+/*! styled-components */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-icons/ci */
+
+/*! ./timetable/DataAllEducationYear */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! ../spinner/Spinner */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material */
+
+/*! @mui/material/Button */
+
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! ./PdfRec */
+
+/*! axios */
+
+/*! ../Language */
+
+/*! @mui/material/TextField */
+
+/*! react */
+
+/*! @mui/material/Modal */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../components/dekan/journal/DekanJournal */
+
+/*! react-icons/fa6 */
+
+/*! ../../../utills/pdfFiles/PdfStatementData */
+
+/*! @reduxjs/toolkit */
+
+/*! ../../../responsiv */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! axios */
+
+/*! axios */
+
+/*! react */
+
+/*! @mui/material */
+
+/*! xlsx */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../components/sidebar/SideBar */
+
+/*! @mui/material/Box */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! styled-components */
+
+/*! @mui/material/Box */
+
+/*! react/jsx-runtime */
+
+/*! styled-components */
+
+/*! react-icons/ai */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! moment */
+
+/*! ./slice/bulim/bulim_second_slice */
+
+/*! core-js/modules/es.array.unscopables.flat-map.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! axios */
+
+/*! ../../components/student/student_service/ReferralPageStudent */
+
+/*! react-toastify */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/icons-material/Cancel */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/Typography */
+
+/*! @mui/material/FormControl */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! @mui/material/Tabs */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-icons/io5 */
+
+/*! ../../rektor/teacher/RektorTeacher */
+
+/*! react-redux */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! react/jsx-runtime */
+
+/*! ../../components/student/student_service/QueueDeanForStudent */
+
+/*! ../components/dekan/studentservice/DeanStudentServiceLayout */
+
+/*! ../components/admin/menu/Menu */
+
+/*! core-js/modules/es.typed-array.to-reversed.js */
+
+/*! axios */
+
+/*! ../../../../responsiv */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! styled-components */
+
+/*! ../contact/AllContacts */
+
+/*! ../../components/teacher/teacherScience/GroupPlan */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! moment */
+
+/*! ./EnterAndOutTimesOfTeacher */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material */
+
+/*! @reduxjs/toolkit */
+
+/*! ../../../redux/actions/educationYear/education_year_actions */
+
+/*! styled-components */
+
+/*! @mui/material/FormControl */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-redux */
+
+/*! ../../hook/useHttp */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/InputLabel */
+
+/*! ../../components/student/sciences/MySciences */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ./slice/rektor/rektor_dashboard_staffs_slice */
+
+/*! ../../utills/pdfFiles/PdfDiploma */
+
+/*! @mui/icons-material/Edit */
+
+/*! ../../components/rektor/arxivStudent/ArxivStudentsForRektor */
+
+/*! react/jsx-runtime */
+
+/*! ../../utills/ServiceUrls */
+
+/*! @mui/material/Typography */
+
+/*! @reduxjs/toolkit */
+
+/*! @mui/material/Backdrop */
+
+/*! ../../components/contact/AllContacts */
+
+/*! moment/moment */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! moment */
+
+/*! axios */
+
+/*! ../../slice/dekan/dekan_faculties_for_transfer_student_slice */
+
+/*! styled-components */
+
+/*! ../spinner/Spinner */
+
+/*! react-redux */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react */
+
+/*! ../images/logo.png */
+
+/*! @mui/material/Modal */
+
+/*! @mui/material/Box */
+
+/*! html2pdf.js/src */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/InputLabel */
+
+/*! react-icons/im */
+
+/*! styled-components */
+
+/*! @mui/material/Button */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../spinner/Spinner */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../responsiv */
+
+/*! axios */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ../../../redux/actions/educationYear/education_year_actions */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../components/spinner/Spinner */
+
+/*! @reduxjs/toolkit */
+
+/*! react-icons/io */
+
+/*! @mui/material/MenuItem */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! @mui/material/MenuItem */
+
+/*! @mui/material/InputLabel */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! @mui/material/IconButton */
+
+/*! react-redux */
+
+/*! ../../redux/actions/notification/notification_action */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../components/monitoringAssistant/DataGridForAssistant */
+
+/*! ../../components/uquvbulimi/statisticsedu/TableEduFullTime */
+
+/*! react/jsx-runtime */
+
+/*! styled-components */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! react */
+
+/*! ../../../responsiv */
+
+/*! ../../redux/slice/serverTime/serverTimeSlice */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ./statistics/EducationStatistics */
+
+/*! react-redux */
+
+/*! @mui/material */
+
+/*! @mui/material/Paper */
+
+/*! react-router-dom */
+
+/*! react-router-dom */
+
+/*! ../../responsiv */
+
+/*! core-js/modules/es.error.cause.js */
+
+/*! axios */
+
+/*! @mui/x-data-grid */
+
+/*! ../FilterNoticeHistoryGroups */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! ../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.async-iterator.for-each.js */
+
+/*! axios */
+
+/*! react */
+
+/*! ../../responsiv */
+
+/*! react */
+
+/*! styled-components */
+
+/*! @mui/material/IconButton */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material/Checkbox */
+
+/*! @mui/material/Select */
+
+/*! react */
+
+/*! ../../components/kafedra/subjectTeacher/GroupsSubjectTeacher */
+
+/*! core-js/modules/esnext.array-buffer.transfer.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../../redux/slice/educationYear/education_year_statistics_slice */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material */
+
+/*! ./school/SchoolService */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ../../components/sidebar/SideBar */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! html2pdf.js/src */
+
+/*! styled-components */
+
+/*! react-icons/fa6 */
+
+/*! moment */
+
+/*! @mui/material */
+
+/*! ../../slice/teacher/teacher_slice */
+
+/*! react */
+
+/*! ../../components/student/results/StudentResults */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! @reduxjs/toolkit */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../utills/apiAxios */
+
+/*! ../utills/ServiceUrls */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/io */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! @mui/material/Box */
+
+/*! @mui/material */
+
+/*! ../components/spinner/Spinner */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/x-date-pickers/AdapterMoment */
+
+/*! ../../responsiv */
+
+/*! ../../components/kafedra/dashboard/KafedraDashboard */
+
+/*! core-js/modules/esnext.iterator.for-each.js */
+
+/*! react-router-dom */
+
+/*! ../../responsiv */
+
+/*! @mui/material/Autocomplete */
+
+/*! @mui/material/Modal */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! react-toastify */
+
+/*! ../../redux/slice/teacher/teacher_slice */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/Box */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ./TeacherFields */
+
+/*! moment */
+
+/*! react */
+
+/*! @mui/material/IconButton */
+
+/*! @mui/material */
+
+/*! react */
+
+/*! @mui/material/Typography */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-icons/fi */
+
+/*! ../components/dekan/arxiv/ArchiveForDean */
+
+/*! react/jsx-runtime */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material/Box */
+
+/*! @mui/material/Button */
+
+/*! react */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../../components/teacher/files/TeacherFiles */
+
+/*! axios */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/Button */
+
+/*! ./actions/lessonsTeacher/lessons_teacher_actions */
+
+/*! react/jsx-runtime */
+
+/*! moment/locale/ru */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! core-js/modules/esnext.map.key-of.js */
+
+/*! ./ModalChangeTimeTable */
+
+/*! core-js/modules/es.string.replace.js */
+
+/*! ../../slice/rektor/rektor_dashboard_students_slice */
+
+/*! @mui/material/FormControl */
+
+/*! @mui/material/Box */
+
+/*! moment */
+
+/*! ./statement/StatementDataDepartment */
+
+/*! react-router-dom */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../components/navbar/NavBarUser */
+
+/*! ./studentAdd/SuperAdminStudentAddPage */
+
+/*! @mui/material/Button */
+
+/*! react */
+
+/*! moment/moment */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! styled-components */
+
+/*! ../../utills/ServiceUrls */
+
+/*! styled-components */
+
+/*! react-toastify */
+
+/*! react-icons/md */
+
+/*! react-icons/im */
+
+/*! ../rektor/student/talaba/RektorTalabaForModal */
+
+/*! ../../components/charts/barchart/DirectionStackedBarChart */
+
+/*! @mui/material/Tooltip */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material */
+
+/*! ../redux/actions/notification/notification_action */
+
+/*! react-redux */
+
+/*! ../../components/rektor/teacher/RektorTeacher */
+
+/*! ../../components/rektor/student/talaba/RektorTalabaTable */
+
+/*! react */
+
+/*! core-js/modules/esnext.async-iterator.some.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-redux */
+
+/*! styled-components */
+
+/*! ../../dataGridCustomize/DataGridCustomize */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ./pages/Dekan */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! styled-components */
+
+/*! react/jsx-runtime */
+
+/*! react-redux */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! ../../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.async-iterator.for-each.js */
+
+/*! @mui/material/MenuItem */
+
+/*! ../userStatistics/UserStatistics */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/IconButton */
+
+/*! ./NoticeForStudent */
+
+/*! @mui/material/Skeleton */
+
+/*! @mui/material/Tooltip */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../../utills/apiAxios */
+
+/*! react-toastify */
+
+/*! @mui/x-date-pickers/LocalizationProvider */
+
+/*! @mui/material/Typography */
+
+/*! core-js/modules/esnext.map.some.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../components/navbar/NavBarDekan */
+
+/*! ../../../redux/slice/educationYear/education_year_statistics_slice */
+
+/*! ../../utills/images/no-picture.jpg */
+
+/*! react/jsx-runtime */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react/jsx-runtime */
+
+/*! react-toastify */
+
+/*! react-toastify */
+
+/*! ./actions/educationYear/education_year_actions */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! @mui/material/Select */
+
+/*! @mui/material/Typography */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */
+
+/*! ../../components/kafedra/teachers/KafedraTeachers */
+
+/*! ../../redux/actions/bulim/bulim_actions */
+
+/*! core-js/modules/esnext.array-buffer.transfer-to-fixed-length.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! axios */
+
+/*! react-redux */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../../../utills/apiAxios */
+
+/*! @reduxjs/toolkit */
+
+/*! react-redux */
+
+/*! react-redux */
+
+/*! core-js/modules/esnext.array.group.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/md */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ./MaterialsData */
+
+/*! styled-components */
+
+/*! axios */
+
+/*! styled-components */
+
+/*! react-toastify */
+
+/*! ../../actions/allNbModalForTeacher/allNbModalForTeacher_action */
+
+/*! @mui/material/Button */
+
+/*! @mui/material/Typography */
+
+/*! react/jsx-runtime */
+
+/*! ../components/dekan/studentservice/QueueForDean */
+
+/*! ../../../redux/slice/educationYear/education_year_statistics_slice */
+
+/*! ../../components/uquvbulimi/dashboard/EducationalDashboard */
+
+/*! @mui/icons-material/School */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material */
+
+/*! axios */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! @mui/material/Typography */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/Button */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ../../../redux/actions/rektor/rektor_teachers_action */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! jwt-decode */
+
+/*! ../../utills/pdfFiles/PdfStatementData */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-router-dom */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ./TestWorkByModule */
+
+/*! ../../components/spinner/Spinner */
+
+/*! ../../responsiv */
+
+/*! ../emptyDataImg/EmptyDataImg */
+
+/*! ../../components/rektor/journal/RektorJournal */
+
+/*! react-icons/bs */
+
+/*! moment */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! react */
+
+/*! ./components/student/sciences/MaterialsData */
+
+/*! @mui/material/Button */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! ../../../responsiv */
+
+/*! ../../components/uquvbulimi/statisticsedu/TableEduMaster */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../components/contact/AllContacts */
+
+/*! react-icons/ri */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/Box */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! styled-components */
+
+/*! @mui/material/CircularProgress */
+
+/*! styled-components */
+
+/*! ../../components/teacher/teacherScience/TeacherScienceV2 */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! ../../components/uquvbulimi/groups/EducationalGroups */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ./actions/rektor/rektor_dashboard_teachers_action */
+
+/*! ./statistics/StaffStatistics */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../../utills/ServiceUrls */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../utills/apiAxios */
+
+/*! @reduxjs/toolkit */
+
+/*! ./slice/dekan/dekan_transfer_student_slice */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! ../../components/uquvbulimi/teachers/EducationalTeachers */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../components/sidebar/SideBar */
+
+/*! ../../components/monitoringBetween/MonitoringBetweenPage */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../redux/actions/student/student_actions */
+
+/*! @mui/material */
+
+/*! ../redux/slice/serverTime/serverTimeSlice */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! ./actions/teacher/teacher_actions */
+
+/*! ../components/hook/useHttp */
+
+/*! @mui/material/FormControl */
+
+/*! ../../utills/ServiceUrls */
+
+/*! moment */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! ./dashboard/BulimDashboard */
+
+/*! react-toastify */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! axios */
+
+/*! @mui/x-date-pickers/LocalizationProvider */
+
+/*! @mui/material/IconButton */
+
+/*! ../../../utills/pdfFiles/PdfStatementData */
+
+/*! ../../redux/slice/teacher/teacher_slice */
+
+/*! ../../components/dekan/dashboard/Dashboard */
+
+/*! @reduxjs/toolkit */
+
+/*! react/jsx-runtime */
+
+/*! styled-components */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material/TextField */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ./ExportData */
+
+/*! ../../slice/rektor/rektor_dashboard_teachers_slice */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-redux */
+
+/*! axios */
+
+/*! ../../../../utills/images/no-picture.jpg */
+
+/*! ../../utills/ServiceUrls */
+
+/*! ./slice/dataForUpdateThemeGrade/dataForUpdateThemeGrade_slice */
+
+/*! @mui/material/AccordionDetails */
+
+/*! ./slice/rektor/rektor_dashboard_teachers_slice */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-toastify/dist/ReactToastify.min.css */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! ../../../responsiv */
+
+/*! ../../../teacher/timeTable/TeacherTimeTableOfWeek */
+
+/*! ../../components/uquvbulimi/results/pdfFileForTrainingDivision/ButtonDownloadPdf */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! styled-components */
+
+/*! jwt-decode */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! @mui/material/IconButton */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../components/dekan/studentservice/AcademicReferenceDean */
+
+/*! ../../components/bulim/sittings/BulimSittings */
+
+/*! @mui/material/CircularProgress */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/Button */
+
+/*! @mui/material/Button */
+
+/*! react-router-dom */
+
+/*! react-icons/md */
+
+/*! react-router-dom */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! @mui/material/Button */
+
+/*! react/jsx-runtime */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ./AccordionScienceAttendance */
+
+/*! react/jsx-runtime */
+
+/*! ../../../utills/apiAxios */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! @mui/material */
+
+/*! react */
+
+/*! @mui/material/TextField */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! @mui/material/Box */
+
+/*! @mui/material/Box */
+
+/*! ../data/data */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @reduxjs/toolkit */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-icons/fa */
+
+/*! ./components/uquvbulimi/room/weekPiker.css */
+
+/*! qrcode.react */
+
+/*! ../../responsiv */
+
+/*! core-js/modules/esnext.map.emplace.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../../slice/student/student_slice */
+
+/*! ./slice/notification/notification_slice */
+
+/*! ../utills/ServiceUrls */
+
+/*! ../../slice/notification/notification_slice */
+
+/*! ../../utills/ServiceUrls */
+
+/*! ../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material */
+
+/*! ../../components/kafedra/subjectTeacher/TeacherDataBySubject */
+
+/*! react-redux */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @reduxjs/toolkit */
+
+/*! ../../components/uquvbulimi/disruptionOfLessons/DisruptionOfLessons */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! react */
+
+/*! @mui/material */
+
+/*! ../../../utills/pdfFiles/PdfAcademicReference */
+
+/*! ../../../responsiv */
+
+/*! react-icons/gr */
+
+/*! @reduxjs/toolkit */
+
+/*! ../../components/contact/AllContacts */
+
+/*! ./slice/bulim/bulim_slice */
+
+/*! ./quillSetup */
+
+/*! react-dom/client */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! core-js/modules/esnext.map.every.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! @reduxjs/toolkit */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ../../slice/lessonsTeacher/lessons_teacher_slice */
+
+/*! react */
+
+/*! @mui/material/Modal */
+
+/*! @mui/material/Box */
+
+/*! axios */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! ./pages/teacher/Teacher */
+
+/*! core-js/modules/es.array.unscopables.flat.js */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.async-iterator.reduce.js */
+
+/*! styled-components */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../components/student/student_service/InternshipForStudent */
+
+/*! @mui/material/Box */
+
+/*! ../Logo */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! styled-components */
+
+/*! @mui/material/Tab */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../../responsiv */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/md */
+
+/*! ../contact/AllContacts */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! axios */
+
+/*! styled-components */
+
+/*! ../responsiv */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! react */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! ./slice/hourSection/hourSectionSlice */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! @mui/material/Box */
+
+/*! react/jsx-runtime */
+
+/*! ../utills/images/logo.png */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react-redux */
+
+/*! ../../components/emptyDataImg/EmptyDataImg */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../../../utills/apiAxios */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../components/spinner/Spinner */
+
+/*! @mui/material */
+
+/*! ../../../../utills/ServiceUrls */
+
+/*! @mui/material/TextField */
+
+/*! @mui/material/Modal */
+
+/*! ../../components/kafedra/settings/KafedraSettings */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-i18next */
+
+/*! ../../slice/bulim/bulim_second_slice */
+
+/*! ../../components/kafedra/subjectTeacher/SubjectCreateGroup */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material/Button */
+
+/*! ../../../../responsiv */
+
+/*! moment */
+
+/*! react-router-dom */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! core-js/modules/web.url-search-params.js */
+
+/*! react/jsx-runtime */
+
+/*! react-icons/bs */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! @mui/material/IconButton */
+
+/*! ./App */
+
+/*! @reduxjs/toolkit */
+
+/*! ./actions/rektor/rektor_teachers_action */
+
+/*! @mui/material/Button */
+
+/*! react/jsx-runtime */
+
+/*! @mui/x-date-pickers/LocalizationProvider */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material */
+
+/*! react-icons/ri */
+
+/*! core-js/modules/esnext.map.find.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-icons/fa */
+
+/*! ./statement/StatementData */
+
+/*! ../navbar/NavBarUser */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-icons/fi */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! @reduxjs/toolkit */
+
+/*! react-toastify */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! react-router-dom */
+
+/*! react/jsx-runtime */
+
+/*! react-router-dom */
+
+/*! ./components/error/Error */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @reduxjs/toolkit */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/MenuItem */
+
+/*! core-js/modules/esnext.map.find-key.js */
+
+/*! @mui/material/Accordion */
+
+/*! react/jsx-runtime */
+
+/*! ../../teacher/teacherScience/OnlyCourseData */
+
+/*! react */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.some.js */
+
+/*! ./actions/kafedra/section_actions */
+
+/*! ../../../../responsiv */
+
+/*! ../../../responsiv */
+
+/*! ../../components/bulim/staffs/BulimStaffs */
+
+/*! @mui/material/Box */
+
+/*! ./deans/Deans */
+
+/*! core-js/modules/es.typed-array.find-last.js */
+
+/*! react-icons/md */
+
+/*! ./slice/rektor/rektor_staffs_slice */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.every.js */
+
+/*! react-redux */
+
+/*! react-icons/ri */
+
+/*! ./actions/kafedra/kafedra_time_table_action */
+
+/*! js-cookie */
+
+/*! ../../../../responsiv */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react/jsx-runtime */
+
+/*! ../spinner/Spinner */
+
+/*! @mui/material/Modal */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/material/Button */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/im */
+
+/*! ../components/dekan/dashboard/Dashboard */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.map.merge.js */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! styled-components */
+
+/*! react-toastify */
+
+/*! react-router-dom */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/MenuItem */
+
+/*! ../../../../utills/apiAxios */
+
+/*! ../../components/kafedra/subjectTeacher/CreateSubjects */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! @reduxjs/toolkit */
+
+/*! @mui/material/Select */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! core-js/modules/es.typed-array.fill.js */
+
+/*! react */
+
+/*! @mui/icons-material/Visibility */
+
+/*! styled-components */
+
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-redux */
+
+/*! @mui/material/Button */
+
+/*! ../../../utills/apiAxios */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! react-router-dom */
+
+/*! ../../../utills/apiAxios */
+
+/*! jwt-decode */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/IconButton */
+
+/*! ../sidebar/SideBar */
+
+/*! @mui/icons-material/ExpandMore */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../components/kafedra/week/KafedraWeek */
+
+/*! core-js/modules/esnext.array-buffer.detached.js */
+
+/*! @mui/material */
+
+/*! core-js/modules/es.array.unscopables.flat-map.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! styled-components */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../../utills/apiAxios */
+
+/*! react-router-dom */
+
+/*! core-js/modules/esnext.async-iterator.flat-map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-icons/fa */
+
+/*! react/jsx-runtime */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! ./results/LayoutRating */
+
+/*! ../../components/student/student_service/NoticePageForStudent */
+
+/*! @mui/material/Select */
+
+/*! @mui/icons-material/CheckBox */
+
+/*! react-icons/im */
+
+/*! ./ModalReferral */
+
+/*! react-router-dom */
+
+/*! ../../data/data */
+
+/*! ../../../utills/apiAxios */
+
+/*! styled-components */
+
+/*! ../sidebar/SideBar */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../navbar/NavBarUser */
+
+/*! ../../utills/ServiceUrls */
+
+/*! @mui/x-date-pickers */
+
+/*! axios */
+
+/*! ../../../utills/apiAxios */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! ../Language */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../utills/ServiceUrls */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! styled-components */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! @mui/material/Button */
+
+/*! react */
+
+/*! @mui/material/Typography */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @mui/x-data-grid */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! @mui/material */
+
+/*! react-router-dom */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! ./actions/rektor/rektor_staffs_action */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/styles */
+
+/*! react-router-dom */
+
+/*! core-js/modules/esnext.async-iterator.for-each.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-router-dom */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! axios */
+
+/*! ../../redux/slice/student/student_slice */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! react */
+
+/*! @mui/material/MenuItem */
+
+/*! react-router-dom */
+
+/*! react-icons/ri */
+
+/*! axios */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! jwt-decode */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @reduxjs/toolkit */
+
+/*! qrcode.react */
+
+/*! react-toastify */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../components/rektor/staff/RektorStaff */
+
+/*! ../../utills/ServiceUrls */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ../FilterNoticeHistoryGroups */
+
+/*! @mui/material */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! ./pages/PdfViewReference/PdfViewAcademic */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! @mui/material/Typography */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../components/kafedra/smsHistory/KafedraSMSHistory */
+
+/*! ../../../utills/apiAxios */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! react/jsx-runtime */
+
+/*! html2pdf.js/src */
+
+/*! @mui/material/Typography */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/InputLabel */
+
+/*! @mui/icons-material */
+
+/*! react-icons/bs */
+
+/*! core-js/modules/es.typed-array.to-sorted.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/icons-material/CheckBoxOutlineBlank */
+
+/*! ../redux/actions/dekan/badBest_actions */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/FormControl */
+
+/*! styled-components */
+
+/*! ../emptyDataImg/EmptyDataImg */
+
+/*! react-icons/md */
+
+/*! @mui/material */
+
+/*! @mui/material/Avatar */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! moment */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react */
+
+/*! ../../utills/ServiceUrls */
+
+/*! react/jsx-runtime */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! moment */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! @mui/material/Button */
+
+/*! ./StatementDataTeacher */
+
+/*! ../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ./middleware/stringMiddleware */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ./components/super_admin/SuperAdmin */
+
+/*! react-redux */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-icons/ai */
+
+/*! react */
+
+/*! @mui/x-data-grid */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/material/Tab */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! ../../../../utills/pdfFiles/PdfReferral */
+
+/*! @mui/material/Box */
+
+/*! styled-components */
+
+/*! ./staffs/BulimStaffs */
+
+/*! @mui/material/InputLabel */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! react */
+
+/*! @mui/material/MenuItem */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! @mui/material/Modal */
+
+/*! @mui/material */
+
+/*! @mui/material/Box */
+
+/*! ../components/dekan/staff/DekanStaff */
+
+/*! ../../components/student/student_service/StudentServiceReference */
+
+/*! styled-components */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! react-icons/hi2 */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! styled-components */
+
+/*! ../../../student/timeTable/StudentTimeTableOfWeek */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! @mui/material/MenuItem */
+
+/*! core-js/modules/esnext.iterator.flat-map.js */
+
+/*! styled-components */
+
+/*! react-redux */
+
+/*! react-toastify */
+
+/*! ../../responsiv */
+
+/*! react-router-dom */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react */
+
+/*! @mui/material */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.async-iterator.for-each.js */
+
+/*! @mui/material/Box */
+
+/*! react-icons/md */
+
+/*! core-js/modules/esnext.array.group.js */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! react-icons/md */
+
+/*! @mui/material/FormControl */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! react-redux */
+
+/*! ../../components/hook/useHttp */
+
+/*! @mui/material/Select */
+
+/*! ../navbar/NavBarDekan */
+
+/*! react-router-dom */
+
+/*! react */
+
+/*! moment/moment */
+
+/*! ./changeTimeTable/ChangeTeacherId */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-redux */
+
+/*! ../redux/slice/user/user_slice */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! ../../utills/ServiceUrls */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! @mui/material/Box */
+
+/*! moment */
+
+/*! styled-components */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../monitoringBetween/MonitoringBetweenPage */
+
+/*! ./results/GpaStudents */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/CircularProgress */
+
+/*! ../../../../redux/actions/educationYear/education_year_statistics_actions */
+
+/*! @mui/material/Select */
+
+/*! react */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../../utills/pdfFiles/PdfStatementData */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../slice/infoStudentForLesson/infoStudentForLesson_slice */
+
+/*! react-icons/io5 */
+
+/*! ../../components/teacher/teacherScience/TeacherScience */
+
+/*! @mui/material/InputLabel */
+
+/*! @reduxjs/toolkit */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../redux/actions/dekanat/dekanat_actions */
+
+/*! styled-components */
+
+/*! react */
+
+/*! ./actions/bulim/bulim_second_actions */
+
+/*! ../notification/Notificationmenu */
+
+/*! react-redux */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! ../../utills/fileBase64 */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-redux */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.some.js */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! react */
+
+/*! ../../components/student/timeTable/StudentTimeTable */
+
+/*! @mui/material/MenuItem */
+
+/*! ../../spinner/Spinner */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/CircularProgress */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react-icons/md */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ./SideBarDropdown */
+
+/*! ../../responsiv */
+
+/*! moment */
+
+/*! @mui/material/Button */
+
+/*! react/jsx-runtime */
+
+/*! ../../utills/ServiceUrls */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../components/contact/AllContacts */
+
+/*! moment/locale/uz-latn */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! react-icons/fa */
+
+/*! framer-motion */
+
+/*! react */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react/jsx-runtime */
+
+/*! ../components/contact/AllContacts */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! react/jsx-runtime */
+
+/*! ../../components/student/student_service/InternshipPageStudent */
+
+/*! axios */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! styled-components */
+
+/*! axios */
+
+/*! @mui/material/FormControl */
+
+/*! ./components/student/sciences/MaterialsPage */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../redux/slice/student/student_slice */
+
+/*! ../notification/Notification2 */
+
+/*! xlsx */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react/jsx-runtime */
+
+/*! axios */
+
+/*! react-icons/bs */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! axios */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! styled-components */
+
+/*! react/jsx-runtime */
+
+/*! ./pages/student/Student */
+
+/*! react-router-dom */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! moment/moment */
+
+/*! react */
+
+/*! react */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../data/data */
+
+/*! core-js/modules/esnext.async-iterator.some.js */
+
+/*! styled-components */
+
+/*! react */
+
+/*! @mui/material/FormControl */
+
+/*! @reduxjs/toolkit */
+
+/*! react-icons/ri */
+
+/*! ../../../../utills/ServiceUrls */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/material/InputAdornment */
+
+/*! ../../data/data */
+
+/*! ../ServiceUrls */
+
+/*! @mui/material/Avatar */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../components/dekan/students/DekanStudents */
+
+/*! @mui/material/CircularProgress */
+
+/*! axios */
+
+/*! react-redux */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react/jsx-runtime */
+
+/*! ./dashboard/EmptyAudience */
+
+/*! ../../utills/apiAxios */
+
+/*! @mui/material/Typography */
+
+/*! react/jsx-runtime */
+
+/*! ./SideBarDropdownChild */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @mui/material/IconButton */
+
+/*! moment */
+
+/*! react-icons/bs */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ./actions/dekan/badBest_actions */
+
+/*! ./NavTabs */
+
+/*! ../../components/student/results/FailStudentDetailed */
+
+/*! ./CourseTestDataV2 */
+
+/*! react-icons/cg */
+
+/*! ../searchbar/searchstyle.css */
+
+/*! react-icons/bi */
+
+/*! react */
+
+/*! react-redux */
+
+/*! ../images/logo.png */
+
+/*! @mui/material */
+
+/*! react-router-dom */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/x-date-pickers/DatePicker */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ../../components/kafedra/subjectTeacher/SubjectTheme */
+
+/*! ./components/staff/StaffPage */
+
+/*! ../role/RoleUser */
+
+/*! ../../../../utills/ServiceUrls */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../utills/images/logo.png */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../components/dataGridCustomize/DataGridCustomize */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ./slice/kafedra/kafedra_time_table_slice */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material */
+
+/*! moment */
+
+/*! ../../components/navbar/NavBarDekan */
+
+/*! react-redux */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/Box */
+
+/*! ../notification/Notificationmenu */
+
+/*! ./slice/serverTime/serverTimeSlice */
+
+/*! react/jsx-runtime */
+
+/*! react-icons/fa6 */
+
+/*! react-router-dom */
+
+/*! ./App.css */
+
+/*! react-redux */
+
+/*! styled-components */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! ./actions/bulim/bulim_actions */
+
+/*! ../../responsiv */
+
+/*! react */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-toastify */
+
+/*! ../navbar/NavBarDekan */
+
+/*! ../tableForTeachers/HistoryFileTabel */
+
+/*! ../../components/kafedra/subjectTeacher/GroupsSubjectTeacherV2 */
+
+/*! react-i18next */
+
+/*! ./CourseModuleData */
+
+/*! ../../components/charts/barchart/GroupStackedBarChart */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../components/diplom/DiplomaDean */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! @mui/material/OutlinedInput */
+
+/*! axios */
+
+/*! react-toastify */
+
+/*! styled-components */
+
+/*! react-router-dom */
+
+/*! ./ModalCreateControlTeacher */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../../utills/ServiceUrls */
+
+/*! ./ModalImport */
+
+/*! prop-types */
+
+/*! moment */
+
+/*! react/jsx-runtime */
+
+/*! react/jsx-runtime */
+
+/*! react */
+
+/*! ../../slice/kafedra/kafedra_time_table_slice */
+
+/*! react-icons/md */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! ../components/dekan/setting/SettingDean */
+
+/*! @reduxjs/toolkit */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! core-js/modules/esnext.map.reduce.js */
+
+/*! @mui/material/Button */
+
+/*! ../../components/hook/useHttp */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! ../../responsiv */
+
+/*! core-js/modules/esnext.iterator.reduce.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../LogoNav */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! react/jsx-runtime */
+
+/*! styled-components */
+
+/*! ../../../utills/pdfFiles/PdfReferral */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @mui/icons-material */
+
+/*! react-icons/bs */
+
+/*! react */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @reduxjs/toolkit */
+
+/*! @mui/material */
+
+/*! ../../../../utills/ServiceUrls */
+
+/*! @mui/x-date-pickers */
+
+/*! ../../../responsiv */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-router-dom */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! ../../../../utills/apiAxios */
+
+/*! styled-components */
+
+/*! ../components/dekan/faculties/FacultiesData */
+
+/*! core-js/modules/esnext.async-iterator.for-each.js */
+
+/*! @mui/material/Modal */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-icons/lia */
+
+/*! @mui/material */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react/jsx-runtime */
+
+/*! react-icons/bs */
+
+/*! @mui/x-date-pickers/LocalizationProvider */
+
+/*! ../../slice/educationYear/education_year_slice */
+
+/*! react */
+
+/*! react-icons/io */
+
+/*! ../components/admin/rooms/Rooms */
+
+/*! ./HistoryDataGrid */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! @mui/x-date-pickers/AdapterMoment */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../../components/spinner/Spinner */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! @reduxjs/toolkit */
+
+/*! core-js/modules/web.url-search-params.size.js */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! @mui/material/Select */
+
+/*! ../../slice/bulim/bulim_slice */
+
+/*! ../../components/uquvbulimi/statistics/EducationStatistics */
+
+/*! @mui/material/Tooltip */
+
+/*! react */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! react/jsx-runtime */
+
+/*! ../../slice/dekan/bad_and_best */
+
+/*! react-icons/io5 */
+
+/*! react */
+
+/*! styled-components */
+
+/*! styled-components */
+
+/*! ./slice/multipartScore/multipartScore_slice */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ./disruptionOfLessons/DisruptionOfLessons */
+
+/*! react-redux */
+
+/*! axios */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! ../../../../utills/ServiceUrls */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! react-redux */
+
+/*! styled-components */
+
+/*! react-icons/ri */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ./results/FailsStudents */
+
+/*! core-js/modules/es.typed-array.with.js */
+
+/*! @mui/material/Checkbox */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../components/teacher/journal/JournalTeacher */
+
+/*! ../../components/rektor/allstatistics/LayoutChooseStatistics */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ./slice/rektor/rektor_teachers_slice */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! ../sidebar/SidebarBtn */
+
+/*! ../../components/uquvbulimi/groups/EducationalGroups */
+
+/*! react */
+
+/*! react/jsx-runtime */
+
+/*! ./components/i18n/i18n.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! ../components/dekan/studentservice/referral/ReferralHistory */
+
+/*! react-redux */
+
+/*! @mui/icons-material/ExpandMore */
+
+/*! axios */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react */
+
+/*! ../../components/kafedra/subjectTeacher/TeacherScienceForKafedra */
+
+/*! @mui/material/Avatar */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! ../../components/uquvbulimi/teachers/EducationalTeachers */
+
+/*! react-redux */
+
+/*! ./pages/Login */
+
+/*! styled-components */
+
+/*! react */
+
+/*! core-js/modules/es.string.replace.js */
+
+/*! react/jsx-runtime */
+
+/*! ./groups/EducationalGroups */
+
+/*! ../../components/teacher/statistics/TeacherStatistics */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! @reduxjs/toolkit */
+
+/*! react-icons/ri */
+
+/*! @mui/material/InputLabel */
+
+/*! ./results/FinalsStudent */
+
+/*! @mui/material/Modal */
+
+/*! ../../utills/apiAxios */
+
+/*! @mui/material/MenuItem */
+
+/*! ./StatisticsButton */
+
+/*! @mui/material/Box */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! @mui/x-date-pickers/DatePicker */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react */
+
+/*! ../../emptyDataImg/EmptyDataImg */
+
+/*! ./StatisticsButton */
+
+/*! react/jsx-runtime */
+
+/*! react/jsx-runtime */
+
+/*! react-icons/fa */
+
+/*! @mui/material/Modal */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material */
+
+/*! ../../../redux/slice/kafedra/kafedra_teacher_statistics_slice */
+
+/*! @reduxjs/toolkit */
+
+/*! react/jsx-runtime */
+
+/*! @mui/x-date-pickers */
+
+/*! core-js/modules/web.url-search-params.has.js */
+
+/*! @mui/material/Box */
+
+/*! moment */
+
+/*! core-js/modules/esnext.json.parse.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react */
+
+/*! react-icons/fa */
+
+/*! ./actions/kafedra/kafedra_dashboard_statistics_action */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! @mui/material/Box */
+
+/*! moment */
+
+/*! ../../../utills/pdfFiles/PdfAcademicReference */
+
+/*! @mui/icons-material */
+
+/*! core-js/modules/esnext.iterator.some.js */
+
+/*! @mui/x-date-pickers/AdapterMoment */
+
+/*! @reduxjs/toolkit */
+
+/*! html2pdf.js/src */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react */
+
+/*! @mui/material/InputLabel */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material/LinearProgress */
+
+/*! react-redux */
+
+/*! ../../utills/ServiceUrls */
+
+/*! react-router-dom */
+
+/*! @mui/material/Modal */
+
+/*! ./EnterStatisticsDay */
+
+/*! ./createDekanat/CreateDekanat */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! moment */
+
+/*! react/jsx-runtime */
+
+/*! react-icons/fa */
+
+/*! @mui/material */
+
+/*! react/jsx-runtime */
+
+/*! ../../data/data */
+
+/*! ../../utills/ServiceUrls */
+
+/*! ../../components/spinner/Spinner */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! axios */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! react-router-dom */
+
+/*! ../../data/data */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.iterator.filter.js */
+
+/*! react-icons/ri */
+
+/*! react/jsx-runtime */
+
+/*! react-router-dom */
+
+/*! ../../components/uquvbulimi/room/EducationalRooms */
+
+/*! react-toastify */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../components/uquvbulimi/dashboard/EducationalDashboard */
+
+/*! styled-components */
+
+/*! prop-types */
+
+/*! @mui/material/TextField */
+
+/*! ../../utills/apiAxios */
+
+/*! react */
+
+/*! react-router-dom */
+
+/*! @mui/material/IconButton */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! react-icons/gr */
+
+/*! ../components/dekan/journal/SubjectResult */
+
+/*! ../components/form/Form */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../../components/student/settings/StudentSettings */
+
+/*! core-js/modules/esnext.async-iterator.some.js */
+
+/*! ../../slice/kafedra/kafedra_dashboard_statistics_slice */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react-icons/bs */
+
+/*! ../../components/teacher/teacherScience/TeacherOneScience */
+
+/*! core-js/modules/es.typed-array.set.js */
+
+/*! ../../redux/slice/user/user_slice */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! axios */
+
+/*! @mui/material */
+
+/*! react-icons/fa6 */
+
+/*! react-icons/bi */
+
+/*! ../responsiv */
+
+/*! ../../utills/pdfFiles/PublicPdf */
+
+/*! @mui/x-data-grid */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ../../responsiv */
+
+/*! @mui/material */
+
+/*! core-js/modules/es.typed-array.sort.js */
+
+/*! @mui/material/Button */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ./ReferralForStudent */
+
+/*! @mui/material */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! core-js/modules/esnext.map.delete-all.js */
+
+/*! core-js/modules/esnext.typed-array.filter-reject.js */
+
+/*! @mui/material/Button */
+
+/*! @mui/material/Button */
+
+/*! @mui/material/CircularProgress */
+
+/*! ../../../utills/apiAxios */
+
+/*! core-js/modules/esnext.iterator.find.js */
+
+/*! ../../../utills/pdfFiles/PdfNotice */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! ../../../responsiv */
+
+/*! ../dekan/arxiv/ArchiveForDean */
+
+/*! @mui/material/Box */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react-redux */
+
+/*! react-redux */
+
+/*! react-icons/io5 */
+
+/*! react/jsx-runtime */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/es.error.cause.js */
+
+/*! ./components/teacher/teacherScience/CourseTestData */
+
+/*! ../../redux/actions/teacher/teacher_actions */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! react-toastify */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react */
+
+/*! core-js/modules/esnext.async-iterator.filter.js */
+
+/*! styled-components */
+
+/*! @mui/material/OutlinedInput */
+
+/*! moment/moment */
+
+/*! @reduxjs/toolkit */
+
+/*! moment */
+
+/*! qrcode.react */
+
+/*! @mui/material/Modal */
+
+/*! core-js/modules/es.array.push.js */
+
+/*! styled-components */
+
+/*! ../../utills/ServiceUrls */
+
+/*! axios */
+
+/*! core-js/modules/esnext.async-iterator.find.js */
+
+/*! @mui/x-data-grid */
+
+/*! @mui/material */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react-toastify */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! react-redux */
+
+/*! styled-components */
+
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! react-icons/ri */
+
+/*! react/jsx-runtime */
+
+/*! @mui/material */
+
+/*! react-icons/ri */
+
+/*! ../../../utills/ServiceUrls */
+
+/*! react-icons/ai */
+
+/*! @swc/helpers/_/_tagged_template_literal */
+
+/*! i18next-browser-languagedetector */
+
+/*! core-js/modules/esnext.async-iterator.flat-map.js */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! react-icons/fa */
+
+/*! react/jsx-runtime */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! core-js/modules/esnext.iterator.constructor.js */
+
+/*! ../redux/actions/kafedra/section_actions */
+
+/*! axios */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../../redux/actions/educationYear/education_year_actions */
+
+/*! ../../utills/ServiceUrls */
+
+/*! ./slice/kafedra/section_slice */
+
+/*! react-redux */
+
+/*! styled-components */
+
+/*! @mui/material/InputLabel */
+
+/*! @mui/material/Modal */
+
+/*! core-js/modules/es.promise.finally.js */
+
+/*! ../../components/student/statistics/TeacherStatistics */
+
+/*! react */
+
+/*! @mui/material/IconButton */
+
+/*! @reduxjs/toolkit */
+
+/*! moment */
+
+/*! axios */
+
+/*! @mui/x-date-pickers */
+
+/*! core-js/modules/web.dom-collections.iterator.js */
+
+/*! ../../responsiv */
+
+/*! ../../../utills/ServiceUrls */
