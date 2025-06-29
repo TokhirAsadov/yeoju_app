@@ -2,6 +2,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.moduleV2.testV2
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uz.yeoju.yeoju_app.entity.moduleV2.TestType;
 import uz.yeoju.yeoju_app.entity.moduleV2.testV2.TestOptionV2;
 import uz.yeoju.yeoju_app.entity.moduleV2.testV2.TestQuestionV2;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
@@ -65,5 +66,21 @@ public class TestQuestionV2ImplService implements TestQuestionV2Service{
         });
 
         return new ApiResponse(true, "Test savoli va variantlar muvaffaqiyatli saqlandi");
+    }
+
+    @Override
+    public ApiResponse checkEnoughQuestions(String courseId, int count, TestType type) {
+        if (courseId == null || courseId.isEmpty()) {
+            return new ApiResponse(false, "Course ID cannot be null or empty");
+        }
+        if (!courseRepository.existsById(courseId)) {
+            return new ApiResponse(false, "Course with ID " + courseId + " does not exist");
+        }
+
+        long questionCount = testQuestionV2Repository.countByCourseIdAndType(courseId, type);
+        if (questionCount < count) {
+            return new ApiResponse(false, "Insufficient questions for the specified type. Required: " + count + ", Available: " + questionCount);
+        }
+        return new ApiResponse(true, "Sufficient questions available for the specified type");
     }
 }
