@@ -7,4 +7,5 @@ import uz.yeoju.yeoju_app.payload.moduleV2.testV2.TestQuestionV2Creator;
 public interface TestQuestionV2Service {
     ApiResponse createTestQuestionV2(TestQuestionV2Creator creator);
     ApiResponse checkEnoughQuestions(String courseId, int count, TestType type);
+    ApiResponse getCountOfTypeOfQuestionsByCourseId(String courseId);
 }
