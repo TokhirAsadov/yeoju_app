@@ -6,6 +6,7 @@ import uz.yeoju.yeoju_app.entity.moduleV2.TestType;
 import uz.yeoju.yeoju_app.entity.moduleV2.testV2.TestOptionV2;
 import uz.yeoju.yeoju_app.entity.moduleV2.testV2.TestQuestionV2;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.moduleV2.testV2.GetCountOfQuestionsWithType;
 import uz.yeoju.yeoju_app.payload.moduleV2.testV2.TestOptionV2Creator;
 import uz.yeoju.yeoju_app.payload.moduleV2.testV2.TestQuestionV2Creator;
 import uz.yeoju.yeoju_app.repository.moduleV2.CourseRepository;
@@ -13,6 +14,7 @@ import uz.yeoju.yeoju_app.repository.moduleV2.testV2.TestOptionV2Repository;
 import uz.yeoju.yeoju_app.repository.moduleV2.testV2.TestQuestionV2Repository;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -82,5 +84,19 @@ public class TestQuestionV2ImplService implements TestQuestionV2Service{
             return new ApiResponse(false, "Insufficient questions for the specified type. Required: " + count + ", Available: " + questionCount);
         }
         return new ApiResponse(true, "Sufficient questions available for the specified type");
+    }
+
+    @Override
+    public ApiResponse getCountOfTypeOfQuestionsByCourseId(String courseId) {
+        if (courseId == null || courseId.isEmpty()) {
+            return new ApiResponse(false, "Course ID cannot be null or empty");
+        }
+        if (!courseRepository.existsById(courseId)) {
+            return new ApiResponse(false, "Course with ID " + courseId + " does not exist");
+        }
+
+        List<GetCountOfQuestionsWithType> getCountOfQuestionsWithTypes = testQuestionV2Repository.countQuestionsByTypeForCourse(courseId);
+
+        return new ApiResponse(true, "Bu course ga tegishli barcha test question larining type va soni.", getCountOfQuestionsWithTypes);
     }
 }
