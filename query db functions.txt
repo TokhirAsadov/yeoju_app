@@ -1,3 +1,393 @@
+CREATE OR ALTER FUNCTION dbo.get_course_details_by_id_v3 (@course_id VARCHAR(36))
+    RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+    DECLARE @result NVARCHAR(MAX);
+
+    SELECT @result = (
+        SELECT
+            -- COURSE
+            JSON_QUERY((
+                SELECT
+                    c.id AS course_id,
+                    c.title AS course_title,
+
+                    -- FINAL TEST
+                    JSON_QUERY((
+                        SELECT
+                            t.id,
+                            t.title,
+                            t.createdAt,
+                            t.updatedAt,
+                            t.createdBy,
+                            t.updatedBy,
+                            t.singleChoiceCount,
+                            t.singleChoiceBall,
+                            t.multipleChoiceCount,
+                            t.multipleChoiceBall,
+                            t.writtenCount,
+                            t.writtenBall,
+                            t.passingBall
+                        FROM TestV2 t
+                        WHERE t.course_id = c.id
+                        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+                    )) AS final_test,
+
+                    -- MODULES
+                    (
+                        SELECT
+                            m.id AS module_id,
+                            m.title AS module_title,
+                            m.theme AS module_theme,
+
+                            -- MODULE TEST
+                            -- MODULE TEST (✅ string emas, JSON obyekt bo‘lishi uchun JSON_QUERY ishlatiladi)
+                            JSON_QUERY((
+                                SELECT
+                                    t.id,
+                                    t.title,
+                                    t.createdAt,
+                                    t.updatedAt,
+                                    t.createdBy,
+                                    t.updatedBy,
+                                    t.singleChoiceCount,
+                                    t.singleChoiceBall,
+                                    t.multipleChoiceCount,
+                                    t.multipleChoiceBall,
+                                    t.writtenCount,
+                                    t.writtenBall,
+                                    t.passingBall
+                                FROM TestV2 t
+                                WHERE t.module_id = m.id
+                                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+                            )) AS module_test,
+
+                            -- QUESTIONS (WITH options nested)
+                            (
+                                SELECT
+                                    q.id,
+                                    q.type,
+                                    q.questionText,
+                                    (
+                                        SELECT
+                                            o.id,
+                                            o.text,
+                                            o.correct
+                                        FROM TestOptionV2 o
+                                        WHERE o.question_v2_id = q.id
+                                        FOR JSON PATH
+                                    ) AS options
+                                FROM TestQuestionV2 q
+                                WHERE q.module_id = m.id
+                                FOR JSON PATH
+                            ) AS questions,
+
+                            -- TOPIC FILES
+                            (
+                                SELECT
+                                    tf.name,
+                                    tf.fileType,
+                                    tf.contentType,
+                                    tf.packageName
+                                FROM TopicFileOfLineV2 tf
+                                         JOIN TopicFileOfLineV2_Module tm ON tf.id = tm.TopicFileOfLineV2_id
+                                WHERE tm.modules_id = m.id
+                                FOR JSON PATH
+                            ) AS topic_files
+
+                        FROM module m
+                        WHERE m.course_id = c.id
+                        ORDER BY m.createdAt
+                        FOR JSON PATH
+                    ) AS modules,
+
+                    -- FACULTIES
+                    (
+                        SELECT
+                            f.id,
+                            f.name
+                        FROM faculty f
+                                 JOIN course_faculty cf ON f.id = cf.faculties_id
+                        WHERE cf.course_id = c.id
+                        FOR JSON PATH
+                    ) AS faculties
+
+                FROM course c
+                WHERE c.id = @course_id
+                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+            )) AS course,
+
+            -- EDUCATION TYPE
+            JSON_QUERY((
+                SELECT
+                    et.id,
+                    et.name
+                FROM course c
+                         JOIN PlanOfSubjectV2 p ON c.plan_id = p.id
+                         JOIN EducationType et ON et.id = p.educationType_id
+                WHERE c.id = @course_id
+                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+            )) AS educationType,
+
+            -- EDUCATION LANGUAGE
+            JSON_QUERY((
+                SELECT
+                    el.id,
+                    el.name
+                FROM course c
+                         JOIN PlanOfSubjectV2 p ON c.plan_id = p.id
+                         JOIN EducationLanguage el ON el.id = p.educationLanguage_id
+                WHERE c.id = @course_id
+                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+            )) AS educationLanguage
+
+        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+    );
+
+    RETURN @result;
+END
+GO
+
+
+
+CREATE PROCEDURE sp_GetRandomQuestionsByTestIdAndModuleId
+    @testId NVARCHAR(100),
+    @moduleId NVARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    CREATE TABLE #ResultQuestions (
+                                      id NVARCHAR(100)
+    );
+
+    DECLARE @singleCount INT;
+    DECLARE @multiCount INT;
+    DECLARE @writtenCount INT;
+
+    SELECT
+        @singleCount = singleChoiceCount,
+        @multiCount = multipleChoiceCount,
+        @writtenCount = writtenCount
+    FROM TestV2
+    WHERE id = @testId;
+
+    -- SINGLE_CHOICE
+    IF @singleCount > 0
+        BEGIN
+            INSERT INTO #ResultQuestions(id)
+            SELECT TOP (@singleCount) id
+            FROM TestQuestionV2
+            WHERE module_id = @moduleId AND type = 'SINGLE_CHOICE'
+            ORDER BY NEWID();
+        END
+
+    -- MULTIPLE_CHOICE
+    IF @multiCount > 0
+        BEGIN
+            INSERT INTO #ResultQuestions(id)
+            SELECT TOP (@multiCount) id
+            FROM TestQuestionV2
+            WHERE module_id = @moduleId AND type = 'MULTIPLE_CHOICE'
+            ORDER BY NEWID();
+        END
+
+    -- WRITTEN
+    IF @writtenCount > 0
+        BEGIN
+            INSERT INTO #ResultQuestions(id)
+            SELECT TOP (@writtenCount) id
+            FROM TestQuestionV2
+            WHERE module_id = @moduleId AND type = 'WRITTEN'
+            ORDER BY NEWID();
+        END
+
+    -- Final result
+    SELECT q.*
+    FROM TestQuestionV2 q
+             JOIN #ResultQuestions r ON q.id = r.id;
+
+    DROP TABLE #ResultQuestions;
+END;
+
+
+CREATE PROCEDURE sp_GetRandomQuestionsByTestId
+@testId NVARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Temporary table to collect results
+    CREATE TABLE #ResultQuestions (
+                                      id NVARCHAR(100)
+    );
+
+    -- Get courseId and counts from TestV2
+    DECLARE @courseId NVARCHAR(100);
+    DECLARE @singleCount INT;
+    DECLARE @multiCount INT;
+    DECLARE @writtenCount INT;
+
+    SELECT
+        @courseId = course_id,
+        @singleCount = singleChoiceCount,
+        @multiCount = multipleChoiceCount,
+        @writtenCount = writtenCount
+    FROM TestV2
+    WHERE id = @testId;
+
+    -- Insert SINGLE_CHOICE
+    IF @singleCount > 0
+        BEGIN
+            INSERT INTO #ResultQuestions(id)
+            SELECT TOP (@singleCount) id
+            FROM TestQuestionV2
+            WHERE course_id = @courseId AND type = 'SINGLE_CHOICE'
+            ORDER BY NEWID();
+        END
+
+    -- Insert MULTIPLE_CHOICE
+    IF @multiCount > 0
+        BEGIN
+            INSERT INTO #ResultQuestions(id)
+            SELECT TOP (@multiCount) id
+            FROM TestQuestionV2
+            WHERE course_id = @courseId AND type = 'MULTIPLE_CHOICE'
+            ORDER BY NEWID();
+        END
+
+    -- Insert WRITTEN
+    IF @writtenCount > 0
+        BEGIN
+            INSERT INTO #ResultQuestions(id)
+            SELECT TOP (@writtenCount) id
+            FROM TestQuestionV2
+            WHERE course_id = @courseId AND type = 'WRITTEN'
+            ORDER BY NEWID();
+        END
+
+    -- Return the final result
+    SELECT q.*
+    FROM TestQuestionV2 q
+             JOIN #ResultQuestions r ON q.id = r.id;
+
+    DROP TABLE #ResultQuestions;
+END;
+
+
+
+CREATE   FUNCTION dbo.get_course_details_by_id (@course_id VARCHAR(36))
+    RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+    DECLARE @result NVARCHAR(MAX);
+
+    SELECT @result = (
+        SELECT
+            -- 1. course (as JSON object)
+            JSON_QUERY((
+                SELECT
+                    c.id AS course_id,
+                    c.title AS course_title,
+                    JSON_QUERY((
+                        SELECT
+                            ct.id,
+                            ct.title,
+                            ct.createdAt,
+                            ct.updatedAt,
+                            ct.passingPercentage,
+                            (
+                                SELECT COUNT(*) FROM testQuestion tq WHERE tq.test_id = ct.id
+                            ) AS question_count
+                        FROM test ct
+                        WHERE ct.id = c.test_id
+                        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+                    )) AS final_test,
+
+                    (
+                        SELECT
+                            m.id AS module_id,
+                            m.title AS module_title,
+                            m.theme AS module_theme,
+                            JSON_QUERY((
+                                SELECT
+                                    t.id,
+                                    t.title,
+                                    t.createdAt,
+                                    t.updatedAt,
+                                    t.passingPercentage,
+                                    (
+                                        SELECT COUNT(*) FROM testQuestion tq WHERE tq.test_id = t.id
+                                    ) AS question_count
+                                FROM test t
+                                WHERE t.id = m.test_id
+                                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+                            )) AS module_test,
+
+                            (
+                                SELECT
+                                    tf.name,
+                                    tf.fileType,
+                                    tf.contentType,
+                                    tf.packageName
+                                FROM TopicFileOfLineV2 tf
+                                         JOIN TopicFileOfLineV2_Module tm ON tf.id = tm.TopicFileOfLineV2_id
+                                WHERE tm.modules_id = m.id
+                                FOR JSON PATH
+                            ) AS topic_files
+                        FROM module m
+                        WHERE m.course_id = c.id
+                        ORDER BY m.createdAt
+                        FOR JSON PATH
+                    ) AS modules,
+
+                    (
+                        SELECT
+                            f.id,
+                            f.name
+                        FROM faculty f
+                                 JOIN course_faculty cf ON f.id = cf.faculties_id
+                        WHERE cf.course_id = c.id
+                        FOR JSON PATH
+                    ) AS faculties
+                FROM course c
+                WHERE c.id = @course_id
+                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+            )) AS course,
+
+            -- 2. educationType
+            JSON_QUERY((
+                SELECT
+                    et.id,
+                    et.name
+                FROM course c
+                         JOIN PlanOfSubjectV2 p ON c.plan_id = p.id
+                         JOIN EducationType et ON et.id = p.educationType_id
+                WHERE c.id = @course_id
+                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+            )) AS educationType,
+
+            -- 3. educationLanguage
+            JSON_QUERY((
+                SELECT
+                    el.id,
+                    el.name
+                FROM course c
+                         JOIN PlanOfSubjectV2 p ON c.plan_id = p.id
+                         JOIN EducationLanguage el ON el.id = p.educationLanguage_id
+                WHERE c.id = @course_id
+                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+            )) AS educationLanguage
+
+        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+    );
+
+    RETURN @result;
+END
+go
+
+
+
 CREATE OR ALTER FUNCTION dbo.get_course_group_details (@plan_id varchar(36))
     RETURNS NVARCHAR(MAX)
 AS
@@ -89,7 +479,134 @@ BEGIN
     RETURN '{ "course": ' + @result + ', "groups": ' + @groups + ' }';
 END;
 
+CREATE OR ALTER FUNCTION dbo.get_course_details_by_id_v2 (@course_id VARCHAR(36))
+    RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+    DECLARE @result NVARCHAR(MAX);
 
+    SELECT @result = (
+        SELECT
+            -- 1. course (as JSON object)
+            JSON_QUERY((
+                SELECT
+                    c.id AS course_id,
+                    c.title AS course_title,
+
+                    -- Final test (TestV2)
+                    JSON_QUERY((
+                        SELECT
+                            t.id,
+                            t.title,
+                            t.createdAt,
+                            t.updatedAt,
+                            t.createdBy,
+                            t.updatedBy,
+                            t.singleChoiceCount,
+                            t.singleChoiceBall,
+                            t.multipleChoiceCount,
+                            t.multipleChoiceBall,
+                            t.writtenCount,
+                            t.writtenBall,
+                            t.passingBall
+                        FROM TestV2 t
+                        WHERE t.course_id = c.id
+                        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+                    )) AS final_test,
+
+                    -- Modules
+                    (
+                        SELECT
+                            m.id AS module_id,
+                            m.title AS module_title,
+                            m.theme AS module_theme,
+
+                            -- Module test (TestV2)
+                            JSON_QUERY((
+                                SELECT
+                                    t.id,
+                                    t.title,
+                                    t.createdAt,
+                                    t.updatedAt,
+                                    t.createdBy,
+                                    t.updatedBy,
+                                    t.singleChoiceCount,
+                                    t.singleChoiceBall,
+                                    t.multipleChoiceCount,
+                                    t.multipleChoiceBall,
+                                    t.writtenCount,
+                                    t.writtenBall,
+                                    t.passingBall
+                                FROM TestV2 t
+                                WHERE t.module_id = m.id
+                                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+                            )) AS module_test,
+
+                            -- Topic files
+                            (
+                                SELECT
+                                    tf.name,
+                                    tf.fileType,
+                                    tf.contentType,
+                                    tf.packageName
+                                FROM TopicFileOfLineV2 tf
+                                         JOIN TopicFileOfLineV2_Module tm ON tf.id = tm.TopicFileOfLineV2_id
+                                WHERE tm.modules_id = m.id
+                                FOR JSON PATH
+                            ) AS topic_files
+
+                        FROM module m
+                        WHERE m.course_id = c.id
+                        ORDER BY m.createdAt
+                        FOR JSON PATH
+                    ) AS modules,
+
+                    -- Faculties
+                    (
+                        SELECT
+                            f.id,
+                            f.name
+                        FROM faculty f
+                                 JOIN course_faculty cf ON f.id = cf.faculties_id
+                        WHERE cf.course_id = c.id
+                        FOR JSON PATH
+                    ) AS faculties
+
+                FROM course c
+                WHERE c.id = @course_id
+                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+            )) AS course,
+
+            -- 2. educationType
+            JSON_QUERY((
+                SELECT
+                    et.id,
+                    et.name
+                FROM course c
+                         JOIN PlanOfSubjectV2 p ON c.plan_id = p.id
+                         JOIN EducationType et ON et.id = p.educationType_id
+                WHERE c.id = @course_id
+                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+            )) AS educationType,
+
+            -- 3. educationLanguage
+            JSON_QUERY((
+                SELECT
+                    el.id,
+                    el.name
+                FROM course c
+                         JOIN PlanOfSubjectV2 p ON c.plan_id = p.id
+                         JOIN EducationLanguage el ON el.id = p.educationLanguage_id
+                WHERE c.id = @course_id
+                FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+            )) AS educationLanguage
+
+        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+    );
+
+    RETURN @result;
+END
+GO
 
 -- 33333333
 CREATE OR ALTER FUNCTION dbo.get_course_group_details (@plan_id varchar(36))
