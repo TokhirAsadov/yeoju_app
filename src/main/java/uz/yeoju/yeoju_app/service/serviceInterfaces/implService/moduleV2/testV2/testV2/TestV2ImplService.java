@@ -56,11 +56,14 @@ public class TestV2ImplService implements TestV2Service {
                 testV2Repository.save(testV2);
                 return new ApiResponse(true, "Test created successfully for course with ID " + creator.getCourseId());
             }
-        } else if (!moduleRepository.existsById(creator.getModuleId())) {
+        }
+        else if (!moduleRepository.existsById(creator.getModuleId())) {
             return new ApiResponse(false, "Module with ID " + creator.getModuleId() + " does not exist");
-        } else if (testV2Repository.existsByCourseId(creator.getModuleId())) {
+        }
+        else if (testV2Repository.existsByCourseId(creator.getModuleId())) {
             return new ApiResponse(false, "Test already exists for the module with ID " + creator.getModuleId());
-        } else {
+        }
+        else {
             testV2.setModule(moduleRepository.findById(creator.getModuleId()).orElseThrow(() -> new IllegalArgumentException("Module not found")));
             testV2Repository.save(testV2);
             return new ApiResponse(true, "Test created successfully for module with ID " + creator.getModuleId());
