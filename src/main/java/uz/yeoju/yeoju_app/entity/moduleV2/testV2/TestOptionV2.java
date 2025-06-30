@@ -18,10 +18,11 @@ import javax.persistence.ManyToOne;
 public class TestOptionV2 extends AbsEntity {
     private String text;    // Variant matni
 
-    @JsonIgnore
+//    @JsonIgnore
     private Boolean correct; // Shu variant to‘g‘rimi yoki yo‘q
 
     @ManyToOne
     @JoinColumn(name = "question_v2_id")
+    @JsonIgnore
     private TestQuestionV2 questionV2;
 }
