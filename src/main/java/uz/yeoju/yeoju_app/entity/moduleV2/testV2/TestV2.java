@@ -12,11 +12,9 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import uz.yeoju.yeoju_app.entity.moduleV2.Course;
 import uz.yeoju.yeoju_app.entity.moduleV2.Module;
-import uz.yeoju.yeoju_app.entity.moduleV2.TestQuestion;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
 
 @Entity
 @Data
@@ -52,7 +50,7 @@ public class TestV2 {
     private Integer writtenCount = 0; // Written questions count
     private Integer writtenBall = 0; // har bir written question uchun ball
 
-    private Double passingBall = 60.0;
+    private Integer passingBall = 60;
 
     // module testi uchun
     @OneToOne
