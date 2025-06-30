@@ -26,6 +26,10 @@ public class UserTestAnswerV2 extends AbsEntity {
     @JsonIgnore
     private TestQuestionV2 questionV2;
 
+    @ManyToOne
+    @JoinColumn(name = "test_v2_id")
+    private TestV2 testV2;
+
     @ManyToMany
     @JoinTable(
             name = "UserTestAnswerSelectedOptionsV2",
@@ -40,5 +44,7 @@ public class UserTestAnswerV2 extends AbsEntity {
 
     @Column(nullable = false)
     private boolean shouldBeDeleted = false;
+
+    private Integer score = 0;
 }
 
