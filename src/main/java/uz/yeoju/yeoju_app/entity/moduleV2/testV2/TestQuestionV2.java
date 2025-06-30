@@ -20,9 +20,15 @@ public class TestQuestionV2 extends AbsEntity {
     @Enumerated(EnumType.STRING)
     private TestType type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
+    @JsonIgnore
     private Course course;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "module_id")
+    @JsonIgnore
+    private Module module;
 
     private String questionText;
 
