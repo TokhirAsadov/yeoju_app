@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 
@@ -36,6 +37,7 @@ public class UserTestAnswerV2 extends AbsEntity {
             joinColumns = @JoinColumn(name = "user_test_answer_v2_id"),
             inverseJoinColumns = @JoinColumn(name = "test_option_v2_id")
     )
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<TestOptionV2> selectedOptionsV2;
 
     private String writtenAnswer;
