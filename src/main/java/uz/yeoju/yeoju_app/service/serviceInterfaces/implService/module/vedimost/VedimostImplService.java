@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.entity.module.Vedimost;
 import uz.yeoju.yeoju_app.entity.module.VedimostCondition;
 import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.module.VedimostCreaterDto;
 import uz.yeoju.yeoju_app.payload.module.VedimostUpdaterDto;
 import uz.yeoju.yeoju_app.payload.resDto.module.vedimost.GetLessonsIdsWithTeachersIds;
@@ -22,6 +23,7 @@ import uz.yeoju.yeoju_app.repository.module.VedimostRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.teacher.TeacherService;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -45,48 +47,59 @@ public class VedimostImplService implements VedimostService{
 
     @Transactional
     @Override
-    public ApiResponse createVedimost(VedimostCreaterDto dto) {
+    public ApiResponseTwoObj createVedimost(VedimostCreaterDto dto) {
         boolean existsEducationYearId = educationYearRepository.existsById(dto.educationYearId);
+
+        Set<String> emptyGroups = new HashSet<>();
+        Set<String> savedGroups = new HashSet<>();
 
         if (existsEducationYearId) {
             dto.groupsIds.forEach(groupId->{
                 boolean existsGroup = groupRepository.existsById(groupId);
                 if (existsGroup) {
                     Set<GetLessonsIdsWithTeachersIds> ids = vedimostRepository.getLessonsIdsWithTeachersIds(dto.educationYearId, groupId);
-                    ids.forEach(id-> {
-                        Boolean existsTeacher = teacherRepository.existsTeacherByUserId(id.getTeacherId());
-                        if (existsTeacher) {
-                            Boolean existsVedimost = vedimostRepository.existsVedimostByEducationYearIdAndLessonIdAndGroupId(dto.educationYearId, id.getLessonId(), groupId);
-                            if (!existsVedimost) {
-                                Group group = groupRepository.getById(groupId);
-                                ApiResponse dataOfLeaders = teacherService.getDataOfLeaders(userRepository.findById(id.getTeacherId()).orElse(null).getId(), group.getName());
-                                if (dataOfLeaders.isSuccess()) {
-                                    DataOfLeaders obj = (DataOfLeaders) dataOfLeaders.getObj();
-                                    Vedimost vedimost = new Vedimost();
-                                    vedimost.setCourseLeader(obj.getCourseLeader());
-                                    vedimost.setHeadOfDepartment(obj.getHeadOfDepartment());
-                                    vedimost.setHeadOfAcademicAffair(obj.getHeadOfAcademicAffair());
-                                    vedimost.setDirection(obj.getDirection());
+                    System.out.println("-----IDS---> "+ids);
+                    if (!ids.isEmpty()){
+                        ids.forEach(id-> {
+                            Boolean existsTeacher = teacherRepository.existsTeacherByUserId(id.getTeacherId());
+                            if (existsTeacher) {
+                                Boolean existsVedimost = vedimostRepository.existsVedimostByEducationYearIdAndLessonIdAndGroupId(dto.educationYearId, id.getLessonId(), groupId);
+                                if (!existsVedimost) {
+                                    Group group = groupRepository.getById(groupId);
+                                    ApiResponse dataOfLeaders = teacherService.getDataOfLeaders(userRepository.findById(id.getTeacherId()).orElse(null).getId(), group.getName());
+                                    if (dataOfLeaders.isSuccess()) {
+                                        DataOfLeaders obj = (DataOfLeaders) dataOfLeaders.getObj();
+                                        Vedimost vedimost = new Vedimost();
+                                        vedimost.setCourseLeader(obj.getCourseLeader());
+                                        vedimost.setHeadOfDepartment(obj.getHeadOfDepartment());
+                                        vedimost.setHeadOfAcademicAffair(obj.getHeadOfAcademicAffair());
+                                        vedimost.setDirection(obj.getDirection());
 
-                                    vedimost.setCourseLeader(obj.getCourseLeader());
-                                    vedimost.setLevel(group.getLevel());
-                                    vedimost.setDeadline(dto.deadline);
-    //                            vedimost.setTimeClose(dto.timeClose);
-                                    vedimost.setCondition(VedimostCondition.OPEN);
-                                    vedimost.setTeacher(userRepository.findById(id.getTeacherId()).orElse(null));
-                                    vedimost.setLesson(lessonRepository.findById(id.getLessonId()).orElse(null));
-                                    vedimost.setGroup(group);
-                                    vedimost.setEducationYear(educationYearRepository.findById(dto.educationYearId).orElse(null));
-                                    vedimostRepository.save(vedimost);
-                                } else {
-                                    throw new UserNotFoundException("Data about course leader has error. " + dataOfLeaders.getMessage());
+                                        vedimost.setCourseLeader(obj.getCourseLeader());
+                                        vedimost.setLevel(group.getLevel());
+                                        vedimost.setDeadline(dto.deadline);
+                                        //                            vedimost.setTimeClose(dto.timeClose);
+                                        vedimost.setCondition(VedimostCondition.OPEN);
+                                        vedimost.setTeacher(userRepository.findById(id.getTeacherId()).orElse(null));
+                                        vedimost.setLesson(lessonRepository.findById(id.getLessonId()).orElse(null));
+                                        vedimost.setGroup(group);
+                                        vedimost.setEducationYear(educationYearRepository.findById(dto.educationYearId).orElse(null));
+                                        vedimostRepository.save(vedimost);
+                                        savedGroups.add(groupId);
+                                    } else {
+                                        throw new UserNotFoundException("Data about course leader has error. " + dataOfLeaders.getMessage());
+                                    }
                                 }
                             }
-                        }
-                        else {
-                            throw new UserNotFoundException("Teacher does not exist in Kafedra. Teacher name is " + userRepository.findById(id.getTeacherId()).orElse(null).getFullName());
-                        }
-                    });
+                            else {
+                                throw new UserNotFoundException("Teacher does not exist in Kafedra. Teacher name is " + userRepository.findById(id.getTeacherId()).orElse(null).getFullName());
+                            }
+                        });
+                    }
+                    else {
+                        emptyGroups.add(groupId);
+                    }
+
                 }
                 else {
                     throw new UserNotFoundException("Group is not fount by id: "+groupId);
@@ -96,7 +109,10 @@ public class VedimostImplService implements VedimostService{
         else {
             throw new UserNotFoundException("Education year is not fount by id: "+dto.educationYearId);
         }
-        return new ApiResponse(true, "Vedimosts are created successfully!.");
+        if (savedGroups.isEmpty()) {
+            throw new UserNotFoundException("Error.. Statements do not created. Lessons do not exist..");
+        }
+        return new ApiResponseTwoObj(true, "Vedimosts are created successfully!.",savedGroups,emptyGroups);
     }
 
     @Override
