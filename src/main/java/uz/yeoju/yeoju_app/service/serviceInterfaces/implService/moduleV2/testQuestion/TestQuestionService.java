@@ -13,7 +13,7 @@ public interface TestQuestionService {
     ApiResponse findAll(Pageable pageable);
     ApiResponse findById(String testQuestionId);
     boolean deleteById(String testQuestionId);
-    ApiResponse findTestQuestionsByCourseIdWithShuffledOptions(String courseId);
+    ApiResponse findTestQuestionsByCourseIdWithShuffledOptions(String userId,String courseId);
     ApiResponse findByCourseTestId(String courseTestId);
 
     ApiResponse getStudentCourseTestAnswers(String testId, String studentId);
