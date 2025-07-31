@@ -81,6 +81,14 @@ public class CourseController {
                 .body(res);
     }
 
+    @GetMapping("/getCourseProgressForGroupV2/{groupId}/{courseId}")
+    HttpEntity<?> getCourseProgressForGroupV2(@PathVariable String groupId,
+                                            @PathVariable String courseId){
+        ApiResponse res = service.getCourseProgressForGroupV2(groupId,courseId);
+        return ResponseEntity.status(res.isSuccess() ? 200 : 417)
+                .body(res);
+    }
+
     @GetMapping("/getGroups/{facultyId}/{courseId}")
     HttpEntity<?> getGroups(@PathVariable String facultyId,
                                             @PathVariable String courseId){
