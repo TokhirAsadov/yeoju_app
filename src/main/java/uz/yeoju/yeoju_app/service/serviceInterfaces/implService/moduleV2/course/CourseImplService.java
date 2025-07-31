@@ -530,6 +530,7 @@ public class CourseImplService implements CourseService{
         return new ApiResponse(true, "Courses with module progress", response);
     }
 
+    /*public ApiResponse findByStudentIdAndEducationYearId(String studentId, String educationYearId) {
         // Talabani olish
         Student student = studentRepository.findStudentByUserId(studentId);
         if (student == null) {
