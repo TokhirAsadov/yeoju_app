@@ -13,5 +13,6 @@ public interface TestV2Service {
     ApiResponse findByGroupIdAndEducationYearIdV2(String groupId, String educationYearId);
     boolean delete(String id);
     ApiResponse findAll(Pageable pageable);
+    ApiResponse findById(String id);
 
 }
