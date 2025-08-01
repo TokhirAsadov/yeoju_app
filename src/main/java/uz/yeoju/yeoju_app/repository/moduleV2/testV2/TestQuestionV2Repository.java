@@ -29,5 +29,13 @@ public interface TestQuestionV2Repository extends JpaRepository<TestQuestionV2,S
     @Query(value = "EXEC sp_GetRandomQuestionsByTestId :testId", nativeQuery = true)
     List<TestQuestionV2> getRandomQuestionsForTest(@Param("testId") String testId);
 
+    @Query(
+            value = "EXEC sp_GetRandomQuestionsByTestIdAndModuleId :testId, :moduleId",
+            nativeQuery = true
+    )
+    List<TestQuestionV2> getRandomQuestionsByTestIdAndModuleId(
+            @Param("testId") String testId,
+            @Param("moduleId") String moduleId
+    );
 
 }
