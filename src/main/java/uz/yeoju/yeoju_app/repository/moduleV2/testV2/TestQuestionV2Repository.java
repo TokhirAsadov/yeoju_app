@@ -38,4 +38,8 @@ public interface TestQuestionV2Repository extends JpaRepository<TestQuestionV2,S
             @Param("moduleId") String moduleId
     );
 
+
+    List<TestQuestionV2> findAllByCourseId(String courseId);
+
+
 }
