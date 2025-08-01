@@ -41,5 +41,7 @@ public interface TestQuestionV2Repository extends JpaRepository<TestQuestionV2,S
 
     List<TestQuestionV2> findAllByCourseId(String courseId);
 
+    long countByModuleIdAndType(String moduleId, TestType type);
+
 
 }
