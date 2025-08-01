@@ -14,5 +14,5 @@ public interface TestV2Service {
     boolean delete(String id);
     ApiResponse findAll(Pageable pageable);
     ApiResponse findById(String id);
-
+    ApiResponse update(TestV2Updater updater);
 }
