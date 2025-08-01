@@ -11,5 +11,6 @@ public interface TestV2Service {
     ApiResponse create(@Valid TestV2Creator creator);
     ApiResponse findByStudentIdAndEducationYearIdV2(String studentId, String educationYearId);
     ApiResponse findByGroupIdAndEducationYearIdV2(String groupId, String educationYearId);
+    boolean delete(String id);
 
 }
