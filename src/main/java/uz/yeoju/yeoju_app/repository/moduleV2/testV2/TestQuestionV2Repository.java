@@ -19,4 +19,10 @@ public interface TestQuestionV2Repository extends JpaRepository<TestQuestionV2,S
             "GROUP BY type", nativeQuery = true)
     List<GetCountOfQuestionsWithType> countQuestionsByTypeForCourse(@Param("courseId") String courseId);
 
+    @Query(value = "SELECT type, COUNT(*) AS questionCount " +
+            "FROM test_question_v2 " +
+            "WHERE module_id = :moduleId " +
+            "GROUP BY type", nativeQuery = true)
+    List<GetCountOfQuestionsWithType> countQuestionsByTypeForModule(@Param("moduleId") String moduleId);
+
 }
