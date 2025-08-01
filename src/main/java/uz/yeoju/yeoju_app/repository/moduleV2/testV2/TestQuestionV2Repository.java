@@ -25,4 +25,9 @@ public interface TestQuestionV2Repository extends JpaRepository<TestQuestionV2,S
             "GROUP BY type", nativeQuery = true)
     List<GetCountOfQuestionsWithType> countQuestionsByTypeForModule(@Param("moduleId") String moduleId);
 
+
+    @Query(value = "EXEC sp_GetRandomQuestionsByTestId :testId", nativeQuery = true)
+    List<TestQuestionV2> getRandomQuestionsForTest(@Param("testId") String testId);
+
+
 }
