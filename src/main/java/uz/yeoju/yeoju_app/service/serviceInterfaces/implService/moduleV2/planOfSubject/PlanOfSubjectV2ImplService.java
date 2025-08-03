@@ -14,6 +14,7 @@ import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
 import uz.yeoju.yeoju_app.payload.moduleV2.CourseGroupDetails;
 import uz.yeoju.yeoju_app.payload.moduleV2.CoursesGroupDetails;
 import uz.yeoju.yeoju_app.payload.moduleV2.CreatePlanOfStudentV2;
+import uz.yeoju.yeoju_app.payload.moduleV2.testV2.CourseGroupDetailsV2;
 import uz.yeoju.yeoju_app.payload.resDto.module.GetPlansForTeacherSciences;
 import uz.yeoju.yeoju_app.payload.resDto.moduleV2.GetExistsPlansV2;
 import uz.yeoju.yeoju_app.repository.*;
@@ -143,5 +144,16 @@ public class PlanOfSubjectV2ImplService implements PlanOfSubjectV2Service {
     public ApiResponse getPlansBySubjectId(String lessonId, String educationYearId) {
         return new ApiResponse(true, "plans by subject id",
                 planRepository.getPlansBySubjectId(lessonId, educationYearId));
+    }
+
+    @Override
+    public ApiResponse getCourseDetailsByCourseIdV2(String courseId) {
+        String json = planRepository.getCourseDetailsByCourseIdV2(courseId);
+        System.out.println("JSON: " + json);
+        try {
+            return new ApiResponse(true,"All details",objectMapper.readValue(json, CourseGroupDetailsV2.class));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("JSON parse xatosi", e);
+        }
     }
 }
