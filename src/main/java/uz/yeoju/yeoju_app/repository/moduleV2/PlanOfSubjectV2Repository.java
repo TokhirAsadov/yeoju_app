@@ -25,6 +25,10 @@ public interface PlanOfSubjectV2Repository extends JpaRepository<PlanOfSubjectV2
     @Query(value = "select dbo.get_course_details_by_id(?1);",nativeQuery = true)
     String getCourseDetailsByCourseId(String planId);
 
+    @Query(value = "select dbo.get_course_details_by_id_v3(?1);",nativeQuery = true)
+    String getCourseDetailsByCourseIdV2(String planId);
+
+
     Boolean existsByUserIdAndEducationYearIdAndSubjectIdAndLevelAndEducationLanguageIdAndEducationTypeId(String user_id, String educationYear_id, String subject_id, Integer level, String educationLanguage_id, String educationType_id);
 
 
