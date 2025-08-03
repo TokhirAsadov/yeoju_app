@@ -92,4 +92,9 @@ public class PlanOfSubjectV2Controller {
         return ResponseEntity.ok(service.getCourseDetailsByCourseId(courseId));
     }
 
+    @GetMapping("/getCourseDetailsByCourseIdV2/{courseId}")
+    HttpEntity<?> getCourseDetailsByCourseIdV2(@PathVariable("courseId") String courseId){
+        return ResponseEntity.ok(service.getCourseDetailsByCourseIdV2(courseId));
+    }
+
 }
