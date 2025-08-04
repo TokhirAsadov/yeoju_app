@@ -24,6 +24,12 @@ public class UserLessonModuleProgressController {
     void create(@RequestBody UserLessonModuleProgressCreator creator){
         service.create(creator);
     }
+    @PostMapping("/createV2")
+    @ResponseStatus(HttpStatus.CREATED)
+    void createV2(@RequestBody UserLessonModuleProgressCreator creator){
+        service.createV2(creator);
+    }
+
 
     @DeleteMapping("/delete/{id}")
     HttpEntity<?> delete(@PathVariable String id){
