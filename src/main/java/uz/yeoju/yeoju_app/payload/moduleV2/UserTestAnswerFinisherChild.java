@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class UserTestAnswerFinisherChild {
     public String testQuestionId;
+    public String writtenAnswer;
     public List<String> selectedOptionsIds;
 }
 
