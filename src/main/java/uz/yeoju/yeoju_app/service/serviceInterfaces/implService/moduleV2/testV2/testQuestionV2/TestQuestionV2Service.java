@@ -13,5 +13,6 @@ public interface TestQuestionV2Service {
     ApiResponse updateTestQuestionV2(String questionId, TestQuestionV2Creator creator);
     ApiResponse checkEnoughQuestionsForModule(String moduleId, int count, TestType type);
     ApiResponse getCountOfTypeOfQuestionsByModuleId(String moduleId);
+    ApiResponse getRandomQuestionsForTest(String testId, String moduleId);
 
 }
