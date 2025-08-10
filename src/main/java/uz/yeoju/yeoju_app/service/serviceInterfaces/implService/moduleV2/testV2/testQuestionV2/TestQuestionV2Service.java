@@ -14,5 +14,6 @@ public interface TestQuestionV2Service {
     ApiResponse checkEnoughQuestionsForModule(String moduleId, int count, TestType type);
     ApiResponse getCountOfTypeOfQuestionsByModuleId(String moduleId);
     ApiResponse getRandomQuestionsForTest(String testId, String moduleId);
+    boolean deleteById(String id);
 
 }
