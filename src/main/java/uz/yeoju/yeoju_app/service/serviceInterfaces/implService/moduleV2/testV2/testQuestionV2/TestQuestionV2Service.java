@@ -17,5 +17,6 @@ public interface TestQuestionV2Service {
     boolean deleteById(String id);
     ApiResponse findAll(Pageable pageable);
     ApiResponse findById(String id);
+    ApiResponse findByCourseId(String courseId);
 
 }
