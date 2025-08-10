@@ -15,5 +15,6 @@ public interface TestQuestionV2Service {
     ApiResponse getCountOfTypeOfQuestionsByModuleId(String moduleId);
     ApiResponse getRandomQuestionsForTest(String testId, String moduleId);
     boolean deleteById(String id);
+    ApiResponse findAll(Pageable pageable);
 
 }
