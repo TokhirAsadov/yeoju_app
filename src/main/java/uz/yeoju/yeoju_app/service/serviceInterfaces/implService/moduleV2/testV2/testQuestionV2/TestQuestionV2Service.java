@@ -12,5 +12,6 @@ public interface TestQuestionV2Service {
     ApiResponse getCountOfTypeOfQuestionsByCourseId(String courseId);
     ApiResponse updateTestQuestionV2(String questionId, TestQuestionV2Creator creator);
     ApiResponse checkEnoughQuestionsForModule(String moduleId, int count, TestType type);
+    ApiResponse getCountOfTypeOfQuestionsByModuleId(String moduleId);
 
 }
