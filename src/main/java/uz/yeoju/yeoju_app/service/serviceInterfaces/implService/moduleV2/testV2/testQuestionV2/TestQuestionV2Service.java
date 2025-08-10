@@ -18,5 +18,6 @@ public interface TestQuestionV2Service {
     ApiResponse findAll(Pageable pageable);
     ApiResponse findById(String id);
     ApiResponse findByCourseId(String courseId);
+    ApiResponse giveScoreToWrittenUserAnswer(GiveScoreToWrittenUserAnswerDto dto);
 
 }
