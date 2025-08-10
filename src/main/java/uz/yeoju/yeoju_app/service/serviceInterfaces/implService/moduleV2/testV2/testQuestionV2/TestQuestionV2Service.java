@@ -20,5 +20,6 @@ public interface TestQuestionV2Service {
     ApiResponse findByCourseId(String courseId);
     ApiResponse giveScoreToWrittenUserAnswer(GiveScoreToWrittenUserAnswerDto dto);
     ApiResponse findTestQuestionsByCourseIdWithShuffledOptions(String id, String testId,String moduleId);
+    ApiResponse getStudentCourseTestAnswers(String testId, String userId);
 
 }
