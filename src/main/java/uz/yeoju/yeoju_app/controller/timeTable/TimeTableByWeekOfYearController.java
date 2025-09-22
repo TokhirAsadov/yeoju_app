@@ -131,7 +131,7 @@ public class TimeTableByWeekOfYearController {
     }
 
 
-    @GetMapping("/getTeacherTimeTableAndStatisticsForKafedra")
+    @GetMapping("/getTeacherTimeTableAndStatisticsForKafedra9")
     public HttpEntity<?> getTeacherTimeTableAndStatisticsForKafedra(@CurrentUser User user,
                                                        @RequestParam("kafedraId") String kafedraId,
                                                        @RequestParam("year") Integer year,
@@ -141,6 +141,31 @@ public class TimeTableByWeekOfYearController {
                                                        @RequestParam("week") Integer week
     ) {
         return ResponseEntity.ok(service.getTeacherTimeTableAndStatisticsForKafedra(user,kafedraId,year,month,day,week,weekday));
+    }
+
+    @GetMapping("/getTeacherTimeTableAndStatisticsForKafedra")
+    public HttpEntity<?> getTeacherTimeTableAndStatisticsForKafedra9(@CurrentUser User user,
+                                                       @RequestParam("kafedraId") String kafedraId,
+                                                       @RequestParam("year") Integer year,
+                                                       @RequestParam("month") Integer month,
+                                                       @RequestParam("day") Integer day,
+                                                       @RequestParam("weekday") Integer weekday,
+                                                       @RequestParam("week") Integer week
+    ) {
+        return ResponseEntity.ok(service.getKafedraKunlikVaHaftalikStatistikasi5(user,kafedraId,year,month,day,week,weekday));
+    }
+
+    //todo------------------- GRAFIC UCHUN ----------------------------------------
+    @GetMapping("/getStatisticsForKafedra")
+    public HttpEntity<?> getStatisticsForKafedra(@CurrentUser User user,
+                                                                     @RequestParam("kafedraId") String kafedraId,
+                                                                     @RequestParam("year") Integer year,
+                                                                     @RequestParam("month") Integer month,
+                                                                     @RequestParam("day") Integer day,
+                                                                     @RequestParam("weekday") Integer weekday,
+                                                                     @RequestParam("week") Integer week
+    ) {
+        return ResponseEntity.ok(service.getKafedraKunlikVaHaftalikStatistikasi6(user,kafedraId,year,month,day,week,weekday));
     }
 
 }
