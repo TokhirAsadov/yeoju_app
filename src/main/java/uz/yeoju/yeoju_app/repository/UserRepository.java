@@ -182,6 +182,9 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "select u.id,u.fullName,u.RFID,u.passportNum as passport,:year as year,:week as week,:weekday as weekday from users u join Teacher T on u.id = T.user_id ",nativeQuery = true)
     List<UserForRoomStatistics2> getTeachersStatisticsForKafedraDashboardWithYearMonthDay(@Param("year") Integer year, @Param("week") Integer week,@Param("weekday")Integer weekday);
 
+    @Query(value = "select u.id,u.fullName,u.RFID,u.passportNum as passport,:year as year,:week as week,:weekday as weekday from users u join Teacher T on u.id = T.user_id ",nativeQuery = true)
+    List<UserForRoomStatistics3> getTeachersStatisticsForKafedraDashboardWithYearMonthDay2(@Param("year") Integer year, @Param("week") Integer week,@Param("weekday")Integer weekday);
+
 
     @Query(value = "select f2.user_id as id,f2.fullName,f2.email,f2.RFID,f2.login,f2.passportNum as passport from (\n" +
             "          select t.kafedra_id,t.user_id from\n" +
