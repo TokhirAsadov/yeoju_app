@@ -36,9 +36,9 @@ public interface KafedraTeachersStatisticsRepository extends JpaRepository<Kafed
     List<GetAllKafedraTeachersStatistics> getDaysOfWeek(@Param("year") int year, @Param("week") int week);
 
 
-    @Query(value = "SELECT kts.id, kts.totalAttended, kts.totalMissed, k.id as kafedraId, k.nameEn as kafedraName\n" +
+    @Query(value = "SELECT kts.id, kts.totalAttended, kts.totalMissed, k.id as kafedraId, k.nameEn as kafedraName \n" +
             "FROM KafedraTeachersStatistics kts\n" +
             "join Kafedra k on kts.kafedra_id = k.id\n" +
-            "where kts.day=:day;",nativeQuery = true)
+            "where kts.day=:day order by k.nameEn ;",nativeQuery = true)
     List<GetKafedraStatistics> findStatisticsByDay(String day);
 }
