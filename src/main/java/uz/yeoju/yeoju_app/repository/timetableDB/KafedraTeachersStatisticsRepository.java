@@ -9,6 +9,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface KafedraTeachersStatisticsRepository extends JpaRepository<KafedraTeachersStatistics, String> {
-
+    @Query(value = "SELECT * " +
+            "    FROM KafedraTeachersStatistics kts\n" +
+            "    WHERE CONVERT(date, kts.day, 104)  -- 104 = 'dd.mm.yyyy' format\n" +
+            "          BETWEEN :weekStart AND :weekEnd", nativeQuery = true)
+    List<KafedraTeachersStatistics> findByWeekRange(
+            @Param("weekStart") LocalDate weekStart,
+            @Param("weekEnd")   LocalDate weekEnd);
 
 }
