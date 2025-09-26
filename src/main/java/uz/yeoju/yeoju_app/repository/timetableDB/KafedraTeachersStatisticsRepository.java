@@ -37,6 +37,20 @@ public interface KafedraTeachersStatisticsRepository extends JpaRepository<Kafed
     List<GetAllKafedraTeachersStatistics> getDaysOfWeek(@Param("year") int year, @Param("week") int week);
 
 
+    @Query(value = "WITH WeekDays AS (\n" +
+            "    SELECT StartDate = DATEADD(\n" +
+            "                           WEEK,\n" +
+            "                           :week - 1,\n" +
+            "                           DATEADD(WEEK, DATEDIFF(WEEK, 0, DATEFROMPARTS(:year,1,4)), 0)\n" +
+            "                       )\n" +
+            ")\n" +
+            "SELECT FORMAT(DATEADD(DAY, v.number, StartDate), 'dd.MM.yyyy') AS dayInWeek,\n" +
+            "       CAST(:kafedraId AS uniqueidentifier) AS kafedraId\n" +
+            "FROM WeekDays\n" +
+            "JOIN master..spt_values v\n" +
+            "     ON v.type = 'P' AND v.number BETWEEN 0 AND 5\n" +
+            "ORDER BY dayInWeek", nativeQuery = true)
+    List<GetKafedraTeachersStatistics> getDaysOfWeek2(@Param("year") int year, @Param("week") int week, @Param("kafedraId") String kafedraId);
 
 
     @Query(value = "SELECT kts.id, kts.totalAttended, kts.totalMissed, k.id as kafedraId, k.nameEn as kafedraName \n" +
