@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.timetableDB.KafedraTeachersStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetAllKafedraTeachersStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetKafedraStatistics;
+import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetKafedraTeachersStatistics;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -36,9 +37,18 @@ public interface KafedraTeachersStatisticsRepository extends JpaRepository<Kafed
     List<GetAllKafedraTeachersStatistics> getDaysOfWeek(@Param("year") int year, @Param("week") int week);
 
 
+
+
     @Query(value = "SELECT kts.id, kts.totalAttended, kts.totalMissed, k.id as kafedraId, k.nameEn as kafedraName \n" +
             "FROM KafedraTeachersStatistics kts\n" +
             "join Kafedra k on kts.kafedra_id = k.id\n" +
             "where kts.day=:day order by k.nameEn ;",nativeQuery = true)
-    List<GetKafedraStatistics> findStatisticsByDay(String day);
+    List<GetKafedraStatistics> findStatisticsByDay(@Param("day") String day);
+
+
+    @Query(value = "SELECT TOP 1 kts.id, kts.totalAttended, kts.totalMissed, k.id as kafedraId, k.nameEn as kafedraName \n" +
+            "FROM KafedraTeachersStatistics kts \n" +
+            "join Kafedra k on kts.kafedra_id = k.id \n" +
+            "where kts.day=:day and k.id=:kafedraId",nativeQuery = true)
+    GetKafedraStatistics findStatisticsByKafedraIdAndDay(@Param("kafedraId") String kafedraId, @Param("day") String day);
 }
