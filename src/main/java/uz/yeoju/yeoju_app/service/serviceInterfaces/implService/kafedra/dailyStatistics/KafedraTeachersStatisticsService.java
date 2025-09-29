@@ -13,5 +13,6 @@ public interface KafedraTeachersStatisticsService {
     LocalDate[] getWeekRange(int year, int week);
     ApiResponse getAllKafedrasTeachersStatistics(int year, int week);
     ApiResponse getKafedrasTeachersStatistics(int year, int week, String kafedraId);
+    ApiResponse getKafedrasTeachersStatisticsByDay(String day);
 
 }
