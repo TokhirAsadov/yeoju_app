@@ -8,17 +8,17 @@ import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetAllKafedraTeachersStatis
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetKafedraStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetKafedraTeachersStatistics;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface KafedraTeachersStatisticsRepository extends JpaRepository<KafedraTeachersStatistics, String> {
-    @Query(value = "SELECT * " +
-            "    FROM KafedraTeachersStatistics kts\n" +
-            "    WHERE CONVERT(date, kts.day, 104)  -- 104 = 'dd.mm.yyyy' format\n" +
-            "          BETWEEN :weekStart AND :weekEnd", nativeQuery = true)
-    List<KafedraTeachersStatistics> findByWeekRange(
-            @Param("weekStart") LocalDate weekStart,
-            @Param("weekEnd")   LocalDate weekEnd);
+    @Query(value = "SELECT sum( kts.totalAttended) as totalAttended, sum(kts.totalMissed) as totalMissed, k.id as kafedraId, k.nameEn as kafedraName\n" +
+            "FROM KafedraTeachersStatistics kts\n" +
+            "    join Kafedra k on k.id=kts.kafedra_id\n" +
+            "WHERE kts.day between :weekStart and :weekEnd\n" +
+            "group by k.id, k.nameEn order by k.nameEn;", nativeQuery = true)
+    List<GetKafedraStatistics> findByWeekRange(
+            @Param("weekStart") String weekStart,
+            @Param("weekEnd")   String weekEnd);
 
     @Query(value = ";WITH WeekDays AS (\n" +
             "                SELECT \n" +
