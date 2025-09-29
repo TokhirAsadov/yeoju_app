@@ -7206,9 +7206,9 @@ CREATE FUNCTION dbo.GetTimesForRoomStatisticsByUserIdUnion2
                                 00,
                                 0)
                         when @section=3 then DATETIMEFROMPARTS(
-                                DATEPART(YEAR,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-@weekday, getdate()),0)),
-                                DATEPART(MONTH,dateadd(dd,DATEDIFF(dd, DATEPART(dw, GETDATE())-1-@weekday, getdate()),0)),
-                                DATEPART(DAY, dateadd(dd, DATEDIFF(dd, DATEPART(dw, GETDATE())-1-@weekday, getdate()),0)),
+                                DATEPART( YEAR, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( MONTH, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
+                                DATEPART( DAY, DATEADD( DAY, + (@weekday-1), DATEADD(DAY,-DATEPART(DW,CAST('1/1/' + cast(@year as varchar) AS Date))+2,DATEADD(WK,@week-1,CAST('1/1/' + cast(@year as varchar) AS Date))))),
                                 10,
                                 50,
                                 00,
@@ -7394,6 +7394,7 @@ CREATE FUNCTION dbo.GetTimesForRoomStatisticsByUserIdUnion2
                 where ((d.room LIKE '%'+@room+'%') or (@room LIKE '%'+d.room+'%')) and d.student_id=@userId and d.weekday=@weekday and d.week=@week and d.section=@section and d.year=@year
             )
 go
+
 
 
 
