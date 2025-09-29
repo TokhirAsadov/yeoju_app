@@ -20,6 +20,16 @@ public interface KafedraTeachersStatisticsRepository extends JpaRepository<Kafed
             @Param("weekStart") String weekStart,
             @Param("weekEnd")   String weekEnd);
 
+    @Query(value = "SELECT Top 1 sum( kts.totalAttended) as totalAttended, sum(kts.totalMissed) as totalMissed, k.id as kafedraId, k.nameEn as kafedraName\n" +
+            "FROM KafedraTeachersStatistics kts\n" +
+            "    join Kafedra k on k.id=kts.kafedra_id\n" +
+            "WHERE kts.day between :weekStart and :weekEnd and k.id=:kafedraId\n" +
+            "group by k.id, k.nameEn order by k.nameEn;", nativeQuery = true)
+    GetKafedraStatistics findByWeekRange(
+            @Param("kafedraId") String kafedraId,
+            @Param("weekStart") String weekStart,
+            @Param("weekEnd")   String weekEnd);
+
     @Query(value = ";WITH WeekDays AS (\n" +
             "                SELECT \n" +
             "                    StartDate = DATEADD(\n" +
