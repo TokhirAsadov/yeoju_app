@@ -14,5 +14,5 @@ public interface KafedraTeachersStatisticsService {
     ApiResponse getAllKafedrasTeachersStatistics(int year, int week);
     ApiResponse getKafedrasTeachersStatistics(int year, int week, String kafedraId);
     ApiResponse getKafedrasTeachersStatisticsByDay(String day);
-
+    ResponseEntity<List<GetKafedraStatistics>> getByWeekRange(String start, String end);
 }
