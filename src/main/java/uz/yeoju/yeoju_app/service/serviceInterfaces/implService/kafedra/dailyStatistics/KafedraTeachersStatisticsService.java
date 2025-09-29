@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface KafedraTeachersStatisticsService {
     void scheduleForSaveDailyStatistics();
+    void scheduleForSaveDailyStatisticsByDate(Integer year, Integer month, Integer day, Integer week, Integer weekday);
 
 }
