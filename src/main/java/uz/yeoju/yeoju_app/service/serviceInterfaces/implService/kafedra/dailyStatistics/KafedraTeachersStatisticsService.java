@@ -12,5 +12,6 @@ public interface KafedraTeachersStatisticsService {
     void scheduleForSaveDailyStatisticsByDate(Integer year, Integer month, Integer day, Integer week, Integer weekday);
     LocalDate[] getWeekRange(int year, int week);
     ApiResponse getAllKafedrasTeachersStatistics(int year, int week);
+    ApiResponse getKafedrasTeachersStatistics(int year, int week, String kafedraId);
 
 }
