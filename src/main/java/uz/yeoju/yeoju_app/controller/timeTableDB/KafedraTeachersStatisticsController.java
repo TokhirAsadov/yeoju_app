@@ -28,5 +28,15 @@ public class KafedraTeachersStatisticsController {
     }
 
 
+    @GetMapping("/weekly-statistics")
+    public ResponseEntity<ApiResponse> statistics(@RequestParam Integer year,
+                                                  @RequestParam Integer week,
+                                                  @RequestParam(required = false) String kafedraId){
+        return ResponseEntity.ok(kafedraId == null ?
+                service.getAllKafedrasTeachersStatistics(year, week)
+                : service.getKafedrasTeachersStatistics(year, week, kafedraId));
+    }
+
+
 
 }
