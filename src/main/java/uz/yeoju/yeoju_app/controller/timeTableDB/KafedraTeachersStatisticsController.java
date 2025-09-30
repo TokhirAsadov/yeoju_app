@@ -17,6 +17,16 @@ import java.util.List;
 public class KafedraTeachersStatisticsController {
     private final KafedraTeachersStatisticsService service;
 
+    @GetMapping("/save-by-date")
+    public ResponseEntity<ApiResponse> saveByDate(@RequestParam Integer year,
+                                                  @RequestParam Integer month,
+                                                  @RequestParam Integer day,
+                                                  @RequestParam Integer week,
+                                                  @RequestParam Integer weekday){
+        service.scheduleForSaveDailyStatisticsByDate(year, month, day, week, weekday);
+        return ResponseEntity.ok(new ApiResponse(true, "Statistika saqlandi!"));
+    }
+
 
 
 }
