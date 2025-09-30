@@ -37,6 +37,12 @@ public class KafedraTeachersStatisticsController {
                 : service.getKafedrasTeachersStatistics(year, week, kafedraId));
     }
 
+    @GetMapping("/statisticsByDay/{day}")
+    public ResponseEntity<ApiResponse> statisticsByDay(@PathVariable String day,
+                                                       @RequestParam(required = false) String kafedraId){
+        return ResponseEntity.ok(service.getKafedrasTeachersStatisticsByDay(day));
+    }
+
 
 
 }
