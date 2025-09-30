@@ -43,6 +43,13 @@ public class KafedraTeachersStatisticsController {
         return ResponseEntity.ok(service.getKafedrasTeachersStatisticsByDay(day));
     }
 
+    // GET /api/kafedra-stats/week?start=22.09.2025&end=28.09.2025
+    @GetMapping("/between-days")
+    public ResponseEntity<List<GetKafedraStatistics>> getStatsByWeekRange(
+            @RequestParam("start") String start,
+            @RequestParam("end")   String end) {
+        return service.getByWeekRange(start, end);
+    }
 
 
 }
