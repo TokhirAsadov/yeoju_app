@@ -18,7 +18,13 @@ public interface CourseRepository extends JpaRepository<Course,String> {
              "join Student s on g.id = s.group_id\n" +
              "WHERE s.user_id=?1 and p.educationYear_id=?2 and p.level=g.level",nativeQuery = true)
      List<Course> getCourseByStudentIdAndEducationYearId(String studentId, String educationYearId);
-//     List<Course> findAllByPlanEducationYearIdAndPlanGroupsId(String educationYearId, String groupId);
+     @Query(value = "SELECT c.* FROM Course c\n" +
+             "join PlanOfSubjectV2 p on c.plan_id = p.id\n" +
+             "JOIN Course_Faculty cf ON c.id = cf.course_id\n" +
+             "join Faculty f on cf.faculties_id = f.id\n" +
+             "join groups g on f.id = g.faculty_id\n" +
+             "WHERE g.id=?1 and p.educationYear_id=?2 and p.level=g.level",nativeQuery = true)
+     List<Course> getCourseByGroupIdAndEducationYearId(String groupId, String educationYearId);
      boolean existsByIdAndFinalTestIdIsNotNull(String id);
      Course findByFinalTestId(String id);
 
