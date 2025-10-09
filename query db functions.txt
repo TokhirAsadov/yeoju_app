@@ -1,3 +1,147 @@
+CREATE OR ALTER FUNCTION dbo.GetTotalClassroomAttendanceByEduTypeAndFacultyAndCourse2
+(
+    @Year INT,
+    @SortNumber INT,
+    @Day VARCHAR(50),
+    @eduType VARCHAR(255),
+    @faculty VARCHAR(255),
+    @courses NVARCHAR(MAX), -- Yangi parametr (kurslar ro‘yxati)
+    @eduForm NVARCHAR(255)
+)
+    RETURNS @UsersState TABLE
+                        (
+                            totalAllStudent INT,
+                            totalComeCount INT
+                        )
+AS
+BEGIN
+    DECLARE @allStudent INT;
+    DECLARE @allCome INT;
+
+    -- Kurs ro‘yxatini tablega aylantiramiz
+    DECLARE @courseTable TABLE (courseId INT);
+    INSERT INTO @courseTable(courseId)
+    SELECT TRY_CAST(value AS INT)
+    FROM STRING_SPLIT(@courses, ',')
+    WHERE TRY_CAST(value AS INT) IS NOT NULL;
+
+    IF @Year = YEAR(GETDATE())
+        AND @SortNumber = DATEPART(WEEK, GETDATE())
+        AND @Day = DATEPART(WEEKDAY, GETDATE()) - 1
+        BEGIN
+            SELECT TOP 1
+                @allStudent = totalAllStudent,
+                @allCome = totalComeCount
+            FROM (
+                     SELECT SUM(allStudent) AS totalAllStudent, SUM(comeCount) AS totalComeCount
+                     FROM (
+                              SELECT COUNT(studentId) AS allStudent, cardId, ISNULL(cs.comeCount, 0) AS comeCount
+                              FROM (
+                                       SELECT s.id AS studentId, c.id AS cardId
+                                       FROM CardDB c
+                                                JOIN WeekOfEducationYear wy ON c.weekOfEducationYear_id = wy.id
+                                                JOIN LessonDB ld ON c.lesson_id = ld.id
+                                                JOIN LessonDB_groups lg ON ld.id = lg.LessonDB_id
+                                                JOIN groups g ON lg.groups_id = g.id
+                                                JOIN Faculty f ON g.faculty_id = f.id
+                                                JOIN EducationForm ef ON ef.id = g.educationForm_id
+                                                JOIN EducationType et ON g.educationType_id = et.id
+                                                JOIN Student s ON g.id = s.group_id
+                                       WHERE wy.year = @Year
+                                         AND wy.sortNumber = @SortNumber
+                                         AND c.day = @Day
+                                         AND et.name = @eduType
+                                         AND f.shortName = @faculty
+                                         AND g.level IN (SELECT courseId FROM @courseTable)
+                                         AND ef.name = @eduForm
+                                         AND c.period <= DATEPART(HOUR, GETDATE()) - 8
+                                         AND c.classroom IS NOT NULL
+                                       GROUP BY c.id, s.id
+                                   ) AS f
+                                       LEFT JOIN (
+                                  SELECT COUNT(cardDB_id) AS comeCount, cardDB_id
+                                  FROM (
+                                           SELECT cs.rfid, cs.cardDB_id
+                                           FROM CardDbStatistics cs
+                                                    JOIN users u2 ON u2.RFID = cs.rfid
+                                                    JOIN Student s2 ON u2.id = s2.user_id
+                                                    JOIN groups g2 ON g2.id = s2.group_id
+                                                    JOIN Faculty f2 ON g2.faculty_id = f2.id
+                                                    JOIN EducationForm ef2 ON ef2.id = g2.educationForm_id
+                                                    JOIN EducationType et2 ON g2.educationType_id = et2.id
+                                           WHERE et2.name = @eduType
+                                             AND f2.shortName = @faculty
+                                             AND ef2.name = @eduForm
+                                             AND g2.level IN (SELECT courseId FROM @courseTable)
+                                           GROUP BY cs.rfid, cs.cardDB_id
+                                       ) AS f
+                                  GROUP BY f.cardDB_id
+                              ) cs ON cs.cardDB_id = f.cardId
+                              GROUP BY f.cardId, cs.comeCount
+                          ) AS d
+                 ) AS f1;
+        END
+    ELSE
+        BEGIN
+            SELECT TOP 1
+                @allStudent = totalAllStudent,
+                @allCome = totalComeCount
+            FROM (
+                     SELECT SUM(allStudent) AS totalAllStudent, SUM(comeCount) AS totalComeCount
+                     FROM (
+                              SELECT COUNT(studentId) AS allStudent, cardId, ISNULL(cs.comeCount, 0) AS comeCount
+                              FROM (
+                                       SELECT s.id AS studentId, c.id AS cardId
+                                       FROM CardDB c
+                                                JOIN WeekOfEducationYear wy ON c.weekOfEducationYear_id = wy.id
+                                                JOIN LessonDB ld ON c.lesson_id = ld.id
+                                                JOIN LessonDB_groups lg ON ld.id = lg.LessonDB_id
+                                                JOIN groups g ON lg.groups_id = g.id
+                                                JOIN Faculty f ON g.faculty_id = f.id
+                                                JOIN EducationForm ef ON ef.id = g.educationForm_id
+                                                JOIN EducationType et ON g.educationType_id = et.id
+                                                JOIN Student s ON g.id = s.group_id
+                                       WHERE wy.year = @Year
+                                         AND wy.sortNumber = @SortNumber
+                                         AND c.day = @Day
+                                         AND et.name = @eduType
+                                         AND f.shortName = @faculty
+                                         AND g.level IN (SELECT courseId FROM @courseTable)
+                                         AND ef.name = @eduForm
+                                         AND c.classroom IS NOT NULL
+                                       GROUP BY c.id, s.id
+                                   ) AS f
+                                       LEFT JOIN (
+                                  SELECT COUNT(cardDB_id) AS comeCount, cardDB_id
+                                  FROM (
+                                           SELECT cs.rfid, cs.cardDB_id
+                                           FROM CardDbStatistics cs
+                                                    JOIN users u2 ON u2.RFID = cs.rfid
+                                                    JOIN Student s2 ON u2.id = s2.user_id
+                                                    JOIN groups g2 ON g2.id = s2.group_id
+                                                    JOIN Faculty f2 ON g2.faculty_id = f2.id
+                                                    JOIN EducationForm ef2 ON ef2.id = g2.educationForm_id
+                                                    JOIN EducationType et2 ON g2.educationType_id = et2.id
+                                           WHERE et2.name = @eduType
+                                             AND f2.shortName = @faculty
+                                             AND ef2.name = @eduForm
+                                             AND g2.level IN (SELECT courseId FROM @courseTable)
+                                           GROUP BY cs.rfid, cs.cardDB_id
+                                       ) AS f
+                                  GROUP BY f.cardDB_id
+                              ) cs ON cs.cardDB_id = f.cardId
+                              GROUP BY f.cardId, cs.comeCount
+                          ) AS d
+                 ) AS f2;
+        END
+
+    INSERT INTO @UsersState (totalAllStudent, totalComeCount)
+    SELECT @allStudent, @allCome;
+
+    RETURN;
+END
+GO
+
 CREATE OR ALTER FUNCTION dbo.get_course_details_by_id_v3 (@course_id VARCHAR(36))
     RETURNS NVARCHAR(MAX)
 AS
