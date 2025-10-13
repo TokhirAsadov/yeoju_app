@@ -36,8 +36,9 @@ public class AcademicRecords  {
     private Integer kredit;
     private Integer ball;
     private Integer baho;
+    private Double gpa;
 
-    public AcademicRecords(String qaydRaqami, String berilganSana, String fish, String tugilganSana, String akademikDaraja, String fakultet, String yunalish, String uqishgaQabulQilinganSana, String talimOluvchiningMaqomi, String uqishniTamomlaganSana, String fanNomi, Integer semestr, Integer yuklama, Integer kredit, Integer ball, Integer baho) {
+    public AcademicRecords(String qaydRaqami, String berilganSana, String fish, String tugilganSana, String akademikDaraja, String fakultet, String yunalish, String uqishgaQabulQilinganSana, String talimOluvchiningMaqomi, String uqishniTamomlaganSana, String fanNomi, Integer semestr, Integer yuklama, Integer kredit, Integer ball, Integer baho, Double gpa) {
         this.qaydRaqami = qaydRaqami;
         this.berilganSana = berilganSana;
         this.fish = fish;
@@ -54,5 +55,6 @@ public class AcademicRecords  {
         this.kredit = kredit;
         this.ball = ball;
         this.baho = baho;
+        this.gpa = gpa;
     }
 }
