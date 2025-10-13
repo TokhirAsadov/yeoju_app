@@ -56,6 +56,44 @@ public class CardDbStatisticsController {
 
     }
 
+
+    @GetMapping("/total2")
+        HttpEntity<?> getTotalStatistics(
+                @RequestParam("year") Integer year,
+                @RequestParam("week") Integer week,
+                @RequestParam("weekday") Integer weekday,
+                @RequestParam("eduForm") String eduForm,
+                @RequestParam(value = "eduType",required = false) String eduType,
+                @RequestParam(value = "faculty",required = false) String faculty,
+                @RequestParam(value = "courses",required = false) String courses
+
+                ) {
+            if (eduType == null && faculty == null && courses == null) {
+                return ResponseEntity.ok(service.getTotalAllClassroomStatistics(year, week, weekday,eduForm));
+            }
+            if (eduType == null && faculty == null) {
+                return ResponseEntity.ok(service.getTotalAllClassroomStatisticsByCourse(year, week, weekday, courses,eduForm));
+            }
+            if (eduType == null && courses == null) {
+                return ResponseEntity.ok(service.getTotalAllClassroomStatisticsByFaculty(year, week, weekday, faculty,eduForm));
+            }
+            if (eduType == null) {
+                return ResponseEntity.ok(service.getTotalAllClassroomStatisticsByFacultyAndCourse(year, week, weekday, faculty, courses,eduForm));
+            }
+            if (faculty == null && courses == null) {
+                return ResponseEntity.ok(service.getTotalClassroomAttendanceByEduType(year, week, weekday, eduType,eduForm));
+            }
+            if (faculty == null) {
+                return ResponseEntity.ok(service.getTotalClassroomAttendanceByEduTypeAndCourse(year, week, weekday, eduType, courses,eduForm));
+            }
+            if (courses == null) {
+                return ResponseEntity.ok(service.getTotalClassroomAttendanceByEduTypeAndFaculty(year, week, weekday, eduType, faculty,eduForm));
+            }
+
+            return ResponseEntity.ok(service.getTotalClassroomAttendanceByEduTypeAndFacultyAndCourse(year, week, weekday, eduType, faculty, courses,eduForm));
+
+        }
+
     @GetMapping("/totalBetween")
     HttpEntity<?> getTotalStatisticsBetween(
             @RequestParam("start") @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
