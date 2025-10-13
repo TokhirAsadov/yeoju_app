@@ -134,7 +134,8 @@ public class AcademicRecordsImplService implements AcademicRecordsService{
                                 getCellIntegerValue(row.getCell(12)),
                                 getCellIntegerValue(row.getCell(13)),
                                 getCellIntegerValue(row.getCell(14)),
-                                getCellIntegerValue(row.getCell(15))
+                                getCellIntegerValue(row.getCell(15)),
+                                getCellDoubleValue(row.getCell(16))
                         );
                         records.add(record);
                     }
@@ -270,6 +271,25 @@ public class AcademicRecordsImplService implements AcademicRecordsService{
             }
         } catch (Exception e) {
             return null; // yoki log yozing
+        }
+    }
+
+    private Double getCellDoubleValue(Cell cell) {
+        if (cell == null) return null;
+        try {
+            switch (cell.getCellType()) {
+                case NUMERIC:
+                    return cell.getNumericCellValue();
+                case STRING:
+                    String str = cell.getStringCellValue().trim();
+                    if (str.isEmpty()) return null;
+                    str = str.replace(",", ".");
+                    return Double.parseDouble(str);
+                default:
+                    return null;
+            }
+        } catch (Exception e) {
+            return null;
         }
     }
 
