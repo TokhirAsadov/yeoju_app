@@ -21,7 +21,7 @@ public interface CardDbStatisticsService {
 
     ApiResponse getTotalAllClassroomStatisticsByCourse(Integer year, Integer week, Integer weekday, String courses,String eduForm);
     ApiResponse getTotalAllClassroomStatisticsByFacultyAndCourse(Integer year, Integer week, Integer weekday, String faculty, String courses,String eduForm);
-
+    ApiResponse getTotalClassroomAttendanceByEduTypeAndCourse(Integer year, Integer week, Integer weekday, String eduType, String courses,String eduForm);
 
     ApiResponse getTotalAllClassroomStatisticsByCourse(Integer year, Integer week, Integer weekday, Integer course,String eduForm);
     ApiResponse getTotalAllClassroomStatisticsWithWeekByCourse(Integer year, Integer week, Integer course);
