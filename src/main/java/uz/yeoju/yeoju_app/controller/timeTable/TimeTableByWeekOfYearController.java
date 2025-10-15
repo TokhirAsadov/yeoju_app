@@ -158,14 +158,19 @@ public class TimeTableByWeekOfYearController {
     //todo------------------- GRAFIC UCHUN ----------------------------------------
     @GetMapping("/getStatisticsForKafedra")
     public HttpEntity<?> getStatisticsForKafedra(@CurrentUser User user,
-                                                                     @RequestParam("kafedraId") String kafedraId,
+                                                                     @RequestParam(value = "kafedraId",required = false) String kafedraId,
                                                                      @RequestParam("year") Integer year,
                                                                      @RequestParam("month") Integer month,
                                                                      @RequestParam("day") Integer day,
                                                                      @RequestParam("weekday") Integer weekday,
                                                                      @RequestParam("week") Integer week
     ) {
-        return ResponseEntity.ok(service.getKafedraKunlikVaHaftalikStatistikasi6(user,kafedraId,year,month,day,week,weekday));
+        return ResponseEntity.ok(
+                kafedraId != null ?
+                service.getKafedraKunlikVaHaftalikStatistikasi6(user,kafedraId,year,month,day,week,weekday)
+                :
+                service.getKafedraKunlikVaHaftalikStatistikasi7(user,year,month,day,week,weekday)
+                );
     }
 
 }
