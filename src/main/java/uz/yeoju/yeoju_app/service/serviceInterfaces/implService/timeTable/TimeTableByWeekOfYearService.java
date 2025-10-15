@@ -30,5 +30,6 @@ public interface TimeTableByWeekOfYearService {
     ApiResponseTwoObj getTimeTableByAllRoomAndWeek2(User user, Integer weekday, Integer week, Integer year,Boolean t);
     ApiResponseTwoObj getKafedraKunlikVaHaftalikStatistikasi2(User user,String kafedraId,Integer year,Integer month, Integer day,Integer week, Integer weekday);
     ApiResponseTwoObj getKafedraKunlikVaHaftalikStatistikasi5(User user, String kafedraId, Integer year, Integer month, Integer day, Integer week, Integer weekday);
+    ApiResponseStats getKafedraKunlikVaHaftalikStatistikasi6(User user, String kafedraId, Integer year, Integer month, Integer day, Integer week, Integer weekday);
 
 }
