@@ -2,7 +2,11 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable;
 
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.payload.ApiResponseStats;
+import uz.yeoju.yeoju_app.payload.ApiResponseStats2;
 import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
+
+import java.util.List;
 
 public interface TimeTableByWeekOfYearService {
 
@@ -24,4 +28,6 @@ public interface TimeTableByWeekOfYearService {
 
     ApiResponseTwoObj getTimeTableByAllRoomAndWeek(User user,String building, Integer weekday, Integer week, Integer year,Boolean t);
     ApiResponseTwoObj getTimeTableByAllRoomAndWeek2(User user, Integer weekday, Integer week, Integer year,Boolean t);
+    ApiResponseTwoObj getKafedraKunlikVaHaftalikStatistikasi2(User user,String kafedraId,Integer year,Integer month, Integer day,Integer week, Integer weekday);
+
 }
