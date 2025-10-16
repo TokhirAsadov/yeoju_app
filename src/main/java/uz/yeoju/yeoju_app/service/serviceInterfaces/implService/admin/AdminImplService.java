@@ -8,14 +8,11 @@ import uz.yeoju.yeoju_app.entity.*;
 import uz.yeoju.yeoju_app.entity.address.AddressUser;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.admin.ForUserSaveDto;
+import uz.yeoju.yeoju_app.payload.resDto.admin.AdminRoomStatisticsForCheckRooms;
 import uz.yeoju.yeoju_app.payload.resDto.admin.GetUserForUpdate;
-import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentAddress;
 import uz.yeoju.yeoju_app.repository.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +42,11 @@ public class AdminImplService implements AdminService{
     @Override
     public ApiResponse getInformationAboutCountOfUsers() {
         return new ApiResponse(true,"Information of count of users",userInfoRepo.getInformationAboutCountsOfUsers());
+    }
+
+    @Override
+    public List<AdminRoomStatisticsForCheckRooms> getRoomStatistics(String rfid) {
+        return accMonitoringLogRepo.getRoomStatistics(rfid);
     }
 
     @Override
