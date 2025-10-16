@@ -18,6 +18,11 @@ public class AdminController {
     private final AccDoorRepository accDoorRepository;
     private final AdminService adminService;
 
+    @GetMapping("/getRoomStatistics/{rfid}")
+    public HttpEntity<?> getRoomStatistics(@PathVariable("rfid") String rfid){
+        return ResponseEntity.ok(adminService.getRoomStatistics(rfid));
+    }
+
     @GetMapping("/getInformationAboutCountOfUsers")
     public HttpEntity<?> getInformationAboutCountOfUsers(){
         return ResponseEntity.ok(adminService.getInformationAboutCountOfUsers());
