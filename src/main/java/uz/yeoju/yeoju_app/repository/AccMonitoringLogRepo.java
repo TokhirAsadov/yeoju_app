@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.AccMonitorLog;
+import uz.yeoju.yeoju_app.payload.resDto.admin.AdminRoomStatisticsForCheckRooms;
 import uz.yeoju.yeoju_app.payload.resDto.user.GetUsersByRoleNameAndBetweenDate;
 
 import java.time.LocalDateTime;
@@ -71,4 +72,6 @@ public interface AccMonitoringLogRepo extends JpaRepository<AccMonitorLog, Long>
     Long countUsersByRoleIdAndWeekOrMonth(@Param("roleId") String roleId, @Param("weekOrMonth") Integer weekOrMonth);
 
 
+    @Query(value = "select Top 100 time, event_point_id as port, event_point_name as room from acc_monitor_log where card_no=?1 order by time desc",nativeQuery = true)
+    List<AdminRoomStatisticsForCheckRooms> getRoomStatistics(String rfid);
 }
