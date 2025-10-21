@@ -13,4 +13,11 @@ import java.util.List;
 public class Table {
     private TeacherData teacherData;
     private List<Show> shows;
+    private int attended; // New field for attended lessons count
+    private int notAttended; // New field for not attended lessons count
+
+    public Table(TeacherData teacherData, List<Show> shows) {
+        this.teacherData = teacherData;
+        this.shows = shows;
+    }
 }
