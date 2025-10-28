@@ -7,7 +7,7 @@
     <period name="3." short="3" period="3" starttime="11:00" endtime="11:50"/>
     <period name="4." short="4" period="4" starttime="12:00" endtime="12:50"/>
     <period name="5." short="5" period="5" starttime="13:00" endtime="13:50"/>
-    <period name="6." short="6" period="6" starttime="14:00" endtime="14:50"/>
+    <period name="6." short="6" period="6" starttime="14:00" endtimeF="14:50"/>
     <period name="7." short="7" period="7" starttime="15:00" endtime="15:50"/>
     <period name="8." short="8" period="8" starttime="16:00" endtime="16:50"/>
   </periods>
@@ -320,7 +320,7 @@
     <teacher id="E9C72BE58ACFB421" firstname="MUZAFFAR HIKMATXO'JA O'G'LI" lastname="TO'XTAMISHEV" name="TO'XTAMISHEV MUZAFFAR HIKMATXO'JA O'G'LI" short="YOQ" gender="" color="#CC33FF" email="" mobile="" partner_id=""/>
     <teacher id="E4D39C092F0D28C4" firstname="DILMUROD RO'ZIMETOVICH" lastname="RO'ZIBOYEV" name="RO'ZIBOYEV DILMUROD RO'ZIMETOVICH" short="YOQ" gender="" color="#0000FF" email="" mobile="" partner_id=""/>
     <teacher id="CF419680D631E0E6" firstname="SHAVKAT SHANASIROVICH" lastname="SHAVAXABOV" name="SHAVAXABOV SHAVKAT SHANASIROVICH" short="YOQ" gender="" color="#008080" email="" mobile="" partner_id=""/>
-    <teacher id="A592E93568A253F1" firstname="SHERZOD TAXIROVICH" lastname="SABIROV" name="SABIROV SHERZOD TAXIROVICH" short="YOQ" gender="" color="#FFFFFF" email="" mobile="" partner_id=""/>
+    <teacher id="A592E93568A253F1" firstname="SHERZOD TAXIROVICH" lastname="SABIROV" name="SABIROV SHERZOD TAXIROVICH" short="100120" gender="" color="#FFFFFF" email="" mobile="" partner_id=""/>
     <teacher id="3E8CA29F634EBDD0" firstname="RUXSORA DOSTMURODOVNA" lastname="SULTONOVA" name="SULTONOVA RUXSORA DOSTMURODOVNA" short="YOQ" gender="" color="#FFFF99" email="" mobile="" partner_id=""/>
     <teacher id="3ABC149769771FE7" firstname="DILFUZA SABUROVNA" lastname="MATKARIMOVA" name="MATKARIMOVA DILFUZA SABUROVNA" short="YOQ" gender="" color="#CCFF33" email="" mobile="" partner_id=""/>
     <teacher id="AA200E5EA49A3754" firstname="SHOHISTA DAVRANBEKOVNA" lastname="BOBOJONOVA" name="BOBOJONOVA SHOHISTA DAVRANBEKOVNA" short="YOQ" gender="" color="#993333" email="" mobile="" partner_id=""/>
