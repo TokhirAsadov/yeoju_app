@@ -11,5 +11,8 @@ public class StatisticsScheduler {
         this.kafedraTeachersStatisticsService = kafedraTeachersStatisticsService;
     }
 
-
+    @Scheduled(cron = "0 0 22 * * ?" , zone = "Asia/Tashkent")
+    public void runDailyStatisticsJob() {
+        kafedraTeachersStatisticsService.scheduleForSaveDailyStatistics();
+    }
 }
