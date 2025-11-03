@@ -32,4 +32,24 @@ public class KafedraTeachersStatisticsImplService implements KafedraTeachersStat
     }
 
 
+
+    private void call(Integer year, Integer month, Integer day, Integer week, Integer weekday, String date) {
+        List<ApiResponseStats2> list = timeTableByWeekOfYearService.getKafedraKunlikVaHaftalikStatistikasi7(null, year, month, day, week, weekday);
+        if (list.isEmpty()) {
+            log.warn("Kafedralar bo'yicha ma'lumotlar topilmadi");
+        } else {
+            for (ApiResponseStats2 res : list) {
+                if (kafedraRepository.existsKafedraByNameEn(res.getKafedraId())) {
+                    statisticsRepository.save(new KafedraTeachersStatistics(
+                            kafedraRepository.getKafedraByNameEn(res.getKafedraId()),
+                            date,
+                            res.getTotalAttended(),
+                            res.getTotalNotAttended()
+                    ));
+                } else {
+                    log.warn("Kafedra topilmadi: " + res.getKafedraId());
+                }
+            }
+        }
+    }
 }
