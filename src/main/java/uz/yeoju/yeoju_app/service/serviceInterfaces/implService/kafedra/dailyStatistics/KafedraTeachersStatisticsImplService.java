@@ -136,7 +136,51 @@ public class KafedraTeachersStatisticsImplService implements KafedraTeachersStat
 
     }
 
+    @Override
+    public ResponseEntity<GetKafedraStatistics> getByWeekRangeByKafedraId(String kafedraId, String start, String end) {
+        LocalDate today = LocalDate.now();
+        int year = today.getYear();
+        int month = today.getMonthValue();   // 1-12
+        int day = today.getDayOfMonth();     // 1-31
+        String date = (day > 9 ? String.valueOf(day) : "0" + day) + "." + (month > 9 ? String.valueOf(month) : "0" + month) + "." + year;
+        WeekFields wf = WeekFields.of(Locale.getDefault());
+        int week = today.get(wf.weekOfYear());
+        int weekday = today.getDayOfWeek().getValue();
 
+        if (date.equals(end)) {
+            ApiResponseStats responseStats = timeTableByWeekOfYearService.getKafedraKunlikVaHaftalikStatistikasi6(null, kafedraId, year, month, day, week, weekday);
+            GetKafedraStatistics range = statisticsRepository.findByWeekRange(kafedraId, start, end);
+            GetKafedraStatistics finalRange = new GetKafedraStatistics() {
+                @Override
+                public String getId() {
+                    return "";
+                }
+
+                @Override
+                public String getKafedraId() {
+                    return kafedraId;
+                }
+
+                @Override
+                public String getKafedraName() {
+                    return range != null ? range.getKafedraName() : "";
+                }
+
+                @Override
+                public Integer getTotalAttended() {
+                    return responseStats.getTotalAttended() + (range != null ? range.getTotalAttended() != null ? range.getTotalAttended() : 0 : 0);
+                }
+
+                @Override
+                public Integer getTotalMissed() {
+                    return responseStats.getTotalNotAttended() + (range != null ? range.getTotalMissed() != null ? range.getTotalMissed() : 0 : 0);
+                }
+            };
+            return ResponseEntity.ok(finalRange);
+        } else {
+            return ResponseEntity.ok(statisticsRepository.findByWeekRange(kafedraId, start, end));
+        }
+    }
 
 
 
