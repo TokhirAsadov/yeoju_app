@@ -55,6 +55,16 @@ public class KafedraTeachersStatisticsImplService implements KafedraTeachersStat
     }
 
 
+    @Override
+    public void scheduleForSaveDailyStatisticsByDate(Integer year, Integer month, Integer day, Integer week, Integer weekday) {
+        String date = (day > 9 ? String.valueOf(day) : "0" + day) + "." + (month > 9 ? String.valueOf(month) : "0" + month) + "." + year;
+        call(year, month, day, week, weekday, date);
+        log.info("Statistika saqlandi: " + date);
+    }
+
+
+
+
     private void call(Integer year, Integer month, Integer day, Integer week, Integer weekday, String date) {
         List<ApiResponseStats2> list = timeTableByWeekOfYearService.getKafedraKunlikVaHaftalikStatistikasi7(null, year, month, day, week, weekday);
         if (list.isEmpty()) {
