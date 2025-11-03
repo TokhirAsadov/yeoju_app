@@ -67,6 +67,12 @@ public class KafedraTeachersStatisticsImplService implements KafedraTeachersStat
         return new ApiResponse(true, "Success", statisticsRepository.getDaysOfWeek(year, week));
     }
 
+    @Override
+    public ApiResponse getKafedrasTeachersStatistics(int year, int week, String kafedraId) {
+        System.out.println("kafedraId = " + kafedraId);
+        return new ApiResponse(true, "Success", statisticsRepository.getDaysOfWeek2(year, week, kafedraId));
+    }
+
 
 
 
