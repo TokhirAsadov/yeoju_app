@@ -31,6 +31,28 @@ public class KafedraTeachersStatisticsImplService implements KafedraTeachersStat
         this.kafedraRepository = kafedraRepository;
     }
 
+    @Override
+    public void scheduleForSaveDailyStatistics() {
+        LocalDate today = LocalDate.now();
+
+        // Yil, oy, kun
+        int year = today.getYear();
+        int month = today.getMonthValue();   // 1-12
+        int day = today.getDayOfMonth();     // 1-31
+
+        String date = (day > 9 ? String.valueOf(day) : "0" + day) + "." + (month > 9 ? String.valueOf(month) : "0" + month) + "." + year;
+
+        // Haftaning tartib raqami (yil bo‘yicha)
+        WeekFields wf = WeekFields.of(Locale.getDefault());
+        int week = today.get(wf.weekOfYear());
+
+        // Haftaning kuni (Dushanba=1 ... Yakshanba=7)
+        int weekday = today.getDayOfWeek().getValue();
+
+        call(year, month, day, week, weekday, date);
+
+        log.info("Kunlik statistika saqlandi: " + date);
+    }
 
 
     private void call(Integer year, Integer month, Integer day, Integer week, Integer weekday, String date) {
