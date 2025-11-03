@@ -44,4 +44,14 @@ public class DailyTeachersStatistics {
     private Integer totalMissed;
 
 
+    public DailyTeachersStatistics(User user, Integer year, Integer month, Integer day, Integer week, Integer weekday, int totalAttended, int totalNotAttended) {
+        this.teacher = user;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.week = week;
+        this.weekday = weekday;
+        this.totalAttended = totalAttended;
+        this.totalMissed = totalNotAttended;
+    }
 }
