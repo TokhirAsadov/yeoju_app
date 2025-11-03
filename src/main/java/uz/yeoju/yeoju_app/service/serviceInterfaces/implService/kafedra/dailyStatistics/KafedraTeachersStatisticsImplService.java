@@ -78,6 +78,64 @@ public class KafedraTeachersStatisticsImplService implements KafedraTeachersStat
         return new ApiResponse(true, "Success", statisticsRepository.findStatisticsByDay(day));
     }
 
+    @Override
+    public ResponseEntity<List<GetKafedraStatistics>> getByWeekRange(String start, String end) {
+        LocalDate today = LocalDate.now();
+        int year = today.getYear();
+        int month = today.getMonthValue();   // 1-12
+        int day = today.getDayOfMonth();     // 1-31
+        String date = (day > 9 ? String.valueOf(day) : "0" + day) + "." + (month > 9 ? String.valueOf(month) : "0" + month) + "." + year;
+        WeekFields wf = WeekFields.of(Locale.getDefault());
+        int week = today.get(wf.weekOfYear());
+        int weekday = today.getDayOfWeek().getValue();
+
+        if (date.equals(end)) {
+
+            List<GetKafedraStatistics> result = new ArrayList<>();
+            List<ApiResponseStats2> list = timeTableByWeekOfYearService.getKafedraKunlikVaHaftalikStatistikasi7(null, year, month, day, week, weekday);
+            List<GetKafedraStatistics> range = statisticsRepository.findByWeekRange(start, end);
+            for (GetKafedraStatistics r : range) {
+                for (ApiResponseStats2 res : list) {
+                    if (r.getKafedraName().equals(res.getKafedraId())) {
+
+                        result.add(new GetKafedraStatistics() {
+                            @Override
+                            public String getId() {
+                                return r.getId();
+                            }
+
+                            @Override
+                            public String getKafedraId() {
+                                return r.getKafedraId();
+                            }
+
+                            @Override
+                            public String getKafedraName() {
+                                return r.getKafedraName();
+                            }
+
+                            @Override
+                            public Integer getTotalAttended() {
+                                return r.getTotalAttended() + res.getTotalAttended();
+                            }
+
+                            @Override
+                            public Integer getTotalMissed() {
+                                return r.getTotalMissed() + res.getTotalNotAttended();
+                            }
+                        });
+                    }
+                }
+            }
+            return ResponseEntity.ok(result);
+
+        } else {
+
+            return ResponseEntity.ok(statisticsRepository.findByWeekRange(start, end));
+        }
+
+    }
+
 
 
 
