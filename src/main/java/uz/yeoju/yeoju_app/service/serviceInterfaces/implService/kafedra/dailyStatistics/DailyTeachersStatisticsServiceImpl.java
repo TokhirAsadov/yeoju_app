@@ -9,7 +9,10 @@ import uz.yeoju.yeoju_app.repository.kafedra.KafedraRepository;
 import uz.yeoju.yeoju_app.repository.timetableDB.DailyTeachersStatisticsRepository;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable.TimeTableByWeekOfYearService;
 
+import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +30,29 @@ public class DailyTeachersStatisticsServiceImpl implements DailyTeachersStatisti
     }
 
     @Override
+    public void scheduleForSaveDailyTeachersStatistics() {
+        LocalDate today = LocalDate.now();
+        // Yil, oy, kun
+        int year = today.getYear();
+        int month = today.getMonthValue();   // 1-12
+        int day = today.getDayOfMonth();     // 1-31
+        String date = (day > 9 ? String.valueOf(day) : "0" + day) + "." + (month > 9 ? String.valueOf(month) : "0" + month) + "." + year;
+        WeekFields wf = WeekFields.of(Locale.getDefault());
+        int week = today.get(wf.weekOfYear());
+        int weekday = today.getDayOfWeek().getValue();
+
+        call(year, month, day, week, weekday);
+        System.out.println("::::::::: schedule: "+date+" :::::::::");
+    }
+
+    @Override
     public void scheduleForSaveDailyTeachersStatisticsByDate(Integer year, Integer month, Integer day, Integer week, Integer weekday) {
+        call(year, month, day, week, weekday);
+        String date = (day > 9 ? String.valueOf(day) : "0" + day) + "." + (month > 9 ? String.valueOf(month) : "0" + month) + "." + year;
+        System.out.println("::::::::: "+date+" :::::::::");
+    }
+
+    private void call(Integer year, Integer month, Integer day, Integer week, Integer weekday) {
         List<String> kafedrasIds = kafedraRepository.findAll().stream().map(AbsEntity::getId).collect(Collectors.toList());
         kafedrasIds.forEach(kafedrasId -> {
             teacherRepository.findAllByKafedraId(kafedrasId).forEach(teacher -> {
@@ -44,7 +69,5 @@ public class DailyTeachersStatisticsServiceImpl implements DailyTeachersStatisti
                 ));
             });
         });
-        String date = (day > 9 ? String.valueOf(day) : "0" + day) + "." + (month > 9 ? String.valueOf(month) : "0" + month) + "." + year;
-        System.out.println("::::::::: "+date+" :::::::::");
     }
 }
