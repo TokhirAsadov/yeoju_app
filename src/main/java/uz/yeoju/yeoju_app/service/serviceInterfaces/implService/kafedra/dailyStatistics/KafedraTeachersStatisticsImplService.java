@@ -62,6 +62,12 @@ public class KafedraTeachersStatisticsImplService implements KafedraTeachersStat
         log.info("Statistika saqlandi: " + date);
     }
 
+    @Override
+    public ApiResponse getAllKafedrasTeachersStatistics(int year, int week) {
+        return new ApiResponse(true, "Success", statisticsRepository.getDaysOfWeek(year, week));
+    }
+
+
 
 
 
