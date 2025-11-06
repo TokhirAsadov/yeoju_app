@@ -4,17 +4,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.entity.moduleV2.Test;
-import uz.yeoju.yeoju_app.entity.moduleV2.TestOption;
-import uz.yeoju.yeoju_app.entity.moduleV2.TestQuestion;
-import uz.yeoju.yeoju_app.entity.moduleV2.UserTestAnswer;
+import uz.yeoju.yeoju_app.entity.moduleV2.*;
+import uz.yeoju.yeoju_app.exceptions.UserNotFoundException;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.moduleV2.*;
 import uz.yeoju.yeoju_app.repository.UserRepository;
-import uz.yeoju.yeoju_app.repository.moduleV2.CourseTestRepository;
-import uz.yeoju.yeoju_app.repository.moduleV2.TestOptionRepository;
-import uz.yeoju.yeoju_app.repository.moduleV2.TestQuestionRepository;
-import uz.yeoju.yeoju_app.repository.moduleV2.UserTestAnswerRepository;
+import uz.yeoju.yeoju_app.repository.moduleV2.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,14 +22,20 @@ public class TestQuestionImplService implements TestQuestionService {
     private final CourseTestRepository testRepository;
     private final UserRepository userRepository;
     private final UserTestAnswerRepository userTestAnswerRepository;
+    private final ModuleRepository moduleRepository;
+    private final CourseRepository courseRepository;
+    private final UserLessonModuleProgressRepository userLessonModuleProgressRepository;
 
-    public TestQuestionImplService(CourseTestRepository courseTestRepository, TestQuestionRepository testQuestionRepository, TestOptionRepository testOptionRepository, CourseTestRepository testRepository, UserRepository userRepository, UserTestAnswerRepository userTestAnswerRepository) {
+    public TestQuestionImplService(CourseTestRepository courseTestRepository, TestQuestionRepository testQuestionRepository, TestOptionRepository testOptionRepository, CourseTestRepository testRepository, UserRepository userRepository, UserTestAnswerRepository userTestAnswerRepository, ModuleRepository moduleRepository, CourseRepository courseRepository, UserLessonModuleProgressRepository userLessonModuleProgressRepository) {
         this.courseTestRepository = courseTestRepository;
         this.testQuestionRepository = testQuestionRepository;
         this.testOptionRepository = testOptionRepository;
         this.testRepository = testRepository;
         this.userRepository = userRepository;
         this.userTestAnswerRepository = userTestAnswerRepository;
+        this.moduleRepository = moduleRepository;
+        this.courseRepository = courseRepository;
+        this.userLessonModuleProgressRepository = userLessonModuleProgressRepository;
     }
 
 
@@ -125,13 +126,26 @@ public class TestQuestionImplService implements TestQuestionService {
     }
 
     @Override
-    public ApiResponse findTestQuestionsByCourseIdWithShuffledOptions(String courseTestId) {
-        List<TestQuestion> testQuestions = testQuestionRepository.findAllByTestId(courseTestId);
-        if (testQuestions.isEmpty()) {
-            return new ApiResponse(false, "Test questions not found by course test id=" + courseTestId);
+    public ApiResponse findTestQuestionsByCourseIdWithShuffledOptions(String userId, String testId) {
+        // ⚠️ Avval tekshiruvdan o'tkazamiz
+        try {
+            validateTestAccess(testId, userId);
+        } catch (RuntimeException e) {
+            return new ApiResponse(false, e.getMessage());
         }
+
+        // Test savollarini olish
+        List<TestQuestion> testQuestions = testQuestionRepository.findAllByTestId(testId);
+        if (testQuestions.isEmpty()) {
+            return new ApiResponse(false, "Test questions not found by test id=" + testId);
+        }
+
         Set<TestQuestionResponseV2> collect = testQuestions.stream().map(test -> {
-            List<TestOptionResponseV2> shuffledOptions = new ArrayList<>(test.getOptions().stream().map(option-> new TestOptionResponseV2(option.getId(),option.getText())).collect(Collectors.toList()));
+            List<TestOptionResponseV2> shuffledOptions = new ArrayList<>(
+                    test.getOptions().stream()
+                            .map(option -> new TestOptionResponseV2(option.getId(), option.getText()))
+                            .collect(Collectors.toList())
+            );
             Collections.shuffle(shuffledOptions);
             return new TestQuestionResponseV2(
                     test.getId(),
@@ -141,8 +155,133 @@ public class TestQuestionImplService implements TestQuestionService {
                     shuffledOptions
             );
         }).collect(Collectors.toSet());
-        return new ApiResponse(true, "Test questions by course test id=" + courseTestId, collect);
+
+        return new ApiResponse(true, "Test questions by test id=" + testId, collect);
     }
+
+
+    public void validateTestAccess(String testId, String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found by id: " + userId));
+
+        Module module = moduleRepository.findByModuleTestId(testId);
+        Course course = null;
+        List<Module> modules;
+
+        if (module != null) {
+            // Modul testiga tegishli
+            course = module.getCourse();
+
+            modules = course.getModules().stream()
+                    .sorted(Comparator.comparing(Module::getCreatedAt))
+                    .collect(Collectors.toList());
+
+            int index = -1;
+            for (int i = 0; i < modules.size(); i++) {
+                if (modules.get(i).getId().equals(module.getId())) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index == -1) {
+                throw new RuntimeException("Current module not found in course modules");
+            }
+
+            // Oldingi modullarni tekshiramiz
+            for (int i = 0; i < index; i++) {
+                checkModuleCompletedAndPassed(user, modules.get(i));
+            }
+
+            // 🔴 Yangi qo‘shiladigan joy — test o‘zini ham tekshirish
+            checkModuleTestRetakeAccess(user, module);
+
+        } else {
+            // Final test bo‘lsa — barcha modullarni tekshiramiz
+            course = courseRepository.findByFinalTestId(testId);
+            if (course == null) {
+                throw new RuntimeException("Test not linked to any module or course");
+            }
+
+            modules = course.getModules().stream()
+                    .sorted(Comparator.comparing(Module::getCreatedAt))
+                    .collect(Collectors.toList());
+
+            for (Module m : modules) {
+                checkModuleCompletedAndPassed(user, m);
+            }
+        }
+    }
+
+    private void checkModuleCompletedAndPassed(User user, Module module) {
+        boolean completed = userLessonModuleProgressRepository
+                .existsByUserIdAndModuleIdAndCompletedTrue(user.getId(), module.getId());
+
+        if (!completed) {
+            throw new RuntimeException("You must complete module: " + module.getTitle());
+        }
+
+        Test mTest = module.getModuleTest();
+        if (mTest != null && !mTest.getQuestions().isEmpty()) {
+            int correct = 0;
+            int total = mTest.getQuestions().size();
+            boolean allAnswered = true;
+
+            for (TestQuestion question : mTest.getQuestions()) {
+                Optional<UserTestAnswer> answerOpt = userTestAnswerRepository.findByUserAndQuestion(user, question);
+                if (!answerOpt.isPresent()) {
+                    allAnswered = false;
+                    break;
+                }
+                if (answerOpt.get().isCorrect()) {
+                    correct++;
+                }
+            }
+
+            if (!allAnswered) {
+                throw new RuntimeException("You must complete the test for module: " + module.getTitle());
+            }
+
+            double percent = ((double) correct / total) * 100;
+            if (percent < mTest.getPassingPercentage()) {
+                throw new RuntimeException("Test for module \"" + module.getTitle()
+                        + "\" not passed. Required: " + mTest.getPassingPercentage()
+                        + "%, but got: " + percent + "%");
+            }
+        }
+    }
+
+    private void checkModuleTestRetakeAccess(User user, Module module) {
+        Test test = module.getModuleTest();
+        if (test == null || test.getQuestions().isEmpty()) {
+            return; // test yo‘q — tekshirmaymiz
+        }
+
+        int correct = 0;
+        int total = test.getQuestions().size();
+        boolean allAnswered = true;
+
+        for (TestQuestion question : test.getQuestions()) {
+            Optional<UserTestAnswer> answerOpt = userTestAnswerRepository.findByUserAndQuestion(user, question);
+            if (!answerOpt.isPresent()) {
+                allAnswered = false;
+                break;
+            }
+            if (answerOpt.get().isCorrect()) {
+                correct++;
+            }
+        }
+
+        if (allAnswered) {
+            double percent = ((double) correct / total) * 100;
+            if (percent < test.getPassingPercentage()) {
+                throw new RuntimeException("Test for module \"" + module.getTitle()
+                        + "\" not passed. Required: " + test.getPassingPercentage()
+                        + "%, but got: " + percent + "%");
+            }
+        }
+    }
+
 
     @Override
     public ApiResponse findByCourseTestId(String courseTestId) {
