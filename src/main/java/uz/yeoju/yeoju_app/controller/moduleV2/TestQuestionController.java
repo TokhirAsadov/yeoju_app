@@ -70,8 +70,8 @@ public class TestQuestionController {
     }
 
     @GetMapping("/getTestQuestionsByCourseTestIdForStudent/{courseTestId}")
-    HttpEntity<?> getTestQuestionByCourseTestIdForStudent(@PathVariable String courseTestId){
-        ApiResponse res = service.findTestQuestionsByCourseIdWithShuffledOptions(courseTestId);
+    HttpEntity<?> getTestQuestionByCourseTestIdForStudent(@CurrentUser User user,@PathVariable String courseTestId){
+        ApiResponse res = service.findTestQuestionsByCourseIdWithShuffledOptions(user.getId(),courseTestId);
         return ResponseEntity.status(res.isSuccess() ? 200 : 417)
                 .body(res);
     }
