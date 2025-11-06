@@ -2,6 +2,7 @@ package uz.yeoju.yeoju_app.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.admin.Room;
 import uz.yeoju.yeoju_app.payload.resDto.admin.RoomsForDeviceAdmin;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.FacultiesResDto;
@@ -11,6 +12,11 @@ import java.util.List;
 public interface RoomRepository extends JpaRepository<Room,String> {
 
     boolean existsRoomByName(String name);
+//    boolean existsRoomByNameStartingWith(String prefix);
+    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN TRUE ELSE FALSE END " +
+            "FROM Room r " +
+            "WHERE LOWER(r.name) LIKE LOWER(CONCAT(:prefix, '%'))")
+    boolean existsRoomByNameStartingWith(@Param("prefix") String prefix);
 
     @Query(value = "select id as value,door_name as label from acc_door where door_name not like '172%' order by door_name",nativeQuery = true)
     List<FacultiesResDto> getRoomsForSelect();
