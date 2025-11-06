@@ -10,5 +10,7 @@ import java.util.List;
 public interface UserLessonModuleProgressRepository extends JpaRepository<UserLessonModuleProgress,String> {
     boolean existsByUserAndModuleAndCompletedTrue(User user, Module module);
 
+    List<UserLessonModuleProgress> findAllByModule(Module module);
+
 
 }
