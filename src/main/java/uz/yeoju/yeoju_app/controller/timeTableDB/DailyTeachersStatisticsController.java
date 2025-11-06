@@ -24,6 +24,15 @@ public class DailyTeachersStatisticsController {
         return ResponseEntity.ok(new ApiResponse(true, "Statistika saqlandi!"));
     }
 
+    @GetMapping("/getDailyStatisticsByDay/{teacherId}")
+    public ResponseEntity<ApiResponse> getDailyTeacherStatisticsByDay(
+          @PathVariable String teacherId,
+          @RequestParam Integer year,
+          @RequestParam Integer month,
+          @RequestParam Integer day){
+        service.getDailyTeacherStatisticsByDay(teacherId, year, month, day);
+        return ResponseEntity.ok(new ApiResponse(true, "Statistika saqlandi!"));
+    }
 
 //    @GetMapping("/weekly-statistics")
 //    public ResponseEntity<ApiResponse> statistics(@RequestParam Integer year,
