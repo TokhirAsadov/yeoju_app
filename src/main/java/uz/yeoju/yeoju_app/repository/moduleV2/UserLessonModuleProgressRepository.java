@@ -14,5 +14,5 @@ public interface UserLessonModuleProgressRepository extends JpaRepository<UserLe
 
     boolean existsByUserIdAndModuleIdAndCompletedTrue(String userId, String moduleId);
 
-
+    List<UserLessonModuleProgress> findAllByModuleInAndCompletedTrue(List<Module> modules);
 }
