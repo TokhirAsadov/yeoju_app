@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.teacher.Teacher;
 import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import uz.yeoju.yeoju_app.entity.timetableDB.DailyTeachersStatistics;
+import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseStats3;
+import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetDailyTeacherStatisticsByDay;
 import uz.yeoju.yeoju_app.repository.TeacherRepository;
 import uz.yeoju.yeoju_app.repository.kafedra.KafedraRepository;
 import uz.yeoju.yeoju_app.repository.timetableDB.DailyTeachersStatisticsRepository;
@@ -69,7 +71,6 @@ public class DailyTeachersStatisticsServiceImpl implements DailyTeachersStatisti
         String date = String.format("%02d.%02d.%d", day, month, year);
         log.info("✅ [MANUAL] Daily teacher statistics saved for date: {}", date);
     }
-
     private void call(Integer year, Integer month, Integer day, Integer week, Integer weekday) {
         List<String> kafedraIds = kafedraRepository.findAll()
                 .stream()
@@ -159,4 +160,30 @@ public class DailyTeachersStatisticsServiceImpl implements DailyTeachersStatisti
             }
         });
     }
+
+    @Override
+    public ApiResponse getDailyTeacherStatisticsByDay(String teacherId, Integer year, Integer month, Integer day) {
+        LocalDate today = LocalDate.now();
+        int year2 = today.getYear();
+        int month2 = today.getMonthValue();
+        int day2 = today.getDayOfMonth();
+
+        if (year==year2 && month==month2 && day==day2){
+            ApiResponseStats3 stats = timeTableByWeekOfYearService
+                    .getTeacherDailyOrMonthlyStatistics(
+                            teacherId,
+                            year,
+                            month,
+                            day
+                    );
+            return new ApiResponse(true, "Bugungi teacher statistikasi.", stats);
+        }
+        else {
+            GetDailyTeacherStatisticsByDay response = dailyTeachersStatisticsRepository.getDailyTeacherStatisticsByDay(teacherId, year, month, day);
+            return new ApiResponse(true, String.format("%02d.%02d.%d", day, month, year)+" kungi teacher statistikasi.", response);
+        }
+    }
+
+
+
 }
