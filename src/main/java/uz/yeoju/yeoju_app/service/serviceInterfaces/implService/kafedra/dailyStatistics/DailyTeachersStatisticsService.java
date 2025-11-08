@@ -7,4 +7,6 @@ public interface DailyTeachersStatisticsService {
     void scheduleForSaveDailyTeachersStatisticsByDate(Integer year, Integer month, Integer day, Integer week, Integer weekday);
 
     ApiResponse getDailyTeacherStatisticsByDay(String teacherId, Integer year, Integer month, Integer day);
+
+    ApiResponse getDailyStatisticsByWeek(String teacherId, Integer year, Integer week);
 }
