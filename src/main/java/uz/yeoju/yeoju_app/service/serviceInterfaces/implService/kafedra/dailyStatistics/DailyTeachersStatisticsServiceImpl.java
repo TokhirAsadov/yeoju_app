@@ -8,7 +8,7 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import uz.yeoju.yeoju_app.entity.timetableDB.DailyTeachersStatistics;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseStats3;
-import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetDailyTeacherStatisticsByDay;
+import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetDailyTeacherStatistics;
 import uz.yeoju.yeoju_app.repository.TeacherRepository;
 import uz.yeoju.yeoju_app.repository.kafedra.KafedraRepository;
 import uz.yeoju.yeoju_app.repository.timetableDB.DailyTeachersStatisticsRepository;
@@ -179,11 +179,75 @@ public class DailyTeachersStatisticsServiceImpl implements DailyTeachersStatisti
             return new ApiResponse(true, "Bugungi teacher statistikasi.", stats);
         }
         else {
-            GetDailyTeacherStatisticsByDay response = dailyTeachersStatisticsRepository.getDailyTeacherStatisticsByDay(teacherId, year, month, day);
+            GetDailyTeacherStatistics response = dailyTeachersStatisticsRepository.getDailyTeacherStatisticsByDay(teacherId, year, month, day);
             return new ApiResponse(true, String.format("%02d.%02d.%d", day, month, year)+" kungi teacher statistikasi.", response);
         }
     }
 
+    @Override
+    public ApiResponse getDailyStatisticsByWeek(String teacherId, Integer year, Integer week) {
+        LocalDate today = LocalDate.now();
+        int year2 = today.getYear();
+        int month2 = today.getMonthValue();
+        int day2 = today.getDayOfMonth();
+        WeekFields wf = WeekFields.of(Locale.getDefault());
+        int week2 = today.get(wf.weekOfYear());
+        int weekday2 = today.getDayOfWeek().getValue();
+
+        List<GetDailyTeacherStatistics> response = dailyTeachersStatisticsRepository.getDailyTeacherStatisticsByWeek(teacherId, year, week);
+        if (year==year2 && week==week2){
+            //todo--- bugungi kungini qo`shish kerak ---
+            ApiResponseStats3 stats = timeTableByWeekOfYearService
+                    .getTeacherDailyOrMonthlyStatistics(
+                            teacherId,
+                            year,
+                            month2,
+                            day2
+                    );
+            response.add(new GetDailyTeacherStatistics() {
+                @Override
+                public String getId() {
+                    return UUID.randomUUID()+"-today";
+                }
+
+                @Override
+                public Integer getYear() {
+                    return year;
+                }
+
+                @Override
+                public Integer getMonth() {
+                    return month2;
+                }
+
+                @Override
+                public Integer getDay() {
+                    return day2;
+                }
+
+                @Override
+                public Integer getWeek() {
+                    return week;
+                }
+
+                @Override
+                public Integer getWeekday() {
+                    return weekday2;
+                }
+
+                @Override
+                public Integer getTotalAttended() {
+                    return stats.getTotalAttended();
+                }
+
+                @Override
+                public Integer getTotalNotAttended() {
+                    return stats.getTotalNotAttended();
+                }
+            });
+        }
+        return new ApiResponse(true, year + "-yil "+week+"-haftadagi teacher statistikasi", response);
+    }
 
 
 }
