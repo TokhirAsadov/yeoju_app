@@ -249,5 +249,70 @@ public class DailyTeachersStatisticsServiceImpl implements DailyTeachersStatisti
         return new ApiResponse(true, year + "-yil "+week+"-haftadagi teacher statistikasi", response);
     }
 
+    @Override
+    public ApiResponse getDailyStatisticsByMonth(String teacherId, Integer year, Integer month) {
+        LocalDate today = LocalDate.now();
+        int year2 = today.getYear();
+        int month2 = today.getMonthValue();
+        int day2 = today.getDayOfMonth();
+        WeekFields wf = WeekFields.of(Locale.getDefault());
+        int week2 = today.get(wf.weekOfYear());
+        int weekday2 = today.getDayOfWeek().getValue();
+
+        List<GetDailyTeacherStatistics> response = dailyTeachersStatisticsRepository.getDailyTeacherStatisticsByMonth(teacherId, year, month);
+        if (year==year2 && month==month2){
+            //todo--- bugungi kungini qo`shish kerak ---
+            ApiResponseStats3 stats = timeTableByWeekOfYearService
+                    .getTeacherDailyOrMonthlyStatistics(
+                            teacherId,
+                            year,
+                            month2,
+                            day2
+                    );
+            response.add(new GetDailyTeacherStatistics() {
+                @Override
+                public String getId() {
+                    return UUID.randomUUID()+"-today";
+                }
+
+                @Override
+                public Integer getYear() {
+                    return year;
+                }
+
+                @Override
+                public Integer getMonth() {
+                    return month2;
+                }
+
+                @Override
+                public Integer getDay() {
+                    return day2;
+                }
+
+                @Override
+                public Integer getWeek() {
+                    return week2;
+                }
+
+                @Override
+                public Integer getWeekday() {
+                    return weekday2;
+                }
+
+                @Override
+                public Integer getTotalAttended() {
+                    return stats.getTotalAttended();
+                }
+
+                @Override
+                public Integer getTotalNotAttended() {
+                    return stats.getTotalNotAttended();
+                }
+            });
+        }
+        return new ApiResponse(true, year + "-yil "+month+"-oyidagi teacher statistikasi", response);
+    }
+
 
 }
