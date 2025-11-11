@@ -31,4 +31,17 @@ public interface DailyTeachersStatisticsRepository extends JpaRepository<DailyTe
             "from DailyTeachersStatistics d\n" +
             "where d.teacher_id=?1 and d.year=?2 and d.week=?3 order by d.weekday",nativeQuery = true)
     List<GetDailyTeacherStatistics> getDailyTeacherStatisticsByWeek(String teacherId, Integer year, Integer week);
+
+    @Query(value = "select\n" +
+            "    d.id,\n" +
+            "    d.year,\n" +
+            "    d.month,\n" +
+            "    d.day,\n" +
+            "    d.week,\n" +
+            "    d.weekday,\n" +
+            "    d.totalMissed as totalNotAttended,\n" +
+            "    d.totalAttended\n" +
+            "from DailyTeachersStatistics d\n" +
+            "where d.teacher_id=?1 and d.year=?2 and d.month=?3 order by d.day",nativeQuery = true)
+    List<GetDailyTeacherStatistics> getDailyTeacherStatisticsByMonth(String teacherId, Integer year, Integer month);
 }
