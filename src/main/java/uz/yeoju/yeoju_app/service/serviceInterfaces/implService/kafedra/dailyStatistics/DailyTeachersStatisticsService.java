@@ -9,4 +9,6 @@ public interface DailyTeachersStatisticsService {
     ApiResponse getDailyTeacherStatisticsByDay(String teacherId, Integer year, Integer month, Integer day);
 
     ApiResponse getDailyStatisticsByWeek(String teacherId, Integer year, Integer week);
+
+    ApiResponse getDailyStatisticsByMonth(String teacherId, Integer year, Integer month);
 }
