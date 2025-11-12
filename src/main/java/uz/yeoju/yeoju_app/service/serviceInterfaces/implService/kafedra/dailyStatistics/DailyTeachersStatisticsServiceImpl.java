@@ -8,6 +8,7 @@ import uz.yeoju.yeoju_app.entity.temp.AbsEntity;
 import uz.yeoju.yeoju_app.entity.timetableDB.DailyTeachersStatistics;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseStats3;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetKafedraTeacherStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetDailyTeacherStatistics;
 import uz.yeoju.yeoju_app.repository.TeacherRepository;
 import uz.yeoju.yeoju_app.repository.kafedra.KafedraRepository;
@@ -312,6 +313,12 @@ public class DailyTeachersStatisticsServiceImpl implements DailyTeachersStatisti
             });
         }
         return new ApiResponse(true, year + "-yil "+month+"-oyidagi teacher statistikasi", response);
+    }
+
+    @Override
+    public ApiResponse getStatisticsForTable(String kafedraId, Integer year, Integer month, Set<String> teachersIds) {
+        List<GetKafedraTeacherStatistics> list = dailyTeachersStatisticsRepository.getKafedraTeacherStatistics(kafedraId, year, month, teachersIds);
+        return new ApiResponse(true,"xxx", list);
     }
 
 
