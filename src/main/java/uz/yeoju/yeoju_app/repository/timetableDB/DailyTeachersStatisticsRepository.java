@@ -2,10 +2,14 @@ package uz.yeoju.yeoju_app.repository.timetableDB;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.timetableDB.DailyTeachersStatistics;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetKafedraTeacherStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetDailyTeacherStatistics;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface DailyTeachersStatisticsRepository extends JpaRepository<DailyTeachersStatistics, String> {
     @Query(value = "select Top 1\n" +
@@ -44,4 +48,18 @@ public interface DailyTeachersStatisticsRepository extends JpaRepository<DailyTe
             "from DailyTeachersStatistics d\n" +
             "where d.teacher_id=?1 and d.year=?2 and d.month=?3 order by d.day",nativeQuery = true)
     List<GetDailyTeacherStatistics> getDailyTeacherStatisticsByMonth(String teacherId, Integer year, Integer month);
+
+    @Query(value = "select\n" +
+            "    u.fullName,\n" +
+            "    u.id,\n" +
+            "    u.passportNum as passport,\n" +
+            "    u.login,\n" +
+            "    u.RFID,\n" +
+            "    T.rate,\n" +
+            "    ?2 as year,\n" +
+            "    ?3 as month\n" +
+            "from Teacher T\n" +
+            "    join users u on T.user_id = u.id\n" +
+            "where T.kafedra_id =?1 and u.id in ?4",nativeQuery = true)
+    List<GetKafedraTeacherStatistics> getKafedraTeacherStatistics(String kafedraId, Integer year, Integer month, Set<String> teachersIds);
 }
