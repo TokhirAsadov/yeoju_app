@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetKafedraTeacherStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetDailyTeacherStatistics;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface DailyTeachersStatisticsRepository extends JpaRepository<DailyTeachersStatistics, String> {
@@ -60,4 +61,6 @@ public interface DailyTeachersStatisticsRepository extends JpaRepository<DailyTe
             "    join users u on T.user_id = u.id\n" +
             "where T.kafedra_id =?1 and u.id in ?4",nativeQuery = true)
     List<GetKafedraTeacherStatistics> getKafedraTeacherStatistics(String kafedraId, Integer year, Integer month, Set<String> teachersIds);
+
+    Optional<DailyTeachersStatistics> findDailyTeachersStatisticsByTeacherIdAndYearAndMonthAndWeekAndWeekdayAndDay(String teacher_id, Integer year,Integer month, Integer week, Integer weekday, Integer day);
 }
