@@ -1,11 +1,16 @@
 package uz.yeoju.yeoju_app.controller.timeTableDB;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.yeoju.yeoju_app.controller.BaseUrl;
+import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
+import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.kafedra.dailyStatistics.DailyTeachersStatisticsService;
+
+import java.util.Set;
 
 
 @RestController
@@ -48,6 +53,18 @@ public class DailyTeachersStatisticsController {
           @RequestParam Integer month){
         ApiResponse response = service.getDailyStatisticsByMonth(teacherId, year, month);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/getStatisticsForTable")
+    public HttpEntity<?> getStatisticsForTable(
+            @CurrentUser User user,
+            @RequestParam("kafedraId") String kafedraId,
+            @RequestParam("year") Integer year,
+            @RequestParam("month") Integer month,
+            @RequestParam("teachersIds") Set<String> teachersIds
+    )
+    {
+        return ResponseEntity.ok(service.getStatisticsForTable(kafedraId,year, month,teachersIds)/*new ApiResponse(false,"texnik iwlar olib borilyapdi")*/);
     }
 
 //    @GetMapping("/weekly-statistics")
