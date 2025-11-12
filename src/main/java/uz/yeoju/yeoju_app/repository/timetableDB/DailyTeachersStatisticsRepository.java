@@ -2,12 +2,10 @@ package uz.yeoju.yeoju_app.repository.timetableDB;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.timetableDB.DailyTeachersStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetKafedraTeacherStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetDailyTeacherStatistics;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
