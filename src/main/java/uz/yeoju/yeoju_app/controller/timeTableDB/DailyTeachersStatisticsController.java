@@ -29,6 +29,16 @@ public class DailyTeachersStatisticsController {
         return ResponseEntity.ok(new ApiResponse(true, "Statistika saqlandi!"));
     }
 
+    @GetMapping("/qayta-save-qilish")
+    public ResponseEntity<ApiResponse> qaytaSaveQilish(@RequestParam Integer year,
+                                                  @RequestParam Integer month,
+                                                  @RequestParam Integer day,
+                                                  @RequestParam Integer week,
+                                                  @RequestParam Integer weekday){
+        service.qaytaSaveQilish(year, month, day, week, weekday);
+        return ResponseEntity.ok(new ApiResponse(true, "Statistika saqlandi!"));
+    }
+
     @GetMapping("/getDailyStatisticsByDay/{teacherId}")
     public ResponseEntity<ApiResponse> getDailyTeacherStatisticsByDay(
           @PathVariable String teacherId,
