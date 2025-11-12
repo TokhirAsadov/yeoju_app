@@ -16,4 +16,6 @@ public interface DailyTeachersStatisticsService {
     ApiResponse getDailyStatisticsByMonth(String teacherId, Integer year, Integer month);
 
     ApiResponse getStatisticsForTable(String kafedraId, Integer year, Integer month, Set<String> teachersIds);
+
+    void qaytaSaveQilish(Integer year, Integer month, Integer day, Integer week, Integer weekday);
 }
