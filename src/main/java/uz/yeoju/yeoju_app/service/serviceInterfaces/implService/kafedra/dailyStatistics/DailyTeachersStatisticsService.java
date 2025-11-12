@@ -15,5 +15,5 @@ public interface DailyTeachersStatisticsService {
 
     ApiResponse getDailyStatisticsByMonth(String teacherId, Integer year, Integer month);
 
-    ApiResponse getStatisticsForTable(String kafedraId, Date date, Set<String> teachersIds);
+    ApiResponse getStatisticsForTable(String kafedraId, Integer year, Integer month, Set<String> teachersIds);
 }
