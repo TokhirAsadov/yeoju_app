@@ -163,6 +163,72 @@ public class DailyTeachersStatisticsServiceImpl implements DailyTeachersStatisti
     }
 
     @Override
+    public void qaytaSaveQilish(Integer year, Integer month, Integer day, Integer week, Integer weekday) {
+        call3(year, month, day, week, weekday);
+        String date = String.format("%02d.%02d.%d", day, month, year);
+        log.info("✅ [MANUAL] Daily teacher statistics saved for date: {}", date);
+    }
+    private void call3(Integer year, Integer month, Integer day, Integer week, Integer weekday) {
+        List<String> kafedraIds = kafedraRepository.findAll()
+                .stream()
+                .map(AbsEntity::getId)
+                .collect(Collectors.toList());
+
+        log.info("📊 Total kafedras to process: {}", kafedraIds.size());
+
+        kafedraIds.forEach(kafedraId -> {
+            Set<Teacher> teachers = teacherRepository.findAllByKafedraId(kafedraId);
+            log.info("➡ Processing kafedra: {} | Teachers found: {}", kafedraId, teachers.size());
+
+            int successCount = 0;
+            int failedCount = 0;
+
+            for (Teacher teacher : teachers) {
+                try {
+                    ApiResponseStats3 stats = timeTableByWeekOfYearService
+                            .getTeacherDailyOrMonthlyStatistics(
+                                    teacher.getUser().getId(),
+                                    year, month, day
+                            );
+
+                    Optional<DailyTeachersStatistics> optional = dailyTeachersStatisticsRepository.findDailyTeachersStatisticsByTeacherIdAndYearAndMonthAndWeekAndWeekdayAndDay(
+                            teacher.getUser().getId(),
+                            year,
+                            month,
+                            week,
+                            weekday,
+                            day
+                    );
+
+                    if (optional.isPresent()) {
+                        DailyTeachersStatistics dailyTeachersStatistics = optional.get();
+                        dailyTeachersStatistics.setTotalAttended(stats.getTotalAttended());
+                        dailyTeachersStatistics.setTotalMissed(stats.getTotalNotAttended());
+                        dailyTeachersStatisticsRepository.save(dailyTeachersStatistics);
+                    }
+                    else {
+                        DailyTeachersStatistics entity = new DailyTeachersStatistics(
+                                teacher.getUser(),
+                                year, month, day, week, weekday,
+                                stats.getTotalAttended(),
+                                stats.getTotalNotAttended()
+                        );
+
+                        dailyTeachersStatisticsRepository.save(entity);
+                    }
+                    successCount++;
+
+                } catch (Exception e) {
+                    failedCount++;
+                    log.error("❌ Error saving stats for teacher: {} (kafedra: {})", teacher.getId(), kafedraId, e);
+                }
+            }
+
+            log.info("✅ Kafedra {}: {} teachers saved successfully, {} failed.", kafedraId, successCount, failedCount);
+        });
+    }
+
+    @Override
     public ApiResponse getDailyTeacherStatisticsByDay(String teacherId, Integer year, Integer month, Integer day) {
         LocalDate today = LocalDate.now();
         int year2 = today.getYear();
