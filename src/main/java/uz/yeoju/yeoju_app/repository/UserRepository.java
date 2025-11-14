@@ -179,6 +179,10 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "select u.id,u.fullName,u.RFID,u.passportNum as passport,:year as year,:week as week,:weekday as weekday from users u join Teacher T on u.id = T.user_id where T.kafedra_id=:kafedraId",nativeQuery = true)
     List<UserForRoomStatistics2> getTeachersStatisticsForKafedraDashboardWithYearMonthDay(@Param("kafedraId") String kafedraId, @Param("year") Integer year, @Param("week") Integer week,@Param("weekday")Integer weekday);
 
+    @Query(value = "select u.id,u.fullName,u.RFID,u.passportNum as passport,:year as year,:week as week,:weekday as weekday from users u join Teacher T on u.id = T.user_id where u.id=:teacherId",nativeQuery = true)
+    List<UserForRoomStatistics2> getTeacherStatisticsForDashboard(@Param("teacherId") String teacherId, @Param("year") Integer year, @Param("week") Integer week,@Param("weekday")Integer weekday);
+
+
     @Query(value = "select u.id,u.fullName,u.RFID,u.passportNum as passport,:year as year,:week as week,:weekday as weekday from users u join Teacher T on u.id = T.user_id ",nativeQuery = true)
     List<UserForRoomStatistics2> getTeachersStatisticsForKafedraDashboardWithYearMonthDay(@Param("year") Integer year, @Param("week") Integer week,@Param("weekday")Integer weekday);
 
@@ -363,7 +367,30 @@ public interface UserRepository extends JpaRepository<User, String> {
             ") as f2 on f2.user_id = f1.user_id",nativeQuery = true)
     TeacherData getTeachersForRememberWithKafedraIdLogin(@Param("pass") String pass, @Param("kafedraId") String kafedraId);
 
-
+    @Query(value = "select f2.user_id as id,f2.fullName,f2.email,f2.RFID,f2.login,f2.passportNum as passport from (\n" +
+            "  select t.kafedra_id,t.user_id from\n" +
+            "      (select  al.card_no as cardNo\n" +
+            "       from acc_monitor_log al\n" +
+            "            join users u\n" +
+            "                 on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "            join users_Role ur\n" +
+            "                 on u.id = ur.users_id\n" +
+            "            join (select id from Role where roleName = 'ROLE_TEACHER') as role\n" +
+            "                 on ur.roles_id = role.id\n" +
+            "       where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0) and u.login=:pass\n" +
+            "      ) as card\n" +
+            "          join users u on cast(card.cardNo as varchar) =  cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS\n" +
+            "          join Teacher t on u.id = t.user_id\n" +
+            "  where t.user_id=:teacherId and u.login=:pass\n" +
+            "  group by t.kafedra_id,t.user_id\n" +
+            ") as f1\n" +
+            "  right  join (\n" +
+            "    select t.kafedra_id,t.user_id,u2.fullName, u2.email, u2.RFID, u2.login,u2.passportNum from Teacher t\n" +
+            "               join users u2 on t.user_id = u2.id\n" +
+            "    where t.user_id=:teacherId and u2.login=:pass\n" +
+            "    group by t.kafedra_id,t.user_id,u2.fullName, t.user_id, t.kafedra_id, u2.email, u2.RFID, u2.login, u2.passportNum\n" +
+            ") as f2 on f2.user_id = f1.user_id",nativeQuery = true)
+    TeacherData getTeachersForRememberWithTeacherIdLogin(@Param("pass") String pass, @Param("teacherId") String teacherId);
 
     @Query(value = "select f2.user_id as id,f2.fullName,f2.email,f2.RFID,f2.login,f2.passportNum as passport from (\n" +
             "  select t.kafedra_id,t.user_id from\n" +
