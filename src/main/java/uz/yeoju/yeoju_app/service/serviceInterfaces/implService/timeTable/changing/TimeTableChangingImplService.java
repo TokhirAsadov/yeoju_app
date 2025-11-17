@@ -57,33 +57,34 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
     LessonDBRepository lessonDBRepository;
 
 
-    public static final List<Period> periods = new ArrayList<>();
-    public static final List<DaysDef> daysDefs = new ArrayList<>();
-    public static final List<WeeksDef> weeksDefs = new ArrayList<>();
-    public static final List<TermsDef> termsDefs = new ArrayList<>();
-    public static final List<Subject> subjects = new ArrayList<>();
-    public static final List<Teacher> teachers = new ArrayList<>();
-    public static final List<ClassRoom> classRooms = new ArrayList<>();
-    public static final List<Grade> grades = new ArrayList<>();
-    public static final List<uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class> classes = new ArrayList<>();
-    public static final List<GroupXml> groups = new ArrayList<>();
-    public static final List<LessonXml> lessons = new ArrayList<>();
-    public static final List<Card> cards = new ArrayList<>();
+
+    public static final List<Period> periods = Collections.synchronizedList(new ArrayList<>());
+    public static final List<DaysDef> daysDefs = Collections.synchronizedList(new ArrayList<>());
+    public static final List<WeeksDef> weeksDefs = Collections.synchronizedList(new ArrayList<>());
+    public static final List<TermsDef> termsDefs = Collections.synchronizedList(new ArrayList<>());
+    public static final List<Subject> subjects = Collections.synchronizedList(new ArrayList<>());
+    public static final List<Teacher> teachers = Collections.synchronizedList(new ArrayList<>());
+    public static final List<ClassRoom> classRooms = Collections.synchronizedList(new ArrayList<>());
+    public static final List<Grade> grades = Collections.synchronizedList(new ArrayList<>());
+    public static final List<uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class> classes = Collections.synchronizedList(new ArrayList<>());
+    public static final List<GroupXml> groups = Collections.synchronizedList(new ArrayList<>());
+    public static final List<LessonXml> lessons = Collections.synchronizedList(new ArrayList<>());
+    public static final List<Card> cards = Collections.synchronizedList(new ArrayList<>());
 
 
     //for medical
-    public static final List<Period> periodsMed = new ArrayList<>();
-    public static final List<DaysDef> daysDefsMed = new ArrayList<>();
-    public static final List<WeeksDef> weeksDefsMed = new ArrayList<>();
-    public static final List<TermsDef> termsDefsMed = new ArrayList<>();
-    public static final List<Subject> subjectsMed = new ArrayList<>();
-    public static final List<Teacher> teachersMed = new ArrayList<>();
-    public static final List<ClassRoom> classRoomsMed = new ArrayList<>();
-    public static final List<Grade> gradesMed = new ArrayList<>();
-    public static final List<uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class> classesMed = new ArrayList<>();
-    public static final List<GroupXml> groupsMed = new ArrayList<>();
-    public static final List<LessonXml> lessonsMed = new ArrayList<>();
-    public static final List<Card> cardsMed = new ArrayList<>();
+    public static final List<Period> periodsMed = Collections.synchronizedList(new ArrayList<>());
+    public static final List<DaysDef> daysDefsMed = Collections.synchronizedList(new ArrayList<>());
+    public static final List<WeeksDef> weeksDefsMed = Collections.synchronizedList(new ArrayList<>());
+    public static final List<TermsDef> termsDefsMed = Collections.synchronizedList(new ArrayList<>());
+    public static final List<Subject> subjectsMed = Collections.synchronizedList(new ArrayList<>());
+    public static final List<Teacher> teachersMed = Collections.synchronizedList(new ArrayList<>());
+    public static final List<ClassRoom> classRoomsMed = Collections.synchronizedList(new ArrayList<>());
+    public static final List<Grade> gradesMed = Collections.synchronizedList(new ArrayList<>());
+    public static final List<uz.yeoju.yeoju_app.payload.forTimeTableFromXmlFile.Class> classesMed = Collections.synchronizedList(new ArrayList<>());
+    public static final List<GroupXml> groupsMed = Collections.synchronizedList(new ArrayList<>());
+    public static final List<LessonXml> lessonsMed = Collections.synchronizedList(new ArrayList<>());
+    public static final List<Card> cardsMed = Collections.synchronizedList(new ArrayList<>());
 
 
 
@@ -201,31 +202,6 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
             cardDB.setClassroom(dto.room);
             cardDBRepository.save(cardDB);
 
-            System.out.println("card db -> "+cardDB);
-/*            if(card.getClassroomIds().get(0).length()!=0){
-                ClassRoom room = classRooms.stream().filter(classRoom -> classRoom.getId().equals(card.getClassroomIds().get(0))).findFirst().get();
-                cardDB.setClassroom(room.getName());
-            }
-            for (DaysDef daysDef : daysDefs) {
-                if (daysDef.getDays().get(0).equals(card.getDays().get(0))){
-                    if (daysDef.getDays().get(0).equals("1000000") ||daysDef.getDays().get(0).equals("100000") || daysDef.getDays().get(0).equals("10000"))
-                        cardDB.setDay(1);
-                    if (daysDef.getDays().get(0).equals("0100000") ||daysDef.getDays().get(0).equals("010000") || daysDef.getDays().get(0).equals("01000"))
-                        cardDB.setDay(2);
-                    if (daysDef.getDays().get(0).equals("0010000") ||daysDef.getDays().get(0).equals("001000") || daysDef.getDays().get(0).equals("00100"))
-                        cardDB.setDay(3);
-                    if (daysDef.getDays().get(0).equals("0001000") ||daysDef.getDays().get(0).equals("000100") || daysDef.getDays().get(0).equals("00010"))
-                        cardDB.setDay(4);
-                    if (daysDef.getDays().get(0).equals("0000100") ||daysDef.getDays().get(0).equals("000010") || daysDef.getDays().get(0).equals("00001"))
-                        cardDB.setDay(5);
-                    if (daysDef.getDays().get(0).equals("0000010")||daysDef.getDays().get(0).equals("000001"))
-                        cardDB.setDay(6);
-                    cardDB.setDayName(daysDef.getName()+"-"+daysDef.getShortName());
-                    break;
-                }
-            }
-            cardDBRepository.save(cardDB);*/
-
             return new ApiResponse(true, "Classroom updated successfully");
 
         } catch (Exception e) {
@@ -331,8 +307,216 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
         }
     }
 
+
     @Override
     public ApiResponse getDataOfFreeRooms(Integer year, Integer week, String dayCode, Integer period) {
+
+        // XML faylni o‘qib, yangi local listlarni hosil qilamiz
+        getTimeTableByWeek(year, week);
+        getTimeTableByWeekMed(year, week);
+        List<Card> localCards = Collections.synchronizedList(cards);       // endi getTimeTableByWeek return qiladi List<Card>
+        List<Card> localCardsMed = Collections.synchronizedList(cardsMed);  // shu ham
+
+        List<ClassRoom> localClassRooms = Collections.synchronizedList(classRooms);
+        List<ClassRoom> localClassRoomsMed = Collections.synchronizedList(classRoomsMed);
+        List<DaysDef> localDaysDefs = Collections.synchronizedList(daysDefs);
+        List<DaysDef> localDaysDefsMed = Collections.synchronizedList(daysDefsMed);
+
+        List<ClassRoom> freeRooms =new ArrayList<>();
+
+        Optional<DaysDef> daysDef1 = localDaysDefs.stream()
+                .filter(d -> d.getDays().get(0).equals(dayCode))
+                .findFirst();
+
+        Optional<DaysDef> daysDef2 = localDaysDefsMed.stream()
+                .filter(d -> d.getDays().get(0).equals(dayCode))
+                .findFirst();
+
+        if (daysDef1.isPresent()) {
+            DaysDef daysDef = daysDef1.get();
+            String daysDefShortName = daysDef.getShortName();
+
+            localClassRooms.forEach(classRoom -> {
+                boolean isFree = localCards.stream()
+                        .noneMatch(card ->
+                                card.getClassroomIds().contains(classRoom.getId())
+                                        && Objects.equals(card.getPeriod(), period)
+                                        && card.getDays().contains(dayCode)
+                        );
+                if (isFree) freeRooms.add(classRoom);
+            });
+
+            localDaysDefsMed.stream()
+                    .filter(d -> d.getShortName().equals(daysDefShortName))
+                    .findFirst()
+                    .ifPresent(daysDefM -> {
+                        localClassRoomsMed.forEach(classRoom -> {
+                            boolean isFree = localCardsMed.stream()
+                                    .noneMatch(card ->
+                                            card.getClassroomIds().contains(classRoom.getId())
+                                                    && Objects.equals(card.getPeriod(), period)
+                                                    && card.getDays().contains(daysDefM.getDays().get(0))
+                                    );
+                            if (isFree) freeRooms.add(classRoom);
+                        });
+                    });
+
+            return new ApiResponse(true,
+                    "all rooms year: " + year + ", week: " + week,
+                    freeRooms);
+        }
+
+        else if (daysDef2.isPresent()) {
+            DaysDef daysDef = daysDef2.get();
+            String daysDefShortName = daysDef.getShortName();
+
+            localClassRoomsMed.forEach(classRoom -> {
+                boolean isFree = localCardsMed.stream()
+                        .noneMatch(card ->
+                                card.getClassroomIds().contains(classRoom.getId())
+                                        && Objects.equals(card.getPeriod(), period)
+                                        && card.getDays().contains(dayCode)
+                        );
+                if (isFree) freeRooms.add(classRoom);
+            });
+
+            localDaysDefs.stream()
+                    .filter(d -> d.getShortName().equals(daysDefShortName))
+                    .findFirst()
+                    .ifPresent(daysDefD -> {
+                        localClassRooms.forEach(classRoom -> {
+                            boolean isFree = localCards.stream()
+                                    .noneMatch(card ->
+                                            card.getClassroomIds().contains(classRoom.getId())
+                                                    && Objects.equals(card.getPeriod(), period)
+                                                    && card.getDays().contains(daysDefD.getDays().get(0))
+                                    );
+                            if (isFree) freeRooms.add(classRoom);
+                        });
+                    });
+
+            return new ApiResponse(true,
+                    "all rooms year: " + year + ", week: " + week,
+                    freeRooms);
+        }
+
+        return new ApiResponse(false, "error occurred with day code: " + dayCode);
+    }
+
+    /*public ApiResponse getDataOfFreeRooms(Integer year, Integer week, String dayCode, Integer period) {
+
+        lock.writeLock().lock();   // XML o‘qish va static listlarni tozalash uchun YOZISH LOCK
+        try {
+            getTimeTableByWeek(year, week);
+            getTimeTableByWeekMed(year, week);
+        }
+        finally {
+            lock.writeLock().unlock();
+        }
+
+        lock.readLock().lock();   // faqat o‘qish uchun o‘qish lock — tez ishlaydi
+        try {
+            Set<ClassRoom> freeRooms = new HashSet<>();
+
+            Optional<DaysDef> daysDef1 = daysDefs.stream()
+                    .filter(d -> d.getDays().get(0).equals(dayCode))
+                    .findFirst();
+
+            Optional<DaysDef> daysDef2 = daysDefsMed.stream()
+                    .filter(d -> d.getDays().get(0).equals(dayCode))
+                    .findFirst();
+
+            if (daysDef1.isPresent()) {
+                DaysDef daysDef = daysDef1.get();
+                String daysDefShortName = daysDef.getShortName();
+
+                // Default free rooms
+                classRooms.forEach(classRoom -> {
+                    boolean isFree = cards.stream()
+                            .noneMatch(card ->
+                                    card.getClassroomIds().contains(classRoom.getId())
+                                            && Objects.equals(card.getPeriod(), period)
+                                            && card.getDays().contains(dayCode)
+                            );
+                    if (isFree) {
+                        freeRooms.add(classRoom);
+                    }
+                });
+
+                // MED free rooms
+                Optional<DaysDef> medDays = daysDefsMed.stream()
+                        .filter(d -> d.getShortName().equals(daysDefShortName))
+                        .findFirst();
+
+                medDays.ifPresent(daysDefM -> {
+                    classRoomsMed.forEach(classRoom -> {
+                        boolean isFree = cardsMed.stream()
+                                .noneMatch(card ->
+                                        card.getClassroomIds().contains(classRoom.getId())
+                                                && Objects.equals(card.getPeriod(), period)
+                                                && card.getDays().contains(daysDefM.getDays().get(0))
+                                );
+                        if (isFree) {
+                            freeRooms.add(classRoom);
+                        }
+                    });
+                });
+
+                return new ApiResponse(true,
+                        "all rooms year: " + year + ", week: " + week,
+                        freeRooms);
+            }
+
+            else if (daysDef2.isPresent()) {
+                DaysDef daysDef = daysDef2.get();
+                String daysDefShortName = daysDef.getShortName();
+
+                // Only MED
+                classRoomsMed.forEach(classRoom -> {
+                    boolean isFree = cardsMed.stream()
+                            .noneMatch(card ->
+                                    card.getClassroomIds().contains(classRoom.getId())
+                                            && Objects.equals(card.getPeriod(), period)
+                                            && card.getDays().contains(dayCode)
+                            );
+                    if (isFree) {
+                        freeRooms.add(classRoom);
+                    }
+                });
+
+                // Default
+                Optional<DaysDef> defaultDays = daysDefs.stream()
+                        .filter(d -> d.getShortName().equals(daysDefShortName))
+                        .findFirst();
+
+                defaultDays.ifPresent(daysDefD -> {
+                    classRooms.forEach(classRoom -> {
+                        boolean isFree = cards.stream()
+                                .noneMatch(card ->
+                                        card.getClassroomIds().contains(classRoom.getId())
+                                                && Objects.equals(card.getPeriod(), period)
+                                                && card.getDays().contains(daysDefD.getDays().get(0))
+                                );
+                        if (isFree) {
+                            freeRooms.add(classRoom);
+                        }
+                    });
+                });
+
+                return new ApiResponse(true,
+                        "all rooms year: " + year + ", week: " + week,
+                        freeRooms);
+            }
+
+            return new ApiResponse(false,
+                    "error occurred with day code: " + dayCode);
+        }
+        finally {
+            lock.readLock().unlock();
+        }
+    }*/
+
+    /*public ApiResponse getDataOfFreeRooms(Integer year, Integer week, String dayCode, Integer period) {
 
         getTimeTableByWeek(year,week);
         getTimeTableByWeekMed(year,week);
@@ -343,15 +527,17 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
         Optional<DaysDef> daysDef2 = daysDefsMed.stream().filter(daysDef -> daysDef.getDays().get(0).equals(dayCode)).findFirst();
 
         if (daysDef1.isPresent()){
+            System.out.println("66-----"+daysDef1);
             DaysDef daysDef = daysDef1.get();
             String daysDefShortName = daysDef.getShortName();
             classRooms.forEach(classRoom -> {
                 Set<Card> collected = cards.stream().filter(card -> (card.getClassroomIds().contains(classRoom.getId()) && Objects.equals(card.getPeriod(), period) && card.getDays().contains(dayCode))).collect(Collectors.toSet());
                 if (collected.isEmpty()){
+                    System.out.println("9888---"+classRoom);
                     freeRooms.add(classRoom);
                 }
             });
-
+            System.out.println("9898------");
             Optional<DaysDef> daysDefOptional = daysDefsMed.stream().filter(daysDefM -> daysDefM.getShortName().equals(daysDefShortName)).findFirst();
             if (daysDefOptional.isPresent()){
                 DaysDef daysDefM = daysDefOptional.get();
@@ -363,8 +549,10 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
                 });
             }
 
+            System.out.println("88-----"+daysDef1);
             return new ApiResponse(true,"all rooms year: "+year+", week: "+week,freeRooms);
-        } else if (daysDef2.isPresent()) {
+        }
+        else if (daysDef2.isPresent()) {
             DaysDef daysDef = daysDef2.get();
             String daysDefShortName = daysDef.getShortName();
             classRoomsMed.forEach(classRoom -> {
@@ -392,7 +580,7 @@ public class TimeTableChangingImplService implements TimeTableChangingService{
         }
 
 
-    }
+    }*/
 
     @Override
     public ApiResponse getDataOfFreeTeachers(String kafedraId, Integer year, Integer week, String dayCode, Integer period) {
