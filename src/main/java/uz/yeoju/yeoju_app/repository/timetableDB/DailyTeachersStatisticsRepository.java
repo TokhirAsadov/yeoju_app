@@ -12,6 +12,7 @@ import java.util.Set;
 
 public interface DailyTeachersStatisticsRepository extends JpaRepository<DailyTeachersStatistics, String> {
     @Query(value = "select Top 1\n" +
+            "    d.teacher_id as teacherId,\n" +
             "    d.id,\n" +
             "    d.year,\n" +
             "    d.month,\n" +
@@ -23,6 +24,7 @@ public interface DailyTeachersStatisticsRepository extends JpaRepository<DailyTe
     GetDailyTeacherStatistics getDailyTeacherStatisticsByDay(String teacherId, Integer year, Integer month, Integer day);
 
     @Query(value = "select\n" +
+            "    d.teacher_id as teacherId,\n" +
             "    d.id,\n" +
             "    d.year,\n" +
             "    d.month,\n" +
@@ -36,6 +38,7 @@ public interface DailyTeachersStatisticsRepository extends JpaRepository<DailyTe
     List<GetDailyTeacherStatistics> getDailyTeacherStatisticsByWeek(String teacherId, Integer year, Integer week);
 
     @Query(value = "select\n" +
+            "    d.teacher_id as teacherId,\n" +
             "    d.id,\n" +
             "    d.year,\n" +
             "    d.month,\n" +
