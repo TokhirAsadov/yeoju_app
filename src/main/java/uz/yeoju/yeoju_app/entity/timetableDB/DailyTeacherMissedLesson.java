@@ -38,11 +38,12 @@ public class DailyTeacherMissedLesson {
     private Integer day;
     private Integer week;
     private Integer weekday;
+    private Integer hour;
 
     private String room;
 
 
-    public DailyTeacherMissedLesson(User user, Integer year, Integer month, Integer day, Integer week, Integer weekday, String room) {
+    public DailyTeacherMissedLesson(User user, Integer year, Integer month, Integer day, Integer week, Integer weekday, String room,Integer hour) {
         this.teacher = user;
         this.year = year;
         this.month = month;
@@ -50,5 +51,6 @@ public class DailyTeacherMissedLesson {
         this.week = week;
         this.weekday = weekday;
         this.room = room;
+        this.hour = hour;
     }
 }
