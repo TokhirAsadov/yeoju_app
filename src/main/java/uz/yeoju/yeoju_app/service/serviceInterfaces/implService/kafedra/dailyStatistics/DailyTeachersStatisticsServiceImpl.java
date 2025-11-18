@@ -273,6 +273,11 @@ public class DailyTeachersStatisticsServiceImpl implements DailyTeachersStatisti
                     );
             response.add(new GetDailyTeacherStatistics() {
                 @Override
+                public String getTeacherId() {
+                    return teacherId;
+                }
+
+                @Override
                 public String getId() {
                     return UUID.randomUUID()+"-today";
                 }
@@ -337,6 +342,11 @@ public class DailyTeachersStatisticsServiceImpl implements DailyTeachersStatisti
                             day2
                     );
             response.add(new GetDailyTeacherStatistics() {
+                @Override
+                public String getTeacherId() {
+                    return teacherId;
+                }
+
                 @Override
                 public String getId() {
                     return UUID.randomUUID()+"-today";
