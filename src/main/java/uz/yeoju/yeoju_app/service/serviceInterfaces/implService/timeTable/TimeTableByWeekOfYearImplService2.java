@@ -2017,6 +2017,7 @@ public class TimeTableByWeekOfYearImplService2 {
                                                         .findFirst().get().getShortName()
                                         );
                                         show.setType(WeekType.MED);
+                                        show.setDayCode(s);
                                         shows.add(show);
                                     }
                                 }
