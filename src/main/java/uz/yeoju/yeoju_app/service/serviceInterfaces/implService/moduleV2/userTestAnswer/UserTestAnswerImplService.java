@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.moduleV2.TestOption;
 import uz.yeoju.yeoju_app.entity.moduleV2.TestQuestion;
+import uz.yeoju.yeoju_app.entity.moduleV2.TestType;
 import uz.yeoju.yeoju_app.entity.moduleV2.UserTestAnswer;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.moduleV2.*;
@@ -55,7 +56,10 @@ public class UserTestAnswerImplService implements UserTestAnswerService{
             return new ApiResponse(false, "User not found by id = " + finisher.userId);
         }
 
+        System.out.println("------------------------------: " + finisher);
+
         User user = userRepository.getById(finisher.userId);
+
 
         for (UserTestAnswerFinisherChild answer : finisher.answers) {
             if (!testQuestionRepository.existsById(answer.testQuestionId)) {
@@ -68,29 +72,35 @@ public class UserTestAnswerImplService implements UserTestAnswerService{
 
             TestQuestion question = testQuestionRepository.getById(answer.testQuestionId);
 
-            // Tanlangan variantlar (ID lar orqali TestOption obyektlari)
-            List<TestOption> selectedOptions = testOptionRepository.findAllById(answer.getSelectedOptionsIds());
-
-            // To'g'ri javoblarni topish
-            List<String> correctOptionIds = question.getOptions().stream()
-                    .filter(TestOption::getCorrect) // correct == true
-                    .map(option -> option.getId().trim())
-                    .collect(Collectors.toList());
-
-            // Foydalanuvchi tanlagan variantlar
-            List<String> selectedOptionIds = selectedOptions.stream()
-                    .map(option -> option.getId().trim())
-                    .collect(Collectors.toList());
-
-            // To'g'rilikni tekshirish (Set sifatida solishtirish)
-            boolean isCorrect = new HashSet<>(correctOptionIds).equals(new HashSet<>(selectedOptionIds));
-
-            // Javobni saqlash
             UserTestAnswer userTestAnswer = new UserTestAnswer();
             userTestAnswer.setUser(user);
             userTestAnswer.setQuestion(question);
-            userTestAnswer.setSelectedOptions(selectedOptions);
-            userTestAnswer.setCorrect(isCorrect);
+
+            if (question.getType() == TestType.WRITTEN) {
+                // WRITTEN testlar
+                userTestAnswer.setWrittenAnswer(answer.getWrittenAnswer());
+                userTestAnswer.setCorrect(false); // hali baholanmagan
+                userTestAnswer.setScore(0); // teacher keyinchalik baho beradi
+            } else {
+                // SINGLE / MULTIPLE CHOICE
+                List<TestOption> selectedOptions = testOptionRepository.findAllById(answer.getSelectedOptionsIds());
+
+                List<String> correctOptionIds = question.getOptions().stream()
+                        .filter(TestOption::getCorrect)
+                        .map(opt -> opt.getId().trim())
+                        .collect(Collectors.toList());
+
+                List<String> selectedOptionIds = selectedOptions.stream()
+                        .map(opt -> opt.getId().trim())
+                        .collect(Collectors.toList());
+
+                boolean isCorrect = new HashSet<>(correctOptionIds).equals(new HashSet<>(selectedOptionIds));
+                int totalScore = selectedOptions.stream().mapToInt(opt -> opt.getScore() != null ? opt.getScore() : 0).sum();
+
+                userTestAnswer.setSelectedOptions(selectedOptions);
+                userTestAnswer.setCorrect(isCorrect);
+                userTestAnswer.setScore(isCorrect ? totalScore : 0);
+            }
 
             userTestAnswerRepository.save(userTestAnswer);
         }
@@ -183,18 +193,25 @@ public class UserTestAnswerImplService implements UserTestAnswerService{
     @Override
     public ResponseEntity<AiResponseDto> ai(AiRequestDto dto) throws IOException {
         String aiUrl = "http://localhost:5050/api/ai/chat";
+        String json = "{\n" +
+                "\"score\": 2,\n" +
+                "\"feedback\": \"Talabaning javobi qisqa va to'liq emas. U xotirani tejash haqida gapiradi, lekin bu jarayonning sabablari va String Pool'ning ahamiyatini tushuntirmaydi. Javob to'g'ri yo'nalishda, lekin yetarlicha chuqur emas.\"\n" +
+                "}";
+        AiResponseDto responseDto = objectMapper.readValue(json, AiResponseDto.class);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        return ResponseEntity.status(200).body(responseDto);
 
-        HttpEntity<AiRequestDto> request = new HttpEntity<>(dto, headers);
-
-        ResponseEntity<String> response = restTemplate.postForEntity(aiUrl, request, String.class);
-
-        ObjectMapper mapper = new ObjectMapper();
-        AiResponseDto responseDto = mapper.readValue(response.getBody(), AiResponseDto.class);
-
-        return ResponseEntity.status(response.getStatusCode()).body(responseDto);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//
+//        HttpEntity<AiRequestDto> request = new HttpEntity<>(dto, headers);
+//
+//        ResponseEntity<String> response = restTemplate.postForEntity(aiUrl, request, String.class);
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        AiResponseDto responseDto = mapper.readValue(response.getBody(), AiResponseDto.class);
+//
+//        return ResponseEntity.status(response.getStatusCode()).body(responseDto);
     }
 
 }
