@@ -43,6 +43,9 @@ public interface PositionRepository extends JpaRepository<Position, Long> {
     @Query(value = "select p.userPositionName from Position p join users_Position up on up.positions_id=p.id where up.users_id=:userId",nativeQuery = true)
     List<String> getNamesOfPosition(@Param("userId") String userId);
 
+    @Query(value = "select min(p.degree) from Position p join users_Position up on up.positions_id=p.id where up.users_id=:userId",nativeQuery = true)
+    Integer getDegreePosition(@Param("userId") String userId);
+
     @Query(value = "select Top 1 p.userPositionName from Position p join users_Position up on up.positions_id=p.id where up.users_id=:userId",nativeQuery = true)
     String getNameOfPosition(@Param("userId") String userId);
 
