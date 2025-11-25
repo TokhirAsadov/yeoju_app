@@ -24,6 +24,9 @@ public interface TeacherData {
     @Value("#{@positionRepository.getNamesOfPosition(target.id)}")
     List<String> getPositions();
 
+    @Value("#{@positionRepository.getDegreePosition(target.id)}")
+    Integer getDegree();
+
 
     @Value("#{@userPhotoRepo.getUserPhotoRes(target.id)}")
     UserPhotoRes getPhoto();
