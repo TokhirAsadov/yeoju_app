@@ -12,12 +12,16 @@ import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra28;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra29;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra30;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra31;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.monthly.GetTeachersForDekan28;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.monthly.GetTeachersForDekan29;
+import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.monthly.GetTeachersForDekan30;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.monthly.GetTeachersForDekan31;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.staff.monthly.*;
 import uz.yeoju.yeoju_app.payload.resDto.section.SectionData;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface SectionRepository extends JpaRepository<Section, String> {
     Section getSectionByName(String name);
@@ -229,23 +233,23 @@ public interface SectionRepository extends JpaRepository<Section, String> {
             "group by s.section_id",nativeQuery = true)
     List<Integer> getCountComeAndAll(@Param("userId") String userId);
 
+    @Query(value = "select\n" +
+            "    u.fullName,\n" +
+            "    u.id,\n" +
+            "    u.passportNum as passport,\n" +
+            "    u.login,\n" +
+            "    u.RFID,\n" +
+            "    u.email,\n" +
+            "    1 as rate,\n" +
+            "    dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "        + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME))\n" +
+            "                  as date\n" +
+            "from Staff s\n" +
+            "         join users u on s.user_id = u.id\n" +
+            "where s.section_id =:id and u.id in :staffsIds",nativeQuery = true)
+    List<GetTeachersForDekan31> getDateForTable31(@Param("id") String id, @Param("date") Date date,@Param("staffsIds") Set<String> staffsIds);
 
-//    @Query(value = "select f2.section_id as id, f1.count as comeCount,f2.count as allCount from (\n" +
-//            "    select s.section_id,count(card.cardNo) as count from\n" +
-//            "        (select  al.card_no as cardNo\n" +
-//            "         from acc_monitor_log al\n" +
-//            "              join users u on cast(u.RFID as varchar) = cast(al.card_no as varchar) COLLATE Chinese_PRC_CI_AS\n" +
-//            "         where al.time between DATEADD(dd, DATEDIFF(dd, 0, getdate()), 0) and DATEADD(dd, DATEDIFF(dd, -1, getdate()), 0)\n" +
-//            "         group by al.card_no\n" +
-//            "        ) as card\n" +
-//            "            join users u on cast(card.cardNo as varchar) =  cast(u.RFID as varchar) COLLATE Chinese_PRC_CI_AS join Staff s on u.id = s.user_id\n" +
-//            "            join ( select TOP 1 s2.id as id from Section s2 join Staff s3 on s2.id = s3.section_id where s3.user_id=:userId) as section on section.id=s.section_id\n" +
-//            "    group by s.section_id\n" +
-//            ") as f1\n" +
-//            "    right join (\n" +
-//            "    select s.section_id,count(s.id) as count from Staff s\n" +
-//            "    join ( select TOP 1 s2.id as id from Section s2 join Staff s3 on s2.id = s3.section_id where s3.user_id=:userId) as section on section.id=s.section_id\n" +
-//            "    group by s.section_id\n" +
-//            ") as f2 on f2.section_id = f1.section_id",nativeQuery = true)
-//    List<TeacherCountComeAndAll> getCountComeAndAll(@Param("userId") String userId);
+
+
+
 }
