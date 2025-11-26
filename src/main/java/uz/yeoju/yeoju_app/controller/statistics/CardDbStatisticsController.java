@@ -12,6 +12,7 @@ import uz.yeoju.yeoju_app.controller.BaseUrl;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.statistics.CardDbStatisticsService;
 
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/statistics")
@@ -67,7 +68,7 @@ public class CardDbStatisticsController {
                 @RequestParam(value = "faculty",required = false) String faculty,
                 @RequestParam(value = "courses",required = false) String courses
 
-                ) {
+                ) throws ExecutionException, InterruptedException {
             if (eduType == null && faculty == null && courses == null) {
                 return ResponseEntity.ok(service.getTotalAllClassroomStatistics(year, week, weekday,eduForm));
             }

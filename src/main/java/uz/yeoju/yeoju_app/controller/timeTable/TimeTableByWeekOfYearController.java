@@ -173,4 +173,23 @@ public class TimeTableByWeekOfYearController {
                 );
     }
 
+    @GetMapping("/getStatisticsForKafedra2")
+    public HttpEntity<?> getStatisticsForKafedra2(
+//            @CurrentUser User user,
+//                                                 @RequestParam(value = "kafedraId",required = false) String kafedraId,
+                                                 @RequestParam(value = "teacherId",required = false) String teacherId,
+                                                 @RequestParam("year") Integer year,
+                                                 @RequestParam("month") Integer month,
+                                                 @RequestParam(value = "day", required = false) Integer day
+
+                                                 )
+    {
+        return ResponseEntity.ok(
+                day != null ?
+                    service.getTeacherDailyOrMonthlyStatistics(teacherId,year,month,day)
+                :
+                    service.getTeacherMonthlyStatistics(teacherId,year,month)
+                );
+    }
+
 }

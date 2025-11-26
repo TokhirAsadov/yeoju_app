@@ -36,7 +36,8 @@ public interface CardDbStatisticsRepository extends JpaRepository<CardDbStatisti
     GetTotalClassroomAttendance getTotalAllClassroomStatisticsWithWeek(Integer year, Integer week);
 
     //2
-    @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByEduType(?1,?2,?3,?4,?5)",nativeQuery = true)
+    //@Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByEduType(?1,?2,?3,?4,?5)",nativeQuery = true)
+    @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByEduTypeFAST(?1,?2,?3,?4,?5)",nativeQuery = true)
     GetTotalClassroomAttendance getTotalClassroomAttendanceByEduType(Integer year, Integer week, Integer weekday,String eduType,String eduForm);
 
     //2.2 week
@@ -55,11 +56,19 @@ public interface CardDbStatisticsRepository extends JpaRepository<CardDbStatisti
     @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByEduTypeAndFacultyAndCourse(?1,?2,?3,?4,?5,?6,?7)",nativeQuery = true)
     GetTotalClassroomAttendance getTotalClassroomAttendanceByEduTypeAndFacultyAndCourse(Integer year, Integer week, Integer weekday, String eduType, String faculty, Integer course,String eduForm);
 
+    @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByEduTypeAndFacultyAndCourse2(?1,?2,?3,?4,?5,?6,?7)",nativeQuery = true)
+    GetTotalClassroomAttendance getTotalClassroomAttendanceByEduTypeAndFacultyAndCourse(Integer year, Integer week, Integer weekday, String eduType, String faculty, String course,String eduForm);
+
+
     //4.2 week
     @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceWithByEduTypeAndFacultyAndCourse(?1,?2,?3,?4,?5)",nativeQuery = true)
     GetTotalClassroomAttendance getTotalClassroomAttendanceWithWeekByEduTypeAndFacultyAndCourse(Integer year, Integer week, String eduType, String faculty, Integer course);
 
     //5
+    @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByCourse2(?1,?2,?3,?4,?5)",nativeQuery = true)
+    GetTotalClassroomAttendance getTotalClassroomAttendanceByCourse(Integer year, Integer week, Integer weekday, String course,String eduForm);
+
+
     @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByCourse(?1,?2,?3,?4,?5)",nativeQuery = true)
     GetTotalClassroomAttendance getTotalClassroomAttendanceByCourse(Integer year, Integer week, Integer weekday, Integer course,String eduForm);
 
@@ -78,14 +87,20 @@ public interface CardDbStatisticsRepository extends JpaRepository<CardDbStatisti
     //7
     @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByFacultyAndCourse(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
     GetTotalClassroomAttendance getTotalClassroomAttendanceByFacultyAndCourse(Integer year, Integer week, Integer weekday, String faculty, Integer course,String eduForm);
+    @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByFacultyAndCourse2(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
+    GetTotalClassroomAttendance getTotalClassroomAttendanceByFacultyAndCourse(Integer year, Integer week, Integer weekday, String faculty, String courses,String eduForm);
 
     //7.2 week
     @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceWithWeekByFacultyAndCourse(?1,?2,?3,?4)",nativeQuery = true)
     GetTotalClassroomAttendance getTotalAllClassroomStatisticsWithWeekByFacultyAndCourse(Integer year, Integer week, String faculty, Integer course);
 
     //8
-    @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByEduTypeAndCourse(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
+    //@Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByEduTypeAndCourse(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
+//    @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByEduTypeAndCourseFAST(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
+    @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByEduTypeAndCourseFAST9(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
     GetTotalClassroomAttendance getTotalClassroomAttendanceByEduTypeAndCourse(Integer year, Integer week, Integer weekday, String eduType, Integer course,String eduForm);
+    @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceByEduTypeAndCourse2(?1,?2,?3,?4,?5,?6)",nativeQuery = true)
+    GetTotalClassroomAttendance getTotalClassroomAttendanceByEduTypeAndCourse(Integer year, Integer week, Integer weekday, String eduType, String courses,String eduForm);
 
     //8.2 week
     @Query(value = "select Top 1 * from dbo.GetTotalClassroomAttendanceWithWeekByEduTypeAndCourse(?1,?2,?3,?4)",nativeQuery = true)

@@ -1,11 +1,19 @@
 server:
   port: 80
+#  ssl:
+#    key-alias: kiut_lms_alias
+#    key-store: classpath:keystore.p12
+#    key-store-password: pa$$w0rd
+#    key-store-type: PKCS12
+hugging_face:
+    access_token: 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
 spring:
   servlet:
     multipart:
       max-file-size: 205MB
       max-request-size: 205MB
   jpa:
+    database-platform: org.hibernate.dialect.SQLServerDialect
     generate-ddl: true
     show-sql: true
     hibernate:
@@ -64,12 +72,39 @@ spring:
         smtp:
           auth: true
           starttls: true
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    url: /v3/api-docs
 app:
   sms:
     countPerDay: 3
     username: yodju
     password: oeTT8C
     url: http://91.204.239.44/broker-api
+
+logging:
+  level:
+    root: info
+    uz.yeoju: debug
+
+  file:
+    name: logs/daily-statistics.log
+
+  logback:
+    rollingpolicy:
+      file-name-pattern: logs/daily-statistics-%d{yyyy-MM-dd}.log
+      max-history: 30  # 30 kunlik loglarni saqlaydi
+      total-size-cap: 1GB  # umumiy hajmi 1GB bo‘lsa eski fayllarni o‘chiradi
+
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
+
 #  authentication:
 #    attempts: 3
 #    jwtSecret: aUtO2019#BiO@07tAsHkeT04teAmYouthinKbReAk2060yeAr_riGht

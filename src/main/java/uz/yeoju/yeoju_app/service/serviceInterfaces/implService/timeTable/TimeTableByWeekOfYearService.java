@@ -1,10 +1,8 @@
 package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable;
 
 import uz.yeoju.yeoju_app.entity.User;
-import uz.yeoju.yeoju_app.payload.ApiResponse;
-import uz.yeoju.yeoju_app.payload.ApiResponseStats;
-import uz.yeoju.yeoju_app.payload.ApiResponseStats2;
-import uz.yeoju.yeoju_app.payload.ApiResponseTwoObj;
+import uz.yeoju.yeoju_app.payload.*;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetLessonStatistics31;
 
 import java.util.List;
 
@@ -32,5 +30,8 @@ public interface TimeTableByWeekOfYearService {
     ApiResponseTwoObj getKafedraKunlikVaHaftalikStatistikasi5(User user, String kafedraId, Integer year, Integer month, Integer day, Integer week, Integer weekday);
     ApiResponseStats getKafedraKunlikVaHaftalikStatistikasi6(User user, String kafedraId, Integer year, Integer month, Integer day, Integer week, Integer weekday);
     List<ApiResponseStats2> getKafedraKunlikVaHaftalikStatistikasi7(User user, Integer year, Integer month, Integer day, Integer week, Integer weekday);
-
+    List<ApiResponseStats2> getKafedraKunlikVaHaftalikStatistikasi9(User user, Integer year, Integer month, Integer day, Integer week, Integer weekday);
+    List<ApiResponseStats2> getKafedraKunlikVaHaftalikStatistikasi8(User user, Integer year, Integer month, Integer day, Integer week, Integer weekday);
+    GetLessonStatistics31 getTeacherMonthlyStatistics(String teacherId, Integer year, Integer month);
+    ApiResponseStats3 getTeacherDailyOrMonthlyStatistics(String teacherId, Integer year, Integer month, Integer day);
 }

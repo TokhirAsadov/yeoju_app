@@ -82,7 +82,6 @@ public class UserTestAnswerController {
         System.out.println("Generating text with prompt: " + prompt);
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth("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");
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         String body = "{\"inputs\": \"" + prompt + "\"}";

@@ -154,6 +154,77 @@ public class StudentController {
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
+    @PostMapping("/uploadAll")
+    public HttpEntity<?> uploadAll(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        System.out.println(" ----------------------------- 1 1 1 ------------------------ --");
+        ApiResponse apiResponse = studentService.savingAll(request);
+//        ApiResponse apiResponse = new ApiResponse(true,"keldi");
+        System.out.println(" ----------------------------- ------------------------ --");
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+    @PostMapping("/uploadAll2")
+    public HttpEntity<?> uploadAll2(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        ApiResponse apiResponse = studentService.savingAll2(request);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+    @PostMapping("/uploadStudentsByDekan")
+    public HttpEntity<?> uploadStudentsByDekan(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        ApiResponse apiResponse = studentService.uploadStudentsByDekan(request);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+
+
+    @PostMapping("/uploadAllFaculties")
+    public HttpEntity<?> uploadAllFaculties(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        System.out.println(" ----------------------------- 1 1 1 ------------------------ --");
+        ApiResponse apiResponse = studentService.uploadAllFaculties(request);
+//        ApiResponse apiResponse = new ApiResponse(true,"keldi");
+        System.out.println(" ----------------------------- ------------------------ --");
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+    @PostMapping("/updatingRfid")
+    public HttpEntity<?> updatingRfid(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        ApiResponse apiResponse = studentService.updatingRfid(request);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+    @PostMapping("/finishedStudents")
+    public HttpEntity<?> finishedStudents(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        ApiResponse apiResponse = studentService.finishedStudents(request);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+    @PostMapping("/uploadRoles")
+    public HttpEntity<?> uploadRoles(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        System.out.println(" ----------------------------- 1 1 1 ------------------------ --");
+        ApiResponse apiResponse = studentService.uploadRoles(request);
+//        ApiResponse apiResponse = new ApiResponse(true,"keldi");
+        System.out.println(" ----------------------------- ------------------------ --");
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+    @PostMapping("/uploadPositions")
+    public HttpEntity<?> uploadPositions(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        System.out.println(" ----------------------------- 1 1 1 ------------------------ --");
+        ApiResponse apiResponse = studentService.uploadPositions(request);
+//        ApiResponse apiResponse = new ApiResponse(true,"keldi");
+        System.out.println(" ----------------------------- ------------------------ --");
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+    @PostMapping("/uploadGroups")
+    public HttpEntity<?> uploadGroups(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {
+        System.out.println(" ----------------------------- 1 1 1 ------------------------ --");
+        ApiResponse apiResponse = studentService.uploadGroups(request);
+//        ApiResponse apiResponse = new ApiResponse(true,"keldi");
+        System.out.println(" ----------------------------- ------------------------ --");
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
     @Transactional
     @PostMapping("/uploadStudentsFromDean")
     public HttpEntity<?> uploadStudentsFromDean(MultipartHttpServletRequest request, @CurrentUser User user) throws IOException {

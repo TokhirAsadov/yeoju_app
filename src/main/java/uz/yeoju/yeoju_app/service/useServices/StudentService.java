@@ -3,16 +3,16 @@ package uz.yeoju.yeoju_app.service.useServices;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.yeoju.yeoju_app.entity.*;
+import uz.yeoju.yeoju_app.entity.address.AddressUser;
 import uz.yeoju.yeoju_app.entity.enums.Gandername;
 import uz.yeoju.yeoju_app.entity.enums.TeachStatus;
 import uz.yeoju.yeoju_app.entity.uquvbulim.DataOfLastActive;
@@ -29,9 +29,13 @@ import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.StudentImplServi
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
+
 import org.apache.commons.io.FilenameUtils;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.uquvbulim.dataOfLastActiveRepository.DataOfLastActiveService;
 
@@ -46,6 +50,7 @@ public class StudentService implements StudentImplService<StudentDto> {
     //private final GroupService userService;
 
     public final UserRepository userRepository;
+    public final AddressUserRepository addressUserRepository;
     public final RoleRepository roleRepository;
     public final GanderRepository ganderRepository;
     public final GroupRepository groupRepository;
@@ -56,7 +61,8 @@ public class StudentService implements StudentImplService<StudentDto> {
     public final EducationTypeRepository eduTypeRepo;
     public final DataOfLastActiveService dataOfLastActiveService;
     public final DataOfLastActiveRepository dataOfLastActiveRepository;
-
+    private final PositionRepository positionRepository;
+    private final ExecutorService executor = Executors.newFixedThreadPool(8);
 
     @Transactional
     public ApiResponse saving(MultipartHttpServletRequest request) throws IOException {
@@ -81,33 +87,32 @@ public class StudentService implements StudentImplService<StudentDto> {
             Iterator<Row> rows = sheet.iterator();
             rows.next();
             int count = 0;
-            while (rows.hasNext()){
+            while (rows.hasNext()) {
                 Row row = rows.next();
 
                 System.out.println(row.getCell(0).getStringCellValue());
-                System.out.println((int)row.getCell(1).getNumericCellValue());
+                System.out.println((int) row.getCell(1).getNumericCellValue());
                 System.out.println(row.getCell(2).getStringCellValue());
                 System.out.println(row.getCell(3).getStringCellValue());
                 System.out.println(row.getCell(4).getStringCellValue());
-                System.out.println(row.getCell(4)!=null && !Objects.equals(row.getCell(4).getStringCellValue(), ""));
+                System.out.println(row.getCell(4) != null && !Objects.equals(row.getCell(4).getStringCellValue(), ""));
                 System.out.println(row.getCell(5).getStringCellValue());
                 System.out.println(row.getCell(6).getStringCellValue());
                 System.out.println(row.getCell(7).getStringCellValue());
 //                System.out.println(row.getCell(8).getStringCellValue());
 //                System.out.println(row.getCell(9).getStringCellValue());
 
-                if (row.getCell(4)!=null && !Objects.equals(row.getCell(4).getStringCellValue(), "")) {
+                if (row.getCell(4) != null && !Objects.equals(row.getCell(4).getStringCellValue(), "")) {
                     User userByRFID = userRepository.findUserByRFID(row.getCell(4).getStringCellValue());
 
-                    if (userByRFID !=null) {
+                    if (userByRFID != null) {
                         USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(row.getCell(4).getStringCellValue());
-                        if (userinfoByCardNoForSaving1!=null) {
+                        if (userinfoByCardNoForSaving1 != null) {
 //                            userinfoByCardNoForSaving1.setCardNo(row.getCell(4).getStringCellValue());
                             userinfoByCardNoForSaving1.setLastname(row.getCell(0).getStringCellValue());
                             userinfoByCardNoForSaving1.setName(row.getCell(0).getStringCellValue());
                             userInfoRepo.save(userinfoByCardNoForSaving1);
-                        }
-                        else {
+                        } else {
                             /**============== save user info ==============**/
                             USERINFO userinfo = new USERINFO();
                             userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
@@ -139,12 +144,11 @@ public class StudentService implements StudentImplService<StudentDto> {
                             }
 
 
-
                             Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
 
-                            System.out.println(row.getCell(2).getStringCellValue().substring(0, 2)+" <------------------------------");
-                            System.out.println(row.getCell(2).getStringCellValue().substring(0, 3)+" <------------------------------");
-                            System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
+                            System.out.println(row.getCell(2).getStringCellValue().substring(0, 2) + " <------------------------------");
+                            System.out.println(row.getCell(2).getStringCellValue().substring(0, 3) + " <------------------------------");
+                            System.out.println(facultyOptional.get().toString() + " ----+++++++++++++---------++++++++----------");
                             group.setFaculty(facultyOptional.get());
 
                             Group save1 = groupRepository.save(group);
@@ -186,8 +190,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
 
                                 Student save = studentRepository.save(studentByUserId);
-                            }
-                            else {
+                            } else {
                                 Student student = new Student();
                                 student.setUser(userByRFID);
                                 student.setTeachStatus(TeachStatus.TEACHING);
@@ -197,8 +200,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                             }
 
 
-                        }
-                        else {
+                        } else {
                             userByRFID.setEnabled(true);
                             userByRFID.setAccountNonExpired(true);
                             userByRFID.setAccountNonLocked(true);
@@ -240,8 +242,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
 
                                 Student save = studentRepository.save(studentByUserId);
-                            }
-                            else {
+                            } else {
                                 Student student = new Student();
                                 student.setUser(userByRFID);
                                 student.setTeachStatus(TeachStatus.TEACHING);
@@ -251,16 +252,14 @@ public class StudentService implements StudentImplService<StudentDto> {
                             }
 
                         }
-                    }
-                    else {
+                    } else {
                         USERINFO userinfoByCardNoForSaving1 = userInfoRepo.getUSERINFOByCardNoForSaving(row.getCell(4).getStringCellValue());
-                        if (userinfoByCardNoForSaving1!=null) {
+                        if (userinfoByCardNoForSaving1 != null) {
 //                            userinfoByCardNoForSaving1.setCardNo(row.getCell(4).getStringCellValue());
                             userinfoByCardNoForSaving1.setLastname(row.getCell(0).getStringCellValue());
                             userinfoByCardNoForSaving1.setName(row.getCell(0).getStringCellValue());
                             userInfoRepo.save(userinfoByCardNoForSaving1);
-                        }
-                        else {
+                        } else {
                             /**============== save user info ==============**/
                             USERINFO userinfo = new USERINFO();
                             userinfo.setBadgenumber(userInfoRepo.getBadgenumber());
@@ -322,7 +321,7 @@ public class StudentService implements StudentImplService<StudentDto> {
 
                                 Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
                                 group.setFaculty(facultyOptional.get());
-                                System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
+                                System.out.println(facultyOptional.get().toString() + " ----+++++++++++++---------++++++++----------");
                                 Group save1 = groupRepository.save(group);
 
 
@@ -335,8 +334,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                     studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
 
                                     Student save = studentRepository.save(studentByUserId);
-                                }
-                                else {
+                                } else {
                                     Student student = new Student();
                                     student.setUser(user);
                                     student.setTeachStatus(TeachStatus.TEACHING);
@@ -345,8 +343,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                     Student save = studentRepository.save(student);
                                 }
 
-                            }
-                            else {
+                            } else {
 
                                 // group
                                 Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
@@ -363,8 +360,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                     studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
 
                                     Student save = studentRepository.save(studentByUserId);
-                                }
-                                else {
+                                } else {
                                     Student student = new Student();
                                     student.setUser(user);
                                     student.setTeachStatus(TeachStatus.TEACHING);
@@ -374,8 +370,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 }
 
                             }
-                        }
-                        else {
+                        } else {
                             User user = new User();
                             user.setEnabled(true);
                             user.setAccountNonExpired(true);
@@ -426,7 +421,7 @@ public class StudentService implements StudentImplService<StudentDto> {
 
                                 Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
                                 group.setFaculty(facultyOptional.get());
-                                System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
+                                System.out.println(facultyOptional.get().toString() + " ----+++++++++++++---------++++++++----------");
                                 Group save1 = groupRepository.save(group);
 
 
@@ -439,8 +434,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                     studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
 
                                     Student save = studentRepository.save(studentByUserId);
-                                }
-                                else {
+                                } else {
                                     Student student = new Student();
                                     student.setUser(user);
                                     student.setTeachStatus(TeachStatus.TEACHING);
@@ -449,8 +443,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                     Student save = studentRepository.save(student);
                                 }
 
-                            }
-                            else {
+                            } else {
 
                                 // group
                                 Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
@@ -467,8 +460,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                     studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
 
                                     Student save = studentRepository.save(studentByUserId);
-                                }
-                                else {
+                                } else {
                                     Student student = new Student();
                                     student.setUser(user);
                                     student.setTeachStatus(TeachStatus.TEACHING);
@@ -481,10 +473,8 @@ public class StudentService implements StudentImplService<StudentDto> {
                         }
 
 
-
                     }
-                }
-                else {
+                } else {
 
 
                     Optional<User> optionalUserByLogin = userRepository.findUserByLogin(row.getCell(3).getStringCellValue());
@@ -504,14 +494,14 @@ public class StudentService implements StudentImplService<StudentDto> {
                         roleOptional.ifPresent(userRoles::add);
                         user.setRoles(userRoles);
 
-                        System.out.println("-------> "+user);
+                        System.out.println("-------> " + user);
 
                         userRepository.saveAndFlush(user);
                         count++;
 
-                        System.out.println("-------> "+2);
+                        System.out.println("-------> " + 2);
                         if (!groupRepository.existsGroupByName(row.getCell(2).getStringCellValue())) {
-                            System.out.println("-------> "+3);
+                            System.out.println("-------> " + 3);
                             Group group = new Group();
                             group.setActive(true);
                             group.setName(row.getCell(2).getStringCellValue());
@@ -534,7 +524,7 @@ public class StudentService implements StudentImplService<StudentDto> {
 
                             Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
                             group.setFaculty(facultyOptional.get());
-                            System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
+                            System.out.println(facultyOptional.get().toString() + " ----+++++++++++++---------++++++++----------");
                             Group save1 = groupRepository.save(group);
 
 
@@ -547,19 +537,17 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
 
                                 Student save = studentRepository.save(studentByUserId);
-                                System.out.println("-------> save1"+save);
-                            }
-                            else {
+                                System.out.println("-------> save1" + save);
+                            } else {
                                 Student student = new Student();
                                 student.setUser(user);
                                 student.setTeachStatus(TeachStatus.TEACHING);
                                 student.setRektororder(row.getCell(6).getStringCellValue());
                                 student.setGroup(save1);
                                 Student save = studentRepository.save(student);
-                            System.out.println("-------> save1"+save);
+                                System.out.println("-------> save1" + save);
                             }
-                        }
-                        else {
+                        } else {
 
                             // group
                             Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
@@ -576,20 +564,18 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
 
                                 Student save = studentRepository.save(studentByUserId);
-                                System.out.println("-------> save2"+save);
-                            }
-                            else {
+                                System.out.println("-------> save2" + save);
+                            } else {
                                 Student student = new Student();
                                 student.setUser(user);
                                 student.setTeachStatus(TeachStatus.TEACHING);
                                 student.setRektororder(row.getCell(6).getStringCellValue());
                                 student.setGroup(groupByName);
                                 Student save = studentRepository.save(student);
-                            System.out.println("-------> save2"+save);
+                                System.out.println("-------> save2" + save);
                             }
                         }
-                    }
-                    else {
+                    } else {
                         System.out.println("-------> new user");
                         User user = new User();
                         user.setEnabled(true);
@@ -615,7 +601,7 @@ public class StudentService implements StudentImplService<StudentDto> {
 //                        user.setGander(ganderByGandername);
 //                    }
                         userRepository.saveAndFlush(user);
-                        System.out.println("-------> save1"+user);
+                        System.out.println("-------> save1" + user);
                         count++;
 
 
@@ -642,7 +628,7 @@ public class StudentService implements StudentImplService<StudentDto> {
 
                             Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
                             group.setFaculty(facultyOptional.get());
-                            System.out.println(facultyOptional.get().toString()+" ----+++++++++++++---------++++++++----------");
+                            System.out.println(facultyOptional.get().toString() + " ----+++++++++++++---------++++++++----------");
                             Group save1 = groupRepository.save(group);
 
 
@@ -655,8 +641,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
 
                                 Student save = studentRepository.save(studentByUserId);
-                            }
-                            else {
+                            } else {
                                 Student student = new Student();
                                 student.setUser(user);
                                 student.setTeachStatus(TeachStatus.TEACHING);
@@ -665,8 +650,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 Student save = studentRepository.save(student);
                             }
 
-                        }
-                        else {
+                        } else {
 
                             // group
                             Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
@@ -683,8 +667,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 studentByUserId.setRektororder(row.getCell(6).getStringCellValue());
 
                                 Student save = studentRepository.save(studentByUserId);
-                            }
-                            else {
+                            } else {
                                 Student student = new Student();
                                 student.setUser(user);
                                 student.setTeachStatus(TeachStatus.TEACHING);
@@ -697,17 +680,15 @@ public class StudentService implements StudentImplService<StudentDto> {
                     }
 
 
-
-
                 }
 
 
             }
 
-            dataOfLastActiveRepository.save(new DataOfLastActive(count+" ta student ma'lumoti yangilandi!."));
-            return new ApiResponse(true,"saved students");
-        }catch (Exception e){
-            return new ApiResponse(false,"error saved students");
+            dataOfLastActiveRepository.save(new DataOfLastActive(count + " ta student ma'lumoti yangilandi!."));
+            return new ApiResponse(true, "saved students");
+        } catch (Exception e) {
+            return new ApiResponse(false, "error saved students");
         }
     }
 
@@ -732,18 +713,18 @@ public class StudentService implements StudentImplService<StudentDto> {
             Sheet sheet = workbook.getSheetAt(0);
             Iterator<Row> rows = sheet.iterator();
             rows.next();
-            while (rows.hasNext()){
+            while (rows.hasNext()) {
                 Row row = rows.next();
 
                 System.out.println(row.getCell(0).getStringCellValue());
                 System.out.println(row.getCell(2).getStringCellValue());
 
-                User userByRFID = userRepository.getUserByLoginOrEmailOrRFID(row.getCell(0).getStringCellValue(),row.getCell(0).getStringCellValue(),row.getCell(0).getStringCellValue());
+                User userByRFID = userRepository.getUserByLoginOrEmailOrRFID(row.getCell(0).getStringCellValue(), row.getCell(0).getStringCellValue(), row.getCell(0).getStringCellValue());
 
-                if (userByRFID !=null) {
+                if (userByRFID != null) {
 
                     Student studentByUserId1 = studentRepository.findStudentByUserId(userByRFID.getId());
-                    if (studentByUserId1!=null) {
+                    if (studentByUserId1 != null) {
 //                        studentByUserId1.setRektororder(row.getCell(2).getStringCellValue());
                         studentByUserId1.setLengthOfStudying(row.getCell(6).getStringCellValue());
                         studentRepository.save(studentByUserId1);
@@ -755,9 +736,1373 @@ public class StudentService implements StudentImplService<StudentDto> {
             }
 
 
-            return new ApiResponse(true,"saved students");
-        }catch (Exception e){
-            return new ApiResponse(false,"error saved students");
+            return new ApiResponse(true, "saved students");
+        } catch (Exception e) {
+            return new ApiResponse(false, "error saved students");
+        }
+    }
+
+    @Transactional
+    public ApiResponse uploadRoles(MultipartHttpServletRequest request) throws IOException {
+        System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return readDataFromExcelRole(file);
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public ApiResponse readDataFromExcelRole(MultipartFile file) {
+        System.out.println(" ----------------------------- 4 4 4  ------------------------ --");
+        String seeker = "";
+        try {
+            Workbook workbook = getWorkBook(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            rows.next();
+            int count = 0;
+            while (rows.hasNext()) {
+                Row row = rows.next();
+                seeker = row.getCell(0).getStringCellValue();
+                System.out.println(row.getCell(0).getStringCellValue());
+                System.out.println(row.getCell(1).getStringCellValue());
+
+
+                if (userRepository.existsById(row.getCell(0).getStringCellValue())
+                        && !row.getCell(0).getStringCellValue().equals("9cca2546-6f28-41d5-bbbe-86406e8e0904")
+                        && !row.getCell(0).getStringCellValue().equals("1cc6b2d5-8633-4d6c-90ba-254e65e3ec0c")
+                ) {
+                    Optional<User> userOptional = userRepository.findById(row.getCell(0).getStringCellValue());
+                    if (userOptional.isPresent()) {
+                        User user = userOptional.get();
+                        Set<Role> roles = user.getRoles();
+                        Optional<Role> roleOptional = roleRepository.findById(row.getCell(1).getStringCellValue());
+                        if (roleOptional.isPresent()) {
+                            roles.add(roleOptional.get());
+                        }
+                        user.setRoles(roles);
+                        userRepository.save(user);
+                    }
+                }
+
+
+            }
+
+            dataOfLastActiveRepository.save(new DataOfLastActive(count + " ta faculty ma'lumoti yangilandi!."));
+            return new ApiResponse(true, "saved students");
+        } catch (Exception e) {
+            return new ApiResponse(false, "error saved faculties -> " + seeker);
+        }
+    }
+
+    @Transactional
+    public ApiResponse uploadPositions(MultipartHttpServletRequest request) throws IOException {
+        System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return readDataFromExcelPositions(file);
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public ApiResponse readDataFromExcelPositions(MultipartFile file) {
+        System.out.println(" ----------------------------- 4 4 4  ------------------------ --");
+        String seeker = "";
+        try {
+            Workbook workbook = getWorkBook(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            rows.next();
+            int count = 0;
+            while (rows.hasNext()) {
+                Row row = rows.next();
+                seeker = row.getCell(0).getStringCellValue();
+                System.out.println(row.getCell(0).getStringCellValue());
+                System.out.println(row.getCell(1).getNumericCellValue());
+
+
+                if (userRepository.existsById(row.getCell(0).getStringCellValue()) && row.getCell(1).getNumericCellValue() != 1) {
+                    Optional<User> userOptional = userRepository.findById(row.getCell(0).getStringCellValue());
+                    if (userOptional.isPresent()) {
+                        User user = userOptional.get();
+                        Set<Position> positions = user.getPositions();
+                        Optional<Position> roleOptional = positionRepository.findById((long) row.getCell(1).getNumericCellValue());
+                        if (roleOptional.isPresent()) {
+                            positions.add(roleOptional.get());
+                        }
+                        user.setPositions(positions);
+                        userRepository.save(user);
+                    }
+                }
+
+
+            }
+
+            dataOfLastActiveRepository.save(new DataOfLastActive(count + " ta faculty ma'lumoti yangilandi!."));
+            return new ApiResponse(true, "saved students");
+        } catch (Exception e) {
+            return new ApiResponse(false, "error saved faculties -> " + seeker);
+        }
+    }
+
+    @Transactional
+    public ApiResponse uploadGroups(MultipartHttpServletRequest request) throws IOException {
+        System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return readDataFromExcelGroups(file);
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public ApiResponse readDataFromExcelGroups(MultipartFile file) {
+        System.out.println(" ----------------------------- 4 4 4  ------------------------ --");
+        String seeker = "";
+        try {
+            Workbook workbook = getWorkBook(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            rows.next();
+            int count = 0;
+            while (rows.hasNext()) {
+                Row row = rows.next();
+                seeker = row.getCell(0).getStringCellValue();
+                System.out.println(row.getCell(0).getStringCellValue());
+
+
+                if (groupRepository.existsGroupByName(row.getCell(0).getStringCellValue())) {
+                    Group groupByName = groupRepository.findGroupByName(row.getCell(0).getStringCellValue());
+                    groupRepository.deleteById(groupByName.getId());
+                }
+
+
+            }
+
+            dataOfLastActiveRepository.save(new DataOfLastActive(count + " ta groups ma'lumoti o`chirildi!."));
+            return new ApiResponse(true, "deleted groups");
+        } catch (Exception e) {
+            return new ApiResponse(false, "error deleted group -> " + seeker);
+        }
+    }
+
+
+    @Transactional
+    public ApiResponse uploadAllFaculties(MultipartHttpServletRequest request) throws IOException {
+        System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return readDataFromExcel5(file);
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public ApiResponse readDataFromExcel5(MultipartFile file) {
+        System.out.println(" ----------------------------- 4 4 4  ------------------------ --");
+        String seeker = "";
+        try {
+            Workbook workbook = getWorkBook(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            rows.next();
+            int count = 0;
+            while (rows.hasNext()) {
+                Row row = rows.next();
+                seeker = row.getCell(0).getStringCellValue();
+                System.out.println(row.getCell(0).getStringCellValue());
+                System.out.println(row.getCell(1).getStringCellValue());
+
+
+                if (!facultyRepository.existsFacultyByShortName(row.getCell(1).getStringCellValue())) {
+                    Faculty faculty = new Faculty();
+                    faculty.setName(row.getCell(0).getStringCellValue());
+                    faculty.setShortName(row.getCell(1).getStringCellValue());
+                    Faculty faculty1 = facultyRepository.save(faculty);
+                }
+
+
+            }
+
+            dataOfLastActiveRepository.save(new DataOfLastActive(count + " ta faculty ma'lumoti yangilandi!."));
+            return new ApiResponse(true, "saved students");
+        } catch (Exception e) {
+            return new ApiResponse(false, "error saved faculties -> " + seeker);
+        }
+    }
+
+
+    @Transactional
+    public ApiResponse updatingRfid(MultipartHttpServletRequest request) throws IOException {
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return readDataFromExcelUpdatingRfid2(file);
+            }
+        }
+        return null;
+    }
+
+    public ApiResponse readDataFromExcelUpdatingRfid2(MultipartFile file) {
+        String seeker = "";
+        ExecutorService executor = Executors.newFixedThreadPool(10); // 10 ta parallel oqim
+        List<Future<String>> futures = new ArrayList<>();
+
+        try {
+            Workbook workbook = getWorkBook(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            rows.next(); // Header'ni tashlab ketamiz
+
+            while (rows.hasNext()) {
+                Row row = rows.next();
+                seeker = getStringValue(row.getCell(0));
+
+                // Ma'lumot to‘g‘riligini tekshiramiz
+                if (isNotEmpty(row.getCell(0)) && isNotEmpty(row.getCell(1))) {
+                    String login = row.getCell(0).getStringCellValue();
+                    String rfid = row.getCell(1).getStringCellValue();
+
+                    // Parallel tarzda bajarish uchun task yaratamiz
+                    futures.add(executor.submit(() -> {
+                        try {
+                            userRepository.findUserByLogin(login).ifPresent(user -> {
+                                user.setRFID(rfid);
+                                userRepository.save(user);
+                            });
+                            return login + " updated successfully";
+                        } catch (Exception ex) {
+                            return login + " failed: " + ex.getMessage();
+                        }
+                    }));
+                }
+            }
+
+            // Barcha natijalarni kutamiz
+            executor.shutdown();
+            executor.awaitTermination(5, TimeUnit.MINUTES);
+
+            // Xatoliklar va muvaffaqiyatli natijalarni yig‘amiz
+            List<String> results = new ArrayList<>();
+            for (Future<String> f : futures) {
+                results.add(f.get());
+            }
+
+            return new ApiResponse(true, "Updated users' data successfully. Details: " + results.size() + " users processed.");
+
+        } catch (Exception e) {
+            return new ApiResponse(false, e + " --> error updating user data -> " + seeker);
+        } finally {
+            executor.shutdownNow();
+        }
+    }
+
+// === Yordamchi metodlar ===
+
+    private boolean isNotEmpty(Cell cell) {
+        return cell != null && !Objects.equals(getStringValue(cell), "");
+    }
+
+    private String getStringValue(Cell cell) {
+        if (cell == null) return "";
+        cell.setCellType(CellType.STRING);
+        return cell.getStringCellValue().trim();
+    }
+
+
+    @Transactional
+    public ApiResponse readDataFromExcelUpdatingRfid(MultipartFile file) {
+        String seeker = "";
+        try {
+            Workbook workbook = getWorkBook(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            rows.next();
+            int count = 0;
+            while (rows.hasNext()) {
+                Row row = rows.next();
+                System.out.println(row.getCell(0) != null && !Objects.equals(row.getCell(0).getStringCellValue(), ""));
+                System.out.println(row.getCell(1) != null && !Objects.equals(row.getCell(1).getStringCellValue(), ""));
+                seeker = row.getCell(0).getStringCellValue();
+                if (
+                        row.getCell(0) != null
+                                &&
+                                !Objects.equals(row.getCell(0).getStringCellValue(), "")
+                                &&
+                                row.getCell(1) != null
+                                &&
+                                !Objects.equals(row.getCell(1).getStringCellValue(), "")
+
+                ) {
+                    userRepository.findUserByLogin(row.getCell(0).getStringCellValue()).ifPresent(user -> {
+                        user.setRFID(row.getCell(1).getStringCellValue());
+                        userRepository.save(user);
+                    });
+                }
+            }
+
+
+            return new ApiResponse(true, "updated users' data");
+        } catch (Exception e) {
+            return new ApiResponse(false, e + " --> error updating user data -> " + seeker);
+        }
+    }
+
+
+    @Transactional
+    public ApiResponse savingAll(MultipartHttpServletRequest request) throws IOException {
+        System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return readDataFromExcel4(file);
+            }
+        }
+        return null;
+    }
+    @Transactional
+    public ApiResponse uploadStudentsByDekan(MultipartHttpServletRequest request) throws IOException {
+        System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return readDataFromExcel55(file);
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public ApiResponse readDataFromExcel55(MultipartFile file) {
+        System.out.println(" ---------------- START ---------------- ");
+
+        int successCount = 0;
+        String seeker = "";
+
+        try (Workbook workbook = getWorkBook(file)) {
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            if (rows.hasNext()) rows.next(); // skip header
+
+            List<CompletableFuture<Boolean>> futures = new ArrayList<>();
+
+            while (rows.hasNext()) {
+                Row row = rows.next();
+                seeker = row.getCell(0) != null ? row.getCell(0).getStringCellValue() : "";
+
+                final String seekerFinal = seeker;
+
+                // parallel ishlash
+                CompletableFuture<Boolean> future = CompletableFuture.supplyAsync(() -> {
+                    try {
+                        processRow2(row); // alohida transaction
+                        return true;
+                    } catch (Exception e) {
+                        System.err.println("❌ Xato row: " + seekerFinal + " -> " + e.getMessage());
+                        return false;
+                    }
+                }, executor);
+
+                futures.add(future);
+            }
+
+            // Barcha future’larni kutamiz
+            CompletableFuture<Void> all = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+            all.join();
+
+            successCount = (int) futures.stream()
+                    .map(CompletableFuture::join)
+                    .filter(Boolean::booleanValue)
+                    .count();
+
+            // statistikani saqlash
+            dataOfLastActiveRepository.save(
+                    new DataOfLastActive(successCount + " ta student ma'lumoti yangilandi!")
+            );
+
+            return new ApiResponse(true, successCount + " student saved!");
+        } catch (Exception e) {
+            return new ApiResponse(false, e + " --> error saved students -> " + seeker);
+        }
+    }
+
+    /**
+     * Har bir row uchun ishlovchi metod.
+     * Alohida transaction bo‘lishi uchun REQUIRES_NEW ishlatilgan.
+     */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void processRow2(Row row) {
+        if (row.getCell(0) == null || row.getCell(0).getStringCellValue().isEmpty()) {
+            System.out.println("⚠️ Bo‘sh row tashlab ketildi...");
+            return;
+        }
+
+        String login = row.getCell(0).getStringCellValue();
+        System.out.println("Processing login: " + login);
+        Optional<User> userOptional = userRepository.findUserByLogin(login);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            if (!groupRepository.existsGroupByName(row.getCell(5).getStringCellValue())) {
+                String groupName = row.getCell(5).getStringCellValue();
+                Group group = new Group();
+                group.setActive(true);
+                group.setName(groupName);
+
+                group.setLevel((int) row.getCell(3).getNumericCellValue());
+                System.out.println("666666");
+
+                if (Objects.equals(row.getCell(6).getStringCellValue(), "UZ"))
+                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                if (Objects.equals(row.getCell(6).getStringCellValue(), "RU"))
+                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                if (Objects.equals(row.getCell(6).getStringCellValue(), "EN"))
+                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+
+
+                System.out.println("666666---");
+                group.setEducationType(eduTypeRepo.findEducationTypeByName(row.getCell(8).getStringCellValue()).get());
+                System.out.println("7777------");
+
+
+                if (row.getCell(9).getStringCellValue().equals("MAGISTR")) {
+                    group.setEducationForm(eduFormRepo.getEducationFormByName("MAGISTR"));
+                } else {
+                    group.setEducationForm(eduFormRepo.getEducationFormByName("BACHELOR"));
+                }
+
+                System.out.println("88888----");
+
+                if (facultyRepository.existsFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-')))) {
+                    Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-')));
+                    group.setFaculty(facultyOptional.get());
+                } else if (facultyRepository.existsFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-') - 1))) {
+                    Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-') - 1));
+                    group.setFaculty(facultyOptional.get());
+                }
+
+                Group save1 = groupRepository.save(group);
+
+                user.setEnabled(true);
+                user.setAccountNonExpired(true);
+                user.setAccountNonLocked(true);
+                user.setCredentialsNonExpired(true);
+
+                user.setPassword(passwordEncoder.encode(row.getCell(17).getStringCellValue()));
+
+                user.setFullName(row.getCell(1).getStringCellValue());
+                Set<Role> userRoles = new HashSet<>();
+                Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                roleOptional.ifPresent(userRoles::add);
+                user.setRoles(userRoles);
+
+                if (Objects.equals(row.getCell(7).getStringCellValue(), "male")) {
+                    Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+                    user.setGander(ganderByGandername);
+                } else {
+                    Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.FEMALE);
+                    user.setGander(ganderByGandername);
+                }
+
+                User userSaved = userRepository.save(user);
+
+
+                //todo-----------
+                if (studentRepository.existsStudentByUserId(userSaved.getId())) {
+                    Student studentByUserId = studentRepository.findStudentByUserId(userSaved.getId());
+                    studentByUserId.setGroup(save1);
+                    studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                    studentByUserId.setRektororder(row.getCell(2).getStringCellValue());
+                    Student save = studentRepository.save(studentByUserId);
+                } else {
+                    Student student = new Student();
+                    student.setUser(userSaved);
+                    student.setGroup(save1);
+                    student.setTeachStatus(TeachStatus.TEACHING);
+                    student.setRektororder(row.getCell(2).getStringCellValue());
+                    Student save = studentRepository.save(student);
+                }
+
+
+            } else {
+                user.setEnabled(true);
+                user.setAccountNonExpired(true);
+                user.setAccountNonLocked(true);
+                user.setCredentialsNonExpired(true);
+                user.setFullName(row.getCell(1).getStringCellValue());
+                user.setPassword(passwordEncoder.encode(row.getCell(17).getStringCellValue()));
+                Set<Role> userRoles = new HashSet<>();
+                Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                roleOptional.ifPresent(userRoles::add);
+                user.setRoles(userRoles);
+                if (Objects.equals(row.getCell(7).getStringCellValue(), "male")) {
+                    Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+                    user.setGander(ganderByGandername);
+                } else {
+                    Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.FEMALE);
+                    user.setGander(ganderByGandername);
+                }
+
+                User save1 = userRepository.save(user);
+
+                Group groupByName = groupRepository.findGroupByName(row.getCell(5).getStringCellValue());
+                groupByName.setLevel((int) row.getCell(3).getNumericCellValue());
+                Group save2 = groupRepository.save(groupByName);
+
+                // student
+                if (studentRepository.existsStudentByUserId(save1.getId())) {
+                    Student studentByUserId = studentRepository.findStudentByUserId(save1.getId());
+                    studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                    studentByUserId.setGroup(save2);
+                    studentByUserId.setRektororder(row.getCell(2).getStringCellValue());
+                    Student save = studentRepository.save(studentByUserId);
+                } else {
+                    Student student = new Student();
+                    student.setUser(save1);
+                    student.setGroup(save2);
+                    student.setTeachStatus(TeachStatus.TEACHING);
+                    student.setRektororder(row.getCell(2).getStringCellValue());
+                    Student save = studentRepository.save(student);
+                }
+
+            }
+        }
+        else {
+
+            User user = new User();
+            user.setEnabled(true);
+            user.setAccountNonExpired(true);
+            user.setAccountNonLocked(true);
+            user.setCredentialsNonExpired(true);
+
+            user.setFullName(row.getCell(1).getStringCellValue());
+            user.setLogin(row.getCell(0).getStringCellValue());
+
+
+            user.setRFID(UUID.randomUUID().toString());
+
+
+            String passportNum = row.getCell(10).getStringCellValue();
+            if (!passportNum.startsWith("-")) {
+                user.setPassportNum(passportNum);
+            }
+            else {
+                String passportNum2 = row.getCell(17).getStringCellValue();
+                user.setPassportNum(passportNum2);
+            }
+            user.setPassword(passwordEncoder.encode(row.getCell(17).getStringCellValue()));
+            Set<Role> userRoles = new HashSet<>();
+            Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+            roleOptional.ifPresent(userRoles::add);
+            user.setRoles(userRoles);
+            if (Objects.equals(row.getCell(7).getStringCellValue(), "male")) {
+                Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+                user.setGander(ganderByGandername);
+            } else {
+                Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.FEMALE);
+                user.setGander(ganderByGandername);
+            }
+
+            User save3 = userRepository.save(user);
+
+            if (!groupRepository.existsGroupByName(row.getCell(5).getStringCellValue())) {
+                String groupName = row.getCell(5).getStringCellValue();
+                Group group = new Group();
+                group.setActive(true);
+                group.setName(groupName);
+                group.setLevel((int) row.getCell(3).getNumericCellValue());
+
+                if (Objects.equals(row.getCell(6).getStringCellValue(), "UZ"))
+                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                if (Objects.equals(row.getCell(6).getStringCellValue(), "RU"))
+                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                if (Objects.equals(row.getCell(6).getStringCellValue(), "EN"))
+                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+
+
+                group.setEducationType(eduTypeRepo.findEducationTypeByName(row.getCell(8).getStringCellValue()).get());
+
+                if (row.getCell(9).getStringCellValue().equals("MAGISTR")) {
+                    group.setEducationForm(eduFormRepo.getEducationFormByName("MAGISTR"));
+                } else {
+                    group.setEducationForm(eduFormRepo.getEducationFormByName("BACHELOR"));
+                }
+
+
+                if (facultyRepository.existsFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-')))) {
+                    Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-')));
+                    group.setFaculty(facultyOptional.get());
+                } else if (facultyRepository.existsFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-') - 1))) {
+                    Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-') - 1));
+                    group.setFaculty(facultyOptional.get());
+                }
+
+                Group save1 = groupRepository.save(group);
+
+
+                Student student = new Student();
+                student.setUser(save3);
+                student.setGroup(save1);
+                student.setTeachStatus(TeachStatus.TEACHING);
+                student.setRektororder(row.getCell(2).getStringCellValue());
+                Student save = studentRepository.save(student);
+
+            } else {
+
+                Group groupByName = groupRepository.findGroupByName(row.getCell(5).getStringCellValue());
+                groupByName.setLevel((int) row.getCell(3).getNumericCellValue());
+                Group save2 = groupRepository.save(groupByName);
+
+
+                Student student = new Student();
+                student.setUser(save3);
+                student.setGroup(save2);
+                student.setTeachStatus(TeachStatus.TEACHING);
+                student.setRektororder(row.getCell(2).getStringCellValue());
+                Student save = studentRepository.save(student);
+            }
+
+
+        }
+    }
+
+
+    @Transactional
+    public ApiResponse savingAll2(MultipartHttpServletRequest request) throws IOException {
+        System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return readDataFromExcel44(file);
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public ApiResponse readDataFromExcel44(MultipartFile file) {
+        System.out.println(" ---------------- START ---------------- ");
+
+        int successCount = 0;
+        String seeker = "";
+
+        try (Workbook workbook = getWorkBook(file)) {
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            if (rows.hasNext()) rows.next(); // skip header
+
+            List<CompletableFuture<Boolean>> futures = new ArrayList<>();
+
+            while (rows.hasNext()) {
+                Row row = rows.next();
+                seeker = row.getCell(0) != null ? row.getCell(0).getStringCellValue() : "";
+
+                final String seekerFinal = seeker;
+
+                // parallel ishlash
+                CompletableFuture<Boolean> future = CompletableFuture.supplyAsync(() -> {
+                    try {
+                        processRow(row); // alohida transaction
+                        return true;
+                    } catch (Exception e) {
+                        System.err.println("❌ Xato row: " + seekerFinal + " -> " + e.getMessage());
+                        return false;
+                    }
+                }, executor);
+
+                futures.add(future);
+            }
+
+            // Barcha future’larni kutamiz
+            CompletableFuture<Void> all = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+            all.join();
+
+            successCount = (int) futures.stream()
+                    .map(CompletableFuture::join)
+                    .filter(Boolean::booleanValue)
+                    .count();
+
+            // statistikani saqlash
+            dataOfLastActiveRepository.save(
+                    new DataOfLastActive(successCount + " ta student ma'lumoti yangilandi!")
+            );
+
+            return new ApiResponse(true, successCount + " student saved!");
+        } catch (Exception e) {
+            return new ApiResponse(false, e + " --> error saved students -> " + seeker);
+        }
+    }
+
+    /**
+     * Har bir row uchun ishlovchi metod.
+     * Alohida transaction bo‘lishi uchun REQUIRES_NEW ishlatilgan.
+     */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void processRow(Row row) {
+        if (row.getCell(0) == null || row.getCell(0).getStringCellValue().isEmpty()) {
+            System.out.println("⚠️ Bo‘sh row tashlab ketildi...");
+            return;
+        }
+
+        String login = row.getCell(0).getStringCellValue();
+        Optional<User> userOptional = userRepository.findUserByLogin(login);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            if (!groupRepository.existsGroupByName(row.getCell(5).getStringCellValue())) {
+                String groupName = row.getCell(5).getStringCellValue();
+                Group group = new Group();
+                group.setActive(true);
+                group.setName(groupName);
+
+                group.setLevel((int) row.getCell(3).getNumericCellValue());
+                System.out.println("666666");
+
+                if (Objects.equals(row.getCell(6).getStringCellValue(), "UZ"))
+                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                if (Objects.equals(row.getCell(6).getStringCellValue(), "RU"))
+                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                if (Objects.equals(row.getCell(6).getStringCellValue(), "EN"))
+                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+
+
+                System.out.println("666666---");
+                group.setEducationType(eduTypeRepo.findEducationTypeByName(row.getCell(8).getStringCellValue()).get());
+                System.out.println("7777------");
+
+
+                if (row.getCell(9).getStringCellValue().equals("MAGISTR")) {
+                    group.setEducationForm(eduFormRepo.getEducationFormByName("MAGISTR"));
+                } else {
+                    group.setEducationForm(eduFormRepo.getEducationFormByName("BACHELOR"));
+                }
+
+                System.out.println("88888----");
+
+                if (facultyRepository.existsFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-')))) {
+                    Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-')));
+                    group.setFaculty(facultyOptional.get());
+                } else if (facultyRepository.existsFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-') - 1))) {
+                    Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-') - 1));
+                    group.setFaculty(facultyOptional.get());
+                }
+
+                Group save1 = groupRepository.save(group);
+
+                user.setEnabled(true);
+                user.setAccountNonExpired(true);
+                user.setAccountNonLocked(true);
+                user.setCredentialsNonExpired(true);
+
+                user.setFullName(row.getCell(1).getStringCellValue());
+                Set<Role> userRoles = new HashSet<>();
+                Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                roleOptional.ifPresent(userRoles::add);
+                user.setRoles(userRoles);
+
+                if (Objects.equals(row.getCell(7).getStringCellValue(), "male")) {
+                    Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+                    user.setGander(ganderByGandername);
+                } else {
+                    Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.FEMALE);
+                    user.setGander(ganderByGandername);
+                }
+
+                User userSaved = userRepository.save(user);
+
+
+                //todo-----------
+                if (studentRepository.existsStudentByUserId(userSaved.getId())) {
+                    Student studentByUserId = studentRepository.findStudentByUserId(userSaved.getId());
+                    studentByUserId.setGroup(save1);
+                    studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                    studentByUserId.setRektororder(row.getCell(2).getStringCellValue());
+                    Student save = studentRepository.save(studentByUserId);
+                } else {
+                    Student student = new Student();
+                    student.setUser(userSaved);
+                    student.setGroup(save1);
+                    student.setTeachStatus(TeachStatus.TEACHING);
+                    student.setRektororder(row.getCell(2).getStringCellValue());
+                    Student save = studentRepository.save(student);
+                }
+
+
+            }
+            else {
+                user.setEnabled(true);
+                user.setAccountNonExpired(true);
+                user.setAccountNonLocked(true);
+                user.setCredentialsNonExpired(true);
+                user.setFullName(row.getCell(1).getStringCellValue());
+                Set<Role> userRoles = new HashSet<>();
+                Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                roleOptional.ifPresent(userRoles::add);
+                user.setRoles(userRoles);
+                if (Objects.equals(row.getCell(7).getStringCellValue(), "male")) {
+                    Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+                    user.setGander(ganderByGandername);
+                } else {
+                    Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.FEMALE);
+                    user.setGander(ganderByGandername);
+                }
+
+                User save1 = userRepository.save(user);
+
+                Group groupByName = groupRepository.findGroupByName(row.getCell(5).getStringCellValue());
+                groupByName.setLevel((int) row.getCell(3).getNumericCellValue());
+                Group save2 = groupRepository.save(groupByName);
+
+                // student
+                if (studentRepository.existsStudentByUserId(save1.getId())) {
+                    Student studentByUserId = studentRepository.findStudentByUserId(save1.getId());
+                    studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                    studentByUserId.setGroup(save2);
+                    studentByUserId.setRektororder(row.getCell(2).getStringCellValue());
+                    Student save = studentRepository.save(studentByUserId);
+                } else {
+                    Student student = new Student();
+                    student.setUser(save1);
+                    student.setGroup(save2);
+                    student.setTeachStatus(TeachStatus.TEACHING);
+                    student.setRektororder(row.getCell(2).getStringCellValue());
+                    Student save = studentRepository.save(student);
+                }
+
+            }
+        }
+        else {
+
+            User user = new User();
+            user.setEnabled(true);
+            user.setAccountNonExpired(true);
+            user.setAccountNonLocked(true);
+            user.setCredentialsNonExpired(true);
+
+            user.setFullName(row.getCell(1).getStringCellValue());
+            user.setLogin(row.getCell(0).getStringCellValue());
+
+            String rfid = row.getCell(13).getStringCellValue();
+            if (!rfid.startsWith("-")){
+                user.setRFID(rfid);
+            } else {
+                user.setRFID(UUID.randomUUID().toString());
+            }
+
+            String passportNum = row.getCell(10).getStringCellValue();
+            if (!passportNum.startsWith("-")) {
+                user.setPassportNum(passportNum);
+                user.setPassword(passwordEncoder.encode(passportNum));
+            }
+            else {
+                String passportNum2 = row.getCell(11).getStringCellValue();
+                user.setPassportNum(passportNum2);
+                user.setPassword(passwordEncoder.encode(passportNum2));
+            }
+            Set<Role> userRoles = new HashSet<>();
+            Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+            roleOptional.ifPresent(userRoles::add);
+            user.setRoles(userRoles);
+            if (Objects.equals(row.getCell(7).getStringCellValue(), "male")) {
+                Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+                user.setGander(ganderByGandername);
+            } else {
+                Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.FEMALE);
+                user.setGander(ganderByGandername);
+            }
+
+            User save3 = userRepository.save(user);
+
+            if (!groupRepository.existsGroupByName(row.getCell(5).getStringCellValue())) {
+                String groupName = row.getCell(5).getStringCellValue();
+                Group group = new Group();
+                group.setActive(true);
+                group.setName(groupName);
+                group.setLevel((int) row.getCell(3).getNumericCellValue());
+
+                if (Objects.equals(row.getCell(6).getStringCellValue(), "UZ"))
+                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                if (Objects.equals(row.getCell(6).getStringCellValue(), "RU"))
+                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                if (Objects.equals(row.getCell(6).getStringCellValue(), "EN"))
+                    group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+
+
+                group.setEducationType(eduTypeRepo.findEducationTypeByName(row.getCell(8).getStringCellValue()).get());
+
+                if (row.getCell(9).getStringCellValue().equals("MAGISTR")) {
+                    group.setEducationForm(eduFormRepo.getEducationFormByName("MAGISTR"));
+                } else {
+                    group.setEducationForm(eduFormRepo.getEducationFormByName("BACHELOR"));
+                }
+
+
+                if (facultyRepository.existsFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-')))) {
+                    Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-')));
+                    group.setFaculty(facultyOptional.get());
+                } else if (facultyRepository.existsFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-') - 1))) {
+                    Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-') - 1));
+                    group.setFaculty(facultyOptional.get());
+                }
+
+                Group save1 = groupRepository.save(group);
+
+
+                Student student = new Student();
+                student.setUser(save3);
+                student.setGroup(save1);
+                student.setTeachStatus(TeachStatus.TEACHING);
+                student.setRektororder(row.getCell(2).getStringCellValue());
+                Student save = studentRepository.save(student);
+
+            } else {
+
+                Group groupByName = groupRepository.findGroupByName(row.getCell(5).getStringCellValue());
+                groupByName.setLevel((int) row.getCell(3).getNumericCellValue());
+                Group save2 = groupRepository.save(groupByName);
+
+
+                Student student = new Student();
+                student.setUser(save3);
+                student.setGroup(save2);
+                student.setTeachStatus(TeachStatus.TEACHING);
+                student.setRektororder(row.getCell(2).getStringCellValue());
+                Student save = studentRepository.save(student);
+            }
+
+
+        }
+    }
+
+    @Transactional
+    public ApiResponse readDataFromExcel4(MultipartFile file) {
+        System.out.println(" ----------------------------- 4 4 4  ------------------------ --");
+        String seeker = "";
+        try {
+            Workbook workbook = getWorkBook(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            rows.next();
+            int count = 0;
+            while (rows.hasNext()) {
+                Row row = rows.next();
+                seeker = row.getCell(0).getStringCellValue();
+                System.out.println(row.getCell(0).getStringCellValue());
+                System.out.println(row.getCell(1).getStringCellValue());
+                System.out.println(row.getCell(2).getStringCellValue());
+                System.out.println((int) row.getCell(3).getNumericCellValue());
+                System.out.println(row.getCell(4) != null && !Objects.equals(row.getCell(4).getStringCellValue(), ""));
+                System.out.println(row.getCell(5).getStringCellValue());
+                System.out.println(row.getCell(6).getStringCellValue());
+                System.out.println(row.getCell(7).getStringCellValue());
+                System.out.println(row.getCell(8).getStringCellValue());
+                System.out.println(row.getCell(9).getStringCellValue());
+                System.out.println(row.getCell(10).getStringCellValue());
+
+                if (row.getCell(0) != null && !Objects.equals(row.getCell(0).getStringCellValue(), "")) {
+                    Optional<User> userOptional = userRepository.findUserByLogin(row.getCell(0).getStringCellValue());
+
+                    if (userOptional.isPresent()) {
+                        User user = userOptional.get();
+
+                        if (!groupRepository.existsGroupByName(row.getCell(5).getStringCellValue())) {
+                            String groupName = row.getCell(5).getStringCellValue();
+                            Group group = new Group();
+                            group.setActive(true);
+                            group.setName(groupName);
+
+                            group.setLevel((int) row.getCell(3).getNumericCellValue());
+                            System.out.println("666666");
+
+                            if (Objects.equals(row.getCell(6).getStringCellValue(), "UZ"))
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                            if (Objects.equals(row.getCell(6).getStringCellValue(), "RU"))
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                            if (Objects.equals(row.getCell(6).getStringCellValue(), "EN"))
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+
+
+                            System.out.println("666666---");
+                            group.setEducationType(eduTypeRepo.findEducationTypeByName(row.getCell(8).getStringCellValue()).get());
+                            System.out.println("7777------");
+
+
+//                            if(row.getCell(9)!=null && !Objects.equals(row.getCell(9).getStringCellValue(), "")) {
+//                                group.setEducationForm(eduFormRepo.getEducationFormByName(row.getCell(9).getStringCellValue()));
+//                            }
+                            if (row.getCell(8).getStringCellValue().equals("MAGISTR")) {
+                                group.setEducationForm(eduFormRepo.getEducationFormByName("MAGISTR"));
+                            } else {
+                                group.setEducationForm(eduFormRepo.getEducationFormByName("BACHELOR"));
+                            }
+
+                            System.out.println("88888----");
+
+                            if (facultyRepository.existsFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-')))) {
+                                Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-')));
+                                group.setFaculty(facultyOptional.get());
+                            } else if (facultyRepository.existsFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-') - 1))) {
+                                Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-') - 1));
+                                group.setFaculty(facultyOptional.get());
+                            }
+
+                            Group save1 = groupRepository.save(group);
+
+                            user.setEnabled(true);
+                            user.setAccountNonExpired(true);
+                            user.setAccountNonLocked(true);
+                            user.setCredentialsNonExpired(true);
+
+//                            if (row.getCell(11)!=null && !Objects.equals(row.getCell(11).getStringCellValue(), "")){
+//                                user.setRFID(row.getCell(11).getStringCellValue());
+//                            }
+                            user.setFullName(row.getCell(1).getStringCellValue());
+                            user.setLogin(row.getCell(0).getStringCellValue());
+                            user.setPassportNum(row.getCell(10).getStringCellValue());
+                            user.setPassword(passwordEncoder.encode(row.getCell(10).getStringCellValue()));
+                            Set<Role> userRoles = new HashSet<>();
+                            Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                            roleOptional.ifPresent(userRoles::add);
+                            user.setRoles(userRoles);
+//                            if (row.getCell(13)!=null && !Objects.equals(row.getCell(13).getStringCellValue(), "")){
+//                                user.setNationality(row.getCell(13).getStringCellValue());
+//                            }
+
+                            if (Objects.equals(row.getCell(7).getStringCellValue(), "male")) {
+                                Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+                                user.setGander(ganderByGandername);
+                            } else {
+                                Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.FEMALE);
+                                user.setGander(ganderByGandername);
+                            }
+
+                            User userSaved = userRepository.save(user);
+                            count++;
+
+//                            if (row.getCell(16)!=null && !Objects.equals(row.getCell(16 ).getStringCellValue(), "")){
+//                                AddressUser addressUser = new AddressUser();
+//                                addressUser.setUser(userSaved);
+//                                addressUser.setCountry(row.getCell(16).getStringCellValue());
+//                                if (row.getCell(17)!=null && !Objects.equals(row.getCell(17).getStringCellValue(), "")){
+//                                    addressUser.setRegion(row.getCell(17).getStringCellValue());
+//                                }
+//                                if (row.getCell(18)!=null && !Objects.equals(row.getCell(18).getStringCellValue(), "")){
+//                                    addressUser.setDistrict(row.getCell(18).getStringCellValue());
+//                                }
+//                                if (row.getCell(19)!=null && !Objects.equals(row.getCell(19).getStringCellValue(), "")){
+//                                    addressUser.setArea(row.getCell(19).getStringCellValue());
+//                                }
+//                                addressUserRepository.save(addressUser);
+//                            }
+
+
+                            //todo-----------
+                            if (studentRepository.existsStudentByUserId(userSaved.getId())) {
+                                Student studentByUserId = studentRepository.findStudentByUserId(userSaved.getId());
+
+//                                if (row.getCell(15)!=null && !Objects.equals(row.getCell(15).getStringCellValue(), "")){
+//                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+//                                    LocalDate date = LocalDate.parse(row.getCell(15).getStringCellValue(), formatter);
+//                                    LocalDateTime localDateTime = date.atStartOfDay();
+//                                    Timestamp timestamp = Timestamp.valueOf(localDateTime);
+//                                    studentByUserId.setBornYear(timestamp);
+//                                }
+//                                if (row.getCell(14)!=null && !Objects.equals(row.getCell(14).getStringCellValue(), "")){
+//                                    studentByUserId.setJshshirKod(row.getCell(14).getStringCellValue());
+//                                }
+//                                if (row.getCell(12)!=null && !Objects.equals(row.getCell(12).getStringCellValue(), "")){
+//                                    studentByUserId.setHemisId(row.getCell(12).getStringCellValue());
+//                                }
+
+                                studentByUserId.setGroup(save1);
+                                studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                                studentByUserId.setRektororder(row.getCell(2).getStringCellValue());
+
+                                Student save = studentRepository.save(studentByUserId);
+                            } else {
+                                Student student = new Student();
+                                student.setUser(userSaved);
+//                                if (row.getCell(15)!=null && !Objects.equals(row.getCell(15).getStringCellValue(), "")){
+//                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+//                                    LocalDate date = LocalDate.parse(row.getCell(15).getStringCellValue(), formatter);
+//                                    LocalDateTime localDateTime = date.atStartOfDay();
+//                                    Timestamp timestamp = Timestamp.valueOf(localDateTime);
+//                                    student.setBornYear(timestamp);
+//                                }
+//                                if (row.getCell(14)!=null && !Objects.equals(row.getCell(14).getStringCellValue(), "")){
+//                                    student.setJshshirKod(row.getCell(14).getStringCellValue());
+//                                }
+//                                if (row.getCell(12)!=null && !Objects.equals(row.getCell(12).getStringCellValue(), "")){
+//                                    student.setHemisId(row.getCell(12).getStringCellValue());
+//                                }
+                                student.setGroup(save1);
+                                student.setTeachStatus(TeachStatus.TEACHING);
+                                student.setRektororder(row.getCell(2).getStringCellValue());
+                                Student save = studentRepository.save(student);
+                            }
+
+
+                        } else {
+                            user.setEnabled(true);
+                            user.setAccountNonExpired(true);
+                            user.setAccountNonLocked(true);
+                            user.setCredentialsNonExpired(true);
+
+//                            if (row.getCell(11)!=null && !Objects.equals(row.getCell(11).getStringCellValue(), "")){
+//                                user.setRFID(row.getCell(11).getStringCellValue());
+//                            }
+                            user.setFullName(row.getCell(1).getStringCellValue());
+                            user.setLogin(row.getCell(0).getStringCellValue());
+                            user.setPassportNum(row.getCell(10).getStringCellValue());
+                            user.setPassword(passwordEncoder.encode(row.getCell(10).getStringCellValue()));
+                            Set<Role> userRoles = new HashSet<>();
+                            Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                            roleOptional.ifPresent(userRoles::add);
+                            user.setRoles(userRoles);
+//                            if (row.getCell(13)!=null && !Objects.equals(row.getCell(13).getStringCellValue(), "")){
+//                                user.setNationality(row.getCell(13).getStringCellValue());
+//                            }
+                            if (Objects.equals(row.getCell(7).getStringCellValue(), "male")) {
+                                Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+                                user.setGander(ganderByGandername);
+                            } else {
+                                Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.FEMALE);
+                                user.setGander(ganderByGandername);
+                            }
+
+                            User save1 = userRepository.save(user);
+                            count++;
+
+//                            if (row.getCell(16)!=null && !Objects.equals(row.getCell(16 ).getStringCellValue(), "")){
+//                                AddressUser addressUser = new AddressUser();
+//                                addressUser.setUser(save1);
+//                                addressUser.setCountry(row.getCell(16).getStringCellValue());
+//                                if (row.getCell(17)!=null && !Objects.equals(row.getCell(17).getStringCellValue(), "")){
+//                                    addressUser.setRegion(row.getCell(17).getStringCellValue());
+//                                }
+//                                if (row.getCell(18)!=null && !Objects.equals(row.getCell(18).getStringCellValue(), "")){
+//                                    addressUser.setDistrict(row.getCell(18).getStringCellValue());
+//                                }
+//                                if (row.getCell(19)!=null && !Objects.equals(row.getCell(19).getStringCellValue(), "")){
+//                                    addressUser.setArea(row.getCell(19).getStringCellValue());
+//                                }
+//                                addressUserRepository.save(addressUser);
+//                            }
+
+                            // group
+                            Group groupByName = groupRepository.findGroupByName(row.getCell(5).getStringCellValue());
+                            groupByName.setLevel((int) row.getCell(3).getNumericCellValue());
+                            Group save2 = groupRepository.save(groupByName);
+
+                            // student
+                            if (studentRepository.existsStudentByUserId(save1.getId())) {
+                                Student studentByUserId = studentRepository.findStudentByUserId(save1.getId());
+
+//                                if (row.getCell(15)!=null && !Objects.equals(row.getCell(15).getStringCellValue(), "")){
+//                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+//                                    LocalDate date = LocalDate.parse(row.getCell(15).getStringCellValue(), formatter);
+//                                    LocalDateTime localDateTime = date.atStartOfDay();
+//                                    Timestamp timestamp = Timestamp.valueOf(localDateTime);
+//                                    studentByUserId.setBornYear(timestamp);
+//                                }
+//                                if (row.getCell(14)!=null && !Objects.equals(row.getCell(14).getStringCellValue(), "")){
+//                                    studentByUserId.setJshshirKod(row.getCell(14).getStringCellValue());
+//                                }
+//                                if (row.getCell(12)!=null && !Objects.equals(row.getCell(12).getStringCellValue(), "")){
+//                                    studentByUserId.setHemisId(row.getCell(12).getStringCellValue());
+//                                }
+                                studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                                studentByUserId.setGroup(save2);
+                                studentByUserId.setRektororder(row.getCell(2).getStringCellValue());
+
+                                Student save = studentRepository.save(studentByUserId);
+                            } else {
+                                Student student = new Student();
+                                student.setUser(save1);
+//                                if (row.getCell(15)!=null && !Objects.equals(row.getCell(15).getStringCellValue(), "")){
+//                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+//                                    LocalDate date = LocalDate.parse(row.getCell(15).getStringCellValue(), formatter);
+//                                    LocalDateTime localDateTime = date.atStartOfDay();
+//                                    Timestamp timestamp = Timestamp.valueOf(localDateTime);
+//                                    student.setBornYear(timestamp);
+//                                }
+//                                if (row.getCell(14)!=null && !Objects.equals(row.getCell(14).getStringCellValue(), "")){
+//                                    student.setJshshirKod(row.getCell(14).getStringCellValue());
+//                                }
+//                                if (row.getCell(12)!=null && !Objects.equals(row.getCell(12).getStringCellValue(), "")){
+//                                    student.setHemisId(row.getCell(12).getStringCellValue());
+//                                }
+                                student.setGroup(save2);
+                                student.setTeachStatus(TeachStatus.TEACHING);
+                                student.setRektororder(row.getCell(2).getStringCellValue());
+                                Student save = studentRepository.save(student);
+                            }
+
+                        }
+                    } else {
+
+                        User user = new User();
+                        user.setEnabled(true);
+                        user.setAccountNonExpired(true);
+                        user.setAccountNonLocked(true);
+                        user.setCredentialsNonExpired(true);
+
+//                        if (row.getCell(11)!=null && !Objects.equals(row.getCell(11).getStringCellValue(), "")){
+//                            user.setRFID(row.getCell(11).getStringCellValue());
+//                        }
+                        user.setFullName(row.getCell(1).getStringCellValue());
+                        user.setLogin(row.getCell(0).getStringCellValue());
+                        user.setPassportNum(row.getCell(10).getStringCellValue());
+                        user.setPassword(passwordEncoder.encode(row.getCell(10).getStringCellValue()));
+                        Set<Role> userRoles = new HashSet<>();
+                        Optional<Role> roleOptional = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                        roleOptional.ifPresent(userRoles::add);
+                        user.setRoles(userRoles);
+//                        if (row.getCell(13)!=null && !Objects.equals(row.getCell(13).getStringCellValue(), "")){
+//                            user.setNationality(row.getCell(13).getStringCellValue());
+//                        }
+                        if (Objects.equals(row.getCell(7).getStringCellValue(), "male")) {
+                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.MALE);
+                            user.setGander(ganderByGandername);
+                        } else {
+                            Gander ganderByGandername = ganderRepository.getGanderByGandername(Gandername.FEMALE);
+                            user.setGander(ganderByGandername);
+                        }
+
+                        User save3 = userRepository.save(user);
+                        count++;
+
+//                        if (row.getCell(16)!=null && !Objects.equals(row.getCell(16 ).getStringCellValue(), "")){
+//                            AddressUser addressUser = new AddressUser();
+//                            addressUser.setUser(save3);
+//                            addressUser.setCountry(row.getCell(16).getStringCellValue());
+//                            if (row.getCell(17)!=null && !Objects.equals(row.getCell(17).getStringCellValue(), "")){
+//                                addressUser.setRegion(row.getCell(17).getStringCellValue());
+//                            }
+//                            if (row.getCell(18)!=null && !Objects.equals(row.getCell(18).getStringCellValue(), "")){
+//                                addressUser.setDistrict(row.getCell(18).getStringCellValue());
+//                            }
+//                            if (row.getCell(19)!=null && !Objects.equals(row.getCell(19).getStringCellValue(), "")){
+//                                addressUser.setArea(row.getCell(19).getStringCellValue());
+//                            }
+//                            addressUserRepository.save(addressUser);
+//                        }
+
+
+                        if (!groupRepository.existsGroupByName(row.getCell(5).getStringCellValue())) {
+                            String groupName = row.getCell(5).getStringCellValue();
+                            Group group = new Group();
+                            group.setActive(true);
+                            group.setName(groupName);
+                            group.setLevel((int) row.getCell(3).getNumericCellValue());
+
+                            if (Objects.equals(row.getCell(6).getStringCellValue(), "UZ"))
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                            if (Objects.equals(row.getCell(6).getStringCellValue(), "RU"))
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                            if (Objects.equals(row.getCell(6).getStringCellValue(), "EN"))
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+
+
+                            group.setEducationType(eduTypeRepo.findEducationTypeByName(row.getCell(8).getStringCellValue()).get());
+
+                            if (row.getCell(9) != null && !Objects.equals(row.getCell(9).getStringCellValue(), "")) {
+                                group.setEducationForm(eduFormRepo.getEducationFormByName(row.getCell(9).getStringCellValue()));
+                            }
+
+
+                            if (facultyRepository.existsFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-')))) {
+                                Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-')));
+                                group.setFaculty(facultyOptional.get());
+                            } else if (facultyRepository.existsFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-') - 1))) {
+                                Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(5).getStringCellValue().substring(0, row.getCell(5).getStringCellValue().indexOf('-') - 1));
+                                group.setFaculty(facultyOptional.get());
+                            }
+
+                            Group save1 = groupRepository.save(group);
+
+
+                            Student student = new Student();
+                            student.setUser(save3);
+//                            if (row.getCell(15)!=null && !Objects.equals(row.getCell(15).getStringCellValue(), "")){
+//                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+//                                LocalDate date = LocalDate.parse(row.getCell(15).getStringCellValue(), formatter);
+//                                LocalDateTime localDateTime = date.atStartOfDay();
+//                                Timestamp timestamp = Timestamp.valueOf(localDateTime);
+//                                student.setBornYear(timestamp);
+//                            }
+//                            if (row.getCell(14)!=null && !Objects.equals(row.getCell(14).getStringCellValue(), "")){
+//                                student.setJshshirKod(row.getCell(14).getStringCellValue());
+//                            }
+//                            if (row.getCell(12)!=null && !Objects.equals(row.getCell(12).getStringCellValue(), "")){
+//                                student.setHemisId(row.getCell(12).getStringCellValue());
+//                            }
+                            student.setGroup(save1);
+                            student.setTeachStatus(TeachStatus.TEACHING);
+                            student.setRektororder(row.getCell(2).getStringCellValue());
+                            Student save = studentRepository.save(student);
+
+                        } else {
+
+                            Group groupByName = groupRepository.findGroupByName(row.getCell(5).getStringCellValue());
+                            groupByName.setLevel((int) row.getCell(3).getNumericCellValue());
+                            Group save2 = groupRepository.save(groupByName);
+
+
+                            Student student = new Student();
+                            student.setUser(save3);
+//                            if (row.getCell(15)!=null && !Objects.equals(row.getCell(15).getStringCellValue(), "")){
+//                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+//                                LocalDate date = LocalDate.parse(row.getCell(15).getStringCellValue(), formatter);
+//                                LocalDateTime localDateTime = date.atStartOfDay();
+//                                Timestamp timestamp = Timestamp.valueOf(localDateTime);
+//                                student.setBornYear(timestamp);
+//                            }
+//                            if (row.getCell(14)!=null && !Objects.equals(row.getCell(14).getStringCellValue(), "")){
+//                                student.setJshshirKod(row.getCell(14).getStringCellValue());
+//                            }
+//                            if (row.getCell(12)!=null && !Objects.equals(row.getCell(12).getStringCellValue(), "")){
+//                                student.setHemisId(row.getCell(12).getStringCellValue());
+//                            }
+                            student.setGroup(save2);
+                            student.setTeachStatus(TeachStatus.TEACHING);
+                            student.setRektororder(row.getCell(2).getStringCellValue());
+                            Student save = studentRepository.save(student);
+                        }
+
+
+                    }
+                } else {
+                    System.out.println("error empty row..");
+                }
+
+
+            }
+
+            dataOfLastActiveRepository.save(new DataOfLastActive(count + " ta student ma'lumoti yangilandi!."));
+            return new ApiResponse(true, "saved students");
+        } catch (Exception e) {
+            return new ApiResponse(false, e + " --> error saved students -> " + seeker);
         }
     }
 
@@ -767,27 +2112,21 @@ public class StudentService implements StudentImplService<StudentDto> {
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         try {
             assert extension != null;
-            if (extension.equalsIgnoreCase("xlsx")){
+            if (extension.equalsIgnoreCase("xlsx")) {
                 workbook = new XSSFWorkbook(file.getInputStream());
 
-            } else if (extension.equalsIgnoreCase("xls")){
+            } else if (extension.equalsIgnoreCase("xls")) {
                 workbook = new HSSFWorkbook(file.getInputStream());
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return workbook;
     }
 
 
-
-
-
-
-
-
-    public ApiResponse getStudentWithRFIDForToday(String groupName){
+    public ApiResponse getStudentWithRFIDForToday(String groupName) {
         List<StudentWithRFID> list = studentRepository.getStudentWithRFID(groupName);
 
         List<StudentFullNameAndAscAndDescDateDto> ascAndDescDateDtos = new ArrayList<>();
@@ -812,8 +2151,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 ascAndDescDate.getTimeDesc()
                         )
                 );
-            }
-            else {
+            } else {
                 ascAndDescDateDtos.add(
                         new StudentFullNameAndAscAndDescDateDto(
                                 rfid.getId(),
@@ -833,11 +2171,11 @@ public class StudentService implements StudentImplService<StudentDto> {
             id++;
         }
         id = 1;
-        return new ApiResponse(true,"send",ascAndDescDateDtos);
+        return new ApiResponse(true, "send", ascAndDescDateDtos);
 
     }
 
-    public ApiResponse getStudentWithRFID(String groupName,LocalDateTime dateFrom,LocalDateTime dateTo){
+    public ApiResponse getStudentWithRFID(String groupName, LocalDateTime dateFrom, LocalDateTime dateTo) {
         List<StudentWithRFID> list = studentRepository.getStudentWithRFID(groupName);
 
         List<StudentFullNameAndAscAndDescDateDto> ascAndDescDateDtos = new ArrayList<>();
@@ -862,8 +2200,7 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 ascAndDescDate.getTimeDesc()
                         )
                 );
-            }
-            else {
+            } else {
                 ascAndDescDateDtos.add(
                         new StudentFullNameAndAscAndDescDateDto(
                                 rfid.getId(),
@@ -883,24 +2220,24 @@ public class StudentService implements StudentImplService<StudentDto> {
             id++;
         }
         id = 1;
-        return new ApiResponse(true,"send",ascAndDescDateDtos);
+        return new ApiResponse(true, "send", ascAndDescDateDtos);
 
     }
 
-    public ApiResponse getStudentsByTimeIntervalAndLevelAndFacultyName(Integer timeInterval, Integer level, String facultyName){
+    public ApiResponse getStudentsByTimeIntervalAndLevelAndFacultyName(Integer timeInterval, Integer level, String facultyName) {
         List<FacultyStatistic> statistics = studentRepository.getStudentsByTimeIntervalAndLevelAndFacultyName(timeInterval, level, facultyName);
-        return new ApiResponse(true,"send",statistics);
+        return new ApiResponse(true, "send", statistics);
     }
 
 
-    public ApiResponse getGroupsStatisticByFacultyNameAndGroupLevel(Integer level,String facultyName, LocalDateTime dateFrom, LocalDateTime dateTo){
+    public ApiResponse getGroupsStatisticByFacultyNameAndGroupLevel(Integer level, String facultyName, LocalDateTime dateFrom, LocalDateTime dateTo) {
         List<FacultyStatistic> statistics = studentRepository.getGroupsStatisticByFacultyNameAndGroupLevel(level, facultyName, dateFrom, dateTo);
-        return new ApiResponse(true,"send",statistics);
+        return new ApiResponse(true, "send", statistics);
     }
 
-    public ApiResponse getGroupsByLevelAndFacultyName(Integer level,String facultyName){
+    public ApiResponse getGroupsByLevelAndFacultyName(Integer level, String facultyName) {
         List<String> groups = studentRepository.getGroupsByLevelAndFacultyName(level, facultyName);
-        return new ApiResponse(true,"send",groups);
+        return new ApiResponse(true, "send", groups);
     }
 
 
@@ -933,12 +2270,12 @@ public class StudentService implements StudentImplService<StudentDto> {
         return new ApiResponse(true, "send", statistics);
     }
 
-    public ApiResponse getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(Integer level, Integer weekOrMonth,String eduType) {
+    public ApiResponse getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(Integer level, Integer weekOrMonth, String eduType) {
         long start = System.currentTimeMillis();
         System.out.println(level);
         System.out.println("Kirdi methodga");
 //        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAllByGroupLevelAndWeekOrMonth(level, weekOrMonth);
-        List<FacultyStatisticsWithWeekOrMonth> list2 = studentRepository.getSchoolStatisticsByWeekOrMonth(level, weekOrMonth,eduType);
+        List<FacultyStatisticsWithWeekOrMonth> list2 = studentRepository.getSchoolStatisticsByWeekOrMonth(level, weekOrMonth, eduType);
 
 //        System.out.println("DB dan keldi: " + (System.currentTimeMillis() - start));
 //
@@ -955,16 +2292,17 @@ public class StudentService implements StudentImplService<StudentDto> {
         System.out.println("database dan keldi --------------------------------------------------------------------------");
         System.out.println(list2);
 
-        return new ApiResponse(true, "send",list2);
+        return new ApiResponse(true, "send", list2);
     }
-    public ApiResponse getFacultyAndComingCountWithAllByGroupLevel(Integer level,String eduType, LocalDateTime startTime, LocalDateTime endTime) {
+
+    public ApiResponse getFacultyAndComingCountWithAllByGroupLevel(Integer level, String eduType, LocalDateTime startTime, LocalDateTime endTime) {
         long start = System.currentTimeMillis();
         System.out.println(startTime);
         System.out.println(endTime);
         System.out.println(level);
         System.out.println("Kirdi methodga");
 //        List<FacultyStatistic> list = studentRepository.getFacultyAndComingCountWithAllByGroupLevel(level, startTime, endTime);
-        List<FacultyStatisticsWithSchoolCode> list2 = studentRepository.getSchoolStatistics(level,eduType, startTime, endTime);
+        List<FacultyStatisticsWithSchoolCode> list2 = studentRepository.getSchoolStatistics(level, eduType, startTime, endTime);
 
 
 //        System.out.println("DB dan keldi: " + (System.currentTimeMillis() - start));
@@ -1271,7 +2609,6 @@ public class StudentService implements StudentImplService<StudentDto> {
     }
 
 
-
     @Transactional
     public ApiResponse uploadStudentsFromDean(MultipartHttpServletRequest request) throws IOException {
         System.out.println(" ----------------------------- 2 2 2 ------------------------ --");
@@ -1294,29 +2631,31 @@ public class StudentService implements StudentImplService<StudentDto> {
             Iterator<Row> rows = sheet.iterator();
             rows.next();
             long step = 1;
-            while (rows.hasNext()){
+            while (rows.hasNext()) {
                 step++;
                 Row row = rows.next();
 
-                System.out.println(row.getCell(0).getStringCellValue()+" FIO");
-                System.out.println(row.getCell(1).getStringCellValue()+" order");
-                System.out.println(row.getCell(2).getStringCellValue()+" group");
-                System.out.println(row.getCell(3).getStringCellValue()+" sex");
-                System.out.println(row.getCell(4).getStringCellValue()+" ID");
-                System.out.println(row.getCell(5).getStringCellValue()+" Passport");
+//                System.out.println(row.getCell(0).getStringCellValue()+" FIO");
+                System.out.println(row.getCell(1).getStringCellValue() + " order");
+                System.out.println(row.getCell(2).getStringCellValue() + " group");
+                System.out.println(row.getCell(3).getStringCellValue() + " sex");
+                System.out.println(row.getCell(4).getStringCellValue() + " ID");
+                System.out.println(row.getCell(5).getStringCellValue() + " Passport");
 //                System.out.println(row.getCell(6).getStringCellValue()+" RFID");
 //                System.out.println(row.getCell(7).getStringCellValue());
 //                System.out.println(row.getCell(8).getStringCellValue());
 //                System.out.println(row.getCell(9).getStringCellValue());
 
                 Integer countByLogin = userRepository.getCountByLogin(row.getCell(4).getStringCellValue());
-                if (countByLogin==null || countByLogin<=1) {
+                if (countByLogin == null || countByLogin <= 1) {
                     User userByLogin = userRepository.getUserByLogin(row.getCell(4).getStringCellValue());
                     if (userByLogin != null) {
                         Group groupByName = groupRepository.findGroupByName(row.getCell(2).getStringCellValue());
                         if (groupByName != null) {
                             Student studentByUserId = studentRepository.findStudentByUserId(userByLogin.getId());
                             if (studentByUserId != null) {
+                                groupByName.setLevel(Integer.valueOf(row.getCell(0).getStringCellValue()));
+                                groupRepository.save(groupByName);
                                 Optional<Role> optionalRole = roleRepository.findRoleByRoleName("ROLE_STUDENT");
                                 Role role = optionalRole.get();
                                 studentByUserId.setGroup(groupByName);
@@ -1329,7 +2668,8 @@ public class StudentService implements StudentImplService<StudentDto> {
                                 userByLogin.setRoles(roles);
                                 userRepository.save(userByLogin);
                             } else {
-
+                                groupByName.setLevel(Integer.valueOf(row.getCell(0).getStringCellValue()));
+                                groupRepository.save(groupByName);
                                 Optional<Role> optionalRole = roleRepository.findRoleByRoleName("ROLE_STUDENT");
                                 Role role = optionalRole.get();
                                 userByLogin.setPassportNum(row.getCell(5).getStringCellValue());
@@ -1350,7 +2690,68 @@ public class StudentService implements StudentImplService<StudentDto> {
 
                         }//todo---------------------
                         else {
-                            return new ApiResponse(false, "error.. not found group by:" + row.getCell(2).getStringCellValue());
+
+
+                            Group group = new Group();
+                            group.setActive(true);
+                            group.setName(row.getCell(2).getStringCellValue());
+                            group.setLevel(Integer.valueOf(row.getCell(0).getStringCellValue()));
+
+                            if (group.getName().charAt(group.getName().length() - 1) == 'U')
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("UZBEK").get());
+                            if (group.getName().charAt(group.getName().length() - 1) == 'R')
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("RUSSIAN").get());
+                            if (group.getName().charAt(group.getName().length() - 1) == 'E')
+                                group.setEducationLanguage(eduLanRepo.findEducationLanguageByName("ENGLISH").get());
+
+                            if (group.getName().indexOf('-') == 3) {
+                                group.setEducationType(eduTypeRepo.findEducationTypeByName("KUNDUZGI").get());
+                            } else {
+                                if (group.getName().charAt(3) == 'P')
+                                    group.setEducationType(eduTypeRepo.findEducationTypeByName("SIRTQI").get());
+                                else group.setEducationType(eduTypeRepo.findEducationTypeByName("KECHKI").get());
+                            }
+
+                            Optional<Faculty> facultyOptional = facultyRepository.findFacultyByShortName(row.getCell(2).getStringCellValue().substring(0, 3));
+                            group.setFaculty(facultyOptional.get());
+                            System.out.println(facultyOptional.get().toString() + " ----+++++++++++++---------++++++++----------");
+                            Group save1 = groupRepository.save(group);
+
+
+                            Student studentByUserId = studentRepository.findStudentByUserId(userByLogin.getId());
+                            if (studentByUserId != null) {
+
+                                Optional<Role> optionalRole = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                                Role role = optionalRole.get();
+                                studentByUserId.setGroup(save1);
+                                studentByUserId.setTeachStatus(TeachStatus.TEACHING);
+                                studentByUserId.setRektororder(row.getCell(1).getStringCellValue());
+                                studentRepository.save(studentByUserId);
+                                userByLogin.setPassportNum(row.getCell(5).getStringCellValue());
+                                Set<Role> roles = new HashSet<Role>();
+                                roles.add(role);
+                                userByLogin.setRoles(roles);
+                                userRepository.save(userByLogin);
+                            } else {
+                                Optional<Role> optionalRole = roleRepository.findRoleByRoleName("ROLE_STUDENT");
+                                Role role = optionalRole.get();
+                                userByLogin.setPassportNum(row.getCell(5).getStringCellValue());
+                                Set<Role> roles = new HashSet<Role>();
+                                roles.add(role);
+                                userByLogin.setRoles(roles);
+                                userRepository.save(userByLogin);
+
+                                Student student = new Student();
+                                student.setUser(userByLogin);
+                                student.setTeachStatus(TeachStatus.TEACHING);
+                                student.setGroup(save1);
+                                student.setRektororder(row.getCell(1).getStringCellValue());
+                                studentRepository.save(student);
+
+                            }
+
+
+                            //return new ApiResponse(false, "error.. not found group by:" + row.getCell(2).getStringCellValue());
                         }
                     }
                 }
@@ -1438,22 +2839,21 @@ public class StudentService implements StudentImplService<StudentDto> {
             }
 
             ApiResponse response = dataOfLastActiveService.create(step + " ta student ma'lumotlari yangilandi.");
-            return new ApiResponse(true,"saved students");
-        }catch (Exception e){
-            return new ApiResponse(false,"error saved students");
+            return new ApiResponse(true, "saved students");
+        } catch (Exception e) {
+            return new ApiResponse(false, "error saved students");
         }
     }
 
     public ApiResponse changeGroupOfStudent(String userId, String groupName) {
         Student studentByUserId = studentRepository.findStudentByUserId(userId);
         Group groupByName = groupRepository.findGroupByName(groupName);
-        if (groupByName!=null){
+        if (groupByName != null) {
             studentByUserId.setGroup(groupByName);
             studentRepository.save(studentByUserId);
-            return new ApiResponse(true,"changed group successfully");
-        }
-        else {
-            return new ApiResponse(false,"not found group by: "+groupName);
+            return new ApiResponse(true, "changed group successfully");
+        } else {
+            return new ApiResponse(false, "not found group by: " + groupName);
         }
     }
 
@@ -1461,24 +2861,92 @@ public class StudentService implements StudentImplService<StudentDto> {
         Student studentByUserId = studentRepository.findStudentByUserId(userId);
         studentByUserId.setTeachStatus(teachStatus);
         studentRepository.save(studentByUserId);
-        return new ApiResponse(true,"changed teach status successfully");
+        return new ApiResponse(true, "changed teach status successfully");
     }
 
     public ApiResponse changeActiveOfStudent(String userId) {
         Student studentByUserId = studentRepository.findStudentByUserId(userId);
         studentRepository.deleteById(studentByUserId.getId());
-        return new ApiResponse(true,"deleted student successfully");
+        return new ApiResponse(true, "deleted student successfully");
     }
 
     public ApiResponse getDataForStudentReference(User user, String studentId) {
-        return new ApiResponse(true,"data for reference",studentRepository.getDataForStudentReference(studentId));
+        return new ApiResponse(true, "data for reference", studentRepository.getDataForStudentReference(studentId));
     }
 
-    public ApiResponse getDataForStudentReference2( String studentId) {
-        return new ApiResponse(true,"data for reference",studentRepository.getDataForStudentReference(studentId));
+    public ApiResponse getDataForStudentReference2(String studentId) {
+        return new ApiResponse(true, "data for reference", studentRepository.getDataForStudentReference(studentId));
     }
 
     public ApiResponse monitoring(User user, String groupId, String educationYearId, Integer year, Integer week, Integer day) {
-        return new ApiResponse(true,"student's monitoring",studentRepository.getStudentMonitoring(user.getId(),groupId,educationYearId,year,week,day));
+        return new ApiResponse(true, "student's monitoring", studentRepository.getStudentMonitoring(user.getId(), groupId, educationYearId, year, week, day));
     }
+
+    @Transactional
+    public ApiResponse finishedStudents(MultipartHttpServletRequest request) {
+        Iterator<String> fileNames = request.getFileNames();
+        while (fileNames.hasNext()) {
+            MultipartFile file = request.getFile(fileNames.next());
+            if (file != null) {
+                return readDataFromExcelFinishedStudents(file);
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public ApiResponse readDataFromExcelFinishedStudents(MultipartFile file) {
+        String seeker = "";
+        ExecutorService executor = Executors.newFixedThreadPool(10); // 10 ta parallel oqim
+        List<Future<String>> futures = new ArrayList<>();
+
+        try {
+            Workbook workbook = getWorkBook(file);
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rows = sheet.iterator();
+            rows.next(); // Header'ni tashlab ketamiz
+
+            while (rows.hasNext()) {
+                Row row = rows.next();
+                seeker = getStringValue(row.getCell(0));
+
+                // Ma'lumot to‘g‘riligini tekshiramiz
+                if (isNotEmpty(row.getCell(0))) {
+                    String login = row.getCell(0).getStringCellValue();
+
+                    // Parallel tarzda bajarish uchun task yaratamiz
+                    futures.add(executor.submit(() -> {
+                        try {
+                            Student student = studentRepository.findStudentByUserLogin(login);
+                            if (student!=null){
+                                student.setTeachStatus(TeachStatus.FINISHED);
+                                studentRepository.save(student);
+                            }
+                            return login + " updated successfully";
+                        } catch (Exception ex) {
+                            return login + " failed: " + ex.getMessage();
+                        }
+                    }));
+                }
+            }
+
+            // Barcha natijalarni kutamiz
+            executor.shutdown();
+            executor.awaitTermination(5, TimeUnit.MINUTES);
+
+            // Xatoliklar va muvaffaqiyatli natijalarni yig‘amiz
+            List<String> results = new ArrayList<>();
+            for (Future<String> f : futures) {
+                results.add(f.get());
+            }
+
+            return new ApiResponse(true, "Updated users' data successfully. Details: " + results.size() + " users processed.");
+
+        } catch (Exception e) {
+            return new ApiResponse(false, e + " --> error updating user data -> " + seeker);
+        } finally {
+            executor.shutdownNow();
+        }
+    }
+
 }

@@ -168,10 +168,8 @@ public class AttachmentService {
 
 
 
-
+//todo--- qaytar TOHIR
     public ApiResponse saveToFileSystem(MultipartHttpServletRequest request, String educationYearId, String filename, String year,Integer weekNumber, WeekEduType eduType, WeekType weekType,WeekType defaultOrMed, Date startWeek, Date endWeek) throws IOException {
-
-
         boolean existEducationYear = educationYearRepository.existsById(educationYearId);
 
         if (existEducationYear) {
@@ -248,12 +246,12 @@ public class AttachmentService {
                     }
                 }
                 return new ApiResponse(true, "Congratulation, " + filename + " - time table of week saved successfully", fileIds);
+//                return new ApiResponse(true, "Congratulation, " + filename + " - time table of week saved successfully");
             }
         }
         else {
             return new ApiResponse(false, "Not fount education year with : "+educationYearId);
         }
-
     }
 
 

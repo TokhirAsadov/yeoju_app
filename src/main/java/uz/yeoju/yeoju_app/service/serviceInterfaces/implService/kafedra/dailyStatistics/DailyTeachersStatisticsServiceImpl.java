@@ -9,6 +9,7 @@ import uz.yeoju.yeoju_app.entity.timetableDB.DailyTeachersStatistics;
 import uz.yeoju.yeoju_app.payload.ApiResponse;
 import uz.yeoju.yeoju_app.payload.ApiResponseStats3;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetKafedraTeacherStatistics;
+import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetDailyTeacherMissedLesson;
 import uz.yeoju.yeoju_app.payload.resDto.timeTableDB.GetDailyTeacherStatistics;
 import uz.yeoju.yeoju_app.repository.TeacherRepository;
 import uz.yeoju.yeoju_app.repository.kafedra.KafedraRepository;
@@ -316,6 +317,11 @@ public class DailyTeachersStatisticsServiceImpl implements DailyTeachersStatisti
                 public Integer getTotalNotAttended() {
                     return stats.getTotalNotAttended();
                 }
+
+                @Override
+                public List<GetDailyTeacherMissedLesson> getMissedLessons() {
+                    return Collections.emptyList();
+                }
             });
         }
         return new ApiResponse(true, year + "-yil "+week+"-haftadagi teacher statistikasi", response);
@@ -385,6 +391,11 @@ public class DailyTeachersStatisticsServiceImpl implements DailyTeachersStatisti
                 @Override
                 public Integer getTotalNotAttended() {
                     return stats.getTotalNotAttended();
+                }
+
+                @Override
+                public List<GetDailyTeacherMissedLesson> getMissedLessons() {
+                    return Collections.emptyList();
                 }
             });
         }

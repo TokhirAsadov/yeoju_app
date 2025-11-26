@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class ApiResponseStats3 {
     private boolean success;
     private String message;
+    private int day;
     private int week;
     private int weekday;
     private int totalAttended;
