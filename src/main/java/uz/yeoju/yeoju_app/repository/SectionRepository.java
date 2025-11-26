@@ -265,6 +265,22 @@ public interface SectionRepository extends JpaRepository<Section, String> {
             "where s.section_id =:id and u.id in :staffsIds",nativeQuery = true)
     List<GetTeachersForDekan30> getDateForTable30(@Param("id") String id, @Param("date") Date date,@Param("staffsIds") Set<String> staffsIds);
 
+    @Query(value = "select\n" +
+            "    u.fullName,\n" +
+            "    u.id,\n" +
+            "    u.passportNum as passport,\n" +
+            "    u.login,\n" +
+            "    u.RFID,\n" +
+            "    u.email,\n" +
+            "    1 as rate,\n" +
+            "    dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "        + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME))\n" +
+            "                  as date\n" +
+            "from Staff s\n" +
+            "         join users u on s.user_id = u.id\n" +
+            "where s.section_id =:id and u.id in :staffsIds",nativeQuery = true)
+    List<GetTeachersForDekan29> getDateForTable29(@Param("id") String id, @Param("date") Date date,@Param("staffsIds") Set<String> staffsIds);
+
 
 
 
