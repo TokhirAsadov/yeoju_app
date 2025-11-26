@@ -5,8 +5,6 @@ server:
 #    key-store: classpath:keystore.p12
 #    key-store-password: pa$$w0rd
 #    key-store-type: PKCS12
-hugging_face:
-    access_token: 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
 spring:
   servlet:
     multipart:

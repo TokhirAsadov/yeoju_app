@@ -37,9 +37,6 @@ public class UserTestAnswerImplService implements UserTestAnswerService{
     private final UserRepository userRepository;
     private final TestOptionRepository testOptionRepository;
 
-    @Value("${hugging_face.access_token}")
-    private String huggingFaceApiKey;
-
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
