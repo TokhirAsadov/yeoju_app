@@ -83,4 +83,9 @@ public class DekanatController {
     public HttpEntity<?> getUserForDekanSaving(@CurrentUser User user,@RequestParam("bool") Boolean bool){
         return ResponseEntity.ok(service.getUserForDekanSave(user.getId(),bool));
     }
+
+    @GetMapping("/getDekanatsForSelect")
+    public HttpEntity<?> getDekanatsForSelect(@CurrentUser User user){
+        return ResponseEntity.ok(service.getDekanatsForSelect());
+    }
 }
