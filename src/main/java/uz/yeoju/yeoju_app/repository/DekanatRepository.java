@@ -97,4 +97,7 @@ public interface DekanatRepository extends JpaRepository<Dekanat, String> {
 
     @Query(value = "select id as value, name as label from  Dekanat order by name",nativeQuery = true)
     List<FacultiesResDto> getDekanatsForSelect();
+
+    @Query(value = "select u.id as value,u.fullName as label from Staff s join users u on u.id=s.user_id join users_Position uP on u.id = uP.users_id join Position P on uP.positions_id = P.id where s.dekanat_id=:dekanatId order by  P.degree,u.fullName",nativeQuery = true)
+    List<FacultiesResDto> getStaffsForTableByDekanatId(@Param("dekanatId") String dekanatId);
 }
