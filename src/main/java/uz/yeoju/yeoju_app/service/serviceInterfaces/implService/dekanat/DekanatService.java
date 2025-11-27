@@ -29,4 +29,6 @@ public interface DekanatService {
     ApiResponse getStatisticsOfGroupForDean(String groupId, Date date);
 
     ApiResponse addNewStudent(AddNewStudentDto dto);
+
+    ApiResponse getDekanatsForSelect();
 }
