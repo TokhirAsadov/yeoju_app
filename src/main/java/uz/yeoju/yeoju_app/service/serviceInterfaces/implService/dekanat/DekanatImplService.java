@@ -901,4 +901,9 @@ public class DekanatImplService implements DekanatService{
         return new ApiResponse(true,"all dekanats",dekanatRepository.getDekanatsForSelect());
     }
 
+    @Override
+    public ApiResponse getStaffsForTableByDekanatId(String dekanatId) {
+        return new ApiResponse(true,"all staffs of dekanats",dekanatRepository.getStaffsForTableByDekanatId(dekanatId));
+    }
+
 }
