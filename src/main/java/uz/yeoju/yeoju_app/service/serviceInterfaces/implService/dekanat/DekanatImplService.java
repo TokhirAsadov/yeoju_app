@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class DekanatImplService implements DekanatService{
+public class DekanatImplService implements DekanatService {
 
     private final DekanatRepository dekanatRepository;
     private final DekanRepository dekanRepository;
@@ -35,7 +35,7 @@ public class DekanatImplService implements DekanatService{
 
 //        Dekanat dekanat = new Dekanat();
 
-        return new ApiResponse(true,"all dekanat", dekanatRepository.findAll());
+        return new ApiResponse(true, "all dekanat", dekanatRepository.findAll());
     }
 
     @Override
@@ -43,7 +43,7 @@ public class DekanatImplService implements DekanatService{
     public ApiResponse saveDekanat(DekanatSaveDto dto) {
 
         if (dekanatRepository.existsDekanatByName(dto.getName())) {
-            return new ApiResponse(false,"Already exists dekanat");
+            return new ApiResponse(false, "Already exists dekanat");
         }
 
         Dekanat dekanat = new Dekanat();
@@ -53,26 +53,24 @@ public class DekanatImplService implements DekanatService{
 
         for (String id : dto.getIdsOfFaculties()) {
             Optional<Faculty> facultyOptional = facultyRepository.findById(id);
-            if (facultyOptional.isPresent()){
-              faculties.add(facultyOptional.get());
-            }
-            else {
-               return new ApiResponse(false,"not fount faculty");
+            if (facultyOptional.isPresent()) {
+                faculties.add(facultyOptional.get());
+            } else {
+                return new ApiResponse(false, "not fount faculty");
             }
         }
 
         dekanat.setFaculties(faculties);
         dekanatRepository.save(dekanat);
 
-        return new ApiResponse(true,"saved dekanat successfully...");
+        return new ApiResponse(true, "saved dekanat successfully...");
     }
 
     @Override
     public ApiResponse saveDekanatV2(DekanatDto dto) {
-        if (dto.getId() == null){
+        if (dto.getId() == null) {
             return save(dto);
-        }
-        else {
+        } else {
             return update(dto);
         }
     }
@@ -80,11 +78,11 @@ public class DekanatImplService implements DekanatService{
 
     private ApiResponse update(DekanatDto dto) {
         Optional<Dekanat> optional = dekanatRepository.findById(dto.getId());
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
 
             Dekanat dekanat = optional.get();
             Dekanat dekanatByName = dekanatRepository.findDekanatByName(dto.getName());
-            if (dekanatByName !=null) {
+            if (dekanatByName != null) {
                 if (Objects.equals(dekanatByName.getId(), dekanat.getId())) {
                     Optional<User> userOptional = userRepository.findById(dto.getOwner().getValue());
                     if (userOptional.isPresent()) {
@@ -92,7 +90,7 @@ public class DekanatImplService implements DekanatService{
                         if (dekanOptional.isPresent()) {
                             Dekan oldDekan = dekanOptional.get();
                             Dekan dekanByUserId = dekanRepository.getDekanByUserId(dto.getOwner().getValue());
-                            if (dekanByUserId!=null) {
+                            if (dekanByUserId != null) {
                                 if (oldDekan.getId().equals(dekanByUserId.getId())) {
                                     dekanat.setOwner(userOptional.get());
                                     dekanat.setRoom(dto.getRoom());
@@ -132,8 +130,7 @@ public class DekanatImplService implements DekanatService{
 
                                     dekanatRepository.save(dekanat);
                                     return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
-                                }
-                                else {
+                                } else {
                                     dekanRepository.deleteById(dekanByUserId.getId());
 
                                     dekanat.setOwner(userOptional.get());
@@ -176,15 +173,14 @@ public class DekanatImplService implements DekanatService{
 
                                     User user = userOptional.get();
                                     oldDekan.setUser(user);
-                                    if (!educationTypes.isEmpty()){
+                                    if (!educationTypes.isEmpty()) {
                                         oldDekan.setEducationType(educationTypes);
                                     }
                                     dekanRepository.save(oldDekan);
 
                                     return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
                                 }
-                            }
-                            else {
+                            } else {
                                 User oldMudirUser = oldDekan.getUser();
                                 Set<Role> collect = oldMudirUser.getRoles().stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_DEKAN")).collect(Collectors.toSet());
                                 oldMudirUser.setRoles(collect);
@@ -236,17 +232,16 @@ public class DekanatImplService implements DekanatService{
                                 user.setRoles(roleSet2);
                                 userRepository.saveAndFlush(user);
 
-                                if (!educationTypes.isEmpty()){
+                                if (!educationTypes.isEmpty()) {
                                     oldDekan.setEducationType(educationTypes);
                                 }
                                 oldDekan.setUser(user);
                                 dekanRepository.save(oldDekan);
                                 return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
                             }
-                        }
-                        else {
+                        } else {
                             Dekan dekanByUserId = dekanRepository.getDekanByUserId(dto.getOwner().getValue());
-                            if (dekanByUserId!=null) {
+                            if (dekanByUserId != null) {
 
                                 dekanat.setOwner(userOptional.get());
                                 dekanat.setRoom(dto.getRoom());
@@ -287,15 +282,14 @@ public class DekanatImplService implements DekanatService{
                                 dekanatRepository.save(dekanat);
 
                                 dekanByUserId.setDekanat(dekanat);
-                                if (!educationTypes.isEmpty()){
+                                if (!educationTypes.isEmpty()) {
                                     dekanByUserId.setEducationType(educationTypes);
                                 }
                                 dekanRepository.save(dekanByUserId);
 
                                 return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
 
-                            }
-                            else {
+                            } else {
 
 
                                 dekanat.setOwner(userOptional.get());
@@ -347,7 +341,7 @@ public class DekanatImplService implements DekanatService{
 
                                 Dekan dekan = new Dekan();
                                 dekan.setDekanat(dekanat);
-                                if (!educationTypes.isEmpty()){
+                                if (!educationTypes.isEmpty()) {
                                     dekan.setEducationType(educationTypes);
                                 }
                                 dekan.setUser(user);
@@ -356,30 +350,27 @@ public class DekanatImplService implements DekanatService{
                                 return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
                             }
                         }
-                    }
-                    else {
+                    } else {
                         return new ApiResponse(
                                 false,
                                 "error! not fount owner!"
                         );
                     }
-                }
-                else {
+                } else {
                     return new ApiResponse(
                             false,
                             "error! not saved dekanat! Please, enter other dekanat name!.."
                     );
                 }
-            }
-            else {
-                if (!dekanatRepository.existsDekanatByName(dto.getName())){
+            } else {
+                if (!dekanatRepository.existsDekanatByName(dto.getName())) {
                     Optional<User> userOptional = userRepository.findById(dto.getOwner().getValue());
                     if (userOptional.isPresent()) {
                         Optional<Dekan> dekanOptional = dekanRepository.findDekanByDekanatId(dekanat.getId());
                         if (dekanOptional.isPresent()) {
                             Dekan oldDekan = dekanOptional.get();
                             Dekan dekanByUserId = dekanRepository.getDekanByUserId(dto.getOwner().getValue());
-                            if (dekanByUserId!=null) {
+                            if (dekanByUserId != null) {
                                 if (oldDekan.getId().equals(dekanByUserId.getId())) {
                                     dekanat.setOwner(userOptional.get());
                                     dekanat.setRoom(dto.getRoom());
@@ -419,8 +410,7 @@ public class DekanatImplService implements DekanatService{
 
                                     dekanatRepository.save(dekanat);
                                     return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
-                                }
-                                else {
+                                } else {
                                     dekanRepository.deleteById(dekanByUserId.getId());
 
                                     dekanat.setOwner(userOptional.get());
@@ -463,15 +453,14 @@ public class DekanatImplService implements DekanatService{
 
                                     User user = userOptional.get();
                                     oldDekan.setUser(user);
-                                    if (!educationTypes.isEmpty()){
+                                    if (!educationTypes.isEmpty()) {
                                         oldDekan.setEducationType(educationTypes);
                                     }
                                     dekanRepository.save(oldDekan);
 
                                     return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
                                 }
-                            }
-                            else {
+                            } else {
                                 User oldMudirUser = oldDekan.getUser();
                                 Set<Role> collect = oldMudirUser.getRoles().stream().filter(i -> !Objects.equals(i.getRoleName(), "ROLE_DEKAN")).collect(Collectors.toSet());
                                 oldMudirUser.setRoles(collect);
@@ -523,17 +512,16 @@ public class DekanatImplService implements DekanatService{
                                 user.setRoles(roleSet2);
                                 userRepository.saveAndFlush(user);
 
-                                if (!educationTypes.isEmpty()){
+                                if (!educationTypes.isEmpty()) {
                                     oldDekan.setEducationType(educationTypes);
                                 }
                                 oldDekan.setUser(user);
                                 dekanRepository.save(oldDekan);
                                 return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
                             }
-                        }
-                        else {
+                        } else {
                             Dekan dekanByUserId = dekanRepository.getDekanByUserId(dto.getOwner().getValue());
-                            if (dekanByUserId!=null) {
+                            if (dekanByUserId != null) {
 
                                 dekanat.setOwner(userOptional.get());
                                 dekanat.setRoom(dto.getRoom());
@@ -574,15 +562,14 @@ public class DekanatImplService implements DekanatService{
                                 dekanatRepository.save(dekanat);
 
                                 dekanByUserId.setDekanat(dekanat);
-                                if (!educationTypes.isEmpty()){
+                                if (!educationTypes.isEmpty()) {
                                     dekanByUserId.setEducationType(educationTypes);
                                 }
                                 dekanRepository.save(dekanByUserId);
 
                                 return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
 
-                            }
-                            else {
+                            } else {
 
 
                                 dekanat.setOwner(userOptional.get());
@@ -634,7 +621,7 @@ public class DekanatImplService implements DekanatService{
 
                                 Dekan dekan = new Dekan();
                                 dekan.setDekanat(dekanat);
-                                if (!educationTypes.isEmpty()){
+                                if (!educationTypes.isEmpty()) {
                                     dekan.setEducationType(educationTypes);
                                 }
                                 dekan.setUser(user);
@@ -643,35 +630,33 @@ public class DekanatImplService implements DekanatService{
                                 return new ApiResponse(true, dekanat.getName() + " dekanat updated successfully!..");
                             }
                         }
-                    }
-                    else {
+                    } else {
                         return new ApiResponse(
                                 false,
                                 "error! not fount owner!"
                         );
                     }
-                }
-                else {
+                } else {
                     return new ApiResponse(
                             false,
                             "error! not saved dekanat! Please, enter other dekanat!.."
                     );
                 }
             }
-        }
-        else{
+        } else {
             return new ApiResponse(
                     false,
                     "error... not fount dekanat"
             );
         }
     }
+
     private ApiResponse save(DekanatDto dto) {
-        if (!dekanatRepository.existsDekanatByName(dto.getName())){
+        if (!dekanatRepository.existsDekanatByName(dto.getName())) {
             Optional<User> userOptional = userRepository.findById(dto.getOwner().getValue());
             if (userOptional.isPresent()) {
                 Dekan dekanByUserId = dekanRepository.getDekanByUserId(dto.getOwner().getValue());
-                if (dekanByUserId!=null) {
+                if (dekanByUserId != null) {
                     Dekanat dekanat = generateDekanat(dto);
                     Set<EducationType> educationTypes = new HashSet<>();
                     for (String eduType : dto.getEduTypes()) {
@@ -693,8 +678,7 @@ public class DekanatImplService implements DekanatService{
                     dekanRepository.save(dekanByUserId);
 
                     return new ApiResponse(true, "new dekanat saved successfully!...");
-                }
-                else {
+                } else {
                     User user = userOptional.get();
 
                     Dekanat dekanat = generateDekanat(dto);
@@ -723,22 +707,20 @@ public class DekanatImplService implements DekanatService{
 
                     Dekan dekan = new Dekan();
                     dekan.setDekanat(dekanat);
-                    if (!educationTypes.isEmpty()){
+                    if (!educationTypes.isEmpty()) {
                         dekan.setEducationType(educationTypes);
                     }
                     dekan.setUser(user);
                     dekanRepository.save(dekan);
                     return new ApiResponse(true, "new dekanat saved successfully!...");
                 }
-            }
-            else {
+            } else {
                 return new ApiResponse(
                         false,
                         "error! not fount owner!"
                 );
             }
-        }
-        else {
+        } else {
             return new ApiResponse(
                     false,
                     "error! not saved dekanat! Please, enter other dekanat!"
@@ -765,28 +747,28 @@ public class DekanatImplService implements DekanatService{
             positionOptional.ifPresent(positions::add);
         });
 
-        return new Dekanat(dto.getId(), dto.getName(),faculties,roles,positions);
+        return new Dekanat(dto.getId(), dto.getName(), faculties, roles, positions);
     }
 
 
     @Override
     public ApiResponse getDekansForSaved() {
-        return new ApiResponse(true,"datas",dekanatRepository.getDekansForSaved());
+        return new ApiResponse(true, "datas", dekanatRepository.getDekansForSaved());
     }
 
     @Override
     public ApiResponse getDekansSavedDatas() {
-        return new ApiResponse(true,"datas",dekanatRepository.getForDekanRoleSettings());
+        return new ApiResponse(true, "datas", dekanatRepository.getForDekanRoleSettings());
     }
 
     @Override
     public ApiResponse getKafedrasSavedDatas() {
-        return new ApiResponse(true,"datas",dekanatRepository.getForKafedraRoleSettings());
+        return new ApiResponse(true, "datas", dekanatRepository.getForKafedraRoleSettings());
     }
 
     @Override
     public ApiResponse getDekanatDataForDekan(String id) {
-        return new ApiResponse(true,"dekanat data for dekan",dekanatRepository.getDekanatDataForDekan(id));
+        return new ApiResponse(true, "dekanat data for dekan", dekanatRepository.getDekanatDataForDekan(id));
     }
 
     @Override
@@ -794,7 +776,7 @@ public class DekanatImplService implements DekanatService{
         Optional<Dekanat> dekanatOptional = dekanatRepository.findById(id);
         if (dekanatOptional.isPresent()) {
             Dekanat dekanat = dekanatOptional.get();
-            System.out.println(dekanat+" <----------------------------------------------------- dekanat");
+            System.out.println(dekanat + " <----------------------------------------------------- dekanat");
 
             return new ApiResponse(
                     true,
@@ -805,34 +787,32 @@ public class DekanatImplService implements DekanatService{
                             dekanat.getFaculties().stream().map(Faculty::getShortName).collect(Collectors.toSet()),
                             dekanat.getRoles().stream().map(Role::getRoleName).collect(Collectors.toSet()),
                             dekanat.getPositions().stream().map(Position::getUserPositionName).collect(Collectors.toSet()),
-                            new OwnerDto(dekanat.getOwner().getId(),dekanat.getOwner().getFullName()),
+                            new OwnerDto(dekanat.getOwner().getId(), dekanat.getOwner().getFullName()),
                             dekanat.getRoom(),
                             dekanat.getPhone()
 
                     )
             );
-        }
-        else {
-            return new ApiResponse(false,"not fount dekanat");
+        } else {
+            return new ApiResponse(false, "not fount dekanat");
         }
     }
 
     @Override
-    public ApiResponse getUserForDekanSave(String id,Boolean bool) {
+    public ApiResponse getUserForDekanSave(String id, Boolean bool) {
 
-        return  new ApiResponse(true,"items",bool ? dekanatRepository.getUserForSectionSave(id) : dekanatRepository.getUserForDekanSave(id));
+        return new ApiResponse(true, "items", bool ? dekanatRepository.getUserForSectionSave(id) : dekanatRepository.getUserForDekanSave(id));
     }
 
     @Override
     public ApiResponse deleteById(String id) {
         Optional<Dekanat> dekanatOptional = dekanatRepository.findById(id);
-        if (dekanatOptional.isPresent()){
+        if (dekanatOptional.isPresent()) {
             dekanatRepository.deleteById(id);
-            return new ApiResponse(true,"deleted dean's office by id -> "+id);
-        }
-        else {
+            return new ApiResponse(true, "deleted dean's office by id -> " + id);
+        } else {
 
-            return new ApiResponse(false,"not fount by id -> "+id);
+            return new ApiResponse(false, "not fount by id -> " + id);
         }
     }
 
@@ -844,26 +824,25 @@ public class DekanatImplService implements DekanatService{
 //        System.out.println(Calendar.getInstance().getMaximum(Calendar.DATE)+"-----------------------------------");
 //        System.out.println(date+" /// ");
 
-        if (maxDay==31){
-            return new ApiResponse(true,"<??? 31",dekanatRepository.getDateForDean31(date,groupId));
-        }
-        else if (maxDay==30){
-            return new ApiResponse(true,"<??? 30",dekanatRepository.getDateForDean30(date,groupId));
-        }else if (maxDay==29){
-            return new ApiResponse(true,"<??? 29",dekanatRepository.getDateForDean29(date,groupId));
-        }else {
-            return new ApiResponse(true,"<??? 28",dekanatRepository.getDateForDean28(date,groupId));
+        if (maxDay == 31) {
+            return new ApiResponse(true, "<??? 31", dekanatRepository.getDateForDean31(date, groupId));
+        } else if (maxDay == 30) {
+            return new ApiResponse(true, "<??? 30", dekanatRepository.getDateForDean30(date, groupId));
+        } else if (maxDay == 29) {
+            return new ApiResponse(true, "<??? 29", dekanatRepository.getDateForDean29(date, groupId));
+        } else {
+            return new ApiResponse(true, "<??? 28", dekanatRepository.getDateForDean28(date, groupId));
         }
     }
 
     @Override
     public ApiResponse addNewStudent(AddNewStudentDto dto) {
         Optional<User> userOptional = userRepository.findById(dto.getUserId());
-        if (userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             Student studentByUserId = studentRepository.findStudentByUserId(dto.getUserId());
-            if (studentByUserId==null){
+            if (studentByUserId == null) {
                 Group groupByName = groupRepository.findGroupByName(dto.getGroupName());
-                if (groupByName!=null){
+                if (groupByName != null) {
                     User user = userOptional.get();
                     Student student = new Student();
                     student.setUser(user);
@@ -873,37 +852,51 @@ public class DekanatImplService implements DekanatService{
                     user.getRoles().add(role_student.get());
                     user.setRoles(user.getRoles());
                     userRepository.save(user);
-                    return new ApiResponse(true,user.getFullName()+" add student successfully");
+                    return new ApiResponse(true, user.getFullName() + " add student successfully");
+                } else {
+                    return new ApiResponse(false, "not fount group -> " + dto.getGroupName());
                 }
-                else {
-                    return new ApiResponse(false,"not fount group -> "+dto.getGroupName());
-                }
-            }
-            else {
+            } else {
                 Group groupByName = groupRepository.findGroupByName(dto.getGroupName());
-                if (groupByName!=null) {
+                if (groupByName != null) {
                     studentByUserId.setGroup(groupByName);
                     studentRepository.save(studentByUserId);
-                    return new ApiResponse(true,"add student successfully");
-                }
-                else {
-                    return new ApiResponse(false,"not fount group -> "+dto.getGroupName());
+                    return new ApiResponse(true, "add student successfully");
+                } else {
+                    return new ApiResponse(false, "not fount group -> " + dto.getGroupName());
                 }
             }
-        }
-        else {
-            return new ApiResponse(false,"not fount user by id -> "+dto.getUserId());
+        } else {
+            return new ApiResponse(false, "not fount user by id -> " + dto.getUserId());
         }
     }
 
     @Override
     public ApiResponse getDekanatsForSelect() {
-        return new ApiResponse(true,"all dekanats",dekanatRepository.getDekanatsForSelect());
+        return new ApiResponse(true, "all dekanats", dekanatRepository.getDekanatsForSelect());
     }
 
     @Override
     public ApiResponse getStaffsForTableByDekanatId(String dekanatId) {
-        return new ApiResponse(true,"all staffs of dekanats",dekanatRepository.getStaffsForTableByDekanatId(dekanatId));
+        return new ApiResponse(true, "all staffs of dekanats", dekanatRepository.getStaffsForTableByDekanatId(dekanatId));
+    }
+
+    @Override
+    public ApiResponse getStatisticsForTable(String dekanatId, Date date, Set<String> staffsIds) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int maxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        if (maxDay == 31) {
+            return new ApiResponse(true, "<??? 31", dekanatRepository.getDateForTable31(dekanatId, date, staffsIds));
+        } else if (maxDay == 30) {
+            return new ApiResponse(true, "<??? 30", dekanatRepository.getDateForTable30(dekanatId, date, staffsIds));
+        } else if (maxDay == 29) {
+            return new ApiResponse(true, "<??? 29", dekanatRepository.getDateForTable29(dekanatId, date, staffsIds));
+        } else {
+            return new ApiResponse(true, "<??? 28", dekanatRepository.getDateForTable28(dekanatId, date, staffsIds));
+        }
+
     }
 
 }
