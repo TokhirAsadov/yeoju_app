@@ -15,6 +15,7 @@ import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.serviceInterfaces.implService.dekanat.DekanatService;
 
 import java.util.Date;
+import java.util.Set;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/dekanat")
@@ -94,4 +95,17 @@ public class DekanatController {
         return ResponseEntity.ok(service.getStaffsForTableByDekanatId(dekanatId));
     }
 
+    @GetMapping("/getStatisticsForTable")
+    public HttpEntity<?> getStatisticsForTable(
+            @CurrentUser User user,
+            @RequestParam("dekanatId") String dekanatId,
+            @RequestParam("date") @DateTimeFormat(pattern = "yyyy.MM.dd") Date date,
+            @RequestParam("staffsIds") Set<String> staffsIds
+    )
+    {
+        System.out.println(dekanatId);
+        System.out.println(date);
+        System.out.println(staffsIds);
+        return ResponseEntity.ok(service.getStatisticsForTable(dekanatId,date,staffsIds)/*new ApiResponse(false,"texnik iwlar olib borilyapdi")*/);
+    }
 }
