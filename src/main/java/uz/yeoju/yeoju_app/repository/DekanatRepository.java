@@ -100,4 +100,69 @@ public interface DekanatRepository extends JpaRepository<Dekanat, String> {
 
     @Query(value = "select u.id as value,u.fullName as label from Staff s join users u on u.id=s.user_id join users_Position uP on u.id = uP.users_id join Position P on uP.positions_id = P.id where s.dekanat_id=:dekanatId order by  P.degree,u.fullName",nativeQuery = true)
     List<FacultiesResDto> getStaffsForTableByDekanatId(@Param("dekanatId") String dekanatId);
+
+    @Query(value = "select\n" +
+            "    u.fullName,\n" +
+            "    u.id,\n" +
+            "    u.passportNum as passport,\n" +
+            "    u.login,\n" +
+            "    u.RFID,\n" +
+            "    u.email,\n" +
+            "    1 as rate,\n" +
+            "    dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "        + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME))\n" +
+            "                  as date\n" +
+            "from Staff s\n" +
+            "         join users u on s.user_id = u.id\n" +
+            "where s.dekanat_id =:id and u.id in :staffsIds",nativeQuery = true)
+    List<GetTeachersForDekan31> getDateForTable31(@Param("id") String id, @Param("date") Date date,@Param("staffsIds") Set<String> staffsIds);
+
+    @Query(value = "select\n" +
+            "    u.fullName,\n" +
+            "    u.id,\n" +
+            "    u.passportNum as passport,\n" +
+            "    u.login,\n" +
+            "    u.RFID,\n" +
+            "    u.email,\n" +
+            "    1 as rate,\n" +
+            "    dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "        + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME))\n" +
+            "                  as date\n" +
+            "from Staff s\n" +
+            "         join users u on s.user_id = u.id\n" +
+            "where s.dekanat_id =:id and u.id in :staffsIds",nativeQuery = true)
+    List<GetTeachersForDekan30> getDateForTable30(@Param("id") String id, @Param("date") Date date,@Param("staffsIds") Set<String> staffsIds);
+
+    @Query(value = "select\n" +
+            "    u.fullName,\n" +
+            "    u.id,\n" +
+            "    u.passportNum as passport,\n" +
+            "    u.login,\n" +
+            "    u.RFID,\n" +
+            "    u.email,\n" +
+            "    1 as rate,\n" +
+            "    dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "        + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME))\n" +
+            "                  as date\n" +
+            "from Staff s\n" +
+            "         join users u on s.user_id = u.id\n" +
+            "where s.dekanat_id =:id and u.id in :staffsIds",nativeQuery = true)
+    List<GetTeachersForDekan29> getDateForTable29(@Param("id") String id, @Param("date") Date date,@Param("staffsIds") Set<String> staffsIds);
+
+    @Query(value = "select\n" +
+            "    u.fullName,\n" +
+            "    u.id,\n" +
+            "    u.passportNum as passport,\n" +
+            "    u.login,\n" +
+            "    u.RFID,\n" +
+            "    u.email,\n" +
+            "    1 as rate,\n" +
+            "    dateadd(d,0, CAST(CAST(YEAR(:date) AS VARCHAR(4))\n" +
+            "        + '/' + CAST(MONTH(:date) AS VARCHAR(2)) + '/01' AS DATETIME))\n" +
+            "                  as date\n" +
+            "from Staff s\n" +
+            "         join users u on s.user_id = u.id\n" +
+            "where s.dekanat_id =:id and u.id in :staffsIds",nativeQuery = true)
+    List<GetTeachersForDekan28> getDateForTable28(@Param("id") String id, @Param("date") Date date,@Param("staffsIds") Set<String> staffsIds);
+
 }
