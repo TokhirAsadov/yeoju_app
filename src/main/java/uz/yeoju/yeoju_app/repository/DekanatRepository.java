@@ -6,20 +6,18 @@ import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.dekanat.Dekanat;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.ForDekanRoleSettings;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.GetFacultiesShortNameAndDekanEducationTypes;
-import uz.yeoju.yeoju_app.payload.resDto.dekan.StudentDataForEditedDekan;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.DekanatDataForDekan;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.EduTypeByDekanatId;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.FacultyOfDekanat;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.ForKafedraRoleSettings;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetKafedraMudiriData;
 import uz.yeoju.yeoju_app.payload.resDto.rektor.kafedraTeachers.monthly.*;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserForDekanSave;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserForSectionSave;
-import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSave;
 import uz.yeoju.yeoju_app.payload.resDto.user.UserForTeacherSaveItem;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 public interface DekanatRepository extends JpaRepository<Dekanat, String> {
@@ -92,4 +90,7 @@ public interface DekanatRepository extends JpaRepository<Dekanat, String> {
 
     @Query(value = "select et.id,et.name from EducationType et join Dekanat D on et.id = D.eduType_id where D.id=?1",nativeQuery = true)
     EduTypeByDekanatId getEduTypeByDekanatId(String id);
+
+    @Query(value = "select Top 1 u.id, u.firstName, u.lastName, u.middleName, u.fullName from users u join Dekanat d on u.id=d.owner_id where d.id=?1", nativeQuery = true)
+    GetKafedraMudiriData getDekanatOwner(String dekanatId);
 }
