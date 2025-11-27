@@ -93,9 +93,6 @@ public class KafedraMudiriController {
             @RequestParam("teachersIds") Set<String> teachersIds
     )
     {
-        System.out.println(kafedraId);
-        System.out.println(date);
-        System.out.println(teachersIds);
         return ResponseEntity.ok(service.getStatisticsForTable(kafedraId,date,teachersIds)/*new ApiResponse(false,"texnik iwlar olib borilyapdi")*/);
     }
 
