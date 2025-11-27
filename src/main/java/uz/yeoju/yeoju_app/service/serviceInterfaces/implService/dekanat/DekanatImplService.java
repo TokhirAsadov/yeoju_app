@@ -896,4 +896,9 @@ public class DekanatImplService implements DekanatService{
         }
     }
 
+    @Override
+    public ApiResponse getDekanatsForSelect() {
+        return new ApiResponse(true,"all dekanats",dekanatRepository.getDekanatsForSelect());
+    }
+
 }
