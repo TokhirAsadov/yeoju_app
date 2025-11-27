@@ -31,4 +31,6 @@ public interface DekanatService {
     ApiResponse addNewStudent(AddNewStudentDto dto);
 
     ApiResponse getDekanatsForSelect();
+
+    ApiResponse getStaffsForTableByDekanatId(String dekanatId);
 }
