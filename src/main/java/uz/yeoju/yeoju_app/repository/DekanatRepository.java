@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.dekanat.Dekanat;
+import uz.yeoju.yeoju_app.payload.resDto.dekan.FacultiesResDto;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.ForDekanRoleSettings;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.GetFacultiesShortNameAndDekanEducationTypes;
 import uz.yeoju.yeoju_app.payload.resDto.dekan.dekanat.DekanatDataForDekan;
@@ -93,4 +94,7 @@ public interface DekanatRepository extends JpaRepository<Dekanat, String> {
 
     @Query(value = "select Top 1 u.id, u.firstName, u.lastName, u.middleName, u.fullName from users u join Dekanat d on u.id=d.owner_id where d.id=?1", nativeQuery = true)
     GetKafedraMudiriData getDekanatOwner(String dekanatId);
+
+    @Query(value = "select id as value, name as label from  Dekanat order by name",nativeQuery = true)
+    List<FacultiesResDto> getDekanatsForSelect();
 }
