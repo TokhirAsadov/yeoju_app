@@ -88,4 +88,10 @@ public class DekanatController {
     public HttpEntity<?> getDekanatsForSelect(@CurrentUser User user){
         return ResponseEntity.ok(service.getDekanatsForSelect());
     }
+
+    @GetMapping("/getStaffsForTableByDekanatId")
+    public HttpEntity<?> getStaffsForTableByDekanatId(@CurrentUser User user,@RequestParam(name = "dekanatId") String dekanatId){
+        return ResponseEntity.ok(service.getStaffsForTableByDekanatId(dekanatId));
+    }
+
 }
