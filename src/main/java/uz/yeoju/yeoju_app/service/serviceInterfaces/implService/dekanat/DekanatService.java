@@ -6,6 +6,7 @@ import uz.yeoju.yeoju_app.payload.dekanat.DekanatDto;
 import uz.yeoju.yeoju_app.payload.dekanat.DekanatSaveDto;
 
 import java.util.Date;
+import java.util.Set;
 
 public interface DekanatService {
     ApiResponse findAllDekanats();
@@ -33,4 +34,6 @@ public interface DekanatService {
     ApiResponse getDekanatsForSelect();
 
     ApiResponse getStaffsForTableByDekanatId(String dekanatId);
+
+    ApiResponse getStatisticsForTable(String dekanatId, Date date, Set<String> staffsIds);
 }
