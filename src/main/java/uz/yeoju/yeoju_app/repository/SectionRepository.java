@@ -4,9 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import uz.yeoju.yeoju_app.entity.Section;
-import uz.yeoju.yeoju_app.payload.resDto.TeacherCountComeAndAll;
+import uz.yeoju.yeoju_app.payload.resDto.dekan.FacultiesResDto;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.ComeCountTodayStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.ComeStatistics;
+import uz.yeoju.yeoju_app.payload.resDto.kafedra.GetKafedraMudiriData;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.NoComeStatistics;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra28;
 import uz.yeoju.yeoju_app.payload.resDto.kafedra.month.GetTeachersOfKafedra29;
@@ -34,6 +35,10 @@ public interface SectionRepository extends JpaRepository<Section, String> {
     @Query(value = "select s.id,s.name from Section s join Staff s2 on s.id = s2.section_id where s2.user_id=:userId",nativeQuery = true)
     SectionData getSectionDatasByUserId(@Param("userId") String userId);
 
+    @Query(value = "select Top 1 u.id, u.firstName, u.lastName, u.middleName, u.fullName from users u \n" +
+            "join Section s on u.id=s.owner_id\n" +
+            "where s.id=?1",nativeQuery = true)
+    GetKafedraMudiriData getSectionOwner(String sectionId);
 
     @Query(value = "select  f2.section_id as kafedraId,f1.count as comeCount,f2.count as allCount from (\n" +
             "   select s.section_id,count(card.cardNo) as count from\n" +
@@ -298,6 +303,9 @@ public interface SectionRepository extends JpaRepository<Section, String> {
     List<GetTeachersForDekan28> getDateForTable28(@Param("id") String id, @Param("date") Date date,@Param("staffsIds") Set<String> staffsIds);
 
 
+    @Query(value = "select id as value, name as label from  Section order by name",nativeQuery = true)
+    List<FacultiesResDto> getSectionsForSelect();
 
-
+    @Query(value = "select u.id as value,u.fullName as label from Staff s join users u on u.id=s.user_id join users_Position uP on u.id = uP.users_id join Position P on uP.positions_id = P.id where s.section_id=:sectionId order by  P.degree,u.fullName",nativeQuery = true)
+    List<FacultiesResDto> getStaffsForTableBySectionId(@Param("sectionId") String sectionId);
 }
