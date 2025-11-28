@@ -10,5 +10,5 @@ public interface DekanatTableService {
     ApiResponse saveFileToSystem(User user, MultipartHttpServletRequest request, Integer year, String month,String dekanatId, String id);
     ApiResponse findByDekanatId(String dekanatId);
     ApiResponse findByName(String name);
-
+    byte[] downloadImageFromFileSystem(String fileName) throws IOException;
 }
