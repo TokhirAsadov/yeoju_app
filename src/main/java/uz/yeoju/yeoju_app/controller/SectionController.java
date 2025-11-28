@@ -13,6 +13,7 @@ import uz.yeoju.yeoju_app.secret.CurrentUser;
 import uz.yeoju.yeoju_app.service.useServices.SectionService;
 
 import java.util.Date;
+import java.util.Set;
 
 @RestController
 @RequestMapping(BaseUrl.BASE_URL+"/section")
@@ -93,4 +94,11 @@ public class SectionController {
     public HttpEntity<?> deleteSection(@PathVariable String id){
         return ResponseEntity.status(204).body(sectionService.deleteById(id));
     }
+
+    @GetMapping("/getStaffsForTableBySectionId")
+    public HttpEntity<?> getStaffsForTableBySectionId(@CurrentUser User user,@RequestParam(name = "sectionId") String sectionId){
+        return ResponseEntity.ok(sectionService.getStaffsForTableBySectionId(sectionId));
+    }
+
+
 }
