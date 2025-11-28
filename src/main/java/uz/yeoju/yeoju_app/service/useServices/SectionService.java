@@ -474,5 +474,7 @@ public class SectionService implements FacultyImplService<SectionDto> {
         return new ApiResponse(true,"all sections",sectionRepository.getSectionsForSelect());
     }
 
-
+    public ApiResponse getStaffsForTableBySectionId(String sectionId) {
+        return new ApiResponse(true,"all staffs of section",sectionRepository.getStaffsForTableBySectionId(sectionId));
+    }
 }
