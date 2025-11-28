@@ -7,6 +7,7 @@ import uz.yeoju.yeoju_app.payload.ApiResponse;
 import java.io.IOException;
 
 public interface DekanatTableService {
+    ApiResponse saveFileToSystem(User user, MultipartHttpServletRequest request, Integer year, String month,String dekanatId, String id);
 
 
 }
