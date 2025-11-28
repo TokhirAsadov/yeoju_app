@@ -105,5 +105,14 @@ public class SectionController {
         return ResponseEntity.ok(sectionService.getSectionsForSelect());
     }
 
-
+    @GetMapping("/getStatisticsForTable")
+    public HttpEntity<?> getStatisticsForTable(
+            @CurrentUser User user,
+            @RequestParam("sectionId") String sectionId,
+            @RequestParam("date") @DateTimeFormat(pattern = "yyyy.MM.dd") Date date,
+            @RequestParam("staffsIds") Set<String> staffsIds
+    )
+    {
+        return ResponseEntity.ok(sectionService.getStatisticsForTable(sectionId,date,staffsIds)/*new ApiResponse(false,"texnik iwlar olib borilyapdi")*/);
+    }
 }
