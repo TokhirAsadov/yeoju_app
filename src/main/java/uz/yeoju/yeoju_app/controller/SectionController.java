@@ -100,5 +100,10 @@ public class SectionController {
         return ResponseEntity.ok(sectionService.getStaffsForTableBySectionId(sectionId));
     }
 
+    @GetMapping("/getSectionsForSelect")
+    public HttpEntity<?> getSectionsForSelect(@CurrentUser User user){
+        return ResponseEntity.ok(sectionService.getSectionsForSelect());
+    }
+
 
 }
