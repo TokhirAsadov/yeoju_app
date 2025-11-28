@@ -470,4 +470,9 @@ public class SectionService implements FacultyImplService<SectionDto> {
         }
     }
 
+    public ApiResponse getSectionsForSelect() {
+        return new ApiResponse(true,"all sections",sectionRepository.getSectionsForSelect());
+    }
+
+
 }
