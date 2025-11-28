@@ -452,4 +452,22 @@ public class SectionService implements FacultyImplService<SectionDto> {
         }
 
     }
+
+    public ApiResponse getStatisticsForTable(String sectionId, Date date, Set<String> staffsIds) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int maxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        if (maxDay==31){
+            return new ApiResponse(true,"<??? 31",sectionRepository.getDateForTable31(sectionId,date,staffsIds));
+        }
+        else if (maxDay==30){
+            return new ApiResponse(true,"<??? 30",sectionRepository.getDateForTable30(sectionId,date,staffsIds));
+        }else if (maxDay==29){
+            return new ApiResponse(true,"<??? 29",sectionRepository.getDateForTable29(sectionId,date,staffsIds));
+        }else {
+            return new ApiResponse(true,"<??? 28",sectionRepository.getDateForTable28(sectionId,date,staffsIds));
+        }
+    }
+
 }
