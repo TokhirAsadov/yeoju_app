@@ -42,6 +42,10 @@ public class TableOfSectionController {
 
     }
 
+    @GetMapping("/getTables/{sectionId}")
+    public HttpEntity<?> getTablesBySectionId(@CurrentUser User user,@PathVariable("sectionId") String sectionId){
+        return ResponseEntity.ok(service.findBySectionId(sectionId));
+    }
 
 
 }
