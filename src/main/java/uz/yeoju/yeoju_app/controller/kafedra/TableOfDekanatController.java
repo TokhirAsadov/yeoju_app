@@ -47,5 +47,16 @@ public class TableOfDekanatController {
         return ResponseEntity.ok(service.findByDekanatId(dekanatId));
     }
 
-
+    @PostMapping("/upload/{year}/{month}")
+    public HttpEntity<?> uploadXml(
+            @CurrentUser User user,
+            MultipartHttpServletRequest request,
+            @PathVariable("year") Integer year,
+            @PathVariable("month") String month,
+            @RequestParam("dekanatId") String dekanatId,
+            @RequestParam(name = "id",required = false) String id
+    ) {
+        ApiResponse apiResponse = service.saveFileToSystem(user,request,year,month,dekanatId,id);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
 }
