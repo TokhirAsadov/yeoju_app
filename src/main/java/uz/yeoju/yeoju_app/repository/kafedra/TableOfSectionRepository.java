@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface TableOfSectionRepository extends JpaRepository<TableOfSection,String> {
     List<TableOfSection> findAllBySectionIdOrderByCreatedAtDesc(String section_id);
+    TableOfSection findByFileName(String fileName);
 
 }
