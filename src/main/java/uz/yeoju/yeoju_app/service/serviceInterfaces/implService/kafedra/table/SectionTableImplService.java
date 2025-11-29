@@ -211,7 +211,10 @@ public class SectionTableImplService implements SectionTableService{
         return new ApiResponse(true,"all tables of section by sectionId",repository.findAllBySectionIdOrderByCreatedAtDesc(sectionId));
     }
 
-
+    @Override
+    public ApiResponse findByName(String name) {
+        return new ApiResponse(true,"table of kafedra by fileName",repository.findByFileName(name));
+    }
 
 
 }
