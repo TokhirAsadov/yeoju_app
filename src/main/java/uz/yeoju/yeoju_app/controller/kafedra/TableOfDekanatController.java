@@ -42,5 +42,10 @@ public class TableOfDekanatController {
 
     }
 
+    @GetMapping("/getTables/{dekanatId}")
+    public HttpEntity<?> getTablesByDekanatId(@CurrentUser User user,@PathVariable("dekanatId") String dekanatId){
+        return ResponseEntity.ok(service.findByDekanatId(dekanatId));
+    }
+
 
 }
