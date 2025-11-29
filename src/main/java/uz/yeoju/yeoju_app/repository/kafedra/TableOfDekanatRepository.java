@@ -8,5 +8,5 @@ import java.util.List;
 public interface TableOfDekanatRepository extends JpaRepository<TableOfDekanat,String> {
     List<TableOfDekanat> findAllByDekanatIdOrderByCreatedAtDesc(String dekanat_id);
     TableOfDekanat findByFileName(String fileName);
-
+    Boolean existsByYearAndMonthAndDekanatId(Integer year, String month, String dekanat_id);
 }
