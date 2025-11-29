@@ -206,6 +206,12 @@ public class SectionTableImplService implements SectionTableService{
         }
     }
 
+    @Override
+    public ApiResponse findBySectionId(String sectionId) {
+        return new ApiResponse(true,"all tables of section by sectionId",repository.findAllBySectionIdOrderByCreatedAtDesc(sectionId));
+    }
+
+
 
 
 }
