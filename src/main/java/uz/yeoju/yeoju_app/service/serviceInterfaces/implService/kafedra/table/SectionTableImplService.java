@@ -216,5 +216,15 @@ public class SectionTableImplService implements SectionTableService{
         return new ApiResponse(true,"table of kafedra by fileName",repository.findByFileName(name));
     }
 
+    @Override
+    public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
 
+        TableOfSection table = repository.findByFileName(fileName);
+        if (table == null){
+            return null;
+        }
+
+        byte[] images = Files.readAllBytes(new File("tables\\"+table.getYear()+"\\"+table.getMonth()+"\\"+fileName+table.getFileType()).toPath());
+        return images;
+    }
 }
