@@ -47,5 +47,16 @@ public class TableOfSectionController {
         return ResponseEntity.ok(service.findBySectionId(sectionId));
     }
 
-
+    @PostMapping("/upload/{year}/{month}")
+    public HttpEntity<?> uploadXml(
+            @CurrentUser User user,
+            MultipartHttpServletRequest request,
+            @PathVariable("year") Integer year,
+            @PathVariable("month") String month,
+            @RequestParam("sectionId") String sectionId,
+            @RequestParam(name = "id",required = false) String id
+    ) {
+        ApiResponse apiResponse = service.saveFileToSystem(user,request,year,month,sectionId,id);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
 }
