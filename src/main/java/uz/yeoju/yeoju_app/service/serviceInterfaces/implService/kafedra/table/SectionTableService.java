@@ -8,6 +8,8 @@ import java.io.IOException;
 
 public interface SectionTableService {
     ApiResponse saveFileToSystem(User user, MultipartHttpServletRequest request, Integer year, String month,String sectionId, String id);
+    ApiResponse findBySectionId(String sectionId);
+
 
 
 }
