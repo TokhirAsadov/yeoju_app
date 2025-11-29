@@ -10,5 +10,5 @@ public interface SectionTableService {
     ApiResponse saveFileToSystem(User user, MultipartHttpServletRequest request, Integer year, String month,String sectionId, String id);
     ApiResponse findBySectionId(String sectionId);
     ApiResponse findByName(String name);
-
+    byte[] downloadImageFromFileSystem(String fileName) throws IOException;
 }
