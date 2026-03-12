@@ -2,6 +2,7 @@ package uz.yeoju.yeoju_app.service.serviceInterfaces.implService.timeTable;
 
 import org.springframework.stereotype.Service;
 import uz.yeoju.yeoju_app.entity.Group;
+import uz.yeoju.yeoju_app.entity.Lesson;
 import uz.yeoju.yeoju_app.entity.User;
 import uz.yeoju.yeoju_app.entity.educationYear.WeekType;
 import uz.yeoju.yeoju_app.entity.kafedra.Kafedra;
@@ -38,6 +39,7 @@ import java.time.temporal.IsoFields;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -6539,7 +6541,157 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
         return responseStats;
     }
 
+    // Statik thread pool — bir marta yaratiladi
+    private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(
+            Math.max(2, Runtime.getRuntime().availableProcessors())
+    );
+
     public ApiResponseTwoObj getKafedraKunlikVaHaftalikStatistikasi5(
+            User user, String kafedraId,
+            Integer year, Integer month, Integer day,
+            Integer week, Integer weekday) {
+
+        // Input validation
+        if (kafedraId == null || kafedraId.isEmpty()) {
+            throw new IllegalArgumentException("Kafedra ID cannot be null or empty");
+        }
+        if (year <= 0 || month < 1 || month > 12 || day < 1 || day > 31 || week <= 0 || weekday < 1 || weekday > 7) {
+            throw new IllegalArgumentException("Invalid date or week parameters");
+        }
+
+        LocalDate localDate = LocalDate.of(year, month, day);
+        String dayName = localDate.format(DateTimeFormatter.ofPattern("EEEE", new Locale("ru", "RU")));
+
+        // 1. 3 ta og‘ir vazifani parallel boshlash (JDK 8 uchun to‘g‘ri yozilgan)
+        CompletableFuture<List<Table>> defaultFuture = CompletableFuture.supplyAsync(new Supplier<List<Table>>() {
+            @Override
+            public List<Table> get() {
+                List<Table> result = new ArrayList<>();
+                Path defPath = Paths.get(year + "/" + week + ".xml");
+                if (Files.exists(defPath)) {
+                    getTimeTableByWeek(year, week);
+                    result.addAll(buildTablesForType5(year, week, dayName,
+                            daysDefs, cards, lessons, teachers,
+                            periods, classRooms, classes, subjects, kafedraId));
+                }
+                return result;
+            }
+        }, EXECUTOR);
+
+        CompletableFuture<List<Table>> medFuture = CompletableFuture.supplyAsync(new Supplier<List<Table>>() {
+            @Override
+            public List<Table> get() {
+                List<Table> result = new ArrayList<>();
+                Path medPath = Paths.get(year + "/" + week + "med.xml");
+                if (Files.exists(medPath)) {
+                    getTimeTableByWeekMed(year, week);
+                    result.addAll(buildTablesForType5(year, week, dayName,
+                            daysDefsMed, cardsMed, lessonsMed, teachersMed,
+                            periodsMed, classRoomsMed, classesMed, subjectsMed,
+                            kafedraId));
+                }
+                return result;
+            }
+        }, EXECUTOR);
+
+        CompletableFuture<List<UserForRoomStatistics2>> statsFuture = CompletableFuture.supplyAsync(
+                new Supplier<List<UserForRoomStatistics2>>() {
+                    @Override
+                    public List<UserForRoomStatistics2> get() {
+                        return userRepository.getTeachersStatisticsForKafedraDashboardWithYearMonthDay(
+                                kafedraId, year, week, weekday);
+                    }
+                }, EXECUTOR);
+
+        // 2. Barcha vazifalar tugashini kutish
+        CompletableFuture.allOf(defaultFuture, medFuture, statsFuture).join();
+
+        // 3. Natijalarni olish — .get() endi bloklamaydi!
+        List<Table> defaultTables = safeGet(defaultFuture, Collections.<Table>emptyList());
+        List<Table> medTables = safeGet(medFuture, Collections.<Table>emptyList());
+        List<UserForRoomStatistics2> stats = safeGet(statsFuture, Collections.<UserForRoomStatistics2>emptyList());
+
+        // Umumiy table ro'yxati
+        List<Table> allTables = new ArrayList<>(defaultTables.size() + medTables.size());
+        allTables.addAll(defaultTables);
+        allTables.addAll(medTables);
+
+        // 4. Teacher → roomPrefix → sections (bir marta hisoblanadi)
+        final Map<String, Map<String, Set<Integer>>> teacherToRoomSections = new HashMap<>();
+        for (UserForRoomStatistics2 stat : stats) {
+            Map<String, Set<Integer>> roomMap = new HashMap<>();
+            for (RoomsForStatistics2 room : stat.getRooms()) {
+                if (room.getTimes() == null || room.getTimes().isEmpty()) continue;
+
+                String roomName = room.getRoom();
+                String prefix = roomName.length() > 4 ? roomName.substring(0, 4) : roomName;
+
+                Set<Integer> sections = roomMap.computeIfAbsent(prefix, k -> new HashSet<>());
+                for (TimesForRoom t : room.getTimes()) {
+                    if (t.getSection() != null) {
+                        sections.add(t.getSection());
+                    }
+                }
+            }
+            if (!roomMap.isEmpty()) {
+                teacherToRoomSections.put(stat.getId(), roomMap);
+            }
+        }
+
+        // 5. Har bir table uchun attended hisoblash — parallelStream
+        allTables.parallelStream().forEach(table -> {
+            String teacherId = table.getTeacherData().getId();
+            Map<String, Set<Integer>> roomSections = teacherToRoomSections.get(teacherId);
+
+            int attended = 0;
+            if (roomSections != null) {
+                for (Show show : table.getShows()) {
+                    if (show.getHourNumber() == null) continue;
+
+                    String roomName = show.getRoom();
+                    String prefix = roomName.length() > 4 ? roomName.substring(0, 4) : roomName;
+
+                    Set<Integer> sections = roomSections.get(prefix);
+                    if (sections != null && sections.contains(show.getHourNumber())) {
+                        attended++;
+                    }
+                }
+            }
+
+            table.setAttended(attended);
+            table.setNotAttended(Math.max(0, table.getShows().size() - attended));
+        });
+
+        // 6. Sort by degree
+        Collections.sort(allTables, new Comparator<Table>() {
+            @Override
+            public int compare(Table t1, Table t2) {
+                Integer d1 = t1.getTeacherData() != null ? t1.getTeacherData().getDegree() : null;
+                Integer d2 = t2.getTeacherData() != null ? t2.getTeacherData().getDegree() : null;
+
+                if (d1 == null && d2 == null) return 0;
+                if (d1 == null) return 1;
+                if (d2 == null) return -1;
+                return d1.compareTo(d2);
+            }
+        });
+
+        return new ApiResponseTwoObj(true, "teachers", allTables, stats);
+    }
+
+    // Xavfsiz .get() yordamchi metod (JDK 8 uchun to‘g‘ri!)
+    private static <T> T safeGet(CompletableFuture<T> future, T defaultValue) {
+        try {
+            T result = future.get();
+            return result != null ? result : defaultValue;
+        } catch (Exception e) {
+            // Log qilish kerak real loyihada
+            // log.error("Future failed", e);
+            return defaultValue;
+        }
+    }
+
+    /*public ApiResponseTwoObj getKafedraKunlikVaHaftalikStatistikasi5(
             User user, String kafedraId,
             Integer year, Integer month, Integer day,
             Integer week, Integer weekday) {
@@ -6667,7 +6819,121 @@ public class TimeTableByWeekOfYearImplService implements TimeTableByWeekOfYearSe
                 Comparator.nullsLast(Integer::compareTo)
         ));
         return new ApiResponseTwoObj(true, "teachers", allTables, stats);
-    }
+    }*/
+
+   /* public ApiResponseTwoObj getKafedraKunlikVaHaftalikStatistikasi5(
+            User user, String kafedraId,
+            Integer year, Integer month, Integer day,
+            Integer week, Integer weekday) {
+
+        // Input validation
+        if (kafedraId == null || kafedraId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Kafedra ID cannot be null or empty");
+        }
+        if (year <= 0 || month < 1 || month > 12 || day < 1 || day > 31 || week <= 0 || weekday < 1 || weekday > 7) {
+            throw new IllegalArgumentException("Invalid date or week parameters");
+        }
+
+        LocalDate localDate = LocalDate.of(year, month, day);
+        String dayName = localDate.format(DateTimeFormatter.ofPattern("EEEE", new Locale("ru", "RU")));
+
+        // ForkJoinPool for better parallel performance
+        ForkJoinPool pool = new ForkJoinPool(Math.max(4, Runtime.getRuntime().availableProcessors()));
+
+        try {
+            // 1. DB stats first (potential bottleneck)
+            List<UserForRoomStatistics2> stats = userRepository
+                    .getTeachersStatisticsForKafedraDashboardWithYearMonthDay(kafedraId, year, week, weekday);
+
+            // Teacher ID → Statistics map for fast lookup
+            Map<String, UserForRoomStatistics2> statsMap = stats.stream()
+                    .collect(Collectors.toMap(UserForRoomStatistics2::getId, Function.identity()));
+
+            // 2. Parallel load timetables using cache if possible (assume cache implemented as per previous)
+            String cacheKey = year + ":" + week + ":" + kafedraId;
+
+            // If cache not implemented, load directly
+            CompletableFuture<List<Table>> defaultFuture = CompletableFuture.supplyAsync(() -> {
+                Path defPath = Paths.get(year + "/" + week + ".xml");
+                if (!Files.exists(defPath)) return Collections.emptyList();
+                getTimeTableByWeek(year, week);
+                return buildTablesForType5(year, week, dayName,
+                        daysDefs, cards, lessons, teachers,
+                        periods, classRooms, classes, subjects, kafedraId);
+            }, pool);
+
+            CompletableFuture<List<Table>> medFuture = CompletableFuture.supplyAsync(() -> {
+                Path medPath = Paths.get(year + "/" + week + "med.xml");
+                if (!Files.exists(medPath)) return Collections.emptyList();
+                getTimeTableByWeekMed(year, week);
+                return buildTablesForType5(year, week, dayName,
+                        daysDefsMed, cardsMed, lessonsMed, teachersMed,
+                        periodsMed, classRoomsMed, classesMed, subjectsMed, kafedraId);
+            }, pool);
+
+            // Wait for both
+            List<Table> allTables = Stream.concat(
+                    defaultFuture.join().stream(),
+                    medFuture.join().stream()
+            ).collect(Collectors.toList());
+
+            if (allTables.isEmpty()) {
+                allTables.sort(Comparator.comparing(t -> t.getTeacherData().getDegree(), Comparator.nullsLast(Integer::compareTo)));
+                return new ApiResponseTwoObj(true, "teachers", allTables, stats);
+            }
+
+            // 3. Attendance calculation – optimized!
+            allTables.parallelStream().forEach(table -> {
+                String teacherId = table.getTeacherData().getId();
+                UserForRoomStatistics2 stat = statsMap.get(teacherId);
+
+                int totalShows = table.getShows().size();
+                if (stat == null || totalShows == 0) {
+                    table.setAttended(0);
+                    table.setNotAttended(totalShows);
+                    return;
+                }
+
+                // Prefiks → section set
+                Map<String, Set<Integer>> prefixMap = new HashMap<>();
+                for (RoomsForStatistics2 r : stat.getRooms()) {
+                    if (r.getTimes() == null || r.getTimes().isEmpty()) continue;
+                    String room = r.getRoom();
+                    if (room == null || room.isEmpty()) continue;
+
+                    String prefix = room.length() > 4 ? room.substring(0, 4) : room;
+                    Set<Integer> sections = prefixMap.computeIfAbsent(prefix, k -> new HashSet<>());
+                    r.getTimes().forEach(t -> {
+                        if (t.getSection() != null) sections.add(t.getSection());
+                    });
+                }
+
+                int attended = 0;
+                for (Show show : table.getShows()) {
+                    if (show.getHourNumber() == null || show.getRoom() == null) continue;
+                    String prefix = show.getRoom().length() > 4 ? show.getRoom().substring(0, 4) : show.getRoom();
+                    if (prefixMap.getOrDefault(prefix, Collections.emptySet()).contains(show.getHourNumber())) {
+                        attended++;
+                    }
+                }
+
+                table.setAttended(attended);
+                table.setNotAttended(totalShows - attended);
+            });
+
+            // 4. Sort
+            allTables.sort(Comparator.comparing(t -> t.getTeacherData().getDegree(), Comparator.nullsLast(Integer::compareTo)));
+
+            return new ApiResponseTwoObj(true, "teachers", allTables, stats);
+
+        } catch (Exception e) {
+            // Log error
+            System.err.println("Error in getKafedraKunlikVaHaftalikStatistikasi5: " + e.getMessage());
+            throw e;
+        } finally {
+            pool.shutdown();
+        }
+    }*/
 
      /*for (Table table : allTables) {
             String teacherId = table.getTeacherData().getId();
